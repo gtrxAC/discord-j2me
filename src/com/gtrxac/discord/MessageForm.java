@@ -10,7 +10,10 @@ public class MessageForm extends Form implements CommandListener {
     private Command backCommand;
 
     public MessageForm(State s) {
-        super("Send message (#" + s.selectedChannel.name + ")");
+        super("");
+        if (s.isDM) setTitle("Send message (@" + s.selectedDmChannel.name + ")");
+        else setTitle("Send message (#" + s.selectedChannel.name + ")");
+        
         setCommandListener(this);
         this.s = s;
 

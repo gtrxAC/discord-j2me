@@ -7,6 +7,7 @@ public class GuildSelector extends List implements CommandListener {
     State s;
     private Command backCommand;
     private Command refreshCommand;
+    private Command dmCommand;
 
     public GuildSelector(State s) {
         super("Failed to log in", List.IMPLICIT);
@@ -35,8 +36,10 @@ public class GuildSelector extends List implements CommandListener {
 
         backCommand = new Command("Back", Command.BACK, 0);
         refreshCommand = new Command("Refresh", Command.ITEM, 1);
+        dmCommand = new Command("Direct messages", Command.ITEM, 2);
         addCommand(backCommand);
         addCommand(refreshCommand);
+        addCommand(dmCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -57,6 +60,9 @@ public class GuildSelector extends List implements CommandListener {
                 s.channelSelector = new ChannelSelector(s);
             }
             s.disp.setCurrent(s.channelSelector);
+        }
+        if (c == dmCommand) {
+            s.disp.setCurrent(new DMSelector(s));
         }
     }
 }

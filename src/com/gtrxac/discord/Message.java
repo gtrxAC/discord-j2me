@@ -49,7 +49,11 @@ public class Message {
     }
 
     public static void fetchMessages(State s) throws Exception {
-        JSONArray messages = JSON.getArray(s.http.get("/channels/" + s.selectedChannel.id + "/messages?limit=20"));
+        String id;
+        if (s.isDM) id = s.selectedDmChannel.id;
+        else id = s.selectedChannel.id;
+        
+        JSONArray messages = JSON.getArray(s.http.get("/channels/" + id + "/messages?limit=20"));
         s.messages = new Vector();
 
         for (int i = 0; i < messages.size(); i++) {
@@ -58,12 +62,16 @@ public class Message {
     }
 
     public static void send(State s, String message) throws Exception {
+        String id;
+        if (s.isDM) id = s.selectedDmChannel.id;
+        else id = s.selectedChannel.id;
+
         JSONObject json = new JSONObject();
         json.put("content", message);
         json.put("flags", 0);
         json.put("mobile_network_type", "unknown");
         json.put("tts", false);
 
-        s.http.post("/channels/" + s.selectedChannel.id + "/messages", json.build());
+        s.http.post("/channels/" + id + "/messages", json.build());
     }
 }

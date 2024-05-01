@@ -40,6 +40,7 @@ public class ChannelSelector extends List implements CommandListener {
             s.disp.setCurrent(s.channelSelector);
         }
         if (c == List.SELECT_COMMAND) {
+            s.isDM = false;
             s.selectedChannel = (Channel) s.channels.elementAt(getSelectedIndex());
             s.disp.setCurrent(new LoadingScreen());
             s.channelView = new ChannelView(s);

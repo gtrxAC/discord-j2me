@@ -22,6 +22,9 @@ public class State {
 	Vector messages;
 	ChannelView channelView;
 
+	boolean isDM;
+	DMChannel selectedDmChannel;
+
 	public State() {
 		smallFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 	}
