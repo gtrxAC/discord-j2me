@@ -20,6 +20,7 @@ public class State {
 	ChannelSelector channelSelector;
 
 	Vector messages;
+	ChannelView channelView;
 
 	public State() {
 		smallFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);

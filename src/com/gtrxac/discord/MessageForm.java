@@ -31,10 +31,11 @@ public class MessageForm extends Form implements CommandListener {
             catch (Exception e) {
                 e.printStackTrace();
             }
-            s.disp.setCurrent(new ChannelView(s));
+            s.channelView = new ChannelView(s);
+            s.disp.setCurrent(s.channelView);
         }
         if (c == backCommand) {
-            s.disp.setCurrent(new ChannelView(s));
+            s.disp.setCurrent(s.channelView);
         }
     }
 }

@@ -7,6 +7,7 @@ public class ChannelView extends Form implements CommandListener {
     State s;
     private Command backCommand;
     private Command sendCommand;
+    private Command refreshCommand;
 
     public ChannelView(State s) {
         super("#" + s.selectedChannel.name);
@@ -31,9 +32,11 @@ public class ChannelView extends Form implements CommandListener {
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
-        sendCommand = new Command("Send message", "Send", Command.ITEM, 0);
+        sendCommand = new Command("Send", "Send message", Command.ITEM, 0);
+        refreshCommand = new Command("Refresh", Command.ITEM, 1);
         addCommand(backCommand);
         addCommand(sendCommand);
+        addCommand(refreshCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -42,6 +45,10 @@ public class ChannelView extends Form implements CommandListener {
         }
         if (c == sendCommand) {
             s.disp.setCurrent(new MessageForm(s));
+        }
+        if (c == refreshCommand) {
+            s.channelView = new ChannelView(s);
+            s.disp.setCurrent(s.channelView);
         }
     }
 }

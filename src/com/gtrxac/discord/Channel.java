@@ -19,10 +19,15 @@ public class Channel {
         s.channels = new Vector();
 
         for (int i = 0; i < channels.size(); i++) {
-            int type = channels.getObject(i).getInt("type", 0);
-            if (type != 0 && type != 5) continue;
+            for (int a = 0; a < channels.size(); a++) {
+                JSONObject ch = channels.getObject(a);
+                if (ch.getInt("position", i) != i) continue;
 
-            s.channels.addElement(new Channel(channels.getObject(i)));
+                int type = ch.getInt("type", 0);
+                if (type != 0 && type != 5) continue;
+
+                s.channels.addElement(new Channel(ch));
+            }
         }
     }
 }

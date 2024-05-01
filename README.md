@@ -6,7 +6,7 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 ## Status
 ### Working
 * Server list
-* Channel list (not correctly sorted yet)
+* Channel list
 * Message reading (newest message on top)
 * Message sending
 
