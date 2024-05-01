@@ -12,6 +12,9 @@ public class Message {
     public Message(JSONObject data) {
         id = data.getString("id");
         author = data.getObject("author").getString("global_name", "(no name)");
+        if (author == null) {
+            author = data.getObject("author").getString("username", "(no name)");
+        }
         content = data.getString("content", "(no content)");
         if (content.length() == 0) content = "(no content)";
 
@@ -20,12 +23,27 @@ public class Message {
                 .getObject("referenced_message")
                 .getObject("author")
                 .getString("global_name", "(no name)");
+
+            if (recipient == null) {
+                recipient = data
+                    .getObject("referenced_message")
+                    .getObject("author")
+                    .getString("username", "(no name)");
+            }
         }
         catch (Exception e) {}
 
         try {
             int attachCount = data.getArray("attachments").size();
             if (attachCount >= 1) content += "\n(attachments: " + attachCount + ")";
+        }
+        catch (Exception e) {}
+
+        try {
+            JSONArray stickers = data.getArray("sticker_items");
+            if (stickers.size() >= 1) {
+                content += "\n(sticker: " + stickers.getObject(0).getString("name", "unknown") + ")";
+            }
         }
         catch (Exception e) {}
     }
