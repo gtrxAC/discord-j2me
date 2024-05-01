@@ -30,6 +30,9 @@ public class HTTPThing {
     }
 
     public String sendRequest(HttpConnection c) throws Exception {
+        if (api == null || api.length() == 0) throw new Exception("Please specify an API URL");
+        if (token == null || token.length() == 0) throw new Exception("Token is required");
+
         InputStream is = null;
 
         // Getting the InputStream ensures that the connection
@@ -49,9 +52,13 @@ public class HTTPThing {
                 }
 
                 return stringBuffer.toString().trim();
-            } else {
+            }
+            else if (c.getResponseCode() == HttpConnection.HTTP_UNAUTHORIZED) {
+                throw new Exception("Check your token");
+            }
+            else {
                 Integer code = new Integer(c.getResponseCode());
-                throw new Exception("http err" + code.toString());
+                throw new Exception("HTTP error " + code.toString());
             }
         } finally {
             if (is != null) is.close();

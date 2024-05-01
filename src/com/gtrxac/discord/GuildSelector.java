@@ -29,6 +29,7 @@ public class GuildSelector extends List implements CommandListener {
         }
         catch (Exception e) {
             e.printStackTrace();
+            setFitPolicy(Choice.TEXT_WRAP_ON);
             append(e.toString(), null);
         }
 
