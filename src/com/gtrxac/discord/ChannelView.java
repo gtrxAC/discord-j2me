@@ -24,17 +24,49 @@ public class ChannelView extends Form implements CommandListener {
             Message.fetchMessages(s);
             for (int i = 0; i < s.messages.size(); i++) {
                 Message msg = (Message) s.messages.elementAt(i);
+        		// TODO date
                 StringItem msgItem = new StringItem(
                     msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : ""),
                     msg.content
                 );
                 msgItem.setFont(s.smallFont);
+                msgItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
                 append(msgItem);
+                
+                // Photo attachments
+                if (msg.attachments != null) {
+                	int size = msg.attachments.size();
+                	for (int j = 0; j < size; j++) {
+                		JSONObject attachment = (JSONObject) msg.attachments.elementAt(j);
+                		String filename = attachment.getNullableString("filename");
+                		String url = attachment.getNullableString("url");
+                		if(url == null) continue;
+                		int k = url.indexOf("https://cdn.discordapp.com");
+                		if(k != -1)  {
+                			url = "http://cdndsc.uwmpr.online" + url.substring(k + "https://cdn.discordapp.com".length());
+                		}
+                		Image img = HTTPThing.getImage(url);
+                		int ow = img.getWidth();
+                		int oh = img.getHeight();
+                		// TODO adapt to screen res
+                		float ih = ((float) oh / ow) * 120;
+                		// TODO async
+                		img = ImageUtils.resize(img, (int) (((float) ow / oh) * ih), (int) ih);
+                		ImageItem attItem = new ImageItem(
+                                filename,
+                                img,
+                                0,
+                                filename
+                            );
+                		attItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
+                        append(attItem);
+                	}
+                }
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            append("Failed to get messages");
+            append("Failed to get messages: " + e.toString());
         }
 
         backCommand = new Command("Back", Command.BACK, 0);

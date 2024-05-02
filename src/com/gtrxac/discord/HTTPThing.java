@@ -2,6 +2,7 @@ package com.gtrxac.discord;
 
 import java.io.*;
 import javax.microedition.io.*;
+import javax.microedition.lcdui.Image;
 
 public class HTTPThing {
     String api;
@@ -94,4 +95,65 @@ public class HTTPThing {
             if (c != null) c.close();
         }
     }
+    
+    // TODO rewrite this
+    
+    public static Image getImage(String url) throws IOException {
+		byte[] b = getBytes(url);
+		return Image.createImage(b, 0, b.length);
+	}
+	
+	public static byte[] getBytes(String url) throws IOException {
+		HttpConnection hc = null;
+		InputStream in = null;
+		try {
+			hc = open(url);
+			int r;
+			if((r = hc.getResponseCode()) >= 400) {
+				throw new IOException("HTTP " + r);
+			}
+			in = hc.openInputStream();
+			return readBytes(in, (int) hc.getLength(), 1024, 2048);
+		} finally {
+			try {
+				if (in != null) in.close();
+			} catch (IOException e) {
+			}
+			try {
+				if (hc != null) hc.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+	
+	private static byte[] readBytes(InputStream inputStream, int initialSize, int bufferSize, int expandSize) throws IOException {
+		if (initialSize <= 0) initialSize = bufferSize;
+		byte[] buf = new byte[initialSize];
+		int count = 0;
+		byte[] readBuf = new byte[bufferSize];
+		int readLen;
+		while ((readLen = inputStream.read(readBuf)) != -1) {
+			if(count + readLen > buf.length) {
+				byte[] newbuf = new byte[count + expandSize];
+				System.arraycopy(buf, 0, newbuf, 0, count);
+				buf = newbuf;
+			}
+			System.arraycopy(readBuf, 0, buf, count, readLen);
+			count += readLen;
+		}
+		if(buf.length == count) {
+			return buf;
+		}
+		byte[] res = new byte[count];
+		System.arraycopy(buf, 0, res, 0, count);
+		return res;
+	}
+	
+	private static HttpConnection open(String url) throws IOException {
+		HttpConnection hc = (HttpConnection) Connector.open(url);
+		hc.setRequestMethod("GET");
+		hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
+		return hc;
+	}
+
 }

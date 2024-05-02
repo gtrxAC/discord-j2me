@@ -8,9 +8,13 @@ public class Message {
     public String author;
     public String recipient;
     public String content;
+    public Vector attachments;
+	public Vector stickers;
+	public long timestamp;
 
     public Message(JSONObject data) {
         id = data.getString("id");
+        timestamp = parseTimestamp(data.getNullableString("timestamp"));
         author = data.getObject("author").getString("global_name", "(no name)");
         if (author == null) {
             author = data.getObject("author").getString("username", "(no name)");
@@ -34,16 +38,24 @@ public class Message {
         catch (Exception e) {}
 
         try {
-            int attachCount = data.getArray("attachments").size();
-            if (attachCount >= 1) content += "\n(attachments: " + attachCount + ")";
+        	JSONArray attachments = data.getArray("attachments");
+        	if(attachments != null && attachments.size() > 0) {
+	        	this.attachments = new Vector();
+	        	for(int i = 0; i < attachments.size(); i++) {
+	        		this.attachments.addElement(attachments.getObject(i));
+	        	}
+        	}
         }
         catch (Exception e) {}
 
         try {
             JSONArray stickers = data.getArray("sticker_items");
-            if (stickers.size() >= 1) {
-                content += "\n(sticker: " + stickers.getObject(0).getString("name", "unknown") + ")";
-            }
+        	if(stickers != null && stickers.size() > 0) {
+	        	this.stickers = new Vector();
+	        	for(int i = 0; i < stickers.size(); i++) {
+	        		this.stickers.addElement(stickers.getObject(i));
+	        	}
+        	}
         }
         catch (Exception e) {}
     }
@@ -74,4 +86,68 @@ public class Message {
 
         s.http.post("/channels/" + id + "/messages", json.build());
     }
+    
+    // date utils
+    
+    static long parseTimestamp(String date) {
+    	Calendar c = Calendar.getInstance();
+		if(date.indexOf('T') != -1) {
+			String[] dateSplit = split(date.substring(0, date.indexOf('T')), '-');
+			String[] timeSplit = split(date.substring(date.indexOf('T')+1), ':');
+			String second = split(timeSplit[2], '.')[0];
+			int i = second.indexOf('+');
+			if(i == -1) {
+				i = second.indexOf('-');
+			}
+			if(i != -1) {
+				second = second.substring(0, i);
+			}
+			c.set(Calendar.YEAR, Integer.parseInt(dateSplit[0]));
+			c.set(Calendar.MONTH, Integer.parseInt(dateSplit[1])-1);
+			c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateSplit[2]));
+			c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeSplit[0]));
+			c.set(Calendar.MINUTE, Integer.parseInt(timeSplit[1]));
+			c.set(Calendar.SECOND, Integer.parseInt(second));
+		} else {
+			String[] dateSplit = split(date, '-');
+			c.set(Calendar.YEAR, Integer.parseInt(dateSplit[0]));
+			c.set(Calendar.MONTH, Integer.parseInt(dateSplit[1])-1);
+			c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateSplit[2]));
+		}
+		return c.getTime().getTime() + c.getTimeZone().getRawOffset() - parseTimeZone(date);
+	}
+    
+    static int parseTimeZone(String date) {
+		int i = date.lastIndexOf('+');
+		boolean m = false;
+		if(i == -1) {
+			i = date.lastIndexOf('-');
+			m = true;
+		}
+		if(i == -1)
+			return 0;
+		date = date.substring(i + 1);
+		int offset = date.lastIndexOf(':');
+		offset = (Integer.parseInt(date.substring(0, offset)) * 3600000) +
+				(Integer.parseInt(date.substring(offset + 1)) * 60000);
+		return m ? -offset : offset;
+	}
+	
+	static String[] split(String str, char d) {
+		int i = str.indexOf(d);
+		if(i == -1)
+			return new String[] {str};
+		Vector v = new Vector();
+		v.addElement(str.substring(0, i));
+		while(i != -1) {
+			str = str.substring(i + 1);
+			if((i = str.indexOf(d)) != -1)
+				v.addElement(str.substring(0, i));
+			i = str.indexOf(d);
+		}
+		v.addElement(str);
+		String[] r = new String[v.size()];
+		v.copyInto(r);
+		return r;
+	}
 }
