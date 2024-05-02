@@ -84,9 +84,11 @@ public class HTTPThing {
         try {
             c = openConnection(url);
             c.setRequestMethod(HttpConnection.POST);
+            byte[] b = data.getBytes("UTF-8");
+            c.setRequestProperty("Content-Length", String.valueOf(b.length));
 
             os = c.openOutputStream();
-            os.write(data.getBytes());
+            os.write(b);
 
             return sendRequest(c);
         } finally {
