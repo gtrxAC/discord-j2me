@@ -2,6 +2,6 @@ Manifest-Version: 1.0
 MicroEdition-Configuration: CLDC-1.1
 MicroEdition-Profile: MIDP-2.0
 MIDlet-Name: Discord
-MIDlet-Version: 1.1.0
+MIDlet-Version: 1.1.1
 MIDlet-Vendor: gtrxAC
 MIDlet-1: Discord, icon.png, com.gtrxac.discord.DiscordMIDlet
