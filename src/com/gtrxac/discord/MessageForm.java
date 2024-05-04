@@ -30,12 +30,12 @@ public class MessageForm extends Form implements CommandListener {
         if (c == sendCommand) {
             try {
                 Message.send(s, textField.getString());
+                s.openChannelView(true);
             }
             catch (Exception e) {
                 e.printStackTrace();
+                s.error(e.toString());
             }
-            s.channelView = new ChannelView(s);
-            s.disp.setCurrent(s.channelView);
         }
         if (c == backCommand) {
             s.disp.setCurrent(s.channelView);

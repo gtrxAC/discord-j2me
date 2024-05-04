@@ -28,4 +28,46 @@ public class State {
 	public State() {
 		smallFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 	}
+
+	public void error(String message) {
+		Alert error = new Alert("Error");
+		error.setString(message);
+		disp.setCurrent(error);
+	}
+
+	public void openGuildSelector(boolean reload) {
+		try {
+			if (reload || guildSelector == null) {
+				guildSelector = new GuildSelector(this);
+			}
+			disp.setCurrent(guildSelector);
+		}
+		catch (Exception e) {
+			error(e.toString());
+		}
+	}
+
+	public void openChannelSelector(boolean reload) {
+		try {
+			if (reload || channelSelector == null) {
+				channelSelector = new ChannelSelector(this);
+			}
+			disp.setCurrent(channelSelector);
+		}
+		catch (Exception e) {
+			error(e.toString());
+		}
+	}
+
+	public void openChannelView(boolean reload) {
+		try {
+			if (reload || channelView == null) {
+				channelView = new ChannelView(this);
+			}
+			disp.setCurrent(channelView);
+		}
+		catch (Exception e) {
+			error(e.toString());
+		}
+	}
 }

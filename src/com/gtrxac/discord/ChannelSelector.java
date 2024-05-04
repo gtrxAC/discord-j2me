@@ -8,20 +8,14 @@ public class ChannelSelector extends List implements CommandListener {
     private Command backCommand;
     private Command refreshCommand;
 
-    public ChannelSelector(State s) {
+    public ChannelSelector(State s) throws Exception {
         super(s.selectedGuild.name, List.IMPLICIT);
         setCommandListener(this);
         this.s = s;
 
-        try {
-            Channel.fetchChannels(s);
-            for (int i = 0; i < s.channels.size(); i++) {
-                append("#" + ((Channel) s.channels.elementAt(i)).name, null);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            append("Failed to get server list", null);
+        Channel.fetchChannels(s);
+        for (int i = 0; i < s.channels.size(); i++) {
+            append("#" + ((Channel) s.channels.elementAt(i)).name, null);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
@@ -35,16 +29,12 @@ public class ChannelSelector extends List implements CommandListener {
             s.disp.setCurrent(s.guildSelector);
         }
         if (c == refreshCommand) {
-            s.channelSelector = new ChannelSelector(s);
-            s.disp.setCurrent(new LoadingScreen());
-            s.disp.setCurrent(s.channelSelector);
+            s.openChannelSelector(true);
         }
         if (c == List.SELECT_COMMAND) {
             s.isDM = false;
             s.selectedChannel = (Channel) s.channels.elementAt(getSelectedIndex());
-            s.disp.setCurrent(new LoadingScreen());
-            s.channelView = new ChannelView(s);
-            s.disp.setCurrent(s.channelView);
+            s.openChannelView(true);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.gtrxac.discord;
 
 import java.io.*;
 import javax.microedition.io.*;
+import cc.nnproject.json.*;
 
 public class HTTPThing {
     String api;
@@ -43,22 +44,28 @@ public class HTTPThing {
         is = c.openDataInputStream();
 
         try {
-            if (c.getResponseCode() == HttpConnection.HTTP_OK) {
-                // Read response
-                StringBuffer stringBuffer = new StringBuffer();
-                int ch;
-                while ((ch = is.read()) != -1) {
-                    stringBuffer.append((char) ch);
-                }
-
-                return stringBuffer.toString().trim();
+            // Read response
+            StringBuffer stringBuffer = new StringBuffer();
+            int ch;
+            while ((ch = is.read()) != -1) {
+                stringBuffer.append((char) ch);
             }
-            else if (c.getResponseCode() == HttpConnection.HTTP_UNAUTHORIZED) {
+            int respCode = c.getResponseCode();
+            String response = stringBuffer.toString().trim();
+
+            if (respCode == HttpConnection.HTTP_OK) {
+                return response;
+            }
+            if (respCode == HttpConnection.HTTP_UNAUTHORIZED) {
                 throw new Exception("Check your token");
             }
-            else {
-                Integer code = new Integer(c.getResponseCode());
-                throw new Exception("HTTP error " + code.toString());
+
+            try {
+                String message = JSON.getObject(response).getString("message");
+                throw new Exception(message);
+            }
+            catch (JSONException e) {
+                throw new Exception("HTTP error " + respCode);
             }
         } finally {
             if (is != null) is.close();

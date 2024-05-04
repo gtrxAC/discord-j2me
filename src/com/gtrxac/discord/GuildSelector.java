@@ -9,29 +9,14 @@ public class GuildSelector extends List implements CommandListener {
     private Command refreshCommand;
     private Command dmCommand;
 
-    public GuildSelector(State s) {
-        super("Failed to log in", List.IMPLICIT);
-        try {
-            JSONObject response = JSON.getObject(s.http.get("/users/@me"));
-            setTitle("Servers (@" + response.getString("username") + ")");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public GuildSelector(State s) throws Exception {
+        super("Servers", List.IMPLICIT);
         setCommandListener(this);
         this.s = s;
 
-        try {
-            Guild.fetchGuilds(s);
-            for (int i = 0; i < s.guilds.size(); i++) {
-                append(((Guild) s.guilds.elementAt(i)).name, null);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            setFitPolicy(Choice.TEXT_WRAP_ON);
-            append(e.toString(), null);
+        Guild.fetchGuilds(s);
+        for (int i = 0; i < s.guilds.size(); i++) {
+            append(((Guild) s.guilds.elementAt(i)).name, null);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
@@ -47,19 +32,17 @@ public class GuildSelector extends List implements CommandListener {
             s.disp.setCurrent(new LoginForm(s));
         }
         if (c == refreshCommand) {
-            s.disp.setCurrent(new LoadingScreen());
-            s.guildSelector = new GuildSelector(s);
-            s.disp.setCurrent(s.guildSelector);
+            s.openGuildSelector(true);
         }
         if (c == List.SELECT_COMMAND) {
             Guild newGuild = (Guild) s.guilds.elementAt(getSelectedIndex());
 
             if (s.selectedGuild == null || newGuild.id != s.selectedGuild.id) {
                 s.selectedGuild = newGuild;
-                s.disp.setCurrent(new LoadingScreen());
-                s.channelSelector = new ChannelSelector(s);
+                s.openChannelSelector(true);
+            } else {
+                s.openChannelSelector(false);
             }
-            s.disp.setCurrent(s.channelSelector);
         }
         if (c == dmCommand) {
             s.disp.setCurrent(new DMSelector(s));

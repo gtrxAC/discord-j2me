@@ -12,7 +12,7 @@ public class ChannelView extends Form implements CommandListener {
     private Command sendCommand;
     private Command refreshCommand;
 
-    public ChannelView(State s) {
+    public ChannelView(State s) throws Exception {
         super("");
         if (s.isDM) setTitle("@" + s.selectedDmChannel.name);
         else setTitle("#" + s.selectedChannel.name);
@@ -20,21 +20,15 @@ public class ChannelView extends Form implements CommandListener {
         setCommandListener(this);
         this.s = s;
 
-        try {
-            Message.fetchMessages(s);
-            for (int i = 0; i < s.messages.size(); i++) {
-                Message msg = (Message) s.messages.elementAt(i);
-                StringItem msgItem = new StringItem(
-                    msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : ""),
-                    msg.content
-                );
-                msgItem.setFont(s.smallFont);
-                append(msgItem);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            append("Failed to get messages");
+        Message.fetchMessages(s);
+        for (int i = 0; i < s.messages.size(); i++) {
+            Message msg = (Message) s.messages.elementAt(i);
+            StringItem msgItem = new StringItem(
+                msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : ""),
+                msg.content
+            );
+            msgItem.setFont(s.smallFont);
+            append(msgItem);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
@@ -54,8 +48,7 @@ public class ChannelView extends Form implements CommandListener {
             s.disp.setCurrent(new MessageForm(s));
         }
         if (c == refreshCommand) {
-            s.channelView = new ChannelView(s);
-            s.disp.setCurrent(s.channelView);
+            s.openChannelView(true);
         }
     }
 }

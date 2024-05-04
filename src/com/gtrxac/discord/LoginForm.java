@@ -71,12 +71,7 @@ public class LoginForm extends Form implements CommandListener {
             }
 
             s.http = new HTTPThing(api, token);
-
-            if (s.guildSelector == null) {
-                s.disp.setCurrent(new LoadingScreen());
-                s.guildSelector = new GuildSelector(s);
-            }
-            s.disp.setCurrent(s.guildSelector);
+            s.openGuildSelector(true);
         }
     }
 }

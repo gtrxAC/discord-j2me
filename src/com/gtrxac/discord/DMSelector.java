@@ -37,9 +37,7 @@ public class DMSelector extends Form implements CommandListener {
             }
             catch (Exception e) {
                 e.printStackTrace();
-                Alert error = new Alert("Error");
-                error.setString("Failed to fetch direct messages: " + e.toString());
-                s.disp.setCurrent(error);
+                s.error(e.toString());
                 return;
             }
 
@@ -49,14 +47,11 @@ public class DMSelector extends Form implements CommandListener {
 
                 s.isDM = true;
                 s.selectedDmChannel = ch;
-                s.channelView = new ChannelView(s);
-                s.disp.setCurrent(s.channelView);
+                s.openChannelView(true);
                 return;
             }
 
-            Alert error = new Alert("Not found");
-            error.setString("User not found. Try creating the DM from another client.");
-            s.disp.setCurrent(error);
+            s.error("User not found. Try creating the DM from another client.");
         }
     }
 }
