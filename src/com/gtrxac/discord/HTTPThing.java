@@ -44,13 +44,14 @@ public class HTTPThing {
         is = c.openDataInputStream();
 
         try {
+            int respCode = c.getResponseCode();
+            
             // Read response
             StringBuffer stringBuffer = new StringBuffer();
             int ch;
             while ((ch = is.read()) != -1) {
                 stringBuffer.append((char) ch);
             }
-            int respCode = c.getResponseCode();
             String response = stringBuffer.toString().trim();
 
             if (respCode == HttpConnection.HTTP_OK) {
