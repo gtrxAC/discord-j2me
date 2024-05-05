@@ -48,12 +48,16 @@ public class Message {
         catch (Exception e) {}
     }
 
-    public static void fetchMessages(State s) throws Exception {
+    public static void fetchMessages(State s, String before, String after) throws Exception {
         String id;
         if (s.isDM) id = s.selectedDmChannel.id;
         else id = s.selectedChannel.id;
         
-        JSONArray messages = JSON.getArray(s.http.get("/channels/" + id + "/messages?limit=20"));
+        StringBuffer url = new StringBuffer("/channels/" + id + "/messages?limit=20");
+        if (before != null) url.append("&before=" + before);
+        if (after != null) url.append("&after=" + after);
+
+        JSONArray messages = JSON.getArray(s.http.get(url.toString()));
         s.messages = new Vector();
 
         for (int i = 0; i < messages.size(); i++) {

@@ -12,11 +12,11 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 * Channel list
 * Message reading (newest message on top)
 * Message sending
+* Reading older messages
 * Direct messages (not group DMs)
 
 ### Not implemented
 * WebSocket (live message updates)
-* Reading older messages
 * Replying to messages
 * Ping/unread indicators
 * Pretty much everything else
