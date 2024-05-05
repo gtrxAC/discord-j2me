@@ -71,6 +71,8 @@ public class ChannelView extends Canvas implements CommandListener {
         // If user selected Show newer messages, go to the top of the
         // message list, so it's more intuitive to scroll through
         scroll = (after != null) ? 0 : maxScroll;
+
+        repaint();
     }
 
     /**
