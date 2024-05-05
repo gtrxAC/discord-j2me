@@ -8,6 +8,8 @@ public class Message {
     public String author;
     public String recipient;
     public String content;
+    public String[] contentLines;
+    public String timestamp;
 
     public Message(JSONObject data) {
         id = data.getString("id");
@@ -15,8 +17,7 @@ public class Message {
         if (author == null) {
             author = data.getObject("author").getString("username", "(no name)");
         }
-        content = data.getString("content", "(no content)");
-        if (content.length() == 0) content = "(no content)";
+        content = data.getString("content", "");
 
         try {
             recipient = data
@@ -35,17 +36,26 @@ public class Message {
 
         try {
             int attachCount = data.getArray("attachments").size();
-            if (attachCount >= 1) content += "\n(attachments: " + attachCount + ")";
+            if (attachCount >= 1) {
+                if (content.length() > 0) content += "\n";
+                content += "(attachments: " + attachCount + ")";
+            }
         }
         catch (Exception e) {}
 
         try {
             JSONArray stickers = data.getArray("sticker_items");
             if (stickers.size() >= 1) {
-                content += "\n(sticker: " + stickers.getObject(0).getString("name", "unknown") + ")";
+                if (content.length() > 0) content += "\n";
+                content += "(sticker: " + stickers.getObject(0).getString("name", "unknown") + ")";
             }
         }
         catch (Exception e) {}
+
+        timestamp = new Date((Long.parseLong(id) >> 22) + State.DISCORD_EPOCH)
+            .toString().substring(11, 16);
+
+        if (content.length() == 0) content = "(no content)";
     }
 
     public static void fetchMessages(State s, String before, String after) throws Exception {

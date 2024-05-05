@@ -5,9 +5,12 @@ import javax.microedition.lcdui.*;
 import java.util.*;
 
 public class State {
+	public static final long DISCORD_EPOCH = 1420070400000L;
+
 	MIDlet midlet;
 	Display disp;
 	Font smallFont;
+	Font smallBoldFont;
 
 	HTTPThing http;
 
@@ -27,6 +30,7 @@ public class State {
 
 	public State() {
 		smallFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+		smallBoldFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL);
 	}
 
 	public void error(String message) {

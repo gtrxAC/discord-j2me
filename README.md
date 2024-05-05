@@ -10,7 +10,7 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 ### Working
 * Server list
 * Channel list
-* Message reading (newest message on top)
+* Message reading
 * Message sending
 * Reading older messages
 * Direct messages (not group DMs)
