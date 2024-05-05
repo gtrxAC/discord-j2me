@@ -9,6 +9,8 @@ public class State {
 
 	MIDlet midlet;
 	Display disp;
+
+	boolean lightTheme;
 	Font smallFont;
 	Font smallBoldFont;
 

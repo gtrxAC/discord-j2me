@@ -8,6 +8,7 @@ public class GuildSelector extends List implements CommandListener {
     private Command backCommand;
     private Command refreshCommand;
     private Command dmCommand;
+    private Command settingsCommand;
 
     public GuildSelector(State s) throws Exception {
         super("Servers", List.IMPLICIT);
@@ -22,9 +23,11 @@ public class GuildSelector extends List implements CommandListener {
         backCommand = new Command("Back", Command.BACK, 0);
         refreshCommand = new Command("Refresh", Command.ITEM, 1);
         dmCommand = new Command("Direct messages", Command.ITEM, 2);
+        settingsCommand = new Command("Settings", Command.ITEM, 3);
         addCommand(backCommand);
         addCommand(refreshCommand);
         addCommand(dmCommand);
+        addCommand(settingsCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -46,6 +49,9 @@ public class GuildSelector extends List implements CommandListener {
         }
         if (c == dmCommand) {
             s.disp.setCurrent(new DMSelector(s));
+        }
+        if (c == settingsCommand) {
+            s.disp.setCurrent(new SettingsForm(s));
         }
     }
 }

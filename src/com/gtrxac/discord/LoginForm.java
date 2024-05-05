@@ -22,8 +22,12 @@ public class LoginForm extends Form implements CommandListener {
             try {
                 loginRms = RecordStore.openRecordStore("login", true);
                 if (loginRms.getNumRecords() > 0) {
-                    initialApi = new String(loginRms.getRecord(1));
+                    String savedApi = new String(loginRms.getRecord(1));
+                    if (savedApi.length() > 0) initialApi = savedApi;
                     initialToken = new String(loginRms.getRecord(2));
+                }
+                if (loginRms.getNumRecords() >= 3) {
+                    s.lightTheme = loginRms.getRecord(3)[0] != 0;
                 }
             }
             catch (Exception e) {
