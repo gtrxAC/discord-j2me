@@ -18,16 +18,21 @@ public class LoginForm extends Form implements CommandListener {
 
         String initialApi = "http://dsc.uwmpr.online";
         String initialToken = "";
+        
         if (RecordStore.listRecordStores() != null) {
             try {
                 loginRms = RecordStore.openRecordStore("login", true);
+
                 if (loginRms.getNumRecords() > 0) {
                     String savedApi = new String(loginRms.getRecord(1));
                     if (savedApi.length() > 0) initialApi = savedApi;
                     initialToken = new String(loginRms.getRecord(2));
                 }
                 if (loginRms.getNumRecords() >= 3) {
-                    s.lightTheme = loginRms.getRecord(3)[0] != 0;
+                    s.theme = loginRms.getRecord(3)[0];
+                }
+                if (loginRms.getNumRecords() >= 4) {
+                    s.oldUI = loginRms.getRecord(4)[0] != 0;
                 }
             }
             catch (Exception e) {

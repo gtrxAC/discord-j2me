@@ -10,7 +10,8 @@ public class State {
 	MIDlet midlet;
 	Display disp;
 
-	boolean lightTheme;
+	int theme;  // 0 = dark, 1 = light, 2 = black
+	boolean oldUI;
 	Font smallFont;
 	Font smallBoldFont;
 
@@ -26,6 +27,7 @@ public class State {
 
 	Vector messages;
 	ChannelView channelView;
+	OldChannelView oldChannelView;
 
 	boolean isDM;
 	DMChannel selectedDmChannel;
@@ -67,10 +69,17 @@ public class State {
 
 	public void openChannelView(boolean reload) {
 		try {
-			if (reload || channelView == null) {
-				channelView = new ChannelView(this);
+			if (oldUI) {
+				if (reload || oldChannelView == null) {
+					oldChannelView = new OldChannelView(this);
+					disp.setCurrent(oldChannelView);
+				}
+			} else {
+				if (reload || channelView == null) {
+					channelView = new ChannelView(this);
+					disp.setCurrent(channelView);
+				}
 			}
-			disp.setCurrent(channelView);
 		}
 		catch (Exception e) {
 			error(e.toString());

@@ -27,6 +27,12 @@ public class ChannelView extends Canvas implements CommandListener {
 
     int fontHeight;
 
+    //                                            Dark        Light       Black
+    public static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
+    public static final int[] messageColors =    {0x00FFFFFF, 0x00111111, 0x00EEEEEE};
+    public static final int[] authorColors =     {0x00FFFFFF, 0x00000000, 0x00FFFFFF};
+    public static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00888888};
+
     public ChannelView(State s) throws Exception {
         super();
 
@@ -85,13 +91,13 @@ public class ChannelView extends Canvas implements CommandListener {
 
     public void drawMessage(Graphics g, Message msg, int y) {
         // Draw author (and recipient if applicable)
-        g.setColor(s.lightTheme ? 0x00000000 : 0x00FFFFFF);
+        g.setColor(authorColors[s.theme]);
         g.setFont(s.smallBoldFont);
         String authorStr = msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : "");
         g.drawString(authorStr, 1, y, Graphics.TOP|Graphics.LEFT);
 
         // Draw timestamp
-        g.setColor(0x00888888);
+        g.setColor(timestampColors[s.theme]);
         g.setFont(s.smallFont);
         g.drawString(
             "  " + msg.timestamp, 1 + s.smallBoldFont.stringWidth(authorStr), y,
@@ -100,7 +106,7 @@ public class ChannelView extends Canvas implements CommandListener {
         y += fontHeight;
 
         // Draw message content
-        g.setColor(s.lightTheme ? 0x00111111 : 0x00EEEEEE);
+        g.setColor(messageColors[s.theme]);
         for (int i = 0; i < msg.contentLines.length; i++) {
             g.drawString(msg.contentLines[i], 1, y, Graphics.TOP|Graphics.LEFT);
             y += fontHeight;
@@ -109,7 +115,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
     protected void paint(Graphics g) {
         g.setFont(s.smallFont);
-        g.setColor(s.lightTheme ? 0x00FFFFFF : 0x00000000);
+        g.setColor(backgroundColors[s.theme]);
         g.fillRect(0, 0, getWidth(), getHeight());
 
         int y = -scroll;
@@ -121,7 +127,7 @@ public class ChannelView extends Canvas implements CommandListener {
             if (y + msgHeight >= 0) {
                 // highlight selected message
                 // if (i == selectedMessage) {
-                //     g.setColor(s.lightTheme ? 0x00DDDDDD : 0x00222222);
+                //     g.setColor(highlightColors[s.theme]);
                 //     g.fillRect(0, y, getWidth(), msgHeight);
                 // }
                 drawMessage(g, msg, y);

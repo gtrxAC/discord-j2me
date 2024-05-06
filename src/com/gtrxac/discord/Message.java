@@ -52,8 +52,15 @@ public class Message {
         }
         catch (Exception e) {}
 
-        timestamp = new Date((Long.parseLong(id) >> 22) + State.DISCORD_EPOCH)
-            .toString().substring(11, 16);
+        Date messageDate = new Date((Long.parseLong(id) >> 22) + State.DISCORD_EPOCH);
+        String messageDay = messageDate.toString().substring(0, 10);
+        String currentDay = new Date().toString().substring(0, 10);
+
+        if (currentDay.equals(messageDay)) {
+            timestamp = messageDate.toString().substring(11, 16);  // hh:mm
+        } else {
+            timestamp = messageDate.toString().substring(4, 10);  // Mon dd (e.g. Jan 01)
+        }
 
         if (content.length() == 0) content = "(no content)";
     }

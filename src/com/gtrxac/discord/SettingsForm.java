@@ -7,7 +7,8 @@ public class SettingsForm extends Form implements CommandListener {
     State s;
     private RecordStore loginRms;
 
-    private ChoiceGroup choiceGroup;
+    private ChoiceGroup themeGroup;
+    private ChoiceGroup uiGroup;
     private Command saveCommand;
     private Command cancelCommand;
 
@@ -16,15 +17,21 @@ public class SettingsForm extends Form implements CommandListener {
         setCommandListener(this); 
         this.s = s;
 
-        String[] choices = {"Light theme"};
-        Image[] images = {null};
-        choiceGroup = new ChoiceGroup("Settings", ChoiceGroup.MULTIPLE, choices, images);
-        choiceGroup.setSelectedIndex(0, s.lightTheme);
+        String[] themeChoices = {"Dark", "Light", "Black"};
+        Image[] themeImages = {null, null, null};
+        themeGroup = new ChoiceGroup("Theme", ChoiceGroup.EXCLUSIVE, themeChoices, themeImages);
+        themeGroup.setSelectedIndex(s.theme, true);
+
+        String[] uiChoices = {"Use old UI"};
+        Image[] uiImages = {null};
+        uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, uiImages);
+        uiGroup.setSelectedIndex(0, s.oldUI);
 
         saveCommand = new Command("Save", Command.OK, 0);
         cancelCommand = new Command("Cancel", Command.BACK, 1);
 
-        append(choiceGroup);
+        append(themeGroup);
+        append(uiGroup);
         addCommand(saveCommand);
         addCommand(cancelCommand);
     }
@@ -32,18 +39,28 @@ public class SettingsForm extends Form implements CommandListener {
     public void commandAction(Command c, Displayable d) {
         if (c == saveCommand) {
             try {
+                s.theme = themeGroup.getSelectedIndex();
+
                 boolean[] selected = {false};
-                choiceGroup.getSelectedFlags(selected);
-                s.lightTheme = selected[0];
+                uiGroup.getSelectedFlags(selected);
+                s.oldUI = selected[0];
 
                 loginRms = RecordStore.openRecordStore("login", true);
-                byte[] newRecord = {new Integer(s.lightTheme ? 1 : 0).byteValue()};
+                byte[] themeRecord = {new Integer(s.theme).byteValue()};
+                byte[] uiRecord = {new Integer(s.oldUI ? 1 : 0).byteValue()};
 
                 if (loginRms.getNumRecords() >= 3) {
-                    loginRms.setRecord(3, newRecord, 0, 1);
+                    loginRms.setRecord(3, themeRecord, 0, 1);
                 } else {
-                    loginRms.addRecord(newRecord, 0, 1);
+                    loginRms.addRecord(themeRecord, 0, 1);
                 }
+
+                if (loginRms.getNumRecords() >= 4) {
+                    loginRms.setRecord(4, uiRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(uiRecord, 0, 1);
+                }
+
                 loginRms.closeRecordStore();
             }
             catch (Exception e) {
