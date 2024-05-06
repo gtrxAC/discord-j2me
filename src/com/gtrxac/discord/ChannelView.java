@@ -172,7 +172,7 @@ public class ChannelView extends Canvas implements CommandListener {
             else s.disp.setCurrent(s.channelSelector);
         }
         if (c == sendCommand) {
-            s.disp.setCurrent(new MessageForm(s));
+            s.disp.setCurrent(new MessageBox(s));
         }
         if (c == refreshCommand) {
             s.openChannelView(true);
