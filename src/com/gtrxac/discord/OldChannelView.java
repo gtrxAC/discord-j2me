@@ -33,7 +33,6 @@ public class OldChannelView extends Form implements CommandListener {
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
-        addCommand(olderCommand);
 
         getMessages();
     }
@@ -54,8 +53,15 @@ public class OldChannelView extends Form implements CommandListener {
                 append(msgItem);
             }
 
-            if (page > 0) addCommand(newerCommand);
+            if (s.messages.size() > 0 && page > 0) addCommand(newerCommand);
             else removeCommand(newerCommand);
+
+            if (s.messages.size() == 0) {
+                append("Nothing to see here");
+                removeCommand(olderCommand);
+            } else {
+                addCommand(olderCommand);
+            }
         }
         catch (Exception e) {
             s.error(e.toString());

@@ -49,7 +49,6 @@ public class ChannelView extends Canvas implements CommandListener {
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
-        addCommand(olderCommand);
 
         getMessages();
     }
@@ -69,8 +68,11 @@ public class ChannelView extends Canvas implements CommandListener {
             maxScroll += getMessageHeight(msg);
         }
 
-        if (page > 0) addCommand(newerCommand);
+        if (s.messages.size() > 0 && page > 0) addCommand(newerCommand);
         else removeCommand(newerCommand);
+
+        if (s.messages.size() > 0) addCommand(olderCommand);
+        else removeCommand(olderCommand);
 
         maxScroll -= getHeight();
 
@@ -117,6 +119,12 @@ public class ChannelView extends Canvas implements CommandListener {
         g.setFont(s.smallFont);
         g.setColor(backgroundColors[s.theme]);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        if (s.messages.size() == 0) {
+            g.setColor(timestampColors[s.theme]);
+            g.drawString("Nothing to see here", getWidth()/2, getHeight()/2, Graphics.HCENTER|Graphics.VCENTER);
+            return;
+        }
 
         int y = -scroll;
         for (int i = s.messages.size() - 1; i >= 0; i--) {
