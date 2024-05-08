@@ -76,7 +76,7 @@ public class OldChannelView extends Form implements CommandListener {
         if (c == olderCommand) {
             page++;
             after = null;
-            before = ((Message) s.messages.elementAt(19)).id;
+            before = ((Message) s.messages.elementAt(s.messages.size() - 1)).id;
             try {
                 getMessages();
             }
