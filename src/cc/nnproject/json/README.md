@@ -1,0 +1,1 @@
+This version of [NNJSON](https://github.com/shinovon/NNJSON) has been modified to remove any references to floating point values (Double), since they are not supported in CLDC 1.0.

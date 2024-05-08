@@ -12,7 +12,7 @@ rm -rf classes/*
 echo "Compiling"
 ${JAVA_HOME}/bin/javac `find src -name '*'.java` -d classes \
     -source 1.3 -target 1.3 \
-    -bootclasspath sdk/cldcapi11.jar:sdk/midpapi20.jar
+    -bootclasspath sdk/cldcapi10.jar:sdk/midpapi20.jar
 
 echo "Creating jar"
 ${JAVA_HOME}/bin/jar cvfm in.jar manifest.mf -C classes . -C assets .

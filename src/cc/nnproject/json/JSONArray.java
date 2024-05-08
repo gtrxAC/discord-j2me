@@ -170,18 +170,6 @@ public class JSONArray extends AbstractJSON {
 		}
 	}
 	
-	public double getDouble(int index) throws JSONException {
-		return JSON.getDouble(get(index));
-	}
-
-	public double getDouble(int index, double def) {
-		try {
-			return getDouble(index);
-		} catch (Exception e) {
-			return def;
-		}
-	}
-	
 	public boolean getBoolean(int index) throws JSONException {
 		Object o = get(index);
 		if (o == JSON.TRUE) return true;
@@ -235,10 +223,6 @@ public class JSONArray extends AbstractJSON {
 	public void add(long l) {
 		addElement(new Long(l));
 	}
-
-	public void add(double d) {
-		addElement(new Double(d));
-	}
 	
 	public void add(boolean b) {
 		addElement(new Boolean(b));
@@ -283,13 +267,6 @@ public class JSONArray extends AbstractJSON {
 		}
 		elements[index] = new Long(l);
 	}
-
-	public void set(int index, double d) {
-		if (index < 0 || index >= count) {
-			throw new JSONException("Index out of bounds: " + index);
-		}
-		elements[index] = new Double(d);
-	}
 	
 	public void set(int index, boolean b) {
 		if (index < 0 || index >= count) {
@@ -323,10 +300,6 @@ public class JSONArray extends AbstractJSON {
 		insertElementAt(new Long(l), index);
 	}
 
-	public void put(int index, double d) {
-		insertElementAt(new Double(d), index);
-	}
-
 	public void put(int index, boolean b) {
 		insertElementAt(new Boolean(b), index);
 	}
@@ -341,10 +314,6 @@ public class JSONArray extends AbstractJSON {
 
 	public boolean has(long l) {
 		return _indexOf(new Long(l), 0) != -1;
-	}
-
-	public boolean has(double d) {
-		return _indexOf(new Double(d), 0) != -1;
 	}
 	
 	public boolean has(boolean b) {

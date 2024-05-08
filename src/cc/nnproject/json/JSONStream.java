@@ -623,7 +623,7 @@ public class JSONStream {
 					}
 					// decimal
 					if (str.indexOf('.') != -1 || str.indexOf('E') != -1 || "-0".equals(str))
-						return new Double(Double.parseDouble(str));
+						return new Integer(0);
 					if (first == '-') length--;
 					if (length > 8) // (str.length() - (str.charAt(0) == '-' ? 1 : 0)) >= 10
 						return new Long(Long.parseLong(str));

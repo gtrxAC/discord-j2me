@@ -253,7 +253,7 @@ public final class JSON {
 					}
 					// decimal
 					if (str.indexOf('.') != -1 || str.indexOf('E') != -1 || "-0".equals(str))
-						return new Double(Double.parseDouble(str));
+						return new Integer(0);
 					if (first == '-') length--;
 					if (length > 8) // (str.length() - (str.charAt(0) == '-' ? 1 : 0)) >= 10
 						return new Long(Long.parseLong(str));
@@ -313,20 +313,6 @@ public final class JSON {
 		return sb.toString();
 	}
 
-	static double getDouble(Object o) throws JSONException {
-		try {
-			if (o instanceof JSONString)
-				return Double.parseDouble(((JSONString) o).str);
-			if (o instanceof Integer)
-				return ((Integer) o).intValue();
-			if (o instanceof Long)
-				return ((Long) o).longValue();
-			if (o instanceof Double)
-				return ((Double) o).doubleValue();
-		} catch (Throwable e) {}
-		throw new JSONException("Cast to double failed: " + o);
-	}
-
 	static int getInt(Object o) throws JSONException {
 		try {
 			if (o instanceof JSONString)
@@ -335,8 +321,6 @@ public final class JSON {
 				return ((Integer) o).intValue();
 			if (o instanceof Long)
 				return (int) ((Long) o).longValue();
-			if (o instanceof Double)
-				return ((Double) o).intValue();
 		} catch (Throwable e) {}
 		throw new JSONException("Cast to int failed: " + o);
 	}
@@ -349,8 +333,6 @@ public final class JSON {
 				return ((Integer) o).longValue();
 			if (o instanceof Long)
 				return ((Long) o).longValue();
-			if (o instanceof Double)
-				return ((Double) o).longValue();
 		} catch (Throwable e) {}
 		throw new JSONException("Cast to long failed: " + o);
 	}

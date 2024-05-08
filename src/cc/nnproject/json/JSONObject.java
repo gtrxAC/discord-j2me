@@ -170,19 +170,6 @@ public class JSONObject extends AbstractJSON {
 		}
 	}
 	
-	public double getDouble(String name) throws JSONException {
-		return JSON.getDouble(get(name));
-	}
-
-	public double getDouble(String name, double def) {
-		if (!has(name)) return def;
-		try {
-			return getDouble(name);
-		} catch (Exception e) {
-			return def;
-		}
-	}
-	
 	public boolean getBoolean(String name) throws JSONException {
 		Object o = get(name);
 		if (o == JSON.TRUE) return true;
@@ -233,10 +220,6 @@ public class JSONObject extends AbstractJSON {
 
 	public void put(String name, long l) {
 		table.put(name, new Long(l));
-	}
-
-	public void put(String name, double d) {
-		table.put(name, new Double(d));
 	}
 
 	public void put(String name, boolean b) {
