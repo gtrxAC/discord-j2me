@@ -26,7 +26,7 @@ public class ChannelSelector extends List implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.disp.setCurrent(s.guildSelector);
+            s.openGuildSelector(false);
         }
         if (c == refreshCommand) {
             s.openChannelSelector(true);

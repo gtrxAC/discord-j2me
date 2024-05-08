@@ -4,54 +4,76 @@ import java.util.*;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class DMSelector extends Form implements CommandListener {
+public class DMSelector extends List implements CommandListener {
     State s;
+    Vector lastDMs;
 
-    private TextField textField;
-    private Command okCommand;
     private Command backCommand;
+    private Command searchCommand;
+    private Command refreshCommand;
 
-    public DMSelector(State s) {
-        super("Direct Message");
+    public DMSelector(State s) throws Exception {
+        super("Direct Message", List.IMPLICIT);
         setCommandListener(this);
         this.s = s;
 
-        textField = new TextField("Enter username", "", 32, 0);
-        textField.setInitialInputMode("MIDP_LOWERCASE_LATIN");
-        okCommand = new Command("OK", Command.OK, 0);
-        backCommand = new Command("Back", Command.BACK, 0);
+        // Get the 20 latest DMs (add into another vector sorted by highest to lowest last message ID)
+        DMChannel.fetchDMChannels(s);
+        int count = 20;
+        if (s.dmChannels.size() < 20) count = s.dmChannels.size();
+        lastDMs = new Vector(count);
+        
+        for (int i = 0; i < count; i++) {
+            long highestID = 0;
+            int highestIndex = 0;
 
-        append(textField);
-        addCommand(okCommand);
+            for (int u = 0; u < s.dmChannels.size(); u++) {
+                DMChannel ch = (DMChannel) s.dmChannels.elementAt(u);
+
+                if (ch.lastMessageID <= highestID) continue;
+
+                // Don't repeat ones that we've already added
+                boolean alreadyHave = false;
+                for (int l = 0; l < lastDMs.size(); l++) {
+                    if (((DMChannel) lastDMs.elementAt(l)).lastMessageID == ch.lastMessageID) {
+                        alreadyHave = true;
+                        break;
+                    }
+                }
+                if (alreadyHave) continue;
+
+                highestID = ch.lastMessageID;
+                highestIndex = u;
+            }
+            lastDMs.addElement(s.dmChannels.elementAt(highestIndex));
+        }
+
+        for (int i = 0; i < lastDMs.size(); i++) {
+            append(((DMChannel) lastDMs.elementAt(i)).name, null);
+        }
+
+        backCommand = new Command("Back", Command.BACK, 0);
+        searchCommand = new Command("Search", Command.ITEM, 1);
+        refreshCommand = new Command("Refresh", Command.ITEM, 2);
         addCommand(backCommand);
+        addCommand(searchCommand);
+        addCommand(refreshCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.disp.setCurrent(s.guildSelector);
+            s.openGuildSelector(false);
         }
-        if (c == okCommand) {
-            Vector channels;
-            try {
-                channels = DMChannel.fetchDMChannels(s);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                s.error(e.toString());
-                return;
-            }
-
-            for (int i = 0; i < channels.size(); i++) {
-                DMChannel ch = (DMChannel) channels.elementAt(i);
-                if (!ch.name.equals(textField.getString())) continue;
-
-                s.isDM = true;
-                s.selectedDmChannel = ch;
-                s.openChannelView(true);
-                return;
-            }
-
-            s.error("User not found. Try creating the DM from another client.");
+        if (c == searchCommand) {
+            s.disp.setCurrent(new DMSearchForm(s));
+        }
+        if (c == refreshCommand) {
+            s.openDMSelector(true);
+        }
+        if (c == List.SELECT_COMMAND) {
+            s.isDM = true;
+            s.selectedDmChannel = (DMChannel) lastDMs.elementAt(getSelectedIndex());
+            s.openChannelView(true);
         }
     }
 }

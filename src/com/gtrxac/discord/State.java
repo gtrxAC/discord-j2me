@@ -30,7 +30,9 @@ public class State {
 	OldChannelView oldChannelView;
 
 	boolean isDM;
+	Vector dmChannels;
 	DMChannel selectedDmChannel;
+	DMSelector dmSelector;
 
 	public State() {
 		smallFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
@@ -61,6 +63,18 @@ public class State {
 				channelSelector = new ChannelSelector(this);
 			}
 			disp.setCurrent(channelSelector);
+		}
+		catch (Exception e) {
+			error(e.toString());
+		}
+	}
+
+	public void openDMSelector(boolean reload) {
+		try {
+			if (reload || dmSelector == null) {
+				dmSelector = new DMSelector(this);
+			}
+			disp.setCurrent(dmSelector);
 		}
 		catch (Exception e) {
 			error(e.toString());

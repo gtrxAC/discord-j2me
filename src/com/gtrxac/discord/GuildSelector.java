@@ -48,7 +48,7 @@ public class GuildSelector extends List implements CommandListener {
             }
         }
         if (c == dmCommand) {
-            s.disp.setCurrent(new DMSelector(s));
+            s.openDMSelector(true);
         }
         if (c == settingsCommand) {
             s.disp.setCurrent(new SettingsForm(s));

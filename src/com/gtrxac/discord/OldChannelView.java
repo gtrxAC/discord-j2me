@@ -70,8 +70,8 @@ public class OldChannelView extends Form implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            if (s.isDM) s.disp.setCurrent(new DMSelector(s));
-            else s.disp.setCurrent(s.channelSelector);
+            if (s.isDM) s.openDMSelector(false);
+            else s.openChannelSelector(false);
         }
         if (c == sendCommand) {
             s.disp.setCurrent(new MessageBox(s));
