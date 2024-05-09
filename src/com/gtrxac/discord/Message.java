@@ -11,7 +11,7 @@ public class Message {
     public String[] contentLines;
     public String timestamp;
 
-    public Message(JSONObject data) {
+    public Message(State s, JSONObject data) {
         id = data.getString("id");
         author = data.getObject("author").getString("global_name", "(no name)");
         if (author == null) {
@@ -57,7 +57,29 @@ public class Message {
         String currentDay = new Date().toString().substring(0, 10);
 
         if (currentDay.equals(messageDay)) {
-            timestamp = messageDate.toString().substring(11, 16);  // hh:mm
+            if (s.use12hTime) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(messageDate);
+                int hour = cal.get(Calendar.HOUR_OF_DAY);
+                int minute = cal.get(Calendar.MINUTE);
+                String period = hour < 12 ? "A" : "P";
+
+                // Convert hours to 12-hour format
+                hour = hour % 12;
+                if (hour == 0) {
+                    hour = 12; // 12 AM or 12 PM
+                }
+
+                StringBuffer time = new StringBuffer();
+                time.append(hour);
+                time.append(":");
+                if (minute < 10) time.append("0");
+                time.append(minute);
+                time.append(period);
+                timestamp = time.toString();
+            } else {
+                timestamp = messageDate.toString().substring(11, 16);  // hh:mm
+            }
         } else {
             timestamp = messageDate.toString().substring(4, 10);  // Mon dd (e.g. Jan 01)
         }
@@ -78,7 +100,7 @@ public class Message {
         s.messages = new Vector();
 
         for (int i = 0; i < messages.size(); i++) {
-            s.messages.addElement(new Message(messages.getObject(i)));
+            s.messages.addElement(new Message(s, messages.getObject(i)));
         }
     }
 

@@ -24,10 +24,11 @@ public class SettingsForm extends Form implements CommandListener {
         themeGroup = new ChoiceGroup("Theme", ChoiceGroup.EXCLUSIVE, themeChoices, themeImages);
         themeGroup.setSelectedIndex(s.theme, true);
 
-        String[] uiChoices = {"Use old UI"};
-        Image[] uiImages = {null};
+        String[] uiChoices = {"Use old UI", "Use 12-hour time"};
+        Image[] uiImages = {null, null};
         uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, uiImages);
         uiGroup.setSelectedIndex(0, s.oldUI);
+        uiGroup.setSelectedIndex(1, s.use12hTime);
 
         String[] fontChoices = {"Small", "Medium", "Large"};
         Image[] fontImages = {null, null, null};
@@ -54,13 +55,15 @@ public class SettingsForm extends Form implements CommandListener {
                 s.authorFontSize = authorFontGroup.getSelectedIndex();
                 s.messageFontSize = messageFontGroup.getSelectedIndex();
 
-                boolean[] selected = {false};
+                boolean[] selected = {false, false};
                 uiGroup.getSelectedFlags(selected);
                 s.oldUI = selected[0];
+                s.use12hTime = selected[1];
 
                 loginRms = RecordStore.openRecordStore("login", true);
                 byte[] themeRecord = {new Integer(s.theme).byteValue()};
                 byte[] uiRecord = {new Integer(s.oldUI ? 1 : 0).byteValue()};
+                byte[] use12hRecord = {new Integer(s.use12hTime ? 1 : 0).byteValue()};
                 byte[] authorFontRecord = {new Integer(s.authorFontSize).byteValue()};
                 byte[] messageFontRecord = {new Integer(s.messageFontSize).byteValue()};
 
@@ -82,6 +85,12 @@ public class SettingsForm extends Form implements CommandListener {
                 } else {
                     loginRms.addRecord(authorFontRecord, 0, 1);
                     loginRms.addRecord(messageFontRecord, 0, 1);
+                }
+
+                if (loginRms.getNumRecords() >= 8) {
+                    loginRms.setRecord(8, use12hRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(use12hRecord, 0, 1);
                 }
 
                 loginRms.closeRecordStore();

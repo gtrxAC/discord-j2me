@@ -44,6 +44,9 @@ public class LoginForm extends Form implements CommandListener {
                     s.authorFontSize = loginRms.getRecord(6)[0];
                     s.messageFontSize = loginRms.getRecord(7)[0];
                 }
+                if (loginRms.getNumRecords() >= 8) {
+                    s.use12hTime = loginRms.getRecord(8)[0] != 0;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();

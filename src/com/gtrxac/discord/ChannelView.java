@@ -32,7 +32,7 @@ public class ChannelView extends Canvas implements CommandListener {
     public static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
     public static final int[] messageColors =    {0x00FFFFFF, 0x00111111, 0x00EEEEEE};
     public static final int[] authorColors =     {0x00FFFFFF, 0x00000000, 0x00FFFFFF};
-    public static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00888888};
+    public static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00999999};
 
     public ChannelView(State s) throws Exception {
         super();
