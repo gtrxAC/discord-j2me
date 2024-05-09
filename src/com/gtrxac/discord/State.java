@@ -12,8 +12,12 @@ public class State {
 
 	int theme;  // 0 = dark, 1 = light, 2 = black
 	boolean oldUI;
-	Font smallFont;
-	Font smallBoldFont;
+
+	int authorFontSize;
+	int messageFontSize;
+	Font authorFont;
+	Font timestampFont;
+	Font messageFont;
 
 	HTTPThing http;
 
@@ -35,14 +39,20 @@ public class State {
 	DMSelector dmSelector;
 
 	public State() {
-		smallFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
-		smallBoldFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL);
 	}
 
 	public void error(String message) {
 		Alert error = new Alert("Error");
 		error.setString(message);
 		disp.setCurrent(error);
+	}
+
+	public void loadFonts() {
+		final int[] fontSizes = {Font.SIZE_SMALL, Font.SIZE_MEDIUM, Font.SIZE_LARGE};
+		
+		authorFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[authorFontSize]);
+		timestampFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[authorFontSize]);
+		messageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[messageFontSize]);
 	}
 
 	public void openGuildSelector(boolean reload) {

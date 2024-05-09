@@ -9,6 +9,8 @@ public class SettingsForm extends Form implements CommandListener {
 
     private ChoiceGroup themeGroup;
     private ChoiceGroup uiGroup;
+    private ChoiceGroup authorFontGroup;
+    private ChoiceGroup messageFontGroup;
     private Command saveCommand;
     private Command cancelCommand;
 
@@ -27,11 +29,20 @@ public class SettingsForm extends Form implements CommandListener {
         uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, uiImages);
         uiGroup.setSelectedIndex(0, s.oldUI);
 
+        String[] fontChoices = {"Small", "Medium", "Large"};
+        Image[] fontImages = {null, null, null};
+        authorFontGroup = new ChoiceGroup("Message author font", ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
+        authorFontGroup.setSelectedIndex(s.authorFontSize, true);
+        messageFontGroup = new ChoiceGroup("Message content font", ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
+        messageFontGroup.setSelectedIndex(s.messageFontSize, true);
+
         saveCommand = new Command("Save", Command.OK, 0);
         cancelCommand = new Command("Cancel", Command.BACK, 1);
 
         append(themeGroup);
         append(uiGroup);
+        append(authorFontGroup);
+        append(messageFontGroup);
         addCommand(saveCommand);
         addCommand(cancelCommand);
     }
@@ -40,6 +51,8 @@ public class SettingsForm extends Form implements CommandListener {
         if (c == saveCommand) {
             try {
                 s.theme = themeGroup.getSelectedIndex();
+                s.authorFontSize = authorFontGroup.getSelectedIndex();
+                s.messageFontSize = messageFontGroup.getSelectedIndex();
 
                 boolean[] selected = {false};
                 uiGroup.getSelectedFlags(selected);
@@ -48,6 +61,8 @@ public class SettingsForm extends Form implements CommandListener {
                 loginRms = RecordStore.openRecordStore("login", true);
                 byte[] themeRecord = {new Integer(s.theme).byteValue()};
                 byte[] uiRecord = {new Integer(s.oldUI ? 1 : 0).byteValue()};
+                byte[] authorFontRecord = {new Integer(s.authorFontSize).byteValue()};
+                byte[] messageFontRecord = {new Integer(s.messageFontSize).byteValue()};
 
                 if (loginRms.getNumRecords() >= 3) {
                     loginRms.setRecord(3, themeRecord, 0, 1);
@@ -61,12 +76,21 @@ public class SettingsForm extends Form implements CommandListener {
                     loginRms.addRecord(uiRecord, 0, 1);
                 }
 
+                if (loginRms.getNumRecords() >= 7) {
+                    loginRms.setRecord(6, authorFontRecord, 0, 1);
+                    loginRms.setRecord(7, messageFontRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(authorFontRecord, 0, 1);
+                    loginRms.addRecord(messageFontRecord, 0, 1);
+                }
+
                 loginRms.closeRecordStore();
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        s.loadFonts();
         s.openGuildSelector(false);
     }
 }

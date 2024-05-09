@@ -48,7 +48,7 @@ public class OldChannelView extends Form implements CommandListener {
                     msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : ""),
                     msg.content
                 );
-                msgItem.setFont(s.smallFont);
+                msgItem.setFont(s.messageFont);
                 msgItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
                 append(msgItem);
             }

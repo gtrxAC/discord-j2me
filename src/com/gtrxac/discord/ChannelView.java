@@ -25,7 +25,8 @@ public class ChannelView extends Canvas implements CommandListener {
     int pressY;
     // int selectedMessage;
 
-    int fontHeight;
+    int messageFontHeight;
+    int authorFontHeight;
 
     //                                            Dark        Light       Black
     public static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
@@ -38,7 +39,8 @@ public class ChannelView extends Canvas implements CommandListener {
 
         setCommandListener(this);
         this.s = s;
-        fontHeight = s.smallFont.getHeight();
+        messageFontHeight = s.messageFont.getHeight();
+        authorFontHeight = s.authorFont.getHeight();
 
         backCommand = new Command("Back", Command.BACK, 0);
         sendCommand = new Command("Send", "Send message", Command.ITEM, 0);
@@ -64,7 +66,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
-            msg.contentLines = WordWrap.getStringArray(msg.content, getWidth(), s.smallFont);
+            msg.contentLines = WordWrap.getStringArray(msg.content, getWidth(), s.messageFont);
             maxScroll += getMessageHeight(msg);
         }
 
@@ -88,35 +90,36 @@ public class ChannelView extends Canvas implements CommandListener {
      */
     public int getMessageHeight(Message msg) {
         // Each content line + one line for message author + little bit of spacing between messages
-        return fontHeight*(msg.contentLines.length + 1) + fontHeight/4;
+        return messageFontHeight*msg.contentLines.length + authorFontHeight + messageFontHeight/4;
     }
 
     public void drawMessage(Graphics g, Message msg, int y) {
         // Draw author (and recipient if applicable)
         g.setColor(authorColors[s.theme]);
-        g.setFont(s.smallBoldFont);
+        g.setFont(s.authorFont);
         String authorStr = msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : "");
         g.drawString(authorStr, 1, y, Graphics.TOP|Graphics.LEFT);
 
         // Draw timestamp
         g.setColor(timestampColors[s.theme]);
-        g.setFont(s.smallFont);
+        g.setFont(s.timestampFont);
         g.drawString(
-            "  " + msg.timestamp, 1 + s.smallBoldFont.stringWidth(authorStr), y,
+            "  " + msg.timestamp, 1 + s.authorFont.stringWidth(authorStr), y,
             Graphics.TOP|Graphics.LEFT
         );
-        y += fontHeight;
+        y += authorFontHeight;
 
         // Draw message content
         g.setColor(messageColors[s.theme]);
+        g.setFont(s.messageFont);
         for (int i = 0; i < msg.contentLines.length; i++) {
             g.drawString(msg.contentLines[i], 1, y, Graphics.TOP|Graphics.LEFT);
-            y += fontHeight;
+            y += messageFontHeight;
         }
     }
 
     protected void paint(Graphics g) {
-        g.setFont(s.smallFont);
+        g.setFont(s.messageFont);
         g.setColor(backgroundColors[s.theme]);
         g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -148,12 +151,12 @@ public class ChannelView extends Canvas implements CommandListener {
         int action = getGameAction(keycode);
 
         if (action == Canvas.UP) {
-            scroll -= fontHeight*2;
+            scroll -= messageFontHeight*2;
             if (scroll < 0) scroll = 0;
             repaint();
         }
         else if (action == Canvas.DOWN) {
-            scroll += fontHeight*2;
+            scroll += messageFontHeight*2;
             if (scroll > maxScroll) scroll = maxScroll;
             repaint();
         }
