@@ -5,6 +5,8 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 
 * [Download](https://github.com/gtrxAC/discord-j2me/releases/latest)
 * [FAQ](https://github.com/gtrxAC/discord-j2me/wiki/FAQ)
+* [Discord server](https://discord.gg/2GKuJjQagp) (#apps-and-games)
+* [Telegram group](https://t.me/dscforsymbian)
 
 ## Status
 ### Working
