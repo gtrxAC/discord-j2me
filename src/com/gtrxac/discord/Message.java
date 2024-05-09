@@ -92,7 +92,7 @@ public class Message {
         if (s.isDM) id = s.selectedDmChannel.id;
         else id = s.selectedChannel.id;
         
-        StringBuffer url = new StringBuffer("/channels/" + id + "/messages?limit=20");
+        StringBuffer url = new StringBuffer("/channels/" + id + "/messages?limit=" + s.messageLoadCount);
         if (before != null) url.append("&before=" + before);
         if (after != null) url.append("&after=" + after);
 

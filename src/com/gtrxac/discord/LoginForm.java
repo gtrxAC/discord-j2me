@@ -47,6 +47,11 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() >= 8) {
                     s.use12hTime = loginRms.getRecord(8)[0] != 0;
                 }
+                if (loginRms.getNumRecords() >= 9) {
+                    s.messageLoadCount = loginRms.getRecord(9)[0];
+                } else {
+                    s.messageLoadCount = 20;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();

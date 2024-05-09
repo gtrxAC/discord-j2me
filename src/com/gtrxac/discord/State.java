@@ -13,6 +13,7 @@ public class State {
 	int theme;  // 0 = dark, 1 = light, 2 = black
 	boolean oldUI;
 	boolean use12hTime;
+	int messageLoadCount;
 
 	int authorFontSize;
 	int messageFontSize;
