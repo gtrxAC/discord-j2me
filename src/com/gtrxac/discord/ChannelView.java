@@ -56,8 +56,15 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     public void getMessages() throws Exception {
-        if (s.isDM) setTitle("@" + s.selectedDmChannel.name);
-        else setTitle("#" + s.selectedChannel.name);
+        if (s.isDM) {
+            if (s.selectedDmChannel.isGroup) {
+                setTitle(s.selectedDmChannel.name);
+            } else {
+                setTitle("@" + s.selectedDmChannel.name);
+            }
+        } else {
+            setTitle("#" + s.selectedChannel.name);
+        }
 
         if (page > 0) setTitle(getTitle() + " (old)");
 
