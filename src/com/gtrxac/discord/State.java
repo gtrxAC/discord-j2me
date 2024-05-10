@@ -22,6 +22,7 @@ public class State {
 	Font messageFont;
 
 	HTTPThing http;
+	GatewayThread gateway;
 
 	Vector guilds;
 	Guild selectedGuild;
@@ -98,13 +99,13 @@ public class State {
 			if (oldUI) {
 				if (reload || oldChannelView == null) {
 					oldChannelView = new OldChannelView(this);
-					disp.setCurrent(oldChannelView);
 				}
+				disp.setCurrent(oldChannelView);
 			} else {
 				if (reload || channelView == null) {
 					channelView = new ChannelView(this);
-					disp.setCurrent(channelView);
 				}
+				disp.setCurrent(channelView);
 			}
 		}
 		catch (Exception e) {

@@ -113,6 +113,8 @@ public class LoginForm extends Form implements CommandListener {
             s.loadFonts();
             s.http = new HTTPThing(api, token);
             s.openGuildSelector(true);
+            s.gateway = new GatewayThread(s, gateway, token);
+            s.gateway.start();
         }
     }
 }

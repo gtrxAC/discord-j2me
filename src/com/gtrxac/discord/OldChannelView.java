@@ -40,31 +40,35 @@ public class OldChannelView extends Form implements CommandListener {
     public void getMessages() {
         try {
             Message.fetchMessages(s, before, after);
-            deleteAll();
-
-            for (int i = 0; i < s.messages.size(); i++) {
-                Message msg = (Message) s.messages.elementAt(i);
-                StringItem msgItem = new StringItem(
-                    msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : ""),
-                    msg.content
-                );
-                msgItem.setFont(s.messageFont);
-                msgItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
-                append(msgItem);
-            }
-
-            if (s.messages.size() > 0 && page > 0) addCommand(newerCommand);
-            else removeCommand(newerCommand);
-
-            if (s.messages.size() == 0) {
-                append("Nothing to see here");
-                removeCommand(olderCommand);
-            } else {
-                addCommand(olderCommand);
-            }
+            update();
         }
         catch (Exception e) {
             s.error(e.toString());
+        }
+    }
+
+    public void update() {
+        deleteAll();
+        
+        for (int i = 0; i < s.messages.size(); i++) {
+            Message msg = (Message) s.messages.elementAt(i);
+            StringItem msgItem = new StringItem(
+                msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : ""),
+                msg.content
+            );
+            msgItem.setFont(s.messageFont);
+            msgItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
+            append(msgItem);
+        }
+
+        if (s.messages.size() > 0 && page > 0) addCommand(newerCommand);
+        else removeCommand(newerCommand);
+
+        if (s.messages.size() == 0) {
+            append("Nothing to see here");
+            removeCommand(olderCommand);
+        } else {
+            addCommand(olderCommand);
         }
     }
 

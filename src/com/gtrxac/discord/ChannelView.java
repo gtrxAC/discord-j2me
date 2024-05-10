@@ -20,6 +20,7 @@ public class ChannelView extends Canvas implements CommandListener {
     String before;
     String after;
 
+    boolean outdated;
     int scroll;
     int maxScroll;
     int pressY;
@@ -55,22 +56,8 @@ public class ChannelView extends Canvas implements CommandListener {
         getMessages();
     }
 
-    public void getMessages() throws Exception {
-        if (s.isDM) {
-            if (s.selectedDmChannel.isGroup) {
-                setTitle(s.selectedDmChannel.name);
-            } else {
-                setTitle("@" + s.selectedDmChannel.name);
-            }
-        } else {
-            setTitle("#" + s.selectedChannel.name);
-        }
-
-        if (page > 0) setTitle(getTitle() + " (old)");
-
+    public void update() {
         maxScroll = 0;
-        Message.fetchMessages(s, before, after);
-
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
             msg.contentLines = WordWrap.getStringArray(msg.content, getWidth(), s.messageFont);
@@ -90,6 +77,23 @@ public class ChannelView extends Canvas implements CommandListener {
         scroll = (after != null) ? 0 : maxScroll;
 
         repaint();
+    }
+
+    public void getMessages() throws Exception {
+        if (s.isDM) {
+            if (s.selectedDmChannel.isGroup) {
+                setTitle(s.selectedDmChannel.name);
+            } else {
+                setTitle("@" + s.selectedDmChannel.name);
+            }
+        } else {
+            setTitle("#" + s.selectedChannel.name);
+        }
+
+        if (page > 0) setTitle(getTitle() + " (old)");
+
+        Message.fetchMessages(s, before, after);
+        update();
     }
 
     /**
@@ -151,6 +155,18 @@ public class ChannelView extends Canvas implements CommandListener {
                 drawMessage(g, msg, y);
             }
             y += msgHeight;
+        }
+
+        if (outdated) {
+            g.setFont(s.messageFont);
+            String[] lines = WordWrap.getStringArray("Refresh to read new messages", getWidth(), s.messageFont);
+            g.setColor(0x00AA1122);
+            g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + 2);
+
+            g.setColor(0x00FFFFFF);
+            for (int i = 0; i < lines.length; i++) {
+                g.drawString(lines[i], getWidth()/2, i*messageFontHeight + 1, Graphics.TOP|Graphics.HCENTER);
+            }
         }
     }
     
