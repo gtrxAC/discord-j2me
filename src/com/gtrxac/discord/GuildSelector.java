@@ -5,6 +5,7 @@ import cc.nnproject.json.*;
 
 public class GuildSelector extends List implements CommandListener {
     State s;
+
     private Command backCommand;
     private Command refreshCommand;
     private Command dmCommand;
@@ -15,16 +16,26 @@ public class GuildSelector extends List implements CommandListener {
         setCommandListener(this);
         this.s = s;
 
-        Guild.fetchGuilds(s);
-        for (int i = 0; i < s.guilds.size(); i++) {
-            append(((Guild) s.guilds.elementAt(i)).name, null);
-        }
-
         backCommand = new Command("Back", Command.BACK, 0);
         refreshCommand = new Command("Refresh", Command.ITEM, 1);
         dmCommand = new Command("Direct messages", Command.ITEM, 2);
         settingsCommand = new Command("Settings", Command.ITEM, 3);
         addCommand(backCommand);
+
+        append("Loading", null);
+
+        HTTPThread t = new HTTPThread(s);
+        t.action = HTTPThread.FETCH_GUILDS;
+        t.start();
+    }
+
+    public void load() {
+        delete(0);
+
+        for (int i = 0; i < s.guilds.size(); i++) {
+            append(((Guild) s.guilds.elementAt(i)).name, null);
+        }
+
         addCommand(refreshCommand);
         addCommand(dmCommand);
         addCommand(settingsCommand);
