@@ -16,7 +16,7 @@ public class SettingsForm extends Form implements CommandListener {
     private Command cancelCommand;
 
     public SettingsForm(State s) {
-        super("Log in");
+        super("Settings");
         setCommandListener(this); 
         this.s = s;
 

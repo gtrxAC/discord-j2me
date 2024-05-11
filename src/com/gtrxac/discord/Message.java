@@ -56,12 +56,15 @@ public class Message {
         String messageDay = messageDate.toString().substring(0, 10);
         String currentDay = new Date().toString().substring(0, 10);
 
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(messageDate);
+        StringBuffer time = new StringBuffer();
+
         if (currentDay.equals(messageDay)) {
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            int minute = cal.get(Calendar.MINUTE);
+
             if (s.use12hTime) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(messageDate);
-                int hour = cal.get(Calendar.HOUR_OF_DAY);
-                int minute = cal.get(Calendar.MINUTE);
                 String period = hour < 12 ? "A" : "P";
 
                 // Convert hours to 12-hour format
@@ -70,19 +73,27 @@ public class Message {
                     hour = 12; // 12 AM or 12 PM
                 }
 
-                StringBuffer time = new StringBuffer();
                 time.append(hour);
                 time.append(":");
                 if (minute < 10) time.append("0");
                 time.append(minute);
                 time.append(period);
-                timestamp = time.toString();
             } else {
-                timestamp = messageDate.toString().substring(11, 16);  // hh:mm
+                time.append(hour);
+                time.append(":");
+                if (minute < 10) time.append("0");
+                time.append(minute);
             }
         } else {
-            timestamp = messageDate.toString().substring(4, 10);  // Mon dd (e.g. Jan 01)
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            if (day < 10) time.append("0");
+            time.append(day);
+            time.append("/");
+            int month = cal.get(Calendar.MONTH) + 1;
+            if (month < 10) time.append("0");
+            time.append(month);
         }
+        timestamp = time.toString();
 
         if (content.length() == 0) content = "(no content)";
     }
