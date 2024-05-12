@@ -1,6 +1,7 @@
 .vscode/
 sdk/
 classes/
+node_modules/
 *.jad
 *.jar
 *.map

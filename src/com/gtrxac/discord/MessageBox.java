@@ -26,8 +26,7 @@ public class MessageBox extends TextBox implements CommandListener {
         if (c == sendCommand) {
             try {
                 Message.send(s, getString());
-                // no reload because gateway event will show the newly sent message
-                s.openChannelView(false);
+                s.openChannelView(true);
             }
             catch (Exception e) {
                 e.printStackTrace();

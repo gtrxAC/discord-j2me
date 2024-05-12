@@ -8,6 +8,7 @@ public class LoginForm extends Form implements CommandListener {
     private RecordStore loginRms;
 
     private TextField apiField;
+    private ChoiceGroup gatewayGroup;
     private TextField gatewayField;
     private TextField tokenField;
     private Command nextCommand;
@@ -18,7 +19,7 @@ public class LoginForm extends Form implements CommandListener {
         this.s = s;
 
         String initialApi = "http://dsc.uwmpr.online";
-        String initialGateway = "socket://uwmpr.online:8080";
+        String initialGateway = "socket://uwmpr.online:8081";
         String initialToken = "";
         
         if (RecordStore.listRecordStores() != null) {
@@ -52,6 +53,11 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.messageLoadCount = 20;
                 }
+                if (loginRms.getNumRecords() >= 10) {
+                    s.useGateway = loginRms.getRecord(10)[0] != 0;
+                } else {
+                    s.useGateway = true;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -71,8 +77,14 @@ public class LoginForm extends Form implements CommandListener {
         tokenField = new TextField("Token", initialToken, 200, TextField.NON_PREDICTIVE);
         nextCommand = new Command("Log in", Command.OK, 0);
 
+        String[] gatewayChoices = {"Use gateway"};
+        Image[] gatewayImages = {null};
+        gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, gatewayImages);
+        gatewayGroup.setSelectedIndex(0, s.useGateway);
+
         append(new StringItem(null, "Only use proxies that you trust!"));
         append(apiField);
+        append(gatewayGroup);
         append(gatewayField);
         append(new StringItem(null, "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended."));
         append(tokenField);
@@ -84,6 +96,11 @@ public class LoginForm extends Form implements CommandListener {
             String api = apiField.getString();
             String gateway = gatewayField.getString();
             String token = tokenField.getString();
+
+            boolean[] selected = {false};
+            gatewayGroup.getSelectedFlags(selected);
+            s.useGateway = selected[0];
+            byte[] useGatewayRecord = {new Integer(s.useGateway ? 1 : 0).byteValue()};
             
             try {
                 loginRms = RecordStore.openRecordStore("login", true);
@@ -104,6 +121,18 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     loginRms.addRecord(gateway.getBytes(), 0, gateway.length());
                 }
+                if (loginRms.getNumRecords() < 9) {
+                    byte[] zeroByte = {0};
+                    loginRms.addRecord(zeroByte, 0, 1);
+                    loginRms.addRecord(zeroByte, 0, 1);
+                    loginRms.addRecord(zeroByte, 0, 1);
+                    loginRms.addRecord(zeroByte, 0, 1);
+                }
+                if (loginRms.getNumRecords() >= 10) {
+                    loginRms.setRecord(10, useGatewayRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(useGatewayRecord, 0, 1);
+                }
                 loginRms.closeRecordStore();
             }
             catch (Exception e) {
@@ -113,8 +142,11 @@ public class LoginForm extends Form implements CommandListener {
             s.loadFonts();
             s.http = new HTTPThing(api, token);
             s.openGuildSelector(true);
-            s.gateway = new GatewayThread(s, gateway, token);
-            s.gateway.start();
+
+            if (s.useGateway) {
+                s.gateway = new GatewayThread(s, gateway, token);
+                s.gateway.start();
+            }
         }
     }
 }

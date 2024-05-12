@@ -11,6 +11,7 @@ public class GatewayThread extends Thread {
     State s;
     String gateway;
     String token;
+    boolean stop;
 
     HeartbeatThread hbThread;
 
@@ -44,6 +45,17 @@ public class GatewayThread extends Thread {
             try {
                 // Get message
                 while (true) {
+                    if (stop) {
+                        hbThread.stop = true;
+                        try {
+                            if (is != null) is.close();
+                            if (os != null) os.close();
+                            if (sc != null) sc.close();
+                        }
+                        catch (Exception ee) {}
+                        return;
+                    }
+
                     int ch = is.read();
                     if (ch == '\n' || ch == -1) {
                         if (sb.length() > 0) {
@@ -108,7 +120,10 @@ public class GatewayThread extends Thread {
                             s.messages.insertElementAt(new Message(s, msgData), 0);
 
                             // Remove the oldest message in the message list so it doesn't break pagination
-                            s.messages.removeElementAt(s.messages.size() - 1);
+                            // Except for channels that have less messages than the full page capacity
+                            if (s.messages.size() > s.messageLoadCount) {
+                                s.messages.removeElementAt(s.messages.size() - 1);
+                            }
                         }
 
                         // Redraw the message list
