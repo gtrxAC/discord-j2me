@@ -8,6 +8,7 @@ public class LoginForm extends Form implements CommandListener {
     private RecordStore loginRms;
 
     private TextField apiField;
+    private ChoiceGroup wifiGroup;
     private ChoiceGroup gatewayGroup;
     private TextField gatewayField;
     private TextField tokenField;
@@ -18,7 +19,7 @@ public class LoginForm extends Form implements CommandListener {
         setCommandListener(this); 
         this.s = s;
 
-        String initialApi = "http://dsc.uwmpr.online";
+        String initialApi = "http://dscjava.uwmpr.online";
         String initialGateway = "socket://uwmpr.online:8081";
         String initialToken = "";
         
@@ -58,6 +59,11 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.useGateway = true;
                 }
+                if (loginRms.getNumRecords() >= 11) {
+                    s.bbWifi = loginRms.getRecord(11)[0] != 0;
+                } else {
+                    s.bbWifi = true;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -70,6 +76,14 @@ public class LoginForm extends Form implements CommandListener {
                     e.printStackTrace();
                 }
             }
+        }
+
+        if (State.isBlackBerry()) {
+            String[] wifiChoices = {"Use Wi-Fi"};
+            Image[] wifiImages = {null};
+            wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, wifiImages);
+            wifiGroup.setSelectedIndex(0, s.bbWifi);
+            append(wifiGroup);
         }
 
         apiField = new TextField("API URL", initialApi, 200, 0);
@@ -101,6 +115,12 @@ public class LoginForm extends Form implements CommandListener {
             gatewayGroup.getSelectedFlags(selected);
             s.useGateway = selected[0];
             byte[] useGatewayRecord = {new Integer(s.useGateway ? 1 : 0).byteValue()};
+
+            if (State.isBlackBerry()) {
+                wifiGroup.getSelectedFlags(selected);
+                s.bbWifi = selected[0];
+            }
+            byte[] bbWifiRecord = {new Integer(s.bbWifi ? 1 : 0).byteValue()};
             
             try {
                 loginRms = RecordStore.openRecordStore("login", true);
@@ -123,15 +143,21 @@ public class LoginForm extends Form implements CommandListener {
                 }
                 if (loginRms.getNumRecords() < 9) {
                     byte[] zeroByte = {0};
+                    byte[] defaultMsgCount = {20};
                     loginRms.addRecord(zeroByte, 0, 1);
                     loginRms.addRecord(zeroByte, 0, 1);
                     loginRms.addRecord(zeroByte, 0, 1);
-                    loginRms.addRecord(zeroByte, 0, 1);
+                    loginRms.addRecord(defaultMsgCount, 0, 1);
                 }
                 if (loginRms.getNumRecords() >= 10) {
                     loginRms.setRecord(10, useGatewayRecord, 0, 1);
                 } else {
                     loginRms.addRecord(useGatewayRecord, 0, 1);
+                }
+                if (loginRms.getNumRecords() >= 11) {
+                    loginRms.setRecord(11, bbWifiRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(bbWifiRecord, 0, 1);
                 }
                 loginRms.closeRecordStore();
             }
@@ -140,7 +166,7 @@ public class LoginForm extends Form implements CommandListener {
             }
 
             s.loadFonts();
-            s.http = new HTTPThing(api, token);
+            s.http = new HTTPThing(s, api, token);
             s.openGuildSelector(true);
 
             if (s.useGateway) {

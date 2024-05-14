@@ -14,6 +14,7 @@ public class State {
 	boolean oldUI;
 	boolean use12hTime;
 	boolean useGateway;
+	boolean bbWifi;
 	int messageLoadCount;
 
 	int authorFontSize;
@@ -57,6 +58,21 @@ public class State {
 		authorFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[authorFontSize]);
 		timestampFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[authorFontSize]);
 		messageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[messageFontSize]);
+	}
+
+	public static boolean isBlackBerry() {
+		String p = System.getProperty("microedition.platform");
+		if (p == null) p = "";
+		return p.toLowerCase().startsWith("blackberry");
+	}
+
+	// Required for Wi-Fi support on BlackBerry
+	// See https://github.com/shinovon/JTube/blob/670ea59a94d6b5be8af53d94d7804b2d35b64e52/src/jtube/Util.java#L521
+	public String getPlatformSpecificUrl(String url) {
+		if(isBlackBerry() && bbWifi) {
+			return url + ";deviceside=true;interface=wifi";
+		}
+		return url;
 	}
 
 	public void openGuildSelector(boolean reload) {

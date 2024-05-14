@@ -5,16 +5,20 @@ import javax.microedition.io.*;
 import cc.nnproject.json.*;
 
 public class HTTPThing {
+    State s;
     String api;
     String token;
 
-	public HTTPThing(String api, String token) {
+	public HTTPThing(State s, String api, String token) {
+        this.s = s;
         this.api = api;
 		this.token = token;
 	}
 
     public HttpConnection openConnection(String url) throws IOException {
-        HttpConnection c = (HttpConnection)Connector.open(api + "/api/v9" + url);
+        String fullUrl = s.getPlatformSpecificUrl(api + "/api/v9" + url);
+
+        HttpConnection c = (HttpConnection)Connector.open(fullUrl);
 
         c.setRequestProperty("Content-Type", "application/json");
         c.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");

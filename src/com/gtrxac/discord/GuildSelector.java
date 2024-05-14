@@ -43,7 +43,7 @@ public class GuildSelector extends List implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.gateway.stop = true;
+            if (s.gateway != null) s.gateway.stop = true;
             s.disp.setCurrent(new LoginForm(s));
         }
         if (c == refreshCommand) {

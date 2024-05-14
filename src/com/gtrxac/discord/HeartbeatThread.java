@@ -45,7 +45,7 @@ public class HeartbeatThread extends Thread {
             }
         }
         catch (Exception e) {
-            s.error(e.toString());
+            s.error("Heartbeat thread error: " + e.toString());
         }
     }
 }

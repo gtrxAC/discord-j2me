@@ -21,7 +21,7 @@ public class GatewayThread extends Thread {
 
     public GatewayThread(State s, String gateway, String token) {
         this.s = s;
-        this.gateway = gateway;
+        this.gateway = s.getPlatformSpecificUrl(gateway);
         this.token = token;
     }
 
@@ -32,17 +32,11 @@ public class GatewayThread extends Thread {
 
             is = sc.openInputStream();
             os = sc.openOutputStream();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            s.error("Gateway connection error: " + e.toString());
-        }
+            
+            StringBuffer sb = new StringBuffer();
+            String msgStr;
 
-        StringBuffer sb = new StringBuffer();
-        String msgStr;
-
-        while (true) {
-            try {
+            while (true) {
                 // Get message
                 while (true) {
                     if (stop) {
@@ -176,19 +170,18 @@ public class GatewayThread extends Thread {
                     os.write("\n".getBytes());
                 }
             }
-            catch (Exception e) {
-                e.printStackTrace();
-                s.error("Gateway error: " + e.toString());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            s.error("Gateway error: " + e.toString());
 
-                hbThread.stop = true;
-                try {
-                    if (is != null) is.close();
-                    if (os != null) os.close();
-                    if (sc != null) sc.close();
-                }
-                catch (Exception ee) {}
-                break;
+            if (hbThread != null) hbThread.stop = true;
+            try {
+                if (is != null) is.close();
+                if (os != null) os.close();
+                if (sc != null) sc.close();
             }
+            catch (Exception ee) {}
         }
     }
 }
