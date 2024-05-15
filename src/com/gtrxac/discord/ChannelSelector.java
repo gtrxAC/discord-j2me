@@ -13,7 +13,6 @@ public class ChannelSelector extends List implements CommandListener {
         setCommandListener(this);
         this.s = s;
 
-        Channel.fetchChannels(s);
         for (int i = 0; i < s.channels.size(); i++) {
             append("#" + ((Channel) s.channels.elementAt(i)).name, null);
         }

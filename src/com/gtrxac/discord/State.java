@@ -37,6 +37,7 @@ public class State {
 	Vector messages;
 	ChannelView channelView;
 	OldChannelView oldChannelView;
+	String sendMessage;
 
 	boolean isDM;
 	Vector dmChannels;
@@ -48,6 +49,7 @@ public class State {
 
 	public void error(String message) {
 		Alert error = new Alert("Error");
+		error.setTimeout(Alert.FOREVER);
 		error.setString(message);
 		disp.setCurrent(error);
 	}
@@ -77,10 +79,11 @@ public class State {
 
 	public void openGuildSelector(boolean reload) {
 		try {
-			if (reload || guildSelector == null) {
-				guildSelector = new GuildSelector(this);
+			if (reload || guildSelector == null || guilds == null) {
+				new HTTPThread(this, HTTPThread.FETCH_GUILDS).start();
+			} else {
+				disp.setCurrent(guildSelector);
 			}
-			disp.setCurrent(guildSelector);
 		}
 		catch (Exception e) {
 			error(e.toString());
@@ -89,10 +92,11 @@ public class State {
 
 	public void openChannelSelector(boolean reload) {
 		try {
-			if (reload || channelSelector == null) {
-				channelSelector = new ChannelSelector(this);
+			if (reload || channelSelector == null || channels == null) {
+				new HTTPThread(this, HTTPThread.FETCH_CHANNELS).start();
+			} else {
+				disp.setCurrent(channelSelector);
 			}
-			disp.setCurrent(channelSelector);
 		}
 		catch (Exception e) {
 			error(e.toString());
@@ -101,10 +105,11 @@ public class State {
 
 	public void openDMSelector(boolean reload) {
 		try {
-			if (reload || dmSelector == null) {
-				dmSelector = new DMSelector(this);
+			if (reload || dmSelector == null || dmChannels == null) {
+				new HTTPThread(this, HTTPThread.FETCH_DM_CHANNELS).start();
+			} else {
+				disp.setCurrent(dmSelector);
 			}
-			disp.setCurrent(dmSelector);
 		}
 		catch (Exception e) {
 			error(e.toString());
@@ -114,15 +119,17 @@ public class State {
 	public void openChannelView(boolean reload) {
 		try {
 			if (oldUI) {
-				if (reload || oldChannelView == null) {
-					oldChannelView = new OldChannelView(this);
+				if (reload || oldChannelView == null || messages == null) {
+					new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
+				} else {
+					disp.setCurrent(oldChannelView);
 				}
-				disp.setCurrent(oldChannelView);
 			} else {
-				if (reload || channelView == null) {
-					channelView = new ChannelView(this);
+				if (reload || channelView == null || messages == null) {
+					new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
+				} else {
+					disp.setCurrent(channelView);
 				}
-				disp.setCurrent(channelView);
 			}
 		}
 		catch (Exception e) {

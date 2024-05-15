@@ -5,6 +5,7 @@ import cc.nnproject.json.*;
 
 public class OldChannelView extends Form implements CommandListener {
     State s;
+
     private Command backCommand;
     private Command sendCommand;
     private Command refreshCommand;
@@ -29,18 +30,19 @@ public class OldChannelView extends Form implements CommandListener {
         refreshCommand = new Command("Refresh", Command.ITEM, 1);
         olderCommand = new Command("Older", "View older messages", Command.ITEM, 2);
         newerCommand = new Command("Newer", "View newer messages", Command.ITEM, 3);
-
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
 
-        getMessages();
+        update();
     }
 
     public void getMessages() {
         try {
-            Message.fetchMessages(s, before, after);
-            update();
+            HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_MESSAGES);
+            h.fetchMsgsBefore = before;
+            h.fetchMsgsAfter = after;
+            h.start();
         }
         catch (Exception e) {
             s.error(e.toString());
@@ -87,23 +89,13 @@ public class OldChannelView extends Form implements CommandListener {
             page++;
             after = null;
             before = ((Message) s.messages.elementAt(s.messages.size() - 1)).id;
-            try {
-                getMessages();
-            }
-            catch (Exception e) {
-                s.error(e.toString());
-            }
+            getMessages();
         }
         if (c == newerCommand) {
             page--;
             before = null;
             after = ((Message) s.messages.elementAt(0)).id;
-            try {
-                getMessages();
-            }
-            catch (Exception e) {
-                s.error(e.toString());
-            }
+            getMessages();
         }
     }
 }

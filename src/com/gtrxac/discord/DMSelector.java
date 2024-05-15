@@ -18,7 +18,6 @@ public class DMSelector extends List implements CommandListener {
         this.s = s;
 
         // Get the 20 latest DMs (add into another vector sorted by highest to lowest last message ID)
-        DMChannel.fetchDMChannels(s);
         int count = 20;
         if (s.dmChannels.size() < 20) count = s.dmChannels.size();
         lastDMs = new Vector(count);

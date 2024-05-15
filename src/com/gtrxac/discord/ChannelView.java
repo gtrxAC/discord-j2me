@@ -52,11 +52,22 @@ public class ChannelView extends Canvas implements CommandListener {
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
-
-        getMessages();
+        update();
     }
 
     public void update() {
+        if (s.isDM) {
+            if (s.selectedDmChannel.isGroup) {
+                setTitle(s.selectedDmChannel.name);
+            } else {
+                setTitle("@" + s.selectedDmChannel.name);
+            }
+        } else {
+            setTitle("#" + s.selectedChannel.name);
+        }
+
+        if (page > 0) setTitle(getTitle() + " (old)");
+        
         maxScroll = 0;
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
@@ -80,20 +91,10 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     public void getMessages() throws Exception {
-        if (s.isDM) {
-            if (s.selectedDmChannel.isGroup) {
-                setTitle(s.selectedDmChannel.name);
-            } else {
-                setTitle("@" + s.selectedDmChannel.name);
-            }
-        } else {
-            setTitle("#" + s.selectedChannel.name);
-        }
-
-        if (page > 0) setTitle(getTitle() + " (old)");
-
-        Message.fetchMessages(s, before, after);
-        update();
+        HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_MESSAGES);
+        h.fetchMsgsBefore = before;
+        h.fetchMsgsAfter = after;
+        h.start();
     }
 
     /**

@@ -25,8 +25,8 @@ public class MessageBox extends TextBox implements CommandListener {
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
             try {
-                Message.send(s, getString());
-                s.openChannelView(true);
+                s.sendMessage = getString();
+                new HTTPThread(s, HTTPThread.SEND_MESSAGE).start();
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -34,7 +34,8 @@ public class MessageBox extends TextBox implements CommandListener {
             }
         }
         if (c == backCommand) {
-            s.disp.setCurrent(s.channelView);
+            if (s.oldUI) s.disp.setCurrent(s.oldChannelView);
+            else s.disp.setCurrent(s.channelView);
         }
     }
 }
