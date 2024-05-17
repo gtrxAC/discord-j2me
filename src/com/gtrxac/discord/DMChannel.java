@@ -10,8 +10,14 @@ public class DMChannel {
 
     public DMChannel(JSONObject data) {
         id = data.getString("id");
-        lastMessageID = Long.parseLong(data.getString("last_message_id"));
         isGroup = data.getInt("type") == 3;
+        
+        try {
+            lastMessageID = Long.parseLong(data.getString("last_message_id"));
+        }
+        catch (Exception e) {
+            lastMessageID = 0L;
+        }
 
         if (isGroup) {
             name = data.getString("name");
