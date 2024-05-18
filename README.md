@@ -1,7 +1,7 @@
 # Discord for J2ME
 Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian](https://github.com/uwmpr/discord-symbian-fixed). Uses a [proxy server](https://github.com/uwmpr/discord-symbian-fixed/blob/master/dscproxysetup.md) (dsc.uwmpr.online is the default).
 
-![Screenshots](img/screenshots.jpg)
+![Screenshots](img/screenshots.png)
 
 * [Download](https://github.com/gtrxAC/discord-j2me/releases/latest)
 * [FAQ](https://github.com/gtrxAC/discord-j2me/wiki/FAQ)
