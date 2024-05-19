@@ -51,6 +51,7 @@ public class LoginForm extends Form implements CommandListener {
                 }
                 if (loginRms.getNumRecords() >= 9) {
                     s.messageLoadCount = loginRms.getRecord(9)[0];
+                    if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
                 } else {
                     s.messageLoadCount = 20;
                 }
@@ -77,6 +78,7 @@ public class LoginForm extends Form implements CommandListener {
                 }
             }
         }
+        else s.messageLoadCount = 20;
 
         if (State.isBlackBerry()) {
             String[] wifiChoices = {"Use Wi-Fi"};
@@ -167,7 +169,7 @@ public class LoginForm extends Form implements CommandListener {
 
             s.loadFonts();
             s.http = new HTTPThing(s, api, token);
-            s.openGuildSelector(true);
+            s.disp.setCurrent(new MainMenu(s));
 
             if (s.useGateway) {
                 s.gateway = new GatewayThread(s, gateway, token);

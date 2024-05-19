@@ -47,11 +47,19 @@ public class State {
 	public State() {
 	}
 
-	public void error(String message) {
+	private Alert createError(String message) {
 		Alert error = new Alert("Error");
 		error.setTimeout(Alert.FOREVER);
 		error.setString(message);
-		disp.setCurrent(error);
+		return error;
+	}
+
+	public void error(String message) {
+		disp.setCurrent(createError(message));
+	}
+
+	public void error(String message, Displayable next) {
+		disp.setCurrent(createError(message), next);
 	}
 
 	public void loadFonts() {

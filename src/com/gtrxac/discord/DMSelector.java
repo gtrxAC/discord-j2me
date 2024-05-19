@@ -61,7 +61,7 @@ public class DMSelector extends List implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.openGuildSelector(false);
+            s.disp.setCurrent(new MainMenu(s));
         }
         if (c == searchCommand) {
             s.disp.setCurrent(new DMSearchForm(s));

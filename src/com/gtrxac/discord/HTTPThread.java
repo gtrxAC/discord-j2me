@@ -1,7 +1,7 @@
 package com.gtrxac.discord;
 
 import java.util.Vector;
-
+import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class HTTPThread extends Thread {
@@ -24,6 +24,7 @@ public class HTTPThread extends Thread {
     }
 
     public void run() {
+        Displayable prevScreen = s.disp.getCurrent();
         s.disp.setCurrent(new LoadingScreen());
         try {
             switch (action) {
@@ -130,7 +131,7 @@ public class HTTPThread extends Thread {
             }
         }
         catch (Exception e) {
-            s.error(e.toString());
+            s.error(e.toString(), prevScreen);
         }
     }
 }

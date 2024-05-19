@@ -52,6 +52,18 @@ public class Message {
         }
         catch (Exception e) {}
 
+        try {
+            JSONArray embeds = data.getArray("embeds");
+            if (embeds.size() >= 1) {
+                String title = embeds.getObject(0).getString("title");
+                if (title != null) {
+                    if (content.length() > 0) content += "\n";
+                    content += "(embed: " + title + ")";
+                }
+            }
+        }
+        catch (Exception e) {}
+
         Date messageDate = new Date((Long.parseLong(id) >> 22) + State.DISCORD_EPOCH);
         String messageDay = messageDate.toString().substring(0, 10);
         String currentDay = new Date().toString().substring(0, 10);

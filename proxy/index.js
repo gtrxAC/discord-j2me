@@ -11,7 +11,8 @@ const DEST_BASE = "https://discord.com/api/v9";
 
 // ID -> username mapping cache (used for parsing mentions)
 const userCache = new Map();
-const USER_CACHE_SIZE = 10000;
+const channelCache = new Map();
+const CACHE_SIZE = 10000;
 
 function handleError(res, e) {
     if (e.response) {
@@ -54,6 +55,17 @@ app.get(`${BASE}/guilds/:guild/channels`, async (req, res) => {
             `${DEST_BASE}/guilds/${req.params.guild}/channels`,
             {headers: req.headers}
         )
+
+        // Populate channel name cache
+        response.data.forEach(ch => {
+            channelCache.set(ch.id, ch.name);
+
+            // If max size exceeded, remove the oldest item
+            if (channelCache.size > CACHE_SIZE) {
+                channelCache.delete(channelCache.keys().next().value);
+            }
+        })
+
         const channels = response.data
             .filter(ch => ch.type == 0 || ch.type == 5)
             .map(ch => {
@@ -118,7 +130,7 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
             userCache.set(msg.author.id, msg.author.username);
 
             // If max size exceeded, remove the oldest item
-            if (userCache.size > USER_CACHE_SIZE) {
+            if (userCache.size > CACHE_SIZE) {
                 userCache.delete(userCache.keys().next().value);
             }
         })
@@ -138,6 +150,11 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
                     // try to convert <@12345...> format into @username
                     .replace(/<@(\d{15,})>/gm, (mention, id) => {
                         if (userCache.has(id)) return `@${userCache.get(id)}`;
+                        else return mention;
+                    })
+                    // try to convert <#12345...> format into #channelname
+                    .replace(/<#(\d{15,})>/gm, (mention, id) => {
+                        if (channelCache.has(id)) return `#${channelCache.get(id)}`;
                         else return mention;
                     })
                     // replace <:name:12345...> emoji format with :name:
@@ -162,6 +179,9 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
             }
             if (msg.sticker_items?.length) {
                 result.sticker_items = [{name: msg.sticker_items[0].name}];
+            }
+            if (msg.embeds?.length && msg.embeds[0].title) {
+                result.embeds = [{title: msg.embeds[0].title}];
             }
 
             return result;

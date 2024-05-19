@@ -120,6 +120,6 @@ public class SettingsForm extends Form implements CommandListener {
             }
         }
         s.loadFonts();
-        s.openGuildSelector(false);
+        s.disp.setCurrent(new MainMenu(s));
     }
 }
