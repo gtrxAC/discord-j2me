@@ -9,8 +9,6 @@ public class LoginForm extends Form implements CommandListener {
 
     private TextField apiField;
     private ChoiceGroup wifiGroup;
-    private ChoiceGroup gatewayGroup;
-    private TextField gatewayField;
     private TextField tokenField;
     private Command nextCommand;
 
@@ -20,7 +18,6 @@ public class LoginForm extends Form implements CommandListener {
         this.s = s;
 
         String initialApi = "http://dscjava.uwmpr.online";
-        String initialGateway = "socket://uwmpr.online:8081";
         String initialToken = "";
         
         if (RecordStore.listRecordStores() != null) {
@@ -38,10 +35,6 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() >= 4) {
                     s.oldUI = loginRms.getRecord(4)[0] != 0;
                 }
-                if (loginRms.getNumRecords() >= 5) {
-                    String savedGateway = new String(loginRms.getRecord(5));
-                    if (savedGateway.length() > 0) initialGateway = savedGateway;
-                }
                 if (loginRms.getNumRecords() >= 7) {
                     s.authorFontSize = loginRms.getRecord(6)[0];
                     s.messageFontSize = loginRms.getRecord(7)[0];
@@ -54,11 +47,6 @@ public class LoginForm extends Form implements CommandListener {
                     if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
                 } else {
                     s.messageLoadCount = 20;
-                }
-                if (loginRms.getNumRecords() >= 10) {
-                    s.useGateway = loginRms.getRecord(10)[0] != 0;
-                } else {
-                    s.useGateway = true;
                 }
                 if (loginRms.getNumRecords() >= 11) {
                     s.bbWifi = loginRms.getRecord(11)[0] != 0;
@@ -89,19 +77,11 @@ public class LoginForm extends Form implements CommandListener {
         }
 
         apiField = new TextField("API URL", initialApi, 200, 0);
-        gatewayField = new TextField("Gateway URL", initialGateway, 200, 0);
-        tokenField = new TextField("Token", initialToken, 200, TextField.NON_PREDICTIVE);
+        tokenField = new TextField("Token", initialToken, 200, 0);
         nextCommand = new Command("Log in", Command.OK, 0);
-
-        String[] gatewayChoices = {"Use gateway"};
-        Image[] gatewayImages = {null};
-        gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, gatewayImages);
-        gatewayGroup.setSelectedIndex(0, s.useGateway);
 
         append(new StringItem(null, "Only use proxies that you trust!"));
         append(apiField);
-        append(gatewayGroup);
-        append(gatewayField);
         append(new StringItem(null, "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended."));
         append(tokenField);
         addCommand(nextCommand);
@@ -110,13 +90,11 @@ public class LoginForm extends Form implements CommandListener {
     public void commandAction(Command c, Displayable d) {
         if (c == nextCommand) {
             String api = apiField.getString();
-            String gateway = gatewayField.getString();
+            String gateway = "-";
             String token = tokenField.getString();
 
             boolean[] selected = {false};
-            gatewayGroup.getSelectedFlags(selected);
-            s.useGateway = selected[0];
-            byte[] useGatewayRecord = {new Integer(s.useGateway ? 1 : 0).byteValue()};
+            byte[] useGatewayRecord = {new Integer(0).byteValue()};
 
             if (State.isBlackBerry()) {
                 wifiGroup.getSelectedFlags(selected);
@@ -170,11 +148,6 @@ public class LoginForm extends Form implements CommandListener {
             s.loadFonts();
             s.http = new HTTPThing(s, api, token);
             s.disp.setCurrent(new MainMenu(s));
-
-            if (s.useGateway) {
-                s.gateway = new GatewayThread(s, gateway, token);
-                s.gateway.start();
-            }
         }
     }
 }

@@ -26,10 +26,10 @@ public class OldChannelView extends Form implements CommandListener {
         this.s = s;
 
         backCommand = new Command("Back", Command.BACK, 0);
-        sendCommand = new Command("Send", "Send message", Command.ITEM, 0);
+        sendCommand = new Command("Send", Command.ITEM, 0);
         refreshCommand = new Command("Refresh", Command.ITEM, 1);
-        olderCommand = new Command("Older", "View older messages", Command.ITEM, 2);
-        newerCommand = new Command("Newer", "View newer messages", Command.ITEM, 3);
+        olderCommand = new Command("Older", Command.ITEM, 2);
+        newerCommand = new Command("Newer", Command.ITEM, 3);
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
@@ -50,7 +50,7 @@ public class OldChannelView extends Form implements CommandListener {
     }
 
     public void update() {
-        deleteAll();
+        while (size() > 0) delete(0);
         
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
@@ -58,8 +58,6 @@ public class OldChannelView extends Form implements CommandListener {
                 msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : ""),
                 msg.content
             );
-            msgItem.setFont(s.messageFont);
-            msgItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
             append(msgItem);
         }
 

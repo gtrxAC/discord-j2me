@@ -13,7 +13,6 @@ public class State {
 	int theme;  // 0 = dark, 1 = light, 2 = black
 	boolean oldUI;
 	boolean use12hTime;
-	boolean useGateway;
 	boolean bbWifi;
 	int messageLoadCount;
 
@@ -24,7 +23,6 @@ public class State {
 	Font messageFont;
 
 	HTTPThing http;
-	GatewayThread gateway;
 
 	Vector guilds;
 	Guild selectedGuild;

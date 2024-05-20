@@ -9,7 +9,7 @@
 -injars  in.jar
 -outjars out.jar
 
--libraryjars sdk/midpapi20.jar
+-libraryjars sdk/midpapi10.jar
 -libraryjars sdk/cldcapi11.jar
 
 # Preverify the code suitably for Java Micro Edition.

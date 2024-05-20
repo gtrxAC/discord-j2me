@@ -44,10 +44,10 @@ public class ChannelView extends Canvas implements CommandListener {
         authorFontHeight = s.authorFont.getHeight();
 
         backCommand = new Command("Back", Command.BACK, 0);
-        sendCommand = new Command("Send", "Send message", Command.ITEM, 0);
+        sendCommand = new Command("Send", Command.ITEM, 0);
         refreshCommand = new Command("Refresh", Command.ITEM, 1);
-        olderCommand = new Command("Older", "View older messages", Command.ITEM, 2);
-        newerCommand = new Command("Newer", "View newer messages", Command.ITEM, 3);
+        olderCommand = new Command("Older", Command.ITEM, 2);
+        newerCommand = new Command("Newer", Command.ITEM, 3);
 
         addCommand(backCommand);
         addCommand(sendCommand);
@@ -56,18 +56,6 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     public void update() {
-        if (s.isDM) {
-            if (s.selectedDmChannel.isGroup) {
-                setTitle(s.selectedDmChannel.name);
-            } else {
-                setTitle("@" + s.selectedDmChannel.name);
-            }
-        } else {
-            setTitle("#" + s.selectedChannel.name);
-        }
-
-        if (page > 0) setTitle(getTitle() + " (old)");
-        
         maxScroll = 0;
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
