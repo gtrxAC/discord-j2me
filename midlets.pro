@@ -15,6 +15,8 @@
 # Preverify the code suitably for Java Micro Edition.
 
 -microedition
+-target 1.3
+-dontoptimize
 
 # Allow methods with the same signature, except for the return type,
 # to get the same obfuscation name.
@@ -32,7 +34,7 @@
 # On Windows, you can't use mixed case class names,
 # should you still want to use the preverify tool.
 #
-# -dontusemixedcaseclassnames
+-dontusemixedcaseclassnames
 
 # Save the obfuscation mapping to a file, so you can de-obfuscate any stack
 # traces later on.
