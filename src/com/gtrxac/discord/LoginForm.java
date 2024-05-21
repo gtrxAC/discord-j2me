@@ -20,7 +20,7 @@ public class LoginForm extends Form implements CommandListener {
         this.s = s;
 
         String initialApi = "http://dscjava.uwmpr.online";
-        String initialGateway = "socket://uwmpr.online:8081";
+        String initialGateway = "ssl://uwmpr.online:8081";
         String initialToken = "";
         
         if (RecordStore.listRecordStores() != null) {
