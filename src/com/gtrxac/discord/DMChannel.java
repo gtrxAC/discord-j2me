@@ -24,5 +24,6 @@ public class DMChannel {
         } else {
             name = data.getArray("recipients").getObject(0).getString("username");
         }
+        if (name == null) name = "(unknown)";
     }
 }

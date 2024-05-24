@@ -37,6 +37,7 @@ public class HeartbeatThread extends Thread {
 
                     os.write(hbMsg.build().getBytes());
                     os.write("\n".getBytes());
+                    os.flush();
                     lastHeartbeat = now;
                     // System.out.println("Sent heartbeat");
                 }

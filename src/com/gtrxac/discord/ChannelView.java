@@ -137,7 +137,10 @@ public class ChannelView extends Canvas implements CommandListener {
 
         if (s.messages.size() == 0) {
             g.setColor(timestampColors[s.theme]);
-            g.drawString("Nothing to see here", getWidth()/2, getHeight()/2, Graphics.HCENTER|Graphics.VCENTER);
+            g.drawString(
+                "Nothing to see here", getWidth()/2, getHeight()/2 - messageFontHeight/2,
+                Graphics.HCENTER|Graphics.TOP
+            );
             return;
         }
 

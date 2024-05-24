@@ -40,7 +40,7 @@ public class GatewayThread extends Thread {
                 // Get message
                 while (true) {
                     if (stop) {
-                        hbThread.stop = true;
+                        if (hbThread != null) hbThread.stop = true;
                         try {
                             if (is != null) is.close();
                             if (os != null) os.close();
@@ -93,6 +93,7 @@ public class GatewayThread extends Thread {
 
                         os.write(connMsg.build().getBytes());
                         os.write("\n".getBytes());
+                        os.flush();
                     }
                     else if (op.equals("MESSAGE_CREATE")) {
                         // Check that a channel is opened
@@ -168,6 +169,7 @@ public class GatewayThread extends Thread {
 
                     os.write(idMsg.build().getBytes());
                     os.write("\n".getBytes());
+                    os.flush();
                 }
             }
         }
