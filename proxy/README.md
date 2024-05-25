@@ -1,4 +1,4 @@
-# Discord J2ME proxy
+# HTTP proxy for Discord J2ME
 Discord API proxy which reduces data transfers by up to 90% by not sending data that the Discord J2ME client doesn't use.
 
 ## Installation

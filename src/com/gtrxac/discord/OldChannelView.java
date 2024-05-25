@@ -51,6 +51,21 @@ public class OldChannelView extends Form implements CommandListener {
 
     public void update() {
         deleteAll();
+
+        if (s.typingUsers.size() > 0) {
+            String typingStr;
+            switch (s.typingUsers.size()) {
+                case 1: typingStr = s.typingUsers.elementAt(0) + " is typing"; break;
+                case 2: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + " are typing"; break;
+                case 3: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + ", " + s.typingUsers.elementAt(2) + " are typing"; break;
+                default: typingStr = s.typingUsers.size() + " people are typing"; break;
+            }
+
+            StringItem typingItem = new StringItem(null, typingStr);
+            typingItem.setFont(s.messageFont);
+            typingItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
+            append(typingItem);
+        }
         
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);

@@ -29,6 +29,7 @@ public class State {
 	Vector guilds;
 	Guild selectedGuild;
 	GuildSelector guildSelector;
+	Vector subscribedGuilds;
 
 	Vector channels;
 	Channel selectedChannel;
@@ -38,6 +39,8 @@ public class State {
 	ChannelView channelView;
 	OldChannelView oldChannelView;
 	String sendMessage;
+	Vector typingUsers;
+	Vector typingUserIDs;
 
 	boolean isDM;
 	Vector dmChannels;
@@ -45,6 +48,7 @@ public class State {
 	DMSelector dmSelector;
 
 	public State() {
+		subscribedGuilds = new Vector();
 	}
 
 	private Alert createError(String message) {

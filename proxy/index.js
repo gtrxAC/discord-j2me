@@ -103,7 +103,11 @@ app.get(`${BASE}/users/@me/channels`, async (req, res) => {
                 if (ch.type == 3) {
                     result.name = ch.name;
                 } else {
-                    result.recipients = [{username: ch.recipients[0].username}]
+                    result.recipients = [{global_name: ch.recipients[0].global_name}];
+
+                    if (ch.recipients[0].global_name == null) {
+                        result.recipients[0].username = ch.recipients[0].username;
+                    }
                 }
                 return result;
             })

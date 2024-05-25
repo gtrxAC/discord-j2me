@@ -16,8 +16,8 @@ public class GatewayThread extends Thread {
     HeartbeatThread hbThread;
 
     private SocketConnection sc;
-    private InputStream is;
-    private OutputStream os;
+    InputStream is;
+    OutputStream os;
 
     public GatewayThread(State s, String gateway, String token) {
         this.s = s;
@@ -80,7 +80,7 @@ public class GatewayThread extends Thread {
                         // Connect to gateway
                         JSONArray events = new JSONArray();
                         events.add("MESSAGE_CREATE");
-                        // events.add("READY");
+                        events.add("TYPING_START");
 
                         JSONObject connData = new JSONObject();
                         connData.put("supported_events", events);
@@ -121,6 +121,21 @@ public class GatewayThread extends Thread {
                             }
                         }
 
+                        // Remove this user's typing indicator
+                        if (s.isDM) {
+                            s.typingUsers.removeElementAt(0);
+                            s.typingUserIDs.removeElementAt(0);
+                        } else {
+                            String authorID = msgData.getObject("author").getString("id");
+                            
+                            for (int i = 0; i < s.typingUsers.size(); i++) {
+                                if (s.typingUserIDs.elementAt(i).equals(authorID)) {
+                                    s.typingUsers.removeElementAt(i);
+                                    s.typingUserIDs.removeElementAt(i);
+                                }
+                            }
+                        }
+
                         // Redraw the message list
                         if (s.oldUI) {
                             if (page == 0) {
@@ -144,6 +159,57 @@ public class GatewayThread extends Thread {
                             s.channelView.repaint();
                         }
                     }
+                    else if (op.equals("TYPING_START")) {
+                        // Check that a channel is opened
+                        if (s.disp.getCurrent() != s.channelView && s.disp.getCurrent() != s.oldChannelView) continue;
+                        
+                        // Check that the opened channel is the one where the typing event happened
+                        JSONObject msgData = message.getObject("d");
+                        String channel = msgData.getString("channel_id");
+                        if (s.isDM) {
+                            if (!channel.equals(s.selectedDmChannel.id)) continue;
+                        } else {
+                            if (!channel.equals(s.selectedChannel.id)) continue;
+                        }
+
+                        if (s.isDM) {
+                            // Typing events not supported in group DMs (typing event contains guild member info if it happened in a server, but not user info; in a group DM, there's no easy way to know who started typing)
+                            if (s.selectedDmChannel.isGroup) continue;
+
+                            // If we are in a one person DM, then we know the typing user is the other participant
+                            s.typingUsers.addElement(s.selectedDmChannel.name);
+                            s.typingUserIDs.addElement("0");
+
+                            // Remove the name from the typing list after 10 seconds
+                            StopTypingThread stopThread = new StopTypingThread(s, "0");
+                            stopThread.start();
+                        } else {
+                            try {
+                                // Get this user's name and add it to the typing users list
+                                JSONObject userObj = msgData.getObject("member").getObject("user");
+                                
+                                String author = userObj.getString("global_name", "(no name)");
+                                if (author == null || author == "(no name)") {
+                                    author = userObj.getString("username", "(no name)");
+                                }
+
+                                String id = userObj.getString("id");
+                                s.typingUsers.addElement(author);
+                                s.typingUserIDs.addElement(id);
+
+                                StopTypingThread stopThread = new StopTypingThread(s, id);
+                                stopThread.start();
+                            }
+                            catch (Exception e) {}
+                        }
+
+                        // Redraw the message list
+                        if (s.oldUI) {
+                            s.oldChannelView.update();
+                        } else {
+                            s.channelView.repaint();
+                        }
+                    }
                 }
                 else if (message.getInt("op", 0) == 10) {
                     int heartbeatInterval = message.getObject("d").getInt("heartbeat_interval");
@@ -158,9 +224,7 @@ public class GatewayThread extends Thread {
             
                     JSONObject idData = new JSONObject();
                     idData.put("token", token);
-                    // GUILD_MESSAGES, DIRECT_MESSAGES, MESSAGE_CONTENT
-                    // idData.put("intents", (1 << 9) | (1 << 12) | (1 << 15));
-                    idData.put("capabilities", 1);
+                    idData.put("capabilities", 30717);
                     idData.put("properties", idProps);
             
                     JSONObject idMsg = new JSONObject();

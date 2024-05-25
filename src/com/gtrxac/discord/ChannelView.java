@@ -31,6 +31,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
     //                                            Dark        Light       Black
     public static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
+    public static final int[] darkBgColors =     {0x001e1f22, 0x00CCCCCC, 0x00000000};
     public static final int[] messageColors =    {0x00FFFFFF, 0x00111111, 0x00EEEEEE};
     public static final int[] authorColors =     {0x00FFFFFF, 0x00000000, 0x00FFFFFF};
     public static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00999999};
@@ -165,6 +166,26 @@ public class ChannelView extends Canvas implements CommandListener {
             g.setFont(s.messageFont);
             String[] lines = WordWrap.getStringArray("Refresh to read new messages", getWidth(), s.messageFont);
             g.setColor(0x00AA1122);
+            g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + 2);
+
+            g.setColor(0x00FFFFFF);
+            for (int i = 0; i < lines.length; i++) {
+                g.drawString(lines[i], getWidth()/2, i*messageFontHeight + 1, Graphics.TOP|Graphics.HCENTER);
+            }
+        }
+
+        if (s.typingUsers.size() > 0) {
+            String typingStr;
+            switch (s.typingUsers.size()) {
+                case 1: typingStr = s.typingUsers.elementAt(0) + " is typing"; break;
+                case 2: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + " are typing"; break;
+                case 3: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + ", " + s.typingUsers.elementAt(2) + " are typing"; break;
+                default: typingStr = s.typingUsers.size() + " people are typing"; break;
+            }
+
+            g.setFont(s.messageFont);
+            String[] lines = WordWrap.getStringArray(typingStr, getWidth(), s.messageFont);
+            g.setColor(darkBgColors[s.theme]);
             g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + 2);
 
             g.setColor(0x00FFFFFF);

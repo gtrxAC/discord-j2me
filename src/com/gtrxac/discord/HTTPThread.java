@@ -126,6 +126,8 @@ public class HTTPThread extends Thread {
                     else s.disp.setCurrent(s.channelView);
 
                     s.sendMessage = null;
+                    s.typingUsers = new Vector();
+                    s.typingUserIDs = new Vector();
                     break;
                 }
             }

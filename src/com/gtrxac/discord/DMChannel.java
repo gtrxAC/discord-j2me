@@ -22,7 +22,15 @@ public class DMChannel {
         if (isGroup) {
             name = data.getString("name");
         } else {
-            name = data.getArray("recipients").getObject(0).getString("username");
+            try {
+                JSONObject recipient = data.getArray("recipients").getObject(0);
+
+                name = recipient.getString("global_name", "(no name)");
+                if (name == null || name.equals("(no name)")) {
+                    name = recipient.getString("username");
+                }
+            }
+            catch (Exception e) {}
         }
         if (name == null) name = "(unknown)";
     }
