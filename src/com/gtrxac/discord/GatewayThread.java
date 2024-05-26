@@ -95,8 +95,7 @@ public class GatewayThread extends Thread {
                         connMsg.put("t", "GATEWAY_CONNECT");
                         connMsg.put("d", connData);
 
-                        os.write(connMsg.build().getBytes());
-                        os.write("\n".getBytes());
+                        os.write((connMsg.build() + "\n").getBytes());
                         os.flush();
                     }
                     if (op.equals("GATEWAY_DISCONNECT")) {
@@ -249,8 +248,7 @@ public class GatewayThread extends Thread {
                     idMsg.put("op", 2);
                     idMsg.put("d", idData);
 
-                    os.write(idMsg.build().getBytes());
-                    os.write("\n".getBytes());
+                    os.write((idMsg.build() + "\n").getBytes());
                     os.flush();
                 }
             }

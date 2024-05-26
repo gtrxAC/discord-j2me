@@ -35,8 +35,7 @@ public class HeartbeatThread extends Thread {
                         hbMsg.put("d", JSON.json_null);
                     }
 
-                    os.write(hbMsg.build().getBytes());
-                    os.write("\n".getBytes());
+                    os.write((hbMsg.build() + "\n").getBytes());
                     os.flush();
                     lastHeartbeat = now;
                     // System.out.println("Sent heartbeat");
