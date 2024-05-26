@@ -133,8 +133,10 @@ public class GatewayThread extends Thread {
 
                         // Remove this user's typing indicator
                         if (s.isDM) {
-                            s.typingUsers.removeElementAt(0);
-                            s.typingUserIDs.removeElementAt(0);
+                            if (s.typingUsers.size() >= 1) {
+                                s.typingUsers.removeElementAt(0);
+                                s.typingUserIDs.removeElementAt(0);
+                            }
                         } else {
                             String authorID = msgData.getObject("author").getString("id");
                             
