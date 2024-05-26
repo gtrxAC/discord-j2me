@@ -142,26 +142,26 @@ public class ChannelView extends Canvas implements CommandListener {
                 "Nothing to see here", getWidth()/2, getHeight()/2 - messageFontHeight/2,
                 Graphics.HCENTER|Graphics.TOP
             );
-            return;
-        }
-
-        int y = -scroll;
-        for (int i = s.messages.size() - 1; i >= 0; i--) {
-            Message msg = (Message) s.messages.elementAt(i);
-            int msgHeight = getMessageHeight(msg);
-            if (y > getHeight()) break;
-            
-            if (y + msgHeight >= 0) {
-                // highlight selected message
-                // if (i == selectedMessage) {
-                //     g.setColor(highlightColors[s.theme]);
-                //     g.fillRect(0, y, getWidth(), msgHeight);
-                // }
-                drawMessage(g, msg, y);
+        } else {
+            int y = -scroll;
+            for (int i = s.messages.size() - 1; i >= 0; i--) {
+                Message msg = (Message) s.messages.elementAt(i);
+                int msgHeight = getMessageHeight(msg);
+                if (y > getHeight()) break;
+                
+                if (y + msgHeight >= 0) {
+                    // highlight selected message
+                    // if (i == selectedMessage) {
+                    //     g.setColor(highlightColors[s.theme]);
+                    //     g.fillRect(0, y, getWidth(), msgHeight);
+                    // }
+                    drawMessage(g, msg, y);
+                }
+                y += msgHeight;
             }
-            y += msgHeight;
         }
 
+        int typingBannerY = 0;
         if (outdated) {
             g.setFont(s.messageFont);
             String[] lines = WordWrap.getStringArray("Refresh to read new messages", getWidth(), s.messageFont);
@@ -172,6 +172,7 @@ public class ChannelView extends Canvas implements CommandListener {
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(lines[i], getWidth()/2, i*messageFontHeight + 1, Graphics.TOP|Graphics.HCENTER);
             }
+            typingBannerY = messageFontHeight*lines.length + 2;
         }
 
         if (s.typingUsers.size() > 0) {
@@ -186,11 +187,14 @@ public class ChannelView extends Canvas implements CommandListener {
             g.setFont(s.messageFont);
             String[] lines = WordWrap.getStringArray(typingStr, getWidth(), s.messageFont);
             g.setColor(darkBgColors[s.theme]);
-            g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + 2);
+            g.fillRect(0, typingBannerY, getWidth(), messageFontHeight*lines.length + 2);
 
-            g.setColor(0x00FFFFFF);
+            g.setColor(authorColors[s.theme]);
             for (int i = 0; i < lines.length; i++) {
-                g.drawString(lines[i], getWidth()/2, i*messageFontHeight + 1, Graphics.TOP|Graphics.HCENTER);
+                g.drawString(
+                    lines[i], getWidth()/2, typingBannerY + i*messageFontHeight + 1,
+                    Graphics.TOP|Graphics.HCENTER
+                );
             }
         }
     }

@@ -25,6 +25,16 @@ public class GatewayThread extends Thread {
         this.token = token;
     }
 
+    private void disconnect() {
+        if (hbThread != null) hbThread.stop = true;
+        try {
+            if (is != null) is.close();
+            if (os != null) os.close();
+            if (sc != null) sc.close();
+        }
+        catch (Exception ee) {}
+    }
+
     public void run() {
         try {
             sc = (SocketConnection) Connector.open(gateway);
@@ -40,13 +50,7 @@ public class GatewayThread extends Thread {
                 // Get message
                 while (true) {
                     if (stop) {
-                        if (hbThread != null) hbThread.stop = true;
-                        try {
-                            if (is != null) is.close();
-                            if (os != null) os.close();
-                            if (sc != null) sc.close();
-                        }
-                        catch (Exception ee) {}
+                        disconnect();
                         return;
                     }
 
@@ -94,6 +98,12 @@ public class GatewayThread extends Thread {
                         os.write(connMsg.build().getBytes());
                         os.write("\n".getBytes());
                         os.flush();
+                    }
+                    if (op.equals("GATEWAY_DISCONNECT")) {
+                        disconnect();
+                        String reason = message.getObject("d").getString("message");
+                        s.disp.setCurrent(new GatewayAlert(s, reason), s.disp.getCurrent());
+                        return;
                     }
                     else if (op.equals("MESSAGE_CREATE")) {
                         // Check that a channel is opened
@@ -177,6 +187,9 @@ public class GatewayThread extends Thread {
                             if (s.selectedDmChannel.isGroup) continue;
 
                             // If we are in a one person DM, then we know the typing user is the other participant
+                            // If we already have a typing indicator, don't create a dupe
+                            if (s.typingUsers.size() >= 1) continue;
+
                             s.typingUsers.addElement(s.selectedDmChannel.name);
                             s.typingUserIDs.addElement("0");
 
@@ -193,7 +206,10 @@ public class GatewayThread extends Thread {
                                     author = userObj.getString("username", "(no name)");
                                 }
 
+                                // If this user is already in the list, don't add them again
                                 String id = userObj.getString("id");
+                                if (s.typingUserIDs.indexOf(id) != -1) continue;
+
                                 s.typingUsers.addElement(author);
                                 s.typingUserIDs.addElement(id);
 
@@ -240,14 +256,7 @@ public class GatewayThread extends Thread {
         catch (Exception e) {
             e.printStackTrace();
             s.error("Gateway error: " + e.toString());
-
-            if (hbThread != null) hbThread.stop = true;
-            try {
-                if (is != null) is.close();
-                if (os != null) os.close();
-                if (sc != null) sc.close();
-            }
-            catch (Exception ee) {}
+            disconnect();
         }
     }
 }

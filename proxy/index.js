@@ -162,7 +162,7 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
                         else return mention;
                     })
                     // replace <:name:12345...> emoji format with :name:
-                    .replace(/<(:\w*:)\d{15,}>/gm, "$1")
+                    .replace(/<a?(:\w*:)\d{15,}>/gm, "$1")
             }
 
             if (msg.referenced_message) {

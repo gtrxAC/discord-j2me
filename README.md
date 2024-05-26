@@ -16,10 +16,7 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 * Message sending
 * Reading older messages
 * Direct messages and group DMs
-
-### Experimental
 * Gateway/WebSocket (live message updates)
-  * The gateway proxy uses TLS 1.0, meaning it will only work on devices with the proper certificates installed (Let's Encrypt).
 
 ### Not implemented
 * Replying to messages
