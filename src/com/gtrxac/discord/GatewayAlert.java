@@ -10,8 +10,8 @@ public class GatewayAlert extends Alert implements CommandListener {
     
     public GatewayAlert(State s, String message) {
         super("Disconnected");
-        setString("Disconnected from gateway. Do you want to reconnect?");
-        if (message != null && message.length() > 0) setString(getString() + " Reason: " + message);
+        setString("Gateway error. Do you want to reconnect?");
+        if (message != null && message.length() > 0) setString(getString() + " \nMessage: " + message);
         setCommandListener(this);
 
         this.s = s;
