@@ -122,8 +122,12 @@ public class HTTPThread extends Thread {
                     }
 
                     // Show the channel view screen (hide the loading screen)
-                    if (s.oldUI) s.disp.setCurrent(s.oldChannelView);
-                    else s.disp.setCurrent(s.channelView);
+                    if (s.oldUI) {
+                        s.disp.setCurrent(s.oldChannelView);
+                    } else {
+                        s.disp.setCurrent(s.channelView);
+                        s.channelView.repaint();
+                    }
 
                     s.sendMessage = null;
                     s.typingUsers = new Vector();

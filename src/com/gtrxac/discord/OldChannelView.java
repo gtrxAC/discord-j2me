@@ -52,7 +52,7 @@ public class OldChannelView extends Form implements CommandListener {
     public void update() {
         deleteAll();
 
-        if (s.typingUsers.size() > 0) {
+        if (s.typingUsers != null && s.typingUsers.size() > 0) {
             String typingStr;
             switch (s.typingUsers.size()) {
                 case 1: typingStr = s.typingUsers.elementAt(0) + " is typing"; break;
