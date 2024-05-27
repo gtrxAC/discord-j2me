@@ -166,13 +166,13 @@ public class ChannelView extends Canvas implements CommandListener {
             g.setFont(s.messageFont);
             String[] lines = WordWrap.getStringArray("Refresh to read new messages", getWidth(), s.messageFont);
             g.setColor(0x00AA1122);
-            g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + 2);
+            g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
 
             g.setColor(0x00FFFFFF);
             for (int i = 0; i < lines.length; i++) {
-                g.drawString(lines[i], getWidth()/2, i*messageFontHeight + 1, Graphics.TOP|Graphics.HCENTER);
+                g.drawString(lines[i], getWidth()/2, i*messageFontHeight + messageFontHeight/8, Graphics.TOP|Graphics.HCENTER);
             }
-            typingBannerY = messageFontHeight*lines.length + 2;
+            typingBannerY = messageFontHeight*lines.length + messageFontHeight/4;
         }
 
         if (s.typingUsers.size() > 0) {
@@ -187,12 +187,12 @@ public class ChannelView extends Canvas implements CommandListener {
             g.setFont(s.messageFont);
             String[] lines = WordWrap.getStringArray(typingStr, getWidth(), s.messageFont);
             g.setColor(darkBgColors[s.theme]);
-            g.fillRect(0, typingBannerY, getWidth(), messageFontHeight*lines.length + 2);
+            g.fillRect(0, typingBannerY, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
 
             g.setColor(authorColors[s.theme]);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
-                    lines[i], getWidth()/2, typingBannerY + i*messageFontHeight + 1,
+                    lines[i], getWidth()/2, typingBannerY + i*messageFontHeight + messageFontHeight/8,
                     Graphics.TOP|Graphics.HCENTER
                 );
             }

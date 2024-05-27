@@ -23,6 +23,8 @@ public class GatewayThread extends Thread {
         this.s = s;
         this.gateway = s.getPlatformSpecificUrl(gateway);
         this.token = token;
+
+        s.subscribedGuilds = new Vector();
     }
 
     private void disconnect() {

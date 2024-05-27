@@ -19,8 +19,8 @@ public class LoginForm extends Form implements CommandListener {
         setCommandListener(this); 
         this.s = s;
 
-        String initialApi = "http://dscjava.uwmpr.online";
-        String initialGateway = "socket://uwmpr.online:8081";
+        String initialApi = "http://57.128.194.14:8087";
+        String initialGateway = "socket://57.128.194.14:8085";
         String initialToken = "";
         
         if (RecordStore.listRecordStores() != null) {
@@ -165,6 +165,15 @@ public class LoginForm extends Form implements CommandListener {
             }
             catch (Exception e) {
                 e.printStackTrace();
+            }
+
+            if (token.length() == 0) {
+                s.error("Please enter your token");
+                return;
+            }
+            if (api.length() == 0) {
+                s.error("Please specify an API URL");
+                return;
             }
 
             s.loadFonts();

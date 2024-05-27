@@ -35,9 +35,6 @@ public class HTTPThing {
     }
 
     public String sendRequest(HttpConnection c) throws Exception {
-        if (api == null || api.length() == 0) throw new Exception("Please specify an API URL");
-        if (token == null || token.length() == 0) throw new Exception("Token is required");
-
         InputStream is = null;
 
         // Getting the InputStream ensures that the connection

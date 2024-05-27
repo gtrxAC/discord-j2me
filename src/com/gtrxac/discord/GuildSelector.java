@@ -50,8 +50,7 @@ public class GuildSelector extends List implements CommandListener {
                 subMsg.put("d", subData);
 
                 try {
-                    s.gateway.os.write(subMsg.build().getBytes());
-                    s.gateway.os.write("\n".getBytes());
+                    s.gateway.os.write((subMsg.build() + "\n").getBytes());
                     s.gateway.os.flush();
                 }
                 catch (Exception e) {}
