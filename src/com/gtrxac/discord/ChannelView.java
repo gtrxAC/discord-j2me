@@ -302,7 +302,7 @@ public class ChannelView extends Canvas implements CommandListener {
                 break;
             }
             case ChannelViewItem.ATTACHMENTS_BUTTON: {
-                s.disp.setCurrent(new AttachmentView(s, selected.msg));
+                s.openAttachmentView(false, selected.msg);
                 break;
             }
         }

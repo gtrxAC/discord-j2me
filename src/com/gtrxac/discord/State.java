@@ -41,6 +41,8 @@ public class State {
 	Vector typingUsers;
 	Vector typingUserIDs;
 
+	AttachmentView attachmentView;
+
 	// Parameters for message/reply sending
 	String sendMessage;
 	String sendReference;  // ID of the message the user is replying to
@@ -147,6 +149,18 @@ public class State {
 					disp.setCurrent(channelView);
 				}
 			}
+		}
+		catch (Exception e) {
+			error(e.toString());
+		}
+	}
+
+	public void openAttachmentView(boolean reload, Message msg) {
+		try {
+			if (reload || attachmentView == null || attachmentView.msg != msg) {
+				attachmentView = new AttachmentView(this, msg);
+			}
+			disp.setCurrent(attachmentView);
 		}
 		catch (Exception e) {
 			error(e.toString());

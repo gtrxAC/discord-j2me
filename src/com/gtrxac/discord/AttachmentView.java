@@ -17,10 +17,7 @@ public class AttachmentView extends Form implements CommandListener {
         backCommand = new Command("Back", Command.BACK, 0);
         addCommand(backCommand);
 
-        for (int i = 0; i < msg.attachments.size(); i++) {
-            Attachment attach = (Attachment) msg.attachments.elementAt(i);
-            append(attach.url);
-        }
+        new HTTPThread(s, HTTPThread.FETCH_ATTACHMENTS).start();
     }
 
     public void commandAction(Command c, Displayable d) {

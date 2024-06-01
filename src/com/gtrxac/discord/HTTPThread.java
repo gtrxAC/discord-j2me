@@ -10,6 +10,7 @@ public class HTTPThread extends Thread {
     public static final int FETCH_DM_CHANNELS = 2;
     public static final int FETCH_MESSAGES = 3;
     public static final int SEND_MESSAGE = 4;
+    public static final int FETCH_ATTACHMENTS = 5;
 
     State s;
     int action;
@@ -25,7 +26,8 @@ public class HTTPThread extends Thread {
 
     public void run() {
         Displayable prevScreen = s.disp.getCurrent();
-        s.disp.setCurrent(new LoadingScreen());
+        if (action != FETCH_ATTACHMENTS) s.disp.setCurrent(new LoadingScreen());
+        
         try {
             switch (action) {
                 case FETCH_GUILDS: {
@@ -147,6 +149,24 @@ public class HTTPThread extends Thread {
                     s.sendMessage = null;
                     s.typingUsers = new Vector();
                     s.typingUserIDs = new Vector();
+                    break;
+                }
+
+                case FETCH_ATTACHMENTS: {
+                    Vector attachments = s.attachmentView.msg.attachments;
+
+                    for (int i = 0; i < attachments.size(); i++) {
+                        Attachment attach = (Attachment) attachments.elementAt(i);
+
+                        try {
+                            Image image = HTTPThing.getImage(attach.url);
+                            ImageItem item = new ImageItem(null, image, Item.LAYOUT_DEFAULT, null);
+                            s.attachmentView.append(item);
+                        }
+                        catch (Exception e) {
+                            s.attachmentView.append(new StringItem(null, e.toString()));
+                        }
+                    }
                     break;
                 }
             }
