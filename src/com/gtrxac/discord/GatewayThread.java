@@ -160,7 +160,7 @@ public class GatewayThread extends Thread {
                             if (page == 0) {
                                 int oldScroll = s.channelView.scroll;
                                 boolean atBottom = oldScroll == s.channelView.maxScroll;
-                                s.channelView.update();
+                                s.channelView.update(false);
 
                                 if (atBottom) s.channelView.scroll = s.channelView.maxScroll;
                                 else s.channelView.scroll = oldScroll;

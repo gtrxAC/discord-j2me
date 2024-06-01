@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class OldChannelView extends Form implements CommandListener {
+public class OldChannelView extends Form implements CommandListener, ItemCommandListener {
     State s;
 
     private Command backCommand;
@@ -11,6 +11,9 @@ public class OldChannelView extends Form implements CommandListener {
     private Command refreshCommand;
     private Command olderCommand;
     private Command newerCommand;
+
+    private StringItem olderButton;
+    private StringItem newerButton;
 
     // Parameters for viewing old messages (message IDs)
     int page;
@@ -33,6 +36,20 @@ public class OldChannelView extends Form implements CommandListener {
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
+
+        int layout = Item.LAYOUT_EXPAND | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
+
+        olderButton = new StringItem(null, "View older messages", Item.BUTTON);
+        olderButton.setFont(s.messageFont);
+        olderButton.setLayout(layout);
+        olderButton.setDefaultCommand(olderCommand);
+        olderButton.setItemCommandListener(this);
+
+        newerButton = new StringItem(null, "View newer messages", Item.BUTTON);
+        newerButton.setFont(s.messageFont);
+        newerButton.setLayout(layout);
+        newerButton.setDefaultCommand(newerCommand);
+        newerButton.setItemCommandListener(this);
 
         update();
     }
@@ -66,11 +83,13 @@ public class OldChannelView extends Form implements CommandListener {
             typingItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
             append(typingItem);
         }
+
+        if (s.messages.size() > 0 && page > 0) append(newerButton);
         
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
             StringItem msgItem = new StringItem(
-                msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : ""),
+                msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : "") + "  " + msg.timestamp,
                 msg.content
             );
             msgItem.setFont(s.messageFont);
@@ -78,14 +97,10 @@ public class OldChannelView extends Form implements CommandListener {
             append(msgItem);
         }
 
-        if (s.messages.size() > 0 && page > 0) addCommand(newerCommand);
-        else removeCommand(newerCommand);
-
         if (s.messages.size() == 0) {
             append("Nothing to see here");
-            removeCommand(olderCommand);
         } else {
-            addCommand(olderCommand);
+            append(olderButton);
         }
     }
 
@@ -100,6 +115,9 @@ public class OldChannelView extends Form implements CommandListener {
         if (c == refreshCommand) {
             s.openChannelView(true);
         }
+    }
+
+    public void commandAction(Command c, Item i) {
         if (c == olderCommand) {
             page++;
             after = null;

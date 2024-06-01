@@ -1,5 +1,5 @@
 # Discord for J2ME
-Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian](https://github.com/uwmpr/discord-symbian-fixed). Uses a [proxy server](/proxy/) (dscjava.uwmpr.online is the default).
+Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian](https://github.com/uwmpr/discord-symbian-fixed). Uses proxy servers for the [HTTP](/proxy/) and [gateway](https://github.com/gtrxAC/discord-j2me-server) connection.
 
 ![Screenshots](img/screenshots.png)
 
@@ -21,7 +21,8 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 ### Not implemented
 * Replying to messages
 * Ping/unread indicators
-* Pretty much everything else
+* Attachment viewing/sending
+* Reactions and emojis
 
 ## How to build
 1. Create an `sdk` folder inside the repo with the following contents:
