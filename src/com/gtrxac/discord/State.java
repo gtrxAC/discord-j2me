@@ -38,9 +38,13 @@ public class State {
 	Vector messages;
 	ChannelView channelView;
 	OldChannelView oldChannelView;
-	String sendMessage;
 	Vector typingUsers;
 	Vector typingUserIDs;
+
+	// Parameters for message/reply sending
+	String sendMessage;
+	String sendReference;  // ID of the message the user is replying to
+	boolean sendPing;
 
 	boolean isDM;
 	Vector dmChannels;

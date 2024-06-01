@@ -12,6 +12,7 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command backCommand;
     private Command selectCommand;
     private Command sendCommand;
+    private Command replyCommand;
     private Command refreshCommand;
 
     private Vector items;
@@ -54,7 +55,8 @@ public class ChannelView extends Canvas implements CommandListener {
         backCommand = new Command("Back", Command.BACK, 0);
         selectCommand = new Command("Select", Command.OK, 1);
         sendCommand = new Command("Send", "Send message", Command.ITEM, 2);
-        refreshCommand = new Command("Refresh", Command.ITEM, 3);
+        replyCommand = new Command("Reply", Command.ITEM, 3);
+        refreshCommand = new Command("Refresh", Command.ITEM, 4);
 
         messageFontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
@@ -196,9 +198,16 @@ public class ChannelView extends Canvas implements CommandListener {
 
         ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
 
-        if (selectionMode && selected.type != ChannelViewItem.MESSAGE) {
-            addCommand(selectCommand);
+        if (selectionMode) {
+            if (selected.type == ChannelViewItem.MESSAGE) {
+                addCommand(replyCommand);
+                removeCommand(selectCommand);
+            } else {
+                removeCommand(replyCommand);
+                addCommand(selectCommand);
+            }
         } else {
+            removeCommand(replyCommand);
             removeCommand(selectCommand);
         }
 
@@ -396,6 +405,10 @@ public class ChannelView extends Canvas implements CommandListener {
         }
         if (c == selectCommand) {
             executeItemAction();
+        }
+        if (c == replyCommand) {
+            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+            s.disp.setCurrent(new ReplyForm(s, item.msg));
         }
     }
 }

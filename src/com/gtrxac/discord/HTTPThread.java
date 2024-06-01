@@ -89,6 +89,21 @@ public class HTTPThread extends Thread {
                     json.put("mobile_network_type", "unknown");
                     json.put("tts", false);
 
+                    // Reply
+                    if (s.sendReference != null) {
+                        JSONObject ref = new JSONObject();
+                        ref.put("channel_id", s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id);
+                        if (!s.isDM) ref.put("guild_id", s.selectedGuild.id);
+                        ref.put("message_id", s.sendReference);
+                        json.put("message_reference", ref);
+
+                        if (!s.sendPing && !s.isDM) {
+                            JSONObject ping = new JSONObject();
+                            ping.put("replied_user", false);
+                            json.put("allowed_mentions", ping);
+                        }
+                    }
+
                     s.http.post("/channels/" + id + "/messages", json.build());
                     // fall through
                 }

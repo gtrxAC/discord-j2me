@@ -26,6 +26,8 @@ public class MessageBox extends TextBox implements CommandListener {
         if (c == sendCommand) {
             try {
                 s.sendMessage = getString();
+                s.sendReference = null;
+                s.sendPing = false;
                 new HTTPThread(s, HTTPThread.SEND_MESSAGE).start();
             }
             catch (Exception e) {
