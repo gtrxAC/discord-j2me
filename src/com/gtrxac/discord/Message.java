@@ -10,6 +10,7 @@ public class Message {
     public String content;
     public String[] contentLines;
     public String timestamp;
+    public Vector attachments;
 
     public Message(State s, JSONObject data) {
         id = data.getString("id");
@@ -34,11 +35,18 @@ public class Message {
         }
         catch (Exception e) {}
 
+        attachments = new Vector();
         try {
-            int attachCount = data.getArray("attachments").size();
-            if (attachCount >= 1) {
-                if (content.length() > 0) content += "\n";
-                content += "(attachments: " + attachCount + ")";
+            JSONArray attachArray = data.getArray("attachments");
+            if (attachArray.size() >= 1) {
+                for (int i = 0; i < attachArray.size(); i++) {
+                    JSONObject attach = attachArray.getObject(i);
+
+                    // Skip attachments that aren't images
+                    if (!attach.has("width")) continue;
+
+                    attachments.addElement(new Attachment(s, attach));
+                }
             }
         }
         catch (Exception e) {}
@@ -107,6 +115,6 @@ public class Message {
         }
         timestamp = time.toString();
 
-        if (content.length() == 0) content = "(no content)";
+        if (content.length() == 0 && attachments.size() == 0) content = "(no content)";
     }
 }

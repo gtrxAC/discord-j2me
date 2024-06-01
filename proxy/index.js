@@ -178,8 +178,15 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
             }
 
             if (msg.attachments?.length) {
-                result.attachments = [];
-                msg.attachments.forEach(() => result.attachments.push(1));
+                result.attachments = msg.attachments
+                    .filter(att => att.width !== undefined)
+                    .map(att => {
+                        return {
+                            width: att.width,
+                            height: att.height,
+                            proxy_url: att.proxy_url
+                        }
+                    })
             }
             if (msg.sticker_items?.length) {
                 result.sticker_items = [{name: msg.sticker_items[0].name}];

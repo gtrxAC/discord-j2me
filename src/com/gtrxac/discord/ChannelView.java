@@ -38,8 +38,9 @@ public class ChannelView extends Canvas implements CommandListener {
 
     //                                            Dark        Light       Black
     public static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
+    public static final int[] highlightColors2 = {0x002b2d31, 0x00EEEEEE, 0x00181818};
+    public static final int[] highlightColors =  {0x00232428, 0x00DDDDDD, 0x00202020};
     public static final int[] darkBgColors =     {0x001e1f22, 0x00CCCCCC, 0x00000000};
-    public static final int[] highlightColors =  {0x002b2d31, 0x00EEEEEE, 0x00181818};
     public static final int[] messageColors =    {0x00FFFFFF, 0x00111111, 0x00EEEEEE};
     public static final int[] authorColors =     {0x00FFFFFF, 0x00000000, 0x00FFFFFF};
     public static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00999999};
@@ -99,7 +100,15 @@ public class ChannelView extends Canvas implements CommandListener {
             Message msg = (Message) s.messages.elementAt(i);
             msg.contentLines = WordWrap.getStringArray(msg.content, getWidth(), s.messageFont);
 
-            ChannelViewItem msgItem = new ChannelViewItem(s, msg);
+            if (msg.attachments.size() > 0) {
+                ChannelViewItem attachItem = new ChannelViewItem(s, ChannelViewItem.ATTACHMENTS_BUTTON);
+                attachItem.msg = msg;
+                items.addElement(attachItem);
+                maxScroll += attachItem.getHeight();
+            }
+
+            ChannelViewItem msgItem = new ChannelViewItem(s, ChannelViewItem.MESSAGE);
+            msgItem.msg = msg;
             items.addElement(msgItem);
             maxScroll += msgItem.getHeight();
         }
@@ -122,7 +131,7 @@ public class ChannelView extends Canvas implements CommandListener {
             // message list, so it's more intuitive to scroll through
             scroll = (after != null) ? 0 : maxScroll;
             selectedItem = (after != null) ? (items.size() - 1) : 0;
-            selectionMode = true;
+            selectionMode = (before != null || after != null);
         }
     }
 
@@ -210,12 +219,7 @@ public class ChannelView extends Canvas implements CommandListener {
                 int itemHeight = item.getHeight();
                 
                 if (y + itemHeight >= 0) {
-                    // highlight selected item
-                    if (selectionMode && i == selectedItem) {
-                        g.setColor(highlightColors[s.theme]);
-                        g.fillRect(0, y, getWidth(), itemHeight);
-                    }
-                    item.draw(g, y, getWidth());
+                    item.draw(g, y, getWidth(), selectionMode && i == selectedItem);
                 }
                 y += itemHeight;
                 if (y > getHeight()) break;
@@ -286,6 +290,10 @@ public class ChannelView extends Canvas implements CommandListener {
                 catch (Exception e) {
                     s.error(e.toString());
                 }
+                break;
+            }
+            case ChannelViewItem.ATTACHMENTS_BUTTON: {
+                s.disp.setCurrent(new AttachmentView(s, selected.msg));
                 break;
             }
         }
