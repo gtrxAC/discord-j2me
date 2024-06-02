@@ -17,11 +17,12 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 * Replying to messages
 * Reading older messages
 * Direct messages and group DMs
+* Attachment viewing
 * Gateway/WebSocket (live message updates)
 
 ### Not implemented
 * Ping/unread indicators
-* Attachment viewing/sending
+* Attachment sending
 * Reactions and emojis
 
 ## How to build
@@ -37,4 +38,5 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 
 ## Thanks
 * [@uwmpr](https://github.com/uwmpr) for hosting the default proxy server
+* [@WunderWungiel](https://github.com/WunderWungiel) for hosting the CDN proxy
 * [@shinovon](https://github.com/shinovon) for their Java ME [JSON library](https://github.com/shinovon/NNJSON)
