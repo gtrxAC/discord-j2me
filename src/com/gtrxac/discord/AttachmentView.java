@@ -7,6 +7,7 @@ public class AttachmentView extends Form implements CommandListener {
     Message msg;
 
     private Command backCommand;
+    private Command refreshCommand;
 
     public AttachmentView(State s, Message msg) {
         super("Attachments");
@@ -15,7 +16,9 @@ public class AttachmentView extends Form implements CommandListener {
         setCommandListener(this);
 
         backCommand = new Command("Back", Command.BACK, 0);
+        refreshCommand = new Command("Refresh", Command.ITEM, 1);
         addCommand(backCommand);
+        addCommand(refreshCommand);
 
         new HTTPThread(s, HTTPThread.FETCH_ATTACHMENTS).start();
     }
@@ -23,6 +26,9 @@ public class AttachmentView extends Form implements CommandListener {
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
             s.openChannelView(false);
+        }
+        if (c == refreshCommand) {
+            s.openAttachmentView(true, msg);
         }
     }
 }
