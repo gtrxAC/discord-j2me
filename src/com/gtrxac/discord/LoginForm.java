@@ -11,6 +11,7 @@ public class LoginForm extends Form implements CommandListener {
     private ChoiceGroup wifiGroup;
     private ChoiceGroup gatewayGroup;
     private TextField gatewayField;
+    private TextField cdnField;
     private TextField tokenField;
     private Command nextCommand;
 
@@ -21,6 +22,7 @@ public class LoginForm extends Form implements CommandListener {
 
         String initialApi = "http://57.128.194.14:8087";
         String initialGateway = "socket://57.128.194.14:8085";
+        String initialCdn = "http://cdndsc.wunderwungiel.pl";
         String initialToken = "";
         
         if (RecordStore.listRecordStores() != null) {
@@ -65,6 +67,15 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.bbWifi = true;
                 }
+                if (loginRms.getNumRecords() >= 12) {
+                    s.useJpeg = loginRms.getRecord(12)[0] != 0;
+                } else {
+                    s.useJpeg = true;
+                }
+                if (loginRms.getNumRecords() >= 13) {
+                    String savedCdn = new String(loginRms.getRecord(13));
+                    if (savedCdn.length() > 0) initialCdn = savedCdn;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -89,6 +100,7 @@ public class LoginForm extends Form implements CommandListener {
         }
 
         apiField = new TextField("API URL", initialApi, 200, 0);
+        cdnField = new TextField("CDN URL", initialCdn, 200, 0);
         gatewayField = new TextField("Gateway URL", initialGateway, 200, 0);
         tokenField = new TextField("Token", initialToken, 200, TextField.NON_PREDICTIVE);
         nextCommand = new Command("Log in", Command.OK, 0);
@@ -100,6 +112,7 @@ public class LoginForm extends Form implements CommandListener {
 
         append(new StringItem(null, "Only use proxies that you trust!"));
         append(apiField);
+        append(cdnField);
         append(gatewayGroup);
         append(gatewayField);
         append(new StringItem(null, "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended."));
@@ -110,6 +123,7 @@ public class LoginForm extends Form implements CommandListener {
     public void commandAction(Command c, Displayable d) {
         if (c == nextCommand) {
             String api = apiField.getString();
+            String cdn = cdnField.getString();
             String gateway = gatewayField.getString();
             String token = tokenField.getString();
 
@@ -161,6 +175,15 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     loginRms.addRecord(bbWifiRecord, 0, 1);
                 }
+                if (loginRms.getNumRecords() < 12) {
+                    byte[] oneByte = {1};
+                    loginRms.addRecord(oneByte, 0, 1);
+                }
+                if (loginRms.getNumRecords() >= 13) {
+                    loginRms.setRecord(13, cdn.getBytes(), 0, cdn.length());
+                } else {
+                    loginRms.addRecord(cdn.getBytes(), 0, cdn.length());
+                }
                 loginRms.closeRecordStore();
             }
             catch (Exception e) {
@@ -177,6 +200,7 @@ public class LoginForm extends Form implements CommandListener {
             }
 
             s.loadFonts();
+            s.cdn = cdn; 
             s.http = new HTTPThing(s, api, token);
             s.disp.setCurrent(new MainMenu(s));
 

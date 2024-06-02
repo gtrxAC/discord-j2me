@@ -12,6 +12,7 @@ public class SettingsForm extends Form implements CommandListener {
     private ChoiceGroup authorFontGroup;
     private ChoiceGroup messageFontGroup;
     private TextField messageCountField;
+    private ChoiceGroup formatGroup;
     private Command saveCommand;
     private Command cancelCommand;
 
@@ -38,6 +39,11 @@ public class SettingsForm extends Form implements CommandListener {
         messageFontGroup = new ChoiceGroup("Message content font", ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
         messageFontGroup.setSelectedIndex(s.messageFontSize, true);
 
+        String[] formatChoices = {"PNG", "JPEG"};
+        Image[] formatImages = {null, null};
+        formatGroup = new ChoiceGroup("Attachment format", ChoiceGroup.EXCLUSIVE, formatChoices, formatImages);
+        formatGroup.setSelectedIndex(s.useJpeg ? 1 : 0, true);
+
         messageCountField = new TextField("Message load count", new Integer(s.messageLoadCount).toString(), 3, TextField.NUMERIC);
 
         saveCommand = new Command("Save", Command.OK, 0);
@@ -48,6 +54,7 @@ public class SettingsForm extends Form implements CommandListener {
         append(authorFontGroup);
         append(messageFontGroup);
         append(messageCountField);
+        append(formatGroup);
         addCommand(saveCommand);
         addCommand(cancelCommand);
     }
@@ -58,6 +65,7 @@ public class SettingsForm extends Form implements CommandListener {
                 s.theme = themeGroup.getSelectedIndex();
                 s.authorFontSize = authorFontGroup.getSelectedIndex();
                 s.messageFontSize = messageFontGroup.getSelectedIndex();
+                s.useJpeg = formatGroup.getSelectedIndex() == 1;
 
                 try {
                     int newCount = Integer.parseInt(messageCountField.getString());
@@ -80,6 +88,7 @@ public class SettingsForm extends Form implements CommandListener {
                 byte[] authorFontRecord = {new Integer(s.authorFontSize).byteValue()};
                 byte[] messageFontRecord = {new Integer(s.messageFontSize).byteValue()};
                 byte[] messageCountRecord = {new Integer(s.messageLoadCount).byteValue()};
+                byte[] jpegRecord = {new Integer(s.useJpeg ? 1 : 0).byteValue()};
 
                 if (loginRms.getNumRecords() >= 3) {
                     loginRms.setRecord(3, themeRecord, 0, 1);
@@ -111,6 +120,12 @@ public class SettingsForm extends Form implements CommandListener {
                     loginRms.setRecord(9, messageCountRecord, 0, 1);
                 } else {
                     loginRms.addRecord(messageCountRecord, 0, 1);
+                }
+
+                if (loginRms.getNumRecords() >= 12) {
+                    loginRms.setRecord(12, jpegRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(jpegRecord, 0, 1);
                 }
 
                 loginRms.closeRecordStore();

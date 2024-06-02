@@ -153,6 +153,10 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_ATTACHMENTS: {
+                    if (s.cdn == null || s.cdn.length() == 0) {
+                        throw new Exception("CDN URL has not been defined. Attachments are not available.");
+                    }
+
                     Vector attachments = s.attachmentView.msg.attachments;
 
                     for (int i = 0; i < attachments.size(); i++) {

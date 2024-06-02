@@ -39,9 +39,9 @@ public class ChannelView extends Canvas implements CommandListener {
 
     //                                            Dark        Light       Black
     public static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
-    public static final int[] highlightColors2 = {0x002b2d31, 0x00EEEEEE, 0x00181818};
-    public static final int[] highlightColors =  {0x00232428, 0x00DDDDDD, 0x00202020};
-    public static final int[] darkBgColors =     {0x001e1f22, 0x00CCCCCC, 0x00000000};
+    public static final int[] highlightColors2 = {0x002b2d31, 0x00EEEEEE, 0x00202020};
+    public static final int[] highlightColors =  {0x00232428, 0x00DDDDDD, 0x00303030};
+    public static final int[] darkBgColors =     {0x001e1f22, 0x00CCCCCC, 0x00404040};
     public static final int[] messageColors =    {0x00FFFFFF, 0x00111111, 0x00EEEEEE};
     public static final int[] authorColors =     {0x00FFFFFF, 0x00000000, 0x00FFFFFF};
     public static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00999999};

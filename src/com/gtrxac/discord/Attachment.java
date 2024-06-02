@@ -28,7 +28,7 @@ public class Attachment {
             width = (screenHeight*imageAspectRatio)/100;
         }
 
-        url = data.getString("proxy_url") + "width=" + width + "&height=" + height + "&format=png";
-        url = "http://cdndsc.wunderwungiel.pl" + url.substring("https://media.discordapp.net".length());
+        url = data.getString("proxy_url") + "width=" + width + "&height=" + height + "&format=" + (s.useJpeg ? "jpeg" : "png");
+        url = s.cdn + url.substring("https://media.discordapp.net".length());
     }
 }

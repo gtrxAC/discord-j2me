@@ -16,6 +16,7 @@ public class State {
 	boolean useGateway;
 	boolean bbWifi;
 	int messageLoadCount;
+	boolean useJpeg;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -25,6 +26,7 @@ public class State {
 
 	HTTPThing http;
 	GatewayThread gateway;
+	String cdn;
 
 	Vector guilds;
 	Guild selectedGuild;
