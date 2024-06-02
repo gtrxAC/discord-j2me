@@ -10,8 +10,8 @@ public class Attachment {
         int imageHeight = data.getInt("height");
         int imageAspectRatio = imageWidth*100 / imageHeight;
 
-        int screenWidth = s.oldUI ? s.oldChannelView.getWidth() : s.channelView.getWidth();
-        int screenHeight = s.oldUI ? s.oldChannelView.getHeight() : s.channelView.getHeight();
+        int screenWidth = s.channelSelector != null ? s.channelSelector.getWidth() : s.dmSelector.getWidth();
+        int screenHeight = s.channelSelector != null ? s.channelSelector.getHeight() : s.dmSelector.getHeight();
         int screenAspectRatio = screenWidth*100 / screenHeight;
 
         int width, height;
