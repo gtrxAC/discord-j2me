@@ -25,6 +25,9 @@ public class LoginForm extends Form implements CommandListener {
         String initialCdn = "http://cdndsc.wunderwungiel.pl";
         String initialToken = "";
         
+        String manifestToken = s.midlet.getAppProperty("Token");
+        if (manifestToken != null) initialToken = manifestToken;
+        
         if (RecordStore.listRecordStores() != null) {
             try {
                 loginRms = RecordStore.openRecordStore("login", true);
@@ -32,7 +35,8 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() > 0) {
                     String savedApi = new String(loginRms.getRecord(1));
                     if (savedApi.length() > 0) initialApi = savedApi;
-                    initialToken = new String(loginRms.getRecord(2));
+                    String savedToken = new String(loginRms.getRecord(2));
+                    if (savedToken.length() > 0) initialToken = savedToken;
                 }
                 if (loginRms.getNumRecords() >= 3) {
                     s.theme = loginRms.getRecord(3)[0];

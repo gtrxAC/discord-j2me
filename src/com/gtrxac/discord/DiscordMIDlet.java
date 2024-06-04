@@ -14,6 +14,7 @@ public class DiscordMIDlet extends MIDlet {
     public void startApp() {
         if (!started) {
             s = new State();
+            s.midlet = this;
             s.disp = Display.getDisplay(this);
             s.disp.setCurrent(new LoginForm(s));
             started = true;
