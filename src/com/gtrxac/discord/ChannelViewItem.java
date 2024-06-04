@@ -24,10 +24,10 @@ public class ChannelViewItem {
         int messageFontHeight = s.messageFont.getHeight();
 
         if (type == MESSAGE) {
-            int authorFontHeight = s.authorFont.getHeight();
-
             // Each content line + one line for message author + little bit of spacing between messages
-            return messageFontHeight*msg.contentLines.length + authorFontHeight + messageFontHeight/4;
+            int result = messageFontHeight*msg.contentLines.length + messageFontHeight/4;
+            if (msg.showAuthor) result += s.authorFont.getHeight();
+            return result;
         }
         // For buttons
         return messageFontHeight*5/3;
@@ -52,20 +52,22 @@ public class ChannelViewItem {
                 
                 y += messageFontHeight/8;
 
-                // Draw author (and recipient if applicable)
-                g.setColor(ChannelView.authorColors[s.theme]);
-                g.setFont(s.authorFont);
-                String authorStr = msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : "");
-                g.drawString(authorStr, 1, y, Graphics.TOP|Graphics.LEFT);
+                if (msg.showAuthor) {
+                    // Draw author (and recipient if applicable)
+                    g.setColor(ChannelView.authorColors[s.theme]);
+                    g.setFont(s.authorFont);
+                    String authorStr = msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : "");
+                    g.drawString(authorStr, 1, y, Graphics.TOP|Graphics.LEFT);
 
-                // Draw timestamp
-                g.setColor(ChannelView.timestampColors[s.theme]);
-                g.setFont(s.timestampFont);
-                g.drawString(
-                    "  " + msg.timestamp, 1 + s.authorFont.stringWidth(authorStr), y,
-                    Graphics.TOP|Graphics.LEFT
-                );
-                y += s.authorFont.getHeight();
+                    // Draw timestamp
+                    g.setColor(ChannelView.timestampColors[s.theme]);
+                    g.setFont(s.timestampFont);
+                    g.drawString(
+                        "  " + msg.timestamp, 1 + s.authorFont.stringWidth(authorStr), y,
+                        Graphics.TOP|Graphics.LEFT
+                    );
+                    y += s.authorFont.getHeight();
+                }
 
                 // Draw message content
                 g.setColor(ChannelView.messageColors[s.theme]);

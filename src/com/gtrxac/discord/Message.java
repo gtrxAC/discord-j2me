@@ -11,6 +11,7 @@ public class Message {
     public String[] contentLines;
     public String timestamp;
     public Vector attachments;
+    public boolean showAuthor;
 
     public Message(State s, JSONObject data) {
         id = data.getString("id");
@@ -116,5 +117,27 @@ public class Message {
         timestamp = time.toString();
 
         if (content.length() == 0 && attachments.size() == 0) content = "(no content)";
+    }
+
+    /**
+     * Determine whether or not the author/timestamp row should be shown for this message.
+     * @param lastAuthor The author of the message shown above this message.
+     * @param lastRecipient The recipient of the message shown above this message.
+     * @return true if author should be shown, false if messages are "merged"
+     */
+    public boolean shouldShowAuthor(String lastAuthor, String lastRecipient) {
+        // First (topmost) message shown in channel view -> true
+        if (lastAuthor == null) return true;
+        // Different authors -> true
+        if (!lastAuthor.equals(author)) return true;
+
+        // Authors are same, now determine based on recipient:
+
+        // Neither message is a reply -> false
+        if (lastRecipient == null && recipient == null) return false;
+        // One of the messages is a reply (but not both) -> true
+        if ((lastRecipient == null) != (recipient == null)) return true;
+        // Different recipients -> true
+        return lastRecipient.equals(recipient);
     }
 }

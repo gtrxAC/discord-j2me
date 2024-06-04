@@ -98,6 +98,16 @@ public class ChannelView extends Canvas implements CommandListener {
             maxScroll += newerItem.getHeight();
         }
 
+        String lastAuthor = null;
+        String lastRecipient = null;
+
+        for (int i = s.messages.size() - 1; i >= 0; i--) {
+            Message msg = (Message) s.messages.elementAt(i);
+            msg.showAuthor = msg.shouldShowAuthor(lastAuthor, lastRecipient);
+            lastAuthor = msg.author;
+            lastRecipient = msg.recipient;
+        }
+
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
             msg.contentLines = WordWrap.getStringArray(msg.content, getWidth(), s.messageFont);
@@ -109,10 +119,12 @@ public class ChannelView extends Canvas implements CommandListener {
                 maxScroll += attachItem.getHeight();
             }
 
-            ChannelViewItem msgItem = new ChannelViewItem(s, ChannelViewItem.MESSAGE);
-            msgItem.msg = msg;
-            items.addElement(msgItem);
-            maxScroll += msgItem.getHeight();
+            if (msg.showAuthor || msg.contentLines.length != 0) {
+                ChannelViewItem msgItem = new ChannelViewItem(s, ChannelViewItem.MESSAGE);
+                msgItem.msg = msg;
+                items.addElement(msgItem);
+                maxScroll += msgItem.getHeight();
+            }
         }
 
         if (s.messages.size() > 0) {
@@ -202,7 +214,16 @@ public class ChannelView extends Canvas implements CommandListener {
             if (selected.type == ChannelViewItem.MESSAGE) {
                 addCommand(replyCommand);
                 removeCommand(selectCommand);
-            } else {
+            }
+            else if (
+                selected.type == ChannelViewItem.ATTACHMENTS_BUTTON &&
+                !selected.msg.showAuthor &&
+                selected.msg.contentLines.length == 0
+            ) {
+                addCommand(replyCommand);
+                addCommand(selectCommand);
+            }
+            else {
                 removeCommand(replyCommand);
                 addCommand(selectCommand);
             }
