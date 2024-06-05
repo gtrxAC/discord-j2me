@@ -13,6 +13,7 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command selectCommand;
     private Command sendCommand;
     private Command replyCommand;
+    private Command copyCommand;
     private Command refreshCommand;
 
     private Vector items;
@@ -56,7 +57,8 @@ public class ChannelView extends Canvas implements CommandListener {
         selectCommand = new Command("Select", Command.OK, 1);
         sendCommand = new Command("Send", "Send message", Command.ITEM, 2);
         replyCommand = new Command("Reply", Command.ITEM, 3);
-        refreshCommand = new Command("Refresh", Command.ITEM, 4);
+        copyCommand = new Command("Copy", "Copy content", Command.ITEM, 4);
+        refreshCommand = new Command("Refresh", Command.ITEM, 5);
 
         messageFontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
@@ -127,7 +129,7 @@ public class ChannelView extends Canvas implements CommandListener {
             }
         }
 
-        if (s.messages.size() > 0) {
+        if (s.messages.size() >= s.messageLoadCount) {
             ChannelViewItem olderItem = new ChannelViewItem(s, ChannelViewItem.OLDER_BUTTON);
             items.addElement(olderItem);
             maxScroll += olderItem.getHeight();
@@ -206,30 +208,41 @@ public class ChannelView extends Canvas implements CommandListener {
             update(true);
         }
 
-        makeSelectedItemVisible();
+        if (items.size() > 0) {
+            makeSelectedItemVisible();
 
-        ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
+            ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
 
-        if (selectionMode) {
-            if (selected.type == ChannelViewItem.MESSAGE) {
-                addCommand(replyCommand);
+            if (selectionMode) {
+                if (selected.type == ChannelViewItem.MESSAGE) {
+                    addCommand(replyCommand);
+                    removeCommand(selectCommand);
+
+                    if ("(no content)".equals(selected.msg.content)) {
+                        removeCommand(copyCommand);
+                    } else {
+                        addCommand(copyCommand);
+                    }
+                }
+                else if (
+                    selected.type == ChannelViewItem.ATTACHMENTS_BUTTON &&
+                    !selected.msg.showAuthor &&
+                    selected.msg.contentLines.length == 0
+                ) {
+                    addCommand(replyCommand);
+                    removeCommand(copyCommand);
+                    addCommand(selectCommand);
+                }
+                else {
+                    removeCommand(replyCommand);
+                    removeCommand(copyCommand);
+                    addCommand(selectCommand);
+                }
+            } else {
+                removeCommand(replyCommand);
+                removeCommand(copyCommand);
                 removeCommand(selectCommand);
             }
-            else if (
-                selected.type == ChannelViewItem.ATTACHMENTS_BUTTON &&
-                !selected.msg.showAuthor &&
-                selected.msg.contentLines.length == 0
-            ) {
-                addCommand(replyCommand);
-                addCommand(selectCommand);
-            }
-            else {
-                removeCommand(replyCommand);
-                addCommand(selectCommand);
-            }
-        } else {
-            removeCommand(replyCommand);
-            removeCommand(selectCommand);
         }
 
         g.setFont(s.messageFont);
@@ -430,6 +443,10 @@ public class ChannelView extends Canvas implements CommandListener {
         if (c == replyCommand) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
             s.disp.setCurrent(new ReplyForm(s, item.msg));
+        }
+        if (c == copyCommand) {
+            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+            s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
         }
     }
 }

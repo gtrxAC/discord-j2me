@@ -1,6 +1,10 @@
 const express = require('express');
 const axios = require('axios');
 
+const EmojiConvertor = require('emoji-js');
+const emoji = new EmojiConvertor();
+emoji.replace_mode = 'unified';
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -163,6 +167,10 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
                     })
                     // replace <:name:12345...> emoji format with :name:
                     .replace(/<a?(:\w*:)\d{15,}>/gm, "$1")
+
+                // Replace Unicode emojis with :name: textual representations
+                emoji.colons_mode = true;
+                result.content = emoji.replace_unified(result.content);
             }
 
             if (msg.referenced_message) {
