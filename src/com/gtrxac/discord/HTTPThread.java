@@ -163,7 +163,7 @@ public class HTTPThread extends Thread {
                         Attachment attach = (Attachment) attachments.elementAt(i);
 
                         try {
-                            Image image = HTTPThing.getImage(attach.url);
+                            Image image = s.http.getImage(attach.url);
                             ImageItem item = new ImageItem(null, image, Item.LAYOUT_DEFAULT, null);
                             s.attachmentView.append(item);
                         }

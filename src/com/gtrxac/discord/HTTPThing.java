@@ -109,12 +109,12 @@ public class HTTPThing {
 
     // Image loading code by shinovon
     // https://github.com/gtrxAC/discord-j2me/pull/5/commits/193c63f6a00b8e24da7a3582e9d1a92522f9940e
-    public static Image getImage(String url) throws IOException {
+    public Image getImage(String url) throws IOException {
 		byte[] b = getBytes(url);
 		return Image.createImage(b, 0, b.length);
 	}
 
-	public static byte[] getBytes(String url) throws IOException {
+	public byte[] getBytes(String url) throws IOException {
 		HttpConnection hc = null;
 		InputStream in = null;
 		try {
@@ -160,8 +160,8 @@ public class HTTPThing {
 		return res;
 	}
 
-	private static HttpConnection open(String url) throws IOException {
-		HttpConnection hc = (HttpConnection) Connector.open(url);
+	private HttpConnection open(String url) throws IOException {
+		HttpConnection hc = (HttpConnection) Connector.open(s.getPlatformSpecificUrl(url));
 		hc.setRequestMethod("GET");
 		hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
 		return hc;
