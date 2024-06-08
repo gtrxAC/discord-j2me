@@ -215,7 +215,6 @@ public class ChannelView extends Canvas implements CommandListener {
 
             if (selectionMode) {
                 if (selected.type == ChannelViewItem.MESSAGE) {
-                    addCommand(replyCommand);
                     removeCommand(selectCommand);
 
                     if ("(no content)".equals(selected.msg.content)) {
@@ -223,25 +222,19 @@ public class ChannelView extends Canvas implements CommandListener {
                     } else {
                         addCommand(copyCommand);
                     }
-                }
-                else if (
-                    selected.type == ChannelViewItem.ATTACHMENTS_BUTTON &&
-                    !selected.msg.showAuthor &&
-                    selected.msg.contentLines.length == 0
-                ) {
-                    addCommand(replyCommand);
-                    removeCommand(copyCommand);
-                    addCommand(selectCommand);
-                }
-                else {
-                    removeCommand(replyCommand);
+                } else {
                     removeCommand(copyCommand);
                     addCommand(selectCommand);
                 }
             } else {
-                removeCommand(replyCommand);
                 removeCommand(copyCommand);
                 removeCommand(selectCommand);
+            }
+
+            if (selected.shouldShowReplyOption()) {
+                addCommand(replyCommand);
+            } else {
+                removeCommand(replyCommand);
             }
         }
 
@@ -384,6 +377,28 @@ public class ChannelView extends Canvas implements CommandListener {
             }
             case Canvas.FIRE: {
                 executeItemAction();
+                break;
+            }
+            case Canvas.GAME_A: {
+                s.disp.setCurrent(new MessageBox(s));
+                break;
+            }
+            case Canvas.GAME_B: {
+                if (!selectionMode || items.size() == 0) break;
+                ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+                if (!item.shouldShowReplyOption()) break;
+                s.disp.setCurrent(new ReplyForm(s, item.msg));
+                break;
+            }
+            case Canvas.GAME_C: {
+                if (!selectionMode || items.size() == 0) break;
+                ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+                if (item.type != ChannelViewItem.MESSAGE) break;
+                s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
+                break;
+            }
+            case Canvas.GAME_D: {
+                s.openChannelView(true);
                 break;
             }
         }

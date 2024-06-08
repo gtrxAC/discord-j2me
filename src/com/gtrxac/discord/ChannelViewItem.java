@@ -18,6 +18,21 @@ public class ChannelViewItem {
     }
 
     /**
+     * Determine whether or not the 'reply' menu option should be displayed when this item is selected.
+     */
+    public boolean shouldShowReplyOption() {
+        // Show reply option for message item
+        if (type == ChannelViewItem.MESSAGE) return true;
+
+        // Also show reply option if message is merged (no author row is shown)
+        // and the message only consists of attachments (only shown as a 'view attachments' button)
+        return (
+            type == ChannelViewItem.ATTACHMENTS_BUTTON &&
+            !msg.showAuthor && msg.contentLines.length == 0
+        );
+    }
+
+    /**
      * Gets the amount of vertical pixels that this item will take up on the screen.
      */
     public int getHeight() {
