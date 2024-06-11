@@ -16,7 +16,7 @@ public class GuildSelector extends List implements CommandListener {
 
         for (int i = 0; i < s.guilds.size(); i++) {
             Guild g = (Guild) s.guilds.elementAt(i);
-            append(g.toString(), null);
+            append(g.toString(), g.icon);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
@@ -26,12 +26,12 @@ public class GuildSelector extends List implements CommandListener {
     }
 
     /**
-     * Updates the unread/ping indicators for server names shown in this selector.
+     * Updates the icons and unread/ping indicators for server names shown in this selector.
      */
     public void update() {
         for (int i = 0; i < s.guilds.size(); i++) {
             Guild g = (Guild) s.guilds.elementAt(i);
-            set(i, g.toString(), null);
+            set(i, g.toString(), g.icon);
         }
     }
 

@@ -44,7 +44,9 @@ app.get(`${BASE}/users/@me/guilds`, async (req, res) => {
             {headers: req.headers}
         );
         const guilds = response.data.map(g => {
-            return {id: g.id, name: g.name};
+            const result = {id: g.id, name: g.name};
+            if (g.icon != null) result.icon = g.icon;
+            return result;
         })
         res.send(stringifyUnicode(guilds));
     }
@@ -103,12 +105,19 @@ app.get(`${BASE}/users/@me/channels`, async (req, res) => {
                     last_message_id: ch.last_message_id
                 }
 
-                // Add name for group DMs, recipient name for normal DMs
+                // Add name and icon for group DMs, recipient name and avatar for normal DMs
                 if (ch.type == 3) {
                     result.name = ch.name;
+                    if (ch.icon != null) result.icon = ch.icon;
                 } else {
-                    result.recipients = [{global_name: ch.recipients[0].global_name}];
+                    result.recipients = [{
+                        global_name: ch.recipients[0].global_name,
+                    }];
 
+                    if (ch.recipients[0].avatar != null) {
+                        result.recipients[0].id = ch.recipients[0].id;
+                        result.recipients[0].avatar = ch.recipients[0].avatar;
+                    }
                     if (ch.recipients[0].global_name == null) {
                         result.recipients[0].username = ch.recipients[0].username;
                     }

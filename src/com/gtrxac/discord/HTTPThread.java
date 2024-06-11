@@ -11,13 +11,20 @@ public class HTTPThread extends Thread {
     public static final int FETCH_MESSAGES = 3;
     public static final int SEND_MESSAGE = 4;
     public static final int FETCH_ATTACHMENTS = 5;
-    public static final int MARK_READ = 6;
+    public static final int FETCH_ICON = 6;
+    public static final int MARK_READ = 7;
 
     State s;
     int action;
 
     String fetchMsgsBefore;
     String fetchMsgsAfter;
+
+    // Parameters for FETCH_ICON
+    String iconHash;
+    String iconID;  // ID of the guild or user
+    String iconType;
+    HasIcon iconTarget;  // item (guild or DM channel) that this icon should be assigned to
 
     public HTTPThread(State s, int action) {
         this.s = s;
@@ -27,7 +34,7 @@ public class HTTPThread extends Thread {
 
     public void run() {
         Displayable prevScreen = s.disp.getCurrent();
-        if (action != FETCH_ATTACHMENTS) s.disp.setCurrent(new LoadingScreen());
+        if (action != FETCH_ATTACHMENTS && action != FETCH_ICON) s.disp.setCurrent(new LoadingScreen(s));
         
         try {
             switch (action) {
@@ -41,7 +48,7 @@ public class HTTPThread extends Thread {
                         s.guilds = new Vector();
 
                         for (int i = 0; i < guilds.size(); i++) {
-                            s.guilds.addElement(new Guild(guilds.getObject(i)));
+                            s.guilds.addElement(new Guild(s, guilds.getObject(i)));
                         }
                     }
                     s.guildSelector = new GuildSelector(s);
@@ -72,7 +79,7 @@ public class HTTPThread extends Thread {
                         int type = ch.getInt("type", 1);
                         if (type != 1 && type != 3) continue;
             
-                        s.dmChannels.addElement(new DMChannel(ch));
+                        s.dmChannels.addElement(new DMChannel(s, ch));
                     }
                     s.dmSelector = new DMSelector(s);
                     s.disp.setCurrent(s.dmSelector);
@@ -80,7 +87,10 @@ public class HTTPThread extends Thread {
                 }
 
                 case SEND_MESSAGE: {
-                    ((LoadingScreen) s.disp.getCurrent()).text.setText("Sending");
+                    Displayable screen = s.disp.getCurrent();
+                    if (screen instanceof LoadingScreen) {
+                        ((LoadingScreen) screen).text.setText("Sending");
+                    }
 
                     String id;
                     if (s.isDM) id = s.selectedDmChannel.id;
@@ -108,7 +118,11 @@ public class HTTPThread extends Thread {
                     }
 
                     s.http.post("/channels/" + id + "/messages", json.build());
-                    ((LoadingScreen) s.disp.getCurrent()).text.setText("Loading");
+
+                    screen = s.disp.getCurrent();
+                    if (screen instanceof LoadingScreen) {
+                        ((LoadingScreen) screen).text.setText("Loading");
+                    }
                     // fall through
                 }
 
@@ -173,6 +187,17 @@ public class HTTPThread extends Thread {
                             s.attachmentView.append(new StringItem(null, e.toString()));
                         }
                     }
+                    break;
+                }
+
+                case FETCH_ICON: {
+                    if (s.cdn == null || s.cdn.length() == 0) {
+                        throw new Exception("CDN URL has not been defined. Server icons and user avatars are not available.");
+                    }
+
+                    String format = (s.useJpeg ? "jpg" : "png");
+                    Image icon = s.http.getImage(s.cdn + iconType + iconID + "/" + iconHash + "." + format + "?size=16");
+                    iconTarget.setIcon(s, icon);
                     break;
                 }
 

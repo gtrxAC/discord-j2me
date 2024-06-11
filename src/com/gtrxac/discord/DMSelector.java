@@ -48,7 +48,8 @@ public class DMSelector extends List implements CommandListener {
         }
 
         for (int i = 0; i < lastDMs.size(); i++) {
-            append(((DMChannel) lastDMs.elementAt(i)).name, null);
+            DMChannel ch = (DMChannel) lastDMs.elementAt(i);
+            append(ch.name, ch.icon);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
@@ -57,6 +58,16 @@ public class DMSelector extends List implements CommandListener {
         addCommand(backCommand);
         addCommand(searchCommand);
         addCommand(refreshCommand);
+    }
+
+    /**
+     * Updates the icons and unread/ping indicators for DM channel names shown in this selector.
+     */
+    public void update() {
+        for (int i = 0; i < lastDMs.size(); i++) {
+            DMChannel ch = (DMChannel) lastDMs.elementAt(i);
+            set(i, ch.name, ch.icon);
+        }
     }
 
     public void commandAction(Command c, Displayable d) {

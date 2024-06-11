@@ -106,14 +106,14 @@ public class GatewayThread extends Thread {
                         JSONArray guildsArr = msgData.getArray("guilds");
 
                         for (int i = 0; i < guildsArr.size(); i++) {
-                            Guild g = new Guild(guildsArr.getObject(i));
+                            Guild g = new Guild(s, guildsArr.getObject(i));
                             s.guilds.addElement(g);
                         }
 
                         // JSONArray dmChArr = msgData.getArray("private_channels");
 
                         // for (int i = 0; i < dmChArr.size(); i++) {
-                        //     DMChannel ch = new DMChannel(dmChArr.getObject(i));
+                        //     DMChannel ch = new DMChannel(s, dmChArr.getObject(i));
                         //     s.dmChannels.addElement(ch);
                         // }
 
