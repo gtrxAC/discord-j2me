@@ -14,13 +14,24 @@ public class ChannelSelector extends List implements CommandListener {
         this.s = s;
 
         for (int i = 0; i < s.channels.size(); i++) {
-            append("#" + ((Channel) s.channels.elementAt(i)).name, null);
+            Channel ch = (Channel) s.channels.elementAt(i);
+            append(ch.toString(), null);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
         refreshCommand = new Command("Refresh", Command.ITEM, 1);
         addCommand(backCommand);
         addCommand(refreshCommand);
+    }
+
+    /**
+     * Updates the unread/ping indicators for channel names shown in this selector.
+     */
+    public void update() {
+        for (int i = 0; i < s.channels.size(); i++) {
+            Channel ch = (Channel) s.channels.elementAt(i);
+            set(i, ch.toString(), null);
+        }
     }
 
     public void commandAction(Command c, Displayable d) {

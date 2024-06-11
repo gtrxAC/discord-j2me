@@ -224,6 +224,20 @@ app.post(`${BASE}/channels/:channel/messages`, async (req, res) => {
     catch (e) { handleError(res, e); }
 });
 
+// Mark message as read
+app.post(`${BASE}/channels/:channel/messages/:message/ack`, async (req, res) => {
+    try {
+        delete req.headers.host;
+        await axios.post(
+            `${DEST_BASE}/channels/${req.params.channel}/messages/${req.params.message}/ack`,
+            req.body,
+            {headers: req.headers}
+        );
+        res.send("ok");
+    }
+    catch (e) { handleError(res, e); }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

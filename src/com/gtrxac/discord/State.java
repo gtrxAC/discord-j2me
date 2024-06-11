@@ -28,6 +28,7 @@ public class State {
 	GatewayThread gateway;
 	String cdn;
 
+	boolean guildsReady;  // have guilds been loaded from ready message? (when using gateway)
 	Vector guilds;
 	Guild selectedGuild;
 	GuildSelector guildSelector;
@@ -95,6 +96,12 @@ public class State {
 			return url + ";deviceside=true;interface=wifi";
 		}
 		return url;
+	}
+
+	public void updateUnreadIndicators() {
+		if (guildSelector != null) guildSelector.update();
+		if (channelSelector != null) channelSelector.update();
+		// if (dmSelector != null) dmSelector.update();
 	}
 
 	public void openGuildSelector(boolean reload) {

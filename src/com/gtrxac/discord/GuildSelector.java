@@ -15,13 +15,24 @@ public class GuildSelector extends List implements CommandListener {
         this.s = s;
 
         for (int i = 0; i < s.guilds.size(); i++) {
-            append(((Guild) s.guilds.elementAt(i)).name, null);
+            Guild g = (Guild) s.guilds.elementAt(i);
+            append(g.toString(), null);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
         refreshCommand = new Command("Refresh", Command.ITEM, 1);
         addCommand(backCommand);
         addCommand(refreshCommand);
+    }
+
+    /**
+     * Updates the unread/ping indicators for server names shown in this selector.
+     */
+    public void update() {
+        for (int i = 0; i < s.guilds.size(); i++) {
+            Guild g = (Guild) s.guilds.elementAt(i);
+            set(i, g.toString(), null);
+        }
     }
 
     public void commandAction(Command c, Displayable d) {

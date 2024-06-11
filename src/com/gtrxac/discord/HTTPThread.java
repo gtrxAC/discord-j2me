@@ -11,6 +11,7 @@ public class HTTPThread extends Thread {
     public static final int FETCH_MESSAGES = 3;
     public static final int SEND_MESSAGE = 4;
     public static final int FETCH_ATTACHMENTS = 5;
+    public static final int MARK_READ = 6;
 
     State s;
     int action;
@@ -31,11 +32,17 @@ public class HTTPThread extends Thread {
         try {
             switch (action) {
                 case FETCH_GUILDS: {
-                    JSONArray guilds = JSON.getArray(s.http.get("/users/@me/guilds"));
-                    s.guilds = new Vector();
+                    if (s.gateway != null && s.gateway.isAlive()) {
+                        // If using gateway, wait for initial ready message
+                        while (!s.guildsReady) Thread.sleep(1);
+                    } else {
+                        // No gateway -> fetch servers
+                        JSONArray guilds = JSON.getArray(s.http.get("/users/@me/guilds"));
+                        s.guilds = new Vector();
 
-                    for (int i = 0; i < guilds.size(); i++) {
-                        s.guilds.addElement(new Guild(guilds.getObject(i)));
+                        for (int i = 0; i < guilds.size(); i++) {
+                            s.guilds.addElement(new Guild(guilds.getObject(i)));
+                        }
                     }
                     s.guildSelector = new GuildSelector(s);
                     s.disp.setCurrent(s.guildSelector);
@@ -43,22 +50,14 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_CHANNELS: {
-                    JSONArray channels = JSON.getArray(
-                        s.http.get("/guilds/" + s.selectedGuild.id + "/channels")
-                    );
-                    s.channels = new Vector();
-
-                    for (int i = 0; i < channels.size(); i++) {
-                        for (int a = 0; a < channels.size(); a++) {
-                            JSONObject ch = channels.getObject(a);
-                            if (ch.getInt("position", i) != i) continue;
-
-                            int type = ch.getInt("type", 0);
-                            if (type != 0 && type != 5) continue;
-
-                            s.channels.addElement(new Channel(ch));
-                        }
+                    // Fetch channels from API if required
+                    // Don't need to fetch if already loaded (from gateway or previous API request)
+                    if (s.gateway == null || !s.gateway.isAlive() || s.selectedGuild.channels == null) {
+                        s.selectedGuild.channels = Channel.parseChannels(
+                            JSON.getArray(s.http.get("/guilds/" + s.selectedGuild.id + "/channels"))
+                        );
                     }
+                    s.channels = s.selectedGuild.channels;
                     s.channelSelector = new ChannelSelector(s);
                     s.disp.setCurrent(s.channelSelector);
                     break;
@@ -81,6 +80,8 @@ public class HTTPThread extends Thread {
                 }
 
                 case SEND_MESSAGE: {
+                    ((LoadingScreen) s.disp.getCurrent()).text.setText("Sending");
+
                     String id;
                     if (s.isDM) id = s.selectedDmChannel.id;
                     else id = s.selectedChannel.id;
@@ -107,6 +108,7 @@ public class HTTPThread extends Thread {
                     }
 
                     s.http.post("/channels/" + id + "/messages", json.build());
+                    ((LoadingScreen) s.disp.getCurrent()).text.setText("Loading");
                     // fall through
                 }
 
@@ -171,6 +173,31 @@ public class HTTPThread extends Thread {
                             s.attachmentView.append(new StringItem(null, e.toString()));
                         }
                     }
+                    break;
+                }
+
+                case MARK_READ: {
+                    String lastMessageID = ((Message) s.messages.elementAt(0)).id;
+                    String channelID = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+
+                    s.http.post(
+                        "/channels/" + channelID + "/messages/" + lastMessageID + "/ack",
+                        "{\"token\":null,\"last_viewed\":65535}"
+                    );
+
+                    // If we're on the last (newest) page, remove unread indicators
+                    int page = s.oldUI ? s.oldChannelView.page : s.channelView.page;
+                    if (page == 0) {
+                        Channel ch = Channel.getByID(s, channelID);
+                        if (ch != null) {
+                            ch.unread = false;
+                            ch.pings = 0;
+                            s.updateUnreadIndicators();
+                        }
+                    }
+
+                    if (!s.oldUI) s.channelView.update(false);
+                    s.disp.setCurrent(prevScreen);
                     break;
                 }
             }

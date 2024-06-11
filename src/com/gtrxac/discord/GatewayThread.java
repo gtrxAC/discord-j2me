@@ -69,8 +69,6 @@ public class GatewayThread extends Thread {
                     }
                 }
 
-                // System.out.println(msgStr);
-
                 // Process message
                 JSONObject message = JSON.getObject(msgStr);
                 String op = message.getString("t", "");
@@ -85,6 +83,7 @@ public class GatewayThread extends Thread {
                     if (op.equals("GATEWAY_HELLO")) {
                         // Connect to gateway
                         JSONArray events = new JSONArray();
+                        events.add("READY");
                         events.add("MESSAGE_CREATE");
                         events.add("TYPING_START");
 
@@ -100,23 +99,65 @@ public class GatewayThread extends Thread {
                         os.write((connMsg.build() + "\n").getBytes());
                         os.flush();
                     }
-                    if (op.equals("GATEWAY_DISCONNECT")) {
+                    else if (op.equals("READY")) {
+                        s.guilds = new Vector();
+
+                        JSONObject msgData = message.getObject("d");
+                        JSONArray guildsArr = msgData.getArray("guilds");
+
+                        for (int i = 0; i < guildsArr.size(); i++) {
+                            Guild g = new Guild(guildsArr.getObject(i));
+                            s.guilds.addElement(g);
+                        }
+
+                        // JSONArray dmChArr = msgData.getArray("private_channels");
+
+                        // for (int i = 0; i < dmChArr.size(); i++) {
+                        //     DMChannel ch = new DMChannel(dmChArr.getObject(i));
+                        //     s.dmChannels.addElement(ch);
+                        // }
+
+                        JSONArray readState = msgData.getObject("read_state").getArray("entries");
+
+                        for (int i = 0; i < readState.size(); i++) {
+                            JSONObject entry = readState.getObject(i);
+                            if (entry.getInt("flags", 0) == 0) continue;
+
+                            String id = entry.getString("id");
+                            Channel ch = Channel.getByID(s, id);
+                            if (ch != null) {
+                                ch.unread = true;
+                                ch.pings = entry.getInt("mention_count");
+                            }
+                        }
+                        s.guildsReady = true;
+                    }
+                    else if (op.equals("GATEWAY_DISCONNECT")) {
                         disconnect();
                         String reason = message.getObject("d").getString("message");
                         s.disp.setCurrent(new GatewayAlert(s, reason), s.disp.getCurrent());
                         return;
                     }
                     else if (op.equals("MESSAGE_CREATE")) {
-                        // Check that a channel is opened
-                        if (s.disp.getCurrent() != s.channelView && s.disp.getCurrent() != s.oldChannelView) continue;
+                        JSONObject msgData = message.getObject("d");
+                        String chId = msgData.getString("channel_id");
+
+                        // Mark this channel as unread
+                        // TODO: pings
+                        Channel ch = Channel.getByID(s, chId);
+                        if (ch != null) {
+                            ch.unread = true;
+                            s.updateUnreadIndicators();
+                        }
+
+                        // Check that a channel has been opened
+                        if (s.channelView == null && s.oldChannelView == null) continue;
                         
                         // Check that the opened channel is the one where the message was sent
-                        JSONObject msgData = message.getObject("d");
-                        String channel = msgData.getString("channel_id");
                         if (s.isDM) {
-                            if (!channel.equals(s.selectedDmChannel.id)) continue;
+                            if (!chId.equals(s.selectedDmChannel.id)) continue;
                         } else {
-                            if (!channel.equals(s.selectedChannel.id)) continue;
+                            if (!chId.equals(s.selectedChannel.id)) continue;
                         }
 
                         // If we're on the newest page, make the new message visible
@@ -173,12 +214,12 @@ public class GatewayThread extends Thread {
                         }
                     }
                     else if (op.equals("TYPING_START")) {
-                        // Check that a channel is opened
-                        if (s.disp.getCurrent() != s.channelView && s.disp.getCurrent() != s.oldChannelView) continue;
-                        
-                        // Check that the opened channel is the one where the typing event happened
+                        if (s.channelView == null && s.oldChannelView == null) continue;
+
                         JSONObject msgData = message.getObject("d");
                         String channel = msgData.getString("channel_id");
+
+                        // Check that the opened channel (if there is any) is the one where the typing event happened
                         if (s.isDM) {
                             if (!channel.equals(s.selectedDmChannel.id)) continue;
                         } else {
