@@ -57,8 +57,9 @@ public class ChannelViewItem {
     public void draw(Graphics g, int y, int width, boolean selected) {
         int messageFontHeight = s.messageFont.getHeight();
         boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
+
         int iconSize = messageFontHeight*4/3;
-        s.iconCache.scaleSize = iconSize;
+        if (s.iconCache != null) s.iconCache.scaleSize = iconSize;
 
         switch (type) {
             case MESSAGE: {

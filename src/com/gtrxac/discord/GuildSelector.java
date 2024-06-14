@@ -16,7 +16,8 @@ public class GuildSelector extends List implements CommandListener {
 
         for (int i = 0; i < s.guilds.size(); i++) {
             Guild g = (Guild) s.guilds.elementAt(i);
-            append(g.toString(), s.iconCache.get(g));
+            Image icon = (s.iconCache != null) ? s.iconCache.get(g) : null;
+            append(g.toString(), icon);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
@@ -31,7 +32,8 @@ public class GuildSelector extends List implements CommandListener {
     public void update() {
         for (int i = 0; i < s.guilds.size(); i++) {
             Guild g = (Guild) s.guilds.elementAt(i);
-            set(i, g.toString(), s.iconCache.get(g));
+            Image icon = (s.iconCache != null) ? s.iconCache.get(g) : null;
+            set(i, g.toString(), icon);
         }
     }
 

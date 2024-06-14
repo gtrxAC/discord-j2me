@@ -80,6 +80,11 @@ public class LoginForm extends Form implements CommandListener {
                     String savedCdn = new String(loginRms.getRecord(13));
                     if (savedCdn.length() > 0) initialCdn = savedCdn;
                 }
+                if (loginRms.getNumRecords() >= 14) {
+                    s.iconType = loginRms.getRecord(14)[0];
+                } else {
+                    s.iconType = State.ICON_TYPE_CIRCLE;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -187,6 +192,10 @@ public class LoginForm extends Form implements CommandListener {
                     loginRms.setRecord(13, cdn.getBytes(), 0, cdn.length());
                 } else {
                     loginRms.addRecord(cdn.getBytes(), 0, cdn.length());
+                }
+                if (loginRms.getNumRecords() < 14) {
+                    byte[] iconTypeByte = {State.ICON_TYPE_CIRCLE};
+                    loginRms.addRecord(iconTypeByte, 0, 1);
                 }
                 loginRms.closeRecordStore();
             }
