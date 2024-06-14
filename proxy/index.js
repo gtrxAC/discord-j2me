@@ -155,7 +155,11 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
         const messages = response.data.map(msg => {
             const result = {
                 id: msg.id,
-                author: {global_name: msg.author.global_name}
+                author: {
+                    id: msg.author.id,
+                    avatar: msg.author.avatar,
+                    global_name: msg.author.global_name
+                }
             }
             if (msg.author.global_name == null) {
                 result.author.username = msg.author.username;

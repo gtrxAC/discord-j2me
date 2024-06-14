@@ -7,6 +7,10 @@ import java.util.*;
 public class State {
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
+	public static final int ICON_TYPE_NONE = 0;
+	public static final int ICON_TYPE_SQUARE = 1;
+	public static final int ICON_TYPE_CIRCLE = 2;
+
 	MIDlet midlet;
 	Display disp;
 
@@ -17,6 +21,7 @@ public class State {
 	boolean bbWifi;
 	int messageLoadCount;
 	boolean useJpeg;
+	int iconType;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -27,6 +32,8 @@ public class State {
 	HTTPThing http;
 	GatewayThread gateway;
 	String cdn;
+
+	IconCache iconCache;
 
 	boolean guildsReady;  // have guilds been loaded from ready message? (when using gateway)
 	Vector guilds;
@@ -58,6 +65,8 @@ public class State {
 
 	public State() {
 		subscribedGuilds = new Vector();
+		iconCache = new IconCache(this);
+		iconType = 2;
 	}
 
 	private Alert createError(String message) {

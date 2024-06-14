@@ -9,7 +9,6 @@ public class Guild implements HasIcon {
     public String name;
     public Vector channels;
     public String iconHash;
-    public Image icon;
 
     public Guild(State s, JSONObject data) {
         id = data.getString("id");
@@ -27,15 +26,6 @@ public class Guild implements HasIcon {
 
         if (data.has("channels")) {
             channels = Channel.parseChannels(data.getArray("channels"));
-        }
-
-        if (iconHash != null) {
-            HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_ICON);
-            h.iconID = id;
-            h.iconHash = iconHash;
-            h.iconType = "/icons/";
-            h.iconTarget = this;
-            h.start();
         }
     }
 
@@ -56,13 +46,11 @@ public class Guild implements HasIcon {
         return name;
     }
 
-    /**
-     * Sets the icon for this guild and updates the guild list to show it.
-     * Called by the HTTP thread after fetching the icon.
-     */
-    public void setIcon(State s, Image icon) {
-        this.icon = icon;
-        this.iconHash = null;
+    public String getIconID() { return id; }
+    public String getIconHash() { return iconHash; }
+    public String getIconType() { return "/icons/"; }
+
+    public void iconLoaded(State s) {
 		if (s.guildSelector != null) s.guildSelector.update();
     }
 }

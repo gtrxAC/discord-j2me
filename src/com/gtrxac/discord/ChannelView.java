@@ -102,7 +102,7 @@ public class ChannelView extends Canvas implements CommandListener {
             maxScroll += newerItem.getHeight();
         }
 
-        String lastAuthor = null;
+        User lastAuthor = null;
         String lastRecipient = null;
 
         for (int i = s.messages.size() - 1; i >= 0; i--) {
@@ -114,9 +114,13 @@ public class ChannelView extends Canvas implements CommandListener {
 
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
-            msg.contentLines = WordWrap.getStringArray(msg.content, getWidth(), s.messageFont);
 
-            if (msg.attachments.size() > 0) {
+            boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
+            int width = getWidth() - (useIcons ? messageFontHeight*2 : 0);
+
+            msg.contentLines = Util.wordWrap(msg.content, width, s.messageFont);
+
+            if (msg.attachments != null && msg.attachments.size() > 0) {
                 ChannelViewItem attachItem = new ChannelViewItem(s, ChannelViewItem.ATTACHMENTS_BUTTON);
                 attachItem.msg = msg;
                 items.addElement(attachItem);
@@ -273,7 +277,7 @@ public class ChannelView extends Canvas implements CommandListener {
         int typingBannerY = 0;
         if (outdated) {
             g.setFont(s.messageFont);
-            String[] lines = WordWrap.getStringArray("Refresh to read new messages", getWidth(), s.messageFont);
+            String[] lines = Util.wordWrap("Refresh to read new messages", getWidth(), s.messageFont);
             g.setColor(0x00AA1122);
             g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
 
@@ -294,7 +298,7 @@ public class ChannelView extends Canvas implements CommandListener {
             }
 
             g.setFont(s.messageFont);
-            String[] lines = WordWrap.getStringArray(typingStr, getWidth(), s.messageFont);
+            String[] lines = Util.wordWrap(typingStr, getWidth(), s.messageFont);
             g.setColor(darkBgColors[s.theme]);
             g.fillRect(0, typingBannerY, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
 

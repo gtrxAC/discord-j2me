@@ -10,7 +10,6 @@ public class DMChannel implements HasIcon {
     public long lastMessageID;
     public String iconID;  // for groups, group ID. for users, recipient ID (not DM channel ID)
     public String iconHash;
-    public Image icon;
 
     public DMChannel(State s, JSONObject data) {
         id = data.getString("id");
@@ -42,25 +41,13 @@ public class DMChannel implements HasIcon {
             catch (Exception e) {}
         }
         if (name == null) name = "(unknown)";
-
-        if (iconHash != null) {
-            HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_ICON);
-            h.iconID = iconID;
-            h.iconHash = iconHash;
-            h.iconType = isGroup ? "/channel-icons/" : "/avatars/";
-            h.iconTarget = this;
-            h.start();
-        }
     }
 
-    /**
-     * Sets the icon for this guild and updates the guild list to show it.
-     * Called by the HTTP thread after fetching the icon.
-     */
-    public void setIcon(State s, Image icon) {
-        this.icon = icon;
-        this.iconID = null;
-        this.iconHash = null;
+    public String getIconID() { return iconID; }
+    public String getIconHash() { return iconHash; }
+    public String getIconType() { return isGroup ? "/channel-icons/" : "/avatars/"; }
+
+    public void iconLoaded(State s) {
 		if (s.dmSelector != null) s.dmSelector.update();
     }
 }

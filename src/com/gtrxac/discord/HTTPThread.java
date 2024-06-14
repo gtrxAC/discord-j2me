@@ -21,9 +21,6 @@ public class HTTPThread extends Thread {
     String fetchMsgsAfter;
 
     // Parameters for FETCH_ICON
-    String iconHash;
-    String iconID;  // ID of the guild or user
-    String iconType;
     HasIcon iconTarget;  // item (guild or DM channel) that this icon should be assigned to
 
     public HTTPThread(State s, int action) {
@@ -196,8 +193,13 @@ public class HTTPThread extends Thread {
                     }
 
                     String format = (s.useJpeg ? "jpg" : "png");
-                    Image icon = s.http.getImage(s.cdn + iconType + iconID + "/" + iconHash + "." + format + "?size=16");
-                    iconTarget.setIcon(s, icon);
+                    String type = iconTarget.getIconType();
+                    String id = iconTarget.getIconID();
+                    String hash = iconTarget.getIconHash();
+                    Image icon = s.http.getImage(s.cdn + type + id + "/" + hash + "." + format + "?size=16");
+
+                    s.iconCache.set(hash, icon);
+                    iconTarget.iconLoaded(s);
                     break;
                 }
 

@@ -56,9 +56,14 @@ public class ChannelViewItem {
      */
     public void draw(Graphics g, int y, int width, boolean selected) {
         int messageFontHeight = s.messageFont.getHeight();
+        boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
+        int iconSize = messageFontHeight*4/3;
+        s.iconCache.scaleSize = iconSize;
 
         switch (type) {
             case MESSAGE: {
+                int x = useIcons ? messageFontHeight*2 : 1;
+
                 // Highlight background if message is selected
                 if (selected) {
                     g.setColor(ChannelView.highlightColors[s.theme]);
@@ -68,17 +73,53 @@ public class ChannelViewItem {
                 y += messageFontHeight/8;
 
                 if (msg.showAuthor) {
+                    // Draw icon
+                    if (useIcons) {
+                        Image icon = s.iconCache.getLarge(msg.author);
+                        int iconX = messageFontHeight/3;
+                        int iconY = y + messageFontHeight/6;
+
+                        if (icon != null) {
+                            // Icon is loaded, draw it
+                            g.drawImage(icon, iconX, iconY, Graphics.TOP|Graphics.LEFT);
+                        } else {
+                            // Icon is not loaded, draw a placeholder with the username's
+                            // initials on a background whose color is determined by the user ID
+                            g.setColor(msg.author.iconColor);
+                            g.fillRect(iconX, iconY, iconSize, iconSize);
+
+                            g.setColor(0x00FFFFFF);
+                            g.setFont(s.messageFont);
+                            g.drawString(
+                                msg.author.initials,
+                                iconX + iconSize/2,
+                                iconY + iconSize/2 - messageFontHeight/2,
+                                Graphics.TOP | Graphics.HCENTER
+                            );
+                        }
+
+                        // Draw cutout to make the icon a circle
+                        if (s.iconType == State.ICON_TYPE_CIRCLE) {
+                            g.setColor(
+                                selected ?
+                                    ChannelView.highlightColors[s.theme] :
+                                    ChannelView.backgroundColors[s.theme]
+                            );
+                            Util.drawCircleCutout(g, iconX, iconY, iconSize);
+                        }
+                    }
+
                     // Draw author (and recipient if applicable)
                     g.setColor(ChannelView.authorColors[s.theme]);
                     g.setFont(s.authorFont);
-                    String authorStr = msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : "");
-                    g.drawString(authorStr, 1, y, Graphics.TOP|Graphics.LEFT);
+                    String authorStr = msg.author.name + (msg.recipient != null ? (" -> " + msg.recipient) : "");
+                    g.drawString(authorStr, x, y, Graphics.TOP|Graphics.LEFT);
 
                     // Draw timestamp
                     g.setColor(ChannelView.timestampColors[s.theme]);
                     g.setFont(s.timestampFont);
                     g.drawString(
-                        "  " + msg.timestamp, 1 + s.authorFont.stringWidth(authorStr), y,
+                        "  " + msg.timestamp, x + s.authorFont.stringWidth(authorStr), y,
                         Graphics.TOP|Graphics.LEFT
                     );
                     y += s.authorFont.getHeight();
@@ -88,7 +129,7 @@ public class ChannelViewItem {
                 g.setColor(ChannelView.messageColors[s.theme]);
                 g.setFont(s.messageFont);
                 for (int i = 0; i < msg.contentLines.length; i++) {
-                    g.drawString(msg.contentLines[i], 1, y, Graphics.TOP|Graphics.LEFT);
+                    g.drawString(msg.contentLines[i], x, y, Graphics.TOP|Graphics.LEFT);
                     y += messageFontHeight;
                 }
                 break;
@@ -143,9 +184,11 @@ public class ChannelViewItem {
                 if (selected) g.setColor(ChannelView.darkBgColors[s.theme]);
                 else g.setColor(ChannelView.highlightColors2[s.theme]);
 
+                int x = useIcons ? messageFontHeight*2 : 0;
                 int textWidth = s.messageFont.stringWidth(caption);
+
                 g.fillRoundRect(
-                    messageFontHeight/2,
+                    x + messageFontHeight/2,
                     y + messageFontHeight/6,
                     textWidth + messageFontHeight,
                     messageFontHeight*4/3,
@@ -154,7 +197,7 @@ public class ChannelViewItem {
                 );
 
                 g.setColor(ChannelView.authorColors[s.theme]);
-                g.drawString(caption, messageFontHeight, y + messageFontHeight/3, Graphics.TOP|Graphics.LEFT);
+                g.drawString(caption, x + messageFontHeight, y + messageFontHeight/3, Graphics.TOP|Graphics.LEFT);
                 break;
             }
         }

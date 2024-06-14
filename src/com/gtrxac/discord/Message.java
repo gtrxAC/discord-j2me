@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Message {
     public String id;
-    public String author;
+    public User author;
     public String recipient;
     public String content;
     public String[] contentLines;
@@ -15,10 +15,7 @@ public class Message {
 
     public Message(State s, JSONObject data) {
         id = data.getString("id");
-        author = data.getObject("author").getString("global_name", "(no name)");
-        if (author == null) {
-            author = data.getObject("author").getString("username", "(no name)");
-        }
+        author = new User(s, data.getObject("author"));
         content = data.getString("content", "");
 
         try {
@@ -36,10 +33,11 @@ public class Message {
         }
         catch (Exception e) {}
 
-        attachments = new Vector();
         try {
             JSONArray attachArray = data.getArray("attachments");
             if (attachArray.size() >= 1) {
+                attachments = new Vector();
+
                 for (int i = 0; i < attachArray.size(); i++) {
                     JSONObject attach = attachArray.getObject(i);
 
@@ -116,7 +114,7 @@ public class Message {
         }
         timestamp = time.toString();
 
-        if (content.length() == 0 && attachments.size() == 0) content = "(no content)";
+        if (content.length() == 0 && (attachments == null || attachments.size() == 0)) content = "(no content)";
     }
 
     /**
@@ -125,11 +123,11 @@ public class Message {
      * @param lastRecipient The recipient of the message shown above this message.
      * @return true if author should be shown, false if messages are "merged"
      */
-    public boolean shouldShowAuthor(String lastAuthor, String lastRecipient) {
+    public boolean shouldShowAuthor(User lastAuthor, String lastRecipient) {
         // First (topmost) message shown in channel view -> true
         if (lastAuthor == null) return true;
         // Different authors -> true
-        if (!lastAuthor.equals(author)) return true;
+        if (!lastAuthor.id.equals(author.id)) return true;
 
         // Authors are same, now determine based on recipient:
 
