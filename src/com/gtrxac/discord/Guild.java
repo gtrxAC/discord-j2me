@@ -30,13 +30,13 @@ public class Guild implements HasIcon {
     }
 
     public String toString(State s) {
-        if (channels == null) return "null"+name;
+        if (channels == null) return name;
 
         for (int i = 0; i < channels.size(); i++) {
             Channel ch = (Channel) channels.elementAt(i);
             if (s.unreads.hasUnreads(ch)) return "* " + name;
         }
-        return "nf"+name;
+        return name;
     }
 
     public String getIconID() { return id; }

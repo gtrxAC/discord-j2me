@@ -1,5 +1,10 @@
 const express = require('express');
 const axios = require('axios');
+const FormData = require('form-data');
+const multer = require('multer')
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 
 const EmojiConvertor = require('emoji-js');
 const emoji = new EmojiConvertor();
@@ -85,6 +90,37 @@ app.get(`${BASE}/guilds/:guild/channels`, async (req, res) => {
                 }
             });
         res.send(stringifyUnicode(channels));
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// File upload form
+app.get(`/upload`, async (req, res) => {
+    try {
+        res.send(
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+</head>
+<body>
+    <h1>Upload file</h1>
+    <form method="post" enctype="multipart/form-data" action="${BASE}/channels/${req.query.channel}/upload">
+        <input type="hidden" name="token" value="${req.query.token}" />
+
+        <label for="file">File:</label><br />
+        <input type="file" name="files" id="files"></input><br />
+
+        <label for="content">Text:</label><br />
+        <textarea name="content" id="content"></textarea><br />
+
+        <input type="Submit" name="Upload" />
+    </form>
+</body>
+</html>`
+        );
     }
     catch (e) { handleError(res, e); }
 });
@@ -228,11 +264,44 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
 app.post(`${BASE}/channels/:channel/messages`, async (req, res) => {
     try {
         delete req.headers.host;
+
+        let token = req.headers.authorization;
+        if (!token) {
+            token = req.body.token;
+            delete req.body.token;
+        }
+
+        console.log(req.body)
+        res.send("ok");
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Send message with attachments
+app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), async (req, res) => {
+    try {
+        token = req.body.token;
+        delete req.body.token;
+        delete req.headers.host;
+
+        console.log(req.body.content)
+        console.log(req.file.buffer)
+
+        const form = new FormData();
+
+        var options = {
+          header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: form-data; name="files[0]"; filename="${req.file.originalname}"\r\nContent-Type: ${req.file.mimetype}\r\n\r\n`
+        };
+
+        form.append('files[0]', req.file.buffer, options);
+        form.append('content', req.body.content);
+
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,
-            req.body,
-            {headers: req.headers}
-        );
+            form,
+            {headers: {Authorization: token}}
+        )
+
         res.send("ok");
     }
     catch (e) { handleError(res, e); }

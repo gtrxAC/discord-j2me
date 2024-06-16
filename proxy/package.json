@@ -2,6 +2,8 @@
   "dependencies": {
     "axios": "^1.6.8",
     "emoji-js": "^3.8.0",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "form-data": "^4.0.0",
+    "multer": "^1.4.5-lts.1"
   }
 }

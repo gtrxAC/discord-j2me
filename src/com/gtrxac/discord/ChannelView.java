@@ -13,6 +13,7 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command selectCommand;
     private Command sendCommand;
     private Command replyCommand;
+    private Command uploadCommand;
     private Command copyCommand;
     private Command refreshCommand;
 
@@ -57,6 +58,7 @@ public class ChannelView extends Canvas implements CommandListener {
         selectCommand = new Command("Select", Command.OK, 1);
         sendCommand = new Command("Send", "Send message", Command.ITEM, 2);
         replyCommand = new Command("Reply", Command.ITEM, 3);
+        uploadCommand = new Command("Upload", "Upload file", Command.ITEM, 4);
         copyCommand = new Command("Copy", "Copy content", Command.ITEM, 5);
         refreshCommand = new Command("Refresh", Command.ITEM, 6);
 
@@ -65,6 +67,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
         addCommand(backCommand);
         addCommand(sendCommand);
+        addCommand(uploadCommand);
         addCommand(refreshCommand);
     }
 
@@ -462,6 +465,15 @@ public class ChannelView extends Canvas implements CommandListener {
         if (c == replyCommand) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
             s.disp.setCurrent(new ReplyForm(s, item.msg));
+        }
+        if (c == uploadCommand) {
+            try {
+                String url = s.http.api + "/upload?channel=" + s.selectedChannel.id + "&token=" + s.http.token;
+                s.midlet.platformRequest(url);
+            }
+            catch (Exception e) {
+                s.error(e.toString());
+            }
         }
         if (c == copyCommand) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
