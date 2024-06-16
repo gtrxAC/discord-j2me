@@ -12,11 +12,11 @@ public class HTTPThread extends Thread {
     public static final int SEND_MESSAGE = 4;
     public static final int FETCH_ATTACHMENTS = 5;
     public static final int FETCH_ICON = 6;
-    public static final int MARK_READ = 7;
 
     State s;
     int action;
 
+    // Parameters for FETCH_MESSAGES
     String fetchMsgsBefore;
     String fetchMsgsAfter;
 
@@ -36,17 +36,11 @@ public class HTTPThread extends Thread {
         try {
             switch (action) {
                 case FETCH_GUILDS: {
-                    if (s.gateway != null && s.gateway.isAlive()) {
-                        // If using gateway, wait for initial ready message
-                        while (!s.guildsReady) Thread.sleep(1);
-                    } else {
-                        // No gateway -> fetch servers
-                        JSONArray guilds = JSON.getArray(s.http.get("/users/@me/guilds"));
-                        s.guilds = new Vector();
+                    JSONArray guilds = JSON.getArray(s.http.get("/users/@me/guilds"));
+                    s.guilds = new Vector();
 
-                        for (int i = 0; i < guilds.size(); i++) {
-                            s.guilds.addElement(new Guild(s, guilds.getObject(i)));
-                        }
+                    for (int i = 0; i < guilds.size(); i++) {
+                        s.guilds.addElement(new Guild(s, guilds.getObject(i)));
                     }
                     s.guildSelector = new GuildSelector(s);
                     s.disp.setCurrent(s.guildSelector);
@@ -54,13 +48,10 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_CHANNELS: {
-                    // Fetch channels from API if required
-                    // Don't need to fetch if already loaded (from gateway or previous API request)
-                    if (s.gateway == null || !s.gateway.isAlive() || s.selectedGuild.channels == null) {
-                        s.selectedGuild.channels = Channel.parseChannels(
-                            JSON.getArray(s.http.get("/guilds/" + s.selectedGuild.id + "/channels"))
-                        );
-                    }
+                    s.selectedGuild.channels = Channel.parseChannels(
+                        JSON.getArray(s.http.get("/guilds/" + s.selectedGuild.id + "/channels"))
+                    );
+
                     s.channels = s.selectedGuild.channels;
                     s.channelSelector = new ChannelSelector(s);
                     s.disp.setCurrent(s.channelSelector);
@@ -200,31 +191,6 @@ public class HTTPThread extends Thread {
 
                     s.iconCache.set(hash, icon);
                     iconTarget.iconLoaded(s);
-                    break;
-                }
-
-                case MARK_READ: {
-                    String lastMessageID = ((Message) s.messages.elementAt(0)).id;
-                    String channelID = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
-
-                    s.http.post(
-                        "/channels/" + channelID + "/messages/" + lastMessageID + "/ack",
-                        "{\"token\":null,\"last_viewed\":65535}"
-                    );
-
-                    // If we're on the last (newest) page, remove unread indicators
-                    int page = s.oldUI ? s.oldChannelView.page : s.channelView.page;
-                    if (page == 0) {
-                        Channel ch = Channel.getByID(s, channelID);
-                        if (ch != null) {
-                            ch.unread = false;
-                            ch.pings = 0;
-                            s.updateUnreadIndicators();
-                        }
-                    }
-
-                    if (!s.oldUI) s.channelView.update(false);
-                    s.disp.setCurrent(prevScreen);
                     break;
                 }
             }

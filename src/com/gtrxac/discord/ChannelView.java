@@ -13,7 +13,6 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command selectCommand;
     private Command sendCommand;
     private Command replyCommand;
-    private Command markReadCommand;
     private Command copyCommand;
     private Command refreshCommand;
 
@@ -58,7 +57,6 @@ public class ChannelView extends Canvas implements CommandListener {
         selectCommand = new Command("Select", Command.OK, 1);
         sendCommand = new Command("Send", "Send message", Command.ITEM, 2);
         replyCommand = new Command("Reply", Command.ITEM, 3);
-        markReadCommand = new Command("Mark as read", Command.ITEM, 4);
         copyCommand = new Command("Copy", "Copy content", Command.ITEM, 5);
         refreshCommand = new Command("Refresh", Command.ITEM, 6);
 
@@ -242,12 +240,6 @@ public class ChannelView extends Canvas implements CommandListener {
             } else {
                 removeCommand(replyCommand);
             }
-        }
-
-        if (s.messages.size() > 0) {
-            addCommand(markReadCommand);
-        } else {
-            removeCommand(markReadCommand);
         }
 
         g.setFont(s.messageFont);
@@ -474,9 +466,6 @@ public class ChannelView extends Canvas implements CommandListener {
         if (c == copyCommand) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
             s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
-        }
-        if (c == markReadCommand) {
-            new HTTPThread(s, HTTPThread.MARK_READ).start();
         }
     }
 }

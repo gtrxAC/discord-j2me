@@ -43,6 +43,11 @@ public class DMChannel implements HasIcon {
         if (name == null) name = "(unknown)";
     }
 
+    public String toString(State s) {
+        if (s.unreads.hasUnreads(this)) return "* " + name;
+        return name;
+    }
+
     public String getIconID() { return iconID; }
     public String getIconHash() { return iconHash; }
     public String getIconType() { return isGroup ? "/channel-icons/" : "/avatars/"; }

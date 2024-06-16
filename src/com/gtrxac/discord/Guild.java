@@ -29,21 +29,14 @@ public class Guild implements HasIcon {
         }
     }
 
-    public String toString() {
-        if (channels == null) return name;
-
-        boolean unread = false;
-        int pings = 0;
+    public String toString(State s) {
+        if (channels == null) return "null"+name;
 
         for (int i = 0; i < channels.size(); i++) {
             Channel ch = (Channel) channels.elementAt(i);
-            if (ch.unread) unread = true;
-            pings += ch.pings;
+            if (s.unreads.hasUnreads(ch)) return "* " + name;
         }
-
-        if (pings > 0) return "(" + pings + ") " + name;
-        if (unread) return "* " + name;
-        return name;
+        return "nf"+name;
     }
 
     public String getIconID() { return id; }

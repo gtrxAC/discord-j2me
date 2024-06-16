@@ -83,7 +83,6 @@ public class GatewayThread extends Thread {
                     if (op.equals("GATEWAY_HELLO")) {
                         // Connect to gateway
                         JSONArray events = new JSONArray();
-                        events.add("READY");
                         events.add("MESSAGE_CREATE");
                         events.add("TYPING_START");
 
@@ -99,39 +98,6 @@ public class GatewayThread extends Thread {
                         os.write((connMsg.build() + "\n").getBytes());
                         os.flush();
                     }
-                    else if (op.equals("READY")) {
-                        s.guilds = new Vector();
-
-                        JSONObject msgData = message.getObject("d");
-                        JSONArray guildsArr = msgData.getArray("guilds");
-
-                        for (int i = 0; i < guildsArr.size(); i++) {
-                            Guild g = new Guild(s, guildsArr.getObject(i));
-                            s.guilds.addElement(g);
-                        }
-
-                        // JSONArray dmChArr = msgData.getArray("private_channels");
-
-                        // for (int i = 0; i < dmChArr.size(); i++) {
-                        //     DMChannel ch = new DMChannel(s, dmChArr.getObject(i));
-                        //     s.dmChannels.addElement(ch);
-                        // }
-
-                        JSONArray readState = msgData.getObject("read_state").getArray("entries");
-
-                        for (int i = 0; i < readState.size(); i++) {
-                            JSONObject entry = readState.getObject(i);
-                            if (entry.getInt("flags", 0) == 0) continue;
-
-                            String id = entry.getString("id");
-                            Channel ch = Channel.getByID(s, id);
-                            if (ch != null) {
-                                ch.unread = true;
-                                ch.pings = entry.getInt("mention_count");
-                            }
-                        }
-                        s.guildsReady = true;
-                    }
                     else if (op.equals("GATEWAY_DISCONNECT")) {
                         disconnect();
                         String reason = message.getObject("d").getString("message");
@@ -140,13 +106,14 @@ public class GatewayThread extends Thread {
                     }
                     else if (op.equals("MESSAGE_CREATE")) {
                         JSONObject msgData = message.getObject("d");
+                        String msgId = msgData.getString("id");
                         String chId = msgData.getString("channel_id");
 
                         // Mark this channel as unread
                         // TODO: pings
                         Channel ch = Channel.getByID(s, chId);
                         if (ch != null) {
-                            ch.unread = true;
+                            ch.lastMessageID = Long.parseLong(msgId);
                             s.updateUnreadIndicators();
                         }
 

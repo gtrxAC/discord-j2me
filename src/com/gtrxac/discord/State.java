@@ -34,8 +34,8 @@ public class State {
 	String cdn;
 
 	IconCache iconCache;
+	UnreadManager unreads;
 
-	boolean guildsReady;  // have guilds been loaded from ready message? (when using gateway)
 	Vector guilds;
 	Guild selectedGuild;
 	GuildSelector guildSelector;
@@ -66,7 +66,7 @@ public class State {
 	public State() {
 		subscribedGuilds = new Vector();
 		iconCache = new IconCache(this);
-		iconType = 2;
+		unreads = new UnreadManager(this);
 	}
 
 	private Alert createError(String message) {
@@ -128,10 +128,16 @@ public class State {
 
 	public void openChannelSelector(boolean reload) {
 		try {
-			if (reload || channelSelector == null || channels == null) {
-				new HTTPThread(this, HTTPThread.FETCH_CHANNELS).start();
-			} else {
+			if (!reload && channelSelector != null && channels != null && channels == selectedGuild.channels) {
 				disp.setCurrent(channelSelector);
+			}
+			else if (!reload && selectedGuild.channels != null) {
+				channels = selectedGuild.channels;
+				channelSelector = new ChannelSelector(this);
+				disp.setCurrent(channelSelector);
+			}
+			else {
+				new HTTPThread(this, HTTPThread.FETCH_CHANNELS).start();
 			}
 		}
 		catch (Exception e) {
@@ -167,6 +173,9 @@ public class State {
 					disp.setCurrent(channelView);
 				}
 			}
+			if (isDM) unreads.markRead(selectedDmChannel);
+			else unreads.markRead(selectedChannel);
+			updateUnreadIndicators();
 		}
 		catch (Exception e) {
 			error(e.toString());

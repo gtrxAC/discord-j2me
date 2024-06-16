@@ -16,7 +16,7 @@ public class MessageBox extends TextBox implements CommandListener {
         this.s = s;
 
         sendCommand = new Command("Send", Command.OK, 0);
-        backCommand = new Command("Back", Command.BACK, 0);
+        backCommand = new Command("Back", Command.BACK, 1);
 
         addCommand(sendCommand);
         addCommand(backCommand);

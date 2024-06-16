@@ -6,28 +6,36 @@ import cc.nnproject.json.*;
 public class Channel {
     public String id;
     public String name;
-    public boolean unread;
-    public int pings;
+    public long lastMessageID;
 
     public Channel(JSONObject data) {
         id = data.getString("id");
         name = data.getString("name");
+
+        try {
+            lastMessageID = Long.parseLong(data.getString("last_message_id"));
+        }
+        catch (Exception e) {
+            lastMessageID = 0L;
+        }
     }
     
-    public String toString() {
-        if (pings > 0) return "(" + pings + ") #" + name;
-        if (unread) return "* #" + name;
+    public String toString(State s) {
+        if (s.unreads.hasUnreads(this)) return "* #" + name;
         return "#" + name;
     }
 
     public static Channel getByID(State s, String id) {
         // Find guild channel
-        for (int g = 0; g < s.guilds.size(); g++) {
-            Guild guild = (Guild) s.guilds.elementAt(g);
+        if (s.guilds != null) {
+            for (int g = 0; g < s.guilds.size(); g++) {
+                Guild guild = (Guild) s.guilds.elementAt(g);
+                if (guild.channels == null) continue;
 
-            for (int c = 0; c < guild.channels.size(); c++) {
-                Channel ch = (Channel) guild.channels.elementAt(c);
-                if (id.equals(ch.id)) return ch;
+                for (int c = 0; c < guild.channels.size(); c++) {
+                    Channel ch = (Channel) guild.channels.elementAt(c);
+                    if (id.equals(ch.id)) return ch;
+                }
             }
         }
 

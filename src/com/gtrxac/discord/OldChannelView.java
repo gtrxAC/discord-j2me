@@ -29,10 +29,10 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
         this.s = s;
 
         backCommand = new Command("Back", Command.BACK, 0);
-        sendCommand = new Command("Send", "Send message", Command.ITEM, 0);
-        refreshCommand = new Command("Refresh", Command.ITEM, 1);
-        olderCommand = new Command("Older", "View older messages", Command.ITEM, 2);
-        newerCommand = new Command("Newer", "View newer messages", Command.ITEM, 3);
+        sendCommand = new Command("Send", "Send message", Command.ITEM, 1);
+        refreshCommand = new Command("Refresh", Command.ITEM, 2);
+        olderCommand = new Command("Older", "View older messages", Command.ITEM, 3);
+        newerCommand = new Command("Newer", "View newer messages", Command.ITEM, 4);
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
@@ -89,7 +89,7 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
             StringItem msgItem = new StringItem(
-                msg.author + (msg.recipient != null ? (" -> " + msg.recipient) : "") + "  " + msg.timestamp,
+                msg.author.name + (msg.recipient != null ? (" -> " + msg.recipient) : "") + "  " + msg.timestamp,
                 msg.content
             );
             msgItem.setFont(s.messageFont);

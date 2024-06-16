@@ -80,7 +80,8 @@ app.get(`${BASE}/guilds/:guild/channels`, async (req, res) => {
                     type: ch.type,
                     guild_id: ch.guild_id,
                     name: ch.name,
-                    position: ch.position
+                    position: ch.position,
+                    last_message_id: ch.last_message_id
                 }
             });
         res.send(stringifyUnicode(channels));
