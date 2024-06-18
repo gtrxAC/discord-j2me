@@ -22,7 +22,7 @@ public class LoginForm extends Form implements CommandListener {
 
         String initialApi = "http://57.128.194.14:8087";
         String initialGateway = "socket://57.128.194.14:8085";
-        String initialCdn = "http://cdndsc.wunderwungiel.pl";
+        String initialCdn = "http://media.discordapp.net";
         String initialToken = "";
         
         String manifestToken = s.midlet.getAppProperty("Token");
@@ -84,6 +84,16 @@ public class LoginForm extends Form implements CommandListener {
                     s.iconType = loginRms.getRecord(14)[0];
                 } else {
                     s.iconType = State.ICON_TYPE_CIRCLE;
+                }
+                if (loginRms.getNumRecords() >= 15) {
+                    try {
+                        s.attachmentSize = Integer.parseInt(new String(loginRms.getRecord(15)));
+                    }
+                    catch (Exception e) {
+                        s.attachmentSize = 1000;
+                    }
+                } else {
+                    s.attachmentSize = 1000;
                 }
             }
             catch (Exception e) {
@@ -196,6 +206,10 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() < 14) {
                     byte[] iconTypeByte = {State.ICON_TYPE_CIRCLE};
                     loginRms.addRecord(iconTypeByte, 0, 1);
+                }
+                if (loginRms.getNumRecords() < 15) {
+                    byte[] attachSize = "1000".getBytes();
+                    loginRms.addRecord(attachSize, 0, attachSize.length);
                 }
                 loginRms.closeRecordStore();
             }

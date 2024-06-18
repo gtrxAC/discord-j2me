@@ -162,18 +162,29 @@ public class HTTPThread extends Thread {
                     }
 
                     Vector attachments = s.attachmentView.msg.attachments;
+                    int layout = Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
                     for (int i = 0; i < attachments.size(); i++) {
                         Attachment attach = (Attachment) attachments.elementAt(i);
 
                         try {
-                            Image image = s.http.getImage(attach.url);
+                            Image image = s.http.getImage(attach.url + attach.sizeParam);
                             ImageItem item = new ImageItem(null, image, Item.LAYOUT_DEFAULT, null);
+                            item.setLayout(layout);
                             s.attachmentView.append(item);
                         }
                         catch (Exception e) {
-                            s.attachmentView.append(new StringItem(null, e.toString()));
+                            StringItem item = new StringItem(null, e.toString());
+                            item.setLayout(layout);
+                            s.attachmentView.append(item);
                         }
+
+                        Command openCommand = new Command("Open", Command.ITEM, i);
+                        StringItem openButton = new StringItem(null, "Open in browser", Item.BUTTON);
+                        openButton.setLayout(layout);
+                        openButton.setDefaultCommand(openCommand);
+                        openButton.setItemCommandListener(s.attachmentView);
+                        s.attachmentView.append(openButton);
                     }
                     break;
                 }

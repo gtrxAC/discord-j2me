@@ -469,7 +469,7 @@ public class ChannelView extends Canvas implements CommandListener {
         if (c == uploadCommand) {
             try {
                 String url = s.http.api + "/upload?channel=" + s.selectedChannel.id + "&token=" + s.http.token;
-                s.midlet.platformRequest(url);
+                s.platformRequest(url);
             }
             catch (Exception e) {
                 s.error(e.toString());

@@ -22,6 +22,7 @@ public class State {
 	int messageLoadCount;
 	boolean useJpeg;
 	int iconType;
+	int attachmentSize;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -191,6 +192,18 @@ public class State {
 		}
 		catch (Exception e) {
 			error(e.toString());
+		}
+	}
+
+	public void platformRequest(String url) {
+		try {
+			if (midlet.platformRequest(url)) {
+				error("The app must be closed before the URL can be opened.");
+			}
+		}
+		catch (Exception e) {
+			String msg = "The URL could not be opened (" + e.toString() + ")\n\nYou may try manually copying the URL into your device's browser: " + url;
+			disp.setCurrent(new MessageCopyBox(this, "Error", msg));
 		}
 	}
 }

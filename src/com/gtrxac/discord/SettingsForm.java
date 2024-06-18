@@ -13,6 +13,7 @@ public class SettingsForm extends Form implements CommandListener {
     private ChoiceGroup messageFontGroup;
     private TextField messageCountField;
     private ChoiceGroup formatGroup;
+    private TextField attachSizeField;
     private ChoiceGroup iconGroup;
     private Command saveCommand;
     private Command cancelCommand;
@@ -47,6 +48,8 @@ public class SettingsForm extends Form implements CommandListener {
         formatGroup = new ChoiceGroup("Attachment format", ChoiceGroup.EXCLUSIVE, formatChoices, formatImages);
         formatGroup.setSelectedIndex(s.useJpeg ? 1 : 0, true);
 
+        attachSizeField = new TextField("Max. attachment size", new Integer(s.attachmentSize).toString(), 5, TextField.NUMERIC);
+
         String[] iconChoices = {"Off", "Square", "Circle"};
         Image[] iconImages = {null, null, null};
         iconGroup = new ChoiceGroup("Icons and avatars", ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
@@ -61,6 +64,7 @@ public class SettingsForm extends Form implements CommandListener {
         append(messageFontGroup);
         append(messageCountField);
         append(formatGroup);
+        append(attachSizeField);
         append(iconGroup);
         addCommand(saveCommand);
         addCommand(cancelCommand);
@@ -91,6 +95,15 @@ public class SettingsForm extends Form implements CommandListener {
                     s.messageLoadCount = 20;
                 }
 
+                try {
+                    int newSize = Integer.parseInt(attachSizeField.getString());
+                    if (newSize < 1) throw new Exception();
+                    s.attachmentSize = newSize;
+                }
+                catch (Exception e) {
+                    s.attachmentSize = 1000;
+                }
+
                 boolean[] selected = {false, false};
                 uiGroup.getSelectedFlags(selected);
                 s.oldUI = selected[0];
@@ -105,6 +118,7 @@ public class SettingsForm extends Form implements CommandListener {
                 byte[] messageCountRecord = {new Integer(s.messageLoadCount).byteValue()};
                 byte[] jpegRecord = {new Integer(s.useJpeg ? 1 : 0).byteValue()};
                 byte[] iconTypeRecord = {new Integer(s.iconType).byteValue()};
+                byte[] attachSizeRecord = new Integer(s.attachmentSize).toString().getBytes();
 
                 if (loginRms.getNumRecords() >= 3) {
                     loginRms.setRecord(3, themeRecord, 0, 1);
@@ -148,6 +162,12 @@ public class SettingsForm extends Form implements CommandListener {
                     loginRms.setRecord(14, iconTypeRecord, 0, 1);
                 } else {
                     loginRms.addRecord(iconTypeRecord, 0, 1);
+                }
+
+                if (loginRms.getNumRecords() >= 15) {
+                    loginRms.setRecord(15, attachSizeRecord, 0, attachSizeRecord.length);
+                } else {
+                    loginRms.addRecord(attachSizeRecord, 0, attachSizeRecord.length);
                 }
 
                 loginRms.closeRecordStore();

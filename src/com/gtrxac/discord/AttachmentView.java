@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class AttachmentView extends Form implements CommandListener {
+public class AttachmentView extends Form implements CommandListener, ItemCommandListener {
     State s;
     Message msg;
 
@@ -30,5 +30,10 @@ public class AttachmentView extends Form implements CommandListener {
         if (c == refreshCommand) {
             s.openAttachmentView(true, msg);
         }
+    }
+
+    public void commandAction(Command c, Item i) {
+        Attachment attach = (Attachment) msg.attachments.elementAt(c.getPriority());
+        s.platformRequest(attach.url + attach.browserSizeParam);
     }
 }
