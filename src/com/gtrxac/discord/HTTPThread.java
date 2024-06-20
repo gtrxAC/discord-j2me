@@ -195,10 +195,11 @@ public class HTTPThread extends Thread {
                     }
 
                     String format = (s.useJpeg ? "jpg" : "png");
+                    String size = (s.iconSize == 1) ? "16" : "32";
                     String type = iconTarget.getIconType();
                     String id = iconTarget.getIconID();
                     String hash = iconTarget.getIconHash();
-                    Image icon = s.http.getImage(s.cdn + type + id + "/" + hash + "." + format + "?size=16");
+                    Image icon = s.http.getImage(s.cdn + type + id + "/" + hash + "." + format + "?size=" + size);
 
                     s.iconCache.set(hash, icon);
                     iconTarget.iconLoaded(s);

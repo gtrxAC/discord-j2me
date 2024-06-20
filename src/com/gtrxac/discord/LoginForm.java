@@ -95,6 +95,11 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.attachmentSize = 1000;
                 }
+                if (loginRms.getNumRecords() >= 16) {
+                    s.iconSize = loginRms.getRecord(16)[0];
+                } else {
+                    s.iconSize = 1;  // 16px
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -210,6 +215,10 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() < 15) {
                     byte[] attachSize = "1000".getBytes();
                     loginRms.addRecord(attachSize, 0, attachSize.length);
+                }
+                if (loginRms.getNumRecords() < 16) {
+                    byte[] oneByte = {1};
+                    loginRms.addRecord(oneByte, 0, 1);
                 }
                 loginRms.closeRecordStore();
             }

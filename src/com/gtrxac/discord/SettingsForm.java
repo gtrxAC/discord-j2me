@@ -15,6 +15,7 @@ public class SettingsForm extends Form implements CommandListener {
     private ChoiceGroup formatGroup;
     private TextField attachSizeField;
     private ChoiceGroup iconGroup;
+    private ChoiceGroup iconSizeGroup;
     private Command saveCommand;
     private Command cancelCommand;
 
@@ -55,6 +56,11 @@ public class SettingsForm extends Form implements CommandListener {
         iconGroup = new ChoiceGroup("Icons and avatars", ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
         iconGroup.setSelectedIndex(s.iconType, true);
 
+        String[] iconSizeChoices = {"Placeholders only", "16 px", "32 px"};
+        Image[] iconSizeImages = {null, null, null};
+        iconSizeGroup = new ChoiceGroup("Icon size", ChoiceGroup.EXCLUSIVE, iconSizeChoices, iconSizeImages);
+        iconSizeGroup.setSelectedIndex(s.iconSize, true);
+
         saveCommand = new Command("Save", Command.OK, 0);
         cancelCommand = new Command("Cancel", Command.BACK, 1);
 
@@ -66,6 +72,7 @@ public class SettingsForm extends Form implements CommandListener {
         append(formatGroup);
         append(attachSizeField);
         append(iconGroup);
+        append(iconSizeGroup);
         addCommand(saveCommand);
         addCommand(cancelCommand);
     }
@@ -77,14 +84,9 @@ public class SettingsForm extends Form implements CommandListener {
                 s.authorFontSize = authorFontGroup.getSelectedIndex();
                 s.messageFontSize = messageFontGroup.getSelectedIndex();
                 s.useJpeg = formatGroup.getSelectedIndex() == 1;
-
                 s.iconType = iconGroup.getSelectedIndex();
-                if (s.iconType == 0) {
-                    s.iconCache = null;
-                }
-                else if (s.iconCache == null) {
-                    s.iconCache = new IconCache(s);
-                }
+                s.iconSize = iconSizeGroup.getSelectedIndex();
+                s.iconCache = new IconCache(s);
 
                 try {
                     int newCount = Integer.parseInt(messageCountField.getString());
@@ -118,6 +120,7 @@ public class SettingsForm extends Form implements CommandListener {
                 byte[] messageCountRecord = {new Integer(s.messageLoadCount).byteValue()};
                 byte[] jpegRecord = {new Integer(s.useJpeg ? 1 : 0).byteValue()};
                 byte[] iconTypeRecord = {new Integer(s.iconType).byteValue()};
+                byte[] iconSizeRecord = {new Integer(s.iconSize).byteValue()};
                 byte[] attachSizeRecord = new Integer(s.attachmentSize).toString().getBytes();
 
                 if (loginRms.getNumRecords() >= 3) {
@@ -168,6 +171,12 @@ public class SettingsForm extends Form implements CommandListener {
                     loginRms.setRecord(15, attachSizeRecord, 0, attachSizeRecord.length);
                 } else {
                     loginRms.addRecord(attachSizeRecord, 0, attachSizeRecord.length);
+                }
+
+                if (loginRms.getNumRecords() >= 16) {
+                    loginRms.setRecord(16, iconSizeRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(iconSizeRecord, 0, 1);
                 }
 
                 loginRms.closeRecordStore();

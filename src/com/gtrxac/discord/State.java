@@ -21,8 +21,9 @@ public class State {
 	boolean bbWifi;
 	int messageLoadCount;
 	boolean useJpeg;
-	int iconType;
 	int attachmentSize;
+	int iconType;
+	int iconSize;  // 0 = draw placeholder pfp with initials, 1 = 16px, 2 = 32px
 
 	int authorFontSize;
 	int messageFontSize;

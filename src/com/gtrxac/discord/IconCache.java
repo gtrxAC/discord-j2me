@@ -19,6 +19,8 @@ public class IconCache {
     }
 
     public Image get(HasIcon target) {
+        if (s.iconType == State.ICON_TYPE_NONE || s.iconSize == 0) return null;
+        
         String hash = target.getIconHash();
         if (hash == null) return null;
 
