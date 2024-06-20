@@ -271,7 +271,11 @@ app.post(`${BASE}/channels/:channel/messages`, async (req, res) => {
             delete req.body.token;
         }
 
-        console.log(req.body)
+        await axios.post(
+            `${DEST_BASE}/channels/${req.params.channel}/messages`,
+            req.body,
+            {headers: {Authorization: token}}
+        );
         res.send("ok");
     }
     catch (e) { handleError(res, e); }
