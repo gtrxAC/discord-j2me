@@ -288,16 +288,16 @@ app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), async (req,
         delete req.body.token;
         delete req.headers.host;
 
-        console.log(req.body.content)
-        console.log(req.file.buffer)
-
         const form = new FormData();
+        let text = "Message sent!";
 
-        var options = {
-          header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: form-data; name="files[0]"; filename="${req.file.originalname}"\r\nContent-Type: ${req.file.mimetype}\r\n\r\n`
-        };
-
-        form.append('files[0]', req.file.buffer, options);
+        if (req.file != null) {
+            const options = {
+                header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: form-data; name="files[0]"; filename="${req.file.originalname}"\r\nContent-Type: ${req.file.mimetype}\r\n\r\n`
+            };
+            form.append('files[0]', req.file.buffer, options);
+            text = "File sent!"
+        }
         form.append('content', req.body.content);
 
         await axios.post(
@@ -306,7 +306,9 @@ app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), async (req,
             {headers: {Authorization: token}}
         )
 
-        res.send("ok");
+        res.send(
+            `<p>${text}</p><a href="/upload?channel=${req.params.channel}&token=${token}">Send another</a>`
+        );
     }
     catch (e) { handleError(res, e); }
 });
