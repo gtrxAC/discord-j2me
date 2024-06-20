@@ -36,9 +36,13 @@ public class IconCache {
         return null;
     }
 
-    public void set(String hash, Image icon) {
+    public void removeRequest(String hash) {
         int reqIndex = activeRequests.indexOf(hash);
         if (reqIndex != -1) activeRequests.removeElementAt(reqIndex);
+    }
+
+    public void set(String hash, Image icon) {
+        removeRequest(hash);
 
         if (!icons.containsKey(hash) && icons.size() >= 100) {
             icons.remove(icons.keys().nextElement());

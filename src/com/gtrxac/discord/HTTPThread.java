@@ -208,7 +208,11 @@ public class HTTPThread extends Thread {
             }
         }
         catch (Exception e) {
-            s.error(e.toString(), prevScreen);
+            if (action == FETCH_ICON) {
+                s.iconCache.removeRequest(iconTarget.getIconHash());
+            } else {
+                s.error(e.toString(), prevScreen);
+            }
         }
     }
 }
