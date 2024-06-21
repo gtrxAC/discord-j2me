@@ -298,7 +298,7 @@ app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), async (req,
             form.append('files[0]', req.file.buffer, options);
             text = "File sent!"
         }
-        form.append('content', req.body.content);
+        if (req.body) form.append('content', req.body.content);
 
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,

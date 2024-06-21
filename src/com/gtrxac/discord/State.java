@@ -24,6 +24,7 @@ public class State {
 	int attachmentSize;
 	int iconType;
 	int iconSize;  // 0 = draw placeholder pfp with initials, 1 = 16px, 2 = 32px
+	boolean nativeFilePicker;
 
 	int authorFontSize;
 	int messageFontSize;

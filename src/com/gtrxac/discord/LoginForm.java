@@ -100,6 +100,11 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.iconSize = 1;  // 16px
                 }
+                if (loginRms.getNumRecords() >= 17) {
+                    s.nativeFilePicker = loginRms.getRecord(17)[0] != 0;
+                } else {
+                    s.nativeFilePicker = false;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -219,6 +224,10 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() < 16) {
                     byte[] oneByte = {1};
                     loginRms.addRecord(oneByte, 0, 1);
+                }
+                if (loginRms.getNumRecords() < 17) {
+                    byte[] zeroByte = {0};
+                    loginRms.addRecord(zeroByte, 0, 1);
                 }
                 loginRms.closeRecordStore();
             }

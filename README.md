@@ -32,7 +32,7 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
     * `jdk-22.0.1` folder containing that version of the JDK.
         * If you have another modern JDK installation, change the `JAVA_HOME` variable in `build.sh`.
         * On Linux, you may be able to use the `OLD_JAVA_HOME` in place of the modern JDK.
-    * `cldcapi11.jar` and `midpapi20.jar` from the Sun Wireless Toolkit.
+    * `cldcapi11.jar`, `midpapi20.jar`, and `jsr75.jar` from the Sun Wireless Toolkit.
     * `proguard.jar` (can be found in the `lib` folder inside the ZIP available [here](https://github.com/Guardsquare/proguard/releases))
 2. Run `build.sh`.
 

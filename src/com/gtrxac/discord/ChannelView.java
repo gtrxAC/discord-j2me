@@ -468,8 +468,12 @@ public class ChannelView extends Canvas implements CommandListener {
         }
         if (c == uploadCommand) {
             try {
-                String url = s.http.api + "/upload?channel=" + s.selectedChannel.id + "&token=" + s.http.token;
-                s.platformRequest(url);
+                if (s.nativeFilePicker) {
+                    s.disp.setCurrent(new AttachmentPicker(s));
+                } else {
+                    String url = s.http.api + "/upload?channel=" + s.selectedChannel.id + "&token=" + s.http.token;
+                    s.platformRequest(url);
+                }
             }
             catch (Exception e) {
                 s.error(e.toString());

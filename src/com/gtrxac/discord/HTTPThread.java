@@ -1,8 +1,12 @@
 package com.gtrxac.discord;
 
+import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.util.Vector;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
+import javax.microedition.io.*;
+import javax.microedition.io.file.*;
 
 public class HTTPThread extends Thread {
     public static final int FETCH_GUILDS = 0;
@@ -12,6 +16,10 @@ public class HTTPThread extends Thread {
     public static final int SEND_MESSAGE = 4;
     public static final int FETCH_ATTACHMENTS = 5;
     public static final int FETCH_ICON = 6;
+    public static final int SEND_ATTACHMENT = 7;
+
+    private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
+    private static final String LINE_FEED = "\r\n";
 
     State s;
     int action;
@@ -23,15 +31,38 @@ public class HTTPThread extends Thread {
     // Parameters for FETCH_ICON
     HasIcon iconTarget;  // item (guild or DM channel) that this icon should be assigned to
 
+    // Parameters for SEND_ATTACHMENT
+    String attachPath;
+    String attachName;
+
     public HTTPThread(State s, int action) {
         this.s = s;
         this.action = action;
         setPriority(Thread.MAX_PRIORITY);
     }
 
+    private byte[] createFormPart(String name, String filename) {
+        StringBuffer r = new StringBuffer();
+
+        r.append("--").append(BOUNDARY).append(LINE_FEED);
+        r.append("Content-Disposition: form-data; name=\"").append(name).append("\"");
+        if (filename != null) {
+            r.append("; filename=\"").append(filename).append("\"");
+        }
+        r.append(LINE_FEED);
+        if (filename != null) {
+            r.append("Content-Type: application/octet-stream").append(LINE_FEED);
+        }
+        r.append(LINE_FEED);
+
+        return r.toString().getBytes();
+    }
+
     public void run() {
         Displayable prevScreen = s.disp.getCurrent();
-        if (action != FETCH_ATTACHMENTS && action != FETCH_ICON) s.disp.setCurrent(new LoadingScreen(s));
+        if (action != FETCH_ATTACHMENTS && action != FETCH_ICON) {
+            s.disp.setCurrent(new LoadingScreen(s));
+        }
         
         try {
             switch (action) {
@@ -204,6 +235,68 @@ public class HTTPThread extends Thread {
                     s.iconCache.set(hash, icon);
                     iconTarget.iconLoaded(s);
                     break;
+                }
+
+                case SEND_ATTACHMENT: {
+                    Displayable screen = s.disp.getCurrent();
+                    if (screen instanceof LoadingScreen) {
+                        ((LoadingScreen) screen).text.setText("Sending");
+                    }
+
+                    HttpConnection httpConn = null;
+                    DataOutputStream os = null;
+
+                    try {
+                        httpConn = s.http.openConnection("/channels/" + s.selectedChannel.id + "/upload");
+                        httpConn.setRequestMethod(HttpConnection.POST);
+                        httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+
+                        os = httpConn.openDataOutputStream();
+
+                        os.write(createFormPart("token", null));
+                        os.write(s.http.token.getBytes());
+                        os.write(LINE_FEED.getBytes());
+
+                        os.write(createFormPart("content", null));
+                        os.write(LINE_FEED.getBytes());
+
+                        os.write(createFormPart("files", attachName));
+
+                        FileConnection fc = (FileConnection) Connector.open(attachPath);
+                        InputStream fileInputStream = fc.openInputStream();
+
+                        byte[] buffer = new byte[1024];
+                        int bytesRead = -1;
+
+                        while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                            os.write(buffer, 0, bytesRead);
+                        }
+
+                        os.write(LINE_FEED.getBytes());
+                        os.write(("--" + BOUNDARY + "--" + LINE_FEED).getBytes());
+                        os.flush();
+
+                        fileInputStream.close();
+                        fc.close();
+                        
+                        s.http.sendRequest(httpConn);
+                        new HTTPThread(s, FETCH_MESSAGES).start();
+                    }
+                    catch (Exception e) {
+                        s.error(e.toString());
+                    }
+                    finally {
+                        try {
+                            if (os != null) {
+                                os.close();
+                            }
+                            if (httpConn != null) {
+                                httpConn.close();
+                            }
+                        } catch (Exception ex) {
+                            s.error(ex.toString());
+                        }
+                    }
                 }
             }
         }

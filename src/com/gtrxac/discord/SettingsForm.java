@@ -29,11 +29,12 @@ public class SettingsForm extends Form implements CommandListener {
         themeGroup = new ChoiceGroup("Theme", ChoiceGroup.EXCLUSIVE, themeChoices, themeImages);
         themeGroup.setSelectedIndex(s.theme, true);
 
-        String[] uiChoices = {"Use old UI", "Use 12-hour time"};
-        Image[] uiImages = {null, null};
+        String[] uiChoices = {"Use old UI", "Use 12-hour time", "Native file picker"};
+        Image[] uiImages = {null, null, null};
         uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, uiImages);
         uiGroup.setSelectedIndex(0, s.oldUI);
         uiGroup.setSelectedIndex(1, s.use12hTime);
+        uiGroup.setSelectedIndex(2, s.nativeFilePicker);
 
         String[] fontChoices = {"Small", "Medium", "Large"};
         Image[] fontImages = {null, null, null};
@@ -106,10 +107,11 @@ public class SettingsForm extends Form implements CommandListener {
                     s.attachmentSize = 1000;
                 }
 
-                boolean[] selected = {false, false};
+                boolean[] selected = {false, false, false};
                 uiGroup.getSelectedFlags(selected);
                 s.oldUI = selected[0];
                 s.use12hTime = selected[1];
+                s.nativeFilePicker = selected[2];
 
                 loginRms = RecordStore.openRecordStore("login", true);
                 byte[] themeRecord = {new Integer(s.theme).byteValue()};
@@ -122,6 +124,7 @@ public class SettingsForm extends Form implements CommandListener {
                 byte[] iconTypeRecord = {new Integer(s.iconType).byteValue()};
                 byte[] iconSizeRecord = {new Integer(s.iconSize).byteValue()};
                 byte[] attachSizeRecord = new Integer(s.attachmentSize).toString().getBytes();
+                byte[] nativePickerRecord = {new Integer(s.nativeFilePicker ? 1 : 0).byteValue()};
 
                 if (loginRms.getNumRecords() >= 3) {
                     loginRms.setRecord(3, themeRecord, 0, 1);
@@ -177,6 +180,12 @@ public class SettingsForm extends Form implements CommandListener {
                     loginRms.setRecord(16, iconSizeRecord, 0, 1);
                 } else {
                     loginRms.addRecord(iconSizeRecord, 0, 1);
+                }
+
+                if (loginRms.getNumRecords() >= 17) {
+                    loginRms.setRecord(17, nativePickerRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(nativePickerRecord, 0, 1);
                 }
 
                 loginRms.closeRecordStore();

@@ -11,6 +11,7 @@
 
 -libraryjars sdk/midpapi20.jar
 -libraryjars sdk/cldcapi11.jar
+-libraryjars sdk/jsr75.jar
 
 # Preverify the code suitably for Java Micro Edition.
 
