@@ -12,7 +12,7 @@ public class AttachmentPicker extends List implements CommandListener {
     private Command closeCommand;
     private Command selectCommand;
     private Command backCommand;
-    private String currentPath = "file:///"; // Root directory
+    private String currentPath; // Root directory
 
     public AttachmentPicker(State s) {
         super("Select attachment", List.IMPLICIT);
@@ -27,7 +27,8 @@ public class AttachmentPicker extends List implements CommandListener {
         addCommand(selectCommand);
         addCommand(backCommand);
 
-        listFiles(currentPath);
+        currentPath = "file:///";
+        listFiles();
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -39,7 +40,7 @@ public class AttachmentPicker extends List implements CommandListener {
 
                 if (selected.endsWith("/")) { // Directory
                     currentPath = selectedPath;
-                    listFiles(currentPath);
+                    listFiles();
                 } else { // File
                     HTTPThread h = new HTTPThread(s, HTTPThread.SEND_ATTACHMENT);
                     h.attachName = selected;
@@ -53,7 +54,7 @@ public class AttachmentPicker extends List implements CommandListener {
                 int lastSlashIndex = currentPath.lastIndexOf('/', currentPath.length() - 2);
                 if (lastSlashIndex != -1) {
                     currentPath = currentPath.substring(0, lastSlashIndex + 1);
-                    listFiles(currentPath);
+                    listFiles();
                 }
             } else {
                 s.openChannelView(false);
@@ -64,7 +65,7 @@ public class AttachmentPicker extends List implements CommandListener {
         }
     }
 
-    private void listFiles(String path) {
+    private void listFiles() {
         deleteAll();
         try {
             if (currentPath.equals("file:///")) {
@@ -74,7 +75,7 @@ public class AttachmentPicker extends List implements CommandListener {
                     append(root, null);
                 }
             } else {
-                FileConnection fc = (FileConnection) Connector.open(path);
+                FileConnection fc = (FileConnection) Connector.open(currentPath);
                 Enumeration list = fc.list();
                 while (list.hasMoreElements()) {
                     String fileName = (String) list.nextElement();

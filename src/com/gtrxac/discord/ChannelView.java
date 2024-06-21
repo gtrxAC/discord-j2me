@@ -469,7 +469,11 @@ public class ChannelView extends Canvas implements CommandListener {
         if (c == uploadCommand) {
             try {
                 if (s.nativeFilePicker) {
-                    s.disp.setCurrent(new AttachmentPicker(s));
+                    if (System.getProperty("microedition.io.file.FileConnection.version") != null) {
+                        s.disp.setCurrent(new AttachmentPicker(s));
+                    } else {
+                        s.error("FileConnection not supported");
+                    }
                 } else {
                     String url = s.http.api + "/upload?channel=" + s.selectedChannel.id + "&token=" + s.http.token;
                     s.platformRequest(url);
