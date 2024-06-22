@@ -61,6 +61,9 @@ public class State {
 	String sendReference;  // ID of the message the user is replying to
 	boolean sendPing;
 
+	// set to true if loading screen shouldn't be shown for next HTTPThread call
+	boolean dontShowLoadScreen;
+
 	boolean isDM;
 	Vector dmChannels;
 	DMChannel selectedDmChannel;

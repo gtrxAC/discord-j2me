@@ -27,6 +27,8 @@ public class ChannelView extends Canvas implements CommandListener {
     boolean haveShown;
     boolean haveDrawn;
     boolean outdated;
+    boolean sendingMessage;
+    boolean fetchingMessages;
     int scroll;
     int maxScroll;
     int pressY;
@@ -269,18 +271,40 @@ public class ChannelView extends Canvas implements CommandListener {
             }
         }
 
-        int typingBannerY = 0;
-        if (outdated) {
+        int bannerY = 0;
+
+        if (sendingMessage || fetchingMessages) {
+            String str = sendingMessage ? "Sending message" : "Loading messages";
+            
             g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap("Refresh to read new messages", getWidth(), s.messageFont);
-            g.setColor(0x00AA1122);
+            String[] lines = Util.wordWrap(str, getWidth(), s.messageFont);
+            g.setColor(0x005865f2);
             g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
 
             g.setColor(0x00FFFFFF);
             for (int i = 0; i < lines.length; i++) {
-                g.drawString(lines[i], getWidth()/2, i*messageFontHeight + messageFontHeight/8, Graphics.TOP|Graphics.HCENTER);
+                g.drawString(
+                    lines[i], getWidth()/2, i*messageFontHeight + messageFontHeight/8,
+                    Graphics.TOP | Graphics.HCENTER
+                );
             }
-            typingBannerY = messageFontHeight*lines.length + messageFontHeight/4;
+            bannerY = messageFontHeight*lines.length + messageFontHeight/4;
+        }
+
+        if (outdated) {
+            g.setFont(s.messageFont);
+            String[] lines = Util.wordWrap("Refresh to read new messages", getWidth(), s.messageFont);
+            g.setColor(0x00AA1122);
+            g.fillRect(0, bannerY, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
+
+            g.setColor(0x00FFFFFF);
+            for (int i = 0; i < lines.length; i++) {
+                g.drawString(
+                    lines[i], getWidth()/2, bannerY + i*messageFontHeight + messageFontHeight/8,
+                    Graphics.TOP | Graphics.HCENTER
+                );
+            }
+            bannerY = messageFontHeight*lines.length + messageFontHeight/4;
         }
 
         if (s.typingUsers.size() > 0) {
@@ -295,12 +319,12 @@ public class ChannelView extends Canvas implements CommandListener {
             g.setFont(s.messageFont);
             String[] lines = Util.wordWrap(typingStr, getWidth(), s.messageFont);
             g.setColor(darkBgColors[s.theme]);
-            g.fillRect(0, typingBannerY, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
+            g.fillRect(0, bannerY, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
 
             g.setColor(authorColors[s.theme]);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
-                    lines[i], getWidth()/2, typingBannerY + i*messageFontHeight + messageFontHeight/8,
+                    lines[i], getWidth()/2, bannerY + i*messageFontHeight + messageFontHeight/8,
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
@@ -387,6 +411,7 @@ public class ChannelView extends Canvas implements CommandListener {
                 break;
             }
             case Canvas.GAME_A: {
+                s.dontShowLoadScreen = true;
                 s.disp.setCurrent(new MessageBox(s));
                 break;
             }
@@ -457,6 +482,7 @@ public class ChannelView extends Canvas implements CommandListener {
             s.disp.setCurrent(new MessageBox(s));
         }
         if (c == refreshCommand) {
+            s.dontShowLoadScreen = true;
             s.openChannelView(true);
         }
         if (c == selectCommand) {

@@ -58,11 +58,16 @@ public class HTTPThread extends Thread {
         return r.toString().getBytes();
     }
 
+    private boolean shouldShowLoadScreen() {
+        return !s.dontShowLoadScreen && action != FETCH_ATTACHMENTS && action != FETCH_ICON && action != SEND_MESSAGE;
+    }
+
     public void run() {
         Displayable prevScreen = s.disp.getCurrent();
-        if (action != FETCH_ATTACHMENTS && action != FETCH_ICON) {
+        if (shouldShowLoadScreen()) {
             s.disp.setCurrent(new LoadingScreen(s));
         }
+        if (s.dontShowLoadScreen) s.dontShowLoadScreen = false;
         
         try {
             switch (action) {
@@ -106,9 +111,10 @@ public class HTTPThread extends Thread {
                 }
 
                 case SEND_MESSAGE: {
-                    Displayable screen = s.disp.getCurrent();
-                    if (screen instanceof LoadingScreen) {
-                        ((LoadingScreen) screen).text.setText("Sending");
+                    if (!shouldShowLoadScreen() && s.channelView != null) {
+                        s.disp.setCurrent(s.channelView);
+                        s.channelView.sendingMessage = true;
+                        s.channelView.repaint();
                     }
 
                     String id;
@@ -138,14 +144,26 @@ public class HTTPThread extends Thread {
 
                     s.http.post("/channels/" + id + "/messages", json.build());
 
-                    screen = s.disp.getCurrent();
-                    if (screen instanceof LoadingScreen) {
-                        ((LoadingScreen) screen).text.setText("Loading");
+                    // If gateway enabled, don't need to fetch new messages
+                    if (s.gateway != null && s.gateway.isAlive()) {
+                        if (!shouldShowLoadScreen() && s.channelView != null) {
+                            s.channelView.sendingMessage = false;
+                            s.channelView.repaint();
+                        }
+                        break;
                     }
-                    // fall through
+
+                    // fall through (if gateway disabled, fetch messages because there might have 
+                    // been other messages sent during the time the user was writing their message)
                 }
 
                 case FETCH_MESSAGES: {
+                    if (!shouldShowLoadScreen() && s.channelView != null) {
+                        s.channelView.sendingMessage = false;
+                        s.channelView.fetchingMessages = true;
+                        s.channelView.repaint();
+                    }
+
                     String id;
                     if (s.isDM) id = s.selectedDmChannel.id;
                     else id = s.selectedChannel.id;
@@ -184,6 +202,11 @@ public class HTTPThread extends Thread {
                     s.sendMessage = null;
                     s.typingUsers = new Vector();
                     s.typingUserIDs = new Vector();
+
+                    if (s.channelView != null) {
+                        s.channelView.fetchingMessages = false;
+                        s.channelView.repaint();
+                    }
                     break;
                 }
 
