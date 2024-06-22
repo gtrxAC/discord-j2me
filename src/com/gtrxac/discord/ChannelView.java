@@ -504,7 +504,8 @@ public class ChannelView extends Canvas implements CommandListener {
                         s.error("FileConnection not supported");
                     }
                 } else {
-                    String url = s.http.api + "/upload?channel=" + s.selectedChannel.id + "&token=" + s.http.token;
+                    String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                    String url = s.http.api + "/upload?channel=" + id + "&token=" + s.http.token;
                     s.platformRequest(url);
                 }
             }

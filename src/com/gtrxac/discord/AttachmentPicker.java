@@ -10,7 +10,6 @@ import java.io.*;
 public class AttachmentPicker extends List implements CommandListener {
     private State s;
     private Command closeCommand;
-    private Command selectCommand;
     private Command backCommand;
     private String currentPath; // Root directory
 
@@ -19,12 +18,10 @@ public class AttachmentPicker extends List implements CommandListener {
         this.s = s;
         setCommandListener(this);
 
-        selectCommand = new Command("Select", Command.OK, 0);
         backCommand = new Command("Back", Command.BACK, 1);
         closeCommand = new Command("Close", Command.BACK, 2);
 
         addCommand(closeCommand);
-        addCommand(selectCommand);
         addCommand(backCommand);
 
         currentPath = "file:///";
@@ -32,7 +29,7 @@ public class AttachmentPicker extends List implements CommandListener {
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == selectCommand) {
+        if (c == List.SELECT_COMMAND) {
             int index = getSelectedIndex();
             if (index >= 0) {
                 String selected = getString(index);
@@ -75,7 +72,7 @@ public class AttachmentPicker extends List implements CommandListener {
                     append(root, null);
                 }
             } else {
-                FileConnection fc = (FileConnection) Connector.open(currentPath);
+                FileConnection fc = (FileConnection) Connector.open(currentPath, Connector.READ);
                 Enumeration list = fc.list();
                 while (list.hasMoreElements()) {
                     String fileName = (String) list.nextElement();

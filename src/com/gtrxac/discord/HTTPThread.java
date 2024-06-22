@@ -270,7 +270,8 @@ public class HTTPThread extends Thread {
                     DataOutputStream os = null;
 
                     try {
-                        httpConn = s.http.openConnection("/channels/" + s.selectedChannel.id + "/upload");
+                        String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                        httpConn = s.http.openConnection("/channels/" + id + "/upload");
                         httpConn.setRequestMethod(HttpConnection.POST);
                         httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 
@@ -285,7 +286,7 @@ public class HTTPThread extends Thread {
 
                         os.write(createFormPart("files", attachName));
 
-                        FileConnection fc = (FileConnection) Connector.open(attachPath);
+                        FileConnection fc = (FileConnection) Connector.open(attachPath, Connector.READ);
                         InputStream fileInputStream = fc.openInputStream();
 
                         byte[] buffer = new byte[1024];
@@ -306,7 +307,7 @@ public class HTTPThread extends Thread {
                         new HTTPThread(s, FETCH_MESSAGES).start();
                     }
                     catch (Exception e) {
-                        s.error(e.toString());
+                        s.error("Error while sending file: " + e.toString());
                     }
                     finally {
                         try {
@@ -316,9 +317,7 @@ public class HTTPThread extends Thread {
                             if (httpConn != null) {
                                 httpConn.close();
                             }
-                        } catch (Exception ex) {
-                            s.error(ex.toString());
-                        }
+                        } catch (Exception ex) {}
                     }
                 }
             }

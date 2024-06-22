@@ -250,7 +250,7 @@ public class GatewayThread extends Thread {
                     idProps.put("device", "");
             
                     JSONObject idData = new JSONObject();
-                    idData.put("token", token);
+                    idData.put("token", token.trim());
                     idData.put("capabilities", 30717);
                     idData.put("properties", idProps);
             
@@ -258,7 +258,12 @@ public class GatewayThread extends Thread {
                     idMsg.put("op", 2);
                     idMsg.put("d", idData);
 
-                    os.write((idMsg.build() + "\n").getBytes());
+                    try {
+                        os.write((idMsg.build() + "\n").getBytes("UTF-8"));
+                    }
+                    catch (UnsupportedEncodingException e) {
+                        os.write((idMsg.build() + "\n").getBytes());
+                    }
                     os.flush();
                 }
             }
