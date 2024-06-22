@@ -20,7 +20,7 @@ public class ReplyForm extends Form implements CommandListener {
         this.s = s;
         this.msg = msg;
 
-        StringItem refItem = new StringItem("Replying to " + msg.author, msg.content);
+        StringItem refItem = new StringItem("Replying to " + msg.author.name, msg.content);
         refItem.setFont(s.messageFont);
         append(refItem);
 

@@ -211,6 +211,9 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     protected void paint(Graphics g) {
+        if (scroll < 0) scroll = 0;
+        if (scroll > maxScroll) scroll = maxScroll;
+        
         if (width != getWidth() || height != getHeight()) {
             width = getWidth();
             height = getHeight();
@@ -374,15 +377,16 @@ public class ChannelView extends Canvas implements CommandListener {
 
         switch (action) {
             case Canvas.UP: {
+                // No message selected -> enable selection mode (bottom-most will be selected)
                 if (!selectionMode) {
                     selectionMode = true;
-                    repaint();
-                    return;
                 }
-    
-                if (thisItemHeight > getHeight() && thisItemPos < 0) {
+                // Message is taller than screen -> scroll up by two lines
+                else if (thisItemHeight > getHeight() && thisItemPos < 0) {
                     scroll -= messageFontHeight*2;
-                } else {
+                }
+                // Else go up by one message
+                else {
                     int max = items.size() - 1;
                     if (selectedItem > max) selectedItem = max;
                     if (selectedItem == max) return;
@@ -391,15 +395,16 @@ public class ChannelView extends Canvas implements CommandListener {
                 break;
             }
             case Canvas.DOWN: {
-                if (selectedItem == 0) {
-                    selectionMode = false;
-                    repaint();
-                    return;
-                }
-                
+                // Message is taller than screen -> scroll down by two lines
                 if (thisItemHeight > getHeight() && thisItemPos + thisItemHeight > getHeight()) {
                     scroll += messageFontHeight*2;
-                } else {
+                }
+                // Bottom-most message -> disable selection mode
+                else if (selectedItem == 0) {
+                    selectionMode = false;
+                }
+                // Else go down by one message
+                else {
                     if (selectedItem < 0) selectedItem = 0;
                     if (selectedItem == 0) return;
                     selectedItem--;
@@ -447,8 +452,6 @@ public class ChannelView extends Canvas implements CommandListener {
     protected void pointerDragged(int x, int y) {
         touchMode = true;
         scroll -= y - pressY;
-        if (scroll < 0) scroll = 0;
-        if (scroll > maxScroll) scroll = maxScroll;
         pressY = y;
         repaint();
     }
