@@ -301,7 +301,7 @@ public class ChannelView extends Canvas implements CommandListener {
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
-            bannerY = messageFontHeight*lines.length + messageFontHeight/4;
+            bannerY += messageFontHeight*lines.length + messageFontHeight/4;
         }
 
         if (outdated) {
@@ -317,7 +317,7 @@ public class ChannelView extends Canvas implements CommandListener {
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
-            bannerY = messageFontHeight*lines.length + messageFontHeight/4;
+            bannerY += messageFontHeight*lines.length + messageFontHeight/4;
         }
 
         if (s.typingUsers.size() > 0) {

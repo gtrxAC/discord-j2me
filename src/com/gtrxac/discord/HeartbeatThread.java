@@ -16,7 +16,7 @@ public class HeartbeatThread extends Thread {
     public HeartbeatThread(State s, OutputStream os, int interval) {
         this.s = s;
         this.os = os;
-        this.interval = interval;
+        this.interval = interval - 3000;  // Discord already more or less accounts for network latency but this is 2G we're talking about
         this.lastReceived = -1;
     }
 
@@ -38,14 +38,14 @@ public class HeartbeatThread extends Thread {
                     os.write((hbMsg.build() + "\n").getBytes());
                     os.flush();
                     lastHeartbeat = now;
-                    // System.out.println("Sent heartbeat");
                 }
 
                 Thread.sleep(interval);
             }
         }
         catch (Exception e) {
-            s.error("Heartbeat thread error: " + e.toString());
+            s.gateway.stop = true;
+            s.disp.setCurrent(new GatewayAlert(s, "Heartbeat thread error: " + e.toString()));
         }
     }
 }

@@ -63,11 +63,11 @@ public class HTTPThread extends Thread {
     }
 
     public void run() {
+        boolean showLoad = shouldShowLoadScreen();
+        s.dontShowLoadScreen = false;
+
         Displayable prevScreen = s.disp.getCurrent();
-        if (shouldShowLoadScreen()) {
-            s.disp.setCurrent(new LoadingScreen(s));
-        }
-        if (s.dontShowLoadScreen) s.dontShowLoadScreen = false;
+        if (showLoad) s.disp.setCurrent(new LoadingScreen(s));
         
         try {
             switch (action) {
@@ -111,7 +111,7 @@ public class HTTPThread extends Thread {
                 }
 
                 case SEND_MESSAGE: {
-                    if (!shouldShowLoadScreen() && s.channelView != null) {
+                    if (!showLoad && s.channelView != null) {
                         s.disp.setCurrent(s.channelView);
                         s.channelView.sendingMessage = true;
                         s.channelView.repaint();
@@ -146,7 +146,7 @@ public class HTTPThread extends Thread {
 
                     // If gateway enabled, don't need to fetch new messages
                     if (s.gateway != null && s.gateway.isAlive()) {
-                        if (!shouldShowLoadScreen() && s.channelView != null) {
+                        if (!showLoad && s.channelView != null) {
                             s.channelView.sendingMessage = false;
                             s.channelView.repaint();
                         }
@@ -158,7 +158,7 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_MESSAGES: {
-                    if (!shouldShowLoadScreen() && s.channelView != null) {
+                    if (!showLoad && s.channelView != null) {
                         s.channelView.sendingMessage = false;
                         s.channelView.fetchingMessages = true;
                         s.channelView.repaint();
@@ -195,6 +195,7 @@ public class HTTPThread extends Thread {
                     if (s.oldUI) {
                         s.disp.setCurrent(s.oldChannelView);
                     } else {
+                        s.channelView.fetchingMessages = false;
                         s.disp.setCurrent(s.channelView);
                         s.channelView.repaint();
                     }
@@ -202,11 +203,6 @@ public class HTTPThread extends Thread {
                     s.sendMessage = null;
                     s.typingUsers = new Vector();
                     s.typingUserIDs = new Vector();
-
-                    if (s.channelView != null) {
-                        s.channelView.fetchingMessages = false;
-                        s.channelView.repaint();
-                    }
                     break;
                 }
 

@@ -269,9 +269,8 @@ public class GatewayThread extends Thread {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
             disconnect();
-            s.disp.setCurrent(new GatewayAlert(s, e.toString()), s.disp.getCurrent());
+            s.disp.setCurrent(new GatewayAlert(s, e.toString()));
         }
     }
 }
