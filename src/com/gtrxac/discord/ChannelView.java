@@ -16,6 +16,7 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command uploadCommand;
     private Command copyCommand;
     private Command refreshCommand;
+    private Command openUrlCommand;
 
     private Vector items;
 
@@ -62,7 +63,8 @@ public class ChannelView extends Canvas implements CommandListener {
         replyCommand = new Command("Reply", Command.ITEM, 3);
         uploadCommand = new Command("Upload", "Upload file", Command.ITEM, 4);
         copyCommand = new Command("Copy", "Copy content", Command.ITEM, 5);
-        refreshCommand = new Command("Refresh", Command.ITEM, 6);
+        openUrlCommand = new Command("Open URL", Command.ITEM, 6);
+        refreshCommand = new Command("Refresh", Command.ITEM, 7);
 
         messageFontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
@@ -234,16 +236,24 @@ public class ChannelView extends Canvas implements CommandListener {
                     } else {
                         addCommand(copyCommand);
                     }
+
+                    if (Util.indexOfAny(selected.msg.content, URLList.urlStarts, 0) != -1) {
+                        addCommand(openUrlCommand);
+                    } else {
+                        removeCommand(openUrlCommand);
+                    }
                 } else {
+                    removeCommand(openUrlCommand);
                     removeCommand(copyCommand);
                     addCommand(selectCommand);
                 }
             } else {
+                removeCommand(openUrlCommand);
                 removeCommand(copyCommand);
                 removeCommand(selectCommand);
             }
 
-            if (selected.shouldShowReplyOption()) {
+            if (selectionMode && selected.shouldShowReplyOption()) {
                 addCommand(replyCommand);
             } else {
                 removeCommand(replyCommand);
@@ -516,6 +526,10 @@ public class ChannelView extends Canvas implements CommandListener {
         if (c == copyCommand) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
             s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
+        }
+        if (c == openUrlCommand) {
+            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+            s.disp.setCurrent(new URLList(s, item.msg.content));
         }
     }
 }

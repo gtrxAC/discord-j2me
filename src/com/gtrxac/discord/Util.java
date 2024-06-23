@@ -76,6 +76,18 @@ public class Util {
 		return arr;
 	}
 
+    public static int indexOfAny(String haystack, String[] needles, int startIndex) {
+        int result = -1;
+
+        for (int i = 0; i < needles.length; i++) {
+            int current = haystack.indexOf(needles[i], startIndex);
+            if (current != -1 && (current < result || result == -1)) {
+                result = current;
+            }
+        }
+        return result;
+    }
+
     public static Image resizeImage(Image sourceImage, int newWidth, int newHeight) {
         int sourceWidth = sourceImage.getWidth();
         int sourceHeight = sourceImage.getHeight();
