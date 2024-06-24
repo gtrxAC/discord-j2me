@@ -6,38 +6,32 @@ public class Attachment {
     public String url;
     public String sizeParam;
     public String browserSizeParam;
-
-    public static int[] resizeFit(int imgW, int imgH, int maxW, int maxH) {
-        int imgAspect = imgW*100 / imgH;
-        int maxAspect = maxW*100 / maxH;
-        int width, height;
-
-        if (imgW <= maxW && imgH <= maxH) {
-            width = imgW;
-            height = imgH;
-        }
-        else if (imgAspect > maxAspect) {
-            width = maxW;
-            height = (maxW*100)/imgAspect;
-        } else {
-            height = maxH;
-            width = (maxH*imgAspect)/100;
-        }
-
-        return new int[]{width, height};
-    }
+    public String name;
+    public String size;
+    public boolean supported;
 
     public Attachment(State s, JSONObject data) {
+        url = s.cdn + data.getString("proxy_url").substring("https://media.discordapp.net".length());
+
+        name = data.getString("filename", "Unnamed file");
+        size = Util.fileSizeToString(data.getInt("size", 0));
+
+        // Attachments that aren't images or videos are unsupported
+        // (cannot be previewed but can be viewed as text or downloaded)
+        if (!data.has("width")) {
+            supported = false;
+            return;
+        }
+
+        supported = true;
         int imageWidth = data.getInt("width");
         int imageHeight = data.getInt("height");
 
         int screenWidth = s.channelSelector != null ? s.channelSelector.getWidth() : s.dmSelector.getWidth();
         int screenHeight = s.channelSelector != null ? s.channelSelector.getHeight() : s.dmSelector.getHeight();
 
-        int[] size = resizeFit(imageWidth, imageHeight, screenWidth, screenHeight);
-        int[] browserSize = resizeFit(imageWidth, imageHeight, s.attachmentSize, s.attachmentSize);
-
-        url = s.cdn + data.getString("proxy_url").substring("https://media.discordapp.net".length());
+        int[] size = Util.resizeFit(imageWidth, imageHeight, screenWidth, screenHeight);
+        int[] browserSize = Util.resizeFit(imageWidth, imageHeight, s.attachmentSize, s.attachmentSize);
 
         sizeParam = "format=" + (s.useJpeg ? "jpeg" : "png") + "&width=" + size[0] + "&height=" + size[1];
 

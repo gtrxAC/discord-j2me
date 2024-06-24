@@ -17,6 +17,7 @@ public class HTTPThread extends Thread {
     public static final int FETCH_ATTACHMENTS = 5;
     public static final int FETCH_ICON = 6;
     public static final int SEND_ATTACHMENT = 7;
+    public static final int VIEW_ATTACHMENT_TEXT = 8;
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
     private static final String LINE_FEED = "\r\n";
@@ -34,6 +35,9 @@ public class HTTPThread extends Thread {
     // Parameters for SEND_ATTACHMENT
     String attachPath;
     String attachName;
+
+    // Parameters for VIEW_ATTACHMENT_TEXT
+    Attachment viewAttach;
 
     public HTTPThread(State s, int action) {
         this.s = s;
@@ -59,7 +63,10 @@ public class HTTPThread extends Thread {
     }
 
     private boolean shouldShowLoadScreen() {
-        return !s.dontShowLoadScreen && action != FETCH_ATTACHMENTS && action != FETCH_ICON && action != SEND_MESSAGE;
+        return !s.dontShowLoadScreen
+            && action != FETCH_ATTACHMENTS
+            && action != FETCH_ICON
+            && action != SEND_MESSAGE;
     }
 
     public void run() {
@@ -217,16 +224,33 @@ public class HTTPThread extends Thread {
                     for (int i = 0; i < attachments.size(); i++) {
                         Attachment attach = (Attachment) attachments.elementAt(i);
 
-                        try {
-                            Image image = s.http.getImage(attach.url + attach.sizeParam);
-                            ImageItem item = new ImageItem(null, image, Item.LAYOUT_DEFAULT, null);
-                            item.setLayout(layout);
-                            s.attachmentView.append(item);
-                        }
-                        catch (Exception e) {
-                            StringItem item = new StringItem(null, e.toString());
-                            item.setLayout(layout);
-                            s.attachmentView.append(item);
+                        StringItem titleItem = new StringItem(null, attach.name + " (" + attach.size + ")");
+                        s.attachmentView.append(titleItem);
+
+                        if (attach.supported) {
+                            // Supported attachment (image/video) -> show it
+                            // For videos, only the first frame is shown (Discord media proxy converts to image)
+                            try {
+                                Image image = s.http.getImage(attach.url + attach.sizeParam);
+                                ImageItem item = new ImageItem(null, image, Item.LAYOUT_DEFAULT, null);
+                                item.setLayout(layout);
+                                s.attachmentView.append(item);
+                            }
+                            catch (Exception e) {
+                                StringItem item = new StringItem(null, e.toString());
+                                item.setLayout(layout);
+                                s.attachmentView.append(item);
+                            }
+                        } else {
+                            // Unsupported -> show a button to view it as text
+                            // Note: showCommand has a priority starting at 100, so when it's pressed, 
+                            //       we can distinguish it from 'open in browser' buttons
+                            Command showCommand = new Command("Show", Command.ITEM, i + 100);
+                            StringItem showButton = new StringItem(null, "Show as text", Item.BUTTON);
+                            showButton.setLayout(layout);
+                            showButton.setDefaultCommand(showCommand);
+                            showButton.setItemCommandListener(s.attachmentView);
+                            s.attachmentView.append(showButton);
                         }
 
                         Command openCommand = new Command("Open", Command.ITEM, i);
@@ -235,6 +259,9 @@ public class HTTPThread extends Thread {
                         openButton.setDefaultCommand(openCommand);
                         openButton.setItemCommandListener(s.attachmentView);
                         s.attachmentView.append(openButton);
+
+                        Spacer sp = new Spacer(s.attachmentView.getWidth(), s.attachmentView.getHeight()/10);
+                        s.attachmentView.append(sp);
                     }
                     break;
                 }
@@ -315,6 +342,14 @@ public class HTTPThread extends Thread {
                             }
                         } catch (Exception ex) {}
                     }
+                    break;
+                }
+
+                case VIEW_ATTACHMENT_TEXT: {
+                    MessageCopyBox copyBox = new MessageCopyBox(s, viewAttach.name, s.http.get(viewAttach.url));
+                    copyBox.lastScreen = s.attachmentView;
+                    s.disp.setCurrent(copyBox);
+                    break;
                 }
             }
         }

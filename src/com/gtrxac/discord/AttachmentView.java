@@ -33,7 +33,18 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
     }
 
     public void commandAction(Command c, Item i) {
-        Attachment attach = (Attachment) msg.attachments.elementAt(c.getPriority());
-        s.platformRequest(attach.url + attach.browserSizeParam);
+        int prio = c.getPriority();
+
+        if (prio < 100) {
+            // 'Open in browser' button
+            Attachment attach = (Attachment) msg.attachments.elementAt(prio);
+            s.platformRequest(attach.url + attach.browserSizeParam);
+        } else {
+            // 'View as text' button
+            Attachment attach = (Attachment) msg.attachments.elementAt(prio - 100);
+            HTTPThread h = new HTTPThread(s, HTTPThread.VIEW_ATTACHMENT_TEXT);
+            h.viewAttach = attach;
+            h.start();
+        }
     }
 }

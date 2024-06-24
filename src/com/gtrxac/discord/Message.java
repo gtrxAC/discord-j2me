@@ -40,10 +40,6 @@ public class Message {
 
                 for (int i = 0; i < attachArray.size(); i++) {
                     JSONObject attach = attachArray.getObject(i);
-
-                    // Skip attachments that aren't images
-                    if (!attach.has("width")) continue;
-
                     attachments.addElement(new Attachment(s, attach));
                 }
             }
