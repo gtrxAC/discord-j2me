@@ -227,7 +227,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
             ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
 
-            if (selectionMode) {
+            if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
                 if (selected.type == ChannelViewItem.MESSAGE) {
                     removeCommand(selectCommand);
 

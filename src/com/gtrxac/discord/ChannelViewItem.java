@@ -21,6 +21,9 @@ public class ChannelViewItem {
      * Determine whether or not the 'reply' menu option should be displayed when this item is selected.
      */
     public boolean shouldShowReplyOption() {
+        // Don't show reply option for status messages
+        if (msg != null && msg.isStatus) return false;
+
         // Show reply option for message item
         if (type == ChannelViewItem.MESSAGE) return true;
 
@@ -122,7 +125,12 @@ public class ChannelViewItem {
                 }
 
                 // Draw message content
-                g.setColor(ChannelView.messageColors[s.theme]);
+                // Use timestamp color for status messages to distinguish them
+                if (msg.isStatus) {
+                    g.setColor(ChannelView.timestampColors[s.theme]);
+                } else {
+                    g.setColor(ChannelView.messageColors[s.theme]);
+                }
                 g.setFont(s.messageFont);
                 for (int i = 0; i < msg.contentLines.length; i++) {
                     g.drawString(msg.contentLines[i], x, y, Graphics.TOP|Graphics.LEFT);

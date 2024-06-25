@@ -226,6 +226,7 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             if (msg.author.global_name == null) {
                 result.author.username = msg.author.username;
             }
+            if ([1, 2, 7, 8].includes(msg.type)) result.type = msg.type;
 
             // Parse content 
             if (msg.content) {
@@ -277,6 +278,19 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             }
             if (msg.embeds?.length && msg.embeds[0].title) {
                 result.embeds = [{title: msg.embeds[0].title}];
+            }
+
+            // Need first mentioned user for group DM join/leave notification messages
+            if ((msg.type == 1 || msg.type == 2) && msg.mentions.length) {
+                result.mentions = [
+                    {
+                        id: msg.mentions[0].id,
+                        global_name: msg.mentions[0].global_name
+                    }
+                ]
+                if (msg.mentions[0].global_name == null) {
+                    result.mentions[0].username = msg.mentions[0].username;
+                }
             }
 
             return result;
