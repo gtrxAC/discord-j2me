@@ -52,8 +52,8 @@ public class SettingsForm extends Form implements CommandListener {
 
         attachSizeField = new TextField("Max. attachment size", new Integer(s.attachmentSize).toString(), 5, TextField.NUMERIC);
 
-        String[] iconChoices = {"Off", "Square", "Circle"};
-        Image[] iconImages = {null, null, null};
+        String[] iconChoices = {"Off", "Square", "Circle", "Circle (HQ)"};
+        Image[] iconImages = {null, null, null, null};
         iconGroup = new ChoiceGroup("Icons and avatars", ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
         iconGroup.setSelectedIndex(s.iconType, true);
 

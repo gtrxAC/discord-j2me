@@ -46,4 +46,6 @@ public class Guild implements HasIcon {
     public void iconLoaded(State s) {
 		if (s.guildSelector != null) s.guildSelector.update();
     }
+    
+    public void largeIconLoaded(State s) {}
 }

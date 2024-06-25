@@ -48,4 +48,6 @@ public class User implements HasIcon {
     public void iconLoaded(State s) {
         if (s.channelView != null) s.channelView.repaint();
     }
+
+    public void largeIconLoaded(State s) { iconLoaded(s); }
 }

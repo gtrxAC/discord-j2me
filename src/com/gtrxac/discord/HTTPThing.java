@@ -19,18 +19,10 @@ public class HTTPThing {
     public HttpConnection openConnection(String url) throws IOException {
         String fullUrl = s.getPlatformSpecificUrl(api + "/api/v9" + url);
 
-        HttpConnection c = (HttpConnection)Connector.open(fullUrl);
+        HttpConnection c = (HttpConnection) Connector.open(fullUrl);
 
         c.setRequestProperty("Content-Type", "application/json");
-        c.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
-        c.setRequestProperty("Accept", "*/*");
-        c.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
         c.setRequestProperty("Authorization", token);
-        c.setRequestProperty("X-Discord-Locale", "en-GB");
-        c.setRequestProperty("X-Debug-Options", "bugReporterEnabled");
-        c.setRequestProperty("Sec-Fetch-Dest", "empty");
-        c.setRequestProperty("Sec-Fetch-Mode", "cors");
-        c.setRequestProperty("Sec-Fetch-Site", "same-origin");
 
         return c;
     }
@@ -38,11 +30,6 @@ public class HTTPThing {
     public String sendRequest(HttpConnection c) throws Exception {
         InputStream is = null;
 
-        // Getting the InputStream ensures that the connection
-        // is opened (if it was not already handled by
-        // Connector.open()) and the SSL handshake is exchanged,
-        // and the HTTP response headers are read.
-        // These are stored until requested.
         is = c.openDataInputStream();
 
         try {
@@ -94,7 +81,15 @@ public class HTTPThing {
         try {
             c = openConnection(url);
             c.setRequestMethod(HttpConnection.POST);
-            byte[] b = data.getBytes("UTF-8");
+            
+            byte[] b;
+            try {
+                b = data.getBytes("UTF-8");
+            }
+            catch (UnsupportedEncodingException e) {
+                b = data.getBytes();
+            }
+
             c.setRequestProperty("Content-Length", String.valueOf(b.length));
 
             os = c.openOutputStream();

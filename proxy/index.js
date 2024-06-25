@@ -40,13 +40,37 @@ function stringifyUnicode(obj) {
         });
 }
 
+function getToken(req, res, next) {
+    let token;
+
+    if (req.headers?.authorization) {
+        token = req.headers.authorization;
+    }
+    else if (req.body?.token) {
+        token = req.body.token;
+        delete req.body.token;
+    }
+
+    res.locals.headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Authorization": token,
+        "X-Discord-Locale": "en-GB",
+        "X-Debug-Options": "bugReporterEnabled",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin"
+    };
+    next();
+}
+
 // Get servers
-app.get(`${BASE}/users/@me/guilds`, async (req, res) => {
+app.get(`${BASE}/users/@me/guilds`, getToken, async (req, res) => {
     try {
-        delete req.headers.host;
         const response = await axios.get(
             `${DEST_BASE}/users/@me/guilds`,
-            {headers: req.headers}
+            {headers: res.locals.headers}
         );
         const guilds = response.data.map(g => {
             const result = {id: g.id, name: g.name};
@@ -59,12 +83,11 @@ app.get(`${BASE}/users/@me/guilds`, async (req, res) => {
 });
 
 // Get server channels
-app.get(`${BASE}/guilds/:guild/channels`, async (req, res) => {
+app.get(`${BASE}/guilds/:guild/channels`, getToken, async (req, res) => {
     try {
-        delete req.headers.host;
         const response = await axios.get(
             `${DEST_BASE}/guilds/${req.params.guild}/channels`,
-            {headers: req.headers}
+            {headers: res.locals.headers}
         )
 
         // Populate channel name cache
@@ -97,6 +120,10 @@ app.get(`${BASE}/guilds/:guild/channels`, async (req, res) => {
 // File upload form
 app.get(`/upload`, async (req, res) => {
     try {
+        if (!req.query?.channel || !req.query?.token) {
+            res.send(`<p>Token or destination channel not defined</p>`);
+        }
+
         res.send(
 `<!DOCTYPE html>
 <html lang="en">
@@ -116,7 +143,7 @@ app.get(`/upload`, async (req, res) => {
         <label for="content">Text:</label><br />
         <textarea name="content" id="content"></textarea><br />
 
-        <input type="Submit" name="Upload" />
+        <input type="submit" value="Upload" />
     </form>
 </body>
 </html>`
@@ -126,12 +153,11 @@ app.get(`/upload`, async (req, res) => {
 });
 
 // Get DM channels
-app.get(`${BASE}/users/@me/channels`, async (req, res) => {
+app.get(`${BASE}/users/@me/channels`, getToken, async (req, res) => {
     try {
-        delete req.headers.host;
         const response = await axios.get(
             `${DEST_BASE}/users/@me/channels`,
-            {headers: req.headers}
+            {headers: res.locals.headers}
         );
         const channels = response.data
             .filter(ch => ch.type == 1 || ch.type == 3)
@@ -167,7 +193,7 @@ app.get(`${BASE}/users/@me/channels`, async (req, res) => {
 });
 
 // Get messages
-app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
+app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
     try {
         let proxyUrl = `${DEST_BASE}/channels/${req.params.channel}/messages`;
         let queryParam = [];
@@ -176,8 +202,7 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
         if (req.query.after) queryParam.push(`after=${req.query.after}`);
         if (queryParam.length) proxyUrl += '?' + queryParam.join('&');
 
-        delete req.headers.host;
-        const response = await axios.get(proxyUrl, {headers: req.headers});
+        const response = await axios.get(proxyUrl, {headers: res.locals.headers});
 
         // Populate username cache
         response.data.forEach(msg => {
@@ -237,9 +262,10 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
 
             if (msg.attachments?.length) {
                 result.attachments = msg.attachments
-                    .filter(att => att.width !== undefined)
                     .map(att => {
                         return {
+                            filename: att.filename,
+                            size: att.size,
                             width: att.width,
                             height: att.height,
                             proxy_url: att.proxy_url
@@ -261,20 +287,12 @@ app.get(`${BASE}/channels/:channel/messages`, async (req, res) => {
 });
 
 // Send message
-app.post(`${BASE}/channels/:channel/messages`, async (req, res) => {
+app.post(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
     try {
-        delete req.headers.host;
-
-        let token = req.headers.authorization;
-        if (!token) {
-            token = req.body.token;
-            delete req.body.token;
-        }
-
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,
             req.body,
-            {headers: {Authorization: token}}
+            {headers: res.locals.headers}
         );
         res.send("ok");
     }
@@ -282,12 +300,8 @@ app.post(`${BASE}/channels/:channel/messages`, async (req, res) => {
 });
 
 // Send message with attachments
-app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), async (req, res) => {
+app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), getToken, async (req, res) => {
     try {
-        token = req.body.token;
-        delete req.body.token;
-        delete req.headers.host;
-
         const form = new FormData();
         let text = "Message sent!";
 
@@ -300,27 +314,29 @@ app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), async (req,
         }
         if (req.body) form.append('content', req.body.content);
 
+        console.log("after:")
+        console.log(res.locals.headers)
+
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,
             form,
-            {headers: {Authorization: token}}
+            {headers: res.locals.headers}
         )
 
         res.send(
-            `<p>${text}</p><a href="/upload?channel=${req.params.channel}&token=${token}">Send another</a>`
+            `<p>${text}</p><a href="/upload?channel=${req.params.channel}&token=${res.locals.headers.authorization}">Send another</a>`
         );
     }
     catch (e) { handleError(res, e); }
 });
 
 // Mark message as read
-app.post(`${BASE}/channels/:channel/messages/:message/ack`, async (req, res) => {
+app.post(`${BASE}/channels/:channel/messages/:message/ack`, getToken, async (req, res) => {
     try {
-        delete req.headers.host;
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages/${req.params.message}/ack`,
             req.body,
-            {headers: req.headers}
+            {headers: res.locals.headers}
         );
         res.send("ok");
     }

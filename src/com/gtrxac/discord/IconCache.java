@@ -8,6 +8,7 @@ public class IconCache {
     private Hashtable icons;
     private Hashtable largeIcons;
     private Vector activeRequests;
+    private Vector activeResizes;
 
     public int scaleSize;
 
@@ -16,6 +17,7 @@ public class IconCache {
         icons = new Hashtable();
         largeIcons = new Hashtable();
         activeRequests = new Vector();
+        activeResizes = new Vector();
     }
 
     public Image get(HasIcon target) {
@@ -37,8 +39,13 @@ public class IconCache {
     }
 
     public void removeRequest(String hash) {
-        int reqIndex = activeRequests.indexOf(hash);
-        if (reqIndex != -1) activeRequests.removeElementAt(reqIndex);
+        int index = activeRequests.indexOf(hash);
+        if (index != -1) activeRequests.removeElementAt(index);
+    }
+
+    public void removeResize(String hash) {
+        int index = activeResizes.indexOf(hash);
+        if (index != -1) activeResizes.removeElementAt(index);
     }
 
     public void set(String hash, Image icon) {
@@ -58,14 +65,17 @@ public class IconCache {
         if (result != null && result.getWidth() == scaleSize) return result;
 
         Image smallIcon = (Image) get(target);
-        if (smallIcon == null) return null;
 
-        result = Util.resizeImage(smallIcon, scaleSize, scaleSize);
-        setLarge(hash, result);
-        return result;
+        if (smallIcon != null && !activeResizes.contains(hash)) {
+            activeResizes.addElement(hash);
+            new IconResizeThread(s, target, smallIcon, scaleSize).start();
+        }
+        return null;
     }
 
     public void setLarge(String hash, Image icon) {
+        removeResize(hash);
+        
         if (!largeIcons.containsKey(hash) && largeIcons.size() >= s.messageLoadCount) {
             largeIcons.remove(largeIcons.keys().nextElement());
         }

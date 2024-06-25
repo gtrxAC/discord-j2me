@@ -87,7 +87,12 @@ public class ChannelViewItem {
                             // Icon is not loaded, draw a placeholder with the username's
                             // initials on a background whose color is determined by the user ID
                             g.setColor(msg.author.iconColor);
-                            g.fillRect(iconX, iconY, iconSize, iconSize);
+
+                            if (s.iconType == State.ICON_TYPE_CIRCLE || s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
+                                g.fillArc(iconX, iconY, iconSize, iconSize, 0, 360);
+                            } else {
+                                g.fillRect(iconX, iconY, iconSize, iconSize);
+                            }
 
                             g.setColor(0x00FFFFFF);
                             g.setFont(s.messageFont);
@@ -97,16 +102,6 @@ public class ChannelViewItem {
                                 iconY + iconSize/2 - messageFontHeight/2,
                                 Graphics.TOP | Graphics.HCENTER
                             );
-                        }
-
-                        // Draw cutout to make the icon a circle
-                        if (s.iconType == State.ICON_TYPE_CIRCLE) {
-                            g.setColor(
-                                selected ?
-                                    ChannelView.highlightColors[s.theme] :
-                                    ChannelView.backgroundColors[s.theme]
-                            );
-                            Util.drawCircleCutout(g, iconX, iconY, iconSize);
                         }
                     }
 

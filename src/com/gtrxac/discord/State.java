@@ -10,6 +10,7 @@ public class State {
 	public static final int ICON_TYPE_NONE = 0;
 	public static final int ICON_TYPE_SQUARE = 1;
 	public static final int ICON_TYPE_CIRCLE = 2;
+	public static final int ICON_TYPE_CIRCLE_HQ = 3;
 
 	MIDlet midlet;
 	Display disp;

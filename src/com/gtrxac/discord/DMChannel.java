@@ -55,4 +55,6 @@ public class DMChannel implements HasIcon {
     public void iconLoaded(State s) {
 		if (s.dmSelector != null) s.dmSelector.update();
     }
+
+    public void largeIconLoaded(State s) {}
 }
