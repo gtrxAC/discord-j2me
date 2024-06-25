@@ -7,6 +7,8 @@ public class IconCache {
     private State s;
     private Hashtable icons;
     private Hashtable largeIcons;
+    private Vector iconHashes;
+    private Vector largeIconHashes;
     private Vector activeRequests;
     private Vector activeResizes;
 
@@ -16,6 +18,8 @@ public class IconCache {
         this.s = s;
         icons = new Hashtable();
         largeIcons = new Hashtable();
+        iconHashes = new Vector();
+        largeIconHashes = new Vector();
         activeRequests = new Vector();
         activeResizes = new Vector();
     }
@@ -52,9 +56,12 @@ public class IconCache {
         removeRequest(hash);
 
         if (!icons.containsKey(hash) && icons.size() >= 100) {
-            icons.remove(icons.keys().nextElement());
+            String firstHash = (String) iconHashes.elementAt(0);
+            icons.remove(firstHash);
+            iconHashes.removeElementAt(0);
         }
         icons.put(hash, icon);
+        iconHashes.addElement(hash);
     }
 
     public Image getLarge(HasIcon target) {
@@ -77,8 +84,11 @@ public class IconCache {
         removeResize(hash);
         
         if (!largeIcons.containsKey(hash) && largeIcons.size() >= s.messageLoadCount) {
-            largeIcons.remove(largeIcons.keys().nextElement());
+            String firstHash = (String) largeIconHashes.elementAt(0);
+            largeIcons.remove(firstHash);
+            largeIconHashes.removeElementAt(0);
         }
         largeIcons.put(hash, icon);
+        largeIconHashes.addElement(hash);
     }
 }
