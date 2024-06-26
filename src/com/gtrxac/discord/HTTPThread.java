@@ -9,15 +9,17 @@ import javax.microedition.io.*;
 import javax.microedition.io.file.*;
 
 public class HTTPThread extends Thread {
-    public static final int FETCH_GUILDS = 0;
-    public static final int FETCH_CHANNELS = 1;
-    public static final int FETCH_DM_CHANNELS = 2;
-    public static final int FETCH_MESSAGES = 3;
-    public static final int SEND_MESSAGE = 4;
-    public static final int FETCH_ATTACHMENTS = 5;
-    public static final int FETCH_ICON = 6;
-    public static final int SEND_ATTACHMENT = 7;
-    public static final int VIEW_ATTACHMENT_TEXT = 8;
+    static final int FETCH_GUILDS = 0;
+    static final int FETCH_CHANNELS = 1;
+    static final int FETCH_DM_CHANNELS = 2;
+    static final int FETCH_MESSAGES = 3;
+    static final int SEND_MESSAGE = 4;
+    static final int FETCH_ATTACHMENTS = 5;
+    static final int FETCH_ICON = 6;
+    static final int SEND_ATTACHMENT = 7;
+    static final int VIEW_ATTACHMENT_TEXT = 8;
+    static final int EDIT_MESSAGE = 9;
+    static final int DELETE_MESSAGE = 10;
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
     private static final String LINE_FEED = "\r\n";
@@ -38,6 +40,10 @@ public class HTTPThread extends Thread {
 
     // Parameters for VIEW_ATTACHMENT_TEXT
     Attachment viewAttach;
+
+    // Parameters for EDIT_MESSAGE
+    Message editMessage;
+    String editContent;
 
     public HTTPThread(State s, int action) {
         this.s = s;
@@ -66,7 +72,9 @@ public class HTTPThread extends Thread {
         return !s.dontShowLoadScreen
             && action != FETCH_ATTACHMENTS
             && action != FETCH_ICON
-            && action != SEND_MESSAGE;
+            && action != SEND_MESSAGE
+            && action != EDIT_MESSAGE
+            && action != DELETE_MESSAGE;
     }
 
     public void run() {
@@ -75,6 +83,16 @@ public class HTTPThread extends Thread {
 
         Displayable prevScreen = s.disp.getCurrent();
         if (showLoad) s.disp.setCurrent(new LoadingScreen(s));
+
+        if (s.myUserId == null) {
+            try {
+                s.myUserId = JSON.getObject(s.http.get("/users/@me")).getString("id", "");
+            }
+            catch (Exception e) {
+                s.myUserId = "";
+                s.error(e.toString());
+            }
+        }
         
         try {
             switch (action) {
@@ -120,7 +138,7 @@ public class HTTPThread extends Thread {
                 case SEND_MESSAGE: {
                     if (!showLoad && s.channelView != null) {
                         s.disp.setCurrent(s.channelView);
-                        s.channelView.sendingMessage = true;
+                        s.channelView.bannerText = "Sending message";
                         s.channelView.repaint();
                     }
 
@@ -154,7 +172,7 @@ public class HTTPThread extends Thread {
                     // If gateway enabled, don't need to fetch new messages
                     if (s.gateway != null && s.gateway.isAlive()) {
                         if (!showLoad && s.channelView != null) {
-                            s.channelView.sendingMessage = false;
+                            s.channelView.bannerText = null;
                             s.channelView.repaint();
                         }
                         break;
@@ -166,8 +184,7 @@ public class HTTPThread extends Thread {
 
                 case FETCH_MESSAGES: {
                     if (!showLoad && s.channelView != null) {
-                        s.channelView.sendingMessage = false;
-                        s.channelView.fetchingMessages = true;
+                        s.channelView.bannerText = "Loading messages";
                         s.channelView.repaint();
                     }
 
@@ -202,7 +219,7 @@ public class HTTPThread extends Thread {
                     if (s.oldUI) {
                         s.disp.setCurrent(s.oldChannelView);
                     } else {
-                        s.channelView.fetchingMessages = false;
+                        s.channelView.bannerText = null;
                         s.disp.setCurrent(s.channelView);
                         s.channelView.repaint();
                     }
@@ -349,6 +366,68 @@ public class HTTPThread extends Thread {
                     MessageCopyBox copyBox = new MessageCopyBox(s, viewAttach.name, s.http.get(viewAttach.url));
                     copyBox.lastScreen = s.attachmentView;
                     s.disp.setCurrent(copyBox);
+                    break;
+                }
+
+                case EDIT_MESSAGE: {
+                    if (!showLoad && s.channelView != null) {
+                        s.channelView.bannerText = "Editing message";
+                        s.channelView.repaint();
+                    }
+                    
+                    JSONObject newMessage = new JSONObject();
+                    newMessage.put("content", editContent);
+
+                    String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                    String path = "/channels/" + channelId + "/messages/" + editMessage.id + "/edit";
+                    s.http.post(path, newMessage.build());
+
+                    // Manually update message content if gateway disabled
+                    // (if enabled, new message content will come through gateway event)
+                    if (s.gateway == null || !s.gateway.isAlive()) {
+                        editMessage.content = editContent;
+                        editMessage.rawContent = editContent;
+
+                        if (s.oldUI) {
+                            s.oldChannelView.update();
+                        } else {
+                            s.channelView.update(false);
+                        }
+                    }
+
+                    if (!showLoad && s.channelView != null) {
+                        s.channelView.bannerText = null;
+                        s.channelView.repaint();
+                    }
+                    break;
+                }
+
+                case DELETE_MESSAGE: {
+                    if (!showLoad && s.channelView != null) {
+                        s.channelView.bannerText = "Deleting message";
+                        s.channelView.repaint();
+                    }
+
+                    String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+
+                    s.http.get("/channels/" + channelId + "/messages/" + editMessage.id + "/delete");
+
+                    // Manually update message to be deleted if gateway disabled
+                    // (if enabled, deletion event will come through gateway)
+                    if (s.gateway == null || !s.gateway.isAlive()) {
+                        editMessage.delete();
+
+                        if (s.oldUI) {
+                            s.oldChannelView.update();
+                        } else {
+                            s.channelView.update(false);
+                        }
+                    }
+
+                    if (!showLoad && s.channelView != null) {
+                        s.channelView.bannerText = null;
+                        s.channelView.repaint();
+                    }
                     break;
                 }
             }

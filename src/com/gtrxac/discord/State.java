@@ -38,6 +38,8 @@ public class State {
 	GatewayThread gateway;
 	String cdn;
 
+	String myUserId;
+
 	IconCache iconCache;
 	UnreadManager unreads;
 
@@ -86,10 +88,12 @@ public class State {
 
 	public void error(String message) {
 		disp.setCurrent(createError(message));
+		if (channelView != null) channelView.bannerText = null;
 	}
 
 	public void error(String message, Displayable next) {
 		disp.setCurrent(createError(message), next);
+		if (channelView != null) channelView.bannerText = null;
 	}
 
 	public void loadFonts() {

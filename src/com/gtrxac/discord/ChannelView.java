@@ -15,6 +15,8 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command replyCommand;
     private Command uploadCommand;
     private Command copyCommand;
+    private Command editCommand;
+    private Command deleteCommand;
     private Command refreshCommand;
     private Command openUrlCommand;
 
@@ -28,8 +30,7 @@ public class ChannelView extends Canvas implements CommandListener {
     boolean haveShown;
     boolean haveDrawn;
     boolean outdated;
-    boolean sendingMessage;
-    boolean fetchingMessages;
+    String bannerText;
     int scroll;
     int maxScroll;
     int pressY;
@@ -63,8 +64,10 @@ public class ChannelView extends Canvas implements CommandListener {
         replyCommand = new Command("Reply", Command.ITEM, 3);
         uploadCommand = new Command("Upload", "Upload file", Command.ITEM, 4);
         copyCommand = new Command("Copy", "Copy content", Command.ITEM, 5);
-        openUrlCommand = new Command("Open URL", Command.ITEM, 6);
-        refreshCommand = new Command("Refresh", Command.ITEM, 7);
+        editCommand = new Command("Edit", Command.ITEM, 6);
+        deleteCommand = new Command("Delete", Command.ITEM, 7);
+        openUrlCommand = new Command("Open URL", Command.ITEM, 8);
+        refreshCommand = new Command("Refresh", Command.ITEM, 9);
 
         messageFontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
@@ -256,6 +259,14 @@ public class ChannelView extends Canvas implements CommandListener {
                     } else {
                         removeCommand(openUrlCommand);
                     }
+
+                    if (s.myUserId.equals(selected.msg.author.id)) {
+                        addCommand(editCommand);
+                        addCommand(deleteCommand);
+                    } else {
+                        removeCommand(editCommand);
+                        removeCommand(deleteCommand);
+                    }
                 } else {
                     removeCommand(openUrlCommand);
                     removeCommand(copyCommand);
@@ -300,11 +311,9 @@ public class ChannelView extends Canvas implements CommandListener {
 
         int bannerY = 0;
 
-        if (sendingMessage || fetchingMessages) {
-            String str = sendingMessage ? "Sending message" : "Loading messages";
-            
+        if (bannerText != null) {
             g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap(str, getWidth(), s.messageFont);
+            String[] lines = Util.wordWrap(bannerText, getWidth(), s.messageFont);
             g.setColor(0x005865f2);
             g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
 
@@ -537,13 +546,19 @@ public class ChannelView extends Canvas implements CommandListener {
                 s.error(e.toString());
             }
         }
+        ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+
         if (c == copyCommand) {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
             s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
         }
         if (c == openUrlCommand) {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
             s.disp.setCurrent(new URLList(s, item.msg.content));
+        }
+        if (c == deleteCommand) {
+            s.disp.setCurrent(new DeleteConfirmAlert(s, item.msg));
+        }
+        if (c == editCommand) {
+            s.disp.setCurrent(new MessageEditBox(s, item.msg));
         }
     }
 }

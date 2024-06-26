@@ -197,10 +197,7 @@ public class GatewayThread extends Thread {
                             Message msg = (Message) s.messages.elementAt(i);
                             if (!msg.id.equals(messageId)) continue;
 
-                            msg.content = "(message deleted)";
-                            msg.isStatus = true;
-                            msg.embeds = null;
-                            msg.attachments = null;
+                            msg.delete();
 
                             if (s.oldUI) {
                                 s.oldChannelView.update();

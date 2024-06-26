@@ -13,6 +13,7 @@ public class Message {
     public User author;
     public String timestamp;
     public String content;
+    public String rawContent;
     public String[] contentLines;
 
     // is status message? (user joined/left/boosted) - affects rendering
@@ -68,6 +69,8 @@ public class Message {
             // Normal message -> get actual content
             // (and parse extra fields which don't apply to status messages)
             content = data.getString("content", "");
+
+            if (s.myUserId.equals(author.id)) rawContent = data.getString("_rc", content);
 
             try {
                 recipient = data
@@ -195,5 +198,12 @@ public class Message {
         if ((lastRecipient == null) != (recipient == null)) return true;
         // Different recipients -> true
         return !lastRecipient.equals(recipient);
+    }
+
+    public void delete() {
+        content = "(message deleted)";
+        isStatus = true;
+        embeds = null;
+        attachments = null;
     }
 }

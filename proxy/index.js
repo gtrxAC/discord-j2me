@@ -247,6 +247,8 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
                 // Replace Unicode emojis with :name: textual representations
                 emoji.colons_mode = true;
                 result.content = emoji.replace_unified(result.content);
+
+                if (result.content != msg.content) result._rc = msg.content;
             }
 
             if (msg.referenced_message) {
@@ -355,6 +357,43 @@ app.post(`${BASE}/channels/:channel/messages/:message/ack`, getToken, async (req
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages/${req.params.message}/ack`,
             req.body,
+            {headers: res.locals.headers}
+        );
+        res.send("ok");
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Get user info (only ID is used)
+app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
+    try {
+        const response = await axios.get(
+            `${DEST_BASE}/users/@me`,
+            {headers: res.locals.headers}
+        );
+        res.send(JSON.stringify({id: response.data.id}));
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Edit message (non-standard because J2ME doesn't support PATCH method)
+app.post(`${BASE}/channels/:channel/messages/:message/edit`, getToken, async (req, res) => {
+    try {
+        await axios.patch(
+            `${DEST_BASE}/channels/${req.params.channel}/messages/${req.params.message}`,
+            req.body,
+            {headers: res.locals.headers}
+        );
+        res.send("ok");
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Delete message (non-standard because J2ME doesn't support DELETE method)
+app.get(`${BASE}/channels/:channel/messages/:message/delete`, getToken, async (req, res) => {
+    try {
+        await axios.delete(
+            `${DEST_BASE}/channels/${req.params.channel}/messages/${req.params.message}`,
             {headers: res.locals.headers}
         );
         res.send("ok");

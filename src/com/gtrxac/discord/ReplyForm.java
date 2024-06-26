@@ -30,7 +30,7 @@ public class ReplyForm extends Form implements CommandListener {
         if (!s.isDM) {
             String[] pingChoices = {"Mention author"};
             Image[] pingImages = {null};
-            boolean[] pingSelection = {true};
+            boolean[] pingSelection = {!msg.author.id.equals(s.myUserId)};
             pingGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, pingChoices, pingImages);
             pingGroup.setSelectedFlags(pingSelection);
             append(pingGroup);
