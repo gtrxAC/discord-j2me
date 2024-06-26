@@ -84,6 +84,8 @@ public class GatewayThread extends Thread {
                         // Connect to gateway
                         JSONArray events = new JSONArray();
                         events.add("MESSAGE_CREATE");
+                        events.add("MESSAGE_DELETE");
+                        events.add("MESSAGE_UPDATE");
                         events.add("TYPING_START");
 
                         JSONObject connData = new JSONObject();
@@ -178,6 +180,66 @@ public class GatewayThread extends Thread {
                                 s.channelView.outdated = true;
                             }
                             s.channelView.repaint();
+                        }
+                    }
+                    else if (op.equals("MESSAGE_DELETE")) {
+                        if (s.channelView == null && s.oldChannelView == null) continue;
+
+                        JSONObject msgData = message.getObject("d");
+
+                        String channel = msgData.getString("channel_id", "");
+                        String selected = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                        if (!channel.equals(selected)) continue;
+
+                        String messageId = msgData.getString("id");
+
+                        for (int i = 0; i < s.messages.size(); i++) {
+                            Message msg = (Message) s.messages.elementAt(i);
+                            if (!msg.id.equals(messageId)) continue;
+
+                            msg.content = "(message deleted)";
+                            msg.isStatus = true;
+                            msg.embeds = null;
+                            msg.attachments = null;
+
+                            if (s.oldUI) {
+                                s.oldChannelView.update();
+                            } else {
+                                s.channelView.update(false);
+                                s.channelView.repaint();
+                            }
+                            break;
+                        }
+                    }
+                    else if (op.equals("MESSAGE_UPDATE")) {
+                        if (s.channelView == null && s.oldChannelView == null) continue;
+
+                        JSONObject msgData = message.getObject("d");
+
+                        // Check if content was changed (other parts of the message can change too,
+                        // but currently we can only update the content)
+                        String newContent = msgData.getString("content", null);
+                        if (newContent == null) continue;
+
+                        String channel = msgData.getString("channel_id", "");
+                        String selected = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                        if (!channel.equals(selected)) continue;
+
+                        String messageId = msgData.getString("id");
+
+                        for (int i = 0; i < s.messages.size(); i++) {
+                            Message msg = (Message) s.messages.elementAt(i);
+                            if (!msg.id.equals(messageId)) continue;
+
+                            msg.content = newContent;
+
+                            if (s.oldUI) {
+                                s.oldChannelView.update();
+                            } else {
+                                s.channelView.update(false);
+                                s.channelView.repaint();
+                            }
+                            break;
                         }
                     }
                     else if (op.equals("TYPING_START")) {
