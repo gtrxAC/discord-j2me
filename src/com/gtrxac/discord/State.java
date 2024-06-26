@@ -32,6 +32,7 @@ public class State {
 	Font authorFont;
 	Font timestampFont;
 	Font messageFont;
+	Font titleFont;
 
 	HTTPThing http;
 	GatewayThread gateway;
@@ -97,6 +98,7 @@ public class State {
 		authorFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[authorFontSize]);
 		timestampFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[authorFontSize]);
 		messageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[messageFontSize]);
+		titleFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[messageFontSize]);
 	}
 
 	public static boolean isBlackBerry() {

@@ -42,9 +42,19 @@ public class ChannelViewItem {
         int messageFontHeight = s.messageFont.getHeight();
 
         if (type == MESSAGE) {
-            // Each content line + one line for message author + little bit of spacing between messages
+            // Each content line + little bit of spacing between messages
             int result = messageFontHeight*msg.contentLines.length + messageFontHeight/4;
+
+            // One line for message author
             if (msg.showAuthor) result += s.authorFont.getHeight();
+
+            // Each embed's height + top margin
+            if (msg.embeds != null && msg.embeds.size() > 0) {
+                for (int i = 0; i < msg.embeds.size(); i++) {
+                    Embed emb = (Embed) msg.embeds.elementAt(i);
+                    result += emb.getHeight(messageFontHeight) + messageFontHeight/4;
+                }
+            }
             return result;
         }
         // For buttons
@@ -135,6 +145,48 @@ public class ChannelViewItem {
                 for (int i = 0; i < msg.contentLines.length; i++) {
                     g.drawString(msg.contentLines[i], x, y, Graphics.TOP|Graphics.LEFT);
                     y += messageFontHeight;
+                }
+
+                // Draw embeds
+                if (msg.embeds != null && msg.embeds.size() > 0) {
+                    for (int i = 0; i < msg.embeds.size(); i++) {
+                        Embed emb = (Embed) msg.embeds.elementAt(i);
+                        y += messageFontHeight/4; // Top margin
+
+                        if (selected) g.setColor(ChannelView.darkBgColors[s.theme]);
+                        else g.setColor(ChannelView.highlightColors2[s.theme]);
+
+                        g.fillRoundRect(
+                            x, y,
+                            width - x - messageFontHeight/2,
+                            emb.getHeight(messageFontHeight),
+                            messageFontHeight/2,
+                            messageFontHeight/2
+                        );
+
+                        y += messageFontHeight/3;  // Top padding
+                        x += messageFontHeight/3;  // Left padding
+
+                        if (emb.title != null) {
+                            g.setColor(0x0000a8fc);
+                            g.setFont(s.titleFont);
+                            for (int l = 0; l < emb.titleLines.length; l++) {
+                                g.drawString(emb.titleLines[l], x, y, Graphics.TOP|Graphics.LEFT);
+                                y += messageFontHeight;
+                            }
+                            // Spacing between title and desc
+                            if (emb.description != null) y += messageFontHeight/4;
+                        }
+
+                        if (emb.description != null) {
+                            g.setColor(ChannelView.messageColors[s.theme]);
+                            g.setFont(s.messageFont);
+                            for (int l = 0; l < emb.descLines.length; l++) {
+                                g.drawString(emb.descLines[l], x, y, Graphics.TOP|Graphics.LEFT);
+                                y += messageFontHeight;
+                            }
+                        }
+                    }
                 }
                 break;
             }

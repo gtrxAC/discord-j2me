@@ -276,8 +276,13 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             if (msg.sticker_items?.length) {
                 result.sticker_items = [{name: msg.sticker_items[0].name}];
             }
-            if (msg.embeds?.length && msg.embeds[0].title) {
-                result.embeds = [{title: msg.embeds[0].title}];
+            if (msg.embeds?.length) {
+                result.embeds = msg.embeds.map(emb => {
+                    return {
+                        title: emb.title,
+                        description: emb.description
+                    }
+                })
             }
 
             // Need first mentioned user for group DM join/leave notification messages

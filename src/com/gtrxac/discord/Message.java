@@ -21,6 +21,7 @@ public class Message {
     // fields for non-status messages
     public String recipient;
     public Vector attachments;
+    public Vector embeds;
     public boolean showAuthor;
 
     public Message(State s, JSONObject data) {
@@ -106,12 +107,14 @@ public class Message {
             catch (Exception e) {}
 
             try {
-                JSONArray embeds = data.getArray("embeds");
-                if (embeds.size() >= 1) {
-                    String title = embeds.getObject(0).getString("title");
-                    if (title != null) {
-                        if (content.length() > 0) content += "\n";
-                        content += "(embed: " + title + ")";
+                JSONArray embedArray = data.getArray("embeds");
+                if (embedArray.size() >= 1) {
+                    embeds = new Vector();
+
+                    for (int i = 0; i < embedArray.size(); i++) {
+                        Embed emb = new Embed(embedArray.getObject(i));
+                        if (emb.title == null && emb.description == null) continue;
+                        embeds.addElement(emb);
                     }
                 }
             }
@@ -161,7 +164,13 @@ public class Message {
         }
         timestamp = time.toString();
 
-        if (content.length() == 0 && (attachments == null || attachments.size() == 0)) content = "(no content)";
+        if (
+            content.length() == 0 &&
+            (attachments == null || attachments.size() == 0) &&
+            (embeds == null || embeds.size() == 0)
+        ) {
+            content = "(no content)";
+        }
     }
 
     /**
