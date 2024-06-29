@@ -27,6 +27,7 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
 
         setCommandListener(this);
         this.s = s;
+        s.channelIsOpen = true;
 
         backCommand = new Command("Back", Command.BACK, 0);
         sendCommand = new Command("Send", "Send message", Command.ITEM, 1);
@@ -106,6 +107,7 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
+            s.channelIsOpen = false;
             if (s.isDM) s.openDMSelector(false);
             else s.openChannelSelector(false);
         }

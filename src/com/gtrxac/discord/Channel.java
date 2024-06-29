@@ -26,7 +26,6 @@ public class Channel {
     }
 
     public static Channel getByID(State s, String id) {
-        // Find guild channel
         if (s.guilds != null) {
             for (int g = 0; g < s.guilds.size(); g++) {
                 Guild guild = (Guild) s.guilds.elementAt(g);
@@ -38,12 +37,6 @@ public class Channel {
                 }
             }
         }
-
-        // Find DM channel
-        // for (int c = 0; c < s.dmChannels.size(); c++) {
-        //     DMChannel ch = (DMChannel) s.dmChannels.elementAt(c);
-        //     if (id.equals(ch.id)) return ch;
-        // }
         return null;
     }
     

@@ -52,6 +52,7 @@ public class State {
 	Vector channels;
 	Channel selectedChannel;
 	ChannelSelector channelSelector;
+	boolean channelIsOpen;
 
 	Vector messages;
 	ChannelView channelView;
@@ -124,7 +125,7 @@ public class State {
 	public void updateUnreadIndicators() {
 		if (guildSelector != null) guildSelector.update();
 		if (channelSelector != null) channelSelector.update();
-		// if (dmSelector != null) dmSelector.update();
+		if (dmSelector != null) dmSelector.update();
 	}
 
 	public void openGuildSelector(boolean reload) {

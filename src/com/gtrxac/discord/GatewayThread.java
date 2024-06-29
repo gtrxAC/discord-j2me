@@ -133,23 +133,28 @@ public class GatewayThread extends Thread {
                         String msgId = msgData.getString("id");
                         String chId = msgData.getString("channel_id");
 
-                        // Mark this channel as unread
-                        // TODO: pings
-                        Channel ch = Channel.getByID(s, chId);
-                        if (ch != null) {
-                            ch.lastMessageID = Long.parseLong(msgId);
-                            s.updateUnreadIndicators();
+                        // Mark this channel as unread if it's not the currently opened channel
+                        Displayable cur = s.disp.getCurrent();
+                        if (
+                            !s.channelIsOpen
+                            || (s.isDM && !chId.equals(s.selectedDmChannel.id))
+                            || (!s.isDM && !chId.equals(s.selectedChannel.id))
+                        ) {
+                            Channel ch = Channel.getByID(s, chId);
+                            if (ch != null) {
+                                ch.lastMessageID = Long.parseLong(msgId);
+                                s.updateUnreadIndicators();
+                                continue;
+                            }
+                            DMChannel dmCh = DMChannel.getById(s, chId);
+                            if (dmCh != null) {
+                                dmCh.lastMessageID = Long.parseLong(msgId);
+                                s.updateUnreadIndicators();
+                            }
+                            continue;
                         }
-
-                        // Check that a channel has been opened
-                        if (s.channelView == null && s.oldChannelView == null) continue;
                         
-                        // Check that the opened channel is the one where the message was sent
-                        if (s.isDM) {
-                            if (!chId.equals(s.selectedDmChannel.id)) continue;
-                        } else {
-                            if (!chId.equals(s.selectedChannel.id)) continue;
-                        }
+                        // If message was sent in the currently opened channel, update the channel view accordingly:
 
                         // If we're on the newest page, make the new message visible
                         int page = s.oldUI ? s.oldChannelView.page : s.channelView.page;
@@ -181,10 +186,11 @@ public class GatewayThread extends Thread {
                             }
                         }
 
-                        // Redraw the message list
+                        // Redraw the message list and mark it as read
                         if (s.oldUI) {
                             if (page == 0) {
                                 s.oldChannelView.update();
+                                s.unreads.markRead(chId, Long.parseLong(msgId));
                             } else {
                                 s.oldChannelView.setTitle("Refresh for new msgs");
                             }
@@ -196,6 +202,8 @@ public class GatewayThread extends Thread {
 
                                 if (atBottom) s.channelView.scroll = s.channelView.maxScroll;
                                 else s.channelView.scroll = oldScroll;
+
+                                s.unreads.markRead(chId, Long.parseLong(msgId));
                             } else {
                                 // If user is not on the newest page of messages, ask them to refresh
                                 // There is no easy way to do it any other way without breaking pagination
@@ -293,8 +301,8 @@ public class GatewayThread extends Thread {
                                 // Get this user's name and add it to the typing users list
                                 JSONObject userObj = msgData.getObject("member").getObject("user");
                                 
-                                String author = userObj.getString("global_name", "(no name)");
-                                if (author == null || author == "(no name)") {
+                                String author = userObj.getString("global_name", null);
+                                if (author == null) {
                                     author = userObj.getString("username", "(no name)");
                                 }
 

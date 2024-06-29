@@ -57,6 +57,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
         setCommandListener(this);
         this.s = s;
+        s.channelIsOpen = true;
 
         backCommand = new Command("Back", Command.BACK, 0);
         selectCommand = new Command("Select", Command.OK, 1);
@@ -511,6 +512,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
+            s.channelIsOpen = false;
             if (s.isDM) s.openDMSelector(false);
             else s.openChannelSelector(false);
         }

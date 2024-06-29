@@ -43,6 +43,16 @@ public class DMChannel implements HasIcon {
         if (name == null) name = "(unknown)";
     }
 
+    static DMChannel getById(State s, String id) {
+        if (s.dmChannels == null) return null;
+
+        for (int c = 0; c < s.dmChannels.size(); c++) {
+            DMChannel ch = (DMChannel) s.dmChannels.elementAt(c);
+            if (id.equals(ch.id)) return ch;
+        }
+        return null;
+    }
+
     public String toString(State s) {
         if (s.unreads.hasUnreads(this)) return "* " + name;
         return name;
