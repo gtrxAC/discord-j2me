@@ -6,8 +6,15 @@ import java.util.*;
 public class Message {
     static final int TYPE_ADDED = 1;  // user added another user to group DM
     static final int TYPE_REMOVED = 2;  // user left (or was removed) from group DM
+    static final int TYPE_CALL = 3;
+    static final int TYPE_CHANNEL_NAME_CHANGE = 4;  // changed name of group DM
+    static final int TYPE_CHANNEL_ICON_CHANGE = 5;
+    static final int TYPE_PINNED = 6;
     static final int TYPE_JOINED = 7;  // user joined server
     static final int TYPE_BOOSTED = 8;  // user boosted server
+    static final int TYPE_BOOSTED_LEVEL_1 = 9; 
+    static final int TYPE_BOOSTED_LEVEL_2 = 10;
+    static final int TYPE_BOOSTED_LEVEL_3 = 11;
 
     public String id;
     public User author;
@@ -30,7 +37,7 @@ public class Message {
         author = new User(s, data.getObject("author"));
 
         int t = data.getInt("type", 0);
-        if (t == TYPE_ADDED || t == TYPE_REMOVED || t == TYPE_JOINED || t == TYPE_BOOSTED) {
+        if (t >= TYPE_ADDED && t <= TYPE_BOOSTED_LEVEL_3) {
             isStatus = true;
         }
 
@@ -56,12 +63,34 @@ public class Message {
                     }
                     break;
                 }
+                case TYPE_CALL: {
+                    content = "started a call";
+                    break;
+                }
+                case TYPE_CHANNEL_NAME_CHANGE: {
+                    content = "changed the group name";
+                    break;
+                }
+                case TYPE_CHANNEL_ICON_CHANGE: {
+                    content = "changed the group icon";
+                    break;
+                }
+                case TYPE_PINNED: {
+                    content = "pinned a message";
+                    break;
+                }
                 case TYPE_JOINED: {
                     content = "joined the server";
                     break;
                 }
                 case TYPE_BOOSTED: {
                     content = "boosted the server";
+                    break;
+                }
+                case TYPE_BOOSTED_LEVEL_1:
+                case TYPE_BOOSTED_LEVEL_2:
+                case TYPE_BOOSTED_LEVEL_3: {
+                    content = "boosted the server to level " + (t - TYPE_BOOSTED);
                     break;
                 }
             }

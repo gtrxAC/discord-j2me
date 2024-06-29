@@ -226,7 +226,7 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             if (msg.author.global_name == null) {
                 result.author.username = msg.author.username;
             }
-            if ([1, 2, 7, 8].includes(msg.type)) result.type = msg.type;
+            if (msg.type >= 1 && msg.type <= 11) result.type = msg.type;
 
             // Parse content 
             if (msg.content) {
