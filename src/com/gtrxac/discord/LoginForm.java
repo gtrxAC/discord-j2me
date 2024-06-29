@@ -105,6 +105,11 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.nativeFilePicker = false;
                 }
+                if (loginRms.getNumRecords() >= 18) {
+                    s.autoReConnect = loginRms.getRecord(18)[0] != 0;
+                } else {
+                    s.autoReConnect = false;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -226,6 +231,10 @@ public class LoginForm extends Form implements CommandListener {
                     loginRms.addRecord(oneByte, 0, 1);
                 }
                 if (loginRms.getNumRecords() < 17) {
+                    byte[] zeroByte = {0};
+                    loginRms.addRecord(zeroByte, 0, 1);
+                }
+                if (loginRms.getNumRecords() < 18) {
                     byte[] zeroByte = {0};
                     loginRms.addRecord(zeroByte, 0, 1);
                 }

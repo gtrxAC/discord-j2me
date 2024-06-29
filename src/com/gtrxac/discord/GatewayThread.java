@@ -11,7 +11,9 @@ public class GatewayThread extends Thread {
     State s;
     String gateway;
     String token;
-    boolean stop;
+
+    volatile boolean stop;
+    volatile String stopMessage;
 
     HeartbeatThread hbThread;
 
@@ -37,6 +39,20 @@ public class GatewayThread extends Thread {
         catch (Exception ee) {}
     }
 
+    public void disconnected(String message) {
+        disconnect();
+        if (s.autoReConnect) {
+            if (s.channelView != null) {
+                s.channelView.bannerText = "Reconnecting";
+                s.channelView.repaint();
+            }
+            s.gateway = new GatewayThread(s, gateway, token);
+            s.gateway.start();
+        } else {
+            s.disp.setCurrent(new GatewayAlert(s, message), s.disp.getCurrent());
+        }
+    }
+
     public void run() {
         try {
             sc = (SocketConnection) Connector.open(gateway);
@@ -52,7 +68,8 @@ public class GatewayThread extends Thread {
                 // Get message
                 while (true) {
                     if (stop) {
-                        disconnect();
+                        if (stopMessage != null) disconnected(stopMessage);
+                        else disconnect();
                         return;
                     }
 
@@ -99,11 +116,16 @@ public class GatewayThread extends Thread {
 
                         os.write((connMsg.build() + "\n").getBytes());
                         os.flush();
+
+                        // Remove "Reconnecting" banner message if auto reconnected
+                        if (s.channelView != null && "Reconnecting".equals(s.channelView.bannerText)) {
+                            s.channelView.bannerText = null;
+                            s.channelView.repaint();
+                        }
                     }
                     else if (op.equals("GATEWAY_DISCONNECT")) {
-                        disconnect();
                         String reason = message.getObject("d").getString("message");
-                        s.disp.setCurrent(new GatewayAlert(s, reason), s.disp.getCurrent());
+                        disconnected(reason);
                         return;
                     }
                     else if (op.equals("MESSAGE_CREATE")) {
@@ -328,8 +350,7 @@ public class GatewayThread extends Thread {
             }
         }
         catch (Exception e) {
-            disconnect();
-            s.disp.setCurrent(new GatewayAlert(s, e.toString()));
+            disconnected(e.toString());
         }
     }
 }

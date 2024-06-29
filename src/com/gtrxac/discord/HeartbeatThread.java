@@ -11,7 +11,7 @@ public class HeartbeatThread extends Thread {
     int lastReceived;
     private long lastHeartbeat;
     private int interval;
-    boolean stop;
+    volatile boolean stop;
 
     public HeartbeatThread(State s, OutputStream os, int interval) {
         this.s = s;
@@ -44,8 +44,8 @@ public class HeartbeatThread extends Thread {
             }
         }
         catch (Exception e) {
+            s.gateway.stopMessage = "Heartbeat thread error: " + e.toString();
             s.gateway.stop = true;
-            s.disp.setCurrent(new GatewayAlert(s, "Heartbeat thread error: " + e.toString()));
         }
     }
 }
