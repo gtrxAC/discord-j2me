@@ -27,6 +27,7 @@ public class State {
 	int iconSize;  // 0 = draw placeholder pfp with initials, 1 = 16px, 2 = 32px
 	boolean nativeFilePicker;
 	boolean autoReConnect;
+	boolean showMenuIcons;
 
 	int authorFontSize;
 	int messageFontSize;

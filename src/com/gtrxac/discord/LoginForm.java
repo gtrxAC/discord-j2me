@@ -110,6 +110,11 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.autoReConnect = false;
                 }
+                if (loginRms.getNumRecords() >= 19) {
+                    s.showMenuIcons = loginRms.getRecord(19)[0] != 0;
+                } else {
+                    s.showMenuIcons = true;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -237,6 +242,10 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() < 18) {
                     byte[] zeroByte = {0};
                     loginRms.addRecord(zeroByte, 0, 1);
+                }
+                if (loginRms.getNumRecords() < 19) {
+                    byte[] oneByte = {1};
+                    loginRms.addRecord(oneByte, 0, 1);
                 }
                 loginRms.closeRecordStore();
             }

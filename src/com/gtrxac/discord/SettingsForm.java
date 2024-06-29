@@ -29,13 +29,14 @@ public class SettingsForm extends Form implements CommandListener {
         themeGroup = new ChoiceGroup("Theme", ChoiceGroup.EXCLUSIVE, themeChoices, themeImages);
         themeGroup.setSelectedIndex(s.theme, true);
 
-        String[] uiChoices = {"Use old UI", "Use 12-hour time", "Native file picker", "Gateway auto reconnect"};
-        Image[] uiImages = {null, null, null, null};
+        String[] uiChoices = {"Use old UI", "Use 12-hour time", "Native file picker", "Gateway auto reconnect", "Show icons in menus"};
+        Image[] uiImages = {null, null, null, null, null};
         uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, uiImages);
         uiGroup.setSelectedIndex(0, s.oldUI);
         uiGroup.setSelectedIndex(1, s.use12hTime);
         uiGroup.setSelectedIndex(2, s.nativeFilePicker);
         uiGroup.setSelectedIndex(3, s.autoReConnect);
+        uiGroup.setSelectedIndex(4, s.showMenuIcons);
 
         String[] fontChoices = {"Small", "Medium", "Large"};
         Image[] fontImages = {null, null, null};
@@ -55,7 +56,7 @@ public class SettingsForm extends Form implements CommandListener {
 
         String[] iconChoices = {"Off", "Square", "Circle", "Circle (HQ)"};
         Image[] iconImages = {null, null, null, null};
-        iconGroup = new ChoiceGroup("Icons and avatars", ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
+        iconGroup = new ChoiceGroup("Profile pictures", ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
         iconGroup.setSelectedIndex(s.iconType, true);
 
         String[] iconSizeChoices = {"Placeholders only", "16 px", "32 px"};
@@ -108,12 +109,13 @@ public class SettingsForm extends Form implements CommandListener {
                     s.attachmentSize = 1000;
                 }
 
-                boolean[] selected = {false, false, false, false};
+                boolean[] selected = {false, false, false, false, false};
                 uiGroup.getSelectedFlags(selected);
                 s.oldUI = selected[0];
                 s.use12hTime = selected[1];
                 s.nativeFilePicker = selected[2];
                 s.autoReConnect = selected[3];
+                s.showMenuIcons = selected[4];
 
                 loginRms = RecordStore.openRecordStore("login", true);
                 byte[] themeRecord = {new Integer(s.theme).byteValue()};
@@ -128,6 +130,7 @@ public class SettingsForm extends Form implements CommandListener {
                 byte[] attachSizeRecord = new Integer(s.attachmentSize).toString().getBytes();
                 byte[] nativePickerRecord = {new Integer(s.nativeFilePicker ? 1 : 0).byteValue()};
                 byte[] autoReConnectRecord = {new Integer(s.autoReConnect ? 1 : 0).byteValue()};
+                byte[] menuIconsRecord = {new Integer(s.showMenuIcons ? 1 : 0).byteValue()};
 
                 if (loginRms.getNumRecords() >= 3) {
                     loginRms.setRecord(3, themeRecord, 0, 1);
@@ -195,6 +198,12 @@ public class SettingsForm extends Form implements CommandListener {
                     loginRms.setRecord(18, autoReConnectRecord, 0, 1);
                 } else {
                     loginRms.addRecord(autoReConnectRecord, 0, 1);
+                }
+
+                if (loginRms.getNumRecords() >= 19) {
+                    loginRms.setRecord(19, menuIconsRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(menuIconsRecord, 0, 1);
                 }
 
                 loginRms.closeRecordStore();
