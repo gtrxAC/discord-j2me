@@ -532,13 +532,17 @@ public class ChannelView extends Canvas implements CommandListener {
         }
         if (c == uploadCommand) {
             try {
-                if (s.nativeFilePicker) {
+                if (!s.isLiteProxy) {
+                    s.error("This proxy does not support file uploading");
+                }
+                else if (s.nativeFilePicker) {
                     if (System.getProperty("microedition.io.file.FileConnection.version") != null) {
                         s.disp.setCurrent(new AttachmentPicker(s));
                     } else {
                         s.error("FileConnection not supported");
                     }
-                } else {
+                }
+                else {
                     String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
                     String url = s.http.api + "/upload?channel=" + id + "&token=" + s.http.token;
                     s.platformRequest(url);
@@ -557,10 +561,18 @@ public class ChannelView extends Canvas implements CommandListener {
             s.disp.setCurrent(new URLList(s, item.msg.content));
         }
         if (c == deleteCommand) {
-            s.disp.setCurrent(new DeleteConfirmAlert(s, item.msg));
+            if (!s.isLiteProxy) {
+                s.error("This proxy does not support deleting messages");
+            } else {
+                s.disp.setCurrent(new DeleteConfirmAlert(s, item.msg));
+            }
         }
         if (c == editCommand) {
-            s.disp.setCurrent(new MessageEditBox(s, item.msg));
+            if (!s.isLiteProxy) {
+                s.error("This proxy does not support editing messages");
+            } else {
+                s.disp.setCurrent(new MessageEditBox(s, item.msg));
+            }
         }
     }
 }

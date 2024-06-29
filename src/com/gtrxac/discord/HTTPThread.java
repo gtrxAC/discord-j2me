@@ -86,7 +86,9 @@ public class HTTPThread extends Thread {
 
         if (s.myUserId == null) {
             try {
-                s.myUserId = JSON.getObject(s.http.get("/users/@me")).getString("id", "");
+                JSONObject resp = JSON.getObject(s.http.get("/users/@me"));
+                s.myUserId = resp.getString("id", "");
+                s.isLiteProxy = resp.getBoolean("_liteproxy", false);
             }
             catch (Exception e) {
                 s.myUserId = "";

@@ -335,9 +335,6 @@ app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), getToken, a
         }
         if (req.body) form.append('content', req.body.content);
 
-        console.log("after:")
-        console.log(res.locals.headers)
-
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,
             form,
@@ -371,7 +368,10 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             `${DEST_BASE}/users/@me`,
             {headers: res.locals.headers}
         );
-        res.send(JSON.stringify({id: response.data.id}));
+        res.send(JSON.stringify({
+            id: response.data.id,
+            _liteproxy: true
+        }));
     }
     catch (e) { handleError(res, e); }
 });

@@ -40,6 +40,7 @@ public class State {
 	String cdn;
 
 	String myUserId;
+	boolean isLiteProxy;
 
 	IconCache iconCache;
 	UnreadManager unreads;

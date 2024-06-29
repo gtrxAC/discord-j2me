@@ -38,6 +38,7 @@ public class MainMenu extends List implements CommandListener {
         }
         else if (c == backCommand) {
             if (s.gateway != null) s.gateway.stop = true;
+            s.myUserId = null;
             s.disp.setCurrent(new LoginForm(s));
         }
     }
