@@ -20,7 +20,7 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command refreshCommand;
     private Command openUrlCommand;
 
-    private Vector items;
+    public Vector items;
 
     // Parameters for viewing old messages (message IDs)
     int page;

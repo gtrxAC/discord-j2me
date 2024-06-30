@@ -197,12 +197,28 @@ public class GatewayThread extends Thread {
                         } else {
                             if (page == 0) {
                                 int oldScroll = s.channelView.scroll;
+                                int oldSelItem = s.channelView.selectedItem;
+                                boolean wasSelMode = s.channelView.selectionMode;
                                 boolean atBottom = oldScroll == s.channelView.maxScroll;
+
                                 s.channelView.update(false);
 
-                                if (atBottom) s.channelView.scroll = s.channelView.maxScroll;
-                                else s.channelView.scroll = oldScroll;
+                                s.channelView.selectionMode = wasSelMode;
+                                if (wasSelMode) {
+                                    int newSelItem = oldSelItem + 1;
+                                    if (newSelItem >= s.channelView.items.size()) {
+                                        newSelItem = s.channelView.items.size() - 1;
+                                    }
+                                    s.channelView.selectedItem = newSelItem;
+                                }
 
+                                if (atBottom) {
+                                    s.channelView.scroll = s.channelView.maxScroll;
+                                } else {
+                                    s.channelView.scroll = oldScroll;
+                                }
+
+                                s.channelView.repaint();
                                 s.unreads.markRead(chId, Long.parseLong(msgId));
                             } else {
                                 // If user is not on the newest page of messages, ask them to refresh
