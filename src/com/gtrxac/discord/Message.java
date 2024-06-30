@@ -199,34 +199,38 @@ public class Message {
         if (
             content.length() == 0 &&
             (attachments == null || attachments.size() == 0) &&
-            (embeds == null || embeds.size() == 0)
+            (embeds == null || embeds.size() == 0) &&
+            !isStatus
         ) {
-            content = "(no content)";
+            isStatus = true;
+            content = "(unsupported message)";
         }
     }
 
     /**
      * Determine whether or not the author/timestamp row should be shown for this message.
-     * @param lastAuthor The author of the message shown above this message.
-     * @param lastRecipient The recipient of the message shown above this message.
+     * @param above The message shown above this message.
+     * @param clusterStart The ID of the top-most message in this message cluster.
      * @return true if author should be shown, false if messages are "merged"
      */
-    public boolean shouldShowAuthor(User lastAuthor, String lastRecipient) {
-        // Status message -> true
-        if (isStatus) return true;
-        // First (topmost) message shown in channel view -> true
-        if (lastAuthor == null) return true;
+    public boolean shouldShowAuthor(Message above, String clusterStart) {
         // Different authors -> true
-        if (!lastAuthor.id.equals(author.id)) return true;
+        if (!above.author.id.equals(author.id)) return true;
 
-        // Authors are same, now determine based on recipient:
+        // This message or above message is a status message -> true
+        if (isStatus || above.isStatus) return true;
+
+        // Message was sent more than 7 minutes after the first message of the cluster -> true
+        long thisMsgTime = Long.parseLong(id) >> 22;
+        long firstMsgTime = Long.parseLong(clusterStart) >> 22;
+        if (thisMsgTime - firstMsgTime > 7*60*1000) return true;
 
         // Neither message is a reply -> false
-        if (lastRecipient == null && recipient == null) return false;
+        if (above.recipient == null && recipient == null) return false;
         // One of the messages is a reply (but not both) -> true
-        if ((lastRecipient == null) != (recipient == null)) return true;
+        if ((above.recipient == null) != (recipient == null)) return true;
         // Different recipients -> true
-        return !lastRecipient.equals(recipient);
+        return !above.recipient.equals(recipient);
     }
 
     public void delete() {

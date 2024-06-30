@@ -111,14 +111,20 @@ public class ChannelView extends Canvas implements CommandListener {
             maxScroll += newerItem.getHeight();
         }
 
-        User lastAuthor = null;
-        String lastRecipient = null;
+        Message first = (Message) s.messages.elementAt(s.messages.size() - 1);
+        first.showAuthor = true;
 
-        for (int i = s.messages.size() - 1; i >= 0; i--) {
-            Message msg = (Message) s.messages.elementAt(i);
-            msg.showAuthor = msg.shouldShowAuthor(lastAuthor, lastRecipient);
-            lastAuthor = msg.author;
-            lastRecipient = msg.recipient;
+        Message above = first;
+        String clusterStart = first.id;
+
+        if (s.messages.size() > 1) {
+            for (int i = s.messages.size() - 2; i >= 0; i--) {
+                Message msg = (Message) s.messages.elementAt(i);
+                msg.showAuthor = msg.shouldShowAuthor(above, clusterStart);
+
+                if (msg.showAuthor) clusterStart = msg.id;
+                above = msg;
+            }
         }
 
         for (int i = 0; i < s.messages.size(); i++) {
