@@ -28,6 +28,7 @@ public class State {
 	boolean nativeFilePicker;
 	boolean autoReConnect;
 	boolean showMenuIcons;
+	boolean tokenInJson;
 
 	int authorFontSize;
 	int messageFontSize;

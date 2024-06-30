@@ -13,7 +13,7 @@ public class HTTPThing {
 	public HTTPThing(State s, String api, String token) {
         this.s = s;
         this.api = api;
-		this.token = token;
+		this.token = token.trim();
 	}
 
     public HttpConnection openConnection(String url) throws IOException {
@@ -21,8 +21,10 @@ public class HTTPThing {
 
         HttpConnection c = (HttpConnection) Connector.open(fullUrl);
 
-        c.setRequestProperty("Content-Type", "application/json");
-        c.setRequestProperty("Authorization", token);
+        if (!s.tokenInJson) {
+            c.setRequestProperty("Content-Type", "application/json");
+            c.setRequestProperty("Authorization", token);
+        }
 
         return c;
     }
@@ -62,7 +64,46 @@ public class HTTPThing {
         }
     }
 
-    public String get(String url) throws IOException, Exception {
+    private String sendData(String method, String url, String data) throws Exception {
+        HttpConnection c = null;
+        OutputStream os = null;
+
+        try {
+            c = openConnection(url);
+            c.setRequestMethod(method);
+            
+            byte[] b;
+            try {
+                b = data.getBytes("UTF-8");
+            }
+            catch (UnsupportedEncodingException e) {
+                b = data.getBytes();
+            }
+
+            if (!s.tokenInJson) c.setRequestProperty("Content-Length", String.valueOf(b.length));
+
+            os = c.openOutputStream();
+            os.write(b);
+
+            return sendRequest(c);
+        } finally {
+            if (os != null) os.close();
+            if (c != null) c.close();
+        }
+    }
+
+    private String sendJson(String method, String url, JSONObject data) throws Exception {
+        if (s.tokenInJson) data.put("token", token);
+        return sendData(method, url, data.build());
+    }
+
+    public String get(String url) throws Exception {
+        if (s.tokenInJson) {
+            JSONObject tokenJson = new JSONObject();
+            tokenJson.put("token", token);
+            return get(url, tokenJson);
+        }
+
         HttpConnection c = null;
 
         try {
@@ -74,32 +115,17 @@ public class HTTPThing {
         }
     }
 
-    public String post(String url, String data) throws IOException, Exception {
-        HttpConnection c = null;
-        OutputStream os = null;
-
-        try {
-            c = openConnection(url);
-            c.setRequestMethod(HttpConnection.POST);
-            
-            byte[] b;
-            try {
-                b = data.getBytes("UTF-8");
-            }
-            catch (UnsupportedEncodingException e) {
-                b = data.getBytes();
-            }
-
-            c.setRequestProperty("Content-Length", String.valueOf(b.length));
-
-            os = c.openOutputStream();
-            os.write(b);
-
-            return sendRequest(c);
-        } finally {
-            if (os != null) os.close();
-            if (c != null) c.close();
-        }
+    public String post(String url, String data) throws Exception {
+        return sendData(HttpConnection.POST, url, data);
+    }
+    public String get(String url, String data) throws Exception {
+        return sendData(HttpConnection.GET, url, data);
+    }
+    public String post(String url, JSONObject data) throws Exception {
+        return sendJson(HttpConnection.POST, url, data);
+    }
+    public String get(String url, JSONObject data) throws Exception {
+        return sendJson(HttpConnection.GET, url, data);
     }
 
     // Image loading code by shinovon
@@ -158,7 +184,7 @@ public class HTTPThing {
 	private HttpConnection open(String url) throws IOException {
 		HttpConnection hc = (HttpConnection) Connector.open(s.getPlatformSpecificUrl(url));
 		hc.setRequestMethod("GET");
-		hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
+		if (!s.tokenInJson) hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
 		return hc;
 	}
 }

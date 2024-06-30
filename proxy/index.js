@@ -11,6 +11,7 @@ const emoji = new EmojiConvertor();
 emoji.replace_mode = 'unified';
 
 const app = express();
+app.use(defaultContentType);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -38,6 +39,13 @@ function stringifyUnicode(obj) {
         .replace(/[\u007F-\uFFFF]/g, (match) => {
             return '\\u' + ('0000' + match.charCodeAt(0).toString(16)).slice(-4);
         });
+}
+
+function defaultContentType(req, res, next) {
+    if (!req.headers["content-type"]) {
+        req.headers["content-type"] = "application/json";
+    }
+    next();
 }
 
 function getToken(req, res, next) {

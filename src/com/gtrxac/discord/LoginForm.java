@@ -13,6 +13,7 @@ public class LoginForm extends Form implements CommandListener {
     private TextField gatewayField;
     private TextField cdnField;
     private TextField tokenField;
+    private ChoiceGroup tokenGroup;
     private Command nextCommand;
 
     public LoginForm(State s) {
@@ -115,6 +116,11 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.showMenuIcons = true;
                 }
+                if (loginRms.getNumRecords() >= 20) {
+                    s.tokenInJson = loginRms.getRecord(20)[0] != 0;
+                } else {
+                    s.tokenInJson = false;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -149,6 +155,11 @@ public class LoginForm extends Form implements CommandListener {
         gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, gatewayImages);
         gatewayGroup.setSelectedIndex(0, s.useGateway);
 
+        String[] tokenChoices = {"Send token as JSON"};
+        Image[] tokenImages = {null};
+        tokenGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, tokenChoices, tokenImages);
+        tokenGroup.setSelectedIndex(0, s.tokenInJson);
+
         append(new StringItem(null, "Only use proxies that you trust!"));
         append(apiField);
         append(cdnField);
@@ -156,6 +167,7 @@ public class LoginForm extends Form implements CommandListener {
         append(gatewayField);
         append(new StringItem(null, "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended."));
         append(tokenField);
+        append(tokenGroup);
         addCommand(nextCommand);
     }
 
@@ -176,6 +188,10 @@ public class LoginForm extends Form implements CommandListener {
                 s.bbWifi = selected[0];
             }
             byte[] bbWifiRecord = {new Integer(s.bbWifi ? 1 : 0).byteValue()};
+
+            tokenGroup.getSelectedFlags(selected);
+            s.tokenInJson = selected[0];
+            byte[] tokenJsonRecord = {new Integer(s.tokenInJson ? 1 : 0).byteValue()};
             
             try {
                 loginRms = RecordStore.openRecordStore("login", true);
@@ -246,6 +262,11 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() < 19) {
                     byte[] oneByte = {1};
                     loginRms.addRecord(oneByte, 0, 1);
+                }
+                if (loginRms.getNumRecords() >= 20) {
+                    loginRms.setRecord(20, tokenJsonRecord, 0, 1);
+                } else {
+                    loginRms.addRecord(tokenJsonRecord, 0, 1);
                 }
                 loginRms.closeRecordStore();
             }

@@ -2,6 +2,7 @@ package com.gtrxac.discord;
 
 import java.io.DataOutputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Vector;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
@@ -169,7 +170,7 @@ public class HTTPThread extends Thread {
                         }
                     }
 
-                    s.http.post("/channels/" + id + "/messages", json.build());
+                    s.http.post("/channels/" + id + "/messages", json);
 
                     // If gateway enabled, don't need to fetch new messages
                     if (s.gateway != null && s.gateway.isAlive()) {
@@ -365,7 +366,15 @@ public class HTTPThread extends Thread {
                 }
 
                 case VIEW_ATTACHMENT_TEXT: {
-                    MessageCopyBox copyBox = new MessageCopyBox(s, viewAttach.name, s.http.get(viewAttach.url));
+                    String text;
+                    byte[] textBytes = s.http.getBytes(viewAttach.url);
+                    try {
+                        text = new String(textBytes, "UTF-8");
+                    }
+                    catch (UnsupportedEncodingException e) {
+                        text = new String(textBytes);
+                    }
+                    MessageCopyBox copyBox = new MessageCopyBox(s, viewAttach.name, text);
                     copyBox.lastScreen = s.attachmentView;
                     s.disp.setCurrent(copyBox);
                     break;
@@ -382,7 +391,7 @@ public class HTTPThread extends Thread {
 
                     String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
                     String path = "/channels/" + channelId + "/messages/" + editMessage.id + "/edit";
-                    s.http.post(path, newMessage.build());
+                    s.http.post(path, newMessage);
 
                     // Manually update message content if gateway disabled
                     // (if enabled, new message content will come through gateway event)
