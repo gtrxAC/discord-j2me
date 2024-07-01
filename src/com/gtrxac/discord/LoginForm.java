@@ -121,6 +121,11 @@ public class LoginForm extends Form implements CommandListener {
                 } else {
                     s.tokenInJson = false;
                 }
+                if (loginRms.getNumRecords() >= 21) {
+                    s.useNameColors = loginRms.getRecord(21)[0] != 0;
+                } else {
+                    s.useNameColors = true;
+                }
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -267,6 +272,10 @@ public class LoginForm extends Form implements CommandListener {
                     loginRms.setRecord(20, tokenJsonRecord, 0, 1);
                 } else {
                     loginRms.addRecord(tokenJsonRecord, 0, 1);
+                }
+                if (loginRms.getNumRecords() < 21) {
+                    byte[] oneByte = {1};
+                    loginRms.addRecord(oneByte, 0, 1);
                 }
                 loginRms.closeRecordStore();
             }

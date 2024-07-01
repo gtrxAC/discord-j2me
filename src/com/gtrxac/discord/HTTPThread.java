@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Vector;
+import java.util.*;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 import javax.microedition.io.*;
@@ -112,6 +112,26 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_CHANNELS: {
+                    // Fetch role data (role colors) for this server if needed
+                    if (s.gateway != null && s.gateway.isAlive() && s.selectedGuild.roles == null && s.useNameColors) {
+                        String roleData = s.http.get("/guilds/" + s.selectedGuild.id + "/roles");
+                        JSONArray roleArr = JSON.getArray(roleData);
+
+                        s.selectedGuild.roles = new Vector();
+
+                        for (int i = roleArr.size() - 1; i >= 0; i--) {
+                            for (int a = roleArr.size() - 1; a >= 0; a--) {
+                                JSONObject data = roleArr.getObject(a);
+                                if (data.getInt("position", i) != i) continue;
+
+                                int color = data.getInt("color");
+                                if (color == 0) continue;
+
+                                s.selectedGuild.roles.addElement(new Role(data));
+                            }
+                        }
+                    }
+
                     s.selectedGuild.channels = Channel.parseChannels(
                         JSON.getArray(s.http.get("/guilds/" + s.selectedGuild.id + "/channels"))
                     );

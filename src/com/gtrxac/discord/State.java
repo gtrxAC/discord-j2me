@@ -29,6 +29,7 @@ public class State {
 	boolean autoReConnect;
 	boolean showMenuIcons;
 	boolean tokenInJson;
+	boolean useNameColors;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -45,6 +46,7 @@ public class State {
 	boolean isLiteProxy;
 
 	IconCache iconCache;
+	NameColorCache nameColorCache;
 	UnreadManager unreads;
 
 	Vector guilds;
@@ -81,6 +83,7 @@ public class State {
 	public State() {
 		subscribedGuilds = new Vector();
 		iconCache = new IconCache(this);
+		nameColorCache = new NameColorCache(this);
 		unreads = new UnreadManager(this);
 	}
 

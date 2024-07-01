@@ -119,18 +119,43 @@ public class ChannelViewItem {
                     }
 
                     // Draw author (and recipient if applicable)
-                    g.setColor(ChannelView.authorColors[s.theme]);
+                    int authorColor = s.nameColorCache.get(msg.author);
+                    if (authorColor == 0) authorColor = ChannelView.authorColors[s.theme];
+
+                    int recipientColor;
+                    if (msg.recipientID != null) {
+                        recipientColor = s.nameColorCache.get(msg.recipientID);
+                        if (recipientColor == 0) recipientColor = ChannelView.authorColors[s.theme];
+                    } else {
+                        recipientColor = ChannelView.authorColors[s.theme];
+                    }
+                    
+                    int authorX = x;
+
+                    g.setColor(authorColor);
                     g.setFont(s.authorFont);
-                    String authorStr = msg.author.name + (msg.recipient != null ? (" -> " + msg.recipient) : "");
-                    g.drawString(authorStr, x, y, Graphics.TOP|Graphics.LEFT);
+                    g.drawString(msg.author.name, authorX, y, Graphics.TOP | Graphics.LEFT);
+
+                    authorX += s.authorFont.stringWidth(msg.author.name);
+
+                    if (msg.recipient != null) {
+                        g.setFont(s.timestampFont);
+                        g.setColor(ChannelView.authorColors[s.theme]);
+                        g.drawString(" -> ", authorX, y, Graphics.TOP | Graphics.LEFT);
+                        
+                        authorX += s.timestampFont.stringWidth(" -> ");
+
+                        g.setFont(s.authorFont);
+                        g.setColor(recipientColor);
+                        g.drawString(msg.recipient, authorX, y, Graphics.TOP | Graphics.LEFT);
+
+                        authorX += s.authorFont.stringWidth(msg.recipient);
+                    }
 
                     // Draw timestamp
                     g.setColor(ChannelView.timestampColors[s.theme]);
                     g.setFont(s.timestampFont);
-                    g.drawString(
-                        "  " + msg.timestamp, x + s.authorFont.stringWidth(authorStr), y,
-                        Graphics.TOP|Graphics.LEFT
-                    );
+                    g.drawString("  " + msg.timestamp, authorX, y, Graphics.TOP | Graphics.LEFT);
                     y += s.authorFont.getHeight();
                 }
 

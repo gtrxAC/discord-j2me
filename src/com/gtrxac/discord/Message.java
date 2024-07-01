@@ -28,6 +28,7 @@ public class Message {
 
     // fields for non-status messages
     public String recipient;
+    public String recipientID;  // only used for name colors (null if not needed)
     public Vector attachments;
     public Vector embeds;
     public boolean showAuthor;
@@ -102,16 +103,17 @@ public class Message {
             if (s.myUserId.equals(author.id)) rawContent = data.getString("_rc", content);
 
             try {
-                recipient = data
+                JSONObject recipientObj = data
                     .getObject("referenced_message")
-                    .getObject("author")
-                    .getString("global_name", "(no name)");
+                    .getObject("author");
 
+                if (s.gateway != null && s.gateway.isAlive() && s.useNameColors) {
+                    recipientID = recipientObj.getString("id");
+                }
+
+                recipient = recipientObj.getString("global_name", null);
                 if (recipient == null) {
-                    recipient = data
-                        .getObject("referenced_message")
-                        .getObject("author")
-                        .getString("username", "(no name)");
+                    recipient = recipientObj.getString("username", "(no name)");
                 }
             }
             catch (Exception e) {}

@@ -262,7 +262,8 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             if (msg.referenced_message) {
                 result.referenced_message = {
                     author: {
-                        global_name: msg.referenced_message.author.global_name
+                        global_name: msg.referenced_message.author.global_name,
+                        id: msg.referenced_message.author.id
                     }
                 }
                 if (msg.referenced_message.author.global_name == null) {
@@ -405,6 +406,27 @@ app.get(`${BASE}/channels/:channel/messages/:message/delete`, getToken, async (r
             {headers: res.locals.headers}
         );
         res.send("ok");
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Get role list
+app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
+    try {
+        const response = await axios.get(
+            `${DEST_BASE}/guilds/${req.params.guild}/roles`,
+            {headers: res.locals.headers}
+        );
+        const roles = response.data
+            .sort((a, b) => a.position - b.position)
+            .map(r => {
+                return {
+                    id: r.id,
+                    color: r.color
+                }
+            })
+        
+        res.send(stringifyUnicode(roles))
     }
     catch (e) { handleError(res, e); }
 });

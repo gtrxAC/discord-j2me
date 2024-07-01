@@ -9,6 +9,7 @@ public class Guild implements HasIcon {
     public String name;
     public Vector channels;
     public String iconHash;
+    public Vector roles;
 
     public Guild(State s, JSONObject data) {
         id = data.getString("id");

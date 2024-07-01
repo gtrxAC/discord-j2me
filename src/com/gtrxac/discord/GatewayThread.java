@@ -104,6 +104,7 @@ public class GatewayThread extends Thread {
                         events.add("MESSAGE_DELETE");
                         events.add("MESSAGE_UPDATE");
                         events.add("TYPING_START");
+                        events.add("GUILD_MEMBERS_CHUNK");
 
                         JSONObject connData = new JSONObject();
                         connData.put("supported_events", events);
@@ -341,6 +342,38 @@ public class GatewayThread extends Thread {
                         } else {
                             s.channelView.repaint();
                         }
+                    }
+                    else if (op.equals("GUILD_MEMBERS_CHUNK")) {
+                        if (s.channelView == null || s.selectedGuild == null) continue;
+
+                        JSONObject data = message.getObject("d");
+                        String guildId = data.getString("guild_id");
+                        JSONArray notFound = data.getArray("not_found");
+                        JSONArray members = data.getArray("members");
+
+                        for (int i = 0; i < notFound.size(); i++) {
+                            String id = notFound.getString(i);
+                            s.nameColorCache.set(id + guildId, 0);
+                        }
+
+                        for (int i = 0; i < members.size(); i++) {
+                            int resultColor = 0;
+
+                            JSONObject member = members.getObject(i);
+                            JSONArray memberRoles = member.getArray("roles");
+
+                            for (int r = 0; r < s.selectedGuild.roles.size(); r++) {
+                                Role role = (Role) s.selectedGuild.roles.elementAt(r);
+                                if (memberRoles.indexOf(role.id) == -1) continue;
+
+                                resultColor = role.color;
+                                break;
+                            }
+
+                            String id = member.getObject("user").getString("id");
+                            s.nameColorCache.set(id + guildId, resultColor);
+                        }
+                        s.nameColorCache.activeRequest = false;
                     }
                 }
                 else if (message.getInt("op", 0) == 10) {
