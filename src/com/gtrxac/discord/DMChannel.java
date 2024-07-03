@@ -30,8 +30,8 @@ public class DMChannel implements HasIcon {
             try {
                 JSONObject recipient = data.getArray("recipients").getObject(0);
 
-                name = recipient.getString("global_name", "(no name)");
-                if (name == null || name.equals("(no name)")) {
+                name = recipient.getString("global_name", null);
+                if (name == null) {
                     name = recipient.getString("username");
                 }
 
@@ -63,7 +63,7 @@ public class DMChannel implements HasIcon {
     public String getIconType() { return isGroup ? "/channel-icons/" : "/avatars/"; }
 
     public void iconLoaded(State s) {
-		if (s.dmSelector != null) s.dmSelector.update();
+		if (s.dmSelector != null) s.dmSelector.update(id);
     }
 
     public void largeIconLoaded(State s) {}

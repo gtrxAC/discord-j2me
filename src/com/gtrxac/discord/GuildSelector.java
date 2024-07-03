@@ -16,8 +16,7 @@ public class GuildSelector extends List implements CommandListener {
 
         for (int i = 0; i < s.guilds.size(); i++) {
             Guild g = (Guild) s.guilds.elementAt(i);
-            Image icon = (s.iconCache != null) ? s.iconCache.get(g) : null;
-            append(g.toString(s), icon);
+            append(g.toString(s), s.iconCache.get(g));
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
@@ -27,15 +26,21 @@ public class GuildSelector extends List implements CommandListener {
     }
 
     /**
-     * Updates the icons and unread/ping indicators for server names shown in this selector.
+     * Updates the icon and unread indicator for a server shown in this selector.
      */
-    public void update() {
+    public void update(String id) {
         for (int i = 0; i < s.guilds.size(); i++) {
             Guild g = (Guild) s.guilds.elementAt(i);
-            Image icon = (s.iconCache != null) ? s.iconCache.get(g) : null;
-            set(i, g.toString(s), icon);
+            if (id != null && !g.id.equals(id)) continue;
+
+            set(i, g.toString(s), s.iconCache.get(g));
         }
     }
+
+    /**
+     * Updates the icons and unread indicators for all servers shown in this selector.
+     */
+    public void update() { update(null); }
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {

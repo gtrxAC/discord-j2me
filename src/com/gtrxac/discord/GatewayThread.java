@@ -135,7 +135,6 @@ public class GatewayThread extends Thread {
                         String chId = msgData.getString("channel_id");
 
                         // Mark this channel as unread if it's not the currently opened channel
-                        Displayable cur = s.disp.getCurrent();
                         if (
                             !s.channelIsOpen
                             || (s.isDM && !chId.equals(s.selectedDmChannel.id))
@@ -144,13 +143,13 @@ public class GatewayThread extends Thread {
                             Channel ch = Channel.getByID(s, chId);
                             if (ch != null) {
                                 ch.lastMessageID = Long.parseLong(msgId);
-                                s.updateUnreadIndicators();
+                                s.updateUnreadIndicators(false, chId);
                                 continue;
                             }
                             DMChannel dmCh = DMChannel.getById(s, chId);
                             if (dmCh != null) {
                                 dmCh.lastMessageID = Long.parseLong(msgId);
-                                s.updateUnreadIndicators();
+                                s.updateUnreadIndicators(true, chId);
                             }
                             continue;
                         }

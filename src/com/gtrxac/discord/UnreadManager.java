@@ -121,4 +121,16 @@ public class UnreadManager {
         autoSave = true;
         save();
     }
+
+    public void markDMsRead() {
+        if (s.dmSelector == null) return;
+
+        autoSave = false;
+        for (int i = 0; i < s.dmSelector.lastDMs.size(); i++) {
+            DMChannel dmCh = (DMChannel) s.dmSelector.lastDMs.elementAt(i);
+            markRead(dmCh);
+        }
+        autoSave = true;
+        save();
+    }
 }

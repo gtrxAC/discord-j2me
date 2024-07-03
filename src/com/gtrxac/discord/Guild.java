@@ -45,7 +45,7 @@ public class Guild implements HasIcon {
     public String getIconType() { return "/icons/"; }
 
     public void iconLoaded(State s) {
-		if (s.guildSelector != null) s.guildSelector.update();
+		if (s.guildSelector != null) s.guildSelector.update(id);
     }
     
     public void largeIconLoaded(State s) {}

@@ -72,7 +72,7 @@ public class ChannelViewItem {
         boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
 
         int iconSize = messageFontHeight*4/3;
-        if (s.iconCache != null) s.iconCache.scaleSize = iconSize;
+        s.iconCache.scaleSize = iconSize;
 
         switch (type) {
             case MESSAGE: {
@@ -95,7 +95,7 @@ public class ChannelViewItem {
 
                         if (icon != null) {
                             // Icon is loaded, draw it
-                            g.drawImage(icon, iconX, iconY, Graphics.TOP|Graphics.LEFT);
+                            g.drawImage(icon, iconX, iconY, Graphics.TOP | Graphics.LEFT);
                         } else {
                             // Icon is not loaded, draw a placeholder with the username's
                             // initials on a background whose color is determined by the user ID
@@ -168,7 +168,7 @@ public class ChannelViewItem {
                 }
                 g.setFont(s.messageFont);
                 for (int i = 0; i < msg.contentLines.length; i++) {
-                    g.drawString(msg.contentLines[i], x, y, Graphics.TOP|Graphics.LEFT);
+                    g.drawString(msg.contentLines[i], x, y, Graphics.TOP | Graphics.LEFT);
                     y += messageFontHeight;
                 }
 

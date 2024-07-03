@@ -34,14 +34,21 @@ public class ChannelSelector extends List implements CommandListener {
     }
 
     /**
-     * Updates the unread/ping indicators for channel names shown in this selector.
+     * Updates the unread indicator for a channel shown in this selector.
      */
-    public void update() {
+    public void update(String id) {
         for (int i = 0; i < s.channels.size(); i++) {
             Channel ch = (Channel) s.channels.elementAt(i);
+            if (id != null && !ch.id.equals(id)) continue;
+
             set(i, ch.toString(s), null);
         }
     }
+
+    /**
+     * Updates the unread indicators for all channels shown in this selector.
+     */
+    public void update() { update(null); }
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
@@ -53,11 +60,13 @@ public class ChannelSelector extends List implements CommandListener {
         if (c == markChannelReadCommand) {
             Channel ch = (Channel) s.channels.elementAt(getSelectedIndex());
             s.unreads.markRead(ch);
-            s.updateUnreadIndicators();
+            update(ch.id);
+            s.guildSelector.update(s.selectedGuild.id);
         }
         if (c == markGuildReadCommand) {
             s.unreads.markRead(s.selectedGuild);
-            s.updateUnreadIndicators();
+            update();
+            s.guildSelector.update(s.selectedGuild.id);
         }
         if (c == List.SELECT_COMMAND) {
             s.isDM = false;

@@ -21,9 +21,9 @@ public class LoginForm extends Form implements CommandListener {
         setCommandListener(this); 
         this.s = s;
 
-        String initialApi = "http://57.128.194.14:8087";
-        String initialGateway = "socket://57.128.194.14:8085";
-        String initialCdn = "http://media.discordapp.net";
+        String initialApi = "http://146.59.80.3";
+        String initialGateway = "socket://146.59.80.3:8081";
+        String initialCdn = "http://146.59.80.3:8080";
         String initialToken = "";
         
         String manifestToken = s.midlet.getAppProperty("Token");

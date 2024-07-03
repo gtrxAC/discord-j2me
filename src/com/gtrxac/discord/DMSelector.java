@@ -11,6 +11,8 @@ public class DMSelector extends List implements CommandListener {
     private Command backCommand;
     private Command searchCommand;
     private Command refreshCommand;
+    private Command markReadCommand;
+    private Command markAllReadCommand;
 
     public DMSelector(State s) throws Exception {
         super("Direct Message", List.IMPLICIT);
@@ -55,20 +57,35 @@ public class DMSelector extends List implements CommandListener {
         backCommand = new Command("Back", Command.BACK, 0);
         searchCommand = new Command("Search", Command.ITEM, 1);
         refreshCommand = new Command("Refresh", Command.ITEM, 2);
+        markReadCommand = new Command("Mark as read", Command.ITEM, 3);
+        markAllReadCommand = new Command("Mark all as read", Command.ITEM, 4);
+
         addCommand(backCommand);
         addCommand(searchCommand);
         addCommand(refreshCommand);
+
+        if (s.dmChannels.size() > 0) {
+            addCommand(markReadCommand);
+            addCommand(markAllReadCommand);
+        }
     }
 
     /**
-     * Updates the icons and unread/ping indicators for DM channel names shown in this selector.
+     * Updates the icon and unread indicator for one DM channel in this selector.
      */
-    public void update() {
+    public void update(String chId) {
         for (int i = 0; i < lastDMs.size(); i++) {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
+            if (chId != null && !ch.id.equals(chId)) continue;
+
             set(i, ch.toString(s), s.iconCache.get(ch));
         }
     }
+
+    /**
+     * Updates the icons and unread indicators for all DM channels in this selector.
+     */
+    public void update() { update(null); }
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
@@ -79,6 +96,15 @@ public class DMSelector extends List implements CommandListener {
         }
         if (c == refreshCommand) {
             s.openDMSelector(true);
+        }
+        if (c == markReadCommand) {
+            DMChannel dmCh = (DMChannel) lastDMs.elementAt(getSelectedIndex());
+            s.unreads.markRead(dmCh);
+            update(dmCh.id);
+        }
+        if (c == markAllReadCommand) {
+            s.unreads.markDMsRead();
+            update();
         }
         if (c == List.SELECT_COMMAND) {
             s.isDM = true;

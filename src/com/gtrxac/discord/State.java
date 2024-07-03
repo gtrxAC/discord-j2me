@@ -128,10 +128,13 @@ public class State {
 		return url;
 	}
 
-	public void updateUnreadIndicators() {
-		if (guildSelector != null) guildSelector.update();
-		if (channelSelector != null) channelSelector.update();
-		if (dmSelector != null) dmSelector.update();
+	public void updateUnreadIndicators(boolean isDM, String chId) {
+		if (isDM) {
+			if (dmSelector != null) dmSelector.update(chId);
+		} else {
+			if (channelSelector != null) channelSelector.update(chId);
+			if (guildSelector != null) guildSelector.update();
+		}
 	}
 
 	public void openGuildSelector(boolean reload) {
@@ -194,9 +197,13 @@ public class State {
 					disp.setCurrent(channelView);
 				}
 			}
-			if (isDM) unreads.markRead(selectedDmChannel);
-			else unreads.markRead(selectedChannel);
-			updateUnreadIndicators();
+			if (isDM) {
+				unreads.markRead(selectedDmChannel);
+				updateUnreadIndicators(true, selectedDmChannel.id);
+			} else {
+				unreads.markRead(selectedChannel);
+				updateUnreadIndicators(false, selectedChannel.id);
+			}
 		}
 		catch (Exception e) {
 			error(e.toString());

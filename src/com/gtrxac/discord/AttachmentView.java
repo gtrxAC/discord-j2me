@@ -38,7 +38,7 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
         if (prio < 100) {
             // 'Open in browser' button
             Attachment attach = (Attachment) msg.attachments.elementAt(prio);
-            s.platformRequest(attach.url + attach.browserSizeParam);
+            s.platformRequest(attach.browserUrl);
         } else {
             // 'View as text' button
             Attachment attach = (Attachment) msg.attachments.elementAt(prio - 100);

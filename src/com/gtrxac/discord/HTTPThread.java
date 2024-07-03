@@ -271,7 +271,7 @@ public class HTTPThread extends Thread {
                             // Supported attachment (image/video) -> show it
                             // For videos, only the first frame is shown (Discord media proxy converts to image)
                             try {
-                                Image image = s.http.getImage(attach.url + attach.sizeParam);
+                                Image image = s.http.getImage(attach.previewUrl);
                                 ImageItem item = new ImageItem(null, image, Item.LAYOUT_DEFAULT, null);
                                 item.setLayout(layout);
                                 s.attachmentView.append(item);
@@ -282,15 +282,17 @@ public class HTTPThread extends Thread {
                                 s.attachmentView.append(item);
                             }
                         } else {
-                            // Unsupported -> show a button to view it as text
-                            // Note: showCommand has a priority starting at 100, so when it's pressed, 
-                            //       we can distinguish it from 'open in browser' buttons
-                            Command showCommand = new Command("Show", Command.ITEM, i + 100);
-                            StringItem showButton = new StringItem(null, "Show as text", Item.BUTTON);
-                            showButton.setLayout(layout);
-                            showButton.setDefaultCommand(showCommand);
-                            showButton.setItemCommandListener(s.attachmentView);
-                            s.attachmentView.append(showButton);
+                            if (attach.isText) {
+                                // Unsupported -> show a button to view it as text
+                                // Note: showCommand has a priority starting at 100, so when it's pressed, 
+                                //       we can distinguish it from 'open in browser' buttons
+                                Command showCommand = new Command("Show", Command.ITEM, i + 100);
+                                StringItem showButton = new StringItem(null, "Show as text", Item.BUTTON);
+                                showButton.setLayout(layout);
+                                showButton.setDefaultCommand(showCommand);
+                                showButton.setItemCommandListener(s.attachmentView);
+                                s.attachmentView.append(showButton);
+                            }
                         }
 
                         Command openCommand = new Command("Open", Command.ITEM, i);
@@ -387,7 +389,7 @@ public class HTTPThread extends Thread {
 
                 case VIEW_ATTACHMENT_TEXT: {
                     String text;
-                    byte[] textBytes = s.http.getBytes(viewAttach.url);
+                    byte[] textBytes = s.http.getBytes(viewAttach.browserUrl);
                     try {
                         text = new String(textBytes, "UTF-8");
                     }
