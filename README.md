@@ -10,19 +10,20 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 
 ## Status
 ### Working
-* Server list
-* Channel list
-* Message reading
-* Message sending
+* Server and channel lists
+* Message reading, sending, editing, <abbr title="Only your own messages">deleting</abbr>
 * Replying to messages
 * Reading older messages
 * Direct messages and group DMs
 * Attachment viewing
-* Gateway/WebSocket (live message updates)
+* Attachment sending (<abbr title="Requires FileConnection API or HTML browser with file uploading support">device dependent</abbr>)
+* Gateway/live message updates (<abbr title="Not supported on some low-end Samsung devices">device dependent</abbr>)
+* <abbr title="Not in sync with official clients">Unread message indicators</abbr>
 
 ### Not implemented
-* Ping/unread indicators
-* Attachment sending
+* Jumping to messages (e.g. replies)
+* Initiating DM conversations
+* Ping indicators
 * Reactions and emojis
 
 ## How to build
@@ -37,6 +38,6 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 2. Run `build.sh`.
 
 ## Thanks
-* [@uwmpr](https://github.com/uwmpr) for hosting the default proxy server
-* [@WunderWungiel](https://github.com/WunderWungiel) for hosting the CDN proxy
+* [@uwmpr](https://github.com/uwmpr) for formerly hosting the default proxy server
+* [@WunderWungiel](https://github.com/WunderWungiel) for formerly hosting the CDN proxy
 * [@shinovon](https://github.com/shinovon) for their Java ME [JSON library](https://github.com/shinovon/NNJSON)
