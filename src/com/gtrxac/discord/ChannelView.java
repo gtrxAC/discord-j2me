@@ -34,6 +34,7 @@ public class ChannelView extends Canvas implements CommandListener {
     int scroll;
     int maxScroll;
     int pressY;
+    private boolean updating;
 
     boolean touchMode;
     boolean selectionMode;
@@ -89,6 +90,14 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     public void update(boolean wasResized) {
+        while (updating) {
+            try {
+                Thread.sleep(1);
+            }
+            catch (Exception e) {}
+        }
+        updating = true;
+        
         if (s.isDM) {
             if (s.selectedDmChannel.isGroup) {
                 setTitle(s.selectedDmChannel.name);
@@ -133,7 +142,9 @@ public class ChannelView extends Canvas implements CommandListener {
             boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
             int width = getWidth() - (useIcons ? messageFontHeight*2 : 0);
 
-            msg.contentLines = Util.wordWrap(msg.content, width, s.messageFont);
+            if (msg.contentLines == null || wasResized) {
+                msg.contentLines = Util.wordWrap(msg.content, width, s.messageFont);
+            }
 
             if (msg.attachments != null && msg.attachments.size() > 0) {
                 ChannelViewItem attachItem = new ChannelViewItem(s, ChannelViewItem.ATTACHMENTS_BUTTON);
@@ -184,6 +195,8 @@ public class ChannelView extends Canvas implements CommandListener {
             selectedItem = (after != null) ? (items.size() - 1) : 0;
             selectionMode = (before != null || after != null);
         }
+
+        updating = false;
     }
 
     public void getMessages() throws Exception {
@@ -245,6 +258,9 @@ public class ChannelView extends Canvas implements CommandListener {
             height = getHeight();
             update(true);
         }
+
+        // BlackBerry fix
+        g.setClip(0, 0, width, height);
 
         if (items.size() > 0) {
             makeSelectedItemVisible();

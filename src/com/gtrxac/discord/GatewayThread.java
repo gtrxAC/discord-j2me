@@ -218,7 +218,6 @@ public class GatewayThread extends Thread {
                                     s.channelView.scroll = oldScroll;
                                 }
 
-                                s.channelView.repaint();
                                 s.unreads.markRead(chId, Long.parseLong(msgId));
                             } else {
                                 // If user is not on the newest page of messages, ask them to refresh

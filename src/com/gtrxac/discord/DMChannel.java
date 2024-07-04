@@ -14,12 +14,12 @@ public class DMChannel implements HasIcon {
     public DMChannel(State s, JSONObject data) {
         id = data.getString("id");
         isGroup = data.getInt("type") == 3;
-        
-        try {
-            lastMessageID = Long.parseLong(data.getString("last_message_id"));
-        }
-        catch (Exception e) {
-            lastMessageID = 0L;
+    
+        String msgIdStr = data.getString("last_message_id");
+        if (msgIdStr != null) {
+            lastMessageID = Long.parseLong(msgIdStr);
+        } else {
+            lastMessageID = Long.parseLong(id);
         }
 
         if (isGroup) {
