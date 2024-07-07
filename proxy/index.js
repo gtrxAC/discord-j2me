@@ -42,7 +42,7 @@ function stringifyUnicode(obj) {
 }
 
 function defaultContentType(req, res, next) {
-    if (!req.headers["content-type"]) {
+    if (req.headers["content-type"] === undefined || !req.headers["content-type"].startsWith("multipart/form-data")) {
         req.headers["content-type"] = "application/json";
     }
     next();
@@ -51,7 +51,10 @@ function defaultContentType(req, res, next) {
 function getToken(req, res, next) {
     let token;
 
-    if (req.headers?.authorization) {
+    if (req.query?.token) {
+        token = req.query.token;
+    }
+    else if (req.headers?.authorization) {
         token = req.headers.authorization;
     }
     else if (req.body?.token) {

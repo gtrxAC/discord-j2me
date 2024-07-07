@@ -7,10 +7,14 @@ import java.util.*;
 public class State {
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
-	public static final int ICON_TYPE_NONE = 0;
-	public static final int ICON_TYPE_SQUARE = 1;
-	public static final int ICON_TYPE_CIRCLE = 2;
-	public static final int ICON_TYPE_CIRCLE_HQ = 3;
+	static final int ICON_TYPE_NONE = 0;
+	static final int ICON_TYPE_SQUARE = 1;
+	static final int ICON_TYPE_CIRCLE = 2;
+	static final int ICON_TYPE_CIRCLE_HQ = 3;
+
+	static final int TOKEN_TYPE_HEADER = 0;
+	static final int TOKEN_TYPE_JSON = 1;
+	static final int TOKEN_TYPE_QUERY = 2;
 
 	MIDlet midlet;
 	Display disp;
@@ -28,7 +32,7 @@ public class State {
 	boolean nativeFilePicker;
 	boolean autoReConnect;
 	boolean showMenuIcons;
-	boolean tokenInJson;
+	int tokenType;
 	boolean useNameColors;
 
 	int authorFontSize;

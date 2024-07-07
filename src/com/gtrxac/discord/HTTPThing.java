@@ -19,9 +19,17 @@ public class HTTPThing {
     public HttpConnection openConnection(String url) throws IOException {
         String fullUrl = s.getPlatformSpecificUrl(api + "/api/v9" + url);
 
+        if (s.tokenType == State.TOKEN_TYPE_QUERY) {
+            if (fullUrl.indexOf("?") != -1) {
+                fullUrl += "&token=" + token;
+            } else {
+                fullUrl += "?token=" + token;
+            }
+        }
+
         HttpConnection c = (HttpConnection) Connector.open(fullUrl);
 
-        if (!s.tokenInJson) {
+        if (s.tokenType == State.TOKEN_TYPE_HEADER) {
             c.setRequestProperty("Content-Type", "application/json");
             c.setRequestProperty("Authorization", token);
         }
@@ -80,7 +88,9 @@ public class HTTPThing {
                 b = data.getBytes();
             }
 
-            if (!s.tokenInJson) c.setRequestProperty("Content-Length", String.valueOf(b.length));
+            if (s.tokenType != State.TOKEN_TYPE_HEADER) {
+                c.setRequestProperty("Content-Length", String.valueOf(b.length));
+            }
 
             os = c.openOutputStream();
             os.write(b);
@@ -93,12 +103,12 @@ public class HTTPThing {
     }
 
     private String sendJson(String method, String url, JSONObject data) throws Exception {
-        if (s.tokenInJson) data.put("token", token);
+        if (s.tokenType == State.TOKEN_TYPE_JSON) data.put("token", token);
         return sendData(method, url, data.build());
     }
 
     public String get(String url) throws Exception {
-        if (s.tokenInJson) {
+        if (s.tokenType == State.TOKEN_TYPE_JSON) {
             JSONObject tokenJson = new JSONObject();
             tokenJson.put("token", token);
             return get(url, tokenJson);
@@ -184,7 +194,9 @@ public class HTTPThing {
 	private HttpConnection open(String url) throws IOException {
 		HttpConnection hc = (HttpConnection) Connector.open(s.getPlatformSpecificUrl(url));
 		hc.setRequestMethod("GET");
-		if (!s.tokenInJson) hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
+		if (s.tokenType == State.TOKEN_TYPE_HEADER) {
+            hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
+        }
 		return hc;
 	}
 }

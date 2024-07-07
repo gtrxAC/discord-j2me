@@ -93,7 +93,6 @@ public class HTTPThread extends Thread {
             }
             catch (Exception e) {
                 s.myUserId = "";
-                s.error(e.toString());
             }
         }
         
