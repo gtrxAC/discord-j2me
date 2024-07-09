@@ -211,6 +211,9 @@ public class ChannelViewItem {
                                 y += messageFontHeight;
                             }
                         }
+
+                        x -= messageFontHeight/3;  // Undo left padding
+                        y += messageFontHeight/3;  // Bottom padding
                     }
                 }
                 break;

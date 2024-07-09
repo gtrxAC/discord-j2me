@@ -234,7 +234,7 @@ public class HTTPThread extends Thread {
                     } else {
                         // If user scrolled a page back or forward, keep reusing the same channel view
                         if (s.oldUI) s.oldChannelView.update();
-                        else s.channelView.update(false);
+                        else s.channelView.update(false, false);
                     }
 
                     // Show the channel view screen (hide the loading screen)
@@ -419,11 +419,12 @@ public class HTTPThread extends Thread {
                     if (s.gateway == null || !s.gateway.isAlive()) {
                         editMessage.content = editContent;
                         editMessage.rawContent = editContent;
+                        editMessage.needUpdate = true;
 
                         if (s.oldUI) {
                             s.oldChannelView.update();
                         } else {
-                            s.channelView.update(false);
+                            s.channelView.update(false, false);
                         }
                     }
 
@@ -452,7 +453,7 @@ public class HTTPThread extends Thread {
                         if (s.oldUI) {
                             s.oldChannelView.update();
                         } else {
-                            s.channelView.update(false);
+                            s.channelView.update(false, false);
                         }
                     }
 

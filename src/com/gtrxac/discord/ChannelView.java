@@ -34,7 +34,6 @@ public class ChannelView extends Canvas implements CommandListener {
     int scroll;
     int maxScroll;
     int pressY;
-    private boolean updating;
 
     boolean touchMode;
     boolean selectionMode;
@@ -85,30 +84,24 @@ public class ChannelView extends Canvas implements CommandListener {
         haveShown = true;
         width = getWidth();
         height = getHeight();
-        update(false);
+        update(false, false);
         repaint();
     }
 
-    public void update(boolean wasResized) {
-        while (updating) {
-            try {
-                Thread.sleep(1);
-            }
-            catch (Exception e) {}
-        }
-        updating = true;
-        
-        if (s.isDM) {
-            if (s.selectedDmChannel.isGroup) {
-                setTitle(s.selectedDmChannel.name);
+    public void update(boolean wasResized, boolean wasGateway) {
+        if (!wasGateway) {
+            if (s.isDM) {
+                if (s.selectedDmChannel.isGroup) {
+                    setTitle(s.selectedDmChannel.name);
+                } else {
+                    setTitle("@" + s.selectedDmChannel.name);
+                }
             } else {
-                setTitle("@" + s.selectedDmChannel.name);
+                setTitle("#" + s.selectedChannel.name);
             }
-        } else {
-            setTitle("#" + s.selectedChannel.name);
+            if (page > 0) setTitle(getTitle() + " (old)");
         }
 
-        if (page > 0) setTitle(getTitle() + " (old)");
         items = new Vector();
 
         int oldMaxScroll = maxScroll;
@@ -136,14 +129,17 @@ public class ChannelView extends Canvas implements CommandListener {
             }
         }
 
+        boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
+        int width = getWidth() - (useIcons ? messageFontHeight*2 : 0);
+        int embedTextWidth = width - messageFontHeight/2 - messageFontHeight*2/3;
+
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
+            boolean needUpdate = msg.needUpdate;
 
-            boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
-            int width = getWidth() - (useIcons ? messageFontHeight*2 : 0);
-
-            if (msg.contentLines == null || wasResized) {
+            if (msg.contentLines == null || wasResized || needUpdate) {
                 msg.contentLines = Util.wordWrap(msg.content, width, s.messageFont);
+                msg.needUpdate = false;
             }
 
             if (msg.attachments != null && msg.attachments.size() > 0) {
@@ -156,13 +152,14 @@ public class ChannelView extends Canvas implements CommandListener {
             if (msg.embeds != null && msg.embeds.size() > 0) {
                 for (int e = 0; e < msg.embeds.size(); e++) {
                     Embed emb = (Embed) msg.embeds.elementAt(e);
-                    int embedTextWidth = width - messageFontHeight/2 - messageFontHeight*2/3;
 
-                    if (emb.title != null) {
+                    if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
                         emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.messageFont);
+                        msg.needUpdate = false;
                     }
-                    if (emb.description != null) {
+                    if ((wasResized || emb.descLines == null || needUpdate) && emb.description != null) {
                         emb.descLines = Util.wordWrap(emb.description, embedTextWidth, s.messageFont);
+                        msg.needUpdate = false;
                     }
                 }
             }
@@ -188,15 +185,25 @@ public class ChannelView extends Canvas implements CommandListener {
             // (e.g. screen rotate), keep the previous relative scroll value
             int scrollPercent = (scroll*100)/oldMaxScroll;
             scroll = (scrollPercent*maxScroll)/100;
-        } else {
+        }
+        else if (wasGateway) {
+            // If new message was received via gateway, keep the previously selected message selected.
+            if (selectionMode) {
+                selectedItem++;
+                if (selectedItem >= items.size()) {
+                    selectedItem = items.size() - 1;
+                }
+            }
+            // If we were at the bottom of the message list, stay at the bottom
+            if (scroll == oldMaxScroll) scroll = maxScroll;
+        }
+        else {
             // If user selected Show newer messages, go to the top of the
             // message list, so it's more intuitive to scroll through
             scroll = (after != null) ? 0 : maxScroll;
             selectedItem = (after != null) ? (items.size() - 1) : 0;
             selectionMode = (before != null || after != null);
         }
-
-        updating = false;
     }
 
     public void getMessages() throws Exception {
@@ -224,14 +231,14 @@ public class ChannelView extends Canvas implements CommandListener {
         int itemPos = getItemPosition(selectedItem);
         int itemHeight = selected.getHeight();
 
-        if (itemHeight > getHeight()) {
+        if (itemHeight > height) {
             // For items taller than the screen, make sure one screenful of it is visible:
             // Check if item is above the visible area
             if (itemPos + itemHeight < 0) {
-                scroll -= getHeight();
+                scroll -= height;
             }
             // Check if below the visible area
-            else if (itemPos > getHeight()) scroll += getHeight();
+            else if (itemPos > height) scroll += height;
         } else {
             // For shorter items, make sure the entire item is visible:
             // Check if item is above the visible area
@@ -239,14 +246,58 @@ public class ChannelView extends Canvas implements CommandListener {
                 scroll += itemPos;
             }
             // Check if below the visible area
-            else if (itemPos + itemHeight > getHeight()) {
-                scroll += (itemPos + itemHeight) - getHeight();
+            else if (itemPos + itemHeight > height) {
+                scroll += (itemPos + itemHeight) - height;
             }
         }
     }
 
     protected void sizeChanged(int w, int h) {
         repaint();
+    }
+
+    private ChannelViewItem lastSelected;
+
+    private void updateCommands(ChannelViewItem selected) {
+        if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
+            if (selected.type == ChannelViewItem.MESSAGE) {
+                removeCommand(selectCommand);
+
+                if ("(no content)".equals(selected.msg.content) || selected.msg.isStatus) {
+                    removeCommand(copyCommand);
+                } else {
+                    addCommand(copyCommand);
+                }
+
+                if (Util.indexOfAny(selected.msg.content, URLList.urlStarts, 0) != -1) {
+                    addCommand(openUrlCommand);
+                } else {
+                    removeCommand(openUrlCommand);
+                }
+
+                if (s.myUserId.equals(selected.msg.author.id) && !selected.msg.isStatus) {
+                    addCommand(editCommand);
+                    addCommand(deleteCommand);
+                } else {
+                    removeCommand(editCommand);
+                    removeCommand(deleteCommand);
+                }
+            } else {
+                removeCommand(openUrlCommand);
+                removeCommand(copyCommand);
+                addCommand(selectCommand);
+            }
+        } else {
+            removeCommand(openUrlCommand);
+            removeCommand(copyCommand);
+            removeCommand(selectCommand);
+        }
+
+        if (selectionMode && selected.shouldShowReplyOption()) {
+            addCommand(replyCommand);
+        } else {
+            removeCommand(replyCommand);
+        }
     }
 
     protected void paint(Graphics g) {
@@ -256,7 +307,7 @@ public class ChannelView extends Canvas implements CommandListener {
         if (width != getWidth() || height != getHeight()) {
             width = getWidth();
             height = getHeight();
-            update(true);
+            update(true, false);
         }
 
         // BlackBerry fix
@@ -266,56 +317,17 @@ public class ChannelView extends Canvas implements CommandListener {
             makeSelectedItemVisible();
 
             ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
-
-            if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
-                if (selected.type == ChannelViewItem.MESSAGE) {
-                    removeCommand(selectCommand);
-
-                    if ("(no content)".equals(selected.msg.content)) {
-                        removeCommand(copyCommand);
-                    } else {
-                        addCommand(copyCommand);
-                    }
-
-                    if (Util.indexOfAny(selected.msg.content, URLList.urlStarts, 0) != -1) {
-                        addCommand(openUrlCommand);
-                    } else {
-                        removeCommand(openUrlCommand);
-                    }
-
-                    if (s.myUserId.equals(selected.msg.author.id)) {
-                        addCommand(editCommand);
-                        addCommand(deleteCommand);
-                    } else {
-                        removeCommand(editCommand);
-                        removeCommand(deleteCommand);
-                    }
-                } else {
-                    removeCommand(openUrlCommand);
-                    removeCommand(copyCommand);
-                    addCommand(selectCommand);
-                }
-            } else {
-                removeCommand(openUrlCommand);
-                removeCommand(copyCommand);
-                removeCommand(selectCommand);
-            }
-
-            if (selectionMode && selected.shouldShowReplyOption()) {
-                addCommand(replyCommand);
-            } else {
-                removeCommand(replyCommand);
-            }
+            updateCommands(selected);
         }
 
         g.setFont(s.messageFont);
         g.setColor(backgroundColors[s.theme]);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        g.fillRect(0, 0, width, height);
 
         if (items.size() == 0) {
             g.setColor(timestampColors[s.theme]);
             g.drawString(
-                "Nothing to see here", getWidth()/2, getHeight()/2 - messageFontHeight/2,
+                "Nothing to see here", width/2, height/2 - messageFontHeight/2,
                 Graphics.HCENTER | Graphics.TOP
             );
         } else {
@@ -325,10 +337,10 @@ public class ChannelView extends Canvas implements CommandListener {
                 int itemHeight = item.getHeight();
                 
                 if (y + itemHeight >= 0) {
-                    item.draw(g, y, getWidth(), selectionMode && i == selectedItem);
+                    item.draw(g, y, width, i == selectedItem && selectionMode);
                 }
                 y += itemHeight;
-                if (y > getHeight()) break;
+                if (y > height) break;
             }
         }
 
@@ -336,14 +348,14 @@ public class ChannelView extends Canvas implements CommandListener {
 
         if (bannerText != null) {
             g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap(bannerText, getWidth(), s.messageFont);
+            String[] lines = Util.wordWrap(bannerText, width, s.messageFont);
             g.setColor(0x005865f2);
-            g.fillRect(0, 0, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
+            g.fillRect(0, 0, width, messageFontHeight*lines.length + messageFontHeight/4);
 
             g.setColor(0x00FFFFFF);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
-                    lines[i], getWidth()/2, i*messageFontHeight + messageFontHeight/8,
+                    lines[i], width/2, i*messageFontHeight + messageFontHeight/8,
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
@@ -352,14 +364,14 @@ public class ChannelView extends Canvas implements CommandListener {
 
         if (outdated) {
             g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap("Refresh to read new messages", getWidth(), s.messageFont);
+            String[] lines = Util.wordWrap("Refresh to read new messages", width, s.messageFont);
             g.setColor(0x00AA1122);
-            g.fillRect(0, bannerY, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
+            g.fillRect(0, bannerY, width, messageFontHeight*lines.length + messageFontHeight/4);
 
             g.setColor(0x00FFFFFF);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
-                    lines[i], getWidth()/2, bannerY + i*messageFontHeight + messageFontHeight/8,
+                    lines[i], width/2, bannerY + i*messageFontHeight + messageFontHeight/8,
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
@@ -376,14 +388,14 @@ public class ChannelView extends Canvas implements CommandListener {
             }
 
             g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap(typingStr, getWidth(), s.messageFont);
+            String[] lines = Util.wordWrap(typingStr, width, s.messageFont);
             g.setColor(darkBgColors[s.theme]);
-            g.fillRect(0, bannerY, getWidth(), messageFontHeight*lines.length + messageFontHeight/4);
+            g.fillRect(0, bannerY, width, messageFontHeight*lines.length + messageFontHeight/4);
 
             g.setColor(authorColors[s.theme]);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
-                    lines[i], getWidth()/2, bannerY + i*messageFontHeight + messageFontHeight/8,
+                    lines[i], width/2, bannerY + i*messageFontHeight + messageFontHeight/8,
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
@@ -534,6 +546,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
+            s.unreads.save();
             s.channelIsOpen = false;
             if (s.isDM) s.openDMSelector(false);
             else s.openChannelSelector(false);

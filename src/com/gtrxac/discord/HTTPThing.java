@@ -88,7 +88,7 @@ public class HTTPThing {
                 b = data.getBytes();
             }
 
-            if (s.tokenType != State.TOKEN_TYPE_HEADER) {
+            if (s.tokenType == State.TOKEN_TYPE_HEADER) {
                 c.setRequestProperty("Content-Length", String.valueOf(b.length));
             }
 

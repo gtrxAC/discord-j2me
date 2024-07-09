@@ -33,6 +33,8 @@ public class Message {
     public Vector embeds;
     public boolean showAuthor;
 
+    public boolean needUpdate;  // does this message's contentlines need to be updated before next draw
+
     public Message(State s, JSONObject data) {
         id = data.getString("id");
         author = new User(s, data.getObject("author"));
@@ -222,6 +224,9 @@ public class Message {
         // This message or above message is a status message -> true
         if (isStatus || above.isStatus) return true;
 
+        // One of the messages is a reply (but not both) -> true
+        if ((above.recipient == null) != (recipient == null)) return true;
+
         // Message was sent more than 7 minutes after the first message of the cluster -> true
         long thisMsgTime = Long.parseLong(id) >> 22;
         long firstMsgTime = Long.parseLong(clusterStart) >> 22;
@@ -229,8 +234,7 @@ public class Message {
 
         // Neither message is a reply -> false
         if (above.recipient == null && recipient == null) return false;
-        // One of the messages is a reply (but not both) -> true
-        if ((above.recipient == null) != (recipient == null)) return true;
+        
         // Different recipients -> true
         return !above.recipient.equals(recipient);
     }
@@ -240,5 +244,6 @@ public class Message {
         isStatus = true;
         embeds = null;
         attachments = null;
+        needUpdate = true;
     }
 }
