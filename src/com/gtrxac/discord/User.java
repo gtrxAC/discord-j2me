@@ -2,10 +2,9 @@ package com.gtrxac.discord;
 
 import cc.nnproject.json.JSONObject;
 
-public class User implements HasIcon {
+public class User {
     String id;
     String name;
-    String iconHash;
 
     // For placeholder icon
     int iconColor;
@@ -20,8 +19,6 @@ public class User implements HasIcon {
         }
 
         if (s.iconType == State.ICON_TYPE_NONE) return;
-
-        iconHash = data.getString("avatar", null);
 
         StringBuffer initialsBuf = new StringBuffer();
         initialsBuf.append(name.charAt(0));
@@ -40,14 +37,4 @@ public class User implements HasIcon {
 
         iconColor = Util.hsvToRgb((int) Long.parseLong(id) % 360, 192, 224);
     }
-
-    public String getIconID() { return id; }
-    public String getIconHash() { return iconHash; }
-    public String getIconType() { return "/avatars/"; }
-
-    public void iconLoaded(State s) {
-        if (s.channelView != null) s.channelView.repaint();
-    }
-
-    public void largeIconLoaded(State s) { iconLoaded(s); }
 }

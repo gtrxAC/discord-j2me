@@ -9,7 +9,7 @@
 -injars  in.jar
 -outjars out.jar
 
--libraryjars sdk/midpapi20.jar
+-libraryjars sdk/midpapi10.jar
 -libraryjars sdk/cldcapi11.jar
 -libraryjars sdk/jsr75.jar
 

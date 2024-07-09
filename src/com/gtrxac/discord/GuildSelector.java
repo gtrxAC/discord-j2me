@@ -51,31 +51,6 @@ public class GuildSelector extends List implements CommandListener {
         }
         if (c == List.SELECT_COMMAND) {
             Guild newGuild = (Guild) s.guilds.elementAt(getSelectedIndex());
-
-            // If gateway is active, subscribe to typing events for this server, if not already subscribed
-            if (s.gateway != null && s.gateway.isAlive() && s.subscribedGuilds.indexOf(newGuild.id) == -1) {
-                JSONObject subGuild = new JSONObject();
-                subGuild.put("typing", true);
-
-                JSONObject subList = new JSONObject();
-                subList.put(newGuild.id, subGuild);
-
-                JSONObject subData = new JSONObject();
-                subData.put("subscriptions", subList);
-
-                JSONObject subMsg = new JSONObject();
-                subMsg.put("op", 37);
-                subMsg.put("d", subData);
-
-                try {
-                    s.gateway.os.write((subMsg.build() + "\n").getBytes());
-                    s.gateway.os.flush();
-                }
-                catch (Exception e) {}
-
-                s.subscribedGuilds.addElement(newGuild.id);
-            }
-
             s.selectedGuild = newGuild;
             s.openChannelSelector(false);
         }

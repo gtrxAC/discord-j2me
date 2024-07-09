@@ -15,8 +15,8 @@ PATHSEP=":"
 [[ $(uname) == "Windows_NT" ]] && PATHSEP=";"
 
 ${OLD_JAVA_HOME}/bin/javac `find src -name '*'.java` -d classes \
-    -source 1.3 -target 1.3 \
-    -bootclasspath "sdk/cldcapi10.jar${PATHSEP}sdk/midpapi20.jar${PATHSEP}sdk/jsr75.jar"
+    -source 1.2 -target 1.2 \
+    -bootclasspath "sdk/cldcapi10.jar:sdk/midpapi10.jar:sdk/jsr75.jar"
 
 echo "Creating jar"
 ${JAVA_HOME}/bin/jar cvfm in.jar manifest.mf -C classes . -C assets .

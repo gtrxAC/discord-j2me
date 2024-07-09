@@ -18,7 +18,6 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command editCommand;
     private Command deleteCommand;
     private Command refreshCommand;
-    private Command openUrlCommand;
 
     public Vector items;
 
@@ -62,13 +61,12 @@ public class ChannelView extends Canvas implements CommandListener {
 
         backCommand = new Command("Back", Command.BACK, 0);
         selectCommand = new Command("Select", Command.OK, 1);
-        sendCommand = new Command("Send", "Send message", Command.ITEM, 2);
+        sendCommand = new Command("Send", Command.ITEM, 2);
         replyCommand = new Command("Reply", Command.ITEM, 3);
-        uploadCommand = new Command("Upload", "Upload file", Command.ITEM, 4);
-        copyCommand = new Command("Copy", "Copy content", Command.ITEM, 5);
+        uploadCommand = new Command("Upload", Command.ITEM, 4);
+        copyCommand = new Command("Copy", Command.ITEM, 5);
         editCommand = new Command("Edit", Command.ITEM, 6);
         deleteCommand = new Command("Delete", Command.ITEM, 7);
-        openUrlCommand = new Command("Open URL", Command.ITEM, 8);
         refreshCommand = new Command("Refresh", Command.ITEM, 9);
 
         messageFontHeight = s.messageFont.getHeight();
@@ -98,17 +96,6 @@ public class ChannelView extends Canvas implements CommandListener {
         }
         updating = true;
         
-        if (s.isDM) {
-            if (s.selectedDmChannel.isGroup) {
-                setTitle(s.selectedDmChannel.name);
-            } else {
-                setTitle("@" + s.selectedDmChannel.name);
-            }
-        } else {
-            setTitle("#" + s.selectedChannel.name);
-        }
-
-        if (page > 0) setTitle(getTitle() + " (old)");
         items = new Vector();
 
         int oldMaxScroll = maxScroll;
@@ -138,12 +125,14 @@ public class ChannelView extends Canvas implements CommandListener {
 
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
+            boolean needUpdate = msg.needUpdate;
 
             boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
             int width = getWidth() - (useIcons ? messageFontHeight*2 : 0);
 
-            if (msg.contentLines == null || wasResized) {
+            if (msg.contentLines == null || wasResized || needUpdate) {
                 msg.contentLines = Util.wordWrap(msg.content, width, s.messageFont);
+                msg.needUpdate = false;
             }
 
             if (msg.attachments != null && msg.attachments.size() > 0) {
@@ -158,11 +147,13 @@ public class ChannelView extends Canvas implements CommandListener {
                     Embed emb = (Embed) msg.embeds.elementAt(e);
                     int embedTextWidth = width - messageFontHeight/2 - messageFontHeight*2/3;
 
-                    if (emb.title != null) {
+                    if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
                         emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.messageFont);
+                        msg.needUpdate = false;
                     }
-                    if (emb.description != null) {
+                    if ((wasResized || emb.descLines == null || needUpdate) && emb.description != null) {
                         emb.descLines = Util.wordWrap(emb.description, embedTextWidth, s.messageFont);
+                        msg.needUpdate = false;
                     }
                 }
             }
@@ -271,19 +262,13 @@ public class ChannelView extends Canvas implements CommandListener {
                 if (selected.type == ChannelViewItem.MESSAGE) {
                     removeCommand(selectCommand);
 
-                    if ("(no content)".equals(selected.msg.content)) {
+                    if ("(no content)".equals(selected.msg.content) || selected.msg.isStatus) {
                         removeCommand(copyCommand);
                     } else {
                         addCommand(copyCommand);
                     }
 
-                    if (Util.indexOfAny(selected.msg.content, URLList.urlStarts, 0) != -1) {
-                        addCommand(openUrlCommand);
-                    } else {
-                        removeCommand(openUrlCommand);
-                    }
-
-                    if (s.myUserId.equals(selected.msg.author.id)) {
+                    if (s.myUserId.equals(selected.msg.author.id) && !selected.msg.isStatus) {
                         addCommand(editCommand);
                         addCommand(deleteCommand);
                     } else {
@@ -291,12 +276,10 @@ public class ChannelView extends Canvas implements CommandListener {
                         removeCommand(deleteCommand);
                     }
                 } else {
-                    removeCommand(openUrlCommand);
                     removeCommand(copyCommand);
                     addCommand(selectCommand);
                 }
             } else {
-                removeCommand(openUrlCommand);
                 removeCommand(copyCommand);
                 removeCommand(selectCommand);
             }
@@ -567,7 +550,9 @@ public class ChannelView extends Canvas implements CommandListener {
                 else {
                     String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
                     String url = s.http.api + "/upload?channel=" + id + "&token=" + s.http.token;
-                    s.platformRequest(url);
+                    
+                    MessageCopyBox copyBox = new MessageCopyBox(s, "Upload file", "Open this URL in your browser to upload a file: " + url);
+                    s.disp.setCurrent(copyBox);
                 }
             }
             catch (Exception e) {
@@ -578,9 +563,6 @@ public class ChannelView extends Canvas implements CommandListener {
 
         if (c == copyCommand) {
             s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
-        }
-        if (c == openUrlCommand) {
-            s.disp.setCurrent(new URLList(s, item.msg.content));
         }
         if (c == deleteCommand) {
             if (!s.isLiteProxy) {

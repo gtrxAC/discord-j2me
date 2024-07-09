@@ -63,7 +63,7 @@ public class AttachmentPicker extends List implements CommandListener {
     }
 
     private void listFiles() {
-        deleteAll();
+        while (size() > 0) delete(0);
         try {
             if (currentPath.equals("file:///")) {
                 Enumeration roots = FileSystemRegistry.listRoots();

@@ -18,7 +18,6 @@ public class HTTPThread extends Thread {
     static final int FETCH_ATTACHMENTS = 5;
     static final int FETCH_ICON = 6;
     static final int SEND_ATTACHMENT = 7;
-    static final int VIEW_ATTACHMENT_TEXT = 8;
     static final int EDIT_MESSAGE = 9;
     static final int DELETE_MESSAGE = 10;
 
@@ -38,9 +37,6 @@ public class HTTPThread extends Thread {
     // Parameters for SEND_ATTACHMENT
     String attachPath;
     String attachName;
-
-    // Parameters for VIEW_ATTACHMENT_TEXT
-    Attachment viewAttach;
 
     // Parameters for EDIT_MESSAGE
     Message editMessage;
@@ -93,7 +89,6 @@ public class HTTPThread extends Thread {
             }
             catch (Exception e) {
                 s.myUserId = "";
-                s.error(e.toString());
             }
         }
         
@@ -112,26 +107,6 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_CHANNELS: {
-                    // Fetch role data (role colors) for this server if needed
-                    if (s.gateway != null && s.gateway.isAlive() && s.selectedGuild.roles == null && s.useNameColors) {
-                        String roleData = s.http.get("/guilds/" + s.selectedGuild.id + "/roles");
-                        JSONArray roleArr = JSON.getArray(roleData);
-
-                        s.selectedGuild.roles = new Vector();
-
-                        for (int i = roleArr.size() - 1; i >= 0; i--) {
-                            for (int a = roleArr.size() - 1; a >= 0; a--) {
-                                JSONObject data = roleArr.getObject(a);
-                                if (data.getInt("position", i) != i) continue;
-
-                                int color = data.getInt("color");
-                                if (color == 0) continue;
-
-                                s.selectedGuild.roles.addElement(new Role(data));
-                            }
-                        }
-                    }
-
                     s.selectedGuild.channels = Channel.parseChannels(
                         JSON.getArray(s.http.get("/guilds/" + s.selectedGuild.id + "/channels"))
                     );
@@ -192,16 +167,7 @@ public class HTTPThread extends Thread {
 
                     s.http.post("/channels/" + id + "/messages", json);
 
-                    // If gateway enabled, don't need to fetch new messages
-                    if (s.gateway != null && s.gateway.isAlive()) {
-                        if (!showLoad && s.channelView != null) {
-                            s.channelView.bannerText = null;
-                            s.channelView.repaint();
-                        }
-                        break;
-                    }
-
-                    // fall through (if gateway disabled, fetch messages because there might have 
+                    // fall through (fetch messages because there might have 
                     // been other messages sent during the time the user was writing their message)
                 }
 
@@ -259,7 +225,6 @@ public class HTTPThread extends Thread {
                     }
 
                     Vector attachments = s.attachmentView.msg.attachments;
-                    int layout = Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
                     for (int i = 0; i < attachments.size(); i++) {
                         Attachment attach = (Attachment) attachments.elementAt(i);
@@ -272,38 +237,17 @@ public class HTTPThread extends Thread {
                             // For videos, only the first frame is shown (Discord media proxy converts to image)
                             try {
                                 Image image = s.http.getImage(attach.previewUrl);
-                                ImageItem item = new ImageItem(null, image, Item.LAYOUT_DEFAULT, null);
-                                item.setLayout(layout);
+                                ImageItem item = new ImageItem(null, image, ImageItem.LAYOUT_DEFAULT, null);
                                 s.attachmentView.append(item);
                             }
                             catch (Exception e) {
                                 StringItem item = new StringItem(null, e.toString());
-                                item.setLayout(layout);
                                 s.attachmentView.append(item);
                             }
                         } else {
-                            if (attach.isText) {
-                                // Unsupported -> show a button to view it as text
-                                // Note: showCommand has a priority starting at 100, so when it's pressed, 
-                                //       we can distinguish it from 'open in browser' buttons
-                                Command showCommand = new Command("Show", Command.ITEM, i + 100);
-                                StringItem showButton = new StringItem(null, "Show as text", Item.BUTTON);
-                                showButton.setLayout(layout);
-                                showButton.setDefaultCommand(showCommand);
-                                showButton.setItemCommandListener(s.attachmentView);
-                                s.attachmentView.append(showButton);
-                            }
+                            StringItem item = new StringItem(null, "Attachment not supported");
+                            s.attachmentView.append(item);
                         }
-
-                        Command openCommand = new Command("Open", Command.ITEM, i);
-                        StringItem openButton = new StringItem(null, "Open in browser", Item.BUTTON);
-                        openButton.setLayout(layout);
-                        openButton.setDefaultCommand(openCommand);
-                        openButton.setItemCommandListener(s.attachmentView);
-                        s.attachmentView.append(openButton);
-
-                        Spacer sp = new Spacer(s.attachmentView.getWidth(), s.attachmentView.getHeight()/10);
-                        s.attachmentView.append(sp);
                     }
                     break;
                 }
@@ -387,21 +331,6 @@ public class HTTPThread extends Thread {
                     break;
                 }
 
-                case VIEW_ATTACHMENT_TEXT: {
-                    String text;
-                    byte[] textBytes = s.http.getBytes(viewAttach.browserUrl);
-                    try {
-                        text = new String(textBytes, "UTF-8");
-                    }
-                    catch (UnsupportedEncodingException e) {
-                        text = new String(textBytes);
-                    }
-                    MessageCopyBox copyBox = new MessageCopyBox(s, viewAttach.name, text);
-                    copyBox.lastScreen = s.attachmentView;
-                    s.disp.setCurrent(copyBox);
-                    break;
-                }
-
                 case EDIT_MESSAGE: {
                     if (!showLoad && s.channelView != null) {
                         s.channelView.bannerText = "Editing message";
@@ -415,17 +344,15 @@ public class HTTPThread extends Thread {
                     String path = "/channels/" + channelId + "/messages/" + editMessage.id + "/edit";
                     s.http.post(path, newMessage);
 
-                    // Manually update message content if gateway disabled
-                    // (if enabled, new message content will come through gateway event)
-                    if (s.gateway == null || !s.gateway.isAlive()) {
-                        editMessage.content = editContent;
-                        editMessage.rawContent = editContent;
+                    // Manually update message content
+                    editMessage.content = editContent;
+                    editMessage.rawContent = editContent;
+                    editMessage.needUpdate = true;
 
-                        if (s.oldUI) {
-                            s.oldChannelView.update();
-                        } else {
-                            s.channelView.update(false);
-                        }
+                    if (s.oldUI) {
+                        s.oldChannelView.update();
+                    } else {
+                        s.channelView.update(false);
                     }
 
                     if (!showLoad && s.channelView != null) {
@@ -445,16 +372,13 @@ public class HTTPThread extends Thread {
 
                     s.http.get("/channels/" + channelId + "/messages/" + editMessage.id + "/delete");
 
-                    // Manually update message to be deleted if gateway disabled
-                    // (if enabled, deletion event will come through gateway)
-                    if (s.gateway == null || !s.gateway.isAlive()) {
-                        editMessage.delete();
+                    // Manually update message to be deleted
+                    editMessage.delete();
 
-                        if (s.oldUI) {
-                            s.oldChannelView.update();
-                        } else {
-                            s.channelView.update(false);
-                        }
+                    if (s.oldUI) {
+                        s.oldChannelView.update();
+                    } else {
+                        s.channelView.update(false);
                     }
 
                     if (!showLoad && s.channelView != null) {

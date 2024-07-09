@@ -14,7 +14,6 @@ public class LoadingScreen extends Form implements CommandListener {
         prevScreen = s.disp.getCurrent();
 
         text = new StringItem(null, "Loading");
-        text.setLayout(Item.LAYOUT_VEXPAND | Item.LAYOUT_VCENTER | Item.LAYOUT_CENTER);
         append(text);
 
         backCommand = new Command("Cancel", Command.BACK, 1);

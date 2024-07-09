@@ -72,7 +72,6 @@ public class ChannelViewItem {
         boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
 
         int iconSize = messageFontHeight*4/3;
-        s.iconCache.scaleSize = iconSize;
 
         switch (type) {
             case MESSAGE: {
@@ -89,50 +88,33 @@ public class ChannelViewItem {
                 if (msg.showAuthor) {
                     // Draw icon
                     if (useIcons) {
-                        Image icon = s.iconCache.getLarge(msg.author);
                         int iconX = messageFontHeight/3;
                         int iconY = y + messageFontHeight/6;
 
-                        if (icon != null) {
-                            // Icon is loaded, draw it
-                            g.drawImage(icon, iconX, iconY, Graphics.TOP | Graphics.LEFT);
+                        // draw a placeholder with the username's
+                        // initials on a background whose color is determined by the user ID
+                        g.setColor(msg.author.iconColor);
+
+                        if (s.iconType == State.ICON_TYPE_CIRCLE) {
+                            g.fillArc(iconX, iconY, iconSize, iconSize, 0, 360);
                         } else {
-                            // Icon is not loaded, draw a placeholder with the username's
-                            // initials on a background whose color is determined by the user ID
-                            g.setColor(msg.author.iconColor);
-
-                            if (s.iconType == State.ICON_TYPE_CIRCLE || s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
-                                g.fillArc(iconX, iconY, iconSize, iconSize, 0, 360);
-                            } else {
-                                g.fillRect(iconX, iconY, iconSize, iconSize);
-                            }
-
-                            g.setColor(0x00FFFFFF);
-                            g.setFont(s.messageFont);
-                            g.drawString(
-                                msg.author.initials,
-                                iconX + iconSize/2,
-                                iconY + iconSize/2 - messageFontHeight/2,
-                                Graphics.TOP | Graphics.HCENTER
-                            );
+                            g.fillRect(iconX, iconY, iconSize, iconSize);
                         }
+
+                        g.setColor(0x00FFFFFF);
+                        g.setFont(s.messageFont);
+                        g.drawString(
+                            msg.author.initials,
+                            iconX + iconSize/2,
+                            iconY + iconSize/2 - messageFontHeight/2,
+                            Graphics.TOP | Graphics.HCENTER
+                        );
                     }
 
                     // Draw author (and recipient if applicable)
-                    int authorColor = s.nameColorCache.get(msg.author);
-                    if (authorColor == 0) authorColor = ChannelView.authorColors[s.theme];
-
-                    int recipientColor;
-                    if (msg.recipientID != null) {
-                        recipientColor = s.nameColorCache.get(msg.recipientID);
-                        if (recipientColor == 0) recipientColor = ChannelView.authorColors[s.theme];
-                    } else {
-                        recipientColor = ChannelView.authorColors[s.theme];
-                    }
-                    
                     int authorX = x;
 
-                    g.setColor(authorColor);
+                    g.setColor(ChannelView.authorColors[s.theme]);
                     g.setFont(s.authorFont);
                     g.drawString(msg.author.name, authorX, y, Graphics.TOP | Graphics.LEFT);
 
@@ -146,7 +128,7 @@ public class ChannelViewItem {
                         authorX += s.timestampFont.stringWidth(" -> ");
 
                         g.setFont(s.authorFont);
-                        g.setColor(recipientColor);
+                        g.setColor(ChannelView.authorColors[s.theme]);
                         g.drawString(msg.recipient, authorX, y, Graphics.TOP | Graphics.LEFT);
 
                         authorX += s.authorFont.stringWidth(msg.recipient);

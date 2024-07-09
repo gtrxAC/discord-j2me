@@ -17,7 +17,6 @@ public class DMSearchForm extends Form implements CommandListener {
         this.s = s;
 
         textField = new TextField("Enter username", "", 32, 0);
-        textField.setInitialInputMode("MIDP_LOWERCASE_LATIN");
         okCommand = new Command("OK", Command.OK, 0);
         backCommand = new Command("Back", Command.BACK, 1);
 

@@ -28,10 +28,11 @@ public class Message {
 
     // fields for non-status messages
     public String recipient;
-    public String recipientID;  // only used for name colors (null if not needed)
     public Vector attachments;
     public Vector embeds;
     public boolean showAuthor;
+
+    public boolean needUpdate;  // does this message's contentlines need to be updated before next draw
 
     public Message(State s, JSONObject data) {
         id = data.getString("id");
@@ -106,10 +107,6 @@ public class Message {
                 JSONObject recipientObj = data
                     .getObject("referenced_message")
                     .getObject("author");
-
-                if (s.gateway != null && s.gateway.isAlive() && s.useNameColors) {
-                    recipientID = recipientObj.getString("id");
-                }
 
                 recipient = recipientObj.getString("global_name", null);
                 if (recipient == null) {
@@ -240,5 +237,6 @@ public class Message {
         isStatus = true;
         embeds = null;
         attachments = null;
+        needUpdate = true;
     }
 }

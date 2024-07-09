@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class OldChannelView extends Form implements CommandListener, ItemCommandListener {
+public class OldChannelView extends Form implements CommandListener {
     State s;
 
     private Command backCommand;
@@ -30,27 +30,13 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
         s.channelIsOpen = true;
 
         backCommand = new Command("Back", Command.BACK, 0);
-        sendCommand = new Command("Send", "Send message", Command.ITEM, 1);
+        sendCommand = new Command("Send", Command.ITEM, 1);
         refreshCommand = new Command("Refresh", Command.ITEM, 2);
-        olderCommand = new Command("Older", "View older messages", Command.ITEM, 3);
-        newerCommand = new Command("Newer", "View newer messages", Command.ITEM, 4);
+        olderCommand = new Command("Older", Command.ITEM, 3);
+        newerCommand = new Command("Newer", Command.ITEM, 4);
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
-
-        int layout = Item.LAYOUT_EXPAND | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
-
-        olderButton = new StringItem(null, "View older messages", Item.BUTTON);
-        olderButton.setFont(s.messageFont);
-        olderButton.setLayout(layout);
-        olderButton.setDefaultCommand(olderCommand);
-        olderButton.setItemCommandListener(this);
-
-        newerButton = new StringItem(null, "View newer messages", Item.BUTTON);
-        newerButton.setFont(s.messageFont);
-        newerButton.setLayout(layout);
-        newerButton.setDefaultCommand(newerCommand);
-        newerButton.setItemCommandListener(this);
 
         update();
     }
@@ -68,7 +54,7 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
     }
 
     public void update() {
-        deleteAll();
+        while (size() > 0) delete(0);
 
         if (s.typingUsers != null && s.typingUsers.size() > 0) {
             String typingStr;
@@ -80,12 +66,14 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
             }
 
             StringItem typingItem = new StringItem(null, typingStr);
-            typingItem.setFont(s.messageFont);
-            typingItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
             append(typingItem);
         }
 
-        if (s.messages.size() > 0 && page > 0) append(newerButton);
+        if (s.messages.size() > 0 && page > 0) {
+            addCommand(olderCommand);
+        } else {
+            removeCommand(olderCommand);
+        }
         
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
@@ -93,15 +81,14 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
                 msg.author.name + (msg.recipient != null ? (" -> " + msg.recipient) : "") + "  " + msg.timestamp,
                 msg.content
             );
-            msgItem.setFont(s.messageFont);
-            msgItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
             append(msgItem);
         }
 
         if (s.messages.size() == 0) {
             append("Nothing to see here");
+            removeCommand(olderCommand);
         } else {
-            append(olderButton);
+            addCommand(olderCommand);
         }
     }
 
@@ -116,21 +103,6 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
         }
         if (c == refreshCommand) {
             s.openChannelView(true);
-        }
-    }
-
-    public void commandAction(Command c, Item i) {
-        if (c == olderCommand) {
-            page++;
-            after = null;
-            before = ((Message) s.messages.elementAt(s.messages.size() - 1)).id;
-            getMessages();
-        }
-        if (c == newerCommand) {
-            page--;
-            before = null;
-            after = ((Message) s.messages.elementAt(0)).id;
-            getMessages();
         }
     }
 }

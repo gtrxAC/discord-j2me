@@ -10,7 +10,10 @@ public class State {
 	public static final int ICON_TYPE_NONE = 0;
 	public static final int ICON_TYPE_SQUARE = 1;
 	public static final int ICON_TYPE_CIRCLE = 2;
-	public static final int ICON_TYPE_CIRCLE_HQ = 3;
+
+	static final int TOKEN_TYPE_HEADER = 0;
+	static final int TOKEN_TYPE_JSON = 1;
+	static final int TOKEN_TYPE_QUERY = 2;
 
 	MIDlet midlet;
 	Display disp;
@@ -18,18 +21,14 @@ public class State {
 	int theme;  // 0 = dark, 1 = light, 2 = black
 	boolean oldUI;
 	boolean use12hTime;
-	boolean useGateway;
 	boolean bbWifi;
 	int messageLoadCount;
 	boolean useJpeg;
 	int attachmentSize;
 	int iconType;
-	int iconSize;  // 0 = draw placeholder pfp with initials, 1 = 16px, 2 = 32px
+	int iconSize;  // 0 = off, 1 = 16px, 2 = 32px
 	boolean nativeFilePicker;
-	boolean autoReConnect;
-	boolean showMenuIcons;
-	boolean tokenInJson;
-	boolean useNameColors;
+	int tokenType;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -39,14 +38,12 @@ public class State {
 	Font titleFont;
 
 	HTTPThing http;
-	GatewayThread gateway;
 	String cdn;
 
 	String myUserId;
 	boolean isLiteProxy;
 
 	IconCache iconCache;
-	NameColorCache nameColorCache;
 	UnreadManager unreads;
 
 	Vector guilds;
@@ -83,7 +80,6 @@ public class State {
 	public State() {
 		subscribedGuilds = new Vector();
 		iconCache = new IconCache(this);
-		nameColorCache = new NameColorCache(this);
 		unreads = new UnreadManager(this);
 	}
 
@@ -219,18 +215,6 @@ public class State {
 		}
 		catch (Exception e) {
 			error(e.toString());
-		}
-	}
-
-	public void platformRequest(String url) {
-		try {
-			if (midlet.platformRequest(url)) {
-				error("The app must be closed before the URL can be opened.");
-			}
-		}
-		catch (Exception e) {
-			String msg = "The URL could not be opened (" + e.toString() + ")\n\nYou may try manually copying the URL into your device's browser: " + url;
-			disp.setCurrent(new MessageCopyBox(this, "Error", msg));
 		}
 	}
 }
