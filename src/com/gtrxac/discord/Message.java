@@ -109,7 +109,7 @@ public class Message {
                     .getObject("referenced_message")
                     .getObject("author");
 
-                if (s.gateway != null && s.gateway.isAlive() && s.useNameColors) {
+                if (s.gatewayActive() && s.useNameColors) {
                     recipientID = recipientObj.getString("id");
                 }
 

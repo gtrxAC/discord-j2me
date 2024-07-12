@@ -8,18 +8,18 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class GatewayThread extends Thread {
-    State s;
-    String gateway;
-    String token;
+    private State s;
+    public String gateway;
+    public String token;
 
     volatile boolean stop;
     volatile String stopMessage;
 
-    HeartbeatThread hbThread;
+    private HeartbeatThread hbThread;
 
     private SocketConnection sc;
-    InputStream is;
-    OutputStream os;
+    private InputStream is;
+    private OutputStream os;
 
     public GatewayThread(State s, String gateway, String token) {
         this.s = s;
@@ -51,6 +51,14 @@ public class GatewayThread extends Thread {
         } else {
             s.disp.setCurrent(new GatewayAlert(s, message), s.disp.getCurrent());
         }
+    }
+
+    public void send(JSONObject msg) {
+        try {
+            os.write((msg.build() + "\n").getBytes());
+            os.flush();
+        }
+        catch (Exception e) {}
     }
 
     public void run() {
@@ -114,9 +122,7 @@ public class GatewayThread extends Thread {
                         connMsg.put("op", -1);
                         connMsg.put("t", "GATEWAY_CONNECT");
                         connMsg.put("d", connData);
-
-                        os.write((connMsg.build() + "\n").getBytes());
-                        os.flush();
+                        send(connMsg);
 
                         // Remove "Reconnecting" banner message if auto reconnected
                         if (s.channelView != null && "Reconnecting".equals(s.channelView.bannerText)) {

@@ -35,12 +35,7 @@ public class NameColorCache {
         JSONObject msg = new JSONObject();
         msg.put("op", 8);
         msg.put("d", reqData);
-        
-        try {
-            s.gateway.os.write((msg.build() + "\n").getBytes());
-            s.gateway.os.flush();
-        }
-        catch (Exception e) {}
+        s.gateway.send(msg);
     }
 
     public int get(String userId) {
@@ -55,7 +50,7 @@ public class NameColorCache {
         if (result != null) return result.intValue();
 
         // name colors cannot be fetched without gateway (technically can but isn't practical)
-        if (s.gateway == null || !s.gateway.isAlive()) return 0;
+        if (!s.gatewayActive()) return 0;
 
         if (!activeRequest) {
             activeRequest = true;

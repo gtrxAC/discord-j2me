@@ -1,6 +1,8 @@
 .vscode/
-sdk/
 classes/
+lib/
+tmpclasses/
+tmplib/
 node_modules/
 *.jad
 *.jar

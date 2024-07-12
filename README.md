@@ -1,11 +1,11 @@
 # Discord for J2ME
-Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian](https://github.com/uwmpr/discord-symbian-fixed). Uses proxy servers for the [HTTP](/proxy/) and [gateway](https://github.com/gtrxAC/discord-j2me-server) connection.
+Discord client for Java ME (MIDP 1.0 and 2.0) devices, inspired by [Discord for Symbian](https://github.com/uwmpr/discord-symbian-fixed). Uses proxy servers for the [HTTP](/proxy/) and [gateway](https://github.com/gtrxAC/discord-j2me-server) connection.
 
 ![Screenshots](img/screenshots.png)
 
 * [Download](https://github.com/gtrxAC/discord-j2me/releases/latest)
 * [FAQ](https://github.com/gtrxAC/discord-j2me/wiki/FAQ)
-* [Discord server](https://discord.gg/2GKuJjQagp) (#apps-and-games)
+* [Discord server](https://discord.gg/2GKuJjQagp) (#discord-j2me)
 * [Telegram group](https://t.me/dscforsymbian)
 
 ## Status
@@ -17,7 +17,7 @@ Discord client for Java ME (MIDP 2.0) devices, inspired by [Discord for Symbian]
 * Direct messages and group DMs
 * Attachment viewing
 * Attachment sending (<abbr title="Requires FileConnection API or HTML browser with file uploading support">device dependent</abbr>)
-* Gateway/live message updates (<abbr title="Not supported on some low-end Samsung devices">device dependent</abbr>)
+* Gateway/live message updates (<abbr title="Not supported on MIDP 1.0 and some low-end Samsung devices">device dependent</abbr>)
 * <abbr title="Not in sync with official clients">Unread message indicators</abbr>
 
 ### Not implemented

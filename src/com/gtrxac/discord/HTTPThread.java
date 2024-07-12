@@ -112,7 +112,7 @@ public class HTTPThread extends Thread {
 
                 case FETCH_CHANNELS: {
                     // Fetch role data (role colors) for this server if needed
-                    if (s.gateway != null && s.gateway.isAlive() && s.selectedGuild.roles == null && s.useNameColors) {
+                    if (s.gatewayActive() && s.selectedGuild.roles == null && s.useNameColors) {
                         String roleData = s.http.get("/guilds/" + s.selectedGuild.id + "/roles");
                         JSONArray roleArr = JSON.getArray(roleData);
 
@@ -192,7 +192,7 @@ public class HTTPThread extends Thread {
                     s.http.post("/channels/" + id + "/messages", json);
 
                     // If gateway enabled, don't need to fetch new messages
-                    if (s.gateway != null && s.gateway.isAlive()) {
+                    if (s.gatewayActive()) {
                         if (!showLoad && s.channelView != null) {
                             s.channelView.bannerText = null;
                             s.channelView.repaint();
@@ -416,7 +416,7 @@ public class HTTPThread extends Thread {
 
                     // Manually update message content if gateway disabled
                     // (if enabled, new message content will come through gateway event)
-                    if (s.gateway == null || !s.gateway.isAlive()) {
+                    if (!s.gatewayActive()) {
                         editMessage.content = editContent;
                         editMessage.rawContent = editContent;
                         editMessage.needUpdate = true;
@@ -447,7 +447,7 @@ public class HTTPThread extends Thread {
 
                     // Manually update message to be deleted if gateway disabled
                     // (if enabled, deletion event will come through gateway)
-                    if (s.gateway == null || !s.gateway.isAlive()) {
+                    if (!s.gatewayActive()) {
                         editMessage.delete();
 
                         if (s.oldUI) {

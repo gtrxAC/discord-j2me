@@ -117,6 +117,10 @@ public class State {
 		titleFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[messageFontSize]);
 	}
 
+	public boolean gatewayActive() {
+		return gateway != null && gateway.isAlive();
+	}
+
 	public static boolean isBlackBerry() {
 		String p = System.getProperty("microedition.platform");
 		if (p == null) p = "";

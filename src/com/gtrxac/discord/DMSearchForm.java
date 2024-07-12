@@ -31,9 +31,11 @@ public class DMSearchForm extends Form implements CommandListener {
             s.openDMSelector(false);
         }
         if (c == okCommand) {
+            String query = textField.getString().toLowerCase();
+
             for (int i = 0; i < s.dmChannels.size(); i++) {
                 DMChannel ch = (DMChannel) s.dmChannels.elementAt(i);
-                if (!ch.name.equals(textField.getString())) continue;
+                if (!ch.name.toLowerCase().equals(query) && !query.equals(ch.username)) continue;
 
                 s.isDM = true;
                 s.selectedDmChannel = ch;

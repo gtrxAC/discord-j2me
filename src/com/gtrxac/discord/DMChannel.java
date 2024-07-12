@@ -7,6 +7,7 @@ public class DMChannel implements HasIcon {
     boolean isGroup;
     public String id;
     public String name;
+    public String username;
     public long lastMessageID;
     public String iconID;  // for groups, group ID. for users, recipient ID (not DM channel ID)
     public String iconHash;
@@ -33,6 +34,8 @@ public class DMChannel implements HasIcon {
                 name = recipient.getString("global_name", null);
                 if (name == null) {
                     name = recipient.getString("username");
+                } else {
+                    username = recipient.getString("username", null);
                 }
 
                 iconID = recipient.getString("id");

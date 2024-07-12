@@ -12,8 +12,9 @@ public class Attachment {
 
     private static final String[] nonTextFormats = {
         ".zip", ".rar", ".7z",
-        ".exe", ".jar", ".sis", ".bin",
-        ".mp3", ".wav", ".ogg", ".m4a", ".amr", ".flac", ".mid", ".mmf"
+        ".exe", ".jar", ".sis", ".sisx", ".bin",
+        ".mp3", ".wav", ".ogg", ".m4a", ".amr", ".flac", ".mid", ".mmf",
+        ".mp4", ".3gp"
     };
 
     public Attachment(State s, JSONObject data) {
@@ -30,7 +31,7 @@ public class Attachment {
             supported = false;
 
             // Can be viewed as text if it's not one of the blacklisted file extensions
-            isText = (Util.indexOfAny(proxyUrl.toLowerCase(), nonTextFormats, 0) == -1);
+            isText = (Util.indexOfAny(name.toLowerCase(), nonTextFormats, 0) == -1);
 
             return;
         }
