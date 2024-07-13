@@ -84,6 +84,12 @@ public class State {
 	DMChannel selectedDmChannel;
 	DMSelector dmSelector;
 
+	int sendHotkey;
+	int replyHotkey;
+	int copyHotkey;
+	int refreshHotkey;
+	int backHotkey;
+
 	public State() {
 		subscribedGuilds = new Vector();
 		iconCache = new IconCache(this);

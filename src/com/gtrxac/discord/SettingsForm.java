@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import javax.microedition.rms.*;
 
-public class SettingsForm extends Form implements CommandListener {
+public class SettingsForm extends Form implements CommandListener, ItemCommandListener {
     State s;
     private RecordStore loginRms;
 
@@ -16,8 +16,10 @@ public class SettingsForm extends Form implements CommandListener {
     private TextField attachSizeField;
     private ChoiceGroup iconGroup;
     private ChoiceGroup iconSizeGroup;
+    private StringItem keyMapperItem;
     private Command saveCommand;
     private Command cancelCommand;
+    private Command openMapperCommand;
 
     public SettingsForm(State s) {
         super("Settings");
@@ -65,6 +67,11 @@ public class SettingsForm extends Form implements CommandListener {
         iconSizeGroup = new ChoiceGroup("Icon size", ChoiceGroup.EXCLUSIVE, iconSizeChoices, iconSizeImages);
         iconSizeGroup.setSelectedIndex(s.iconSize, true);
 
+        openMapperCommand = new Command("Map keys", Command.ITEM, 2);
+        keyMapperItem = new StringItem(null, "Remap hotkeys", Item.BUTTON);
+        keyMapperItem.setDefaultCommand(openMapperCommand);
+        keyMapperItem.setItemCommandListener(this);
+
         saveCommand = new Command("Save", Command.OK, 0);
         cancelCommand = new Command("Cancel", Command.BACK, 1);
 
@@ -77,8 +84,46 @@ public class SettingsForm extends Form implements CommandListener {
         append(attachSizeField);
         append(iconGroup);
         append(iconSizeGroup);
+        append(keyMapperItem);
         addCommand(saveCommand);
         addCommand(cancelCommand);
+    }
+
+    private void setRecord(int index, byte[] value) throws Exception {
+        if (loginRms.getNumRecords() >= index) {
+            loginRms.setRecord(index, value, 0, value.length);
+        } else {
+            loginRms.addRecord(value, 0, value.length);
+        }
+    }
+
+    private void setByteRecord(int index, int value) throws Exception {
+        byte[] record = {new Integer(value).byteValue()};
+        setRecord(index, record);
+    }
+
+    private void setBoolRecord(int index, boolean value) throws Exception {
+        setByteRecord(index, value ? 1 : 0);
+    }
+
+    private void setIntRecord(int index, int value) throws Exception {
+        byte[] record = new Integer(value).toString().getBytes();
+        setRecord(index, record);
+    }
+
+    public void saveKeyMappings() {
+        try {
+            loginRms = RecordStore.openRecordStore("login", true);
+            setIntRecord(22, s.sendHotkey);
+            setIntRecord(23, s.replyHotkey);
+            setIntRecord(24, s.copyHotkey);
+            setIntRecord(25, s.refreshHotkey);
+            setIntRecord(26, s.backHotkey);
+            loginRms.closeRecordStore();
+        }
+        catch (Exception e) {
+            s.error(e.toString());
+        }
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -120,101 +165,20 @@ public class SettingsForm extends Form implements CommandListener {
                 s.useNameColors = selected[5];
 
                 loginRms = RecordStore.openRecordStore("login", true);
-                byte[] themeRecord = {new Integer(s.theme).byteValue()};
-                byte[] uiRecord = {new Integer(s.oldUI ? 1 : 0).byteValue()};
-                byte[] use12hRecord = {new Integer(s.use12hTime ? 1 : 0).byteValue()};
-                byte[] authorFontRecord = {new Integer(s.authorFontSize).byteValue()};
-                byte[] messageFontRecord = {new Integer(s.messageFontSize).byteValue()};
-                byte[] messageCountRecord = {new Integer(s.messageLoadCount).byteValue()};
-                byte[] jpegRecord = {new Integer(s.useJpeg ? 1 : 0).byteValue()};
-                byte[] iconTypeRecord = {new Integer(s.iconType).byteValue()};
-                byte[] iconSizeRecord = {new Integer(s.iconSize).byteValue()};
-                byte[] attachSizeRecord = new Integer(s.attachmentSize).toString().getBytes();
-                byte[] nativePickerRecord = {new Integer(s.nativeFilePicker ? 1 : 0).byteValue()};
-                byte[] autoReConnectRecord = {new Integer(s.autoReConnect ? 1 : 0).byteValue()};
-                byte[] menuIconsRecord = {new Integer(s.showMenuIcons ? 1 : 0).byteValue()};
-                byte[] nameColorsRecord = {new Integer(s.useNameColors ? 1 : 0).byteValue()};
-
-                if (loginRms.getNumRecords() >= 3) {
-                    loginRms.setRecord(3, themeRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(themeRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 4) {
-                    loginRms.setRecord(4, uiRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(uiRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 7) {
-                    loginRms.setRecord(6, authorFontRecord, 0, 1);
-                    loginRms.setRecord(7, messageFontRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(authorFontRecord, 0, 1);
-                    loginRms.addRecord(messageFontRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 8) {
-                    loginRms.setRecord(8, use12hRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(use12hRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 9) {
-                    loginRms.setRecord(9, messageCountRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(messageCountRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 12) {
-                    loginRms.setRecord(12, jpegRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(jpegRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 14) {
-                    loginRms.setRecord(14, iconTypeRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(iconTypeRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 15) {
-                    loginRms.setRecord(15, attachSizeRecord, 0, attachSizeRecord.length);
-                } else {
-                    loginRms.addRecord(attachSizeRecord, 0, attachSizeRecord.length);
-                }
-
-                if (loginRms.getNumRecords() >= 16) {
-                    loginRms.setRecord(16, iconSizeRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(iconSizeRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 17) {
-                    loginRms.setRecord(17, nativePickerRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(nativePickerRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 18) {
-                    loginRms.setRecord(18, autoReConnectRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(autoReConnectRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 19) {
-                    loginRms.setRecord(19, menuIconsRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(menuIconsRecord, 0, 1);
-                }
-
-                if (loginRms.getNumRecords() >= 21) {
-                    loginRms.setRecord(21, nameColorsRecord, 0, 1);
-                } else {
-                    loginRms.addRecord(nameColorsRecord, 0, 1);
-                }
-
+                setByteRecord(3, s.theme);
+                setBoolRecord(4, s.oldUI);
+                setByteRecord(6, s.authorFontSize);
+                setByteRecord(7, s.messageFontSize);
+                setBoolRecord(8, s.use12hTime);
+                setByteRecord(9, s.messageLoadCount);
+                setBoolRecord(12, s.useJpeg);
+                setByteRecord(14, s.iconType);
+                setIntRecord(15, s.attachmentSize);
+                setByteRecord(16, s.iconSize);
+                setBoolRecord(17, s.nativeFilePicker);
+                setBoolRecord(18, s.autoReConnect);
+                setBoolRecord(19, s.showMenuIcons);
+                setBoolRecord(21, s.useNameColors);
                 loginRms.closeRecordStore();
             }
             catch (Exception e) {
@@ -223,5 +187,11 @@ public class SettingsForm extends Form implements CommandListener {
         }
         s.loadFonts();
         s.disp.setCurrent(new MainMenu(s));
+    }
+    
+    public void commandAction(Command c, Item i) {
+        if (c == openMapperCommand) {
+            s.disp.setCurrent(new KeyMapper(s));
+        }
     }
 }

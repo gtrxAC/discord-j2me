@@ -39,93 +39,48 @@ public class LoginForm extends Form implements CommandListener {
                     String savedToken = new String(loginRms.getRecord(2));
                     if (savedToken.length() > 0) initialToken = savedToken;
                 }
-                if (loginRms.getNumRecords() >= 3) {
-                    s.theme = loginRms.getRecord(3)[0];
-                }
-                if (loginRms.getNumRecords() >= 4) {
-                    s.oldUI = loginRms.getRecord(4)[0] != 0;
-                }
+
+                s.theme = getByteRecord(3, 0);
+                s.oldUI = getBoolRecord(4, false);
+                
                 if (loginRms.getNumRecords() >= 5) {
                     String savedGateway = new String(loginRms.getRecord(5));
                     if (savedGateway.length() > 0) initialGateway = savedGateway;
                 }
-                if (loginRms.getNumRecords() >= 7) {
-                    s.authorFontSize = loginRms.getRecord(6)[0];
-                    s.messageFontSize = loginRms.getRecord(7)[0];
-                }
-                if (loginRms.getNumRecords() >= 8) {
-                    s.use12hTime = loginRms.getRecord(8)[0] != 0;
-                }
+
+                s.authorFontSize = getByteRecord(6, 0);
+                s.messageFontSize = getByteRecord(7, 0);
+                s.use12hTime = getBoolRecord(8, false);
+
                 if (loginRms.getNumRecords() >= 9) {
                     s.messageLoadCount = loginRms.getRecord(9)[0];
                     if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
                 } else {
                     s.messageLoadCount = 20;
                 }
-                if (loginRms.getNumRecords() >= 10) {
-                    s.useGateway = loginRms.getRecord(10)[0] != 0;
-                } else {
-                    s.useGateway = true;
-                }
-                if (loginRms.getNumRecords() >= 11) {
-                    s.bbWifi = loginRms.getRecord(11)[0] != 0;
-                } else {
-                    s.bbWifi = true;
-                }
-                if (loginRms.getNumRecords() >= 12) {
-                    s.useJpeg = loginRms.getRecord(12)[0] != 0;
-                } else {
-                    s.useJpeg = true;
-                }
+
+                s.useGateway = getBoolRecord(10, true);
+                s.bbWifi = getBoolRecord(11, true);
+                s.useJpeg = getBoolRecord(12, true);
+
                 if (loginRms.getNumRecords() >= 13) {
                     String savedCdn = new String(loginRms.getRecord(13));
                     if (savedCdn.length() > 0) initialCdn = savedCdn;
                 }
-                if (loginRms.getNumRecords() >= 14) {
-                    s.iconType = loginRms.getRecord(14)[0];
-                } else {
-                    s.iconType = State.ICON_TYPE_CIRCLE;
-                }
-                if (loginRms.getNumRecords() >= 15) {
-                    try {
-                        s.attachmentSize = Integer.parseInt(new String(loginRms.getRecord(15)));
-                    }
-                    catch (Exception e) {
-                        s.attachmentSize = 1000;
-                    }
-                } else {
-                    s.attachmentSize = 1000;
-                }
-                if (loginRms.getNumRecords() >= 16) {
-                    s.iconSize = loginRms.getRecord(16)[0];
-                } else {
-                    s.iconSize = 1;  // 16px
-                }
-                if (loginRms.getNumRecords() >= 17) {
-                    s.nativeFilePicker = loginRms.getRecord(17)[0] != 0;
-                } else {
-                    s.nativeFilePicker = false;
-                }
-                if (loginRms.getNumRecords() >= 18) {
-                    s.autoReConnect = loginRms.getRecord(18)[0] != 0;
-                } else {
-                    s.autoReConnect = false;
-                }
-                if (loginRms.getNumRecords() >= 19) {
-                    s.showMenuIcons = loginRms.getRecord(19)[0] != 0;
-                } else {
-                    s.showMenuIcons = true;
-                }
-                if (loginRms.getNumRecords() >= 20) {
-                    s.tokenType = loginRms.getRecord(20)[0];
-                } else {
-                    s.tokenType = State.TOKEN_TYPE_HEADER;
-                }
-                if (loginRms.getNumRecords() >= 21) {
-                    s.useNameColors = loginRms.getRecord(21)[0] != 0;
-                } else {
-                    s.useNameColors = true;
-                }
+
+                s.iconType = getByteRecord(14, State.ICON_TYPE_CIRCLE);
+                s.attachmentSize = getIntRecord(15, 1000);
+                s.iconSize = getByteRecord(16, 1); // default 16px
+                s.nativeFilePicker = getBoolRecord(17, false);
+                s.autoReConnect = getBoolRecord(18, false);
+                s.showMenuIcons = getBoolRecord(19, true);
+                s.tokenType = getByteRecord(20, State.TOKEN_TYPE_HEADER);
+                s.useNameColors = getBoolRecord(21, true);
+                s.sendHotkey = getIntRecord(22, 0);
+                s.replyHotkey = getIntRecord(23, 0);
+                s.copyHotkey = getIntRecord(24, 0);
+                s.refreshHotkey = getIntRecord(25, 0);
+                s.backHotkey = getIntRecord(26, 0);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -174,6 +129,33 @@ public class LoginForm extends Form implements CommandListener {
         append(tokenField);
         append(tokenGroup);
         addCommand(nextCommand);
+    }
+
+    private int getIntRecord(int index, int def) throws Exception {
+        if (loginRms.getNumRecords() >= index) {
+            try {
+                return Integer.parseInt(new String(loginRms.getRecord(index)));
+            }
+            catch (Exception e) {
+                return def;
+            }
+        } else return def;
+    }
+
+    private int getByteRecord(int index, int def) throws Exception {
+        if (loginRms.getNumRecords() >= index) {
+            return (int) loginRms.getRecord(index)[0];
+        } else {
+            return def;
+        }
+    }
+
+    private boolean getBoolRecord(int index, boolean def) throws Exception {
+        if (loginRms.getNumRecords() >= index) {
+            return loginRms.getRecord(index)[0] != 0;
+        } else {
+            return def;
+        }
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -275,6 +257,12 @@ public class LoginForm extends Form implements CommandListener {
                 if (loginRms.getNumRecords() < 21) {
                     byte[] oneByte = {1};
                     loginRms.addRecord(oneByte, 0, 1);
+                }
+                if (loginRms.getNumRecords() < 22) {
+                    byte[] zeroStrBytes = "0".getBytes();
+                    for (int i = 0; i < 5; i++) {
+                        loginRms.addRecord(zeroStrBytes, 0, zeroStrBytes.length);
+                    }
                 }
                 loginRms.closeRecordStore();
             }

@@ -439,72 +439,75 @@ public class ChannelView extends Canvas implements CommandListener {
     
     private void keyEvent(int keycode) {
         touchMode = false;
-        int action = getGameAction(keycode);
         int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).getHeight();
         int thisItemPos = getItemPosition(selectedItem);
 
-        switch (action) {
-            case Canvas.UP: {
-                // No message selected -> enable selection mode (bottom-most will be selected)
-                if (!selectionMode) {
-                    selectionMode = true;
+        // user bound key
+        if (keycode == s.sendHotkey) {
+            s.dontShowLoadScreen = true;
+            s.disp.setCurrent(new MessageBox(s));
+        }
+        else if (keycode == s.replyHotkey) {
+            if (!selectionMode || items.size() == 0) return;
+            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+            if (!item.shouldShowReplyOption()) return;
+            s.disp.setCurrent(new ReplyForm(s, item.msg));
+        }
+        else if (keycode == s.copyHotkey) {
+            if (!selectionMode || items.size() == 0) return;
+            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+            if (item.type != ChannelViewItem.MESSAGE) return;
+            s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
+        }
+        else if (keycode == s.refreshHotkey) {
+            commandAction(refreshCommand, this);
+        }
+        else if (keycode == s.backHotkey) {
+            commandAction(backCommand, this);
+        }
+        // game action key
+        else {
+            int action = getGameAction(keycode);
+            switch (action) {
+                case Canvas.UP: {
+                    // No message selected -> enable selection mode (bottom-most will be selected)
+                    if (!selectionMode) {
+                        selectionMode = true;
+                    }
+                    // Message is taller than screen -> scroll up by two lines
+                    else if (thisItemHeight > getHeight() && thisItemPos < 0) {
+                        scroll -= messageFontHeight*2;
+                    }
+                    // Else go up by one message
+                    else {
+                        int max = items.size() - 1;
+                        if (selectedItem > max) selectedItem = max;
+                        if (selectedItem == max) return;
+                        selectedItem++;
+                    }
+                    break;
                 }
-                // Message is taller than screen -> scroll up by two lines
-                else if (thisItemHeight > getHeight() && thisItemPos < 0) {
-                    scroll -= messageFontHeight*2;
+                case Canvas.DOWN: {
+                    // Message is taller than screen -> scroll down by two lines
+                    if (thisItemHeight > getHeight() && thisItemPos + thisItemHeight > getHeight()) {
+                        scroll += messageFontHeight*2;
+                    }
+                    // Bottom-most message -> disable selection mode
+                    else if (selectedItem == 0) {
+                        selectionMode = false;
+                    }
+                    // Else go down by one message
+                    else {
+                        if (selectedItem < 0) selectedItem = 0;
+                        if (selectedItem == 0) return;
+                        selectedItem--;
+                    }
+                    break;
                 }
-                // Else go up by one message
-                else {
-                    int max = items.size() - 1;
-                    if (selectedItem > max) selectedItem = max;
-                    if (selectedItem == max) return;
-                    selectedItem++;
+                case Canvas.FIRE: {
+                    executeItemAction();
+                    break;
                 }
-                break;
-            }
-            case Canvas.DOWN: {
-                // Message is taller than screen -> scroll down by two lines
-                if (thisItemHeight > getHeight() && thisItemPos + thisItemHeight > getHeight()) {
-                    scroll += messageFontHeight*2;
-                }
-                // Bottom-most message -> disable selection mode
-                else if (selectedItem == 0) {
-                    selectionMode = false;
-                }
-                // Else go down by one message
-                else {
-                    if (selectedItem < 0) selectedItem = 0;
-                    if (selectedItem == 0) return;
-                    selectedItem--;
-                }
-                break;
-            }
-            case Canvas.FIRE: {
-                executeItemAction();
-                break;
-            }
-            case Canvas.GAME_A: {
-                s.dontShowLoadScreen = true;
-                s.disp.setCurrent(new MessageBox(s));
-                break;
-            }
-            case Canvas.GAME_B: {
-                if (!selectionMode || items.size() == 0) break;
-                ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-                if (!item.shouldShowReplyOption()) break;
-                s.disp.setCurrent(new ReplyForm(s, item.msg));
-                break;
-            }
-            case Canvas.GAME_C: {
-                if (!selectionMode || items.size() == 0) break;
-                ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-                if (item.type != ChannelViewItem.MESSAGE) break;
-                s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
-                break;
-            }
-            case Canvas.GAME_D: {
-                s.openChannelView(true);
-                break;
             }
         }
         repaint();
@@ -551,21 +554,21 @@ public class ChannelView extends Canvas implements CommandListener {
             if (s.isDM) s.openDMSelector(false);
             else s.openChannelSelector(false);
         }
-        if (c == sendCommand) {
+        else if (c == sendCommand) {
             s.disp.setCurrent(new MessageBox(s));
         }
-        if (c == refreshCommand) {
+        else if (c == refreshCommand) {
             s.dontShowLoadScreen = true;
             s.openChannelView(true);
         }
-        if (c == selectCommand) {
+        else if (c == selectCommand) {
             executeItemAction();
         }
-        if (c == replyCommand) {
+        else if (c == replyCommand) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
             s.disp.setCurrent(new ReplyForm(s, item.msg));
         }
-        if (c == uploadCommand) {
+        else if (c == uploadCommand) {
             try {
                 if (!s.isLiteProxy) {
                     s.error("This proxy does not support file uploading");
@@ -587,26 +590,28 @@ public class ChannelView extends Canvas implements CommandListener {
                 s.error(e.toString());
             }
         }
-        ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+        else {
+            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
 
-        if (c == copyCommand) {
-            s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
-        }
-        if (c == openUrlCommand) {
-            s.disp.setCurrent(new URLList(s, item.msg.content));
-        }
-        if (c == deleteCommand) {
-            if (!s.isLiteProxy) {
-                s.error("This proxy does not support deleting messages");
-            } else {
-                s.disp.setCurrent(new DeleteConfirmAlert(s, item.msg));
+            if (c == copyCommand) {
+                s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
             }
-        }
-        if (c == editCommand) {
-            if (!s.isLiteProxy) {
-                s.error("This proxy does not support editing messages");
-            } else {
-                s.disp.setCurrent(new MessageEditBox(s, item.msg));
+            else if (c == openUrlCommand) {
+                s.disp.setCurrent(new URLList(s, item.msg.content));
+            }
+            else if (c == deleteCommand) {
+                if (!s.isLiteProxy) {
+                    s.error("This proxy does not support deleting messages");
+                } else {
+                    s.disp.setCurrent(new DeleteConfirmAlert(s, item.msg));
+                }
+            }
+            else if (c == editCommand) {
+                if (!s.isLiteProxy) {
+                    s.error("This proxy does not support editing messages");
+                } else {
+                    s.disp.setCurrent(new MessageEditBox(s, item.msg));
+                }
             }
         }
     }
