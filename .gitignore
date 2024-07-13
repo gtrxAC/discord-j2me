@@ -4,6 +4,6 @@ lib/
 tmpclasses/
 tmplib/
 node_modules/
-*.jad
 *.jar
 *.map
+*.pro

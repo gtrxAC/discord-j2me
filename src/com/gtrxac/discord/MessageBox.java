@@ -5,6 +5,7 @@ import javax.microedition.lcdui.*;
 public class MessageBox extends TextBox implements CommandListener {
     State s;
     private Command sendCommand;
+    private Command addMentionCommand;
     private Command backCommand;
 
     public MessageBox(State s) {
@@ -17,9 +18,11 @@ public class MessageBox extends TextBox implements CommandListener {
 
         sendCommand = new Command("Send", Command.OK, 0);
         backCommand = new Command("Back", Command.BACK, 1);
+        addMentionCommand = new Command("Insert mention", Command.ITEM, 2);
 
         addCommand(sendCommand);
         addCommand(backCommand);
+        if (!s.isDM) addCommand(addMentionCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -35,9 +38,16 @@ public class MessageBox extends TextBox implements CommandListener {
                 s.error(e.toString());
             }
         }
-        if (c == backCommand) {
+        else if (c == backCommand) {
             if (s.oldUI) s.disp.setCurrent(s.oldChannelView);
             else s.disp.setCurrent(s.channelView);
+        }
+        else if (c == addMentionCommand) {
+            if (!s.gatewayActive()) {
+                s.error("Requires active gateway connection");
+                return;
+            }
+            s.disp.setCurrent(new MentionForm(s));
         }
     }
 }

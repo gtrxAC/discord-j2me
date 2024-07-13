@@ -333,33 +333,40 @@ public class GatewayThread extends Thread {
                         if (s.channelView == null || s.selectedGuild == null) continue;
 
                         JSONObject data = message.getObject("d");
-                        String guildId = data.getString("guild_id");
-                        JSONArray notFound = data.getArray("not_found");
                         JSONArray members = data.getArray("members");
 
-                        for (int i = 0; i < notFound.size(); i++) {
-                            String id = notFound.getString(i);
-                            s.nameColorCache.set(id + guildId, 0);
-                        }
+                        if (s.disp.getCurrent() instanceof MentionForm) {
+                            // Guild member request was for inserting a mention
+                            ((MentionForm) s.disp.getCurrent()).searchCallback(members);
+                        } else {
+                            // Guild member request was for role data (name colors)
+                            String guildId = data.getString("guild_id");
+                            JSONArray notFound = data.getArray("not_found");
 
-                        for (int i = 0; i < members.size(); i++) {
-                            int resultColor = 0;
-
-                            JSONObject member = members.getObject(i);
-                            JSONArray memberRoles = member.getArray("roles");
-
-                            for (int r = 0; r < s.selectedGuild.roles.size(); r++) {
-                                Role role = (Role) s.selectedGuild.roles.elementAt(r);
-                                if (memberRoles.indexOf(role.id) == -1) continue;
-
-                                resultColor = role.color;
-                                break;
+                            for (int i = 0; i < notFound.size(); i++) {
+                                String id = notFound.getString(i);
+                                s.nameColorCache.set(id + guildId, 0);
                             }
 
-                            String id = member.getObject("user").getString("id");
-                            s.nameColorCache.set(id + guildId, resultColor);
+                            for (int i = 0; i < members.size(); i++) {
+                                int resultColor = 0;
+
+                                JSONObject member = members.getObject(i);
+                                JSONArray memberRoles = member.getArray("roles");
+
+                                for (int r = 0; r < s.selectedGuild.roles.size(); r++) {
+                                    Role role = (Role) s.selectedGuild.roles.elementAt(r);
+                                    if (memberRoles.indexOf(role.id) == -1) continue;
+
+                                    resultColor = role.color;
+                                    break;
+                                }
+
+                                String id = member.getObject("user").getString("id");
+                                s.nameColorCache.set(id + guildId, resultColor);
+                            }
+                            s.nameColorCache.activeRequest = false;
                         }
-                        s.nameColorCache.activeRequest = false;
                     }
                 }
                 else if (message.getInt("op", 0) == 10) {

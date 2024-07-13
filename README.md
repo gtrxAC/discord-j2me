@@ -27,15 +27,17 @@ Discord client for Java ME (MIDP 1.0 and 2.0) devices, inspired by [Discord for 
 * Reactions and emojis
 
 ## How to build
-1. Create an `sdk` folder inside the repo with the following contents:
-    * `jdk1.6.0_45` folder containing that version of the Java Development Kit.
-        * If you have another JDK installation that supports Java 1.3, you can change the `OLD_JAVA_HOME` variable in `build.sh` to point to it.
-    * `jdk-22.0.1` folder containing that version of the JDK.
-        * If you have another modern JDK installation, change the `JAVA_HOME` variable in `build.sh`.
-        * On Linux, you may be able to use the `OLD_JAVA_HOME` in place of the modern JDK.
-    * `cldcapi11.jar`, `midpapi20.jar`, and `jsr75.jar` from the Sun Wireless Toolkit.
-    * `proguard.jar` (can be found in the `lib` folder inside the ZIP available [here](https://github.com/Guardsquare/proguard/releases))
-2. Run `build.sh`.
+1. Install Sun Java Wireless Toolkit 2.5.2 on your computer.
+    * If you haven't already, install an older JDK version (e.g. 1.6.0_45).
+2. Open Wireless Toolkit and create a new project named `Discord`.
+3. Copy the contents of this repository into the project's folder.
+    * On Windows, it should be in `C:\Users\yourname\j2mewtk\2.5.2\apps\Discord`
+4. Build the project.
+    * To create a JAR, go to `Options` -> `Package` -> `Create package`.
+    * Optional: to create an obfuscated JAR, go to `Options` -> `Package` -> `Create obfuscated package`.
+        * For this, you'll need Proguard installed as part of your WTK.
+        * Download one of the older versions [here](https://sourceforge.net/projects/proguard/files/proguard/) (e.g. 3.4).
+        * Extract the ZIP and copy the `proguard.jar` file from the `lib` folder into the `bin` folder of your WTK installation.
 
 ## Thanks
 * [@uwmpr](https://github.com/uwmpr) for formerly hosting the default proxy server
