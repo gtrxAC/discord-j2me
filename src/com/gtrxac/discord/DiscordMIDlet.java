@@ -2,6 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
+import javax.microedition.rms.*;
 
 public class DiscordMIDlet extends MIDlet {
     private boolean started = false;
@@ -16,7 +17,13 @@ public class DiscordMIDlet extends MIDlet {
             s = new State();
             s.midlet = this;
             s.disp = Display.getDisplay(this);
-            s.disp.setCurrent(new LoginForm(s));
+
+            if (RecordStore.listRecordStores() == null && getAppProperty("Token") == null) {
+                s.disp.setCurrent(new LoginForm(s));
+            } else {
+                LoginSettings sett = new LoginSettings(s);
+                s.login(sett.api, sett.gateway, sett.cdn, sett.token);
+            }
             started = true;
         }
     }

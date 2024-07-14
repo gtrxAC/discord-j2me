@@ -4,19 +4,20 @@ import javax.microedition.lcdui.*;
 
 public class MainMenu extends List implements CommandListener {
     State s;
-    private Command backCommand;
+    private Command quitCommand;
 
     public MainMenu(State s) {
         super(null, List.IMPLICIT);
         setCommandListener(this); 
         this.s = s;
 
-        backCommand = new Command("Back", Command.BACK, 0);
+        quitCommand = new Command("Quit", Command.EXIT, 0);
 
         append("Servers", null);
         append("Direct messages", null);
         append("Settings", null);
-        addCommand(backCommand);
+        append("Log out", null);
+        addCommand(quitCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -34,12 +35,15 @@ public class MainMenu extends List implements CommandListener {
                     s.disp.setCurrent(new SettingsForm(s));
                     break;
                 }
+                case 3: {
+                    if (s.gateway != null) s.gateway.stop = true;
+                    s.myUserId = null;
+                    s.disp.setCurrent(new LoginForm(s));
+                }
             }
         }
-        else if (c == backCommand) {
-            if (s.gateway != null) s.gateway.stop = true;
-            s.myUserId = null;
-            s.disp.setCurrent(new LoginForm(s));
+        else if (c == quitCommand) {
+            s.midlet.notifyDestroyed();
         }
     }
 }

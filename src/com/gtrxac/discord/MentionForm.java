@@ -24,6 +24,8 @@ public class MentionForm extends Form implements CommandListener {
         setCommandListener(this);
 
         searchField = new TextField("Enter username", "", 32, 0);
+        searchField.setInitialInputMode("MIDP_LOWERCASE_LATIN");
+
         resultsGroup = new ChoiceGroup("Search results", ChoiceGroup.EXCLUSIVE);
 
         insertCommand = new Command("Insert", Command.OK, 0);

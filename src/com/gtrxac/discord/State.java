@@ -97,6 +97,18 @@ public class State {
 		unreads = new UnreadManager(this);
 	}
 
+    public void login(String api, String gateway, String cdn, String token) {
+        loadFonts();
+        this.cdn = cdn;
+        http = new HTTPThing(this, api, token);
+        disp.setCurrent(new MainMenu(this));
+
+        if (useGateway) {
+            this.gateway = new GatewayThread(this, gateway, token);
+            this.gateway.start();
+        }
+    }
+
 	private Alert createError(String message) {
 		Alert error = new Alert("Error");
 		error.setTimeout(Alert.FOREVER);
