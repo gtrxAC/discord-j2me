@@ -7,3 +7,4 @@ node_modules/
 *.jar
 *.map
 *.pro
+manifest.mf

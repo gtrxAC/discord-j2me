@@ -92,6 +92,7 @@ public class HTTPThread extends Thread {
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
             }
             catch (Exception e) {
+                s.error(e.toString());
                 s.myUserId = "";
             }
         }

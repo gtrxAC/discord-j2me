@@ -104,10 +104,12 @@ public class ChannelView extends Canvas implements CommandListener {
 
         items = new Vector();
 
+        if (s.messages.size() == 0) return;
+
         int oldMaxScroll = maxScroll;
         maxScroll = 0;
 
-        if (s.messages.size() > 0 && page > 0) {
+        if (page > 0) {
             ChannelViewItem newerItem = new ChannelViewItem(s, ChannelViewItem.NEWER_BUTTON);
             items.addElement(newerItem);
             maxScroll += newerItem.getHeight();
