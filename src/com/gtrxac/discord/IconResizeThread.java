@@ -85,7 +85,7 @@ public class IconResizeThread extends Thread {
                 result = resized;
             }
 
-            s.iconCache.setLarge(target.getIconHash(), result);
+            s.iconCache.setResized(target.getIconHash() + size, result);
             target.largeIconLoaded(s);
         }
         catch (Exception e) {

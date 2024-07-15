@@ -48,6 +48,7 @@ public class ChannelView extends Canvas implements CommandListener {
     static final int[] highlightColors2 = {0x002b2d31, 0x00EEEEEE, 0x00202020};
     static final int[] highlightColors =  {0x00232428, 0x00DDDDDD, 0x00303030};
     static final int[] darkBgColors =     {0x001e1f22, 0x00CCCCCC, 0x00404040};
+    static final int[] refMessageColors = {0x00DDDDDD, 0x00333333, 0x00CCCCCC};
     static final int[] messageColors =    {0x00FFFFFF, 0x00111111, 0x00EEEEEE};
     static final int[] authorColors =     {0x00FFFFFF, 0x00000000, 0x00FFFFFF};
     static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00999999};
@@ -265,7 +266,7 @@ public class ChannelView extends Canvas implements CommandListener {
             if (selected.type == ChannelViewItem.MESSAGE) {
                 removeCommand(selectCommand);
 
-                if ("(no content)".equals(selected.msg.content) || selected.msg.isStatus) {
+                if (selected.msg.isStatus) {
                     removeCommand(copyCommand);
                 } else {
                     addCommand(copyCommand);

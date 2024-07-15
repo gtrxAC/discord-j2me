@@ -176,6 +176,10 @@ public class LoginForm extends Form implements CommandListener {
                         loginRms.addRecord(zeroStrBytes, 0, zeroStrBytes.length);
                     }
                 }
+                if (loginRms.getNumRecords() < 27) {
+                    byte[] oneByte = {1};
+                    loginRms.addRecord(oneByte, 0, 1);
+                }
                 loginRms.closeRecordStore();
             }
             catch (Exception e) {

@@ -34,6 +34,7 @@ public class State {
 	boolean showMenuIcons;
 	int tokenType;
 	boolean useNameColors;
+	boolean showRefMessage;
 
 	int authorFontSize;
 	int messageFontSize;

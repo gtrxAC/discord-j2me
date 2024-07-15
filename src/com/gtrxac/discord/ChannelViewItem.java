@@ -3,14 +3,16 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class ChannelViewItem {
-    public static final int MESSAGE = 0;
-    public static final int OLDER_BUTTON = 1;
-    public static final int NEWER_BUTTON = 2;
-    public static final int ATTACHMENTS_BUTTON = 3;
+    static final int MESSAGE = 0;
+    static final int OLDER_BUTTON = 1;
+    static final int NEWER_BUTTON = 2;
+    static final int ATTACHMENTS_BUTTON = 3;
 
     State s;
     int type;  // one of the constants defined above
     Message msg;  // message data for MESSAGE and ATTACHMENTS_BUTTON types
+    Image refImg;  // cached ref message image for MESSAGE type if it is a reply
+    boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
 
     public ChannelViewItem(State s, int type) {
         this.s = s;
@@ -55,6 +57,12 @@ public class ChannelViewItem {
                     result += emb.getHeight(messageFontHeight) + messageFontHeight/4;
                 }
             }
+
+            // Referenced message if message is a reply and option is enabled
+            if (msg.recipient != null && s.showRefMessage) {
+                result += messageFontHeight*5/4;
+            }
+
             return result;
         }
         // For buttons
@@ -70,9 +78,7 @@ public class ChannelViewItem {
     public void draw(Graphics g, int y, int width, boolean selected) {
         int messageFontHeight = s.messageFont.getHeight();
         boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
-
         int iconSize = messageFontHeight*4/3;
-        s.iconCache.scaleSize = iconSize;
 
         switch (type) {
             case MESSAGE: {
@@ -87,9 +93,71 @@ public class ChannelViewItem {
                 y += messageFontHeight/8;
 
                 if (msg.showAuthor) {
+                    int recipientColor = 0;
+                    if (msg.recipient != null) {
+                        recipientColor = s.nameColorCache.get(msg.recipient.id);
+                        if (recipientColor == 0) recipientColor = ChannelView.authorColors[s.theme];
+                    }
+
+                    // Draw referenced message if option is enabled
+                    if (msg.recipient != null && s.showRefMessage) {
+                        if (refImg == null || refImgSelected != selected) {
+                            // Create an image where the ref message will be rendered.
+                            // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
+                            Image refImgFull = Image.createImage(width*4/3, messageFontHeight);
+                            Graphics refG = refImgFull.getGraphics();
+
+                            // Fill ref message image with the same background color that the rest of the message has
+                            refG.setColor(selected ? ChannelView.highlightColors[s.theme] : ChannelView.backgroundColors[s.theme]);
+                            refG.fillRect(0, 0, width*4/3, messageFontHeight);
+
+                            int refX = x*4/3;
+
+                            if (useIcons) {
+                                Image icon = s.iconCache.getResized(msg.recipient, messageFontHeight);
+
+                                if (icon != null) {
+                                    refG.drawImage(icon, refX, 0, Graphics.TOP | Graphics.LEFT);
+                                } else {
+                                    refG.setColor(msg.recipient.iconColor);
+
+                                    if (s.iconType == State.ICON_TYPE_CIRCLE || s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
+                                        refG.fillArc(refX, 0, messageFontHeight, messageFontHeight, 0, 360);
+                                    } else {
+                                        refG.fillRect(refX, 0, messageFontHeight, messageFontHeight);
+                                    }
+                                }
+
+                                refX += messageFontHeight*4/3;
+                            }
+
+                            refG.setFont(s.titleFont);
+                            refG.setColor(recipientColor);
+                            refG.drawString(msg.recipient.name, refX, 0, Graphics.TOP | Graphics.LEFT);
+
+                            refX += s.titleFont.stringWidth(msg.recipient.name) + messageFontHeight/3;
+                            
+                            refG.setFont(s.messageFont);
+                            refG.setColor(ChannelView.refMessageColors[s.theme]);
+                            refG.drawString(msg.refContent, refX, 0, Graphics.TOP | Graphics.LEFT);
+
+                            refImg = Util.resizeImageBilinear(refImgFull, width, messageFontHeight*3/4);
+                            refImgSelected = selected;
+                        }
+                        y += messageFontHeight/4;
+                        g.drawImage(refImg, messageFontHeight/8, y, Graphics.TOP | Graphics.LEFT);
+
+                        y += messageFontHeight*3/8;
+                        g.setColor(0x00666666);
+                        g.drawLine(x/2, y, x/2, y + messageFontHeight/2);
+                        g.drawLine(x/2, y, x*7/8, y);
+
+                        y += messageFontHeight*5/8;
+                    }
+
                     // Draw icon
                     if (useIcons) {
-                        Image icon = s.iconCache.getLarge(msg.author);
+                        Image icon = s.iconCache.getResized(msg.author, iconSize);
                         int iconX = messageFontHeight/3;
                         int iconY = y + messageFontHeight/6;
 
@@ -121,14 +189,6 @@ public class ChannelViewItem {
                     // Draw author (and recipient if applicable)
                     int authorColor = s.nameColorCache.get(msg.author);
                     if (authorColor == 0) authorColor = ChannelView.authorColors[s.theme];
-
-                    int recipientColor;
-                    if (msg.recipientID != null) {
-                        recipientColor = s.nameColorCache.get(msg.recipientID);
-                        if (recipientColor == 0) recipientColor = ChannelView.authorColors[s.theme];
-                    } else {
-                        recipientColor = ChannelView.authorColors[s.theme];
-                    }
                     
                     int authorX = x;
 
@@ -138,7 +198,7 @@ public class ChannelViewItem {
 
                     authorX += s.authorFont.stringWidth(msg.author.name);
 
-                    if (msg.recipient != null) {
+                    if (msg.recipient != null && !s.showRefMessage) {
                         g.setFont(s.timestampFont);
                         g.setColor(ChannelView.authorColors[s.theme]);
                         g.drawString(" -> ", authorX, y, Graphics.TOP | Graphics.LEFT);
@@ -147,9 +207,9 @@ public class ChannelViewItem {
 
                         g.setFont(s.authorFont);
                         g.setColor(recipientColor);
-                        g.drawString(msg.recipient, authorX, y, Graphics.TOP | Graphics.LEFT);
+                        g.drawString(msg.recipient.name, authorX, y, Graphics.TOP | Graphics.LEFT);
 
-                        authorX += s.authorFont.stringWidth(msg.recipient);
+                        authorX += s.authorFont.stringWidth(msg.recipient.name);
                     }
 
                     // Draw timestamp

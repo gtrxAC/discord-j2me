@@ -16,6 +16,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private TextField attachSizeField;
     private ChoiceGroup iconGroup;
     private ChoiceGroup iconSizeGroup;
+    private ChoiceGroup refMsgGroup;
     private StringItem keyMapperItem;
     private Command saveCommand;
     private Command cancelCommand;
@@ -67,6 +68,11 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         iconSizeGroup = new ChoiceGroup("Icon size", ChoiceGroup.EXCLUSIVE, iconSizeChoices, iconSizeImages);
         iconSizeGroup.setSelectedIndex(s.iconSize, true);
 
+        String[] refMsgChoices = {"Only recipient", "Full message"};
+        Image[] refMsgImages = {null, null};
+        refMsgGroup = new ChoiceGroup("Show replies as", ChoiceGroup.EXCLUSIVE, refMsgChoices, refMsgImages);
+        refMsgGroup.setSelectedIndex(s.showRefMessage ? 1 : 0, true);
+
         openMapperCommand = new Command("Map keys", Command.ITEM, 2);
         keyMapperItem = new StringItem(null, "Remap hotkeys", Item.BUTTON);
         keyMapperItem.setDefaultCommand(openMapperCommand);
@@ -84,6 +90,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         append(attachSizeField);
         append(iconGroup);
         append(iconSizeGroup);
+        append(refMsgGroup);
         append(keyMapperItem);
         addCommand(saveCommand);
         addCommand(cancelCommand);
@@ -136,6 +143,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 s.iconType = iconGroup.getSelectedIndex();
                 s.iconSize = iconSizeGroup.getSelectedIndex();
                 s.iconCache = new IconCache(s);
+                s.showRefMessage = refMsgGroup.getSelectedIndex() == 1;
 
                 try {
                     int newCount = Integer.parseInt(messageCountField.getString());
@@ -179,6 +187,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 setBoolRecord(18, s.autoReConnect);
                 setBoolRecord(19, s.showMenuIcons);
                 setBoolRecord(21, s.useNameColors);
+                setBoolRecord(27, s.showRefMessage);
                 loginRms.closeRecordStore();
             }
             catch (Exception e) {

@@ -73,6 +73,7 @@ public class LoginSettings {
                 s.copyHotkey = getIntRecord(24, 0);
                 s.refreshHotkey = getIntRecord(25, 0);
                 s.backHotkey = getIntRecord(26, 0);
+                s.showRefMessage = getBoolRecord(27, true);
             }
             catch (Exception e) {
                 e.printStackTrace();

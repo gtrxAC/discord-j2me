@@ -6,20 +6,18 @@ import javax.microedition.lcdui.*;
 public class IconCache {
     private State s;
     private Hashtable icons;
-    private Hashtable largeIcons;
+    private Hashtable resizedIcons;
     private Vector iconHashes;
-    private Vector largeIconHashes;
+    private Vector resizedIconHashes;
     private Vector activeRequests;
     private Vector activeResizes;
-
-    public int scaleSize;
 
     public IconCache(State s) {
         this.s = s;
         icons = new Hashtable();
-        largeIcons = new Hashtable();
+        resizedIcons = new Hashtable();
         iconHashes = new Vector();
-        largeIconHashes = new Vector();
+        resizedIconHashes = new Vector();
         activeRequests = new Vector();
         activeResizes = new Vector();
     }
@@ -67,31 +65,33 @@ public class IconCache {
         iconHashes.addElement(hash);
     }
 
-    public Image getLarge(HasIcon target) {
+    public Image getResized(HasIcon target, int size) {
         String hash = target.getIconHash();
         if (hash == null) return null;
+
+        String resizedHash = hash + size;
         
-        Image result = (Image) largeIcons.get(hash);
-        if (result != null && result.getWidth() == scaleSize) return result;
+        Image result = (Image) resizedIcons.get(resizedHash);
+        if (result != null) return result;
 
-        Image smallIcon = (Image) get(target);
+        Image origIcon = (Image) get(target);
 
-        if (smallIcon != null && !activeResizes.contains(hash)) {
-            activeResizes.addElement(hash);
-            new IconResizeThread(s, target, smallIcon, scaleSize).start();
+        if (origIcon != null && !activeResizes.contains(resizedHash)) {
+            activeResizes.addElement(resizedHash);
+            new IconResizeThread(s, target, origIcon, size).start();
         }
         return null;
     }
 
-    public void setLarge(String hash, Image icon) {
-        removeResize(hash);
+    public void setResized(String resizedHash, Image icon) {
+        removeResize(resizedHash);
         
-        if (!largeIcons.containsKey(hash) && largeIcons.size() >= s.messageLoadCount) {
-            String firstHash = (String) largeIconHashes.elementAt(0);
-            largeIcons.remove(firstHash);
-            largeIconHashes.removeElementAt(0);
+        if (!resizedIcons.containsKey(resizedHash) && resizedIcons.size() >= s.messageLoadCount) {
+            String firstHash = (String) resizedIconHashes.elementAt(0);
+            resizedIcons.remove(firstHash);
+            resizedIconHashes.removeElementAt(0);
         }
-        largeIcons.put(hash, icon);
-        largeIconHashes.addElement(hash);
+        resizedIcons.put(resizedHash, icon);
+        resizedIconHashes.addElement(resizedHash);
     }
 }

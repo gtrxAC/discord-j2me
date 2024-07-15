@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const FormData = require('form-data');
 const multer = require('multer')
+const path = require('path');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -11,6 +12,7 @@ const emoji = new EmojiConvertor();
 emoji.replace_mode = 'unified';
 
 const app = express();
+app.use(express.static(path.join(__dirname, 'static')));
 app.use(defaultContentType);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -263,11 +265,17 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             }
 
             if (msg.referenced_message) {
+                let content = msg.referenced_message.content;
+                if (content && content.length > 50) {
+                    content = content.slice(0, 47).trim() + '...';
+                }
                 result.referenced_message = {
                     author: {
                         global_name: msg.referenced_message.author.global_name,
-                        id: msg.referenced_message.author.id
-                    }
+                        id: msg.referenced_message.author.id,
+                        avatar: msg.referenced_message.author.avatar
+                    },
+                    content
                 }
                 if (msg.referenced_message.author.global_name == null) {
                     result.referenced_message.author.username =
