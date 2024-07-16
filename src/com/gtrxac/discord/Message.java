@@ -214,22 +214,16 @@ public class Message {
         // Different authors -> true
         if (!above.author.id.equals(author.id)) return true;
 
+        // This message is a reply -> true
+        if (recipient != null) return true;
+
         // This message or above message is a status message -> true
         if (isStatus || above.isStatus) return true;
 
-        // One of the messages is a reply (but not both) -> true
-        if ((above.recipient == null) != (recipient == null)) return true;
-
-        // Message was sent more than 7 minutes after the first message of the cluster -> true
+        // Finally, check if message was sent more than 7 minutes after the first message of the cluster
         long thisMsgTime = Long.parseLong(id) >> 22;
         long firstMsgTime = Long.parseLong(clusterStart) >> 22;
-        if (thisMsgTime - firstMsgTime > 7*60*1000) return true;
-
-        // Neither message is a reply -> false
-        if (above.recipient == null && recipient == null) return false;
-        
-        // Different recipients -> true
-        return !above.recipient.id.equals(recipient.id);
+        return (thisMsgTime - firstMsgTime > 7*60*1000);
     }
 
     public void delete() {

@@ -78,6 +78,28 @@ function getToken(req, res, next) {
     next();
 }
 
+function parseMessageContent(content) {
+    let result = content
+        // try to convert <@12345...> format into @username
+        .replace(/<@(\d{15,})>/gm, (mention, id) => {
+            if (userCache.has(id)) return `@${userCache.get(id)}`;
+            else return mention;
+        })
+        // try to convert <#12345...> format into #channelname
+        .replace(/<#(\d{15,})>/gm, (mention, id) => {
+            if (channelCache.has(id)) return `#${channelCache.get(id)}`;
+            else return mention;
+        })
+        // replace <:name:12345...> emoji format with :name:
+        .replace(/<a?(:\w*:)\d{15,}>/gm, "$1")
+
+    // Replace Unicode emojis with :name: textual representations
+    emoji.colons_mode = true;
+    result = emoji.replace_unified(result);
+
+    return result;
+}
+
 // Get servers
 app.get(`${BASE}/users/@me/guilds`, getToken, async (req, res) => {
     try {
@@ -243,29 +265,12 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
 
             // Parse content 
             if (msg.content) {
-                result.content = msg.content
-                    // try to convert <@12345...> format into @username
-                    .replace(/<@(\d{15,})>/gm, (mention, id) => {
-                        if (userCache.has(id)) return `@${userCache.get(id)}`;
-                        else return mention;
-                    })
-                    // try to convert <#12345...> format into #channelname
-                    .replace(/<#(\d{15,})>/gm, (mention, id) => {
-                        if (channelCache.has(id)) return `#${channelCache.get(id)}`;
-                        else return mention;
-                    })
-                    // replace <:name:12345...> emoji format with :name:
-                    .replace(/<a?(:\w*:)\d{15,}>/gm, "$1")
-
-                // Replace Unicode emojis with :name: textual representations
-                emoji.colons_mode = true;
-                result.content = emoji.replace_unified(result.content);
-
+                result.content = parseMessageContent(msg.content);
                 if (result.content != msg.content) result._rc = msg.content;
             }
 
             if (msg.referenced_message) {
-                let content = msg.referenced_message.content;
+                let content = parseMessageContent(msg.referenced_message.content);
                 if (content && content.length > 50) {
                     content = content.slice(0, 47).trim() + '...';
                 }

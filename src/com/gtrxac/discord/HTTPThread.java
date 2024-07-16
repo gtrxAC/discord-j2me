@@ -235,7 +235,7 @@ public class HTTPThread extends Thread {
                     } else {
                         // If user scrolled a page back or forward, keep reusing the same channel view
                         if (s.oldUI) s.oldChannelView.update();
-                        else s.channelView.update(false, false);
+                        else s.channelView.requestUpdate(false);
                     }
 
                     // Show the channel view screen (hide the loading screen)
@@ -425,7 +425,7 @@ public class HTTPThread extends Thread {
                         if (s.oldUI) {
                             s.oldChannelView.update();
                         } else {
-                            s.channelView.update(false, false);
+                            s.channelView.requestUpdate(false);
                         }
                     }
 
@@ -454,7 +454,7 @@ public class HTTPThread extends Thread {
                         if (s.oldUI) {
                             s.oldChannelView.update();
                         } else {
-                            s.channelView.update(false, false);
+                            s.channelView.requestUpdate(false);
                         }
                     }
 

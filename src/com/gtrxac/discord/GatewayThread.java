@@ -202,7 +202,7 @@ public class GatewayThread extends Thread {
                             }
                         } else {
                             if (page == 0) {
-                                s.channelView.update(false, true);
+                                s.channelView.requestUpdate(true);
                                 s.unreads.autoSave = false;
                                 s.unreads.markRead(chId, Long.parseLong(msgId));
                                 s.unreads.autoSave = true;
@@ -212,6 +212,7 @@ public class GatewayThread extends Thread {
                                 s.channelView.outdated = true;
                             }
                             s.channelView.repaint();
+                            s.channelView.serviceRepaints();
                         }
                     }
                     else if (op.equals("MESSAGE_DELETE")) {
@@ -234,8 +235,9 @@ public class GatewayThread extends Thread {
                             if (s.oldUI) {
                                 s.oldChannelView.update();
                             } else {
-                                s.channelView.update(false, true);
+                                s.channelView.requestUpdate(true);
                                 s.channelView.repaint();
+                                s.channelView.serviceRepaints();
                             }
                             break;
                         }
@@ -266,8 +268,9 @@ public class GatewayThread extends Thread {
                             if (s.oldUI) {
                                 s.oldChannelView.update();
                             } else {
-                                s.channelView.update(false, true);
+                                s.channelView.requestUpdate(true);
                                 s.channelView.repaint();
+                                s.channelView.serviceRepaints();
                             }
                             break;
                         }

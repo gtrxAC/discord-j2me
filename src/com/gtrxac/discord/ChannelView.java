@@ -43,6 +43,9 @@ public class ChannelView extends Canvas implements CommandListener {
     int authorFontHeight;
     int width, height;
 
+    boolean requestedUpdate;
+    boolean reqUpdateGateway;
+
     //                                            Dark        Light       Black
     static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
     static final int[] highlightColors2 = {0x002b2d31, 0x00EEEEEE, 0x00202020};
@@ -85,11 +88,16 @@ public class ChannelView extends Canvas implements CommandListener {
         haveShown = true;
         width = getWidth();
         height = getHeight();
-        update(false, false);
+        requestUpdate(false);
         repaint();
     }
 
-    public void update(boolean wasResized, boolean wasGateway) {
+    public void requestUpdate(boolean wasGateway) {
+        requestedUpdate = true;
+        reqUpdateGateway = wasGateway;
+    }
+
+    private void update(boolean wasResized, boolean wasGateway) {
         if (!wasGateway) {
             if (s.isDM) {
                 if (s.selectedDmChannel.isGroup) {
@@ -227,7 +235,7 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     // Ensure that the selected item is visible on screen
-    public void makeSelectedItemVisible() {
+    private void makeSelectedItemVisible() {
         if (!selectionMode || touchMode) return;
 
         ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
@@ -258,8 +266,6 @@ public class ChannelView extends Canvas implements CommandListener {
     protected void sizeChanged(int w, int h) {
         repaint();
     }
-
-    private ChannelViewItem lastSelected;
 
     private void updateCommands(ChannelViewItem selected) {
         if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
@@ -311,6 +317,10 @@ public class ChannelView extends Canvas implements CommandListener {
             width = getWidth();
             height = getHeight();
             update(true, false);
+        }
+        else if (requestedUpdate) {
+            update(false, reqUpdateGateway);
+            requestedUpdate = false;
         }
 
         // BlackBerry fix
