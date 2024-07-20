@@ -63,7 +63,7 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
             h.start();
         }
         catch (Exception e) {
-            s.error(e.toString());
+            s.error(e);
         }
     }
 

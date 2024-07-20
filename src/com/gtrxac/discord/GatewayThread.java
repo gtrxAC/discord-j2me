@@ -49,7 +49,7 @@ public class GatewayThread extends Thread {
             s.gateway = new GatewayThread(s, gateway, token);
             s.gateway.start();
         } else {
-            s.disp.setCurrent(new GatewayAlert(s, message), s.disp.getCurrent());
+            s.disp.setCurrent(new ReconnectForm(s, message));
         }
     }
 

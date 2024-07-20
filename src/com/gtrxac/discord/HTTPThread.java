@@ -92,7 +92,7 @@ public class HTTPThread extends Thread {
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
             }
             catch (Exception e) {
-                s.error(e.toString());
+                s.error(e);
                 s.myUserId = "";
             }
         }
@@ -470,7 +470,7 @@ public class HTTPThread extends Thread {
             if (action == FETCH_ICON) {
                 s.iconCache.removeRequest(iconTarget.getIconHash());
             } else {
-                s.error(e.toString(), prevScreen);
+                s.error(e, prevScreen);
             }
         }
     }

@@ -89,7 +89,7 @@ public class IconResizeThread extends Thread {
             target.largeIconLoaded(s);
         }
         catch (Exception e) {
-            s.error(e.toString());
+            s.error(e);
         }
     }
 }

@@ -59,7 +59,7 @@ public class ReplyForm extends Form implements CommandListener {
             }
             catch (Exception e) {
                 e.printStackTrace();
-                s.error(e.toString());
+                s.error(e);
             }
         }
         else if (c == backCommand) {

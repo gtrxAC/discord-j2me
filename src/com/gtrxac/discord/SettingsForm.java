@@ -129,7 +129,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
             loginRms.closeRecordStore();
         }
         catch (Exception e) {
-            s.error(e.toString());
+            s.error(e);
         }
     }
 

@@ -7,7 +7,7 @@ public class MainMenu extends List implements CommandListener {
     private Command quitCommand;
 
     public MainMenu(State s) {
-        super(null, List.IMPLICIT);
+        super("Discord", List.IMPLICIT);
         setCommandListener(this); 
         this.s = s;
 

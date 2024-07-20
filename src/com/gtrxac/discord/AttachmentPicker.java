@@ -82,7 +82,7 @@ public class AttachmentPicker extends List implements CommandListener {
             }
         }
         catch (IOException e) {
-            s.error(e.toString());
+            s.error(e);
         }
     }
 }

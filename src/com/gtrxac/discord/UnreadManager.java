@@ -34,7 +34,7 @@ public class UnreadManager {
             rms.closeRecordStore();
         }
         catch (RecordStoreNotFoundException e) {}
-        catch (Exception e) { s.error(e.toString()); }
+        catch (Exception e) { s.error(e); }
     }
 
     public void save() {
@@ -64,7 +64,7 @@ public class UnreadManager {
             }
             rms.closeRecordStore();
         }
-        catch (Exception e) { s.error(e.toString()); }
+        catch (Exception e) { s.error(e); }
     }
 
     private void put(String channelID, String lastReadTime) {

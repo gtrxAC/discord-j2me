@@ -110,21 +110,39 @@ public class State {
         }
     }
 
-	private Alert createError(String message) {
-		Alert error = new Alert("Error");
-		error.setTimeout(Alert.FOREVER);
-		error.setString(message);
-		return error;
-	}
-
-	public void error(String message) {
-		disp.setCurrent(createError(message));
-		if (channelView != null) channelView.bannerText = null;
-	}
-
 	public void error(String message, Displayable next) {
-		disp.setCurrent(createError(message), next);
+		// J2ME has this stupid limitation where you cannot have two Alerts stacked
+		// on top of each other. So we work around that by checking if there is an
+		// existing alert. If so, change the text shown in the alert, instead of
+		// creating a new alert.
+		Displayable current = disp.getCurrent();
+
+		if (current instanceof ErrorAlert) {
+			((ErrorAlert) current).update(message, next);
+			return;
+		}
+
+		// No existing alert - create a new one and show it.
+		// Note: this might still sometimes fail if two errors occur at just the right time
+		try {
+			disp.setCurrent(new ErrorAlert(disp, message, next));
+		}
+		catch (Exception e) {}
+
+		// clear banner text (e.g. hide "sending message" text if message sending fails)
 		if (channelView != null) channelView.bannerText = null;
+	}
+	
+	public void error(Exception e, Displayable next) {
+		error(e.toString(), next);
+	}
+	
+	public void error(String message) {
+		error(message, null);
+	}
+
+	public void error(Exception e) {
+		error(e.toString());
 	}
 
 	public void loadFonts() {
@@ -173,7 +191,7 @@ public class State {
 			}
 		}
 		catch (Exception e) {
-			error(e.toString());
+			error(e);
 		}
 	}
 
@@ -192,7 +210,7 @@ public class State {
 			}
 		}
 		catch (Exception e) {
-			error(e.toString());
+			error(e);
 		}
 	}
 
@@ -205,7 +223,7 @@ public class State {
 			}
 		}
 		catch (Exception e) {
-			error(e.toString());
+			error(e);
 		}
 	}
 
@@ -233,7 +251,7 @@ public class State {
 			}
 		}
 		catch (Exception e) {
-			error(e.toString());
+			error(e);
 		}
 	}
 
@@ -245,7 +263,7 @@ public class State {
 			disp.setCurrent(attachmentView);
 		}
 		catch (Exception e) {
-			error(e.toString());
+			error(e);
 		}
 	}
 

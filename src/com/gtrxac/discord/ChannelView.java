@@ -427,7 +427,7 @@ public class ChannelView extends Canvas implements CommandListener {
                     getMessages();
                 }
                 catch (Exception e) {
-                    s.error(e.toString());
+                    s.error(e);
                 }
                 break;
             }
@@ -439,7 +439,7 @@ public class ChannelView extends Canvas implements CommandListener {
                     getMessages();
                 }
                 catch (Exception e) {
-                    s.error(e.toString());
+                    s.error(e);
                 }
                 break;
             }
@@ -600,7 +600,7 @@ public class ChannelView extends Canvas implements CommandListener {
                 }
             }
             catch (Exception e) {
-                s.error(e.toString());
+                s.error(e);
             }
         }
         else {
