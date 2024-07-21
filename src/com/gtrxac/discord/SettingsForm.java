@@ -22,76 +22,91 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private Command cancelCommand;
     private Command openMapperCommand;
 
+    private void createHeading(Image icon, String text) {
+        append(new ImageItem(null, icon, 0, null));
+        append(new StringItem(null, text));
+    }
+
     public SettingsForm(State s) {
         super("Settings");
         setCommandListener(this); 
         this.s = s;
 
         String[] themeChoices = {"Dark", "Light", "Black"};
-        Image[] themeImages = {null, null, null};
-        themeGroup = new ChoiceGroup("Theme", ChoiceGroup.EXCLUSIVE, themeChoices, themeImages);
+        Image[] themeImages = {s.ic.themeDark, s.ic.themeLight, s.ic.themeBlack};
+        createHeading(s.ic.themesGroup, "Theme");
+        themeGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, themeChoices, themeImages);
         themeGroup.setSelectedIndex(s.theme, true);
+        append(themeGroup);
 
         String[] uiChoices = {"Use old UI", "Use 12-hour time", "Native file picker", "Gateway auto reconnect", "Show icons in menus", "Show name colors"};
-        Image[] uiImages = {null, null, null, null, null, null};
-        uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, uiImages);
+        Image[] uiImages = {s.ic.oldUI, s.ic.use12h, s.ic.nativePicker, s.ic.autoReconnect, s.ic.menuIcons, s.ic.nameColors};
+        createHeading(s.ic.uiGroup, "User interface");
+        uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, uiImages);
         uiGroup.setSelectedIndex(0, s.oldUI);
         uiGroup.setSelectedIndex(1, s.use12hTime);
         uiGroup.setSelectedIndex(2, s.nativeFilePicker);
         uiGroup.setSelectedIndex(3, s.autoReConnect);
         uiGroup.setSelectedIndex(4, s.showMenuIcons);
         uiGroup.setSelectedIndex(5, s.useNameColors);
+        append(uiGroup);
 
         String[] fontChoices = {"Small", "Medium", "Large"};
-        Image[] fontImages = {null, null, null};
-        authorFontGroup = new ChoiceGroup("Message author font", ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
+        Image[] fontImages = {s.ic.fontSmall, s.ic.fontMedium, s.ic.fontLarge};
+        createHeading(s.ic.fontSize, "Message author font");
+        authorFontGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
         authorFontGroup.setSelectedIndex(s.authorFontSize, true);
-        messageFontGroup = new ChoiceGroup("Message content font", ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
-        messageFontGroup.setSelectedIndex(s.messageFontSize, true);
+        append(authorFontGroup);
 
-        messageCountField = new TextField("Message load count", new Integer(s.messageLoadCount).toString(), 3, TextField.NUMERIC);
+        createHeading(s.ic.fontSize, "Message content font");
+        messageFontGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
+        messageFontGroup.setSelectedIndex(s.messageFontSize, true);
+        append(messageFontGroup);
+
+        createHeading(s.ic.msgCount, "Message load count");
+        messageCountField = new TextField(null, new Integer(s.messageLoadCount).toString(), 3, TextField.NUMERIC);
+        append(messageCountField);
 
         String[] formatChoices = {"PNG", "JPEG"};
         Image[] formatImages = {null, null};
-        formatGroup = new ChoiceGroup("Attachment format", ChoiceGroup.EXCLUSIVE, formatChoices, formatImages);
+        createHeading(s.ic.attachFormat, "Attachment format");
+        formatGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, formatChoices, formatImages);
         formatGroup.setSelectedIndex(s.useJpeg ? 1 : 0, true);
+        append(formatGroup);
 
-        attachSizeField = new TextField("Max. attachment size", new Integer(s.attachmentSize).toString(), 5, TextField.NUMERIC);
+        createHeading(s.ic.attachSize, "Max. attachment size");
+        attachSizeField = new TextField(null, new Integer(s.attachmentSize).toString(), 5, TextField.NUMERIC);
+        append(attachSizeField);
 
         String[] iconChoices = {"Off", "Square", "Circle", "Circle (HQ)"};
-        Image[] iconImages = {null, null, null, null};
-        iconGroup = new ChoiceGroup("Profile pictures", ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
+        Image[] iconImages = {s.ic.pfpNone, s.ic.pfpSquare, s.ic.pfpCircle, s.ic.pfpCircleHq};
+        createHeading(s.ic.pfpType, "Profile pictures");
+        iconGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
         iconGroup.setSelectedIndex(s.iconType, true);
+        append(iconGroup);
 
         String[] iconSizeChoices = {"Placeholders only", "16 px", "32 px"};
-        Image[] iconSizeImages = {null, null, null};
-        iconSizeGroup = new ChoiceGroup("Icon size", ChoiceGroup.EXCLUSIVE, iconSizeChoices, iconSizeImages);
+        Image[] iconSizeImages = {s.ic.pfpPlaceholder, s.ic.pfp16, s.ic.pfp32};
+        createHeading(s.ic.pfpSize, "Icon size");
+        iconSizeGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, iconSizeChoices, iconSizeImages);
         iconSizeGroup.setSelectedIndex(s.iconSize, true);
+        append(iconSizeGroup);
 
         String[] refMsgChoices = {"Only recipient", "Full message"};
-        Image[] refMsgImages = {null, null};
-        refMsgGroup = new ChoiceGroup("Show replies as", ChoiceGroup.EXCLUSIVE, refMsgChoices, refMsgImages);
+        Image[] refMsgImages = {s.ic.repliesName, s.ic.repliesFull};
+        createHeading(s.ic.repliesGroup, "Show replies as");
+        refMsgGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, refMsgChoices, refMsgImages);
         refMsgGroup.setSelectedIndex(s.showRefMessage ? 1 : 0, true);
+        append(refMsgGroup);
 
         openMapperCommand = new Command("Map keys", Command.ITEM, 2);
         keyMapperItem = new StringItem(null, "Remap hotkeys", Item.BUTTON);
         keyMapperItem.setDefaultCommand(openMapperCommand);
         keyMapperItem.setItemCommandListener(this);
+        append(keyMapperItem);
 
         saveCommand = new Command("Save", Command.OK, 0);
         cancelCommand = new Command("Cancel", Command.BACK, 1);
-
-        append(themeGroup);
-        append(uiGroup);
-        append(authorFontGroup);
-        append(messageFontGroup);
-        append(messageCountField);
-        append(formatGroup);
-        append(attachSizeField);
-        append(iconGroup);
-        append(iconSizeGroup);
-        append(refMsgGroup);
-        append(keyMapperItem);
         addCommand(saveCommand);
         addCommand(cancelCommand);
     }
@@ -194,6 +209,9 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 e.printStackTrace();
             }
         }
+        s.ic = null;
+        s.ic = new Icons(s.iconSize == 2);
+
         s.loadFonts();
         s.disp.setCurrent(new MainMenu(s));
     }

@@ -13,10 +13,10 @@ public class MainMenu extends List implements CommandListener {
 
         quitCommand = new Command("Quit", Command.EXIT, 0);
 
-        append("Servers", null);
-        append("Direct messages", null);
-        append("Settings", null);
-        append("Log out", null);
+        append("Servers", s.ic.guilds);
+        append("Direct messages", s.ic.dms);
+        append("Settings", s.ic.settings);
+        append("Log out", s.ic.logout);
         addCommand(quitCommand);
     }
 

@@ -91,6 +91,8 @@ public class State {
 	int refreshHotkey;
 	int backHotkey;
 
+	Icons ic;
+
 	public State() {
 		subscribedGuilds = new Vector();
 		iconCache = new IconCache(this);
@@ -99,6 +101,9 @@ public class State {
 	}
 
     public void login(String api, String gateway, String cdn, String token) {
+		ic = null;
+		ic = new Icons(iconSize == 2);
+
         loadFonts();
         this.cdn = cdn;
         http = new HTTPThing(this, api, token);

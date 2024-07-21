@@ -2,26 +2,71 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class LoadingScreen extends Form implements CommandListener {
+public class LoadingScreen extends Canvas {
     private State s;
-    public StringItem text;
-    public Command backCommand;
-    public Displayable prevScreen;
+    private boolean upscaled;
+    private int iconOffset;
+
+    String text;
+    int curFrame;
+    int animDirection;
+
+    static Image[] frames;
 
     public LoadingScreen(State s) {
-        super(null);
+        super();
         this.s = s;
-        prevScreen = s.disp.getCurrent();
+        text = "Loading";
+        curFrame = 0;
+        animDirection = 1;
 
-        text = new StringItem(null, "Loading");
-        text.setLayout(Item.LAYOUT_VEXPAND | Item.LAYOUT_VCENTER | Item.LAYOUT_CENTER);
-        append(text);
+        upscaled = getWidth() > 270 && getHeight() > 270;
+        iconOffset = upscaled ? 10 : 5;
 
-        backCommand = new Command("Cancel", Command.BACK, 1);
-        addCommand(backCommand);
+        if (frames == null) {
+            frames = new Image[8];
+            for (int i = 0; i < 8; i++) {
+                try {
+                    frames[i] = Image.createImage("/" + (i + 1) + ".png");
+                    if (upscaled) {
+                        frames[i] = Util.resizeImage(frames[i], 96, 96);
+                    }
+                }
+                catch (Exception e) {}
+            }
+        }
+
+        new LoadingAnimThread(s.disp, this).start();
     }
 
-    public void commandAction(Command c, Displayable d) {
-        s.disp.setCurrent(prevScreen);
+    protected void paint(Graphics g) {
+        // Fill background with selected theme's background color
+        g.setColor(ChannelView.backgroundColors[s.theme]);
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        // Draw current animation frame
+        if (frames[curFrame] != null) {
+            int messageFontHeight = s.messageFont.getHeight();
+            int halfContainerHeight = (upscaled ? 48 : 24) + messageFontHeight*3/4;
+
+            g.drawImage(
+                frames[curFrame], getWidth()/2 - iconOffset, getHeight()/2 - halfContainerHeight,
+                Graphics.HCENTER | Graphics.TOP
+            );
+
+            g.setColor(ChannelView.timestampColors[s.theme]);
+            g.setFont(s.messageFont);
+            g.drawString(
+                text, getWidth()/2, getHeight()/2 + halfContainerHeight,
+                Graphics.HCENTER | Graphics.BOTTOM
+            );
+        }
+
+        // Go to next animation frame.
+        // If end reached, start going through frames in descending order.
+        // If beginning reached, start going through frames in ascending order.
+        curFrame += animDirection;
+        if (curFrame == 7) animDirection = -1;
+        if (curFrame == 0) animDirection = 1;
     }
 }
