@@ -11,7 +11,12 @@ public class ChannelViewItem {
     State s;
     int type;  // one of the constants defined above
     Message msg;  // message data for MESSAGE and ATTACHMENTS_BUTTON types
+
+    // Ref message (referenced message) = recipient message of a reply
+
     Image refImg;  // cached ref message image for MESSAGE type if it is a reply
+    boolean refImgHasPfp;  // cached ref image has profile picture loaded
+    boolean refImgHasColor;  // cached ref image has name color loaded
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
 
     public ChannelViewItem(State s, int type) {
@@ -69,6 +74,23 @@ public class ChannelViewItem {
         return messageFontHeight*5/3;
     }
 
+    private boolean shouldRedrawRefMessage(boolean selected) {
+        // Ref message has not been rendered yet
+        if (refImg == null) return true;
+
+        // Rendered ref image's selection status (= background color) has changed
+        if (refImgSelected != selected) return true;
+
+        // Profile pic for recipient has just been loaded
+        int size = s.messageFont.getHeight();
+        if (!refImgHasPfp && s.iconCache.hasResized(msg.recipient, size)) return true;
+
+        // Name color for recipient has just been loaded
+        if (!refImgHasColor && s.nameColorCache.has(msg.recipient)) return true;
+
+        return false;
+    }
+
     /**
      * Draws this channel view item on the screen.
      * @param g Graphics object to use for drawing.
@@ -94,65 +116,74 @@ public class ChannelViewItem {
 
                 if (msg.showAuthor) {
                     int recipientColor = 0;
+                    
                     if (msg.recipient != null) {
+                        boolean hasColor = s.nameColorCache.has(msg.recipient, true);
+                        
                         recipientColor = s.nameColorCache.get(msg.recipient.id);
                         if (recipientColor == 0) recipientColor = ChannelView.authorColors[s.theme];
-                    }
 
-                    // Draw referenced message if option is enabled
-                    if (msg.recipient != null && s.showRefMessage) {
-                        if (refImg == null || refImgSelected != selected) {
-                            // Create an image where the ref message will be rendered.
-                            // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
-                            Image refImgFull = Image.createImage(width*4/3, messageFontHeight);
-                            Graphics refG = refImgFull.getGraphics();
+                        // Draw referenced message if option is enabled
+                        if (s.showRefMessage) {
+                            if (shouldRedrawRefMessage(selected)) {
+                                refImgHasPfp = !useIcons || s.iconSize == 0 || s.iconCache.hasResized(msg.recipient, messageFontHeight);
+                                refImgHasColor = hasColor;
 
-                            // Fill ref message image with the same background color that the rest of the message has
-                            refG.setColor(selected ? ChannelView.highlightColors[s.theme] : ChannelView.backgroundColors[s.theme]);
-                            refG.fillRect(0, 0, width*4/3, messageFontHeight);
+                                // Create an image where the ref message will be rendered.
+                                // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
+                                Image refImgFull = Image.createImage(width*4/3, messageFontHeight);
+                                Graphics refG = refImgFull.getGraphics();
 
-                            int refX = x*4/3;
+                                // Fill ref message image with the same background color that the rest of the message has
+                                refG.setColor(selected ? ChannelView.highlightColors[s.theme] : ChannelView.backgroundColors[s.theme]);
+                                refG.fillRect(0, 0, width*4/3, messageFontHeight);
 
-                            if (useIcons) {
-                                Image icon = s.iconCache.getResized(msg.recipient, messageFontHeight);
+                                int refX = x*4/3;
 
-                                if (icon != null) {
-                                    refG.drawImage(icon, refX, 0, Graphics.TOP | Graphics.LEFT);
-                                } else {
-                                    refG.setColor(msg.recipient.iconColor);
+                                if (useIcons) {
+                                    Image icon = s.iconCache.getResized(msg.recipient, messageFontHeight);
 
-                                    if (s.iconType == State.ICON_TYPE_CIRCLE || s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
-                                        refG.fillArc(refX, 0, messageFontHeight, messageFontHeight, 0, 360);
+                                    if (icon != null) {
+                                        refG.drawImage(icon, refX, 0, Graphics.TOP | Graphics.LEFT);
                                     } else {
-                                        refG.fillRect(refX, 0, messageFontHeight, messageFontHeight);
+                                        refG.setColor(msg.recipient.iconColor);
+
+                                        if (s.iconType == State.ICON_TYPE_CIRCLE || s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
+                                            refG.fillArc(refX, 0, messageFontHeight, messageFontHeight, 0, 360);
+                                        } else {
+                                            refG.fillRect(refX, 0, messageFontHeight, messageFontHeight);
+                                        }
                                     }
+
+                                    refX += messageFontHeight*4/3;
                                 }
 
-                                refX += messageFontHeight*4/3;
+                                refG.setFont(s.titleFont);
+                                refG.setColor(recipientColor);
+                                refG.drawString(msg.recipient.name, refX, 0, Graphics.TOP | Graphics.LEFT);
+
+                                refX += s.titleFont.stringWidth(msg.recipient.name) + messageFontHeight/3;
+                                
+                                refG.setFont(s.messageFont);
+                                refG.setColor(ChannelView.refMessageColors[s.theme]);
+                                refG.drawString(msg.refContent, refX, 0, Graphics.TOP | Graphics.LEFT);
+
+                                refImg = Util.resizeImageBilinear(refImgFull, width, messageFontHeight*3/4);
+                                refImgSelected = selected;
                             }
 
-                            refG.setFont(s.titleFont);
-                            refG.setColor(recipientColor);
-                            refG.drawString(msg.recipient.name, refX, 0, Graphics.TOP | Graphics.LEFT);
+                            // draw downscaled refmessage
+                            y += messageFontHeight/4;
+                            g.drawImage(refImg, messageFontHeight/8, y, Graphics.TOP | Graphics.LEFT);
 
-                            refX += s.titleFont.stringWidth(msg.recipient.name) + messageFontHeight/3;
-                            
-                            refG.setFont(s.messageFont);
-                            refG.setColor(ChannelView.refMessageColors[s.theme]);
-                            refG.drawString(msg.refContent, refX, 0, Graphics.TOP | Graphics.LEFT);
+                            // draw connecting line between refmessage and message
+                            y += messageFontHeight*3/8;
+                            g.setColor(0x00666666);
+                            g.drawLine(x/2, y, x/2, y + messageFontHeight/2);
+                            g.drawLine(x/2, y, x*7/8, y);
 
-                            refImg = Util.resizeImageBilinear(refImgFull, width, messageFontHeight*3/4);
-                            refImgSelected = selected;
+                            y += messageFontHeight*5/8;
                         }
-                        y += messageFontHeight/4;
-                        g.drawImage(refImg, messageFontHeight/8, y, Graphics.TOP | Graphics.LEFT);
-
-                        y += messageFontHeight*3/8;
-                        g.setColor(0x00666666);
-                        g.drawLine(x/2, y, x/2, y + messageFontHeight/2);
-                        g.drawLine(x/2, y, x*7/8, y);
-
-                        y += messageFontHeight*5/8;
                     }
 
                     // Draw icon

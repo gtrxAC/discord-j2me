@@ -25,7 +25,7 @@ public class NameColorCache {
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
             String userId = msg.author.id;
-            if (requestIds.indexOf(userId) == -1 && !s.nameColorCache.has(msg.author)) {
+            if (requestIds.indexOf(userId) == -1 && !has(msg.author)) {
                 requestIds.add(userId);
             }
         }
@@ -38,19 +38,21 @@ public class NameColorCache {
         s.gateway.send(msg);
     }
 
-    public int get(String userId) {
-        if (!s.useNameColors) return 0;
+    public boolean active() {
+        return s.useNameColors &&
+            // name colors are not applicable in non-guild contexts
+            !s.isDM && s.selectedGuild != null &&
+            // name colors cannot be fetched without gateway (technically can but isn't practical)
+            s.gatewayActive();
+    }
 
-        // name colors are not applicable in non-guild contexts
-        if (s.isDM || s.selectedGuild == null) return 0;
+    public int get(String userId) {
+        if (!active()) return 0;
 
         String key = userId + s.selectedGuild.id;
 
         Integer result = (Integer) colors.get(key);
         if (result != null) return result.intValue();
-
-        // name colors cannot be fetched without gateway (technically can but isn't practical)
-        if (!s.gatewayActive()) return 0;
 
         if (!activeRequest) {
             activeRequest = true;
@@ -75,9 +77,12 @@ public class NameColorCache {
         s.channelView.repaint();
     }
 
+    public boolean has(User user, boolean def) {
+        if (!active()) return def;
+        return colors.containsKey(user.id + s.selectedGuild.id);
+    }
+
     public boolean has(User user) {
-        if (s.isDM || s.selectedGuild == null) return false;
-        String key = user.id + s.selectedGuild.id;
-        return colors.containsKey(key);
+        return has(user, false);
     }
 }

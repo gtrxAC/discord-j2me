@@ -94,4 +94,13 @@ public class IconCache {
         resizedIcons.put(resizedHash, icon);
         resizedIconHashes.addElement(resizedHash);
     }
+
+    public boolean has(HasIcon target) {
+        return icons.containsKey(target.getIconHash());
+    }
+
+    public boolean hasResized(HasIcon target, int size) {
+        String resizedHash = target.getIconHash() + size;
+        return resizedIcons.containsKey(resizedHash);
+    }
 }

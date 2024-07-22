@@ -21,7 +21,7 @@ public class LoadingScreen extends Canvas {
         animDirection = 1;
 
         upscaled = getWidth() > 270 && getHeight() > 270;
-        iconOffset = upscaled ? 10 : 5;
+        iconOffset = upscaled ? 8 : 4;
 
         if (frames == null) {
             frames = new Image[8];
