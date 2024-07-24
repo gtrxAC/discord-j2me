@@ -233,11 +233,10 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
                 author: {
                     id: msg.author.id,
                     avatar: msg.author.avatar,
+                    username: msg.author.username
                     global_name: msg.author.global_name
-                }
-            }
-            if (msg.author.global_name == null) {
-                result.author.username = msg.author.username;
+                },
+                raw_content: msg.content,
             }
             if (msg.type >= 1 && msg.type <= 11) result.type = msg.type;
 
@@ -271,15 +270,12 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
                 }
                 result.referenced_message = {
                     author: {
+                        username: msg.referenced_message.author.username,
                         global_name: msg.referenced_message.author.global_name,
                         id: msg.referenced_message.author.id,
                         avatar: msg.referenced_message.author.avatar
                     },
                     content
-                }
-                if (msg.referenced_message.author.global_name == null) {
-                    result.referenced_message.author.username =
-                        msg.referenced_message.author.username;
                 }
             }
 
@@ -291,6 +287,7 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
                             size: att.size,
                             width: att.width,
                             height: att.height,
+                            content_type: att.content_type,
                             proxy_url: att.proxy_url
                         }
                     })
@@ -301,8 +298,18 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             if (msg.embeds?.length) {
                 result.embeds = msg.embeds.map(emb => {
                     return {
+                        url: emb.url,
                         title: emb.title,
-                        description: emb.description
+                        description: emb.description,
+                        author: emb.author,
+                        provider: emb.provider,
+                        footer: emb.footer,
+                        timestamp: emb.timestamp,
+                        color: emb.color,
+                        thumbnail: emb.thumbnail,
+                        image: emb.image,
+                        video: emb.video,
+                        fields: emb.fields
                     }
                 })
             }
@@ -396,6 +403,26 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
     catch (e) { handleError(res, e); }
 });
 
+// Get server member
+app.get(`${BASE}/guilds/:guild/members/:member`, getToken, async (req, res) => {
+    try {
+        const response = await axios.get(
+            `${DEST_BASE}/guilds/${req.params.guild}/members/${req.params.member}`,
+            {headers: res.locals.headers}
+        );
+        const member = {
+            user: response.data.user,
+            roles: response.data.roles,
+            joined_at: response.data.joined_at,
+        };
+        if (response.data.nick != null) member.avatar = response.data.nick;
+        if (response.data.avatar != null) member.avatar = response.data.avatar;
+        if (response.data.permissions != null) member.permissions = response.data.permissions;
+        res.send(stringifyUnicode(member));
+    }
+    catch (e) { handleError(res, e); }
+});
+
 // Edit message (non-standard because J2ME doesn't support PATCH method)
 app.post(`${BASE}/channels/:channel/messages/:message/edit`, getToken, async (req, res) => {
     try {
@@ -433,7 +460,10 @@ app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
             .map(r => {
                 return {
                     id: r.id,
-                    color: r.color
+                    name: r.name,
+                    color: r.color,
+                    position: r.position,
+                    permissions: r.permissions
                 }
             })
         
