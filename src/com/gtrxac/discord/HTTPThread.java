@@ -119,15 +119,26 @@ public class HTTPThread extends Thread {
 
                         s.selectedGuild.roles = new Vector();
 
-                        for (int i = roleArr.size() - 1; i >= 0; i--) {
-                            for (int a = roleArr.size() - 1; a >= 0; a--) {
-                                JSONObject data = roleArr.getObject(a);
-                                if (data.getInt("position", i) != i) continue;
-
-                                int color = data.getInt("color");
-                                if (color == 0) continue;
-
+                        if (s.isLiteProxy) {
+                            // Sorted server-side: load roles as-is
+                            for (int i = roleArr.size() - 1; i >= 0; i--) {
+                                JSONObject data = roleArr.getObject(i);
+                                
+                                if (data.getInt("color") == 0) continue;
+                                
                                 s.selectedGuild.roles.addElement(new Role(data));
+                            }
+                        } else {
+                            // Not sorted server-side: manually sort based on 'position' field
+                            for (int i = roleArr.size() - 1; i >= 0; i--) {
+                                for (int a = roleArr.size() - 1; a >= 0; a--) {
+                                    JSONObject data = roleArr.getObject(a);
+
+                                    if (data.getInt("position", i) != i) continue;
+                                    if (data.getInt("color") == 0) continue;
+
+                                    s.selectedGuild.roles.addElement(new Role(data));
+                                }
                             }
                         }
                     }

@@ -108,8 +108,11 @@ public class Message {
                 JSONObject refObj = data.getObject("referenced_message");
 
                 recipient = new User(s, refObj.getObject("author"));
-                refContent = refObj.getString("content", null);
-                if (refContent == null) refContent = "(no content)";
+
+                if (s.showRefMessage) {
+                    refContent = refObj.getString("content", null);
+                    if (refContent == null) refContent = "(no content)";
+                }
             }
             catch (Exception e) {}
 

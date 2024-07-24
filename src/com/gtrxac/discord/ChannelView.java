@@ -413,6 +413,13 @@ public class ChannelView extends Canvas implements CommandListener {
                 );
             }
         }
+
+        // g.setColor(0x00ff0000);
+        // g.drawString(
+        //     "" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()), width, 0,
+        //     Graphics.TOP | Graphics.RIGHT
+        // );
+
         haveDrawn = true;
     }
 
