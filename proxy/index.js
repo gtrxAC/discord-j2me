@@ -233,10 +233,11 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
                 author: {
                     id: msg.author.id,
                     avatar: msg.author.avatar,
-                    username: msg.author.username
                     global_name: msg.author.global_name
-                },
-                raw_content: msg.content,
+                }
+            }
+            if (msg.author.global_name == null || req.query.droidcord) {
+                result.author.username = msg.author.username;
             }
             if (msg.type >= 1 && msg.type <= 11) result.type = msg.type;
 
@@ -270,26 +271,32 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
                 }
                 result.referenced_message = {
                     author: {
-                        username: msg.referenced_message.author.username,
                         global_name: msg.referenced_message.author.global_name,
                         id: msg.referenced_message.author.id,
                         avatar: msg.referenced_message.author.avatar
                     },
                     content
                 }
+                if (msg.referenced_message.author.global_name == null || req.query.droidcord) {
+                    result.referenced_message.author.username =
+                        msg.referenced_message.author.username;
+                }
             }
 
             if (msg.attachments?.length) {
                 result.attachments = msg.attachments
                     .map(att => {
-                        return {
+                        var ret = {
                             filename: att.filename,
                             size: att.size,
                             width: att.width,
                             height: att.height,
-                            content_type: att.content_type,
                             proxy_url: att.proxy_url
+                        };
+                        if (req.query.droidcord) {
+                            ret.content_type = att.content_type;
                         }
+                        return ret;
                     })
             }
             if (msg.sticker_items?.length) {
@@ -297,20 +304,23 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             }
             if (msg.embeds?.length) {
                 result.embeds = msg.embeds.map(emb => {
-                    return {
-                        url: emb.url,
+                    var ret = {
                         title: emb.title,
-                        description: emb.description,
-                        author: emb.author,
-                        provider: emb.provider,
-                        footer: emb.footer,
-                        timestamp: emb.timestamp,
-                        color: emb.color,
-                        thumbnail: emb.thumbnail,
-                        image: emb.image,
-                        video: emb.video,
-                        fields: emb.fields
+                        description: emb.description
+                    };
+                    if (req.query.droidcord) {
+                        ret.url = emb.url;
+                        ret.author = emb.author;
+                        ret.provider = emb.provider;
+                        ret.footer = emb.footer;
+                        ret.timestamp = emb.timestamp;
+                        ret.color = emb.color;
+                        ret.thumbnail = emb.thumbnail;
+                        ret.image = emb.image;
+                        ret.video = emb.video;
+                        ret.fields = emb.fields;
                     }
+                    return ret;
                 })
             }
 
@@ -413,7 +423,7 @@ app.get(`${BASE}/guilds/:guild/members/:member`, getToken, async (req, res) => {
         const member = {
             user: response.data.user,
             roles: response.data.roles,
-            joined_at: response.data.joined_at,
+            joined_at: response.data.joined_at
         };
         if (response.data.nick != null) member.avatar = response.data.nick;
         if (response.data.avatar != null) member.avatar = response.data.avatar;
@@ -458,13 +468,16 @@ app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
         const roles = response.data
             .sort((a, b) => a.position - b.position)
             .map(r => {
-                return {
+                var ret = {
                     id: r.id,
-                    name: r.name,
-                    color: r.color,
-                    position: r.position,
-                    permissions: r.permissions
+                    color: r.color
+                };
+                if (req.query.droidcord) {
+                    ret.name = r.name;
+                    ret.position = r.position;
+                    ret.permissions = r.permissions;
                 }
+                return ret;
             })
         
         res.send(stringifyUnicode(roles))
