@@ -9,8 +9,6 @@ import cc.nnproject.json.*;
 
 public class GatewayThread extends Thread {
     private State s;
-    public String gateway;
-    public String token;
 
     volatile boolean stop;
     volatile String stopMessage;
@@ -21,11 +19,8 @@ public class GatewayThread extends Thread {
     private InputStream is;
     private OutputStream os;
 
-    public GatewayThread(State s, String gateway, String token) {
+    public GatewayThread(State s) {
         this.s = s;
-        this.gateway = s.getPlatformSpecificUrl(gateway);
-        this.token = token;
-
         s.subscribedGuilds = new Vector();
     }
 
@@ -46,7 +41,7 @@ public class GatewayThread extends Thread {
                 s.channelView.bannerText = "Reconnecting";
                 s.channelView.repaint();
             }
-            s.gateway = new GatewayThread(s, gateway, token);
+            s.gateway = new GatewayThread(s);
             s.gateway.start();
         } else {
             s.disp.setCurrent(new ReconnectForm(s, message));
@@ -63,7 +58,7 @@ public class GatewayThread extends Thread {
 
     public void run() {
         try {
-            sc = (SocketConnection) Connector.open(gateway);
+            sc = (SocketConnection) Connector.open(s.getPlatformSpecificUrl(s.gatewayUrl));
             sc.setSocketOption(SocketConnection.KEEPALIVE, 1);
 
             is = sc.openInputStream();
@@ -384,7 +379,7 @@ public class GatewayThread extends Thread {
                     idProps.put("device", "");
             
                     JSONObject idData = new JSONObject();
-                    idData.put("token", token.trim());
+                    idData.put("token", s.token);
                     idData.put("capabilities", 30717);
                     idData.put("properties", idProps);
             

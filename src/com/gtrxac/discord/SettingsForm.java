@@ -1,11 +1,9 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
-import javax.microedition.rms.*;
 
 public class SettingsForm extends Form implements CommandListener, ItemCommandListener {
     State s;
-    private RecordStore loginRms;
 
     private ChoiceGroup themeGroup;
     private ChoiceGroup uiGroup;
@@ -119,43 +117,6 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         addCommand(cancelCommand);
     }
 
-    private void setRecord(int index, byte[] value) throws Exception {
-        if (loginRms.getNumRecords() >= index) {
-            loginRms.setRecord(index, value, 0, value.length);
-        } else {
-            loginRms.addRecord(value, 0, value.length);
-        }
-    }
-
-    private void setByteRecord(int index, int value) throws Exception {
-        byte[] record = {new Integer(value).byteValue()};
-        setRecord(index, record);
-    }
-
-    private void setBoolRecord(int index, boolean value) throws Exception {
-        setByteRecord(index, value ? 1 : 0);
-    }
-
-    private void setIntRecord(int index, int value) throws Exception {
-        byte[] record = new Integer(value).toString().getBytes();
-        setRecord(index, record);
-    }
-
-    public void saveKeyMappings() {
-        try {
-            loginRms = RecordStore.openRecordStore("login", true);
-            setIntRecord(22, s.sendHotkey);
-            setIntRecord(23, s.replyHotkey);
-            setIntRecord(24, s.copyHotkey);
-            setIntRecord(25, s.refreshHotkey);
-            setIntRecord(26, s.backHotkey);
-            loginRms.closeRecordStore();
-        }
-        catch (Exception e) {
-            s.error(e);
-        }
-    }
-
     public void commandAction(Command c, Displayable d) {
         if (c == saveCommand) {
             try {
@@ -198,24 +159,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 hotkeyGroup.getSelectedFlags(selected);
                 s.defaultHotkeys = selected[0];
 
-                loginRms = RecordStore.openRecordStore("login", true);
-                setByteRecord(3, s.theme);
-                setBoolRecord(4, s.oldUI);
-                setByteRecord(6, s.authorFontSize);
-                setByteRecord(7, s.messageFontSize);
-                setBoolRecord(8, s.use12hTime);
-                setByteRecord(9, s.messageLoadCount);
-                setBoolRecord(12, s.useJpeg);
-                setByteRecord(14, s.iconType);
-                setIntRecord(15, s.attachmentSize);
-                setByteRecord(16, s.iconSize);
-                setBoolRecord(17, s.nativeFilePicker);
-                setBoolRecord(18, s.autoReConnect);
-                setBoolRecord(19, s.showMenuIcons);
-                setBoolRecord(21, s.useNameColors);
-                setBoolRecord(27, s.showRefMessage);
-                setBoolRecord(28, s.defaultHotkeys);
-                loginRms.closeRecordStore();
+                LoginSettings.save(s);
             }
             catch (Exception e) {
                 e.printStackTrace();

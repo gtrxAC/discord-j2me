@@ -46,7 +46,10 @@ public class State {
 
 	HTTPThing http;
 	GatewayThread gateway;
+	String api;
+	String gatewayUrl;
 	String cdn;
+	String token;
 
 	String myUserId;
 	boolean isLiteProxy;
@@ -101,17 +104,16 @@ public class State {
 		unreads = new UnreadManager(this);
 	}
 
-    public void login(String api, String gateway, String cdn, String token) {
+    public void login() {
 		ic = null;
 		ic = new Icons(iconSize == 2);
 
         loadFonts();
-        this.cdn = cdn;
-        http = new HTTPThing(this, api, token);
+        http = new HTTPThing(this);
         disp.setCurrent(new MainMenu(this));
 
         if (useGateway) {
-            this.gateway = new GatewayThread(this, gateway, token);
+            this.gateway = new GatewayThread(this);
             this.gateway.start();
         }
     }

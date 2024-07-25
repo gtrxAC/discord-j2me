@@ -354,7 +354,7 @@ public class HTTPThread extends Thread {
                         os = httpConn.openDataOutputStream();
 
                         os.write(createFormPart("token", null));
-                        os.write(s.http.token.getBytes());
+                        os.write(s.token.getBytes());
                         os.write(LINE_FEED.getBytes());
 
                         os.write(createFormPart("content", null));

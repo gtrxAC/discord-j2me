@@ -29,8 +29,8 @@ public class DiscordMIDlet extends MIDlet {
             if (!haveLoginRms && getAppProperty("Token") == null) {
                 s.disp.setCurrent(new LoginForm(s));
             } else {
-                LoginSettings sett = new LoginSettings(s);
-                s.login(sett.api, sett.gateway, sett.cdn, sett.token);
+                LoginSettings.load(s);
+                s.login();
             }
             started = true;
         }

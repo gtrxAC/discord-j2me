@@ -7,23 +7,19 @@ import javax.microedition.lcdui.Image;
 
 public class HTTPThing {
     State s;
-    String api;
-    String token;
 
-	public HTTPThing(State s, String api, String token) {
+	public HTTPThing(State s) {
         this.s = s;
-        this.api = api;
-		this.token = token.trim();
 	}
 
     public HttpConnection openConnection(String url) throws IOException {
-        String fullUrl = s.getPlatformSpecificUrl(api + "/api/v9" + url);
+        String fullUrl = s.getPlatformSpecificUrl(s.api + "/api/v9" + url);
 
         if (s.tokenType == State.TOKEN_TYPE_QUERY) {
             if (fullUrl.indexOf("?") != -1) {
-                fullUrl += "&token=" + token;
+                fullUrl += "&token=" + s.token;
             } else {
-                fullUrl += "?token=" + token;
+                fullUrl += "?token=" + s.token;
             }
         }
 
@@ -31,7 +27,7 @@ public class HTTPThing {
 
         if (s.tokenType == State.TOKEN_TYPE_HEADER) {
             c.setRequestProperty("Content-Type", "application/json");
-            c.setRequestProperty("Authorization", token);
+            c.setRequestProperty("Authorization", s.token);
         }
 
         return c;
@@ -103,14 +99,14 @@ public class HTTPThing {
     }
 
     private String sendJson(String method, String url, JSONObject data) throws Exception {
-        if (s.tokenType == State.TOKEN_TYPE_JSON) data.put("token", token);
+        if (s.tokenType == State.TOKEN_TYPE_JSON) data.put("token", s.token);
         return sendData(method, url, data.build());
     }
 
     public String get(String url) throws Exception {
         if (s.tokenType == State.TOKEN_TYPE_JSON) {
             JSONObject tokenJson = new JSONObject();
-            tokenJson.put("token", token);
+            tokenJson.put("token", s.token);
             return get(url, tokenJson);
         }
 

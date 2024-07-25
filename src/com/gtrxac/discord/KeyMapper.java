@@ -70,7 +70,7 @@ public class KeyMapper extends Canvas implements CommandListener {
 	        s.copyHotkey = newHotkeys[2];
 	        s.refreshHotkey = newHotkeys[3];
 	        s.backHotkey = newHotkeys[4];
-            ((SettingsForm) lastScreen).saveKeyMappings();
+            LoginSettings.save(s);
             s.disp.setCurrent(lastScreen);
         } else {
             repaint();

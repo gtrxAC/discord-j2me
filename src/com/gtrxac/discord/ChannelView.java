@@ -626,7 +626,7 @@ public class ChannelView extends Canvas implements CommandListener {
                 }
                 else {
                     String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
-                    String url = s.http.api + "/upload?channel=" + id + "&token=" + s.http.token;
+                    String url = s.api + "/upload?channel=" + id + "&token=" + s.token;
                     s.platformRequest(url);
                 }
             }

@@ -32,7 +32,7 @@ public class ReconnectForm extends Form implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == yesCommand) {
-            s.gateway = new GatewayThread(s, s.gateway.gateway, s.gateway.token);
+            s.gateway = new GatewayThread(s);
             s.gateway.start();
         }
         s.disp.setCurrent(lastScreen);
