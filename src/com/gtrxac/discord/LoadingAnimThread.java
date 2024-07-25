@@ -25,11 +25,11 @@ public class LoadingAnimThread extends Thread {
             loadScreen.serviceRepaints();
 
             try {
-                // Sleep based on the frame number that was just drawn (first frame = 333 ms, last frame = 1 sec)
+                // Sleep based on the frame number that was just drawn (first frame = 167 ms, last frame = 500 ms)
                 switch (loadScreen.curFrame - loadScreen.animDirection) {
-                    case 0: Thread.sleep(333); break;
-                    case 7: Thread.sleep(1000); break;
-                    default: Thread.sleep(167); break;
+                    case 0: Thread.sleep(167); break;
+                    case 7: Thread.sleep(500); break;
+                    default: Thread.sleep(83); break;
                 }
             }
             catch (Exception e) {}

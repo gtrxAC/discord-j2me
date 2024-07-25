@@ -16,7 +16,7 @@ public class LoadingScreen extends Canvas {
     public LoadingScreen(State s) {
         super();
         this.s = s;
-        text = "Loading";
+        text = "Loading...";
         curFrame = 0;
         animDirection = 1;
 

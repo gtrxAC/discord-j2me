@@ -339,7 +339,7 @@ public class HTTPThread extends Thread {
                 case SEND_ATTACHMENT: {
                     Displayable screen = s.disp.getCurrent();
                     if (screen instanceof LoadingScreen) {
-                        ((LoadingScreen) screen).text = "Sending";
+                        ((LoadingScreen) screen).text = "Sending...";
                     }
 
                     HttpConnection httpConn = null;

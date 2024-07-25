@@ -18,7 +18,15 @@ public class DiscordMIDlet extends MIDlet {
             s.midlet = this;
             s.disp = Display.getDisplay(this);
 
-            if (RecordStore.listRecordStores() == null && getAppProperty("Token") == null) {
+            boolean haveLoginRms = true;
+            try {
+                RecordStore.openRecordStore("login", false).closeRecordStore();
+            }
+            catch (Exception e) {
+                haveLoginRms = false;
+            }
+
+            if (!haveLoginRms && getAppProperty("Token") == null) {
                 s.disp.setCurrent(new LoginForm(s));
             } else {
                 LoginSettings sett = new LoginSettings(s);
