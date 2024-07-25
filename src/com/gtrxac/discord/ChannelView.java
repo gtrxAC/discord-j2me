@@ -456,78 +456,102 @@ public class ChannelView extends Canvas implements CommandListener {
             }
         }
     }
+
+    private void sendHotkeyAction() {
+        s.dontShowLoadScreen = true;
+        s.disp.setCurrent(new MessageBox(s));
+    }
+
+    private void replyHotkeyAction() {
+        if (!selectionMode || items.size() == 0) return;
+        ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+        if (!item.shouldShowReplyOption()) return;
+        s.disp.setCurrent(new ReplyForm(s, item.msg));
+    }
+
+    private void copyHotkeyAction() {
+        if (!selectionMode || items.size() == 0) return;
+        ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+        if (item.type != ChannelViewItem.MESSAGE) return;
+        s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
+    }
     
     private void keyEvent(int keycode) {
         touchMode = false;
         int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).getHeight();
         int thisItemPos = getItemPosition(selectedItem);
 
-        // user bound key
-        if (keycode == s.sendHotkey) {
-            s.dontShowLoadScreen = true;
-            s.disp.setCurrent(new MessageBox(s));
-        }
-        else if (keycode == s.replyHotkey) {
-            if (!selectionMode || items.size() == 0) return;
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-            if (!item.shouldShowReplyOption()) return;
-            s.disp.setCurrent(new ReplyForm(s, item.msg));
-        }
-        else if (keycode == s.copyHotkey) {
-            if (!selectionMode || items.size() == 0) return;
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-            if (item.type != ChannelViewItem.MESSAGE) return;
-            s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
-        }
-        else if (keycode == s.refreshHotkey) {
-            commandAction(refreshCommand, this);
-        }
-        else if (keycode == s.backHotkey) {
-            commandAction(backCommand, this);
-        }
-        // game action key
-        else {
-            int action = getGameAction(keycode);
-            switch (action) {
-                case Canvas.UP: {
-                    // No message selected -> enable selection mode (bottom-most will be selected)
-                    if (!selectionMode) {
-                        selectionMode = true;
-                    }
-                    // Message is taller than screen -> scroll up by two lines
-                    else if (thisItemHeight > getHeight() && thisItemPos < 0) {
-                        scroll -= messageFontHeight*2;
-                    }
-                    // Else go up by one message
-                    else {
-                        int max = items.size() - 1;
-                        if (selectedItem > max) selectedItem = max;
-                        if (selectedItem == max) return;
-                        selectedItem++;
-                    }
-                    break;
+        int action = getGameAction(keycode);
+
+        switch (action) {
+            case UP: {
+                // No message selected -> enable selection mode (bottom-most will be selected)
+                if (!selectionMode) {
+                    selectionMode = true;
                 }
-                case Canvas.DOWN: {
-                    // Message is taller than screen -> scroll down by two lines
-                    if (thisItemHeight > getHeight() && thisItemPos + thisItemHeight > getHeight()) {
-                        scroll += messageFontHeight*2;
-                    }
-                    // Bottom-most message -> disable selection mode
-                    else if (selectedItem == 0) {
-                        selectionMode = false;
-                    }
-                    // Else go down by one message
-                    else {
-                        if (selectedItem < 0) selectedItem = 0;
-                        if (selectedItem == 0) return;
-                        selectedItem--;
-                    }
-                    break;
+                // Message is taller than screen -> scroll up by two lines
+                else if (thisItemHeight > getHeight() && thisItemPos < 0) {
+                    scroll -= messageFontHeight*2;
                 }
-                case Canvas.FIRE: {
-                    executeItemAction();
-                    break;
+                // Else go up by one message
+                else {
+                    int max = items.size() - 1;
+                    if (selectedItem > max) selectedItem = max;
+                    if (selectedItem == max) return;
+                    selectedItem++;
                 }
+                break;
+            }
+            case DOWN: {
+                // Message is taller than screen -> scroll down by two lines
+                if (thisItemHeight > getHeight() && thisItemPos + thisItemHeight > getHeight()) {
+                    scroll += messageFontHeight*2;
+                }
+                // Bottom-most message -> disable selection mode
+                else if (selectedItem == 0) {
+                    selectionMode = false;
+                }
+                // Else go down by one message
+                else {
+                    if (selectedItem < 0) selectedItem = 0;
+                    if (selectedItem == 0) return;
+                    selectedItem--;
+                }
+                break;
+            }
+            case FIRE: {
+                executeItemAction();
+                break;
+            }
+            // not up/down/select - check if it's a hotkey
+            default: {
+                if (s.defaultHotkeys) {
+                    // default hotkey (j2me game actions A/B/C/D)
+                    switch (action) {
+                        case GAME_A: sendHotkeyAction(); break;
+                        case GAME_B: replyHotkeyAction(); break;
+                        case GAME_C: copyHotkeyAction(); break;
+                        case GAME_D: commandAction(refreshCommand, this); break;
+                    }
+                } else {
+                    // user bound key (when 'default hotkeys' option disabled)
+                    if (keycode == s.sendHotkey) {
+                        sendHotkeyAction();
+                    }
+                    else if (keycode == s.replyHotkey) {
+                        replyHotkeyAction();
+                    }
+                    else if (keycode == s.copyHotkey) {
+                        copyHotkeyAction();
+                    }
+                    else if (keycode == s.refreshHotkey) {
+                        commandAction(refreshCommand, this);
+                    }
+                    else if (keycode == s.backHotkey) {
+                        commandAction(backCommand, this);
+                    }
+                }
+                break;
             }
         }
         repaint();

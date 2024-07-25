@@ -74,6 +74,7 @@ public class LoginSettings {
                 s.refreshHotkey = getIntRecord(25, 0);
                 s.backHotkey = getIntRecord(26, 0);
                 s.showRefMessage = getBoolRecord(27, true);
+                s.defaultHotkeys = getBoolRecord(28, true);
             }
             catch (Exception e) {
                 e.printStackTrace();

@@ -35,6 +35,7 @@ public class State {
 	int tokenType;
 	boolean useNameColors;
 	boolean showRefMessage;
+	boolean defaultHotkeys;
 
 	int authorFontSize;
 	int messageFontSize;

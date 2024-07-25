@@ -37,6 +37,8 @@ public class Icons {
     Image repliesGroup;
     Image repliesName;
     Image repliesFull;
+    Image keys;
+    Image keysDefault;
 
     boolean upscale;
 
@@ -88,5 +90,7 @@ public class Icons {
         repliesGroup = load("/32_replies.png");
         repliesName = load("/33_onlynames.png");
         repliesFull = load("/34_fullreply.png");
+        keys = load("/35_keys.png");
+        keysDefault = load("/36_defaultkeys.png");
     }
 }

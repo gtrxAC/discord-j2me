@@ -17,6 +17,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private ChoiceGroup iconGroup;
     private ChoiceGroup iconSizeGroup;
     private ChoiceGroup refMsgGroup;
+    private ChoiceGroup hotkeyGroup;
     private StringItem keyMapperItem;
     private Command saveCommand;
     private Command cancelCommand;
@@ -98,6 +99,13 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         refMsgGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, refMsgChoices, refMsgImages);
         refMsgGroup.setSelectedIndex(s.showRefMessage ? 1 : 0, true);
         append(refMsgGroup);
+
+        String[] hotkeyChoices = {"Use default hotkeys"};
+        Image[] hotkeyImages = {s.ic.keysDefault};
+        createHeading(s.ic.keys, "Hotkeys");
+        hotkeyGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, hotkeyChoices, hotkeyImages);
+        hotkeyGroup.setSelectedIndex(0, s.defaultHotkeys);
+        append(hotkeyGroup);
 
         openMapperCommand = new Command("Map keys", Command.ITEM, 2);
         keyMapperItem = new StringItem(null, "Remap hotkeys", Item.BUTTON);
@@ -187,6 +195,9 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 s.showMenuIcons = selected[4];
                 s.useNameColors = selected[5];
 
+                hotkeyGroup.getSelectedFlags(selected);
+                s.defaultHotkeys = selected[0];
+
                 loginRms = RecordStore.openRecordStore("login", true);
                 setByteRecord(3, s.theme);
                 setBoolRecord(4, s.oldUI);
@@ -203,6 +214,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 setBoolRecord(19, s.showMenuIcons);
                 setBoolRecord(21, s.useNameColors);
                 setBoolRecord(27, s.showRefMessage);
+                setBoolRecord(28, s.defaultHotkeys);
                 loginRms.closeRecordStore();
             }
             catch (Exception e) {
