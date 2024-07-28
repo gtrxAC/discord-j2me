@@ -4,6 +4,7 @@ import javax.microedition.lcdui.*;
 
 public class Icons {
     Image guilds;
+    Image favorites;
     Image dms;
     Image settings;
     Image logout;
@@ -57,6 +58,7 @@ public class Icons {
         this.upscale = upscale;
 
         guilds = load("/2_servers.png");
+        favorites = load("/0_favourites.png");
         dms = load("/1_DM.png");
         settings = load("/3_settings.png");
         logout = load("/4_logout.png");
