@@ -30,6 +30,16 @@ public class Guild implements HasIcon {
         }
     }
 
+    public static Guild getById(State s, String id) {
+        if (s.guilds == null) return null;
+        
+        for (int i = 0; i < s.guilds.size(); i++) {
+            Guild g = (Guild) s.guilds.elementAt(i);
+            if (g.id.equals(id)) return g;
+        }
+        return null;
+    }
+
     public String toString(State s) {
         if (channels == null) return name;
 

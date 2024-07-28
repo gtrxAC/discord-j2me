@@ -14,6 +14,7 @@ public class MainMenu extends List implements CommandListener {
         quitCommand = new Command("Quit", Command.EXIT, 0);
 
         append("Servers", s.ic.guilds);
+        if (!FavoriteGuilds.empty()) append("Favorites", null);
         append("Direct messages", s.ic.dms);
         append("Settings", s.ic.settings);
         append("Log out", s.ic.logout);
@@ -22,20 +23,27 @@ public class MainMenu extends List implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == List.SELECT_COMMAND) {
-            switch (getSelectedIndex()) {
+            int index = getSelectedIndex();
+            if (FavoriteGuilds.empty() && index >= 1) index++;
+
+            switch (index) {
                 case 0: {
                     s.openGuildSelector(true);
                     break;
                 }
                 case 1: {
-                    s.openDMSelector(true);
+                    FavoriteGuilds.openSelector(s, true);
                     break;
                 }
                 case 2: {
-                    s.disp.setCurrent(new SettingsForm(s));
+                    s.openDMSelector(true);
                     break;
                 }
                 case 3: {
+                    s.disp.setCurrent(new SettingsForm(s));
+                    break;
+                }
+                case 4: {
                     if (s.gateway != null) s.gateway.stop = true;
                     s.myUserId = null;
                     s.disp.setCurrent(new LoginForm(s));

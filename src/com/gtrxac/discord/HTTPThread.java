@@ -28,6 +28,9 @@ public class HTTPThread extends Thread {
     State s;
     int action;
 
+    // Parameters for FETCH_GUILDS
+    boolean showFavGuilds;
+
     // Parameters for FETCH_MESSAGES
     String fetchMsgsBefore;
     String fetchMsgsAfter;
@@ -106,8 +109,13 @@ public class HTTPThread extends Thread {
                     for (int i = 0; i < guilds.size(); i++) {
                         s.guilds.addElement(new Guild(s, guilds.getObject(i)));
                     }
-                    s.guildSelector = new GuildSelector(s);
-                    s.disp.setCurrent(s.guildSelector);
+
+                    if (showFavGuilds) {
+                        FavoriteGuilds.openSelector(s, false);
+                    } else {
+                        s.guildSelector = new GuildSelector(s, s.guilds, false);
+                        s.disp.setCurrent(s.guildSelector);
+                    }
                     break;
                 }
 
