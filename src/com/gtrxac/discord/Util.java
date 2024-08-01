@@ -1,6 +1,6 @@
 package com.gtrxac.discord;
 
-import java.util.Vector;
+import java.util.*;
 import javax.microedition.lcdui.*;
 import java.lang.Math;
 
@@ -276,4 +276,14 @@ public class Util {
         }
 		return (r << 16) | (g << 8) | b;
     }
+
+	public static void hashtablePutWithLimit(Hashtable ht, Vector keys, Object key, Object value, int limit) {
+		if (!ht.containsKey(key) && ht.size() >= limit) {
+			Object firstKey = keys.elementAt(0);
+			ht.remove(firstKey);
+			keys.removeElementAt(0);
+		}
+		ht.put(key, value);
+		keys.addElement(key);
+	}
 }

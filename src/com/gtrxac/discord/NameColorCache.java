@@ -66,14 +66,7 @@ public class NameColorCache {
     }
 
     public void set(String key, int color) {
-        if (!colors.containsKey(key) && colors.size() >= 50) {
-            String firstHash = (String) keys.elementAt(0);
-            colors.remove(firstHash);
-            keys.removeElementAt(0);
-        }
-        colors.put(key, new Integer(color));
-        keys.addElement(key);
-
+        Util.hashtablePutWithLimit(colors, keys, key, new Integer(color), 50);
         s.channelView.repaint();
     }
 

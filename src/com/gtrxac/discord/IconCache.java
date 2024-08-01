@@ -23,10 +23,14 @@ public class IconCache {
     }
 
     public Image get(HasIcon target) {
-        if (s.iconType == State.ICON_TYPE_NONE || s.iconSize == 0) return null;
-
-        // Don't show menu icons (DMChannel and Guild) if menu icons disabled
-        if (!s.showMenuIcons && !(target instanceof User)) return null;
+        // Don't show icons if they are disabled
+        if (target instanceof User) {
+            // For profile pictures
+            if (s.pfpType == State.PFP_TYPE_NONE || s.pfpSize == State.PFP_SIZE_PLACEHOLDER) return null;
+        } else {
+            // For menu icons (DMChannel and Guild)
+            if (s.menuIconSize == State.ICON_SIZE_OFF) return null;
+        }
         
         String hash = target.getIconHash();
         if (hash == null) return null;
@@ -55,14 +59,7 @@ public class IconCache {
 
     public void set(String hash, Image icon) {
         removeRequest(hash);
-
-        if (!icons.containsKey(hash) && icons.size() >= 100) {
-            String firstHash = (String) iconHashes.elementAt(0);
-            icons.remove(firstHash);
-            iconHashes.removeElementAt(0);
-        }
-        icons.put(hash, icon);
-        iconHashes.addElement(hash);
+        Util.hashtablePutWithLimit(icons, iconHashes, hash, icon, 100);
     }
 
     public Image getResized(HasIcon target, int size) {
@@ -85,14 +82,7 @@ public class IconCache {
 
     public void setResized(String resizedHash, Image icon) {
         removeResize(resizedHash);
-        
-        if (!resizedIcons.containsKey(resizedHash) && resizedIcons.size() >= s.messageLoadCount) {
-            String firstHash = (String) resizedIconHashes.elementAt(0);
-            resizedIcons.remove(firstHash);
-            resizedIconHashes.removeElementAt(0);
-        }
-        resizedIcons.put(resizedHash, icon);
-        resizedIconHashes.addElement(resizedHash);
+        Util.hashtablePutWithLimit(resizedIcons, resizedIconHashes, resizedHash, icon, s.messageLoadCount);
     }
 
     public boolean has(HasIcon target) {

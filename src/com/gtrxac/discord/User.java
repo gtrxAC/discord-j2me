@@ -19,7 +19,7 @@ public class User implements HasIcon {
             name = data.getString("username", "(no name)");
         }
 
-        if (s.iconType == State.ICON_TYPE_NONE) return;
+        if (s.pfpType == State.PFP_TYPE_NONE) return;
 
         iconHash = data.getString("avatar", null);
 

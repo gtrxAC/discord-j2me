@@ -333,7 +333,12 @@ public class HTTPThread extends Thread {
                     }
 
                     String format = (s.useJpeg ? "jpg" : "png");
-                    String size = (s.iconSize == 1) ? "16" : "32";
+                    String size;
+                    if (iconTarget instanceof User) {
+                        size = (s.pfpSize == State.ICON_SIZE_32) ? "32" : "16";
+                    } else {
+                        size = (s.menuIconSize == State.ICON_SIZE_32) ? "32" : "16";
+                    }
                     String type = iconTarget.getIconType();
                     String id = iconTarget.getIconID();
                     String hash = iconTarget.getIconHash();

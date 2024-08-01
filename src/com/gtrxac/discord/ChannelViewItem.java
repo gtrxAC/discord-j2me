@@ -99,7 +99,7 @@ public class ChannelViewItem {
      */
     public void draw(Graphics g, int y, int width, boolean selected) {
         int messageFontHeight = s.messageFont.getHeight();
-        boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
+        boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
         int iconSize = messageFontHeight*4/3;
 
         switch (type) {
@@ -126,7 +126,10 @@ public class ChannelViewItem {
                         // Draw referenced message if option is enabled
                         if (s.showRefMessage) {
                             if (shouldRedrawRefMessage(selected)) {
-                                refImgHasPfp = !useIcons || s.iconSize == 0 || s.iconCache.hasResized(msg.recipient, messageFontHeight);
+                                refImgHasPfp =
+                                    !useIcons || s.pfpSize == State.PFP_SIZE_PLACEHOLDER ||
+                                    s.iconCache.hasResized(msg.recipient, messageFontHeight);
+
                                 refImgHasColor = hasColor;
 
                                 // Create an image where the ref message will be rendered.
@@ -148,7 +151,7 @@ public class ChannelViewItem {
                                     } else {
                                         refG.setColor(msg.recipient.iconColor);
 
-                                        if (s.iconType == State.ICON_TYPE_CIRCLE || s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
+                                        if (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
                                             refG.fillArc(refX, 0, messageFontHeight, messageFontHeight, 0, 360);
                                         } else {
                                             refG.fillRect(refX, 0, messageFontHeight, messageFontHeight);
@@ -200,7 +203,7 @@ public class ChannelViewItem {
                             // initials on a background whose color is determined by the user ID
                             g.setColor(msg.author.iconColor);
 
-                            if (s.iconType == State.ICON_TYPE_CIRCLE || s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
+                            if (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
                                 g.fillArc(iconX, iconY, iconSize, iconSize, 0, 360);
                             } else {
                                 g.fillRect(iconX, iconY, iconSize, iconSize);

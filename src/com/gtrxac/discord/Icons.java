@@ -54,8 +54,10 @@ public class Icons {
         }
     }
 
-    Icons(boolean upscale) {
-        this.upscale = upscale;
+    Icons(State s) {
+        if (!s.showMenuIcons || s.menuIconSize == State.ICON_SIZE_OFF) return;
+
+        this.upscale = (s.menuIconSize == State.ICON_SIZE_32);
 
         guilds = load("/2_servers.png");
         favorites = load("/0_favourites.png");

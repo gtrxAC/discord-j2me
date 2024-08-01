@@ -13,7 +13,8 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private ChoiceGroup formatGroup;
     private TextField attachSizeField;
     private ChoiceGroup iconGroup;
-    private ChoiceGroup iconSizeGroup;
+    private ChoiceGroup pfpSizeGroup;
+    private ChoiceGroup menuIconGroup;
     private ChoiceGroup refMsgGroup;
     private ChoiceGroup hotkeyGroup;
     private StringItem keyMapperItem;
@@ -38,7 +39,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         themeGroup.setSelectedIndex(s.theme, true);
         append(themeGroup);
 
-        String[] uiChoices = {"Use old UI", "Use 12-hour time", "Native file picker", "Gateway auto reconnect", "Show icons in menus", "Show name colors"};
+        String[] uiChoices = {"Use old UI", "12-hour time", "Native file picker", "Gateway auto reconnect", "Menu graphics", "Name colors"};
         Image[] uiImages = {s.ic.oldUI, s.ic.use12h, s.ic.nativePicker, s.ic.autoReconnect, s.ic.menuIcons, s.ic.nameColors};
         createHeading(s.ic.uiGroup, "User interface");
         uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, uiImages);
@@ -79,17 +80,24 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
 
         String[] iconChoices = {"Off", "Square", "Circle", "Circle (HQ)"};
         Image[] iconImages = {s.ic.pfpNone, s.ic.pfpSquare, s.ic.pfpCircle, s.ic.pfpCircleHq};
-        createHeading(s.ic.pfpType, "Profile pictures");
+        createHeading(s.ic.pfpType, "Avatar shape");
         iconGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
-        iconGroup.setSelectedIndex(s.iconType, true);
+        iconGroup.setSelectedIndex(s.pfpType, true);
         append(iconGroup);
 
-        String[] iconSizeChoices = {"Placeholders only", "16 px", "32 px"};
-        Image[] iconSizeImages = {s.ic.pfpPlaceholder, s.ic.pfp16, s.ic.pfp32};
-        createHeading(s.ic.pfpSize, "Icon size");
-        iconSizeGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, iconSizeChoices, iconSizeImages);
-        iconSizeGroup.setSelectedIndex(s.iconSize, true);
-        append(iconSizeGroup);
+        String[] pfpSizeChoices = {"Placeholder only", "16 px", "32 px"};
+        Image[] pfpSizeImages = {s.ic.pfpPlaceholder, s.ic.pfp16, s.ic.pfp32};
+        createHeading(s.ic.pfpSize, "Avatar resolution");
+        pfpSizeGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, pfpSizeChoices, pfpSizeImages);
+        pfpSizeGroup.setSelectedIndex(s.pfpSize, true);
+        append(pfpSizeGroup);
+
+        String[] menuIconChoices = {"Off", "16 px", "32 px"};
+        Image[] menuIconImages = {null, null, null};
+        createHeading(null, "Menu icon size");
+        menuIconGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, menuIconChoices, menuIconImages);
+        menuIconGroup.setSelectedIndex(s.menuIconSize, true);
+        append(menuIconGroup);
 
         String[] refMsgChoices = {"Only recipient", "Full message"};
         Image[] refMsgImages = {s.ic.repliesName, s.ic.repliesFull};
@@ -98,7 +106,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         refMsgGroup.setSelectedIndex(s.showRefMessage ? 1 : 0, true);
         append(refMsgGroup);
 
-        String[] hotkeyChoices = {"Use default hotkeys"};
+        String[] hotkeyChoices = {"Default hotkeys"};
         Image[] hotkeyImages = {s.ic.keysDefault};
         createHeading(s.ic.keys, "Hotkeys");
         hotkeyGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, hotkeyChoices, hotkeyImages);
@@ -124,8 +132,9 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 s.authorFontSize = authorFontGroup.getSelectedIndex();
                 s.messageFontSize = messageFontGroup.getSelectedIndex();
                 s.useJpeg = formatGroup.getSelectedIndex() == 1;
-                s.iconType = iconGroup.getSelectedIndex();
-                s.iconSize = iconSizeGroup.getSelectedIndex();
+                s.pfpType = iconGroup.getSelectedIndex();
+                s.pfpSize = pfpSizeGroup.getSelectedIndex();
+                s.menuIconSize = menuIconGroup.getSelectedIndex();
                 s.iconCache = new IconCache(s);
                 s.showRefMessage = refMsgGroup.getSelectedIndex() == 1;
 
@@ -166,7 +175,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
             }
         }
         s.ic = null;
-        s.ic = new Icons(s.iconSize == 2);
+        s.ic = new Icons(s);
 
         s.loadFonts();
         s.disp.setCurrent(new MainMenu(s));

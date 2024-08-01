@@ -7,14 +7,19 @@ import java.util.*;
 public class State {
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
-	static final int ICON_TYPE_NONE = 0;
-	static final int ICON_TYPE_SQUARE = 1;
-	static final int ICON_TYPE_CIRCLE = 2;
-	static final int ICON_TYPE_CIRCLE_HQ = 3;
+	static final int PFP_TYPE_NONE = 0;
+	static final int PFP_TYPE_SQUARE = 1;
+	static final int PFP_TYPE_CIRCLE = 2;
+	static final int PFP_TYPE_CIRCLE_HQ = 3;
 
 	static final int TOKEN_TYPE_HEADER = 0;
 	static final int TOKEN_TYPE_JSON = 1;
 	static final int TOKEN_TYPE_QUERY = 2;
+
+	static final int PFP_SIZE_PLACEHOLDER = 0;
+	static final int ICON_SIZE_OFF = 0;
+	static final int ICON_SIZE_16 = 1;
+	static final int ICON_SIZE_32 = 2;
 
 	MIDlet midlet;
 	Display disp;
@@ -27,8 +32,9 @@ public class State {
 	int messageLoadCount;
 	boolean useJpeg;
 	int attachmentSize;
-	int iconType;
-	int iconSize;  // 0 = draw placeholder pfp with initials, 1 = 16px, 2 = 32px
+	int pfpType;
+	int pfpSize;
+	int menuIconSize;
 	boolean nativeFilePicker;
 	boolean autoReConnect;
 	boolean showMenuIcons;
@@ -106,7 +112,7 @@ public class State {
 
     public void login() {
 		ic = null;
-		ic = new Icons(iconSize == 2);
+		ic = new Icons(this);
 
         loadFonts();
         http = new HTTPThing(this);

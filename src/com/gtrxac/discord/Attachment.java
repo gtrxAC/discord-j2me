@@ -14,7 +14,7 @@ public class Attachment {
         ".zip", ".rar", ".7z",
         ".exe", ".jar", ".sis", ".sisx", ".bin",
         ".mp3", ".wav", ".ogg", ".m4a", ".amr", ".flac", ".mid", ".mmf",
-        ".mp4", ".3gp"
+        ".mp4", ".3gp", ".bmp"
     };
 
     public Attachment(State s, JSONObject data) {

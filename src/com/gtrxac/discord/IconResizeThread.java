@@ -38,7 +38,7 @@ public class IconResizeThread extends Thread {
         img.getRGB(imageData, 0, size, 0, 0, size, size);
 
         // Modify the image data to turn the pixels outside the circle transparent
-        if (s.disp.numAlphaLevels() > 2 && s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
+        if (s.disp.numAlphaLevels() > 2 && s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
             // Alpha blending supported and enabled - use anti-aliasing (double resolution circle
             // buffer where 4 neighboring pixels are calculated together -> 5 alpha levels)
             int[] circleData = createCircleBuf(size*2);
@@ -72,14 +72,14 @@ public class IconResizeThread extends Thread {
     public void run() {
         try {
             Image resized;
-            if (s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
+            if (s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
                 resized = Util.resizeImageBilinear(smallIcon, size, size);
             } else {
                 resized = Util.resizeImage(smallIcon, size, size);
             }
 
             Image result;
-            if (s.iconType == State.ICON_TYPE_CIRCLE || s.iconType == State.ICON_TYPE_CIRCLE_HQ) {
+            if (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
                 result = circleCutout(s, resized);
             } else {
                 result = resized;

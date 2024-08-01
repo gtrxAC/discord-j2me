@@ -140,7 +140,7 @@ public class ChannelView extends Canvas implements CommandListener {
             }
         }
 
-        boolean useIcons = s.iconType != State.ICON_TYPE_NONE;
+        boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
         int width = getWidth() - (useIcons ? messageFontHeight*2 : 0);
         int embedTextWidth = width - messageFontHeight/2 - messageFontHeight*2/3;
 
