@@ -22,10 +22,20 @@ public class NameColorCache {
 
         JSONArray requestIds = new JSONArray();
 
+        // Populate requestIds with authors and recipients of all messages that
+        // are currently loaded and that don't have name colors already fetched
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
             String userId = msg.author.id;
+
             if (requestIds.indexOf(userId) == -1 && !has(msg.author)) {
+                requestIds.add(userId);
+            }
+
+            if (msg.recipient == null) continue;
+            userId = msg.recipient.id;
+
+            if (requestIds.indexOf(userId) == -1 && !has(msg.recipient)) {
                 requestIds.add(userId);
             }
         }

@@ -1,6 +1,7 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import javax.microedition.lcdui.game.*;
 
 public class Icons {
     Image guilds;
@@ -40,61 +41,80 @@ public class Icons {
     Image repliesFull;
     Image keys;
     Image keysDefault;
+    Image iconSize;
+    Image icon16;
+    Image icon32;
 
     boolean upscale;
+    Image sheet;
+    int x;
+    int y;
 
-    private Image load(String path) {
-        try {
-            Image result = Image.createImage(path);
-            if (upscale) result = Util.resizeImage(result, 32, 32);
-            return result;
+    private Image next() {
+        Image result = Image.createImage(sheet, x, y, 16, 16, Sprite.TRANS_NONE);
+        if (upscale) result = Util.resizeImage(result, 32, 32);
+
+        x += 16;
+        if (x >= sheet.getWidth()) {
+            x = 0;
+            y += 16;
         }
-        catch (Exception e) {
-            return null;
-        }
+        return result;
     }
 
     Icons(State s) {
-        if (!s.showMenuIcons || s.menuIconSize == State.ICON_SIZE_OFF) return;
+        if (s.menuIconSize == State.ICON_SIZE_OFF) return;
 
         this.upscale = (s.menuIconSize == State.ICON_SIZE_32);
 
-        guilds = load("/2_servers.png");
-        favorites = load("/0_favourites.png");
-        dms = load("/1_DM.png");
-        settings = load("/3_settings.png");
-        logout = load("/4_logout.png");
-        themesGroup = load("/5_themes.png");
-        themeDark = load("/6_dark.png");
-        themeLight = load("/7_white.png");
-        themeBlack = load("/8_black.png");
-        uiGroup = load("/9_UI.png");
-        oldUI = load("/10_oldUI.png");
-        use12h = load("/11_12hourtime.png");
-        nativePicker = load("/12_filepicker.png");
-        autoReconnect = load("/13_autogateway.png");
-        menuIcons = load("/14_menuicons.png");
-        nameColors = load("/15_namecolors.png");
-        fontSize = load("/16_fontsize.png");
-        fontSmall = load("/17_small.png");
-        fontMedium = load("/18_medium.png");
-        fontLarge = load("/19_large.png");
-        msgCount = load("/20_msgload.png");
-        attachFormat = load("/21_attachmentformat.png");
-        attachSize = load("/22_maxsize.png");
-        pfpType = load("/23_pfp.png");
-        pfpNone = load("/24_nopfp.png");
-        pfpSquare = load("/25_square.png");
-        pfpCircle = load("/26_circle.png");
-        pfpCircleHq = load("/27_circlehq.png");
-        pfpSize = load("/28_pfpsize.png");
-        pfpPlaceholder = load("/29_placeholder.png");
-        pfp16 = load("/30_pfp16px.png");
-        pfp32 = load("/31_pfp32px.png");
-        repliesGroup = load("/32_replies.png");
-        repliesName = load("/33_onlynames.png");
-        repliesFull = load("/34_fullreply.png");
-        keys = load("/35_keys.png");
-        keysDefault = load("/36_defaultkeys.png");
+        try {
+            sheet = Image.createImage("/icons.png");
+        }
+        catch (Exception e) {
+            return;
+        }
+
+        favorites = next();
+        dms = next();
+        guilds = next();
+        settings = next();
+        logout = next();
+        themesGroup = next();
+        themeDark = next();
+        themeLight = next();
+        themeBlack = next();
+        uiGroup = next();
+        oldUI = next();
+        use12h = next();
+        nativePicker = next();
+        autoReconnect = next();
+        menuIcons = next();
+        nameColors = next();
+        fontSize = next();
+        fontSmall = next();
+        fontMedium = next();
+        fontLarge = next();
+        msgCount = next();
+        attachFormat = next();
+        attachSize = next();
+        pfpType = next();
+        pfpNone = next();
+        pfpSquare = next();
+        pfpCircle = next();
+        pfpCircleHq = next();
+        pfpSize = next();
+        pfpPlaceholder = next();
+        pfp16 = next();
+        pfp32 = next();
+        repliesGroup = next();
+        repliesName = next();
+        repliesFull = next();
+        keys = next();
+        keysDefault = next();
+        iconSize = next();
+        icon16 = next();
+        icon32 = next();
+
+        sheet = null;
     }
 }

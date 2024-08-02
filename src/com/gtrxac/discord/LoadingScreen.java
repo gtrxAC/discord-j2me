@@ -1,6 +1,7 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import javax.microedition.lcdui.game.*;
 
 public class LoadingScreen extends Canvas {
     private State s;
@@ -24,10 +25,19 @@ public class LoadingScreen extends Canvas {
         iconOffset = upscaled ? 8 : 4;
 
         if (frames == null) {
+            Image sheet;
             frames = new Image[8];
+
+            try {
+                sheet = Image.createImage("/loading.png");
+            }
+            catch (Exception e) {
+                return;
+            }
+
             for (int i = 0; i < 8; i++) {
                 try {
-                    frames[i] = Image.createImage("/" + (i + 1) + ".png");
+                    frames[i] = Image.createImage(sheet, i*48, 0, 48, 48, Sprite.TRANS_NONE);
                     if (upscaled) {
                         frames[i] = Util.resizeImage(frames[i], 96, 96);
                     }

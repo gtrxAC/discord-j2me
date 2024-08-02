@@ -39,7 +39,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         themeGroup.setSelectedIndex(s.theme, true);
         append(themeGroup);
 
-        String[] uiChoices = {"Use old UI", "12-hour time", "Native file picker", "Gateway auto reconnect", "Menu graphics", "Name colors"};
+        String[] uiChoices = {"Use old UI", "12-hour time", "Native file picker", "Gateway auto reconnect", "Server/DM icons", "Name colors"};
         Image[] uiImages = {s.ic.oldUI, s.ic.use12h, s.ic.nativePicker, s.ic.autoReconnect, s.ic.menuIcons, s.ic.nameColors};
         createHeading(s.ic.uiGroup, "User interface");
         uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, uiImages);
@@ -93,8 +93,8 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         append(pfpSizeGroup);
 
         String[] menuIconChoices = {"Off", "16 px", "32 px"};
-        Image[] menuIconImages = {null, null, null};
-        createHeading(null, "Menu icon size");
+        Image[] menuIconImages = {s.ic.pfpNone, s.ic.icon16, s.ic.icon32};
+        createHeading(s.ic.iconSize, "Menu icon size");
         menuIconGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, menuIconChoices, menuIconImages);
         menuIconGroup.setSelectedIndex(s.menuIconSize, true);
         append(menuIconGroup);

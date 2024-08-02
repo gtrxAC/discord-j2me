@@ -104,7 +104,15 @@ public class ChannelViewItem {
 
         switch (type) {
             case MESSAGE: {
-                int x = useIcons ? messageFontHeight*2 : 1;
+                // Horizontal position where recipient message is drawn
+                // pfps on = same as where message contents begin
+                // pfps off = leave some room for the line connecting the recipient and reply messages
+                int refDrawX = useIcons ? messageFontHeight*2 : messageFontHeight;
+
+                // Horizontal position where message contents begin
+                // pfps on = leave room for pfp and its margins
+                // pfps off = leave a small left margin so text isnt stuck to left edge of screen
+                int x = useIcons ? messageFontHeight*2 : messageFontHeight/4;
 
                 // Highlight background if message is selected
                 if (selected) {
@@ -134,14 +142,14 @@ public class ChannelViewItem {
 
                                 // Create an image where the ref message will be rendered.
                                 // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
-                                Image refImgFull = Image.createImage(width*4/3, messageFontHeight);
+                                Image refImgFull = Image.createImage((width - refDrawX)*4/3, messageFontHeight);
                                 Graphics refG = refImgFull.getGraphics();
 
                                 // Fill ref message image with the same background color that the rest of the message has
                                 refG.setColor(selected ? ChannelView.highlightColors[s.theme] : ChannelView.backgroundColors[s.theme]);
                                 refG.fillRect(0, 0, width*4/3, messageFontHeight);
 
-                                int refX = x*4/3;
+                                int refX = 0;
 
                                 if (useIcons) {
                                     Image icon = s.iconCache.getResized(msg.recipient, messageFontHeight);
@@ -158,8 +166,9 @@ public class ChannelViewItem {
                                         }
                                     }
 
-                                    refX += messageFontHeight*4/3;
+                                    refX += messageFontHeight;
                                 }
+                                refX += messageFontHeight/3;
 
                                 refG.setFont(s.titleFont);
                                 refG.setColor(recipientColor);
@@ -171,19 +180,19 @@ public class ChannelViewItem {
                                 refG.setColor(ChannelView.refMessageColors[s.theme]);
                                 refG.drawString(msg.refContent, refX, 0, Graphics.TOP | Graphics.LEFT);
 
-                                refImg = Util.resizeImageBilinear(refImgFull, width, messageFontHeight*3/4);
+                                refImg = Util.resizeImageBilinear(refImgFull, width - refDrawX, messageFontHeight*3/4);
                                 refImgSelected = selected;
                             }
 
                             // draw downscaled refmessage
                             y += messageFontHeight/4;
-                            g.drawImage(refImg, messageFontHeight/8, y, Graphics.TOP | Graphics.LEFT);
+                            g.drawImage(refImg, refDrawX, y, Graphics.TOP | Graphics.LEFT);
 
                             // draw connecting line between refmessage and message
                             y += messageFontHeight*3/8;
                             g.setColor(0x00666666);
-                            g.drawLine(x/2, y, x/2, y + messageFontHeight/2);
-                            g.drawLine(x/2, y, x*7/8, y);
+                            g.drawLine(refDrawX/2, y, refDrawX/2, y + messageFontHeight/2);  // vertical line |
+                            g.drawLine(refDrawX/2, y, refDrawX*7/8, y);  // horizontal line -
 
                             y += messageFontHeight*5/8;
                         }
