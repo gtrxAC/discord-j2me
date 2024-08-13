@@ -7,12 +7,15 @@ import cc.nnproject.json.*;
 public class DMSelector extends List implements CommandListener {
     State s;
     Vector lastDMs;
+    private Timer refreshTimer;
+    private boolean isAutoRefreshEnabled = false;
 
     private Command backCommand;
     private Command searchCommand;
     private Command refreshCommand;
     private Command markReadCommand;
     private Command markAllReadCommand;
+    private Command toggleAutoRefreshCommand;
 
     public DMSelector(State s) throws Exception {
         super("Direct Message", List.IMPLICIT);
@@ -59,10 +62,12 @@ public class DMSelector extends List implements CommandListener {
         refreshCommand = new Command("Refresh", Command.ITEM, 2);
         markReadCommand = new Command("Mark as read", Command.ITEM, 3);
         markAllReadCommand = new Command("Mark all as read", Command.ITEM, 4);
+        toggleAutoRefreshCommand = new Command("Toggle Auto-Refresh", Command.ITEM, 5);
 
         addCommand(backCommand);
         addCommand(searchCommand);
         addCommand(refreshCommand);
+        addCommand(toggleAutoRefreshCommand);
 
         if (s.dmChannels.size() > 0) {
             addCommand(markReadCommand);
@@ -87,8 +92,33 @@ public class DMSelector extends List implements CommandListener {
      */
     public void update() { update(null); }
 
+    /**
+     * Starts the auto-refresh timer.
+     */
+    private void startAutoRefresh() {
+        if (refreshTimer == null) {
+            refreshTimer = new Timer();
+            refreshTimer.schedule(new TimerTask() {
+                public void run() {
+                    s.openDMSelector(true);  // Refresh the selector
+                }
+            }, 0, 15000);  // 15 seconds
+        }
+    }
+
+    /**
+     * Stops the auto-refresh timer.
+     */
+    private void stopAutoRefresh() {
+        if (refreshTimer != null) {
+            refreshTimer.cancel();
+            refreshTimer = null;
+        }
+    }
+
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
+            stopAutoRefresh();  // Stop auto-refresh when going back
             s.disp.setCurrent(new MainMenu(s));
         }
         if (c == searchCommand) {
@@ -105,6 +135,14 @@ public class DMSelector extends List implements CommandListener {
         if (c == markAllReadCommand) {
             s.unreads.markDMsRead();
             update();
+        }
+        if (c == toggleAutoRefreshCommand) {
+            isAutoRefreshEnabled = !isAutoRefreshEnabled;
+            if (isAutoRefreshEnabled) {
+                startAutoRefresh();
+            } else {
+                stopAutoRefresh();
+            }
         }
         if (c == List.SELECT_COMMAND) {
             s.isDM = true;
