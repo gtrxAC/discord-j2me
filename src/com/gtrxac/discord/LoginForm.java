@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class LoginForm extends Form implements CommandListener {
+public class LoginForm extends Form implements CommandListener, Strings {
     State s;
 
     private TextField apiField;
@@ -16,43 +16,47 @@ public class LoginForm extends Form implements CommandListener {
     private Command quitCommand;
 
     public LoginForm(State s) {
-        super("Log in");
+        super(Locale.get(LOGIN_FORM_TITLE));
         setCommandListener(this); 
         this.s = s;
 
         LoginSettings.load(s);
 
         if (State.isBlackBerry()) {
-            String[] wifiChoices = {"Use Wi-Fi"};
+            String[] wifiChoices = {Locale.get(USE_WIFI)};
             Image[] wifiImages = {null};
             wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, wifiImages);
             wifiGroup.setSelectedIndex(0, s.bbWifi);
             append(wifiGroup);
         }
 
-        apiField = new TextField("API URL", s.api, 200, 0);
-        cdnField = new TextField("CDN URL", s.cdn, 200, 0);
-        gatewayField = new TextField("Gateway URL", s.gatewayUrl, 200, 0);
-        tokenField = new TextField("Token", s.token, 200, TextField.NON_PREDICTIVE);
-        nextCommand = new Command("Log in", Command.OK, 0);
-        quitCommand = new Command("Quit", Command.EXIT, 1);
+        apiField = new TextField(Locale.get(API_URL), s.api, 200, 0);
+        cdnField = new TextField(Locale.get(CDN_URL), s.cdn, 200, 0);
+        gatewayField = new TextField(Locale.get(GATEWAY_URL), s.gatewayUrl, 200, 0);
+        tokenField = new TextField(Locale.get(TOKEN), s.token, 200, TextField.NON_PREDICTIVE);
+        nextCommand = Locale.createCommand(LOG_IN, Command.OK, 0);
+        quitCommand = Locale.createCommand(QUIT, Command.EXIT, 1);
 
-        String[] gatewayChoices = {"Use gateway"};
+        String[] gatewayChoices = {Locale.get(USE_GATEWAY)};
         Image[] gatewayImages = {null};
         gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, gatewayImages);
         gatewayGroup.setSelectedIndex(0, s.useGateway);
 
-        String[] tokenChoices = {"Header (default)", "JSON", "Query parameter"};
+        String[] tokenChoices = {
+            Locale.get(SEND_TOKEN_HEADER),
+            Locale.get(SEND_TOKEN_JSON),
+            Locale.get(SEND_TOKEN_QUERY)
+        };
         Image[] tokenImages = {null, null, null};
-        tokenGroup = new ChoiceGroup("Send token as", ChoiceGroup.EXCLUSIVE, tokenChoices, tokenImages);
+        tokenGroup = new ChoiceGroup(Locale.get(SEND_TOKEN_AS), ChoiceGroup.EXCLUSIVE, tokenChoices, tokenImages);
         tokenGroup.setSelectedIndex(s.tokenType, true);
 
-        append(new StringItem(null, "Only use proxies that you trust!"));
+        append(new StringItem(null, Locale.get(LOGIN_FORM_WARNING)));
         append(apiField);
         append(cdnField);
         append(gatewayGroup);
         append(gatewayField);
-        append(new StringItem(null, "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended."));
+        append(new StringItem(null, Locale.get(LOGIN_FORM_TOKEN_HELP)));
         append(tokenField);
         append(tokenGroup);
         addCommand(nextCommand);
@@ -67,11 +71,11 @@ public class LoginForm extends Form implements CommandListener {
             s.token = tokenField.getString().trim();
 
             if (s.token.length() == 0) {
-                s.error("Please enter your token");
+                s.error(Locale.get(LOGIN_ERROR_TOKEN));
                 return;
             }
             if (s.api.length() == 0) {
-                s.error("Please specify an API URL");
+                s.error(Locale.get(LOGIN_ERROR_API));
                 return;
             }
 

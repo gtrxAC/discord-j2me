@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class ChannelSelector extends List implements CommandListener {
+public class ChannelSelector extends List implements CommandListener, Strings {
     State s;
     private Command backCommand;
     private Command refreshCommand;
@@ -20,10 +20,10 @@ public class ChannelSelector extends List implements CommandListener {
             append(ch.toString(s), null);
         }
 
-        backCommand = new Command("Back", Command.BACK, 0);
-        refreshCommand = new Command("Refresh", Command.ITEM, 1);
-        markChannelReadCommand = new Command("Mark as read", Command.ITEM, 2);
-        markGuildReadCommand = new Command("Mark all as read", Command.ITEM, 3);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 1);
+        markChannelReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 2);
+        markGuildReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 3);
         addCommand(backCommand);
         addCommand(refreshCommand);
 

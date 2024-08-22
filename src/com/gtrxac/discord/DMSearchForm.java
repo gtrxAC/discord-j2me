@@ -4,7 +4,7 @@ import java.util.*;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class DMSearchForm extends Form implements CommandListener {
+public class DMSearchForm extends Form implements CommandListener, Strings {
     State s;
 
     private TextField textField;
@@ -12,14 +12,14 @@ public class DMSearchForm extends Form implements CommandListener {
     private Command backCommand;
 
     public DMSearchForm(State s) {
-        super("Search DMs");
+        super(Locale.get(DM_SEARCH_TITLE));
         setCommandListener(this);
         this.s = s;
 
-        textField = new TextField("Enter username", "", 32, 0);
+        textField = new TextField(Locale.get(ENTER_USERNAME), "", 32, 0);
         textField.setInitialInputMode("MIDP_LOWERCASE_LATIN");
-        okCommand = new Command("OK", Command.OK, 0);
-        backCommand = new Command("Back", Command.BACK, 1);
+        okCommand = Locale.createCommand(OK, Command.OK, 0);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 1);
 
         append(textField);
         addCommand(okCommand);
@@ -43,7 +43,7 @@ public class DMSearchForm extends Form implements CommandListener {
                 return;
             }
 
-            s.error("User not found. Try creating the DM from another client.");
+            s.error(Locale.get(DM_SEARCH_FAILED));
         }
     }
 }

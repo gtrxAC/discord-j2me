@@ -4,7 +4,7 @@ import java.io.*;
 import cc.nnproject.json.*;
 import java.util.*;
 
-public class HeartbeatThread extends Thread {
+public class HeartbeatThread extends Thread implements Strings {
     State s;
     private OutputStream os;
 
@@ -44,7 +44,7 @@ public class HeartbeatThread extends Thread {
             }
         }
         catch (Exception e) {
-            s.gateway.stopMessage = "Heartbeat thread error: " + e.toString();
+            s.gateway.stopMessage = Locale.get(HEARTBEAT_THREAD_ERROR) + e.toString();
             s.gateway.stop = true;
         }
     }

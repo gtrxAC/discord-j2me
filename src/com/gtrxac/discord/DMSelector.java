@@ -4,7 +4,7 @@ import java.util.*;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class DMSelector extends List implements CommandListener {
+public class DMSelector extends List implements CommandListener, Strings {
     State s;
     Vector lastDMs;
 
@@ -15,7 +15,7 @@ public class DMSelector extends List implements CommandListener {
     private Command markAllReadCommand;
 
     public DMSelector(State s) throws Exception {
-        super("Direct Message", List.IMPLICIT);
+        super(Locale.get(DM_SELECTOR_TITLE), List.IMPLICIT);
         setCommandListener(this);
         this.s = s;
 
@@ -54,11 +54,11 @@ public class DMSelector extends List implements CommandListener {
             append(ch.toString(s), s.iconCache.get(ch));
         }
 
-        backCommand = new Command("Back", Command.BACK, 0);
-        searchCommand = new Command("Search", Command.ITEM, 1);
-        refreshCommand = new Command("Refresh", Command.ITEM, 2);
-        markReadCommand = new Command("Mark as read", Command.ITEM, 3);
-        markAllReadCommand = new Command("Mark all as read", Command.ITEM, 4);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
+        searchCommand = Locale.createCommand(SEARCH, Command.ITEM, 1);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
+        markReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 3);
+        markAllReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 4);
 
         addCommand(backCommand);
         addCommand(searchCommand);

@@ -44,6 +44,7 @@ public class Icons {
     Image iconSize;
     Image icon16;
     Image icon32;
+    Image language;
 
     boolean upscale;
     Image sheet;
@@ -114,6 +115,7 @@ public class Icons {
         iconSize = next();
         icon16 = next();
         icon32 = next();
+        language = next();
 
         sheet = null;
     }

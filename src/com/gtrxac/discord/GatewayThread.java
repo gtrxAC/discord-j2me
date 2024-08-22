@@ -7,7 +7,7 @@ import javax.microedition.lcdui.*;
 
 import cc.nnproject.json.*;
 
-public class GatewayThread extends Thread {
+public class GatewayThread extends Thread implements Strings {
     private State s;
 
     volatile boolean stop;
@@ -38,7 +38,7 @@ public class GatewayThread extends Thread {
         disconnect();
         if (s.autoReConnect) {
             if (s.channelView != null) {
-                s.channelView.bannerText = "Reconnecting";
+                s.channelView.bannerText = Locale.get(CHANNEL_VIEW_RECONNECTING);
                 s.channelView.repaint();
             }
             s.gateway = new GatewayThread(s);
@@ -120,7 +120,7 @@ public class GatewayThread extends Thread {
                         send(connMsg);
 
                         // Remove "Reconnecting" banner message if auto reconnected
-                        if (s.channelView != null && "Reconnecting".equals(s.channelView.bannerText)) {
+                        if (s.channelView != null && Locale.get(CHANNEL_VIEW_RECONNECTING).equals(s.channelView.bannerText)) {
                             s.channelView.bannerText = null;
                             s.channelView.repaint();
                         }
@@ -193,7 +193,7 @@ public class GatewayThread extends Thread {
                                 s.oldChannelView.update();
                                 s.unreads.markRead(chId, Long.parseLong(msgId));
                             } else {
-                                s.oldChannelView.setTitle("Refresh for new msgs");
+                                s.oldChannelView.setTitle(Locale.get(CHANNEL_VIEW_OUTDATED));
                             }
                         } else {
                             if (page == 0) {
@@ -304,7 +304,7 @@ public class GatewayThread extends Thread {
                                 
                                 String author = userObj.getString("global_name", null);
                                 if (author == null) {
-                                    author = userObj.getString("username", "(no name)");
+                                    author = userObj.getString("username", Locale.get(NAME_UNKNOWN));
                                 }
 
                                 // If this user is already in the list, don't add them again

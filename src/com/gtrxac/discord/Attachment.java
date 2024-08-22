@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import cc.nnproject.json.*;
 
-public class Attachment {
+public class Attachment implements Strings {
     public String previewUrl;
     public String browserUrl;
     public String name;
@@ -22,7 +22,7 @@ public class Attachment {
 
         browserUrl = s.cdn + proxyUrl.substring("https://media.discordapp.net".length());
 
-        name = data.getString("filename", "Unnamed file");
+        name = data.getString("filename", Locale.get(UNNAMED_FILE));
         size = Util.fileSizeToString(data.getInt("size", 0));
 
         // Attachments that aren't images or videos are unsupported

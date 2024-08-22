@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import cc.nnproject.json.*;
 import javax.microedition.lcdui.*;
 
-public class DMChannel implements HasIcon {
+public class DMChannel implements HasIcon, Strings {
     boolean isGroup;
     public String id;
     public String name;
@@ -43,7 +43,7 @@ public class DMChannel implements HasIcon {
             }
             catch (Exception e) {}
         }
-        if (name == null) name = "(unknown)";
+        if (name == null) name = Locale.get(NAME_UNKNOWN);
     }
 
     static DMChannel getById(State s, String id) {

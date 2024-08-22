@@ -9,7 +9,7 @@ import cc.nnproject.json.*;
 import javax.microedition.io.*;
 import javax.microedition.io.file.*;
 
-public class HTTPThread extends Thread {
+public class HTTPThread extends Thread implements Strings {
     static final int FETCH_GUILDS = 0;
     static final int FETCH_CHANNELS = 1;
     static final int FETCH_DM_CHANNELS = 2;
@@ -180,7 +180,7 @@ public class HTTPThread extends Thread {
                 case SEND_MESSAGE: {
                     if (!showLoad && s.channelView != null) {
                         s.disp.setCurrent(s.channelView);
-                        s.channelView.bannerText = "Sending message";
+                        s.channelView.bannerText = Locale.get(CHANNEL_VIEW_SENDING);
                         s.channelView.repaint();
                     }
 
@@ -226,7 +226,7 @@ public class HTTPThread extends Thread {
 
                 case FETCH_MESSAGES: {
                     if (!showLoad && s.channelView != null) {
-                        s.channelView.bannerText = "Loading messages";
+                        s.channelView.bannerText = Locale.get(CHANNEL_VIEW_LOADING);
                         s.channelView.repaint();
                     }
 
@@ -274,7 +274,7 @@ public class HTTPThread extends Thread {
 
                 case FETCH_ATTACHMENTS: {
                     if (s.cdn == null || s.cdn.length() == 0) {
-                        throw new Exception("CDN URL has not been defined. Attachments are not available.");
+                        throw new Exception(Locale.get(CDN_ERROR_ATTACHMENT));
                     }
 
                     Vector attachments = s.attachmentView.msg.attachments;
@@ -283,7 +283,10 @@ public class HTTPThread extends Thread {
                     for (int i = 0; i < attachments.size(); i++) {
                         Attachment attach = (Attachment) attachments.elementAt(i);
 
-                        StringItem titleItem = new StringItem(null, attach.name + " (" + attach.size + ")");
+                        String attachName = attach.name +
+                            Locale.get(LEFT_PAREN) + attach.size + Locale.get(RIGHT_PAREN);
+
+                        StringItem titleItem = new StringItem(null, attachName);
                         s.attachmentView.append(titleItem);
 
                         if (attach.supported) {
@@ -305,8 +308,8 @@ public class HTTPThread extends Thread {
                                 // Unsupported -> show a button to view it as text
                                 // Note: showCommand has a priority starting at 100, so when it's pressed, 
                                 //       we can distinguish it from 'open in browser' buttons
-                                Command showCommand = new Command("Show", Command.ITEM, i + 100);
-                                StringItem showButton = new StringItem(null, "Show as text", Item.BUTTON);
+                                Command showCommand = Locale.createCommand(SHOW, Command.ITEM, i + 100);
+                                StringItem showButton = new StringItem(null, Locale.get(SHOW_L), Item.BUTTON);
                                 showButton.setLayout(layout);
                                 showButton.setDefaultCommand(showCommand);
                                 showButton.setItemCommandListener(s.attachmentView);
@@ -314,8 +317,8 @@ public class HTTPThread extends Thread {
                             }
                         }
 
-                        Command openCommand = new Command("Open", Command.ITEM, i);
-                        StringItem openButton = new StringItem(null, "Open in browser", Item.BUTTON);
+                        Command openCommand = Locale.createCommand(OPEN_IN_BROWSER, Command.ITEM, i);
+                        StringItem openButton = new StringItem(null, Locale.get(OPEN_IN_BROWSER_L), Item.BUTTON);
                         openButton.setLayout(layout);
                         openButton.setDefaultCommand(openCommand);
                         openButton.setItemCommandListener(s.attachmentView);
@@ -328,9 +331,7 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_ICON: {
-                    if (s.cdn == null || s.cdn.length() == 0) {
-                        throw new Exception("CDN URL has not been defined. Server icons and user avatars are not available.");
-                    }
+                    if (s.cdn == null || s.cdn.length() == 0) throw new Exception();
 
                     String format = (s.useJpeg ? "jpg" : "png");
                     String size;
@@ -352,7 +353,7 @@ public class HTTPThread extends Thread {
                 case SEND_ATTACHMENT: {
                     Displayable screen = s.disp.getCurrent();
                     if (screen instanceof LoadingScreen) {
-                        ((LoadingScreen) screen).text = "Sending...";
+                        ((LoadingScreen) screen).text = Locale.get(SENDING);
                     }
 
                     HttpConnection httpConn = null;
@@ -396,7 +397,7 @@ public class HTTPThread extends Thread {
                         new HTTPThread(s, FETCH_MESSAGES).start();
                     }
                     catch (Exception e) {
-                        s.error("Error while sending file: " + e.toString());
+                        s.error(Locale.get(UPLOAD_ERROR) + e.toString());
                     }
                     finally {
                         try {
@@ -428,7 +429,7 @@ public class HTTPThread extends Thread {
 
                 case EDIT_MESSAGE: {
                     if (!showLoad && s.channelView != null) {
-                        s.channelView.bannerText = "Editing message";
+                        s.channelView.bannerText = Locale.get(CHANNEL_VIEW_EDITING);
                         s.channelView.repaint();
                     }
                     
@@ -462,7 +463,7 @@ public class HTTPThread extends Thread {
 
                 case DELETE_MESSAGE: {
                     if (!showLoad && s.channelView != null) {
-                        s.channelView.bannerText = "Deleting message";
+                        s.channelView.bannerText = Locale.get(CHANNEL_VIEW_DELETING);
                         s.channelView.repaint();
                     }
 

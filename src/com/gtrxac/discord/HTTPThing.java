@@ -5,7 +5,7 @@ import javax.microedition.io.*;
 import cc.nnproject.json.*;
 import javax.microedition.lcdui.Image;
 
-public class HTTPThing {
+public class HTTPThing implements Strings {
     State s;
 
 	public HTTPThing(State s) {
@@ -53,7 +53,7 @@ public class HTTPThing {
                 return response;
             }
             if (respCode == HttpConnection.HTTP_UNAUTHORIZED) {
-                throw new Exception("Check your token");
+                throw new Exception(Locale.get(HTTP_ERROR_TOKEN));
             }
 
             try {
@@ -61,7 +61,7 @@ public class HTTPThing {
                 throw new Exception(message);
             }
             catch (JSONException e) {
-                throw new Exception("HTTP error " + respCode);
+                throw new Exception(Locale.get(HTTP_ERROR_CODE) + respCode);
             }
         } finally {
             if (is != null) is.close();
@@ -148,7 +148,7 @@ public class HTTPThing {
 			hc = open(url);
 			int r;
 			if((r = hc.getResponseCode()) >= 400) {
-				throw new IOException("HTTP " + r);
+				throw new IOException(Locale.get(HTTP_ERROR_CODE) + r);
 			}
 			in = hc.openInputStream();
 			return readBytes(in, (int) hc.getLength(), 1024, 2048);

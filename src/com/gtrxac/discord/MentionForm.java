@@ -4,7 +4,7 @@ import javax.microedition.lcdui.*;
 import java.util.*;
 import cc.nnproject.json.*;
 
-public class MentionForm extends Form implements CommandListener {
+public class MentionForm extends Form implements CommandListener, Strings {
     private State s;
     private Displayable lastScreen;
     private Vector searchResults;
@@ -18,19 +18,19 @@ public class MentionForm extends Form implements CommandListener {
     private ChoiceGroup resultsGroup;
 
     MentionForm(State s) {
-        super("Insert mention");
+        super(Locale.get(MENTION_FORM_TITLE));
         this.s = s;
         lastScreen = s.disp.getCurrent();
         setCommandListener(this);
 
-        searchField = new TextField("Enter username", "", 32, 0);
+        searchField = new TextField(Locale.get(ENTER_USERNAME), "", 32, 0);
         searchField.setInitialInputMode("MIDP_LOWERCASE_LATIN");
 
-        resultsGroup = new ChoiceGroup("Search results", ChoiceGroup.EXCLUSIVE);
+        resultsGroup = new ChoiceGroup(Locale.get(SEARCH_RESULTS), ChoiceGroup.EXCLUSIVE);
 
-        insertCommand = new Command("Insert", Command.OK, 0);
-        searchCommand = new Command("Search", Command.OK, 1);
-        backCommand = new Command("Back", Command.BACK, 2);
+        insertCommand = Locale.createCommand(INSERT, Command.OK, 0);
+        searchCommand = Locale.createCommand(SEARCH, Command.OK, 1);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 2);
         addCommand(searchCommand);
         addCommand(backCommand);
 
@@ -57,12 +57,12 @@ public class MentionForm extends Form implements CommandListener {
         append(searchField);
 
         if (loading) {
-            append(new StringItem(null, "Loading"));
+            append(new StringItem(null, Locale.get(LOADING)));
             removeCommand(insertCommand);
         }
         else if (searchResults != null) {
             if (searchResults.size() == 0) {
-                append(new StringItem(null, "No results found"));
+                append(new StringItem(null, Locale.get(NO_RESULTS)));
                 removeCommand(insertCommand);
             } else {
                 append(resultsGroup);
@@ -110,7 +110,7 @@ public class MentionForm extends Form implements CommandListener {
         if (c == insertCommand) {
             int selIndex = resultsGroup.getSelectedIndex();
             if (selIndex == -1) {
-                s.error("User not selected");
+                s.error(Locale.get(USER_NOT_SELECTED));
                 return;
             }
             

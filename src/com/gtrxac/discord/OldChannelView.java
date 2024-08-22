@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class OldChannelView extends Form implements CommandListener, ItemCommandListener {
+public class OldChannelView extends Form implements CommandListener, ItemCommandListener, Strings {
     State s;
 
     private Command backCommand;
@@ -29,24 +29,24 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
         this.s = s;
         s.channelIsOpen = true;
 
-        backCommand = new Command("Back", Command.BACK, 0);
-        sendCommand = new Command("Send", "Send message", Command.ITEM, 1);
-        refreshCommand = new Command("Refresh", Command.ITEM, 2);
-        olderCommand = new Command("Older", "View older messages", Command.ITEM, 3);
-        newerCommand = new Command("Newer", "View newer messages", Command.ITEM, 4);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
+        sendCommand = Locale.createCommand(SEND_MESSAGE, Command.ITEM, 1);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
+        olderCommand = Locale.createCommand(VIEW_OLDER_MESSAGES, Command.ITEM, 3);
+        newerCommand = Locale.createCommand(VIEW_NEWER_MESSAGES, Command.ITEM, 4);
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(refreshCommand);
 
         int layout = Item.LAYOUT_EXPAND | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
-        olderButton = new StringItem(null, "View older messages", Item.BUTTON);
+        olderButton = new StringItem(null, Locale.get(VIEW_OLDER_MESSAGES_L), Item.BUTTON);
         olderButton.setFont(s.messageFont);
         olderButton.setLayout(layout);
         olderButton.setDefaultCommand(olderCommand);
         olderButton.setItemCommandListener(this);
 
-        newerButton = new StringItem(null, "View newer messages", Item.BUTTON);
+        newerButton = new StringItem(null, Locale.get(VIEW_NEWER_MESSAGES_L), Item.BUTTON);
         newerButton.setFont(s.messageFont);
         newerButton.setLayout(layout);
         newerButton.setDefaultCommand(newerCommand);
@@ -71,14 +71,7 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
         deleteAll();
 
         if (s.typingUsers != null && s.typingUsers.size() > 0) {
-            String typingStr;
-            switch (s.typingUsers.size()) {
-                case 1: typingStr = s.typingUsers.elementAt(0) + " is typing"; break;
-                case 2: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + " are typing"; break;
-                case 3: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + ", " + s.typingUsers.elementAt(2) + " are typing"; break;
-                default: typingStr = s.typingUsers.size() + " people are typing"; break;
-            }
-
+            String typingStr = ChannelView.getTypingString(s);
             StringItem typingItem = new StringItem(null, typingStr);
             typingItem.setFont(s.messageFont);
             typingItem.setLayout(Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE);
@@ -99,7 +92,7 @@ public class OldChannelView extends Form implements CommandListener, ItemCommand
         }
 
         if (s.messages.size() == 0) {
-            append("Nothing to see here");
+            append(Locale.get(CHANNEL_VIEW_EMPTY));
         } else {
             append(olderButton);
         }

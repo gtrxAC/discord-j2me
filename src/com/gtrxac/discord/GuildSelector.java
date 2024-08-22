@@ -4,7 +4,7 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 import java.util.*;
 
-public class GuildSelector extends List implements CommandListener {
+public class GuildSelector extends List implements CommandListener, Strings {
     State s;
     boolean isFavGuilds;
 
@@ -15,8 +15,9 @@ public class GuildSelector extends List implements CommandListener {
     private Command refreshCommand;
 
     public GuildSelector(State s, Vector guilds, boolean isFavGuilds) throws Exception {
-        super("Servers", List.IMPLICIT);
-        if (isFavGuilds) setTitle("Favorites");
+        super(Locale.get(GUILD_SELECTOR_TITLE), List.IMPLICIT);
+        
+        if (isFavGuilds) setTitle(Locale.get(FAVORITE_SELECTOR_TITLE));
 
         setCommandListener(this);
         this.s = s;
@@ -28,16 +29,16 @@ public class GuildSelector extends List implements CommandListener {
             append(g.toString(s), s.iconCache.get(g));
         }
 
-        backCommand = new Command("Back", Command.BACK, 0);
-        refreshCommand = new Command("Refresh", Command.ITEM, 3);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 3);
         addCommand(backCommand);
         addCommand(refreshCommand);
 
         if (isFavGuilds) {
-            removeFavCommand = new Command("Remove", Command.ITEM, 1);
+            removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 1);
             addCommand(removeFavCommand);
         } else {
-            addFavCommand = new Command("Favorite", "Add to favorites", Command.ITEM, 1);
+            addFavCommand = Locale.createCommand(ADD_FAVORITE, Command.ITEM, 1);
             addCommand(addFavCommand);
         }
     }

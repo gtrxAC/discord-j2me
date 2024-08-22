@@ -2,12 +2,12 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class ErrorAlert extends Alert implements CommandListener {
+public class ErrorAlert extends Alert implements CommandListener, Strings {
     private Display disp;
     Displayable next;
     
     public ErrorAlert(Display disp, String message, Displayable next) {
-        super("Error");
+        super(Locale.get(ERROR_TITLE));
         this.disp = disp;
 
         setString(message);

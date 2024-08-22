@@ -2,13 +2,13 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class MessageCopyBox extends TextBox implements CommandListener {
+public class MessageCopyBox extends TextBox implements CommandListener, Strings {
     private State s;
     private Command backCommand;
     public Displayable lastScreen;
 
     public MessageCopyBox(State s, String content) {
-        this(s, "Copy message", content);
+        this(s, Locale.get(MESSAGE_COPY_BOX_TITLE), content);
     }
 
     public MessageCopyBox(State s, String title, String content) {
@@ -17,7 +17,7 @@ public class MessageCopyBox extends TextBox implements CommandListener {
         this.s = s;
         lastScreen = s.disp.getCurrent();
 
-        backCommand = new Command("Back", Command.BACK, 0);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
         addCommand(backCommand);
     }
 

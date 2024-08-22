@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class KeyMapper extends Canvas implements CommandListener {
+public class KeyMapper extends Canvas implements CommandListener, Strings {
     private State s;
     private int messageFontHeight;
     private int curHotkey;
@@ -12,13 +12,7 @@ public class KeyMapper extends Canvas implements CommandListener {
     private Command cancelCommand;
     private Command skipCommand;
 
-    private static final String[] hotkeyStrings = {
-        "sending a message",
-        "replying to message",
-        "copying message content",
-        "refreshing messages",
-        "going back"
-    };
+    private String[] hotkeyStrings;
 
     private int[] newHotkeys;
 
@@ -30,10 +24,15 @@ public class KeyMapper extends Canvas implements CommandListener {
         newHotkeys = new int[5];
         lastScreen = s.disp.getCurrent();
         
-        cancelCommand = new Command("Cancel", Command.BACK, 0);
-        skipCommand = new Command("Skip", Command.ITEM, 1);
+        cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 0);
+        skipCommand = Locale.createCommand(SKIP, Command.ITEM, 1);
         addCommand(cancelCommand);
         addCommand(skipCommand);
+
+        hotkeyStrings = new String[5];
+        for (int i = 0; i < 5; i++) {
+            hotkeyStrings[i] = Locale.get(HOTKEY_SEND + i);
+        }
     }
     
     protected void paint(Graphics g) {
@@ -47,7 +46,7 @@ public class KeyMapper extends Canvas implements CommandListener {
         g.setFont(s.messageFont);
         g.setColor(ChannelView.messageColors[s.theme]);
         g.drawString(
-            "Press the key to use for:",
+            Locale.get(KEY_MAPPER_PROMPT),
             getWidth()/2, getHeight()/2 - messageFontHeight,
             Graphics.TOP | Graphics.HCENTER
         );
@@ -81,7 +80,7 @@ public class KeyMapper extends Canvas implements CommandListener {
         // Check if key already mapped to another action
         for (int i = 0; i < curHotkey; i++) {
             if (newHotkeys[i] == keycode) {
-                s.error("This key is already mapped to " + hotkeyStrings[i]);
+                s.error(Locale.get(KEY_MAPPER_DUPLICATE) + hotkeyStrings[i]);
                 return;
             }
         }

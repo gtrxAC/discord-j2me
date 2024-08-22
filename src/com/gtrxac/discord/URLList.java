@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class URLList extends List implements CommandListener {
+public class URLList extends List implements CommandListener, Strings {
     public static final String[] urlStarts = {"https://", "http://", "www."};
     private static final String[] urlEnds = {" ", "[", "]", "(", ")", "<", ">", "\"", "'", "\t", "\r", "\n"};
 
@@ -10,11 +10,11 @@ public class URLList extends List implements CommandListener {
     private Command backCommand;
 
     public URLList(State s, String content) {
-        super("Select URL", List.IMPLICIT);
+        super(Locale.get(URL_LIST_TITLE), List.IMPLICIT);
         this.s = s;
         setCommandListener(this);
 
-        backCommand = new Command("Back", Command.BACK, 0);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
         addCommand(backCommand);
 
         int index = 0;

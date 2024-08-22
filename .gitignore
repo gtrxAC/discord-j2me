@@ -4,7 +4,7 @@ lib/
 tmpclasses/
 tmplib/
 node_modules/
+sdk/
 *.jar
+*.jad
 *.map
-*.pro
-manifest.mf

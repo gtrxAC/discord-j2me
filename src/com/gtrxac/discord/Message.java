@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import cc.nnproject.json.*;
 import java.util.*;
 
-public class Message {
+public class Message implements Strings {
     static final int TYPE_ADDED = 1;  // user added another user to group DM
     static final int TYPE_REMOVED = 2;  // user left (or was removed) from group DM
     static final int TYPE_CALL = 3;
@@ -46,7 +46,7 @@ public class Message {
 
         if (isStatus) {
             // Status message -> determine content by message type
-            String target = "(unknown)";
+            String target = Locale.get(NAME_UNKNOWN);
             try {
                 JSONObject targetData = data.getArray("mentions").getObject(0);
                 target = new User(s, targetData).name;
@@ -55,45 +55,51 @@ public class Message {
 
             switch (t) {
                 case TYPE_ADDED: {
-                    content = "added " + target + " to the group";
+                    content =
+                        Locale.get(STATUS_ADDED_PREFIX) +
+                        target +
+                        Locale.get(STATUS_ADDED_SUFFIX);
                     break;
                 }
                 case TYPE_REMOVED: {
                     if (author.name.equals(target)) {
-                        content = "left the group";
+                        content = Locale.get(STATUS_LEFT);
                     } else {
-                        content = "removed " + target + " from the group";
+                        content =
+                            Locale.get(STATUS_REMOVED_PREFIX) +
+                            target +
+                            Locale.get(STATUS_REMOVED_SUFFIX);
                     }
                     break;
                 }
                 case TYPE_CALL: {
-                    content = "started a call";
+                    content = Locale.get(STATUS_CALL);
                     break;
                 }
                 case TYPE_CHANNEL_NAME_CHANGE: {
-                    content = "changed the group name";
+                    content = Locale.get(STATUS_CHANNEL_NAME_CHANGE);
                     break;
                 }
                 case TYPE_CHANNEL_ICON_CHANGE: {
-                    content = "changed the group icon";
+                    content = Locale.get(STATUS_CHANNEL_ICON_CHANGE);
                     break;
                 }
                 case TYPE_PINNED: {
-                    content = "pinned a message";
+                    content = Locale.get(STATUS_PINNED);
                     break;
                 }
                 case TYPE_JOINED: {
-                    content = "joined the server";
+                    content = Locale.get(STATUS_JOINED);
                     break;
                 }
                 case TYPE_BOOSTED: {
-                    content = "boosted the server";
+                    content = Locale.get(STATUS_BOOSTED);
                     break;
                 }
                 case TYPE_BOOSTED_LEVEL_1:
                 case TYPE_BOOSTED_LEVEL_2:
                 case TYPE_BOOSTED_LEVEL_3: {
-                    content = "boosted the server to level " + (t - TYPE_BOOSTED);
+                    content = Locale.get(STATUS_BOOSTED_LEVEL) + (t - TYPE_BOOSTED);
                     break;
                 }
             }
@@ -111,7 +117,7 @@ public class Message {
 
                 if (s.showRefMessage) {
                     refContent = refObj.getString("content", null);
-                    if (refContent == null) refContent = "(no content)";
+                    if (refContent == null) refContent = Locale.get(NO_CONTENT);
                 }
             }
             catch (Exception e) {}
@@ -133,7 +139,10 @@ public class Message {
                 JSONArray stickers = data.getArray("sticker_items");
                 if (stickers.size() >= 1) {
                     if (content.length() > 0) content += "\n";
-                    content += "(sticker: " + stickers.getObject(0).getString("name", "unknown") + ")";
+                    content +=
+                        Locale.get(STICKER_PREFIX) +
+                        stickers.getObject(0).getString("name", Locale.get(STICKER_UNKNOWN)) +
+                        Locale.get(RIGHT_PAREN);
                 }
             }
             catch (Exception e) {}
@@ -166,7 +175,7 @@ public class Message {
             int minute = cal.get(Calendar.MINUTE);
 
             if (s.use12hTime) {
-                String period = hour < 12 ? "A" : "P";
+                String period = hour < 12 ? Locale.get(TIMESTAMP_AM) : Locale.get(TIMESTAMP_PM);
 
                 // Convert hours to 12-hour format
                 hour = hour % 12;
@@ -175,13 +184,13 @@ public class Message {
                 }
 
                 time.append(hour);
-                time.append(":");
+                time.append(Locale.get(TIME_SEPARATOR));
                 if (minute < 10) time.append("0");
                 time.append(minute);
                 time.append(period);
             } else {
                 time.append(hour);
-                time.append(":");
+                time.append(Locale.get(TIME_SEPARATOR));
                 if (minute < 10) time.append("0");
                 time.append(minute);
             }
@@ -189,7 +198,7 @@ public class Message {
             int day = cal.get(Calendar.DAY_OF_MONTH);
             if (day < 10) time.append("0");
             time.append(day);
-            time.append("/");
+            time.append(Locale.get(DATE_SEPARATOR));
             int month = cal.get(Calendar.MONTH) + 1;
             if (month < 10) time.append("0");
             time.append(month);
@@ -203,7 +212,7 @@ public class Message {
             !isStatus
         ) {
             isStatus = true;
-            content = "(unsupported message)";
+            content = Locale.get(UNSUPPORTED_MESSAGE);
         }
     }
 
@@ -230,7 +239,7 @@ public class Message {
     }
 
     public void delete() {
-        content = "(message deleted)";
+        content = Locale.get(MESSAGE_DELETED);
         isStatus = true;
         embeds = null;
         attachments = null;

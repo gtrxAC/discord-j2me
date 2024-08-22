@@ -2,28 +2,27 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class DeleteConfirmAlert extends Alert implements CommandListener {
+public class DeleteConfirmAlert extends Alert implements CommandListener, Strings {
     State s;
     Message msg;
     Command yesCommand;
     Command noCommand;
     
     public DeleteConfirmAlert(State s, Message msg) {
-        super("Delete");
-        setString("Delete this message?");
+        super(Locale.get(DELETE_CONFIRM_TITLE));
 
         String content = (msg.content.length() >= 30) ?
             msg.content.substring(0, 27) + "..." :
             msg.content;
 
-        setString("Delete this message? \r\n\"" + content + '"');
+        setString(Locale.get(DELETE_CONFIRM_TEXT) + " \r\n\"" + content + '"');
 
         setCommandListener(this);
         this.s = s;
         this.msg = msg;
 
-        yesCommand = new Command("Yes", Command.OK, 0);
-        noCommand = new Command("No", Command.BACK, 1);
+        yesCommand = Locale.createCommand(YES, Command.OK, 0);
+        noCommand = Locale.createCommand(NO, Command.BACK, 1);
         addCommand(yesCommand);
         addCommand(noCommand);
     }

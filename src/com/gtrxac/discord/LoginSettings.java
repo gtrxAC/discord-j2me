@@ -55,8 +55,11 @@ public class LoginSettings {
                 s.showRefMessage = getBoolRecord(true);
                 s.defaultHotkeys = getBoolRecord(true);
                 s.menuIconSize = getByteRecord(State.ICON_SIZE_16);
+                s.language = getStringRecord(System.getProperty("microedition.locale"));
 
                 if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
+
+                Locale.setLanguage(s);
             }
             catch (Exception e) {
                 s.error(e);
@@ -103,6 +106,7 @@ public class LoginSettings {
             setBoolRecord(s.showRefMessage);
             setBoolRecord(s.defaultHotkeys);
             setByteRecord(s.menuIconSize);
+            setStringRecord(s.language);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {

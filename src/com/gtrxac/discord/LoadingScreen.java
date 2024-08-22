@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
-public class LoadingScreen extends Canvas {
+public class LoadingScreen extends Canvas implements Strings {
     private State s;
     private boolean upscaled;
     private int iconOffset;
@@ -17,7 +17,7 @@ public class LoadingScreen extends Canvas {
     public LoadingScreen(State s) {
         super();
         this.s = s;
-        text = "Loading...";
+        text = Locale.get(LOADING);
         curFrame = 0;
         animDirection = 1;
 

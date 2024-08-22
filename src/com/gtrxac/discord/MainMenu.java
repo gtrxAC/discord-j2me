@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class MainMenu extends List implements CommandListener {
+public class MainMenu extends List implements CommandListener, Strings {
     State s;
     private Command quitCommand;
 
@@ -11,13 +11,13 @@ public class MainMenu extends List implements CommandListener {
         setCommandListener(this); 
         this.s = s;
 
-        quitCommand = new Command("Quit", Command.EXIT, 0);
+        quitCommand = Locale.createCommand(QUIT, Command.EXIT, 0);
 
-        append("Servers", s.ic.guilds);
-        if (!FavoriteGuilds.empty()) append("Favorites", s.ic.favorites);
-        append("Direct messages", s.ic.dms);
-        append("Settings", s.ic.settings);
-        append("Log out", s.ic.logout);
+        append(Locale.get(MAIN_MENU_GUILDS), s.ic.guilds);
+        if (!FavoriteGuilds.empty()) append(Locale.get(MAIN_MENU_FAVORITES), s.ic.favorites);
+        append(Locale.get(MAIN_MENU_DMS), s.ic.dms);
+        append(Locale.get(MAIN_MENU_SETTINGS), s.ic.settings);
+        append(Locale.get(MAIN_MENU_LOG_OUT), s.ic.logout);
         addCommand(quitCommand);
     }
 

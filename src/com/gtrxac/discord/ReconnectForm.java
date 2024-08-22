@@ -2,14 +2,14 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class ReconnectForm extends Form implements CommandListener {
+public class ReconnectForm extends Form implements CommandListener, Strings {
     private State s;
     private Command yesCommand;
     private Command noCommand;
     private Displayable lastScreen;
     
     public ReconnectForm(State s, String message) {
-        super("Disconnected");
+        super(Locale.get(RECONNECT_FORM_TITLE));
         setCommandListener(this);
         this.s = s;
 
@@ -18,14 +18,14 @@ public class ReconnectForm extends Form implements CommandListener {
             lastScreen = ((ErrorAlert) lastScreen).next;
         }
 
-        append(new StringItem(null, "Gateway error. Do you want to reconnect?"));
+        append(new StringItem(null, Locale.get(RECONNECT_FORM_TEXT)));
 
         if (message != null && message.length() > 0) {
-            append(new StringItem("Message", message));
+            append(new StringItem(Locale.get(RECONNECT_FORM_MESSAGE), message));
         }
 
-        yesCommand = new Command("Yes", Command.OK, 0);
-        noCommand = new Command("No", Command.BACK, 1);
+        yesCommand = Locale.createCommand(YES, Command.OK, 0);
+        noCommand = Locale.createCommand(NO, Command.BACK, 1);
         addCommand(yesCommand);
         addCommand(noCommand);
     }

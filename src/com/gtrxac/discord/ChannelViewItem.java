@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class ChannelViewItem {
+public class ChannelViewItem implements Strings {
     static final int MESSAGE = 0;
     static final int OLDER_BUTTON = 1;
     static final int NEWER_BUTTON = 2;
@@ -325,19 +325,9 @@ public class ChannelViewItem {
             case OLDER_BUTTON:
             case NEWER_BUTTON: {
                 g.setFont(s.messageFont);
-                String caption;
 
-                if (type == OLDER_BUTTON) {
-                    caption = "Older";
-                    if (s.messageFont.stringWidth("View older") <= width) caption = "View older";
-                    if (s.messageFont.stringWidth("Older messages") <= width) caption = "Older messages";
-                    if (s.messageFont.stringWidth("View older messages") <= width) caption = "View older messages";
-                } else {
-                    caption = "Newer";
-                    if (s.messageFont.stringWidth("View newer") <= width) caption = "View newer";
-                    if (s.messageFont.stringWidth("Newer messages") <= width) caption = "Newer messages";
-                    if (s.messageFont.stringWidth("View newer messages") <= width) caption = "View newer messages";
-                }
+                String caption = (type == OLDER_BUTTON) ?
+                    Locale.get(VIEW_OLDER_MESSAGES_L) : Locale.get(VIEW_NEWER_MESSAGES_L);
 
                 if (selected) g.setColor(ChannelView.darkBgColors[s.theme]);
                 else g.setColor(ChannelView.highlightColors2[s.theme]);
@@ -362,9 +352,13 @@ public class ChannelViewItem {
 
             // Similar to older/newer button, but left aligned
             case ATTACHMENTS_BUTTON: {
-                String caption = msg.attachments.size() + " attachment" + (msg.attachments.size() > 1 ? "s" : "");
-                String longCaption = "View " + caption;
-                if (s.messageFont.stringWidth(longCaption) <= width) caption = longCaption;
+                String caption =
+                    Locale.get(VIEW_ATTACHMENTS_PREFIX) +
+                    msg.attachments.size() +
+                    (msg.attachments.size() > 1 ?
+                        Locale.get(VIEW_ATTACHMENTS_SUFFIX) :
+                        Locale.get(VIEW_ATTACHMENT_SUFFIX)
+                    );
 
                 g.setFont(s.messageFont);
 

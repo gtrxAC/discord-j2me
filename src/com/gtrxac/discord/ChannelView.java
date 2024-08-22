@@ -7,7 +7,7 @@ import cc.nnproject.json.*;
 /**
  * Message list for channels (both guild channels and DM channels).
  */
-public class ChannelView extends Canvas implements CommandListener {
+public class ChannelView extends Canvas implements CommandListener, Strings {
     State s;
     private Command backCommand;
     private Command selectCommand;
@@ -63,16 +63,16 @@ public class ChannelView extends Canvas implements CommandListener {
         this.s = s;
         s.channelIsOpen = true;
 
-        backCommand = new Command("Back", Command.BACK, 0);
-        selectCommand = new Command("Select", Command.OK, 1);
-        sendCommand = new Command("Send", "Send message", Command.ITEM, 2);
-        replyCommand = new Command("Reply", Command.ITEM, 3);
-        uploadCommand = new Command("Upload", "Upload file", Command.ITEM, 4);
-        copyCommand = new Command("Copy", "Copy content", Command.ITEM, 5);
-        editCommand = new Command("Edit", Command.ITEM, 6);
-        deleteCommand = new Command("Delete", Command.ITEM, 7);
-        openUrlCommand = new Command("Open URL", Command.ITEM, 8);
-        refreshCommand = new Command("Refresh", Command.ITEM, 9);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
+        selectCommand = Locale.createCommand(SELECT, Command.OK, 1);
+        sendCommand = Locale.createCommand(SEND_MESSAGE, Command.ITEM, 2);
+        replyCommand = Locale.createCommand(REPLY, Command.ITEM, 3);
+        uploadCommand = Locale.createCommand(UPLOAD_FILE, Command.ITEM, 4);
+        copyCommand = Locale.createCommand(COPY_CONTENT, Command.ITEM, 5);
+        editCommand = Locale.createCommand(EDIT, Command.ITEM, 6);
+        deleteCommand = Locale.createCommand(DELETE, Command.ITEM, 7);
+        openUrlCommand = Locale.createCommand(OPEN_URL, Command.ITEM, 8);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 9);
 
         messageFontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
@@ -108,7 +108,7 @@ public class ChannelView extends Canvas implements CommandListener {
             } else {
                 setTitle("#" + s.selectedChannel.name);
             }
-            if (page > 0) setTitle(getTitle() + " (old)");
+            if (page > 0) setTitle(getTitle() + Locale.get(CHANNEL_VIEW_TITLE_OLD));
         }
 
         items = new Vector();
@@ -309,6 +309,37 @@ public class ChannelView extends Canvas implements CommandListener {
         }
     }
 
+    // Also used by old channel view
+    public static String getTypingString(State s) {
+        switch (s.typingUsers.size()) {
+            case 1:
+                return
+                    s.typingUsers.elementAt(0) +
+                    Locale.get(TYPING_ONE); 
+
+            case 2:
+                return
+                    s.typingUsers.elementAt(0) +
+                    Locale.get(COMMA) +
+                    s.typingUsers.elementAt(1) +
+                    Locale.get(TYPING_MANY);
+
+            case 3:
+                return
+                    s.typingUsers.elementAt(0) +
+                    Locale.get(COMMA) +
+                    s.typingUsers.elementAt(1) +
+                    Locale.get(COMMA) +
+                    s.typingUsers.elementAt(2) +
+                    Locale.get(TYPING_MANY);
+
+            default:
+                return
+                    s.typingUsers.size() +
+                    Locale.get(TYPING_SEVERAL);
+        }
+    }
+
     protected void paint(Graphics g) {
         if (scroll < 0) scroll = 0;
         if (scroll > maxScroll) scroll = maxScroll;
@@ -340,7 +371,7 @@ public class ChannelView extends Canvas implements CommandListener {
         if (items.size() == 0) {
             g.setColor(timestampColors[s.theme]);
             g.drawString(
-                "Nothing to see here", width/2, height/2 - messageFontHeight/2,
+                Locale.get(CHANNEL_VIEW_EMPTY), width/2, height/2 - messageFontHeight/2,
                 Graphics.HCENTER | Graphics.TOP
             );
         } else {
@@ -377,7 +408,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
         if (outdated) {
             g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap("Refresh to read new messages", width, s.messageFont);
+            String[] lines = Util.wordWrap(Locale.get(CHANNEL_VIEW_OUTDATED), width, s.messageFont);
             g.setColor(0x00AA1122);
             g.fillRect(0, bannerY, width, messageFontHeight*lines.length + messageFontHeight/4);
 
@@ -392,13 +423,7 @@ public class ChannelView extends Canvas implements CommandListener {
         }
 
         if (s.typingUsers.size() > 0) {
-            String typingStr;
-            switch (s.typingUsers.size()) {
-                case 1: typingStr = s.typingUsers.elementAt(0) + " is typing"; break;
-                case 2: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + " are typing"; break;
-                case 3: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + ", " + s.typingUsers.elementAt(2) + " are typing"; break;
-                default: typingStr = s.typingUsers.size() + " people are typing"; break;
-            }
+            String typingStr = getTypingString(s);
 
             g.setFont(s.messageFont);
             String[] lines = Util.wordWrap(typingStr, width, s.messageFont);
@@ -615,13 +640,13 @@ public class ChannelView extends Canvas implements CommandListener {
         else if (c == uploadCommand) {
             try {
                 if (!s.isLiteProxy) {
-                    s.error("This proxy does not support file uploading");
+                    s.error(Locale.get(UPLOAD_NOT_SUPPORTED));
                 }
                 else if (s.nativeFilePicker) {
                     if (System.getProperty("microedition.io.file.FileConnection.version") != null) {
                         s.disp.setCurrent(new AttachmentPicker(s));
                     } else {
-                        s.error("FileConnection not supported");
+                        s.error(Locale.get(UPLOAD_ERROR_FILECONN));
                     }
                 }
                 else {
@@ -645,14 +670,14 @@ public class ChannelView extends Canvas implements CommandListener {
             }
             else if (c == deleteCommand) {
                 if (!s.isLiteProxy) {
-                    s.error("This proxy does not support deleting messages");
+                    s.error(Locale.get(DELETE_NOT_SUPPORTED));
                 } else {
                     s.disp.setCurrent(new DeleteConfirmAlert(s, item.msg));
                 }
             }
             else if (c == editCommand) {
                 if (!s.isLiteProxy) {
-                    s.error("This proxy does not support editing messages");
+                    s.error(Locale.get(EDIT_NOT_SUPPORTED));
                 } else {
                     s.disp.setCurrent(new MessageEditBox(s, item.msg));
                 }

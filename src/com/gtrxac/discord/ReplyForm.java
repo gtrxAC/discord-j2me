@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class ReplyForm extends Form implements CommandListener {
+public class ReplyForm extends Form implements CommandListener, Strings {
     State s;
     Message msg;
 
@@ -14,22 +14,21 @@ public class ReplyForm extends Form implements CommandListener {
 
     public ReplyForm(State s, Message msg) {
         super("");
-        if (s.isDM) setTitle("Send message (@" + s.selectedDmChannel.name + ")");
-        else setTitle("Send message (#" + s.selectedChannel.name + ")");
+        setTitle(MessageBox.getMessageBoxTitle(s));
         
         setCommandListener(this);
         this.s = s;
         this.msg = msg;
 
-        StringItem refItem = new StringItem("Replying to " + msg.author.name, msg.content);
+        StringItem refItem = new StringItem(Locale.get(REPLYING_TO) + msg.author.name, msg.content);
         refItem.setFont(s.messageFont);
         append(refItem);
 
-        replyField = new TextField("Your message:", "", 2000, 0);
+        replyField = new TextField(Locale.get(REPLY_FORM_LABEL), "", 2000, 0);
         append(replyField);
 
         if (!s.isDM) {
-            String[] pingChoices = {"Mention author"};
+            String[] pingChoices = {Locale.get(REPLY_FORM_PING)};
             Image[] pingImages = {null};
             boolean[] pingSelection = {!msg.author.id.equals(s.myUserId)};
             pingGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, pingChoices, pingImages);
@@ -37,9 +36,9 @@ public class ReplyForm extends Form implements CommandListener {
             append(pingGroup);
         }
 
-        sendCommand = new Command("Send", Command.OK, 0);
-        backCommand = new Command("Back", Command.BACK, 1);
-        addMentionCommand = new Command("Insert mention", Command.ITEM, 2);
+        sendCommand = Locale.createCommand(SEND_MESSAGE, Command.OK, 0);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 1);
+        addMentionCommand = Locale.createCommand(INSERT_MENTION, Command.ITEM, 2);
 
         addCommand(sendCommand);
         addCommand(backCommand);
@@ -68,7 +67,7 @@ public class ReplyForm extends Form implements CommandListener {
         }
         else if (c == addMentionCommand) {
             if (!s.gatewayActive()) {
-                s.error("Requires active gateway connection");
+                s.error(Locale.get(REQUIRES_GATEWAY));
                 return;
             }
             s.disp.setCurrent(new MentionForm(s));

@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class AttachmentView extends Form implements CommandListener, ItemCommandListener {
+public class AttachmentView extends Form implements CommandListener, ItemCommandListener, Strings {
     State s;
     Message msg;
 
@@ -10,13 +10,13 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
     private Command refreshCommand;
 
     public AttachmentView(State s, Message msg) {
-        super("Attachments");
+        super(Locale.get(ATTACHMENT_VIEW_TITLE));
         this.s = s;
         this.msg = msg;
         setCommandListener(this);
 
-        backCommand = new Command("Back", Command.BACK, 0);
-        refreshCommand = new Command("Refresh", Command.ITEM, 1);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 1);
         addCommand(backCommand);
         addCommand(refreshCommand);
 

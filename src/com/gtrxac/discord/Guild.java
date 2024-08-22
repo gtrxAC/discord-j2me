@@ -4,7 +4,7 @@ import cc.nnproject.json.*;
 import java.util.*;
 import javax.microedition.lcdui.*;
 
-public class Guild implements HasIcon {
+public class Guild implements HasIcon, Strings {
     public String id;
     public String name;
     public Vector channels;
@@ -22,7 +22,7 @@ public class Guild implements HasIcon {
             name = data.getObject("properties").getString("name");
         }
         else {
-            name = "(unknown)";
+            name = Locale.get(NAME_UNKNOWN);
         }
 
         if (data.has("channels")) {

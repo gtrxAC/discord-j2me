@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class MessageBox extends TextBox implements CommandListener {
+public class MessageBox extends TextBox implements CommandListener, Strings {
     State s;
     private Command sendCommand;
     private Command addMentionCommand;
@@ -10,19 +10,32 @@ public class MessageBox extends TextBox implements CommandListener {
 
     public MessageBox(State s) {
         super("", "", 2000, 0);
-        if (s.isDM) setTitle("Send message (@" + s.selectedDmChannel.name + ")");
-        else setTitle("Send message (#" + s.selectedChannel.name + ")");
+        setTitle(getMessageBoxTitle(s));
         
         setCommandListener(this);
         this.s = s;
 
-        sendCommand = new Command("Send", Command.OK, 0);
-        backCommand = new Command("Back", Command.BACK, 1);
-        addMentionCommand = new Command("Insert mention", Command.ITEM, 2);
+        sendCommand = Locale.createCommand(SEND_MESSAGE, Command.OK, 0);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 1);
+        addMentionCommand = Locale.createCommand(INSERT_MENTION, Command.ITEM, 2);
 
         addCommand(sendCommand);
         addCommand(backCommand);
         if (!s.isDM) addCommand(addMentionCommand);
+    }
+
+    // Also used by reply form
+    public static String getMessageBoxTitle(State s) {
+        if (s.isDM) {
+            return 
+                Locale.get(MESSAGE_BOX_TITLE_PREFIX_DM) +
+                s.selectedDmChannel.name +
+                Locale.get(RIGHT_PAREN);
+        }
+        return 
+            Locale.get(MESSAGE_BOX_TITLE_PREFIX_CHANNEL) +
+            s.selectedChannel.name +
+            Locale.get(RIGHT_PAREN);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -44,7 +57,7 @@ public class MessageBox extends TextBox implements CommandListener {
         }
         else if (c == addMentionCommand) {
             if (!s.gatewayActive()) {
-                s.error("Requires active gateway connection");
+                s.error(Locale.get(REQUIRES_GATEWAY));
                 return;
             }
             s.disp.setCurrent(new MentionForm(s));

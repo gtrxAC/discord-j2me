@@ -4,7 +4,7 @@ import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import java.util.*;
 
-public class State {
+public class State implements Strings {
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
 	static final int PFP_TYPE_NONE = 0;
@@ -42,6 +42,7 @@ public class State {
 	boolean useNameColors;
 	boolean showRefMessage;
 	boolean defaultHotkeys;
+	String language;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -284,12 +285,16 @@ public class State {
 	public void platformRequest(String url) {
 		try {
 			if (midlet.platformRequest(url)) {
-				error("The app must be closed before the URL can be opened.");
+				error(Locale.get(PLAT_REQUEST_FAILED));
 			}
 		}
 		catch (Exception e) {
-			String msg = "The URL could not be opened (" + e.toString() + ")\n\nYou may try manually copying the URL into your device's browser: " + url;
-			disp.setCurrent(new MessageCopyBox(this, "Error", msg));
+			String msg =
+				Locale.get(PLAT_REQUEST_ERROR_PREFIX) +
+				e.toString() +
+				Locale.get(PLAT_REQUEST_ERROR_SUFFIX) +
+				url;
+			disp.setCurrent(new MessageCopyBox(this, Locale.get(ERROR_TITLE), msg));
 		}
 	}
 }

@@ -7,19 +7,19 @@ import javax.microedition.io.*;
 import java.util.*;
 import java.io.*;
 
-public class AttachmentPicker extends List implements CommandListener {
+public class AttachmentPicker extends List implements CommandListener, Strings {
     private State s;
     private Command closeCommand;
     private Command backCommand;
     private String currentPath; // Root directory
 
     public AttachmentPicker(State s) {
-        super("Select attachment", List.IMPLICIT);
+        super(Locale.get(ATTACHMENT_PICKER_TITLE), List.IMPLICIT);
         this.s = s;
         setCommandListener(this);
 
-        backCommand = new Command("Back", Command.BACK, 1);
-        closeCommand = new Command("Close", Command.BACK, 2);
+        backCommand = Locale.createCommand(BACK, Command.BACK, 1);
+        closeCommand = Locale.createCommand(CLOSE, Command.BACK, 2);
 
         addCommand(closeCommand);
         addCommand(backCommand);

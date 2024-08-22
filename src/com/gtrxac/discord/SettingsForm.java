@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class SettingsForm extends Form implements CommandListener, ItemCommandListener {
+public class SettingsForm extends Form implements CommandListener, ItemCommandListener, Strings {
     State s;
 
     private ChoiceGroup themeGroup;
@@ -18,30 +18,54 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private ChoiceGroup refMsgGroup;
     private ChoiceGroup hotkeyGroup;
     private StringItem keyMapperItem;
+    private StringItem languageItem;
     private Command saveCommand;
     private Command cancelCommand;
     private Command openMapperCommand;
+    private Command setLanguageCommand;
 
-    private void createHeading(Image icon, String text) {
+    private void createHeading(Image icon, int stringId) {
         append(new ImageItem(null, icon, 0, null));
-        append(new StringItem(null, text));
+        append(new StringItem(null, Locale.get(stringId)));
     }
 
     public SettingsForm(State s) {
-        super("Settings");
+        super(Locale.get(SETTINGS_FORM_TITLE));
         setCommandListener(this); 
         this.s = s;
 
-        String[] themeChoices = {"Dark", "Light", "Black"};
-        Image[] themeImages = {s.ic.themeDark, s.ic.themeLight, s.ic.themeBlack};
-        createHeading(s.ic.themesGroup, "Theme");
+        String[] themeChoices = {
+            Locale.get(THEME_DARK),
+            Locale.get(THEME_LIGHT),
+            Locale.get(THEME_BLACK)
+        };
+        Image[] themeImages = {
+            s.ic.themeDark,
+            s.ic.themeLight,
+            s.ic.themeBlack
+        };
+        createHeading(s.ic.themesGroup, SETTINGS_SECTION_THEMES);
         themeGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, themeChoices, themeImages);
         themeGroup.setSelectedIndex(s.theme, true);
         append(themeGroup);
 
-        String[] uiChoices = {"Use old UI", "12-hour time", "Native file picker", "Gateway auto reconnect", "Server/DM icons", "Name colors"};
-        Image[] uiImages = {s.ic.oldUI, s.ic.use12h, s.ic.nativePicker, s.ic.autoReconnect, s.ic.menuIcons, s.ic.nameColors};
-        createHeading(s.ic.uiGroup, "User interface");
+        String[] uiChoices = {
+            Locale.get(USE_OLD_UI),
+            Locale.get(USE_12H_TIME),
+            Locale.get(NATIVE_FILE_PICKER),
+            Locale.get(AUTO_RECONNECT),
+            Locale.get(GUILD_ICONS),
+            Locale.get(NAME_COLORS),
+        };
+        Image[] uiImages = {
+            s.ic.oldUI,
+            s.ic.use12h,
+            s.ic.nativePicker,
+            s.ic.autoReconnect,
+            s.ic.menuIcons,
+            s.ic.nameColors
+        };
+        createHeading(s.ic.uiGroup, SETTINGS_SECTION_UI);
         uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, uiImages);
         uiGroup.setSelectedIndex(0, s.oldUI);
         uiGroup.setSelectedIndex(1, s.use12hTime);
@@ -51,76 +75,123 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         uiGroup.setSelectedIndex(5, s.useNameColors);
         append(uiGroup);
 
-        String[] fontChoices = {"Small", "Medium", "Large"};
-        Image[] fontImages = {s.ic.fontSmall, s.ic.fontMedium, s.ic.fontLarge};
-        createHeading(s.ic.fontSize, "Message author font");
+        String[] fontChoices = {
+            Locale.get(FONT_SMALL),
+            Locale.get(FONT_MEDIUM),
+            Locale.get(FONT_LARGE),
+        };
+        Image[] fontImages = {
+            s.ic.fontSmall,
+            s.ic.fontMedium,
+            s.ic.fontLarge
+        };
+        createHeading(s.ic.fontSize, SETTINGS_SECTION_AUTHOR_FONT);
         authorFontGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
         authorFontGroup.setSelectedIndex(s.authorFontSize, true);
         append(authorFontGroup);
 
-        createHeading(s.ic.fontSize, "Message content font");
+        createHeading(s.ic.fontSize, SETTINGS_SECTION_CONTENT_FONT);
         messageFontGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, fontChoices, fontImages);
         messageFontGroup.setSelectedIndex(s.messageFontSize, true);
         append(messageFontGroup);
 
-        createHeading(s.ic.msgCount, "Message load count");
+        createHeading(s.ic.msgCount, SETTINGS_SECTION_MESSAGE_COUNT);
         messageCountField = new TextField(null, new Integer(s.messageLoadCount).toString(), 3, TextField.NUMERIC);
         append(messageCountField);
 
         String[] formatChoices = {"PNG", "JPEG"};
         Image[] formatImages = {null, null};
-        createHeading(s.ic.attachFormat, "Attachment format");
+        createHeading(s.ic.attachFormat, SETTINGS_SECTION_IMAGE_FORMAT);
         formatGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, formatChoices, formatImages);
         formatGroup.setSelectedIndex(s.useJpeg ? 1 : 0, true);
         append(formatGroup);
 
-        createHeading(s.ic.attachSize, "Max. attachment size");
+        createHeading(s.ic.attachSize, SETTINGS_SECTION_IMAGE_SIZE);
         attachSizeField = new TextField(null, new Integer(s.attachmentSize).toString(), 5, TextField.NUMERIC);
         append(attachSizeField);
 
-        String[] iconChoices = {"Off", "Square", "Circle", "Circle (HQ)"};
-        Image[] iconImages = {s.ic.pfpNone, s.ic.pfpSquare, s.ic.pfpCircle, s.ic.pfpCircleHq};
-        createHeading(s.ic.pfpType, "Avatar shape");
+        String[] iconChoices = {
+            Locale.get(PFP_OFF),
+            Locale.get(PFP_SQUARE),
+            Locale.get(PFP_CIRCLE),
+            Locale.get(PFP_CIRCLE_HQ),
+        };
+        Image[] iconImages = {
+            s.ic.pfpNone,
+            s.ic.pfpSquare, 
+            s.ic.pfpCircle,
+            s.ic.pfpCircleHq
+        };
+        createHeading(s.ic.pfpType, SETTINGS_SECTION_PFP_SHAPE);
         iconGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, iconChoices, iconImages);
         iconGroup.setSelectedIndex(s.pfpType, true);
         append(iconGroup);
 
-        String[] pfpSizeChoices = {"Placeholder only", "16 px", "32 px"};
-        Image[] pfpSizeImages = {s.ic.pfpPlaceholder, s.ic.pfp16, s.ic.pfp32};
-        createHeading(s.ic.pfpSize, "Avatar resolution");
+        String[] pfpSizeChoices = {
+            Locale.get(PFP_PLACEHOLDER),
+            Locale.get(PFP_16PX),
+            Locale.get(PFP_32PX),
+        };
+        Image[] pfpSizeImages = {
+            s.ic.pfpPlaceholder,
+            s.ic.pfp16,
+            s.ic.pfp32
+        };
+        createHeading(s.ic.pfpSize, SETTINGS_SECTION_PFP_RESOLUTION);
         pfpSizeGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, pfpSizeChoices, pfpSizeImages);
         pfpSizeGroup.setSelectedIndex(s.pfpSize, true);
         append(pfpSizeGroup);
 
-        String[] menuIconChoices = {"Off", "16 px", "32 px"};
-        Image[] menuIconImages = {s.ic.pfpNone, s.ic.icon16, s.ic.icon32};
-        createHeading(s.ic.iconSize, "Menu icon size");
+        String[] menuIconChoices = {
+            Locale.get(PFP_OFF),
+            Locale.get(PFP_16PX),
+            Locale.get(PFP_32PX)
+        };
+        Image[] menuIconImages = {
+            s.ic.pfpNone, 
+            s.ic.icon16,
+            s.ic.icon32
+        };
+        createHeading(s.ic.iconSize, SETTINGS_SECTION_MENU_ICONS);
         menuIconGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, menuIconChoices, menuIconImages);
         menuIconGroup.setSelectedIndex(s.menuIconSize, true);
         append(menuIconGroup);
 
-        String[] refMsgChoices = {"Only recipient", "Full message"};
-        Image[] refMsgImages = {s.ic.repliesName, s.ic.repliesFull};
-        createHeading(s.ic.repliesGroup, "Show replies as");
+        String[] refMsgChoices = {
+            Locale.get(REPLIES_ONLY_RECIPIENT),
+            Locale.get(REPLIES_FULL_MESSAGE)
+        };
+        Image[] refMsgImages = {
+            s.ic.repliesName,
+            s.ic.repliesFull
+        };
+        createHeading(s.ic.repliesGroup, SETTINGS_SECTION_REPLIES);
         refMsgGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, refMsgChoices, refMsgImages);
         refMsgGroup.setSelectedIndex(s.showRefMessage ? 1 : 0, true);
         append(refMsgGroup);
 
-        String[] hotkeyChoices = {"Default hotkeys"};
+        String[] hotkeyChoices = {Locale.get(DEFAULT_HOTKEYS)};
         Image[] hotkeyImages = {s.ic.keysDefault};
-        createHeading(s.ic.keys, "Hotkeys");
+        createHeading(s.ic.keys, SETTINGS_SECTION_HOTKEYS);
         hotkeyGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, hotkeyChoices, hotkeyImages);
         hotkeyGroup.setSelectedIndex(0, s.defaultHotkeys);
         append(hotkeyGroup);
 
-        openMapperCommand = new Command("Map keys", Command.ITEM, 2);
-        keyMapperItem = new StringItem(null, "Remap hotkeys", Item.BUTTON);
+        openMapperCommand = Locale.createCommand(REMAP_HOTKEYS, Command.ITEM, 2);
+        keyMapperItem = new StringItem(null, Locale.get(REMAP_HOTKEYS_L), Item.BUTTON);
         keyMapperItem.setDefaultCommand(openMapperCommand);
         keyMapperItem.setItemCommandListener(this);
         append(keyMapperItem);
 
-        saveCommand = new Command("Save", Command.OK, 0);
-        cancelCommand = new Command("Cancel", Command.BACK, 1);
+        createHeading(s.ic.language, SETTINGS_SECTION_LANGUAGE);
+        setLanguageCommand = Locale.createCommand(SET_LANGUAGE, Command.ITEM, 2);
+        languageItem = new StringItem(null, Locale.get(SET_LANGUAGE_L), Item.BUTTON);
+        languageItem.setDefaultCommand(setLanguageCommand);
+        languageItem.setItemCommandListener(this);
+        append(languageItem);
+
+        saveCommand = Locale.createCommand(SAVE, Command.OK, 0);
+        cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
         addCommand(saveCommand);
         addCommand(cancelCommand);
     }
@@ -184,6 +255,9 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     public void commandAction(Command c, Item i) {
         if (c == openMapperCommand) {
             s.disp.setCurrent(new KeyMapper(s));
+        }
+        else if (c == setLanguageCommand) {
+            s.disp.setCurrent(new LanguageSelector(s));
         }
     }
 }
