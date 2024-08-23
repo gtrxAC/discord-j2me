@@ -134,6 +134,7 @@ public class GatewayThread extends Thread implements Strings {
                         JSONObject msgData = message.getObject("d");
                         String msgId = msgData.getString("id");
                         String chId = msgData.getString("channel_id");
+                        String authorID = msgData.getObject("author").getString("id");
 
                         // Mark this channel as unread if it's not the currently opened channel
                         if (
@@ -141,6 +142,9 @@ public class GatewayThread extends Thread implements Strings {
                             || (s.isDM && !chId.equals(s.selectedDmChannel.id))
                             || (!s.isDM && !chId.equals(s.selectedChannel.id))
                         ) {
+                            // Don't set unread indicator if message was sent by the logged in user
+                            if (authorID.equals(s.myUserId)) continue;
+
                             Channel ch = Channel.getByID(s, chId);
                             if (ch != null) {
                                 ch.lastMessageID = Long.parseLong(msgId);
@@ -156,6 +160,17 @@ public class GatewayThread extends Thread implements Strings {
                         }
                         
                         // If message was sent in the currently opened channel, update the channel view accordingly:
+
+                        // If the message is already shown, don't show it again (check for duplicate ID)
+                        boolean skip = false;
+                        for (int i = 0; i < s.messages.size(); i++) {
+                            Message m = (Message) s.messages.elementAt(i);
+                            if (m.id.equals(msgId)) {
+                                skip = true;
+                                break;
+                            }
+                        }
+                        if (skip) continue;
 
                         // If we're on the newest page, make the new message visible
                         int page = s.oldUI ? s.oldChannelView.page : s.channelView.page;
@@ -177,8 +192,6 @@ public class GatewayThread extends Thread implements Strings {
                                 s.typingUserIDs.removeElementAt(0);
                             }
                         } else {
-                            String authorID = msgData.getObject("author").getString("id");
-                            
                             for (int i = 0; i < s.typingUsers.size(); i++) {
                                 if (s.typingUserIDs.elementAt(i).equals(authorID)) {
                                     s.typingUsers.removeElementAt(i);
