@@ -54,8 +54,11 @@ public class LoginSettings {
                 s.backHotkey = getIntRecord(0);
                 s.showRefMessage = getBoolRecord(true);
                 s.defaultHotkeys = getBoolRecord(true);
-                s.menuIconSize = getByteRecord(State.ICON_SIZE_16);
+                s.menuIconSize = getByteRecord(16);
                 s.language = getStringRecord(System.getProperty("microedition.locale"));
+
+                if (s.menuIconSize == 1) s.menuIconSize = 16;
+                else if (s.menuIconSize == 2) s.menuIconSize = 32;
 
                 if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
 

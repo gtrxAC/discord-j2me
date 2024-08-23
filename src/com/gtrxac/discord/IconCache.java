@@ -29,7 +29,7 @@ public class IconCache {
             if (s.pfpType == State.PFP_TYPE_NONE || s.pfpSize == State.PFP_SIZE_PLACEHOLDER) return null;
         } else {
             // For menu icons (DMChannel and Guild)
-            if (!s.showMenuIcons || s.menuIconSize == State.ICON_SIZE_OFF) return null;
+            if (!s.showMenuIcons || s.menuIconSize == 0) return null;
         }
         
         String hash = target.getIconHash();

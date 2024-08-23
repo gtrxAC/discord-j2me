@@ -64,14 +64,24 @@ public class Icons {
     Image flagSV;
     Image flagVI;
 
-    boolean upscale;
     Image sheet;
+    int size;
     int x;
     int y;
 
     private Image next() {
         Image result = Image.createImage(sheet, x, y, 16, 16, Sprite.TRANS_NONE);
-        if (upscale) result = Util.resizeImage(result, 32, 32);
+        
+        // Integer scale to nearest multiple of 16px, rounding up
+        if (size > 16) {
+            int multiple = size/16*16;
+            if (multiple < size) multiple += 16;
+            result = Util.resizeImage(result, multiple, multiple);
+        }
+        // If requested icon size is not an integer multiple, scale down to requested size with bilinear filter
+        if (size % 16 != 0) {
+            result = Util.resizeImageBilinear(result, size, size);
+        }
 
         x += 16;
         if (x >= sheet.getWidth()) {
@@ -82,9 +92,8 @@ public class Icons {
     }
 
     Icons(State s) {
-        if (s.menuIconSize == State.ICON_SIZE_OFF) return;
-
-        this.upscale = (s.menuIconSize == State.ICON_SIZE_32);
+        size = s.menuIconSize;
+        if (size == 0) return;
 
         try {
             sheet = Image.createImage("/icons.png");
@@ -149,6 +158,10 @@ public class Icons {
         flagTR = next();
         flagBR = next();
         flagRU = next();
+        flagRO = next();
+        flagVI = next();
+        flagSV = next();
+        // flagTH = next();
 
         sheet = null;
     }

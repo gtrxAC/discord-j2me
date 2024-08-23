@@ -126,7 +126,7 @@ public class vi implements Language {
         " người đang nhập",
 
         // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
-        ", ",
+        null,
 
         // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
         "Proxy này không hỗ trợ gửi tệp",
@@ -160,8 +160,8 @@ public class vi implements Language {
         "Có",
         "Không",
         "Không",
-        "OK",
-        "OK",
+        null,
+        null,
 
         // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
         "(không rõ)",
@@ -223,8 +223,8 @@ public class vi implements Language {
         "Chưa xác định URL CDN, các tệp đính kèm không khả dụng",
 
         // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
-        " (",
-        ")",
+        null,
+        null,
 
         // Softkey labels for showing a text attachment's contents within the app.
         "Hiện",
@@ -355,14 +355,14 @@ public class vi implements Language {
 
         // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
         // Note: order of day and month cannot be changed currently
-        ":",
-        "/",
+        null,
+        null,
         "SA",
         "CH",
 
         // Softkey labels for inserting a mention/ping in the "send message" screen.
-        "Mention",
-        "Insert mention",
+        "Ping",
+        "Ping ai đó",
 
         // Prefixes of title text for "send message" screen.
         // The full title is in the form of "Send message (@user)" or "Send message (#channel)".

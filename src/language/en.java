@@ -446,7 +446,7 @@ public class en implements Language {
         "Attachment format",
 
         // Settings screen heading for maximum attachment size in pixels.
-        "Max. attachment size",
+        "Max. attachment size (px)",
 
         // Settings screen heading for profile picture shape.
         // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
@@ -469,7 +469,7 @@ public class en implements Language {
         "32 px",
 
         // Settings section for menu icon size.
-        "Menu icon size",
+        "Menu icon size (px)",
 
         // Settings section for controlling the display of reply messages.
         "Show replies as",

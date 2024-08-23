@@ -14,7 +14,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private TextField attachSizeField;
     private ChoiceGroup iconGroup;
     private ChoiceGroup pfpSizeGroup;
-    private ChoiceGroup menuIconGroup;
+    private TextField menuIconField;
     private ChoiceGroup refMsgGroup;
     private ChoiceGroup hotkeyGroup;
     private StringItem keyMapperItem;
@@ -146,20 +146,9 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         pfpSizeGroup.setSelectedIndex(s.pfpSize, true);
         append(pfpSizeGroup);
 
-        String[] menuIconChoices = {
-            Locale.get(PFP_OFF),
-            Locale.get(PFP_16PX),
-            Locale.get(PFP_32PX)
-        };
-        Image[] menuIconImages = {
-            s.ic.pfpNone, 
-            s.ic.icon16,
-            s.ic.icon32
-        };
         createHeading(s.ic.iconSize, SETTINGS_SECTION_MENU_ICONS);
-        menuIconGroup = new ChoiceGroup(null, ChoiceGroup.EXCLUSIVE, menuIconChoices, menuIconImages);
-        menuIconGroup.setSelectedIndex(s.menuIconSize, true);
-        append(menuIconGroup);
+        menuIconField = new TextField(null, new Integer(s.menuIconSize).toString(), 3, TextField.NUMERIC);
+        append(menuIconField);
 
         String[] refMsgChoices = {
             Locale.get(REPLIES_ONLY_RECIPIENT),
@@ -209,9 +198,22 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 s.useJpeg = formatGroup.getSelectedIndex() == 1;
                 s.pfpType = iconGroup.getSelectedIndex();
                 s.pfpSize = pfpSizeGroup.getSelectedIndex();
-                s.menuIconSize = menuIconGroup.getSelectedIndex();
                 s.iconCache = new IconCache(s);
                 s.showRefMessage = refMsgGroup.getSelectedIndex() == 1;
+
+                try {
+                    int newSize = Integer.parseInt(menuIconField.getString());
+
+                    // Icon size is stored in save data as a byte (0-255) to retain compatibility
+                    if (newSize > 255) throw new Exception();
+
+                    // 1 and 2 are reserved values that older versions used for 16 and 32 px
+                    if (newSize == 1 || newSize == 2) s.menuIconSize = 3;
+                    else s.menuIconSize = newSize;
+                }
+                catch (Exception e) {
+                    s.menuIconSize = 16;
+                }
 
                 try {
                     int newCount = Integer.parseInt(messageCountField.getString());

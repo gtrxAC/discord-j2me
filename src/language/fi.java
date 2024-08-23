@@ -446,7 +446,7 @@ public class fi implements Language {
         "Kuvien tied.muoto",
 
         // Settings screen heading for maximum attachment size in pixels.
-        "Maks. kuvien koko",
+        "Maks. kuvien koko (px)",
 
         // Settings screen heading for profile picture shape.
         // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
@@ -469,7 +469,7 @@ public class fi implements Language {
         null,
 
         // Settings section for menu icon size.
-        "Valikoiden kuvakoko",
+        "Valikoiden kuvakoko (px)",
 
         // Settings section for controlling the display of reply messages.
         "Näytä vastaukset",
