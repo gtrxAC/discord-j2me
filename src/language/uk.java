@@ -198,11 +198,11 @@ public class uk implements Language {
         "Сервери",
 
         // Title text shown for favorite servers list.
-        "Обрані",
+        "Обрані сервери",
 
         // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
         "Видалити",
-        "Видалити",
+        "Видалити з обраних",
 
         // Softkey command for adding a server to the favorites list.
         "До обраних",
@@ -296,7 +296,7 @@ public class uk implements Language {
         "Надіслати токен як",
 
         // Token sending options.
-        "Заголовок (типовий параметр)",
+        "Заголовок (стд параметр)",
         "JSON",
         "Параметр запиту",
 
@@ -307,10 +307,10 @@ public class uk implements Language {
         // Main menu items.
         // "Log out" brings you back to the login screen where you enter your token and other login settings.
         "Сервери",
-        "Обрані",
+        "Обрані сервери",
         "Приватні повідомлення",
         "Налаштування",
-        "Вийти",
+        "Вийти з облікового запису",
 
         // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
         "Вставити згадку",
@@ -388,7 +388,7 @@ public class uk implements Language {
         "Повідомлення",
 
         // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
-        "Відповідь користувачеві",
+        "Відповідь користувачеві ",
 
         // Top label for the message entry box in the reply form.
         "Ваше повідомлення:",
@@ -411,19 +411,19 @@ public class uk implements Language {
         "Інтерфейс користувача",
 
         // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-        "Використовувати старий інтерфейс",
+        "Старий інтерфейс",
 
         // Settings option for using 12-hour time format in timestamps.
         "12-год. формат часу",
 
         // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-        "Нативний інструмент вибору файлів",
+        "Нативний вибір файлів",
 
         // Settings option for automatically reconnecting to the gateway if the connection closes.
-        "Автоматичне з'єднання до шлюзу",
+        "Автом. з'єдн. до шлюзу",
 
         // Settings option for enabling icons in server and direct message lists.
-        "Піктограми серверів/ПП",
+        "Піктогр. серверів/ПП",
 
         // Settings option for enabling nickname role colors.
         "Кольори ролей",
@@ -455,7 +455,7 @@ public class uk implements Language {
         // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
         "Квадратна",
         "Кругла",
-        "Кругла (висока якість)",
+        "Кругла (вис. якість)",
 
         // Settings section for profile picture resolution.
         "Роздільна здатність аватара",
@@ -465,8 +465,8 @@ public class uk implements Language {
 
         // Resolution options. Used for profile picture resolution and menu icon resolution.
         "Вимк.",
-        "16 px",
-        "32 px",
+        "16 пікс.",
+        "32 пікс.",
 
         // Settings section for menu icon size.
         "Розмір піктограми меню",
@@ -478,17 +478,17 @@ public class uk implements Language {
         "Тільки одержувач",
 
         // Settings option to show replies with the whole recipient message.
-        "Одержувач + повідомлення",
+        "Одерж. + повідомл.",
 
         // Settings section for hotkey action management.
         "Гарячі клавіші",
 
         // Settings option to use "default" hotkeys. When enabled, the J2ME game actions (ABCD) are used for hotkey actions, instead of user-defined key bindings. I named it "default" due to the lack of a better term for people who aren't familiar with J2ME development.
-        "Початкові гарячі клавіші",
+        "Стандартні гар. кл.",
 
         // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
         "Призначити клавіші",
-        "Перепризначити гарячі клавіші",
+        "Перепризн. гар. кл.",
 
         // Generic softkey labels. Currently used in settings menu.
         "Зберегти",

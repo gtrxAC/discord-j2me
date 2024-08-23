@@ -45,6 +45,24 @@ public class Icons {
     Image icon16;
     Image icon32;
     Image language;
+    Image flagGB;
+    Image flagUS;
+    Image flagES;
+    Image flagFR;
+    Image flagDE;
+    Image flagIT;
+    Image flagNL;
+    Image flagPT;
+    Image flagUK;
+    Image flagFI;
+    Image flagPL;
+    Image flagID;
+    Image flagTR;
+    Image flagBR;
+    Image flagRU;
+    Image flagRO;
+    Image flagSV;
+    Image flagVI;
 
     boolean upscale;
     Image sheet;
@@ -116,6 +134,21 @@ public class Icons {
         icon16 = next();
         icon32 = next();
         language = next();
+        flagGB = next();
+        flagUS = next();
+        flagES = next();
+        flagFR = next();
+        flagDE = next();
+        flagIT = next();
+        flagNL = next();
+        flagPT = next();
+        flagUK = next();
+        flagFI = next();
+        flagPL = next();
+        flagID = next();
+        flagTR = next();
+        flagBR = next();
+        flagRU = next();
 
         sheet = null;
     }

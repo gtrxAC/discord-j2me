@@ -25,8 +25,12 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private Command setLanguageCommand;
 
     private void createHeading(Image icon, int stringId) {
-        append(new ImageItem(null, icon, 0, null));
-        append(new StringItem(null, Locale.get(stringId)));
+        ImageItem img = new ImageItem(null, icon, 0, null);
+        img.setLayout(Item.LAYOUT_NEWLINE_BEFORE);
+        append(img);
+        StringItem str = new StringItem(null, Locale.get(stringId));
+        str.setLayout(Item.LAYOUT_NEWLINE_AFTER);
+        append(str);
     }
 
     public SettingsForm(State s) {

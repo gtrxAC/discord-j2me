@@ -167,7 +167,7 @@ public class pl implements Language {
         "(nieznane)",
 
         // Placeholder shown when the recipient message of a reply does not have any text content.
-        "(brak zawarości)",
+        "(brak zawartości)",
 
         // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
         "(nieobsługiwana wiadomość)",
@@ -260,7 +260,7 @@ public class pl implements Language {
         "powrót",
 
         // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-        "Ten klawisz został przypisany do funkcji ",
+        "Ten klawisz został już przypisany do funkcji ",
 
         // Title text shown in login screen.
         "Zaloguj się",
@@ -388,7 +388,7 @@ public class pl implements Language {
         "Wiadomość",
 
         // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
-        "Odopwiadanie ",
+        "Odpowiadanie ",
 
         // Top label for the message entry box in the reply form.
         "Twoja wiadomość:",

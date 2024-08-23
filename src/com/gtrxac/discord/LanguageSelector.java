@@ -9,7 +9,22 @@ public class LanguageSelector extends List implements CommandListener, Strings {
     private Displayable lastScreen;
 
     private static String[] langIds = {
-        "en", "fi", "id", "it", "pl", "pt_BR", "ru", "sv", "tr", "uk"
+        "en", "fi", "id", "it", "pl", "pt_BR", "ro", "ru", "sv", "tr", "uk", "vi"
+    };
+
+    private static String[] langNames = {
+        "English",      // en
+        "Suomi",        // fi (Finnish)
+        "Bahasa Indonesia", // id
+        "Italiano",     // it (Italian)
+        "Polski",       // pl (Polish)
+        "Português (Brasil)", // pt_BR (Portuguese - Brazil)
+        "Română",       // ro (Romanian)
+        "Русский",      // ru (Russian)
+        "Svenska",      // sv (Swedish)
+        "Türkçe",       // tr (Turkish)
+        "Українська",   // uk (Ukrainian)
+        "Tiếng Việt"    // vi (Vietnamese)
     };
 
     public LanguageSelector(State s) {
@@ -18,8 +33,14 @@ public class LanguageSelector extends List implements CommandListener, Strings {
         this.s = s;
         lastScreen = s.disp.getCurrent();
 
+        Image[] flags = {
+            s.ic.flagUS, s.ic.flagFI, s.ic.flagID, s.ic.flagIT,
+            s.ic.flagPL, s.ic.flagBR, s.ic.flagRO, s.ic.flagRU,
+            s.ic.flagSV, s.ic.flagTR, s.ic.flagUK, s.ic.flagVI
+        };
+
         for (int i = 0; i < langIds.length; i++) {
-            append(langIds[i], null);
+            append(langNames[i], flags[i]);
         }
 
         backCommand = Locale.createCommand(BACK, Command.BACK, 0);

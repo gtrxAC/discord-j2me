@@ -248,7 +248,7 @@ public class ru implements Language {
         "Пропустить",
 
         // Key press prompt shown in hotkey mapper.
-        "Нажмите клавишу, чтобы использовать ее для:",
+        "Нажмите клавишу, чтобы исп. ее для:",
 
         // Names of hotkey actions shown in the key mapper.
         // These are shown after the "Press the key to use for:" string.
@@ -269,7 +269,7 @@ public class ru implements Language {
         "Используйте только прокси, которым доверяете!",
 
         // Help message for finding your token. Shown in login screen above the token field.
-        "Ваш токен находится в настройках разработчика в браузере (см. онлайн для уточнения). Рекомендуется использовать альтернативный аккаунт.",
+        "Ваш токен находится в настройках разработчика в браузере (см. онлайн для уточнения). В целях безопасности рекомендуется использовать альтернативный аккаунт.",
 
         // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
         "Использовать Wi-Fi",
@@ -440,7 +440,7 @@ public class ru implements Language {
         "Шрифт содержимого сообщения",
 
         // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-        "Количество сообщений загружено",
+        "Макс. количество отображаемых сообщений",
 
         // Settings screen heading for selecting attachment file format.
         "Формат вложения",
