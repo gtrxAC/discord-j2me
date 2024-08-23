@@ -4,7 +4,7 @@ import javax.microedition.lcdui.*;
 
 public class KeyMapper extends Canvas implements CommandListener, Strings {
     private State s;
-    private int messageFontHeight;
+    private int fontHeight;
     private int curHotkey;
 
     private Displayable lastScreen;
@@ -20,7 +20,7 @@ public class KeyMapper extends Canvas implements CommandListener, Strings {
         this.s = s;
         setCommandListener(this);
         
-        messageFontHeight = s.messageFont.getHeight();
+        fontHeight = s.messageFont.getHeight();
         newHotkeys = new int[5];
         lastScreen = s.disp.getCurrent();
         
@@ -42,19 +42,19 @@ public class KeyMapper extends Canvas implements CommandListener, Strings {
         // Clear screen
         g.setColor(ChannelView.backgroundColors[s.theme]);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        String prompt = Locale.get(KEY_MAPPER_PROMPT) + "\n" + hotkeyStrings[curHotkey];
+        String[] promptLines = Util.wordWrap(prompt, getWidth(), s.messageFont);
         
         g.setFont(s.messageFont);
         g.setColor(ChannelView.messageColors[s.theme]);
-        g.drawString(
-            Locale.get(KEY_MAPPER_PROMPT),
-            getWidth()/2, getHeight()/2 - messageFontHeight,
-            Graphics.TOP | Graphics.HCENTER
-        );
-        g.drawString(
-            hotkeyStrings[curHotkey],
-            getWidth()/2, getHeight()/2,
-            Graphics.TOP | Graphics.HCENTER
-        );
+
+        int y = (getHeight() - fontHeight*promptLines.length)/2;
+        
+        for (int i = 0; i < promptLines.length; i++) {
+            g.drawString(promptLines[i], getWidth()/2, y, Graphics.TOP | Graphics.HCENTER);
+            y += fontHeight;
+        }
     }
     
     private void mapKey(int keycode) {
