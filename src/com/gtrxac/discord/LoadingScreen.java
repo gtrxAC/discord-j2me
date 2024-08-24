@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
-public class LoadingScreen extends Canvas implements Strings {
+public class LoadingScreen extends Canvas implements Runnable, Strings {
     private State s;
     private boolean upscaled;
     private int iconOffset;
@@ -46,7 +46,34 @@ public class LoadingScreen extends Canvas implements Strings {
             }
         }
 
-        new LoadingAnimThread(s.disp, this).start();
+        // Start loading icon animation
+        new Thread(this).start();
+    }
+
+    // Icon animation thread
+    public void run() {
+        // Wait for the load screen to show up
+        while (s.disp.getCurrent() != this) {
+            try {
+                Thread.sleep(10);
+            }
+            catch (Exception e) {}
+        }
+
+        while (s.disp.getCurrent() == this) {
+            repaint();
+            serviceRepaints();
+
+            try {
+                // Sleep based on the frame number that was just drawn (first frame = 167 ms, last frame = 500 ms)
+                switch (curFrame - animDirection) {
+                    case 0: Thread.sleep(167); break;
+                    case 7: Thread.sleep(500); break;
+                    default: Thread.sleep(83); break;
+                }
+            }
+            catch (Exception e) {}
+        }
     }
 
     protected void paint(Graphics g) {
