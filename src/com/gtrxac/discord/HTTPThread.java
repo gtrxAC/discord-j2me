@@ -35,6 +35,11 @@ public class HTTPThread extends Thread implements Strings {
     String fetchMsgsBefore;
     String fetchMsgsAfter;
 
+    // Parameters for SEND_MESSAGE
+	String sendMessage;
+	String sendReference;  // ID of the message the user is replying to
+	boolean sendPing;
+
     // Parameters for FETCH_ICON
     HasIcon iconTarget;  // item (guild or DM channel) that this icon should be assigned to
 
@@ -189,20 +194,20 @@ public class HTTPThread extends Thread implements Strings {
                     else id = s.selectedChannel.id;
 
                     JSONObject json = new JSONObject();
-                    json.put("content", s.sendMessage);
+                    json.put("content", sendMessage);
                     json.put("flags", 0);
                     json.put("mobile_network_type", "unknown");
                     json.put("tts", false);
 
                     // Reply
-                    if (s.sendReference != null) {
+                    if (sendReference != null) {
                         JSONObject ref = new JSONObject();
                         ref.put("channel_id", s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id);
                         if (!s.isDM) ref.put("guild_id", s.selectedGuild.id);
-                        ref.put("message_id", s.sendReference);
+                        ref.put("message_id", sendReference);
                         json.put("message_reference", ref);
 
-                        if (!s.sendPing && !s.isDM) {
+                        if (!sendPing && !s.isDM) {
                             JSONObject ping = new JSONObject();
                             ping.put("replied_user", false);
                             json.put("allowed_mentions", ping);
@@ -247,7 +252,7 @@ public class HTTPThread extends Thread implements Strings {
                         s.messages.addElement(new Message(s, messages.getObject(i)));
                     }
 
-                    if ((fetchMsgsBefore == null && fetchMsgsAfter == null) || s.sendMessage != null) {
+                    if ((fetchMsgsBefore == null && fetchMsgsAfter == null) || sendMessage != null) {
                         // If user opened a new channel or sent a message, create a new channel view
                         if (s.oldUI) s.oldChannelView = new OldChannelView(s);
                         else s.channelView = new ChannelView(s);
@@ -266,7 +271,6 @@ public class HTTPThread extends Thread implements Strings {
                         s.channelView.repaint();
                     }
 
-                    s.sendMessage = null;
                     s.typingUsers = new Vector();
                     s.typingUserIDs = new Vector();
                     break;

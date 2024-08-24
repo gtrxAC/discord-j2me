@@ -47,19 +47,10 @@ public class ReplyForm extends Form implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
-            try {
-                boolean[] selected = {true};
-                if (!s.isDM) pingGroup.getSelectedFlags(selected);
-
-                s.sendMessage = replyField.getString();
-                s.sendReference = msg.id;
-                s.sendPing = selected[0];
-                new HTTPThread(s, HTTPThread.SEND_MESSAGE).start();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                s.error(e);
-            }
+            boolean[] selected = {true};
+            if (!s.isDM) pingGroup.getSelectedFlags(selected);
+            
+            MessageBox.sendMessage(s, replyField.getString(), msg.id, selected[0]);
         }
         else if (c == backCommand) {
             if (s.oldUI) s.disp.setCurrent(s.oldChannelView);

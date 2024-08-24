@@ -38,18 +38,18 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
             Locale.get(RIGHT_PAREN);
     }
 
+    // Send HTTP request to send a message. Also used by ReplyForm
+    public static void sendMessage(State s, String msg, String refID, boolean ping) {
+        HTTPThread h = new HTTPThread(s, HTTPThread.SEND_MESSAGE);
+        h.sendMessage = msg;
+        h.sendReference = refID;
+        h.sendPing = ping;
+        h.start();
+    }
+
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
-            try {
-                s.sendMessage = getString();
-                s.sendReference = null;
-                s.sendPing = false;
-                new HTTPThread(s, HTTPThread.SEND_MESSAGE).start();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                s.error(e);
-            }
+            sendMessage(s, getString(), null, false);
         }
         else if (c == backCommand) {
             if (s.oldUI) s.disp.setCurrent(s.oldChannelView);

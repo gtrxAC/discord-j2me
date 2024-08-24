@@ -83,11 +83,6 @@ public class State implements Strings {
 
 	AttachmentView attachmentView;
 
-	// Parameters for message/reply sending
-	String sendMessage;
-	String sendReference;  // ID of the message the user is replying to
-	boolean sendPing;
-
 	// set to true if loading screen shouldn't be shown for next HTTPThread call
 	boolean dontShowLoadScreen;
 
