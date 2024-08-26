@@ -16,6 +16,15 @@ echo "Setting up directories"
 mkdir --parents bin classes res src
 rm -rf classes/*
 
+# Generate language files
+if command -v node > /dev/null; then
+    echo "Generating translations"
+    cd language
+    [[ -e node_modules ]] || npm i
+    node convert.js
+    cd ..
+fi
+
 # Compile for Java 1.2. Most (but not all) J2ME devices support Java 1.3
 # If you want to change the APIs (bootclasspath), also edit the ProGuard config (midlets.pro)
 echo "Compiling"

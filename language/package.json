@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "dependencies": {
+    "strip-json-comments": "^5.0.1"
+  }
+}

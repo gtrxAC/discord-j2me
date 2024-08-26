@@ -14,7 +14,6 @@ public class Icons {
     Image themeLight;
     Image themeBlack;
     Image uiGroup;
-    Image oldUI;
     Image use12h;
     Image nativePicker;
     Image autoReconnect;
@@ -112,7 +111,7 @@ public class Icons {
         themeLight = next();
         themeBlack = next();
         uiGroup = next();
-        oldUI = next();
+        next(); // skip removed icon
         use12h = next();
         nativePicker = next();
         autoReconnect = next();

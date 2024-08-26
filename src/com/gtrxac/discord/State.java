@@ -25,7 +25,6 @@ public class State implements Strings {
 	Display disp;
 
 	int theme;  // 0 = dark, 1 = light, 2 = black
-	boolean oldUI;
 	boolean use12hTime;
 	boolean useGateway;
 	boolean bbWifi;
@@ -77,7 +76,6 @@ public class State implements Strings {
 
 	Vector messages;
 	ChannelView channelView;
-	OldChannelView oldChannelView;
 	Vector typingUsers;
 	Vector typingUserIDs;
 
@@ -239,18 +237,10 @@ public class State implements Strings {
 
 	public void openChannelView(boolean reload) {
 		try {
-			if (oldUI) {
-				if (reload || oldChannelView == null || messages == null) {
-					new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
-				} else {
-					disp.setCurrent(oldChannelView);
-				}
+			if (reload || channelView == null || messages == null) {
+				new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
 			} else {
-				if (reload || channelView == null || messages == null) {
-					new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
-				} else {
-					disp.setCurrent(channelView);
-				}
+				disp.setCurrent(channelView);
 			}
 			if (isDM) {
 				unreads.markRead(selectedDmChannel);

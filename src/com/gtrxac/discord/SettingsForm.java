@@ -54,7 +54,6 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         append(themeGroup);
 
         String[] uiChoices = {
-            Locale.get(USE_OLD_UI),
             Locale.get(USE_12H_TIME),
             Locale.get(NATIVE_FILE_PICKER),
             Locale.get(AUTO_RECONNECT),
@@ -62,7 +61,6 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
             Locale.get(NAME_COLORS),
         };
         Image[] uiImages = {
-            s.ic.oldUI,
             s.ic.use12h,
             s.ic.nativePicker,
             s.ic.autoReconnect,
@@ -71,12 +69,11 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         };
         createHeading(s.ic.uiGroup, SETTINGS_SECTION_UI);
         uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, uiImages);
-        uiGroup.setSelectedIndex(0, s.oldUI);
-        uiGroup.setSelectedIndex(1, s.use12hTime);
-        uiGroup.setSelectedIndex(2, s.nativeFilePicker);
-        uiGroup.setSelectedIndex(3, s.autoReConnect);
-        uiGroup.setSelectedIndex(4, s.showMenuIcons);
-        uiGroup.setSelectedIndex(5, s.useNameColors);
+        uiGroup.setSelectedIndex(0, s.use12hTime);
+        uiGroup.setSelectedIndex(1, s.nativeFilePicker);
+        uiGroup.setSelectedIndex(2, s.autoReConnect);
+        uiGroup.setSelectedIndex(3, s.showMenuIcons);
+        uiGroup.setSelectedIndex(4, s.useNameColors);
         append(uiGroup);
 
         String[] fontChoices = {
@@ -235,12 +232,11 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
 
                 boolean[] selected = {false, false, false, false, false, false};
                 uiGroup.getSelectedFlags(selected);
-                s.oldUI = selected[0];
-                s.use12hTime = selected[1];
-                s.nativeFilePicker = selected[2];
-                s.autoReConnect = selected[3];
-                s.showMenuIcons = selected[4];
-                s.useNameColors = selected[5];
+                s.use12hTime = selected[0];
+                s.nativeFilePicker = selected[1];
+                s.autoReConnect = selected[2];
+                s.showMenuIcons = selected[3];
+                s.useNameColors = selected[4];
 
                 hotkeyGroup.getSelectedFlags(selected);
                 s.defaultHotkeys = selected[0];

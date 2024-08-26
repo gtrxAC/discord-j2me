@@ -2,15 +2,19 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 import java.util.*;
-import language.*;
+import java.io.*;
+import cc.nnproject.json.*;
 
 public class Locale {
-    private static String[] strs;
-    private static String[] defaultStrs;
+    private static Vector strs;
+    private static Vector defaultStrs;
 
     static {
         // English strings always loaded by default (in case translations are incomplete or have null values)
-        defaultStrs = new en().getStrings();
+        try {
+            defaultStrs = loadLanguage("en");
+        }
+        catch (Exception e) {}
     }
 
     static void setLanguage(State s) {
@@ -22,47 +26,68 @@ public class Locale {
         }
     }
 
+    static String readFile(String name) throws Exception {
+        InputStream is = new Object().getClass().getResourceAsStream(name);
+        DataInputStream dis = new DataInputStream(is);
+        StringBuffer buf = new StringBuffer();
+
+        int ch;
+        while ((ch = dis.read()) != -1) {
+            buf.append((char) ch);
+        }
+
+        String result = buf.toString();
+        try {
+            return new String(result.getBytes(), "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            return result;
+        }
+    }
+
+    static Vector loadLanguage(String id) throws Exception {
+        String data = readFile("/" + id + ".json");
+        return JSON.getArray(data).toVector();
+    }
+
     static void setLanguage(String name) {
         strs = null;
 
         // unknown locale = use English (don't load extra language data)
         if (name == null) return;
 
-        // selected language is English?
+        // selected language is English = don't load extra language data
         String shortName = name.substring(0, 2);
         if ("en".equals(shortName)) return;
 
-        Class langClass;
         try {
-            // try full language code (e.g. language.en_US)
-            langClass = Class.forName("language." + Util.replace(name, "-", "_"));
+            // try full language code (e.g. en-US.json)
+            strs = loadLanguage(name);
         }
         catch (Exception e) {
             try {
-                // try short language code (e.g. language.en)
-                langClass = Class.forName("language." + shortName);
+                // try short language code (e.g. en.json)
+                strs = loadLanguage(shortName);
             }
             catch (Exception ee) {
-                // fallback to English
+                // no translation available = fallback to English
                 return;
             }
-        }
-        try {
-            strs = ((Language) langClass.newInstance()).getStrings();
-        }
-        catch (Exception e) {
-            return;
         }
     }
 
     static String get(int id) {
         // If English is in use or translation doesn't have this string index, use English string
-        if (strs == null || id >= strs.length) return defaultStrs[id];
+        if (strs == null || id >= strs.size()) {
+            return (String) defaultStrs.elementAt(id);
+        }
 
-        // Get translation string. If translation is null, fallback to English string.
-        String result = strs[id];
-        if (result == null) return defaultStrs[id];
-        return result;
+        // Get translation string. If translation is null (json_null which is a blank object), fallback to English string.
+        Object result = strs.elementAt(id);
+        if (!(result instanceof String)) {
+            return (String) defaultStrs.elementAt(id);
+        }
+        return (String) result;
     }
 
     static Command createCommand(int id, int type, int prio) {

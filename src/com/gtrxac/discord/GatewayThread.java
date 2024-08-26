@@ -173,8 +173,7 @@ public class GatewayThread extends Thread implements Strings {
                         if (skip) continue;
 
                         // If we're on the newest page, make the new message visible
-                        int page = s.oldUI ? s.oldChannelView.page : s.channelView.page;
-                        if (page == 0) {
+                        if (s.channelView.page == 0) {
                             // Add the new message to the message list
                             s.messages.insertElementAt(new Message(s, msgData), 0);
 
@@ -201,30 +200,22 @@ public class GatewayThread extends Thread implements Strings {
                         }
 
                         // Redraw the message list and mark it as read
-                        if (s.oldUI) {
-                            if (page == 0) {
-                                s.oldChannelView.update();
-                                s.unreads.markRead(chId, Long.parseLong(msgId));
-                            } else {
-                                s.oldChannelView.setTitle(Locale.get(CHANNEL_VIEW_OUTDATED));
-                            }
+                        if (s.channelView.page == 0) {
+                            s.channelView.requestUpdate(true);
+                            s.unreads.autoSave = false;
+                            s.unreads.markRead(chId, Long.parseLong(msgId));
+                            s.unreads.autoSave = true;
                         } else {
-                            if (page == 0) {
-                                s.channelView.requestUpdate(true);
-                                s.unreads.autoSave = false;
-                                s.unreads.markRead(chId, Long.parseLong(msgId));
-                                s.unreads.autoSave = true;
-                            } else {
-                                // If user is not on the newest page of messages, ask them to refresh
-                                // There is no easy way to do it any other way without breaking pagination
-                                s.channelView.outdated = true;
-                            }
-                            s.channelView.repaint();
-                            s.channelView.serviceRepaints();
+                            // If user is not on the newest page of messages, ask them to refresh
+                            // There is no easy way to do it any other way without breaking pagination
+                            s.channelView.outdated = true;
                         }
+
+                        s.channelView.repaint();
+                        s.channelView.serviceRepaints();
                     }
                     else if (op.equals("MESSAGE_DELETE")) {
-                        if (s.channelView == null && s.oldChannelView == null) continue;
+                        if (s.channelView == null) continue;
 
                         JSONObject msgData = message.getObject("d");
 
@@ -240,18 +231,14 @@ public class GatewayThread extends Thread implements Strings {
 
                             msg.delete();
 
-                            if (s.oldUI) {
-                                s.oldChannelView.update();
-                            } else {
-                                s.channelView.requestUpdate(true);
-                                s.channelView.repaint();
-                                s.channelView.serviceRepaints();
-                            }
+                            s.channelView.requestUpdate(true);
+                            s.channelView.repaint();
+                            s.channelView.serviceRepaints();
                             break;
                         }
                     }
                     else if (op.equals("MESSAGE_UPDATE")) {
-                        if (s.channelView == null && s.oldChannelView == null) continue;
+                        if (s.channelView == null) continue;
 
                         JSONObject msgData = message.getObject("d");
 
@@ -273,18 +260,14 @@ public class GatewayThread extends Thread implements Strings {
                             msg.content = newContent;
                             msg.needUpdate = true;
 
-                            if (s.oldUI) {
-                                s.oldChannelView.update();
-                            } else {
-                                s.channelView.requestUpdate(true);
-                                s.channelView.repaint();
-                                s.channelView.serviceRepaints();
-                            }
+                            s.channelView.requestUpdate(true);
+                            s.channelView.repaint();
+                            s.channelView.serviceRepaints();
                             break;
                         }
                     }
                     else if (op.equals("TYPING_START")) {
-                        if (s.channelView == null && s.oldChannelView == null) continue;
+                        if (s.channelView == null) continue;
 
                         JSONObject msgData = message.getObject("d");
                         String channel = msgData.getString("channel_id");
@@ -333,12 +316,7 @@ public class GatewayThread extends Thread implements Strings {
                             catch (Exception e) {}
                         }
 
-                        // Redraw the message list
-                        if (s.oldUI) {
-                            s.oldChannelView.update();
-                        } else {
-                            s.channelView.repaint();
-                        }
+                        s.channelView.repaint();
                     }
                     else if (op.equals("GUILD_MEMBERS_CHUNK")) {
                         if (s.channelView == null || s.selectedGuild == null) continue;

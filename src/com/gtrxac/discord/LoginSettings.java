@@ -29,7 +29,7 @@ public class LoginSettings {
                 s.api = getStringRecord(s.api);
                 s.token = getStringRecord(s.token);
                 s.theme = getByteRecord(0);
-                s.oldUI = getBoolRecord(false);
+                index++;  // skip removed option (old UI)
                 s.gatewayUrl = getStringRecord(s.gatewayUrl);
                 s.authorFontSize = getByteRecord(0);
                 s.messageFontSize = getByteRecord(0);
@@ -83,7 +83,7 @@ public class LoginSettings {
             setStringRecord(s.api);
             setStringRecord(s.token);
             setByteRecord(s.theme);
-            setBoolRecord(s.oldUI);
+            setBoolRecord(false);  // skip removed option (old UI)
             setStringRecord(s.gatewayUrl);
             setByteRecord(s.authorFontSize);
             setByteRecord(s.messageFontSize);

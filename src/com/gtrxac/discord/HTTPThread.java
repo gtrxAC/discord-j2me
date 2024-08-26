@@ -254,22 +254,16 @@ public class HTTPThread extends Thread implements Strings {
 
                     if ((fetchMsgsBefore == null && fetchMsgsAfter == null) || sendMessage != null) {
                         // If user opened a new channel or sent a message, create a new channel view
-                        if (s.oldUI) s.oldChannelView = new OldChannelView(s);
-                        else s.channelView = new ChannelView(s);
+                        s.channelView = new ChannelView(s);
                     } else {
                         // If user scrolled a page back or forward, keep reusing the same channel view
-                        if (s.oldUI) s.oldChannelView.update();
-                        else s.channelView.requestUpdate(false);
+                        s.channelView.requestUpdate(false);
                     }
 
                     // Show the channel view screen (hide the loading screen)
-                    if (s.oldUI) {
-                        s.disp.setCurrent(s.oldChannelView);
-                    } else {
-                        s.channelView.bannerText = null;
-                        s.disp.setCurrent(s.channelView);
-                        s.channelView.repaint();
-                    }
+                    s.channelView.bannerText = null;
+                    s.disp.setCurrent(s.channelView);
+                    s.channelView.repaint();
 
                     s.typingUsers = new Vector();
                     s.typingUserIDs = new Vector();
@@ -463,12 +457,7 @@ public class HTTPThread extends Thread implements Strings {
                         editMessage.content = editContent;
                         editMessage.rawContent = editContent;
                         editMessage.needUpdate = true;
-
-                        if (s.oldUI) {
-                            s.oldChannelView.update();
-                        } else {
-                            s.channelView.requestUpdate(false);
-                        }
+                        s.channelView.requestUpdate(false);
                     }
 
                     if (!showLoad && s.channelView != null) {
@@ -492,12 +481,7 @@ public class HTTPThread extends Thread implements Strings {
                     // (if enabled, deletion event will come through gateway)
                     if (!s.gatewayActive()) {
                         editMessage.delete();
-
-                        if (s.oldUI) {
-                            s.oldChannelView.update();
-                        } else {
-                            s.channelView.requestUpdate(false);
-                        }
+                        s.channelView.requestUpdate(false);
                     }
 
                     if (!showLoad && s.channelView != null) {

@@ -52,8 +52,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
             sendMessage(s, getString(), null, false);
         }
         else if (c == backCommand) {
-            if (s.oldUI) s.disp.setCurrent(s.oldChannelView);
-            else s.disp.setCurrent(s.channelView);
+            s.disp.setCurrent(s.channelView);
         }
         else if (c == addMentionCommand) {
             if (!s.gatewayActive()) {

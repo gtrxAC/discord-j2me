@@ -23,12 +23,7 @@ public class StopTypingThread extends Thread {
             if (s.typingUserIDs.elementAt(i).equals(userID)) {
                 s.typingUsers.removeElementAt(i);
                 s.typingUserIDs.removeElementAt(i);
-                
-                if (s.oldUI) {
-                    s.oldChannelView.update();
-                } else {
-                    s.channelView.repaint();
-                }
+                s.channelView.repaint();
                 return;
             }
         }

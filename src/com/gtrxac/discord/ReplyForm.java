@@ -53,8 +53,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             MessageBox.sendMessage(s, replyField.getString(), msg.id, selected[0]);
         }
         else if (c == backCommand) {
-            if (s.oldUI) s.disp.setCurrent(s.oldChannelView);
-            else s.disp.setCurrent(s.channelView);
+            s.disp.setCurrent(s.channelView);
         }
         else if (c == addMentionCommand) {
             if (!s.gatewayActive()) {
