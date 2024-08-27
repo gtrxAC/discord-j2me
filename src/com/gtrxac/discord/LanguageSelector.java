@@ -9,11 +9,12 @@ public class LanguageSelector extends List implements CommandListener, Strings {
     private Displayable lastScreen;
 
     private static String[] langIds = {
-        "en", "fi", "id", "it", "pl", "pt_BR", "ro", "ru", "sv", "tr", "uk", "vi"
+        "en", "es", "fi", "id", "it", "pl", "pt_BR", "ro", "ru", "sv", "th", "tr", "uk", "vi"
     };
 
     private static String[] langNames = {
         "English",      // en
+        "Español",
         "Suomi",        // fi (Finnish)
         "Bahasa Indonesia", // id
         "Italiano",     // it (Italian)
@@ -22,6 +23,7 @@ public class LanguageSelector extends List implements CommandListener, Strings {
         "Română",       // ro (Romanian)
         "Русский",      // ru (Russian)
         "Svenska",      // sv (Swedish)
+        "ไทย",
         "Türkçe",       // tr (Turkish)
         "Українська",   // uk (Ukrainian)
         "Tiếng Việt"    // vi (Vietnamese)
@@ -34,9 +36,10 @@ public class LanguageSelector extends List implements CommandListener, Strings {
         lastScreen = s.disp.getCurrent();
 
         Image[] flags = {
-            s.ic.flagUS, s.ic.flagFI, s.ic.flagID, s.ic.flagIT,
-            s.ic.flagPL, s.ic.flagBR, s.ic.flagRO, s.ic.flagRU,
-            s.ic.flagSV, s.ic.flagTR, s.ic.flagUK, s.ic.flagVI
+            s.ic.flagUS, s.ic.flagES, s.ic.flagFI, s.ic.flagID,
+            s.ic.flagIT, s.ic.flagPL, s.ic.flagBR, s.ic.flagRO,
+            s.ic.flagRU, s.ic.flagSV, s.ic.flagTH, s.ic.flagTR,
+            s.ic.flagUK, s.ic.flagVI
         };
 
         for (int i = 0; i < langIds.length; i++) {

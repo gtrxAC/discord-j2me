@@ -62,6 +62,7 @@ public class Icons {
     Image flagRO;
     Image flagSV;
     Image flagVI;
+    Image flagTH;
 
     Image sheet;
     int size;
@@ -160,7 +161,7 @@ public class Icons {
         flagRO = next();
         flagVI = next();
         flagSV = next();
-        // flagTH = next();
+        flagTH = next();
 
         sheet = null;
     }
