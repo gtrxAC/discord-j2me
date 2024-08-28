@@ -95,7 +95,10 @@ public interface Strings {
     static final int SKIP_L = 91;
     static final int KEY_MAPPER_PROMPT = 92;
     static final int HOTKEY_SEND = 93;
-    // ...the 4 other hotkey actions...
+    static final int HOTKEY_REPLY = 94;
+    static final int HOTKEY_COPY = 95;
+    static final int HOTKEY_REFRESH = 96;
+    static final int HOTKEY_BACK = 97;
     static final int KEY_MAPPER_DUPLICATE = 98;
     static final int LOGIN_FORM_TITLE = 99;
     static final int LOGIN_FORM_WARNING = 100;
@@ -207,4 +210,8 @@ public interface Strings {
     static final int SETTINGS_SECTION_LANGUAGE = 206;
     static final int SET_LANGUAGE = 207;
     static final int SET_LANGUAGE_L = 208;
+    static final int TOGGLE_FULLSCREEN = 209;
+    static final int TOGGLE_FULLSCREEN_L = 210;
+    static final int HOTKEY_FULLSCREEN = 211;
+    static final int FULLSCREEN_DEFAULT = 212;
 }

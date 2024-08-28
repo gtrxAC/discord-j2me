@@ -3,6 +3,8 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class KeyMapper extends Canvas implements CommandListener, Strings {
+    static final int HOTKEY_COUNT = 6;
+
     private State s;
     private int fontHeight;
     private int curHotkey;
@@ -21,7 +23,7 @@ public class KeyMapper extends Canvas implements CommandListener, Strings {
         setCommandListener(this);
         
         fontHeight = s.messageFont.getHeight();
-        newHotkeys = new int[5];
+        newHotkeys = new int[HOTKEY_COUNT];
         lastScreen = s.disp.getCurrent();
         
         cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 0);
@@ -29,10 +31,13 @@ public class KeyMapper extends Canvas implements CommandListener, Strings {
         addCommand(cancelCommand);
         addCommand(skipCommand);
 
-        hotkeyStrings = new String[5];
-        for (int i = 0; i < 5; i++) {
-            hotkeyStrings[i] = Locale.get(HOTKEY_SEND + i);
-        }
+        hotkeyStrings = new String[6];
+        hotkeyStrings[0] = Locale.get(HOTKEY_SEND);
+        hotkeyStrings[1] = Locale.get(HOTKEY_REPLY);
+        hotkeyStrings[2] = Locale.get(HOTKEY_COPY);
+        hotkeyStrings[3] = Locale.get(HOTKEY_REFRESH);
+        hotkeyStrings[4] = Locale.get(HOTKEY_BACK);
+        hotkeyStrings[5] = Locale.get(HOTKEY_FULLSCREEN);
     }
     
     protected void paint(Graphics g) {
@@ -63,12 +68,13 @@ public class KeyMapper extends Canvas implements CommandListener, Strings {
         curHotkey++;
 
         // If all actions have been mapped, save and close
-        if (curHotkey == 5) {
+        if (curHotkey == HOTKEY_COUNT) {
 	        s.sendHotkey = newHotkeys[0];
 	        s.replyHotkey = newHotkeys[1];
 	        s.copyHotkey = newHotkeys[2];
 	        s.refreshHotkey = newHotkeys[3];
 	        s.backHotkey = newHotkeys[4];
+            s.fullscreenHotkey = newHotkeys[5];
             LoginSettings.save(s);
             s.disp.setCurrent(lastScreen);
         } else {

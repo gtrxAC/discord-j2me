@@ -246,7 +246,7 @@
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
-    // "going back" only applies to the chat view, 
+    // "going back" only applies to the chat view. 
     "sending a message",
     "replying to message",
     "copying message content",
@@ -514,5 +514,16 @@
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
     "Language",
-    "Set language"
+    "Set language",
+
+    // Softkey commands for toggling fullscreen mode in the chat view.
+    "Fullscreen",
+    "Toggle fullscreen",
+
+    // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
+    // Related to "Names of hotkey actions shown in the key mapper" above.
+    "toggling fullscreen",
+
+    // Settings option for enabling fullscreen mode by default in the chat view.
+    "Fullscreen mode"
 ]

@@ -39,11 +39,11 @@ public class LoginSettings {
                 s.bbWifi = getBoolRecord(true);
                 s.useJpeg = getBoolRecord(true);
                 s.cdn = getStringRecord(s.cdn);
-                s.pfpType = getByteRecord(State.PFP_TYPE_CIRCLE);
+                s.pfpType = getByteRecord(State.PFP_TYPE_CIRCLE_HQ);
                 s.attachmentSize = getIntRecord(1000);
                 s.pfpSize = getByteRecord(State.ICON_SIZE_16);
                 s.nativeFilePicker = getBoolRecord(false);
-                s.autoReConnect = getBoolRecord(false);
+                s.autoReConnect = getBoolRecord(true);
                 s.showMenuIcons = getBoolRecord(true);
                 s.tokenType = getByteRecord(State.TOKEN_TYPE_HEADER);
                 s.useNameColors = getBoolRecord(true);
@@ -56,6 +56,8 @@ public class LoginSettings {
                 s.defaultHotkeys = getBoolRecord(true);
                 s.menuIconSize = getByteRecord(16);
                 s.language = getStringRecord(System.getProperty("microedition.locale"));
+                s.fullscreenDefault = getBoolRecord(false);
+                s.fullscreenHotkey = getIntRecord(0);
 
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
                 else if (s.menuIconSize == 2) s.menuIconSize = 32;
@@ -110,6 +112,8 @@ public class LoginSettings {
             setBoolRecord(s.defaultHotkeys);
             setByteRecord(s.menuIconSize);
             setStringRecord(s.language);
+            setBoolRecord(s.fullscreenDefault);
+            setIntRecord(s.fullscreenHotkey);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {

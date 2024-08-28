@@ -59,13 +59,15 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
             Locale.get(AUTO_RECONNECT),
             Locale.get(GUILD_ICONS),
             Locale.get(NAME_COLORS),
+            Locale.get(FULLSCREEN_DEFAULT)
         };
         Image[] uiImages = {
             s.ic.use12h,
             s.ic.nativePicker,
             s.ic.autoReconnect,
             s.ic.menuIcons,
-            s.ic.nameColors
+            s.ic.nameColors,
+            null
         };
         createHeading(s.ic.uiGroup, SETTINGS_SECTION_UI);
         uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, uiImages);
@@ -74,6 +76,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         uiGroup.setSelectedIndex(2, s.autoReConnect);
         uiGroup.setSelectedIndex(3, s.showMenuIcons);
         uiGroup.setSelectedIndex(4, s.useNameColors);
+        uiGroup.setSelectedIndex(5, s.fullscreenDefault);
         append(uiGroup);
 
         String[] fontChoices = {
@@ -237,6 +240,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 s.autoReConnect = selected[2];
                 s.showMenuIcons = selected[3];
                 s.useNameColors = selected[4];
+                s.fullscreenDefault = selected[5];
 
                 hotkeyGroup.getSelectedFlags(selected);
                 s.defaultHotkeys = selected[0];

@@ -42,6 +42,7 @@ public class State implements Strings {
 	boolean showRefMessage;
 	boolean defaultHotkeys;
 	String language;
+	boolean fullscreenDefault;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -94,6 +95,7 @@ public class State implements Strings {
 	int copyHotkey;
 	int refreshHotkey;
 	int backHotkey;
+	int fullscreenHotkey;
 
 	Icons ic;
 

@@ -263,7 +263,7 @@
     "เพื่อความปลอดภัย ขอให้ใช้พร็อกซี่ที่ปลอดภัยและไว้ได้เท่านั้น!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "Token เป็นรหัสประจำตัวการเข้าสู่ระบบของผู้ใช้งาน ซึ่งดูได้จากเครื่องมือของนักพัฒนาหรือ DevTools (สำหรับวิธีีดูให้ค้นหาในเน็ต) ขอแนะนำให้ใช้บัญชีสำรองเพื่อความปลอดภัย",
+    "Token เป็นรหัสประจำตัวการเข้าสู่ระบบของผู้ใช้งาน ซึ่งดูได้จากเครื่องมือของนักพัฒนาหรือ DevTools (สำหรับวิธีดูให้ค้นหาในเน็ต) ขอแนะนำให้ใช้บัญชีสำรองเพื่อความปลอดภัย",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "ใช้ Wi-Fi",
@@ -313,7 +313,7 @@
     "ผลการค้นหา",
 
     // Message shown when the username query resulted in no matches in the "Insert mention" screen.
-    "ไม่มีผลค้นหา",
+    "ไม่มีผลการค้นหา",
 
     // Error message shown when selecting "Insert" in the "Insert mention" screen and none of the search results (radio buttons) were picked.
     "ไม่ได้เลือกผู้ใช้",
@@ -417,10 +417,10 @@
     "เชื่อมต่อ gateway อีกครั้งโดยอัตโนมัติ",
 
     // Settings option for enabling icons in server and direct message lists.
-    "ไอคอนของเซิร์ฟเวอรื/ข้อความส่วนตัว",
+    "ไอคอนเซิร์ฟเวอร์/ข้อความส่วนตัว",
 
     // Settings option for enabling nickname role colors.
-    "สีีของชื่อ",
+    "สีของชื่อ",
 
     // Settings screen heading for message author font size.
     "ขนาดตัวอักษรผู้ส่ง",
@@ -434,7 +434,7 @@
     "ขนาดตัวอักษรข้อความ",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-    "จำนวนข้อความทีจะโหลด",
+    "จำนวนข้อความที่จะโหลด",
 
     // Settings screen heading for selecting attachment file format.
     "รูปแบบไฟล์แนบ",

@@ -19,6 +19,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
     private Command deleteCommand;
     private Command refreshCommand;
     private Command openUrlCommand;
+    private Command fullScreenCommand;
 
     public Vector items;
 
@@ -27,6 +28,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
     String before;
     String after;
 
+    boolean fullscreen;
     boolean haveShown;
     boolean haveDrawn;
     boolean outdated;
@@ -46,7 +48,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
     boolean requestedUpdate;
     boolean reqUpdateGateway;
 
-    //                                            Dark        Light       Black
+    //                                     Dark        Light       Black
     static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
     static final int[] highlightColors2 = {0x002b2d31, 0x00EEEEEE, 0x00202020};
     static final int[] highlightColors =  {0x00232428, 0x00DDDDDD, 0x00303030};
@@ -58,7 +60,6 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
 
     public ChannelView(State s) throws Exception {
         super();
-
         setCommandListener(this);
         this.s = s;
         s.channelIsOpen = true;
@@ -72,7 +73,8 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         editCommand = Locale.createCommand(EDIT, Command.ITEM, 6);
         deleteCommand = Locale.createCommand(DELETE, Command.ITEM, 7);
         openUrlCommand = Locale.createCommand(OPEN_URL, Command.ITEM, 8);
-        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 9);
+        fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 9);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 10);
 
         messageFontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
@@ -80,7 +82,11 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(uploadCommand);
+        addCommand(fullScreenCommand);
         addCommand(refreshCommand);
+
+        setFullScreenMode(s.fullscreenDefault);
+        fullscreen = s.fullscreenDefault;
     }
 
     protected void showNotify() {
@@ -575,6 +581,9 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
                     else if (keycode == s.backHotkey) {
                         commandAction(backCommand, this);
                     }
+                    else if (keycode == s.fullscreenHotkey) {
+                        commandAction(fullScreenCommand, this);
+                    }
                 }
                 break;
             }
@@ -658,6 +667,10 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
             catch (Exception e) {
                 s.error(e);
             }
+        }
+        else if (c == fullScreenCommand) {
+            fullscreen = !fullscreen;
+            setFullScreenMode(fullscreen);
         }
         else {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
