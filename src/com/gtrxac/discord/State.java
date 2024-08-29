@@ -43,6 +43,9 @@ public class State implements Strings {
 	boolean defaultHotkeys;
 	String language;
 	boolean fullscreenDefault;
+	boolean showNotifsAll;
+	boolean showNotifsPings;
+	boolean showNotifsDMs;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -120,7 +123,7 @@ public class State implements Strings {
         }
     }
 
-	public void error(String message, Displayable next) {
+	public void showAlert(String title, String message, Displayable next) {
 		// J2ME has this stupid limitation where you cannot have two Alerts stacked
 		// on top of each other. So we work around that by checking if there is an
 		// existing alert. If so, change the text shown in the alert, instead of
@@ -128,16 +131,20 @@ public class State implements Strings {
 		Displayable current = disp.getCurrent();
 
 		if (current instanceof ErrorAlert) {
-			((ErrorAlert) current).update(message, next);
+			((ErrorAlert) current).update(title, message, next);
 			return;
 		}
 
 		// No existing alert - create a new one and show it.
-		// Note: this might still sometimes fail if two errors occur at just the right time
+		// Note: this might still sometimes fail if two alerts are shown at just the right time
 		try {
-			disp.setCurrent(new ErrorAlert(disp, message, next));
+			disp.setCurrent(new ErrorAlert(disp, title, message, next));
 		}
 		catch (Exception e) {}
+	}
+
+	public void error(String message, Displayable next) {
+		showAlert(Locale.get(ERROR_TITLE), message, next);
 
 		// clear banner text (e.g. hide "sending message" text if message sending fails)
 		if (channelView != null) channelView.bannerText = null;

@@ -58,6 +58,9 @@ public class LoginSettings {
                 s.language = getStringRecord(System.getProperty("microedition.locale"));
                 s.fullscreenDefault = getBoolRecord(false);
                 s.fullscreenHotkey = getIntRecord(0);
+                s.showNotifsAll = getBoolRecord(false);
+                s.showNotifsPings = getBoolRecord(true);
+                s.showNotifsDMs = getBoolRecord(true);
 
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
                 else if (s.menuIconSize == 2) s.menuIconSize = 32;
@@ -114,6 +117,9 @@ public class LoginSettings {
             setStringRecord(s.language);
             setBoolRecord(s.fullscreenDefault);
             setIntRecord(s.fullscreenHotkey);
+            setBoolRecord(s.showNotifsAll);
+            setBoolRecord(s.showNotifsPings);
+            setBoolRecord(s.showNotifsDMs);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {

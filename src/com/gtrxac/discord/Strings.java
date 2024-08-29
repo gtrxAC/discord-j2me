@@ -214,4 +214,11 @@ public interface Strings {
     static final int TOGGLE_FULLSCREEN_L = 210;
     static final int HOTKEY_FULLSCREEN = 211;
     static final int FULLSCREEN_DEFAULT = 212;
+    static final int SETTINGS_SECTION_NOTIFICATIONS = 213;
+    static final int NOTIFICATIONS_ALL = 214;
+    static final int NOTIFICATIONS_MENTIONS = 215;
+    static final int NOTIFICATIONS_DMS = 216;
+    static final int NOTIFICATION_DM = 217;
+    static final int NOTIFICATION_SERVER = 218;
+    static final int NOTIFICATION_TITLE = 219;
 }

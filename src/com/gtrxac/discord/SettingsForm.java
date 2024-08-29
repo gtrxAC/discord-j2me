@@ -19,17 +19,25 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private ChoiceGroup hotkeyGroup;
     private StringItem keyMapperItem;
     private StringItem languageItem;
+    private ChoiceGroup notifGroup;
     private Command saveCommand;
     private Command cancelCommand;
     private Command openMapperCommand;
     private Command setLanguageCommand;
 
     private void createHeading(Image icon, int stringId) {
-        ImageItem img = new ImageItem(null, icon, 0, null);
-        img.setLayout(Item.LAYOUT_NEWLINE_BEFORE);
-        append(img);
+        int strLayout = Item.LAYOUT_NEWLINE_AFTER;
+
+        if (icon != null) {
+            ImageItem img = new ImageItem(null, icon, 0, null);
+            img.setLayout(Item.LAYOUT_NEWLINE_BEFORE);
+            append(img);
+        } else {
+            strLayout |= Item.LAYOUT_NEWLINE_BEFORE;
+        }
+
         StringItem str = new StringItem(null, Locale.get(stringId));
-        str.setLayout(Item.LAYOUT_NEWLINE_AFTER);
+        str.setLayout(strLayout);
         append(str);
     }
 
@@ -183,6 +191,15 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         languageItem.setItemCommandListener(this);
         append(languageItem);
 
+        String[] notifChoices = {Locale.get(NOTIFICATIONS_ALL), Locale.get(NOTIFICATIONS_MENTIONS), Locale.get(NOTIFICATIONS_DMS)};
+        Image[] notifImages = {null, null, null};
+        createHeading(null, SETTINGS_SECTION_NOTIFICATIONS);
+        notifGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, notifChoices, notifImages);
+        notifGroup.setSelectedIndex(0, s.showNotifsAll);
+        notifGroup.setSelectedIndex(1, s.showNotifsPings);
+        notifGroup.setSelectedIndex(2, s.showNotifsDMs);
+        append(notifGroup);
+
         saveCommand = Locale.createCommand(SAVE, Command.OK, 0);
         cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
         addCommand(saveCommand);
@@ -244,6 +261,11 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
 
                 hotkeyGroup.getSelectedFlags(selected);
                 s.defaultHotkeys = selected[0];
+
+                notifGroup.getSelectedFlags(selected);
+                s.showNotifsAll = selected[0];
+                s.showNotifsPings = selected[1];
+                s.showNotifsDMs = selected[2];
 
                 LoginSettings.save(s);
             }

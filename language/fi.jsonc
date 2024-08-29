@@ -514,5 +514,27 @@
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
     "Kieli",
-    "Aseta kieli"
+    "Aseta kieli",
+
+    // Softkey commands for toggling fullscreen mode in the chat view.
+    "Koko näyttö",
+    "Koko näyttö",
+
+    // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
+    // Related to "Names of hotkey actions shown in the key mapper" above.
+    "koko näyttö -tilan vaihto",
+
+    // Settings option for enabling fullscreen mode by default in the chat view.
+    "Koko näytön tila",
+
+    "Näytä ilmoitukset",
+
+    "Kaikki viestit",
+    "Maininnat",
+    "Yksityisviestit",
+
+    " lähetti sinulle yksityisviestin: \"",
+    " lähetti viestin kanavalle ",
+
+    "Uusi viesti"
 ]

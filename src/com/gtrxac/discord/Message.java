@@ -108,7 +108,10 @@ public class Message implements Strings {
             // (and parse extra fields which don't apply to status messages)
             content = data.getString("content", "");
 
-            if (s.myUserId.equals(author.id)) rawContent = data.getString("_rc", content);
+            // Get raw content (used for keeping formatting like pings intact when editing messages)
+            if (s.myUserId != null && s.myUserId.equals(author.id)) {
+                rawContent = data.getString("_rc", content);
+            }
 
             try {
                 JSONObject refObj = data.getObject("referenced_message");

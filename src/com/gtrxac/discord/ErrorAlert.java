@@ -6,8 +6,8 @@ public class ErrorAlert extends Alert implements CommandListener, Strings {
     private Display disp;
     Displayable next;
     
-    public ErrorAlert(Display disp, String message, Displayable next) {
-        super(Locale.get(ERROR_TITLE));
+    public ErrorAlert(Display disp, String title, String message, Displayable next) {
+        super(title);
         this.disp = disp;
 
         setString(message);
@@ -21,8 +21,9 @@ public class ErrorAlert extends Alert implements CommandListener, Strings {
         }
     }
 
-    public void update(String message, Displayable next) {
+    public void update(String title, String message, Displayable next) {
         setString(message);
+        if (title != null) setTitle(title);
         if (next != null) this.next = next;
     }
 

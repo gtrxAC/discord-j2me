@@ -525,5 +525,16 @@
     "toggling fullscreen",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode"
+    "Fullscreen mode",
+
+    "Show notifications for",
+
+    "All messages",
+    "Mentions",
+    "Direct messages",
+
+    " sent you a direct message: \"",
+    " sent a message in ",
+
+    "New message"
 ]

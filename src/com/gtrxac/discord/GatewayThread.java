@@ -56,6 +56,61 @@ public class GatewayThread extends Thread implements Strings {
         catch (Exception e) {}
     }
 
+    private boolean shouldNotify(JSONObject msgData) {
+        if (s.showNotifsAll) return true;
+
+        // Check if this message is in a DM
+        String guildID = msgData.getString("guild_id", null);
+        if (guildID == null) return s.showNotifsDMs;
+
+        // Check if this message pings us (note: only checks user pings, not role pings)
+        if (!s.showNotifsPings) return false;
+        
+        JSONArray pings = msgData.getArray("mentions");
+
+        for (int i = 0; i < pings.size(); i++) {
+            if (pings.getObject(i).getString("id").equals(s.myUserId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void handleNotifications(JSONObject msgData) {
+        String guildID = msgData.getString("guild_id", null);
+        Message msg = new Message(s, msgData);
+        
+        StringBuffer notif = new StringBuffer();
+        notif.append(msg.author.name);
+
+        if (guildID == null) {
+            notif.append(Locale.get(NOTIFICATION_DM));
+        } else {
+            // Get the name of the server where the message was sent
+            // (only available if server list has been loaded)
+            Guild g = Guild.getById(s, guildID);
+            String guildName = (g != null) ? g.name : Locale.get(NAME_UNKNOWN);
+
+            notif.append(Locale.get(NOTIFICATION_SERVER)).append(guildName);
+
+            // Get the name of the channel
+            // (only available if channel list for that server has been loaded)
+            String channelID = msgData.getString("channel_id", null);
+            Channel c = Channel.getByID(s, channelID);
+
+            if (c != null) notif.append(" #").append(c.name);
+            notif.append(": \"");
+        }
+
+        String content = msg.content;
+        if (content.length() > 50) {
+            content = content.substring(0, 50) + "...";
+        }
+        notif.append(content).append('"');
+
+        s.showAlert(Locale.get(NOTIFICATION_TITLE), notif.toString(), null);
+    }
+
     public void run() {
         try {
             sc = (SocketConnection) Connector.open(s.getPlatformSpecificUrl(s.gatewayUrl));
@@ -156,6 +211,8 @@ public class GatewayThread extends Thread implements Strings {
                                 dmCh.lastMessageID = Long.parseLong(msgId);
                                 s.updateUnreadIndicators(true, chId);
                             }
+
+                            if (shouldNotify(msgData)) handleNotifications(msgData);
                             continue;
                         }
                         
