@@ -612,7 +612,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
             int itemPos = getItemPosition(i);
             if (y >= itemPos && y <= itemPos + item.getHeight()) {
-                if (i == selectedItem) {
+                if (selectionMode && i == selectedItem) {
                     // If this item was already selected, execute its action if it's a button
                     executeItemAction();
                 } else {

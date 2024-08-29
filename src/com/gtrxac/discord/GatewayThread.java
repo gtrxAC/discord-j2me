@@ -200,6 +200,8 @@ public class GatewayThread extends Thread implements Strings {
                             // Don't set unread indicator if message was sent by the logged in user
                             if (authorID.equals(s.myUserId)) continue;
 
+                            if (shouldNotify(msgData)) handleNotifications(msgData);
+
                             Channel ch = Channel.getByID(s, chId);
                             if (ch != null) {
                                 ch.lastMessageID = Long.parseLong(msgId);
@@ -211,8 +213,6 @@ public class GatewayThread extends Thread implements Strings {
                                 dmCh.lastMessageID = Long.parseLong(msgId);
                                 s.updateUnreadIndicators(true, chId);
                             }
-
-                            if (shouldNotify(msgData)) handleNotifications(msgData);
                             continue;
                         }
                         
