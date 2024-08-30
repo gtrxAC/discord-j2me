@@ -13,12 +13,7 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command selectCommand;
     private Command sendCommand;
     private Command replyCommand;
-    private Command uploadCommand;
-    private Command copyCommand;
-    private Command editCommand;
-    private Command deleteCommand;
     private Command refreshCommand;
-    private Command openUrlCommand;
 
     public Vector items;
 
@@ -29,8 +24,6 @@ public class ChannelView extends Canvas implements CommandListener {
 
     boolean haveShown;
     boolean haveDrawn;
-    boolean outdated;
-    String bannerText;
     int scroll;
     int maxScroll;
     int pressY;
@@ -39,47 +32,36 @@ public class ChannelView extends Canvas implements CommandListener {
     boolean selectionMode;
     int selectedItem;
 
-    int messageFontHeight;
-    int authorFontHeight;
+    int fontHeight;
     int width, height;
 
     boolean requestedUpdate;
-    boolean reqUpdateGateway;
 
-    //                                            Dark        Light       Black
-    static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
-    static final int[] highlightColors2 = {0x002b2d31, 0x00EEEEEE, 0x00202020};
-    static final int[] highlightColors =  {0x00232428, 0x00DDDDDD, 0x00303030};
-    static final int[] darkBgColors =     {0x001e1f22, 0x00CCCCCC, 0x00404040};
-    static final int[] refMessageColors = {0x00DDDDDD, 0x00333333, 0x00CCCCCC};
-    static final int[] messageColors =    {0x00FFFFFF, 0x00111111, 0x00EEEEEE};
-    static final int[] authorColors =     {0x00FFFFFF, 0x00000000, 0x00FFFFFF};
-    static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00999999};
+    //                                       Monochrome  Dark        Light
+    static final int[] backgroundColors =   {0x00FFFFFF, 0x00313338, 0x00FFFFFF};
+    static final int[] highlightColors =    {0x00000000, 0x00232428, 0x00CCCCCC};
+    static final int[] buttonColors =       {0x00FFFFFF, 0x002b2d31, 0x00CCCCCC};
+    static final int[] selButtonColors =    {0x00000000, 0x001e1f22, 0x00AAAAAA};
+    static final int[] messageColors =      {0x00000000, 0x00FFFFFF, 0x00111111};
+    static final int[] selMessageColors =   {0x00FFFFFF, 0x00FFFFFF, 0x00000000};
+    static final int[] timestampColors =    {0x00000000, 0x00AAAAAA, 0x00777777};
+    static final int[] selTimestampColors = {0x00FFFFFF, 0x00BBBBBB, 0x00555555};
 
-    public ChannelView(State s) throws Exception {
+    public ChannelView(State s) {
         super();
-
         setCommandListener(this);
         this.s = s;
-        s.channelIsOpen = true;
 
         backCommand = new Command("Back", Command.BACK, 0);
         selectCommand = new Command("Select", Command.OK, 1);
-        sendCommand = new Command("Send", "Send message", Command.ITEM, 2);
+        sendCommand = new Command("Send", Command.ITEM, 2);
         replyCommand = new Command("Reply", Command.ITEM, 3);
-        uploadCommand = new Command("Upload", "Upload file", Command.ITEM, 4);
-        copyCommand = new Command("Copy", "Copy content", Command.ITEM, 5);
-        editCommand = new Command("Edit", Command.ITEM, 6);
-        deleteCommand = new Command("Delete", Command.ITEM, 7);
-        openUrlCommand = new Command("Open URL", Command.ITEM, 8);
-        refreshCommand = new Command("Refresh", Command.ITEM, 9);
+        refreshCommand = new Command("Refresh", Command.ITEM, 7);
 
-        messageFontHeight = s.messageFont.getHeight();
-        authorFontHeight = s.authorFont.getHeight();
+        fontHeight = s.messageFont.getHeight();
 
         addCommand(backCommand);
         addCommand(sendCommand);
-        addCommand(uploadCommand);
         addCommand(refreshCommand);
     }
 
@@ -88,29 +70,15 @@ public class ChannelView extends Canvas implements CommandListener {
         haveShown = true;
         width = getWidth();
         height = getHeight();
-        requestUpdate(false);
+        requestUpdate();
         repaint();
     }
 
-    public void requestUpdate(boolean wasGateway) {
+    public void requestUpdate() {
         requestedUpdate = true;
-        reqUpdateGateway = wasGateway;
     }
 
-    private void update(boolean wasResized, boolean wasGateway) {
-        if (!wasGateway) {
-            if (s.isDM) {
-                if (s.selectedDmChannel.isGroup) {
-                    setTitle(s.selectedDmChannel.name);
-                } else {
-                    setTitle("@" + s.selectedDmChannel.name);
-                }
-            } else {
-                setTitle("#" + s.selectedChannel.name);
-            }
-            if (page > 0) setTitle(getTitle() + " (old)");
-        }
-
+    private void update(boolean wasResized) {
         items = new Vector();
 
         if (s.messages.size() == 0) return;
@@ -140,39 +108,13 @@ public class ChannelView extends Canvas implements CommandListener {
             }
         }
 
-        boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
-        int width = getWidth() - (useIcons ? messageFontHeight*2 : 0);
-        int embedTextWidth = width - messageFontHeight/2 - messageFontHeight*2/3;
-
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
             boolean needUpdate = msg.needUpdate;
 
             if (msg.contentLines == null || wasResized || needUpdate) {
-                msg.contentLines = Util.wordWrap(msg.content, width, s.messageFont);
+                msg.contentLines = Util.wordWrap(msg.content, getWidth() - 3, s.messageFont);
                 msg.needUpdate = false;
-            }
-
-            if (msg.attachments != null && msg.attachments.size() > 0) {
-                ChannelViewItem attachItem = new ChannelViewItem(s, ChannelViewItem.ATTACHMENTS_BUTTON);
-                attachItem.msg = msg;
-                items.addElement(attachItem);
-                maxScroll += attachItem.getHeight();
-            }
-
-            if (msg.embeds != null && msg.embeds.size() > 0) {
-                for (int e = 0; e < msg.embeds.size(); e++) {
-                    Embed emb = (Embed) msg.embeds.elementAt(e);
-
-                    if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
-                        emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.messageFont);
-                        msg.needUpdate = false;
-                    }
-                    if ((wasResized || emb.descLines == null || needUpdate) && emb.description != null) {
-                        emb.descLines = Util.wordWrap(emb.description, embedTextWidth, s.messageFont);
-                        msg.needUpdate = false;
-                    }
-                }
             }
 
             if (msg.showAuthor || msg.contentLines.length != 0) {
@@ -197,17 +139,6 @@ public class ChannelView extends Canvas implements CommandListener {
             int scrollPercent = (scroll*100)/oldMaxScroll;
             scroll = (scrollPercent*maxScroll)/100;
         }
-        else if (wasGateway) {
-            // If new message was received via gateway, keep the previously selected message selected.
-            if (selectionMode) {
-                selectedItem++;
-                if (selectedItem >= items.size()) {
-                    selectedItem = items.size() - 1;
-                }
-            }
-            // If we were at the bottom of the message list, stay at the bottom
-            if (scroll == oldMaxScroll) scroll = maxScroll;
-        }
         else {
             // If user selected Show newer messages, go to the top of the
             // message list, so it's more intuitive to scroll through
@@ -217,7 +148,7 @@ public class ChannelView extends Canvas implements CommandListener {
         }
     }
 
-    public void getMessages() throws Exception {
+    private void getMessages() {
         HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_MESSAGES);
         h.fetchMsgsBefore = before;
         h.fetchMsgsAfter = after;
@@ -271,34 +202,10 @@ public class ChannelView extends Canvas implements CommandListener {
         if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
             if (selected.type == ChannelViewItem.MESSAGE) {
                 removeCommand(selectCommand);
-
-                if (selected.msg.isStatus) {
-                    removeCommand(copyCommand);
-                } else {
-                    addCommand(copyCommand);
-                }
-
-                if (Util.indexOfAny(selected.msg.content, URLList.urlStarts, 0) != -1) {
-                    addCommand(openUrlCommand);
-                } else {
-                    removeCommand(openUrlCommand);
-                }
-
-                if (s.myUserId.equals(selected.msg.author.id) && !selected.msg.isStatus) {
-                    addCommand(editCommand);
-                    addCommand(deleteCommand);
-                } else {
-                    removeCommand(editCommand);
-                    removeCommand(deleteCommand);
-                }
             } else {
-                removeCommand(openUrlCommand);
-                removeCommand(copyCommand);
                 addCommand(selectCommand);
             }
         } else {
-            removeCommand(openUrlCommand);
-            removeCommand(copyCommand);
             removeCommand(selectCommand);
         }
 
@@ -316,10 +223,10 @@ public class ChannelView extends Canvas implements CommandListener {
         if (width != getWidth() || height != getHeight()) {
             width = getWidth();
             height = getHeight();
-            update(true, false);
+            update(true);
         }
         else if (requestedUpdate) {
-            update(false, reqUpdateGateway);
+            update(false);
             requestedUpdate = false;
         }
 
@@ -340,7 +247,7 @@ public class ChannelView extends Canvas implements CommandListener {
         if (items.size() == 0) {
             g.setColor(timestampColors[s.theme]);
             g.drawString(
-                "Nothing to see here", width/2, height/2 - messageFontHeight/2,
+                "Nothing to see here", width/2, height/2 - fontHeight/2,
                 Graphics.HCENTER | Graphics.TOP
             );
         } else {
@@ -354,63 +261,6 @@ public class ChannelView extends Canvas implements CommandListener {
                 }
                 y += itemHeight;
                 if (y > height) break;
-            }
-        }
-
-        int bannerY = 0;
-
-        if (bannerText != null) {
-            g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap(bannerText, width, s.messageFont);
-            g.setColor(0x005865f2);
-            g.fillRect(0, 0, width, messageFontHeight*lines.length + messageFontHeight/4);
-
-            g.setColor(0x00FFFFFF);
-            for (int i = 0; i < lines.length; i++) {
-                g.drawString(
-                    lines[i], width/2, i*messageFontHeight + messageFontHeight/8,
-                    Graphics.TOP | Graphics.HCENTER
-                );
-            }
-            bannerY += messageFontHeight*lines.length + messageFontHeight/4;
-        }
-
-        if (outdated) {
-            g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap("Refresh to read new messages", width, s.messageFont);
-            g.setColor(0x00AA1122);
-            g.fillRect(0, bannerY, width, messageFontHeight*lines.length + messageFontHeight/4);
-
-            g.setColor(0x00FFFFFF);
-            for (int i = 0; i < lines.length; i++) {
-                g.drawString(
-                    lines[i], width/2, bannerY + i*messageFontHeight + messageFontHeight/8,
-                    Graphics.TOP | Graphics.HCENTER
-                );
-            }
-            bannerY += messageFontHeight*lines.length + messageFontHeight/4;
-        }
-
-        if (s.typingUsers.size() > 0) {
-            String typingStr;
-            switch (s.typingUsers.size()) {
-                case 1: typingStr = s.typingUsers.elementAt(0) + " is typing"; break;
-                case 2: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + " are typing"; break;
-                case 3: typingStr = s.typingUsers.elementAt(0) + ", " + s.typingUsers.elementAt(1) + ", " + s.typingUsers.elementAt(2) + " are typing"; break;
-                default: typingStr = s.typingUsers.size() + " people are typing"; break;
-            }
-
-            g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap(typingStr, width, s.messageFont);
-            g.setColor(darkBgColors[s.theme]);
-            g.fillRect(0, bannerY, width, messageFontHeight*lines.length + messageFontHeight/4);
-
-            g.setColor(authorColors[s.theme]);
-            for (int i = 0; i < lines.length; i++) {
-                g.drawString(
-                    lines[i], width/2, bannerY + i*messageFontHeight + messageFontHeight/8,
-                    Graphics.TOP | Graphics.HCENTER
-                );
             }
         }
 
@@ -430,50 +280,17 @@ public class ChannelView extends Canvas implements CommandListener {
                 page--;
                 before = null;
                 after = ((Message) s.messages.elementAt(0)).id;
-                try {
-                    getMessages();
-                }
-                catch (Exception e) {
-                    s.error(e);
-                }
+                getMessages();
                 break;
             }
             case ChannelViewItem.OLDER_BUTTON: {
                 page++;
                 after = null;
                 before = ((Message) s.messages.elementAt(s.messages.size() - 1)).id;
-                try {
-                    getMessages();
-                }
-                catch (Exception e) {
-                    s.error(e);
-                }
-                break;
-            }
-            case ChannelViewItem.ATTACHMENTS_BUTTON: {
-                s.openAttachmentView(false, selected.msg);
+                getMessages();
                 break;
             }
         }
-    }
-
-    private void sendHotkeyAction() {
-        s.dontShowLoadScreen = true;
-        s.disp.setCurrent(new MessageBox(s));
-    }
-
-    private void replyHotkeyAction() {
-        if (!selectionMode || items.size() == 0) return;
-        ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-        if (!item.shouldShowReplyOption()) return;
-        s.disp.setCurrent(new ReplyForm(s, item.msg));
-    }
-
-    private void copyHotkeyAction() {
-        if (!selectionMode || items.size() == 0) return;
-        ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-        if (item.type != ChannelViewItem.MESSAGE) return;
-        s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
     }
     
     private void keyEvent(int keycode) {
@@ -481,9 +298,7 @@ public class ChannelView extends Canvas implements CommandListener {
         int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).getHeight();
         int thisItemPos = getItemPosition(selectedItem);
 
-        int action = getGameAction(keycode);
-
-        switch (action) {
+        switch (getGameAction(keycode)) {
             case UP: {
                 // No message selected -> enable selection mode (bottom-most will be selected)
                 if (!selectionMode) {
@@ -491,7 +306,7 @@ public class ChannelView extends Canvas implements CommandListener {
                 }
                 // Message is taller than screen -> scroll up by two lines
                 else if (thisItemHeight > getHeight() && thisItemPos < 0) {
-                    scroll -= messageFontHeight*2;
+                    scroll -= fontHeight*2;
                 }
                 // Else go up by one message
                 else {
@@ -505,7 +320,7 @@ public class ChannelView extends Canvas implements CommandListener {
             case DOWN: {
                 // Message is taller than screen -> scroll down by two lines
                 if (thisItemHeight > getHeight() && thisItemPos + thisItemHeight > getHeight()) {
-                    scroll += messageFontHeight*2;
+                    scroll += fontHeight*2;
                 }
                 // Bottom-most message -> disable selection mode
                 else if (selectedItem == 0) {
@@ -521,36 +336,6 @@ public class ChannelView extends Canvas implements CommandListener {
             }
             case FIRE: {
                 executeItemAction();
-                break;
-            }
-            // not up/down/select - check if it's a hotkey
-            default: {
-                if (s.defaultHotkeys) {
-                    // default hotkey (j2me game actions A/B/C/D)
-                    switch (action) {
-                        case GAME_A: sendHotkeyAction(); break;
-                        case GAME_B: replyHotkeyAction(); break;
-                        case GAME_C: copyHotkeyAction(); break;
-                        case GAME_D: commandAction(refreshCommand, this); break;
-                    }
-                } else {
-                    // user bound key (when 'default hotkeys' option disabled)
-                    if (keycode == s.sendHotkey) {
-                        sendHotkeyAction();
-                    }
-                    else if (keycode == s.replyHotkey) {
-                        replyHotkeyAction();
-                    }
-                    else if (keycode == s.copyHotkey) {
-                        copyHotkeyAction();
-                    }
-                    else if (keycode == s.refreshHotkey) {
-                        commandAction(refreshCommand, this);
-                    }
-                    else if (keycode == s.backHotkey) {
-                        commandAction(backCommand, this);
-                    }
-                }
                 break;
             }
         }
@@ -572,13 +357,14 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     protected void pointerReleased(int x, int y) {
+        if (items == null) return;
         touchMode = true;
 
         for (int i = 0; i < items.size(); i++) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
             int itemPos = getItemPosition(i);
             if (y >= itemPos && y <= itemPos + item.getHeight()) {
-                if (i == selectedItem) {
+                if (selectionMode && i == selectedItem) {
                     // If this item was already selected, execute its action if it's a button
                     executeItemAction();
                 } else {
@@ -593,70 +379,20 @@ public class ChannelView extends Canvas implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.unreads.save();
-            s.channelIsOpen = false;
-            if (s.isDM) s.openDMSelector(false);
-            else s.openChannelSelector(false);
+            s.openChannelSelector(false);
         }
         else if (c == sendCommand) {
             s.disp.setCurrent(new MessageBox(s));
         }
         else if (c == refreshCommand) {
-            s.dontShowLoadScreen = true;
             s.openChannelView(true);
         }
         else if (c == selectCommand) {
             executeItemAction();
         }
         else if (c == replyCommand) {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-            s.disp.setCurrent(new ReplyForm(s, item.msg));
-        }
-        else if (c == uploadCommand) {
-            try {
-                if (!s.isLiteProxy) {
-                    s.error("This proxy does not support file uploading");
-                }
-                else if (s.nativeFilePicker) {
-                    if (System.getProperty("microedition.io.file.FileConnection.version") != null) {
-                        s.disp.setCurrent(new AttachmentPicker(s));
-                    } else {
-                        s.error("FileConnection not supported");
-                    }
-                }
-                else {
-                    String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
-                    String url = s.api + "/upload?channel=" + id + "&token=" + s.token;
-                    s.platformRequest(url);
-                }
-            }
-            catch (Exception e) {
-                s.error(e);
-            }
-        }
-        else {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-
-            if (c == copyCommand) {
-                s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
-            }
-            else if (c == openUrlCommand) {
-                s.disp.setCurrent(new URLList(s, item.msg.content));
-            }
-            else if (c == deleteCommand) {
-                if (!s.isLiteProxy) {
-                    s.error("This proxy does not support deleting messages");
-                } else {
-                    s.disp.setCurrent(new DeleteConfirmAlert(s, item.msg));
-                }
-            }
-            else if (c == editCommand) {
-                if (!s.isLiteProxy) {
-                    s.error("This proxy does not support editing messages");
-                } else {
-                    s.disp.setCurrent(new MessageEditBox(s, item.msg));
-                }
-            }
+            Message selected = ((ChannelViewItem) items.elementAt(selectedItem)).msg;
+            s.disp.setCurrent(new ReplyForm(s, selected));
         }
     }
 }

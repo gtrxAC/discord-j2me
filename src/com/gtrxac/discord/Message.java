@@ -17,52 +17,43 @@ public class Message {
     static final int TYPE_BOOSTED_LEVEL_3 = 11;
 
     public String id;
-    public User author;
+    public String author;
     public String timestamp;
     public String content;
-    public String rawContent;
     public String[] contentLines;
 
     // is status message? (user joined/left/boosted) - affects rendering
     public boolean isStatus;
 
     // fields for non-status messages
-    public User recipient;
-    public String refContent;
-    public Vector attachments;
-    public Vector embeds;
+    public String recipient;
     public boolean showAuthor;
 
     public boolean needUpdate;  // does this message's contentlines need to be updated before next draw
 
-    public Message(State s, JSONObject data) {
-        id = data.getString("id");
-        author = new User(s, data.getObject("author"));
+    public Message(State s, JSONArray data) {
+        id = data.getString(0);
+        author = data.getString(1);
+        recipient = data.getString(3);
+        if (recipient.length() == 0) recipient = null;
 
-        int t = data.getInt("type", 0);
+        int t = data.getInt(4);
         if (t >= TYPE_ADDED && t <= TYPE_BOOSTED_LEVEL_3) {
             isStatus = true;
         }
 
+        // Status message -> determine content by message type
         if (isStatus) {
-            // Status message -> determine content by message type
-            String target = "(unknown)";
-            try {
-                JSONObject targetData = data.getArray("mentions").getObject(0);
-                target = new User(s, targetData).name;
-            }
-            catch (Exception e) {}
-
             switch (t) {
                 case TYPE_ADDED: {
-                    content = "added " + target + " to the group";
+                    content = "added " + recipient + " to the group";
                     break;
                 }
                 case TYPE_REMOVED: {
-                    if (author.name.equals(target)) {
+                    if (author.equals(recipient)) {
                         content = "left the group";
                     } else {
-                        content = "removed " + target + " from the group";
+                        content = "removed " + recipient + " from the group";
                     }
                     break;
                 }
@@ -99,58 +90,7 @@ public class Message {
             }
         } else {
             // Normal message -> get actual content
-            // (and parse extra fields which don't apply to status messages)
-            content = data.getString("content", "");
-
-            if (s.myUserId.equals(author.id)) rawContent = data.getString("_rc", content);
-
-            try {
-                JSONObject refObj = data.getObject("referenced_message");
-
-                recipient = new User(s, refObj.getObject("author"));
-
-                if (s.showRefMessage) {
-                    refContent = refObj.getString("content", null);
-                    if (refContent == null) refContent = "(no content)";
-                }
-            }
-            catch (Exception e) {}
-
-            try {
-                JSONArray attachArray = data.getArray("attachments");
-                if (attachArray.size() >= 1) {
-                    attachments = new Vector();
-
-                    for (int i = 0; i < attachArray.size(); i++) {
-                        JSONObject attach = attachArray.getObject(i);
-                        attachments.addElement(new Attachment(s, attach));
-                    }
-                }
-            }
-            catch (Exception e) {}
-
-            try {
-                JSONArray stickers = data.getArray("sticker_items");
-                if (stickers.size() >= 1) {
-                    if (content.length() > 0) content += "\n";
-                    content += "(sticker: " + stickers.getObject(0).getString("name", "unknown") + ")";
-                }
-            }
-            catch (Exception e) {}
-
-            try {
-                JSONArray embedArray = data.getArray("embeds");
-                if (embedArray.size() >= 1) {
-                    embeds = new Vector();
-
-                    for (int i = 0; i < embedArray.size(); i++) {
-                        Embed emb = new Embed(embedArray.getObject(i));
-                        if (emb.title == null && emb.description == null) continue;
-                        embeds.addElement(emb);
-                    }
-                }
-            }
-            catch (Exception e) {}
+            content = data.getString(2);
         }
 
         Date messageDate = new Date((Long.parseLong(id) >> 22) + State.DISCORD_EPOCH);
@@ -196,12 +136,7 @@ public class Message {
         }
         timestamp = time.toString();
 
-        if (
-            content.length() == 0 &&
-            (attachments == null || attachments.size() == 0) &&
-            (embeds == null || embeds.size() == 0) &&
-            !isStatus
-        ) {
+        if (content.length() == 0 && !isStatus) {
             isStatus = true;
             content = "(unsupported message)";
         }
@@ -215,7 +150,7 @@ public class Message {
      */
     public boolean shouldShowAuthor(Message above, String clusterStart) {
         // Different authors -> true
-        if (!above.author.id.equals(author.id)) return true;
+        if (!above.author.equals(author)) return true;
 
         // This message is a reply -> true
         if (recipient != null) return true;
@@ -227,13 +162,5 @@ public class Message {
         long thisMsgTime = Long.parseLong(id) >> 22;
         long firstMsgTime = Long.parseLong(clusterStart) >> 22;
         return (thisMsgTime - firstMsgTime > 7*60*1000);
-    }
-
-    public void delete() {
-        content = "(message deleted)";
-        isStatus = true;
-        embeds = null;
-        attachments = null;
-        needUpdate = true;
     }
 }

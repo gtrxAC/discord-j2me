@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const PORT = 8080;
 const BASE = "/api/v9";
+const BASE_L = "/api/l";
 const DEST_BASE = "https://discord.com/api/v9";
 
 // ID -> username mapping cache (used for parsing mentions)
@@ -271,6 +272,10 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
 
             if (msg.referenced_message) {
                 let content = parseMessageContent(msg.referenced_message.content);
+
+                // Replace newlines with spaces (reply is shown as one line)
+                content = content.replace(/\r\n|\r|\n/gm, "  ");
+
                 if (content && content.length > 50) {
                     content = content.slice(0, 47).trim() + '...';
                 }
@@ -350,17 +355,19 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
 });
 
 // Send message
-app.post(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
+const sendMessage = async (req, res) => {
     try {
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,
             req.body,
             {headers: res.locals.headers}
         );
+        res.set('Content-Type', 'text/plain');
         res.send("ok");
     }
     catch (e) { handleError(res, e); }
-});
+}
+app.post(`${BASE}/channels/:channel/messages`, getToken, sendMessage);
 
 // Send message with attachments
 app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), getToken, async (req, res) => {
@@ -489,6 +496,180 @@ app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
     }
     catch (e) { handleError(res, e); }
 });
+
+
+// Get servers (lite)
+app.get(`${BASE_L}/users/@me/guilds`, getToken, async (req, res) => {
+    try {
+        const response = await axios.get(
+            `${DEST_BASE}/users/@me/guilds`,
+            {headers: res.locals.headers}
+        );
+        const guilds = response.data.map(g => [g.id, g.name])
+        res.send(stringifyUnicode(guilds));
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Get server channels (lite)
+app.get(`${BASE_L}/guilds/:guild/channels`, getToken, async (req, res) => {
+    try {
+        const response = await axios.get(
+            `${DEST_BASE}/guilds/${req.params.guild}/channels`,
+            {headers: res.locals.headers}
+        )
+
+        // Populate channel name cache
+        response.data.forEach(ch => {
+            channelCache.set(ch.id, ch.name);
+
+            // If max size exceeded, remove the oldest item
+            if (channelCache.size > CACHE_SIZE) {
+                channelCache.delete(channelCache.keys().next().value);
+            }
+        })
+
+        const channels = response.data
+            .filter(ch => ch.type == 0 || ch.type == 5)
+            .sort((a, b) => a.position - b.position)
+            .map(ch => [ch.id, ch.name])
+
+        res.send(stringifyUnicode(channels));
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Get DM channels (lite)
+app.get(`${BASE_L}/users/@me/channels`, getToken, async (req, res) => {
+    try {
+        const response = await axios.get(
+            `${DEST_BASE}/users/@me/channels`,
+            {headers: res.locals.headers}
+        );
+        
+        // Show only normal DMs and group DMs
+        const channels = response.data.filter(ch => ch.type == 1 || ch.type == 3);
+
+        // Sort by latest first
+        channels.sort((a, b) => {
+            const a_id = BigInt(a.last_message_id ?? 0);
+            const b_id = BigInt(b.last_message_id ?? 0);
+            return (a_id < b_id ? 1 : a_id > b_id ? -1 : 0)
+        });
+
+        const output = channels.slice(0, 30)
+            // Convert to [id, name] format
+            .map(ch => {
+                const result = [ch.id];
+
+                if (ch.type == 3) {
+                    // Add name for group DM
+                    result.push(ch.name);
+                } else {
+                    // Add first recipient's name for normal DM
+                    result.push(ch.recipients[0].global_name ?? ch.recipients[0].username);
+                }
+                return result;
+            })
+
+        res.send(stringifyUnicode(output));
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Get messages (lite)
+app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
+    try {
+        let proxyUrl = `${DEST_BASE}/channels/${req.params.channel}/messages`;
+        let queryParam = [];
+        if (req.query.limit) queryParam.push(`limit=${req.query.limit}`);
+        if (req.query.before) queryParam.push(`before=${req.query.before}`);
+        if (req.query.after) queryParam.push(`after=${req.query.after}`);
+        if (queryParam.length) proxyUrl += '?' + queryParam.join('&');
+
+        const response = await axios.get(proxyUrl, {headers: res.locals.headers});
+
+        // Populate username cache
+        response.data.forEach(msg => {
+            userCache.set(msg.author.id, msg.author.username);
+
+            // If max size exceeded, remove the oldest item
+            if (userCache.size > CACHE_SIZE) {
+                userCache.delete(userCache.keys().next().value);
+            }
+        })
+
+        const messages = response.data.map(msg => {
+            let content;
+            if (msg.type >= 1 && msg.type <= 11) {
+                // Content not used for status messages
+                content = "";
+            } else {
+                // Parse content for normal messages
+                content = (msg.content ?? '')
+                    // try to convert <@12345...> format into @username
+                    .replace(/<@(\d{15,})>/gm, (mention, id) => {
+                        if (userCache.has(id)) return `@${userCache.get(id)}`;
+                        else return mention;
+                    })
+                    // try to convert <#12345...> format into #channelname
+                    .replace(/<#(\d{15,})>/gm, (mention, id) => {
+                        if (channelCache.has(id)) return `#${channelCache.get(id)}`;
+                        else return mention;
+                    })
+                    // replace <:name:12345...> emoji format with :name:
+                    .replace(/<a?(:\w*:)\d{15,}>/gm, "$1")
+            
+                // Replace Unicode emojis with :name: textual representations
+                emoji.colons_mode = true;
+                content = emoji.replace_unified(content);
+
+                if (msg.attachments?.length) {
+                    msg.attachments.forEach(att => {
+                        if (content.length) content += "\n";
+                        content += `(file: ${att.filename})`;
+                    })
+                }
+                if (msg.sticker_items?.length) {
+                    if (content.length) content += "\n";
+                    content += `(sticker: ${msg.sticker_items[0].name})`;
+                }
+                if (msg.embeds?.length) {
+                    msg.embeds.forEach(emb => {
+                        if (!emb.title) return;
+                        if (content.length) content += "\n";
+                        content += `(embed: ${emb.title})`;
+                    })
+                }
+                if (content == '') content = "(unsupported message)";
+            }
+
+            let recipient = "";
+
+            if ((msg.type == 1 || msg.type == 2) && msg.mentions.length) {
+                // Recipient is used for the target of group DM add/remove notification messages (who was added/removed)
+                recipient = msg.mentions[0].global_name ?? msg.mentions[0].username;
+            }
+            else if (msg.referenced_message?.author) {
+                recipient = msg.referenced_message.author.global_name ??
+                    msg.referenced_message.author.username;
+            }
+
+            return [
+                msg.id,
+                msg.author.global_name ?? msg.author.username,
+                content,
+                recipient,
+                msg.type
+            ];
+        })
+        res.send(stringifyUnicode(messages));
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Send message (lite; same behavior as non-lite)
+app.post(`${BASE_L}/channels/:channel/messages`, getToken, sendMessage);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

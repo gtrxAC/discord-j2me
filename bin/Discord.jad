@@ -1,8 +1,0 @@
-MIDlet-1: Discord, icon.png, com.gtrxac.discord.DiscordMIDlet
-MIDlet-Jar-Size: 84549
-MIDlet-Jar-URL: Discord.jar
-MIDlet-Name: Discord
-MIDlet-Vendor: gtrxAC
-MIDlet-Version: 3.1.0
-MicroEdition-Configuration: CLDC-1.0
-MicroEdition-Profile: MIDP-2.0

@@ -1,5 +1,7 @@
 # Discord for J2ME
-Discord client for Java ME (MIDP 1.0 and 2.0) devices, inspired by [Discord for Symbian](https://github.com/uwmpr/discord-symbian-fixed). Uses proxy servers for the [HTTP](/proxy/) and [gateway](https://github.com/gtrxAC/discord-j2me-server) connection.
+Discord client for Java ME (MIDP 1.0) devices, inspired by [Discord for Symbian](https://github.com/uwmpr/discord-symbian-fixed). Uses a [proxy server](/proxy/) for the HTTP connection.
+
+This is the 30 kB version for early/low-end Java devices, e.g. Nokia 3410/6310i.
 
 Also see [Droidcord](https://github.com/leap0x7b/Droidcord), a Discord client for old Android devices.
 
@@ -13,14 +15,16 @@ Also see [Droidcord](https://github.com/leap0x7b/Droidcord), a Discord client fo
 ## Status
 ### Working
 * Server and channel lists
-* Message reading, sending, editing, <abbr title="Only your own messages">deleting</abbr>
+* Direct messages and group DMs
+* Message reading and sending
 * Replying to messages
 * Reading older messages
-* Direct messages and group DMs
-* Attachment viewing
-* Attachment sending (<abbr title="Requires FileConnection API or HTML browser with file uploading support">device dependent</abbr>)
-* Gateway/live message updates (<abbr title="Not supported on MIDP 1.0 and some low-end Samsung devices">device dependent</abbr>)
-* <abbr title="Not in sync with official clients">Unread message indicators</abbr>
+
+### Not available in 30 kB version
+* Message editing and deleting
+* Attachment viewing and sending
+* Gateway/live message updates
+* Unread message indicators
 
 ### Not implemented
 * Jumping to messages (e.g. replies)

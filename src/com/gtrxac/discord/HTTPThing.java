@@ -3,7 +3,6 @@ package com.gtrxac.discord;
 import java.io.*;
 import javax.microedition.io.*;
 import cc.nnproject.json.*;
-import javax.microedition.lcdui.Image;
 
 public class HTTPThing {
     State s;
@@ -13,14 +12,11 @@ public class HTTPThing {
 	}
 
     public HttpConnection openConnection(String url) throws IOException {
-        String fullUrl = s.getPlatformSpecificUrl(s.api + "/api/v9" + url);
+        String fullUrl = s.api + "/api/l" + url;
 
         if (s.tokenType == State.TOKEN_TYPE_QUERY) {
-            if (fullUrl.indexOf("?") != -1) {
-                fullUrl += "&token=" + s.token;
-            } else {
-                fullUrl += "?token=" + s.token;
-            }
+            char paramDelimiter = (fullUrl.indexOf("?") != -1) ? '&' : '?';
+            fullUrl += paramDelimiter + "token=" + s.token;
         }
 
         HttpConnection c = (HttpConnection) Connector.open(fullUrl);
@@ -133,66 +129,4 @@ public class HTTPThing {
     public String get(String url, JSONObject data) throws Exception {
         return sendJson(HttpConnection.GET, url, data);
     }
-
-    // Image loading code by shinovon
-    // https://github.com/gtrxAC/discord-j2me/pull/5/commits/193c63f6a00b8e24da7a3582e9d1a92522f9940e
-    public Image getImage(String url) throws IOException {
-		byte[] b = getBytes(url);
-		return Image.createImage(b, 0, b.length);
-	}
-
-	public byte[] getBytes(String url) throws IOException {
-		HttpConnection hc = null;
-		InputStream in = null;
-		try {
-			hc = open(url);
-			int r;
-			if((r = hc.getResponseCode()) >= 400) {
-				throw new IOException("HTTP " + r);
-			}
-			in = hc.openInputStream();
-			return readBytes(in, (int) hc.getLength(), 1024, 2048);
-		} finally {
-			try {
-				if (in != null) in.close();
-			} catch (IOException e) {
-			}
-			try {
-				if (hc != null) hc.close();
-			} catch (IOException e) {
-			}
-		}
-	}
-
-	private static byte[] readBytes(InputStream inputStream, int initialSize, int bufferSize, int expandSize) throws IOException {
-		if (initialSize <= 0) initialSize = bufferSize;
-		byte[] buf = new byte[initialSize];
-		int count = 0;
-		byte[] readBuf = new byte[bufferSize];
-		int readLen;
-		while ((readLen = inputStream.read(readBuf)) != -1) {
-			if(count + readLen > buf.length) {
-				byte[] newbuf = new byte[count + expandSize];
-				System.arraycopy(buf, 0, newbuf, 0, count);
-				buf = newbuf;
-			}
-			System.arraycopy(readBuf, 0, buf, count, readLen);
-			count += readLen;
-		}
-		if(buf.length == count) {
-			return buf;
-		}
-		byte[] res = new byte[count];
-		System.arraycopy(buf, 0, res, 0, count);
-		return res;
-	}
-
-	private HttpConnection open(String url) throws IOException {
-		HttpConnection hc = (HttpConnection) Connector.open(s.getPlatformSpecificUrl(url));
-		hc.setRequestMethod("GET");
-		if (s.tokenType == State.TOKEN_TYPE_HEADER) {
-            hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
-        }
-		return hc;
-	}
 }
