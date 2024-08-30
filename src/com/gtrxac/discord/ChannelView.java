@@ -13,6 +13,8 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command selectCommand;
     private Command sendCommand;
     private Command replyCommand;
+    private Command editCommand;
+    private Command deleteCommand;
     private Command refreshCommand;
 
     public Vector items;
@@ -56,7 +58,9 @@ public class ChannelView extends Canvas implements CommandListener {
         selectCommand = new Command("Select", Command.OK, 1);
         sendCommand = new Command("Send", Command.ITEM, 2);
         replyCommand = new Command("Reply", Command.ITEM, 3);
-        refreshCommand = new Command("Refresh", Command.ITEM, 7);
+        editCommand = new Command("Edit", Command.ITEM, 4);
+        deleteCommand = new Command("Delete", Command.ITEM, 5);
+        refreshCommand = new Command("Refresh", Command.ITEM, 6);
 
         fontHeight = s.messageFont.getHeight();
 
@@ -202,6 +206,14 @@ public class ChannelView extends Canvas implements CommandListener {
         if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
             if (selected.type == ChannelViewItem.MESSAGE) {
                 removeCommand(selectCommand);
+
+                if (selected.msg.isOwn && !selected.msg.isStatus) {
+                    addCommand(editCommand);
+                    addCommand(deleteCommand);
+                } else {
+                    removeCommand(editCommand);
+                    removeCommand(deleteCommand);
+                }
             } else {
                 addCommand(selectCommand);
             }
@@ -390,9 +402,20 @@ public class ChannelView extends Canvas implements CommandListener {
         else if (c == selectCommand) {
             executeItemAction();
         }
-        else if (c == replyCommand) {
+        else {
             Message selected = ((ChannelViewItem) items.elementAt(selectedItem)).msg;
-            s.disp.setCurrent(new ReplyForm(s, selected));
+
+            if (c == replyCommand) {
+                s.disp.setCurrent(new ReplyForm(s, selected));
+            }
+            else if (c == editCommand) {
+                s.disp.setCurrent(new MessageBox(s, selected));
+            }
+            else if (c == deleteCommand) {
+                HTTPThread h = new HTTPThread(s, HTTPThread.DELETE_MESSAGE);
+                h.editMessage = selected;
+                h.start();
+            }
         }
     }
 }

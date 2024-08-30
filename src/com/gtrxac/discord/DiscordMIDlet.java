@@ -18,7 +18,7 @@ public class DiscordMIDlet extends MIDlet {
             s.midlet = this;
             s.disp = Display.getDisplay(this);
 
-            boolean haveLoginRms = false;
+            boolean haveLoginRms = true;
             try {
                 RecordStore.openRecordStore("a", false).closeRecordStore();
             }

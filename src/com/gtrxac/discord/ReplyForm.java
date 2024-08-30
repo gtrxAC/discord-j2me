@@ -12,8 +12,7 @@ public class ReplyForm extends Form implements CommandListener {
     private Command backCommand;
 
     public ReplyForm(State s, Message msg) {
-        super("");
-        setTitle("Send message (" + s.selectedChannel.name + ")");
+        super("Send message (" + s.selectedChannel.name + ")");
         
         setCommandListener(this);
         this.s = s;

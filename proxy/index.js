@@ -101,6 +101,10 @@ function parseMessageContent(content) {
     return result;
 }
 
+function generateLiteIDHash(id) {
+    return (BigInt(id)%100000n).toString(36);
+}
+
 // Get servers
 app.get(`${BASE}/users/@me/guilds`, getToken, async (req, res) => {
     try {
@@ -446,29 +450,33 @@ app.get(`${BASE}/guilds/:guild/members/:member`, getToken, async (req, res) => {
 });
 
 // Edit message (non-standard because J2ME doesn't support PATCH method)
-app.post(`${BASE}/channels/:channel/messages/:message/edit`, getToken, async (req, res) => {
+async function editMessage(req, res) {
     try {
         await axios.patch(
             `${DEST_BASE}/channels/${req.params.channel}/messages/${req.params.message}`,
             req.body,
             {headers: res.locals.headers}
         );
+        res.set('Content-Type', 'text/plain');
         res.send("ok");
     }
     catch (e) { handleError(res, e); }
-});
+}
+app.post(`${BASE}/channels/:channel/messages/:message/edit`, getToken, editMessage);
 
 // Delete message (non-standard because J2ME doesn't support DELETE method)
-app.get(`${BASE}/channels/:channel/messages/:message/delete`, getToken, async (req, res) => {
+async function deleteMessage(req, res) {
     try {
         await axios.delete(
             `${DEST_BASE}/channels/${req.params.channel}/messages/${req.params.message}`,
             {headers: res.locals.headers}
         );
+        res.set('Content-Type', 'text/plain');
         res.send("ok");
     }
     catch (e) { handleError(res, e); }
-});
+}
+app.get(`${BASE}/channels/:channel/messages/:message/delete`, getToken, deleteMessage);
 
 // Get role list
 app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
@@ -660,7 +668,8 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
                 msg.author.global_name ?? msg.author.username,
                 content,
                 recipient,
-                msg.type
+                msg.type,
+                generateLiteIDHash(msg.author.id)
             ];
         })
         res.send(stringifyUnicode(messages));
@@ -668,8 +677,27 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
     catch (e) { handleError(res, e); }
 });
 
-// Send message (lite; same behavior as non-lite)
+// Get user info (lite)
+// This returns a 1 to 5-character string generated based on the logged in user's ID, for example 'd5hz9'.
+// Message contents also include a string generated in the same way from the message author's ID.
+// This can be used to compare user IDs (to a reasonable enough accuracy) to check if the message was sent by the logged in user.
+// If a message was sent by the logged in user, the Edit and Delete menu options are shown in the client when that message is highlighted.
+app.get(`${BASE_L}/users/@me`, getToken, async (req, res) => {
+    try {
+        const response = await axios.get(
+            `${DEST_BASE}/users/@me`,
+            {headers: res.locals.headers}
+        );
+        res.set('Content-Type', 'text/plain');
+        res.send(generateLiteIDHash(response.data.id));
+    }
+    catch (e) { handleError(res, e); }
+});
+
+// Send/edit/delete message (lite; same behavior as non-lite)
 app.post(`${BASE_L}/channels/:channel/messages`, getToken, sendMessage);
+app.post(`${BASE_L}/channels/:channel/messages/:message/edit`, getToken, editMessage);
+app.get(`${BASE_L}/channels/:channel/messages/:message/delete`, getToken, deleteMessage);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

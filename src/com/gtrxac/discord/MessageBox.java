@@ -2,21 +2,34 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
+/**
+ * Prompt for sending and editing messages.
+ */
 public class MessageBox extends TextBox implements CommandListener {
-    State s;
+    private State s;
+    private Message editMessage;  // null if sending a message
     private Command sendCommand;
     private Command backCommand;
 
-    public MessageBox(State s) {
+    MessageBox(State s) {
+        this(s, null);
+    }
+
+    MessageBox(State s, Message editMessage) {
         super("", "", 2000, 0);
-        setTitle("Send message (" + s.selectedChannel.name + ")");
-        
-        setCommandListener(this);
         this.s = s;
+        this.editMessage = editMessage;
+        setCommandListener(this);
 
-        sendCommand = new Command("Send", Command.OK, 0);
+        if (editMessage == null) {
+            setTitle("Send message (" + s.selectedChannel.name + ")");
+        } else {
+            setTitle("Edit message");
+            setString(editMessage.content);
+        }
+
+        sendCommand = new Command("OK", Command.OK, 0);
         backCommand = new Command("Back", Command.BACK, 1);
-
         addCommand(sendCommand);
         addCommand(backCommand);
     }
@@ -32,7 +45,14 @@ public class MessageBox extends TextBox implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
-            sendMessage(s, getString(), null, false);
+            if (editMessage == null) {
+                sendMessage(s, getString(), null, false);
+            } else {
+                HTTPThread h = new HTTPThread(s, HTTPThread.EDIT_MESSAGE);
+                h.editMessage = editMessage;
+                h.editContent = getString();
+                h.start();
+            }
         }
         else if (c == backCommand) {
             s.disp.setCurrent(s.channelView);

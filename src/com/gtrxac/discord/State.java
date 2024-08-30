@@ -28,6 +28,7 @@ public class State {
 	HTTPThing http;
 	String api;
 	String token;
+	String myUserId;
 
 	Vector guilds;
 	DiscordObject selectedGuild;

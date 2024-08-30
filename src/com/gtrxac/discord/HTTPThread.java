@@ -12,6 +12,8 @@ public class HTTPThread extends Thread {
     static final int FETCH_DM_CHANNELS = 2;
     static final int FETCH_MESSAGES = 3;
     static final int SEND_MESSAGE = 4;
+    static final int EDIT_MESSAGE = 5;
+    static final int DELETE_MESSAGE = 6;
 
     State s;
     int action;
@@ -28,6 +30,11 @@ public class HTTPThread extends Thread {
 	String sendReference;  // ID of the message the user is replying to
 	boolean sendPing;
 
+    // Parameters for EDIT_MESSAGE
+    // editMessage is also used for DELETE_MESSAGE
+    Message editMessage;
+    String editContent;
+
     public HTTPThread(State s, int action) {
         this.s = s;
         this.action = action;
@@ -43,6 +50,10 @@ public class HTTPThread extends Thread {
         s.disp.setCurrent(loadScr);
         
         try {
+            // Get the currently logged in user's ID (to determine which messages can be edited/deleted)
+            // Note: this ID does not match the actual Discord ID but is generated based on it (see proxy script)
+            if (s.myUserId == null) s.myUserId = s.http.get("/users/@me");
+
             switch (action) {
                 case FETCH_GUILDS: {
                     JSONArray guilds = JSON.getArray(s.http.get("/users/@me/guilds"));
@@ -132,6 +143,37 @@ public class HTTPThread extends Thread {
 
                     // Show the channel view screen (hide the loading screen)
                     s.disp.setCurrent(s.channelView);
+                    s.channelView.repaint();
+                    break;
+                }
+
+                case EDIT_MESSAGE: {
+                    JSONObject newMessage = new JSONObject();
+                    newMessage.put("content", editContent);
+
+                    String path = "/channels/" + s.selectedChannel.id + "/messages/" + editMessage.id + "/edit";
+                    s.http.post(path, newMessage);
+
+                    // Update displayed message content
+                    editMessage.content = editContent;
+                    editMessage.needUpdate = true;
+
+                    s.disp.setCurrent(s.channelView);
+                    s.channelView.requestUpdate();
+                    s.channelView.repaint();
+                    break;
+                }
+
+                case DELETE_MESSAGE: {
+                    s.http.get("/channels/" + s.selectedChannel.id + "/messages/" + editMessage.id + "/delete");
+
+                    // Update message to show as deleted
+                    editMessage.content = "(deleted)";
+                    editMessage.isStatus = true;
+                    editMessage.needUpdate = true;
+
+                    s.disp.setCurrent(s.channelView);
+                    s.channelView.requestUpdate();
                     s.channelView.repaint();
                     break;
                 }

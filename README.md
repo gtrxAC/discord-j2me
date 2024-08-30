@@ -16,12 +16,11 @@ Also see [Droidcord](https://github.com/leap0x7b/Droidcord), a Discord client fo
 ### Working
 * Server and channel lists
 * Direct messages and group DMs
-* Message reading and sending
+* Message reading, sending, editing, and deleting
 * Replying to messages
 * Reading older messages
 
 ### Not available in 30 kB version
-* Message editing and deleting
 * Attachment viewing and sending
 * Gateway/live message updates
 * Unread message indicators

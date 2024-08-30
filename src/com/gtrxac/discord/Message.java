@@ -22,6 +22,9 @@ public class Message {
     public String content;
     public String[] contentLines;
 
+    // message is sent by currently logged in user?
+    public boolean isOwn;
+
     // is status message? (user joined/left/boosted) - affects rendering
     public boolean isStatus;
 
@@ -91,6 +94,9 @@ public class Message {
         } else {
             // Normal message -> get actual content
             content = data.getString(2);
+
+            // Check if message is sent by us. If it is, enable flag to allow editing/deleting this message.
+            isOwn = data.getString(5).equals(s.myUserId);
         }
 
         Date messageDate = new Date((Long.parseLong(id) >> 22) + State.DISCORD_EPOCH);
