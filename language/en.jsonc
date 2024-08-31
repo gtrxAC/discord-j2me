@@ -536,5 +536,9 @@
     " sent you a direct message: \"",
     " sent a message in ",
 
-    "New message"
+    "New message",
+
+    "Notify me with:",
+    "Alert window",
+    "Sound"
 ]

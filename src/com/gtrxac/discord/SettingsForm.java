@@ -20,6 +20,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private StringItem keyMapperItem;
     private StringItem languageItem;
     private ChoiceGroup notifGroup;
+    private ChoiceGroup notifDispGroup;
     private Command saveCommand;
     private Command cancelCommand;
     private Command openMapperCommand;
@@ -200,6 +201,14 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         notifGroup.setSelectedIndex(2, s.showNotifsDMs);
         append(notifGroup);
 
+        String[] notifDispChoices = {Locale.get(NOTIFICATIONS_ALERT), Locale.get(NOTIFICATIONS_SOUND)};
+        Image[] notifDispImages = {null, null};
+        createHeading(null, SETTINGS_SECTION_NOTIFICATION_DISPLAY);
+        notifDispGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, notifDispChoices, notifDispImages);
+        notifDispGroup.setSelectedIndex(0, s.showNotifAlert);
+        notifDispGroup.setSelectedIndex(1, s.playNotifSound);
+        append(notifDispGroup);
+
         saveCommand = Locale.createCommand(SAVE, Command.OK, 0);
         cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
         addCommand(saveCommand);
@@ -266,6 +275,10 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 s.showNotifsAll = selected[0];
                 s.showNotifsPings = selected[1];
                 s.showNotifsDMs = selected[2];
+
+                notifDispGroup.getSelectedFlags(selected);
+                s.showNotifAlert = selected[0];
+                s.playNotifSound = selected[1];
 
                 LoginSettings.save(s);
             }

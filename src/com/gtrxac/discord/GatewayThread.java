@@ -76,7 +76,7 @@ public class GatewayThread extends Thread implements Strings {
         return false;
     }
 
-    private void handleNotifications(JSONObject msgData) {
+    private void handleNotificationAlert(JSONObject msgData) {
         String guildID = msgData.getString("guild_id", null);
         Message msg = new Message(s, msgData);
         
@@ -200,7 +200,10 @@ public class GatewayThread extends Thread implements Strings {
                             // Don't set unread indicator if message was sent by the logged in user
                             if (authorID.equals(s.myUserId)) continue;
 
-                            if (shouldNotify(msgData)) handleNotifications(msgData);
+                            if (shouldNotify(msgData)) {
+                                if (s.showNotifAlert) handleNotificationAlert(msgData);
+                                if (s.playNotifSound) AlertType.ALARM.playSound(s.disp);
+                            }
 
                             Channel ch = Channel.getByID(s, chId);
                             if (ch != null) {

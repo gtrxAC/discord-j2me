@@ -48,3 +48,6 @@ if command -v jadmaker > /dev/null; then
     echo "Creating JAD"
     jadmaker --force "bin/${PROJECT_NAME}.jar"
 fi
+
+# Show output JAR file size
+wc -c "bin/${PROJECT_NAME}.jar"

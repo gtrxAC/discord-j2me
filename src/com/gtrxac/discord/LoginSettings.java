@@ -61,10 +61,14 @@ public class LoginSettings {
                 s.showNotifsAll = getBoolRecord(false);
                 s.showNotifsPings = getBoolRecord(true);
                 s.showNotifsDMs = getBoolRecord(true);
+                s.showNotifAlert = getBoolRecord(true);
+                s.playNotifSound = getBoolRecord(true);
 
+                // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
                 else if (s.menuIconSize == 2) s.menuIconSize = 32;
 
+                // Check that message load count is in the Discord API allowed range (default = 20)
                 if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
 
                 Locale.setLanguage(s);
@@ -120,6 +124,8 @@ public class LoginSettings {
             setBoolRecord(s.showNotifsAll);
             setBoolRecord(s.showNotifsPings);
             setBoolRecord(s.showNotifsDMs);
+            setBoolRecord(s.showNotifAlert);
+            setBoolRecord(s.playNotifSound);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {
