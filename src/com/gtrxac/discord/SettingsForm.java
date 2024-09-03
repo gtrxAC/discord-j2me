@@ -28,7 +28,8 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
     private void createHeading(Image icon, int stringId) {
         int strLayout = Item.LAYOUT_NEWLINE_AFTER;
 
-        if (icon != null) {
+        // Note: J2ME Loader doesn't support image items inline with string items, so don't show icons on J2ME Loader
+        if (icon != null && !Util.isJ2MELoader()) {
             ImageItem img = new ImageItem(null, icon, 0, null);
             img.setLayout(Item.LAYOUT_NEWLINE_BEFORE);
             append(img);
@@ -204,6 +205,12 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
         addCommand(saveCommand);
         addCommand(cancelCommand);
+
+        // Key mapper and set language buttons are not selectable on blackberry, workaround by adding them as commands
+        if (Util.isBlackBerry()) {
+            addCommand(openMapperCommand);
+            addCommand(setLanguageCommand);
+        }
     }
 
     public void commandAction(Command c, Displayable d) {

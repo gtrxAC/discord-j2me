@@ -61,6 +61,7 @@ public class LoginSettings {
                 s.showNotifsAll = getBoolRecord(false);
                 s.showNotifsPings = getBoolRecord(true);
                 s.showNotifsDMs = getBoolRecord(true);
+                s.highRamMode = getBoolRecord(Util.isSymbian() || Util.isJ2MELoader());
 
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
                 else if (s.menuIconSize == 2) s.menuIconSize = 32;
@@ -120,6 +121,7 @@ public class LoginSettings {
             setBoolRecord(s.showNotifsAll);
             setBoolRecord(s.showNotifsPings);
             setBoolRecord(s.showNotifsDMs);
+            setBoolRecord(s.highRamMode);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {
