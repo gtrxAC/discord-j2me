@@ -48,6 +48,7 @@ public class State implements Strings {
 	boolean showNotifsDMs;
 	boolean showNotifAlert;
 	boolean playNotifSound;
+	boolean highRamMode;
 
 	int authorFontSize;
 	int messageFontSize;
@@ -177,16 +178,10 @@ public class State implements Strings {
 		return gateway != null && gateway.isAlive();
 	}
 
-	public static boolean isBlackBerry() {
-		String p = System.getProperty("microedition.platform");
-		if (p == null) p = "";
-		return p.toLowerCase().startsWith("blackberry");
-	}
-
 	// Required for Wi-Fi support on BlackBerry
 	// See https://github.com/shinovon/JTube/blob/670ea59a94d6b5be8af53d94d7804b2d35b64e52/src/jtube/Util.java#L521
 	public String getPlatformSpecificUrl(String url) {
-		if(isBlackBerry() && bbWifi) {
+		if (Util.isBlackBerry() && bbWifi) {
 			return url + ";deviceside=true;interface=wifi";
 		}
 		return url;
