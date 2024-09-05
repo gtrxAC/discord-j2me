@@ -69,7 +69,8 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
             Locale.get(AUTO_RECONNECT),
             Locale.get(GUILD_ICONS),
             Locale.get(NAME_COLORS),
-            Locale.get(FULLSCREEN_DEFAULT)
+            Locale.get(FULLSCREEN_DEFAULT),
+            Locale.get(HIGH_RAM_MODE)
         };
         Image[] uiImages = {
             s.ic.use12h,
@@ -77,6 +78,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
             s.ic.autoReconnect,
             s.ic.menuIcons,
             s.ic.nameColors,
+            null,
             null
         };
         createHeading(s.ic.uiGroup, SETTINGS_SECTION_UI);
@@ -87,6 +89,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         uiGroup.setSelectedIndex(3, s.showMenuIcons);
         uiGroup.setSelectedIndex(4, s.useNameColors);
         uiGroup.setSelectedIndex(5, s.fullscreenDefault);
+        uiGroup.setSelectedIndex(6, s.highRamMode);
         append(uiGroup);
 
         String[] fontChoices = {
@@ -266,7 +269,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                     s.attachmentSize = 1000;
                 }
 
-                boolean[] selected = {false, false, false, false, false, false};
+                boolean[] selected = {false, false, false, false, false, false, false};
                 uiGroup.getSelectedFlags(selected);
                 s.use12hTime = selected[0];
                 s.nativeFilePicker = selected[1];
@@ -274,6 +277,7 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
                 s.showMenuIcons = selected[3];
                 s.useNameColors = selected[4];
                 s.fullscreenDefault = selected[5];
+                s.highRamMode = selected[6];
 
                 hotkeyGroup.getSelectedFlags(selected);
                 s.defaultHotkeys = selected[0];

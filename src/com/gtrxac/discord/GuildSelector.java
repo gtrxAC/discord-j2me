@@ -62,13 +62,15 @@ public class GuildSelector extends List implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
+            // Unload server list if needed, and go back to main menu
+            if (!s.highRamMode) s.guilds = null;
             s.disp.setCurrent(new MainMenu(s));
         }
         else if (c == refreshCommand) {
             if (isFavGuilds) {
                 FavoriteGuilds.openSelector(s, true);
             } else {
-                s.openGuildSelector(true);
+                s.openGuildSelector(true, true);
             }
         }
         else if (c == addFavCommand) {
@@ -102,7 +104,7 @@ public class GuildSelector extends List implements CommandListener, Strings {
             }
 
             s.selectedGuild = newGuild;
-            s.openChannelSelector(false);
+            s.openChannelSelector(false, false);
         }
     }
 }

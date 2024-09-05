@@ -540,5 +540,7 @@
 
     "Notify me with:",
     "Alert window",
-    "Sound"
+    "Sound",
+
+    "Keep channels loaded"
 ]

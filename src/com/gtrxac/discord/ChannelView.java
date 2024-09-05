@@ -629,8 +629,8 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         if (c == backCommand) {
             s.unreads.save();
             s.channelIsOpen = false;
-            if (s.isDM) s.openDMSelector(false);
-            else s.openChannelSelector(false);
+            if (s.isDM) s.openDMSelector(false, false);
+            else s.openChannelSelector(false, false);
         }
         else if (c == sendCommand) {
             s.disp.setCurrent(new MessageBox(s));

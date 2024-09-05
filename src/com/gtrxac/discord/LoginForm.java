@@ -24,8 +24,7 @@ public class LoginForm extends Form implements CommandListener, Strings {
 
         if (Util.isBlackBerry()) {
             String[] wifiChoices = {Locale.get(USE_WIFI)};
-            Image[] wifiImages = {null};
-            wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, wifiImages);
+            wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, null);
             wifiGroup.setSelectedIndex(0, s.bbWifi);
             append(wifiGroup);
         }
@@ -38,8 +37,7 @@ public class LoginForm extends Form implements CommandListener, Strings {
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 1);
 
         String[] gatewayChoices = {Locale.get(USE_GATEWAY)};
-        Image[] gatewayImages = {null};
-        gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, gatewayImages);
+        gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, null);
         gatewayGroup.setSelectedIndex(0, s.useGateway);
 
         String[] tokenChoices = {
@@ -47,8 +45,7 @@ public class LoginForm extends Form implements CommandListener, Strings {
             Locale.get(SEND_TOKEN_JSON),
             Locale.get(SEND_TOKEN_QUERY)
         };
-        Image[] tokenImages = {null, null, null};
-        tokenGroup = new ChoiceGroup(Locale.get(SEND_TOKEN_AS), ChoiceGroup.EXCLUSIVE, tokenChoices, tokenImages);
+        tokenGroup = new ChoiceGroup(Locale.get(SEND_TOKEN_AS), ChoiceGroup.EXCLUSIVE, tokenChoices, null);
         tokenGroup.setSelectedIndex(s.tokenType, true);
 
         append(new StringItem(null, Locale.get(LOGIN_FORM_WARNING)));

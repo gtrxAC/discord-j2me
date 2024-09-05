@@ -28,7 +28,7 @@ public class MainMenu extends List implements CommandListener, Strings {
 
             switch (index) {
                 case 0: {
-                    s.openGuildSelector(true);
+                    s.openGuildSelector(true, false);
                     break;
                 }
                 case 1: {
@@ -36,7 +36,7 @@ public class MainMenu extends List implements CommandListener, Strings {
                     break;
                 }
                 case 2: {
-                    s.openDMSelector(true);
+                    s.openDMSelector(true, false);
                     break;
                 }
                 case 3: {

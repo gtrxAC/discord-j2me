@@ -52,10 +52,15 @@ public class ChannelSelector extends List implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.openGuildSelector(false);
+            // Unload this server's channel list if needed, and go back to server list
+            if (!s.highRamMode && !s.gatewayActive()) {
+                s.channels = null;
+                s.selectedGuild.channels = null;
+            }
+            s.openGuildSelector(false, false);
         }
         if (c == refreshCommand) {
-            s.openChannelSelector(true);
+            s.openChannelSelector(true, true);
         }
         if (c == markChannelReadCommand) {
             Channel ch = (Channel) s.channels.elementAt(getSelectedIndex());

@@ -196,81 +196,68 @@ public class State implements Strings {
 		}
 	}
 
-	public void openGuildSelector(boolean reload) {
-		try {
-			if (reload || guildSelector == null || guilds == null) {
-				new HTTPThread(this, HTTPThread.FETCH_GUILDS).start();
-			} else {
-				disp.setCurrent(guildSelector);
-			}
-		}
-		catch (Exception e) {
-			error(e);
+	public void openGuildSelector(boolean reload, boolean forceReload) {
+		if (highRamMode) reload = false;
+		
+		if (reload || forceReload || guildSelector == null || guilds == null) {
+			new HTTPThread(this, HTTPThread.FETCH_GUILDS).start();
+		} else {
+			disp.setCurrent(guildSelector);
 		}
 	}
 
-	public void openChannelSelector(boolean reload) {
-		try {
-			if (!reload && channelSelector != null && channels != null && channels == selectedGuild.channels) {
-				disp.setCurrent(channelSelector);
-			}
-			else if (!reload && selectedGuild.channels != null) {
+	public void openChannelSelector(boolean reload, boolean forceReload) {
+		if (highRamMode) reload = false;
+		boolean keepLoaded = !reload && !forceReload;
+
+		if (keepLoaded && channelSelector != null && channels != null && channels == selectedGuild.channels) {
+			disp.setCurrent(channelSelector);
+		}
+		else if (keepLoaded && selectedGuild.channels != null) {
+			try {
 				channels = selectedGuild.channels;
 				channelSelector = new ChannelSelector(this);
 				disp.setCurrent(channelSelector);
 			}
-			else {
-				new HTTPThread(this, HTTPThread.FETCH_CHANNELS).start();
+			catch (Exception e) {
+				error(e);
 			}
 		}
-		catch (Exception e) {
-			error(e);
+		else {
+			new HTTPThread(this, HTTPThread.FETCH_CHANNELS).start();
 		}
 	}
 
-	public void openDMSelector(boolean reload) {
-		try {
-			if (reload || dmSelector == null || dmChannels == null) {
-				new HTTPThread(this, HTTPThread.FETCH_DM_CHANNELS).start();
-			} else {
-				disp.setCurrent(dmSelector);
-			}
-		}
-		catch (Exception e) {
-			error(e);
+	public void openDMSelector(boolean reload, boolean forceReload) {
+		if (highRamMode) reload = false;
+		
+		if (reload || forceReload || dmSelector == null || dmChannels == null) {
+			new HTTPThread(this, HTTPThread.FETCH_DM_CHANNELS).start();
+		} else {
+			disp.setCurrent(dmSelector);
 		}
 	}
 
 	public void openChannelView(boolean reload) {
-		try {
-			if (reload || channelView == null || messages == null) {
-				new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
-			} else {
-				disp.setCurrent(channelView);
-			}
-			if (isDM) {
-				unreads.markRead(selectedDmChannel);
-				updateUnreadIndicators(true, selectedDmChannel.id);
-			} else {
-				unreads.markRead(selectedChannel);
-				updateUnreadIndicators(false, selectedChannel.id);
-			}
+		if (reload || channelView == null || messages == null) {
+			new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
+		} else {
+			disp.setCurrent(channelView);
 		}
-		catch (Exception e) {
-			error(e);
+		if (isDM) {
+			unreads.markRead(selectedDmChannel);
+			updateUnreadIndicators(true, selectedDmChannel.id);
+		} else {
+			unreads.markRead(selectedChannel);
+			updateUnreadIndicators(false, selectedChannel.id);
 		}
 	}
 
 	public void openAttachmentView(boolean reload, Message msg) {
-		try {
-			if (reload || attachmentView == null || attachmentView.msg != msg) {
-				attachmentView = new AttachmentView(this, msg);
-			}
-			disp.setCurrent(attachmentView);
+		if (reload || attachmentView == null || attachmentView.msg != msg) {
+			attachmentView = new AttachmentView(this, msg);
 		}
-		catch (Exception e) {
-			error(e);
-		}
+		disp.setCurrent(attachmentView);
 	}
 
 	public void platformRequest(String url) {

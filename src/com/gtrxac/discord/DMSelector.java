@@ -89,13 +89,15 @@ public class DMSelector extends List implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
+            // Unload DM list if needed, and go back to main menu
+            if (!s.highRamMode) s.dmChannels = null;
             s.disp.setCurrent(new MainMenu(s));
         }
         if (c == searchCommand) {
             s.disp.setCurrent(new DMSearchForm(s));
         }
         if (c == refreshCommand) {
-            s.openDMSelector(true);
+            s.openDMSelector(true, true);
         }
         if (c == markReadCommand) {
             DMChannel dmCh = (DMChannel) lastDMs.elementAt(getSelectedIndex());

@@ -28,7 +28,7 @@ public class DMSearchForm extends Form implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.openDMSelector(false);
+            s.openDMSelector(false, false);
         }
         if (c == okCommand) {
             String query = textField.getString().toLowerCase();

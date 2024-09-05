@@ -7,6 +7,7 @@ public class Channel {
     public String id;
     public String name;
     public long lastMessageID;
+    // public Vector messages;
 
     public Channel(JSONObject data) {
         id = data.getString("id");

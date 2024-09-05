@@ -224,4 +224,5 @@ public interface Strings {
     static final int SETTINGS_SECTION_NOTIFICATION_DISPLAY = 220;
     static final int NOTIFICATIONS_ALERT = 221;
     static final int NOTIFICATIONS_SOUND = 222;
+    static final int HIGH_RAM_MODE = 223;
 }
