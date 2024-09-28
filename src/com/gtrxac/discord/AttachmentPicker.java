@@ -7,10 +7,9 @@ import javax.microedition.io.*;
 import java.util.*;
 import java.io.*;
 
-public class AttachmentPicker extends List implements CommandListener, Strings {
+public class AttachmentPicker extends ListScreen implements CommandListener, Strings {
     private State s;
     private Command closeCommand;
-    private Command backCommand;
     private String currentPath; // Root directory
 
     public AttachmentPicker(State s) {
@@ -18,18 +17,15 @@ public class AttachmentPicker extends List implements CommandListener, Strings {
         this.s = s;
         setCommandListener(this);
 
-        backCommand = Locale.createCommand(BACK, Command.BACK, 1);
         closeCommand = Locale.createCommand(CLOSE, Command.BACK, 2);
-
         addCommand(closeCommand);
-        addCommand(backCommand);
 
         currentPath = "file:///";
         listFiles();
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == List.SELECT_COMMAND) {
+        if (c == SELECT_COMMAND) {
             int index = getSelectedIndex();
             if (index >= 0) {
                 String selected = getString(index);
@@ -46,7 +42,7 @@ public class AttachmentPicker extends List implements CommandListener, Strings {
                 }
             }
         }
-        else if (c == backCommand) {
+        else if (c == BACK_COMMAND) {
             if (!currentPath.equals("file:///")) {
                 int lastSlashIndex = currentPath.lastIndexOf('/', currentPath.length() - 2);
                 if (lastSlashIndex != -1) {

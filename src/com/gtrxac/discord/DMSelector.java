@@ -4,11 +4,10 @@ import java.util.*;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class DMSelector extends List implements CommandListener, Strings {
+public class DMSelector extends ListScreen implements CommandListener, Strings {
     State s;
     Vector lastDMs;
 
-    private Command backCommand;
     private Command searchCommand;
     private Command refreshCommand;
     private Command markReadCommand;
@@ -51,16 +50,14 @@ public class DMSelector extends List implements CommandListener, Strings {
 
         for (int i = 0; i < lastDMs.size(); i++) {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
-            append(ch.toString(s), s.iconCache.get(ch));
+            append(ch.name, s.iconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
         }
 
-        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
-        searchCommand = Locale.createCommand(SEARCH, Command.ITEM, 1);
-        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
-        markReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 3);
-        markAllReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 4);
+        searchCommand = Locale.createCommand(SEARCH, Command.SCREEN, 2);
+        refreshCommand = Locale.createCommand(REFRESH, Command.SCREEN, 3);
+        markReadCommand = Locale.createCommand(MARK_READ, Command.SCREEN, 4);
+        markAllReadCommand = Locale.createCommand(MARK_ALL_READ, Command.SCREEN, 5);
 
-        addCommand(backCommand);
         addCommand(searchCommand);
         addCommand(refreshCommand);
 
@@ -78,7 +75,7 @@ public class DMSelector extends List implements CommandListener, Strings {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
             if (chId != null && !ch.id.equals(chId)) continue;
 
-            set(i, ch.toString(s), s.iconCache.get(ch));
+            set(i, ch.name, s.iconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
         }
     }
 
@@ -88,10 +85,10 @@ public class DMSelector extends List implements CommandListener, Strings {
     public void update() { update(null); }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == backCommand) {
+        if (c == BACK_COMMAND) {
             // Unload DM list if needed, and go back to main menu
             if (!s.highRamMode) s.dmChannels = null;
-            s.disp.setCurrent(new MainMenu(s));
+            s.disp.setCurrent(MainMenu.get(null));
         }
         if (c == searchCommand) {
             s.disp.setCurrent(new DMSearchForm(s));
@@ -108,7 +105,7 @@ public class DMSelector extends List implements CommandListener, Strings {
             s.unreads.markDMsRead();
             update();
         }
-        if (c == List.SELECT_COMMAND) {
+        if (c == SELECT_COMMAND) {
             s.isDM = true;
             s.selectedDmChannel = (DMChannel) lastDMs.elementAt(getSelectedIndex());
             s.openChannelView(true);

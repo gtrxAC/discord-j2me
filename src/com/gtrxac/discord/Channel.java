@@ -22,7 +22,6 @@ public class Channel {
     }
     
     public String toString(State s) {
-        if (s.unreads.hasUnreads(this)) return "* #" + name;
         return "#" + name;
     }
 

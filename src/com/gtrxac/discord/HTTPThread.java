@@ -337,18 +337,8 @@ public class HTTPThread extends Thread implements Strings {
                     String id = iconTarget.getIconID();
                     String hash = iconTarget.getIconHash();
 
-                    if (iconTarget instanceof User) {
                         size = (s.pfpSize == State.ICON_SIZE_32) ? 32 : 16;
-                    } else {
-                        // Menu icons can have any size but we can't fetch the icon at any arbitrary
-                        // size, it must be one of the allowed sizes (some multiples of 16).
-                        // For simplicity, we'll do any multiple of 16 up to 96 (112 is the smallest
-                        // multiple of 16 that isn't allowed).
-                        // Round up to nearest multiple of 16.
-                        size = s.menuIconSize/16*16;
-                        if (size < s.menuIconSize) size += 16;
-                        if (size > 96) size = 96;
-                    }
+                    
                     Image icon = s.http.getImage(s.cdn + type + id + "/" + hash + "." + format + "?size=" + size);
 
                     // Resize menu icon if fetched size doesn't match requested size

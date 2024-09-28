@@ -3,9 +3,8 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class LanguageSelector extends List implements CommandListener, Strings {
-    State s;
-    private Command backCommand;
+public class LanguageSelector extends ListScreen implements CommandListener, Strings {
+    private State s;
     private Displayable lastScreen;
 
     private static String[] langIds = {
@@ -45,13 +44,10 @@ public class LanguageSelector extends List implements CommandListener, Strings {
         for (int i = 0; i < langIds.length; i++) {
             append(langNames[i], flags[i]);
         }
-
-        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
-        addCommand(backCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == List.SELECT_COMMAND) {
+        if (c == SELECT_COMMAND) {
             s.language = langIds[getSelectedIndex()];
             Locale.setLanguage(s);
             LoginSettings.save(s);

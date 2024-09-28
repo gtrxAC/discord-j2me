@@ -4,12 +4,11 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 import java.util.*;
 
-public class GuildSelector extends List implements CommandListener, Strings {
+public class GuildSelector extends ListScreen implements CommandListener, Strings {
     State s;
     boolean isFavGuilds;
 
     private Vector guilds;
-    private Command backCommand;
     private Command addFavCommand;
     private Command removeFavCommand;
     private Command refreshCommand;
@@ -26,19 +25,17 @@ public class GuildSelector extends List implements CommandListener, Strings {
 
         for (int i = 0; i < guilds.size(); i++) {
             Guild g = (Guild) guilds.elementAt(i);
-            append(g.toString(s), s.iconCache.get(g));
+            append(g.name, s.iconCache.getResized(g, s.menuIconSize), s.unreads.hasUnreads(g));
         }
 
-        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 3);
-        addCommand(backCommand);
         addCommand(refreshCommand);
 
         if (isFavGuilds) {
-            removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 1);
+            removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 2);
             addCommand(removeFavCommand);
         } else {
-            addFavCommand = Locale.createCommand(ADD_FAVORITE, Command.ITEM, 1);
+            addFavCommand = Locale.createCommand(ADD_FAVORITE, Command.ITEM, 2);
             addCommand(addFavCommand);
         }
     }
@@ -51,7 +48,7 @@ public class GuildSelector extends List implements CommandListener, Strings {
             Guild g = (Guild) guilds.elementAt(i);
             if (id != null && !g.id.equals(id)) continue;
 
-            set(i, g.toString(s), s.iconCache.get(g));
+            set(i, g.name, s.iconCache.getResized(g, s.menuIconSize), s.unreads.hasUnreads(g));
         }
     }
 
@@ -61,10 +58,10 @@ public class GuildSelector extends List implements CommandListener, Strings {
     public void update() { update(null); }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == backCommand) {
+        if (c == BACK_COMMAND) {
             // Unload server list if needed, and go back to main menu
             if (!s.highRamMode) s.guilds = null;
-            s.disp.setCurrent(new MainMenu(s));
+            s.disp.setCurrent(MainMenu.get(null));
         }
         else if (c == refreshCommand) {
             if (isFavGuilds) {
@@ -81,7 +78,7 @@ public class GuildSelector extends List implements CommandListener, Strings {
             FavoriteGuilds.remove(s, getSelectedIndex());
             FavoriteGuilds.openSelector(s, false);
         }
-        else if (c == List.SELECT_COMMAND) {
+        else if (c == SELECT_COMMAND) {
             Guild newGuild = (Guild) guilds.elementAt(getSelectedIndex());
 
             // If gateway is active, subscribe to typing events for this server, if not already subscribed

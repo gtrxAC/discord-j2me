@@ -2,27 +2,35 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class MainMenu extends List implements CommandListener, Strings {
-    State s;
+public class MainMenu extends ListScreen implements CommandListener, Strings {
+    private State s;
     private Command quitCommand;
 
-    public MainMenu(State s) {
+    private static MainMenu instance;
+
+    public static MainMenu get(State s) {
+        if (instance == null || s != null) instance = new MainMenu(s);
+        return instance;
+    }
+
+    private MainMenu(State s) {
         super("Discord", List.IMPLICIT);
         setCommandListener(this); 
         this.s = s;
 
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 0);
+        addCommand(quitCommand);
+        removeCommand(BACK_COMMAND);
 
         append(Locale.get(MAIN_MENU_GUILDS), s.ic.guilds);
         if (!FavoriteGuilds.empty()) append(Locale.get(MAIN_MENU_FAVORITES), s.ic.favorites);
         append(Locale.get(MAIN_MENU_DMS), s.ic.dms);
         append(Locale.get(MAIN_MENU_SETTINGS), s.ic.settings);
         append(Locale.get(MAIN_MENU_LOG_OUT), s.ic.logout);
-        addCommand(quitCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == List.SELECT_COMMAND) {
+        if (c == SELECT_COMMAND) {
             int index = getSelectedIndex();
             if (FavoriteGuilds.empty() && index >= 1) index++;
 

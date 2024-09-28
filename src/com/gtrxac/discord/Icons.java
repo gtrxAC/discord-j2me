@@ -63,6 +63,13 @@ public class Icons {
     Image flagSV;
     Image flagVI;
     Image flagTH;
+    Image notify;
+    Image notifyPing;
+    Image notifyDM;
+    Image notifyAlert;
+    Image notifySound;
+    Image fullscreen;
+    Image keepChLoaded;
 
     Image sheet;
     int size;
@@ -162,6 +169,13 @@ public class Icons {
         flagVI = next();
         flagSV = next();
         flagTH = next();
+        notify = next();
+        notifyPing = next();
+        notifyDM = next();
+        notifyAlert = next();
+        notifySound = next();
+        fullscreen = next();
+        keepChLoaded = next();
 
         sheet = null;
     }

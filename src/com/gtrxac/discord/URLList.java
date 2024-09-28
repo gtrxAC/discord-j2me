@@ -2,20 +2,16 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class URLList extends List implements CommandListener, Strings {
+public class URLList extends ListScreen implements CommandListener, Strings {
     public static final String[] urlStarts = {"https://", "http://", "www."};
     private static final String[] urlEnds = {" ", "[", "]", "(", ")", "<", ">", "\"", "'", "\t", "\r", "\n"};
 
     private State s;
-    private Command backCommand;
 
     public URLList(State s, String content) {
         super(Locale.get(URL_LIST_TITLE), List.IMPLICIT);
         this.s = s;
         setCommandListener(this);
-
-        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
-        addCommand(backCommand);
 
         int index = 0;
 
@@ -42,10 +38,10 @@ public class URLList extends List implements CommandListener, Strings {
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == List.SELECT_COMMAND) {
+        if (c == SELECT_COMMAND) {
             s.platformRequest(getString(getSelectedIndex()));
         }
-        else if (c == backCommand) {
+        else if (c == BACK_COMMAND) {
             s.openChannelView(false);
         }
     }

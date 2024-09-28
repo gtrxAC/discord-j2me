@@ -40,16 +40,6 @@ public class Guild implements HasIcon, Strings {
         return null;
     }
 
-    public String toString(State s) {
-        if (channels == null) return name;
-
-        for (int i = 0; i < channels.size(); i++) {
-            Channel ch = (Channel) channels.elementAt(i);
-            if (s.unreads.hasUnreads(ch)) return "* " + name;
-        }
-        return name;
-    }
-
     public String getIconID() { return id; }
     public String getIconHash() { return iconHash; }
     public String getIconType() { return "/icons/"; }
@@ -58,5 +48,7 @@ public class Guild implements HasIcon, Strings {
 		if (s.guildSelector != null) s.guildSelector.update(id);
     }
     
-    public void largeIconLoaded(State s) {}
+    public void largeIconLoaded(State s) {
+        iconLoaded(s);
+    }
 }

@@ -93,6 +93,16 @@ public class UnreadManager {
         return hasUnreads(dmCh.id, dmCh.lastMessageID);
     }
 
+    public boolean hasUnreads(Guild g) {
+        if (g.channels == null) return false;
+
+        for (int i = 0; i < g.channels.size(); i++) {
+            Channel ch = (Channel) g.channels.elementAt(i);
+            if (hasUnreads(ch)) return true;
+        }
+        return false;
+    }
+
     public void markRead(String channelID, long lastMessageID) {
         long lastMessageTime = lastMessageID >> 22;
         String lastReadTime = (String) channels.get(channelID);

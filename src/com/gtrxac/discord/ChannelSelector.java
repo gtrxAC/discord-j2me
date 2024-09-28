@@ -3,9 +3,8 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
-public class ChannelSelector extends List implements CommandListener, Strings {
+public class ChannelSelector extends ListScreen implements CommandListener, Strings {
     State s;
-    private Command backCommand;
     private Command refreshCommand;
     private Command markChannelReadCommand;
     private Command markGuildReadCommand;
@@ -17,14 +16,12 @@ public class ChannelSelector extends List implements CommandListener, Strings {
 
         for (int i = 0; i < s.channels.size(); i++) {
             Channel ch = (Channel) s.channels.elementAt(i);
-            append(ch.toString(s), null);
+            append(ch.toString(s), null, s.unreads.hasUnreads(ch));
         }
 
-        backCommand = Locale.createCommand(BACK, Command.BACK, 0);
-        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 1);
-        markChannelReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 2);
-        markGuildReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 3);
-        addCommand(backCommand);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
+        markChannelReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 3);
+        markGuildReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 4);
         addCommand(refreshCommand);
 
         if (s.channels.size() > 0) {
@@ -41,7 +38,7 @@ public class ChannelSelector extends List implements CommandListener, Strings {
             Channel ch = (Channel) s.channels.elementAt(i);
             if (id != null && !ch.id.equals(id)) continue;
 
-            set(i, ch.toString(s), null);
+            set(i, ch.toString(s), null, s.unreads.hasUnreads(ch));
         }
     }
 
@@ -51,29 +48,30 @@ public class ChannelSelector extends List implements CommandListener, Strings {
     public void update() { update(null); }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == backCommand) {
+        if (c == BACK_COMMAND) {
             // Unload this server's channel list if needed, and go back to server list
             if (!s.highRamMode && !s.gatewayActive()) {
                 s.channels = null;
                 s.selectedGuild.channels = null;
             }
+            s.guildSelector.update(s.selectedGuild.id);
             s.openGuildSelector(false, false);
         }
-        if (c == refreshCommand) {
+        else if (c == refreshCommand) {
             s.openChannelSelector(true, true);
         }
-        if (c == markChannelReadCommand) {
+        else if (c == markChannelReadCommand) {
             Channel ch = (Channel) s.channels.elementAt(getSelectedIndex());
             s.unreads.markRead(ch);
             update(ch.id);
             s.guildSelector.update(s.selectedGuild.id);
         }
-        if (c == markGuildReadCommand) {
+        else if (c == markGuildReadCommand) {
             s.unreads.markRead(s.selectedGuild);
             update();
             s.guildSelector.update(s.selectedGuild.id);
         }
-        if (c == List.SELECT_COMMAND) {
+        else if (c == SELECT_COMMAND) {
             s.isDM = false;
             s.selectedChannel = (Channel) s.channels.elementAt(getSelectedIndex());
             s.openChannelView(true);

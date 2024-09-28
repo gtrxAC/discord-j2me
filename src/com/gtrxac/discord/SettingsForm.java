@@ -78,8 +78,8 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
             s.ic.autoReconnect,
             s.ic.menuIcons,
             s.ic.nameColors,
-            null,
-            null
+            s.ic.fullscreen,
+            s.ic.keepChLoaded
         };
         createHeading(s.ic.uiGroup, SETTINGS_SECTION_UI);
         uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, uiImages);
@@ -196,18 +196,32 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         languageItem.setItemCommandListener(this);
         append(languageItem);
 
-        String[] notifChoices = {Locale.get(NOTIFICATIONS_ALL), Locale.get(NOTIFICATIONS_MENTIONS), Locale.get(NOTIFICATIONS_DMS)};
-        Image[] notifImages = {null, null, null};
-        createHeading(null, SETTINGS_SECTION_NOTIFICATIONS);
+        String[] notifChoices = {
+            Locale.get(NOTIFICATIONS_ALL),
+            Locale.get(NOTIFICATIONS_MENTIONS),
+            Locale.get(NOTIFICATIONS_DMS)
+        };
+        Image[] notifImages = {
+            s.ic.msgCount,
+            s.ic.notifyPing,
+            s.ic.notifyDM
+        };
+        createHeading(s.ic.notify, SETTINGS_SECTION_NOTIFICATIONS);
         notifGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, notifChoices, notifImages);
         notifGroup.setSelectedIndex(0, s.showNotifsAll);
         notifGroup.setSelectedIndex(1, s.showNotifsPings);
         notifGroup.setSelectedIndex(2, s.showNotifsDMs);
         append(notifGroup);
 
-        String[] notifDispChoices = {Locale.get(NOTIFICATIONS_ALERT), Locale.get(NOTIFICATIONS_SOUND)};
-        Image[] notifDispImages = {null, null};
-        createHeading(null, SETTINGS_SECTION_NOTIFICATION_DISPLAY);
+        String[] notifDispChoices = {
+            Locale.get(NOTIFICATIONS_ALERT),
+            Locale.get(NOTIFICATIONS_SOUND)
+        };
+        Image[] notifDispImages = {
+            s.ic.notifyAlert,
+            s.ic.notifySound
+        };
+        createHeading(s.ic.notify, SETTINGS_SECTION_NOTIFICATION_DISPLAY);
         notifDispGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, notifDispChoices, notifDispImages);
         notifDispGroup.setSelectedIndex(0, s.showNotifAlert);
         notifDispGroup.setSelectedIndex(1, s.playNotifSound);
@@ -300,8 +314,9 @@ public class SettingsForm extends Form implements CommandListener, ItemCommandLi
         s.ic = null;
         s.ic = new Icons(s);
 
+        s.loadTheme();
         s.loadFonts();
-        s.disp.setCurrent(new MainMenu(s));
+        s.disp.setCurrent(MainMenu.get(s));
     }
     
     public void commandAction(Command c, Item i) {

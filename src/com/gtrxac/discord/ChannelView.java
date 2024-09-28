@@ -8,7 +8,7 @@ import cc.nnproject.json.*;
  * Message list for channels (both guild channels and DM channels).
  */
 public class ChannelView extends Canvas implements CommandListener, Strings {
-    State s;
+    private State s;
     private Command backCommand;
     private Command selectCommand;
     private Command sendCommand;
@@ -36,6 +36,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
     int scroll;
     int maxScroll;
     int pressY;
+    int totalScroll;
 
     boolean touchMode;
     boolean selectionMode;
@@ -48,15 +49,15 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
     boolean requestedUpdate;
     boolean reqUpdateGateway;
 
-    //                                     Dark        Light       Black
-    static final int[] backgroundColors = {0x00313338, 0x00FFFFFF, 0x00000000};
-    static final int[] highlightColors2 = {0x002b2d31, 0x00EEEEEE, 0x00202020};
-    static final int[] highlightColors =  {0x00232428, 0x00DDDDDD, 0x00303030};
-    static final int[] darkBgColors =     {0x001e1f22, 0x00CCCCCC, 0x00404040};
-    static final int[] refMessageColors = {0x00DDDDDD, 0x00333333, 0x00CCCCCC};
-    static final int[] messageColors =    {0x00FFFFFF, 0x00111111, 0x00EEEEEE};
-    static final int[] authorColors =     {0x00FFFFFF, 0x00000000, 0x00FFFFFF};
-    static final int[] timestampColors =  {0x00AAAAAA, 0x00888888, 0x00999999};
+    //                                     Dark      Light     Black
+    static final int[] backgroundColors = {0x313338, 0xFFFFFF, 0x000000};
+    static final int[] highlightColors2 = {0x2b2d31, 0xEEEEEE, 0x202020};
+    static final int[] highlightColors =  {0x232428, 0xDDDDDD, 0x303030};
+    static final int[] darkBgColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
+    static final int[] refMessageColors = {0xDDDDDD, 0x333333, 0xCCCCCC};
+    static final int[] messageColors =    {0xFFFFFF, 0x111111, 0xEEEEEE};
+    static final int[] authorColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
+    static final int[] timestampColors =  {0xAAAAAA, 0x888888, 0x999999};
 
     public ChannelView(State s) throws Exception {
         super();
@@ -147,15 +148,15 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         }
 
         boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
-        int width = getWidth() - (useIcons ? messageFontHeight*2 : 0);
-        int embedTextWidth = width - messageFontHeight/2 - messageFontHeight*2/3;
+        int contentWidth = width - (useIcons ? messageFontHeight*2 : 0);
+        int embedTextWidth = contentWidth - messageFontHeight/2 - messageFontHeight*2/3;
 
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
             boolean needUpdate = msg.needUpdate;
 
             if (msg.contentLines == null || wasResized || needUpdate) {
-                msg.contentLines = Util.wordWrap(msg.content, width, s.messageFont);
+                msg.contentLines = Util.wordWrap(msg.content, contentWidth, s.messageFont);
                 msg.needUpdate = false;
             }
 
@@ -171,7 +172,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
                     Embed emb = (Embed) msg.embeds.elementAt(e);
 
                     if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
-                        emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.messageFont);
+                        emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.titleFont);
                         msg.needUpdate = false;
                     }
                     if ((wasResized || emb.descLines == null || needUpdate) && emb.description != null) {
@@ -195,7 +196,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
             maxScroll += olderItem.getHeight();
         }
 
-        maxScroll -= getHeight();
+        maxScroll -= height;
 
         if (haveDrawn && wasResized) {
             // If this channel view has been previously drawn and was just resized
@@ -521,7 +522,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
                     selectionMode = true;
                 }
                 // Message is taller than screen -> scroll up by two lines
-                else if (thisItemHeight > getHeight() && thisItemPos < 0) {
+                else if (thisItemHeight > height && thisItemPos < 0) {
                     scroll -= messageFontHeight*2;
                 }
                 // Else go up by one message
@@ -535,7 +536,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
             }
             case DOWN: {
                 // Message is taller than screen -> scroll down by two lines
-                if (thisItemHeight > getHeight() && thisItemPos + thisItemHeight > getHeight()) {
+                if (thisItemHeight > height && thisItemPos + thisItemHeight > height) {
                     scroll += messageFontHeight*2;
                 }
                 // Bottom-most message -> disable selection mode
@@ -596,11 +597,13 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
     protected void pointerPressed(int x, int y) {
         touchMode = true;
         pressY = y;
+        totalScroll = 0;
     }
 
     protected void pointerDragged(int x, int y) {
         touchMode = true;
         scroll -= y - pressY;
+        totalScroll += Math.abs(y - pressY);
         pressY = y;
         repaint();
     }
@@ -611,13 +614,12 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         for (int i = 0; i < items.size(); i++) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
             int itemPos = getItemPosition(i);
-            if (y >= itemPos && y <= itemPos + item.getHeight()) {
-                if (selectionMode && i == selectedItem) {
-                    // If this item was already selected, execute its action if it's a button
+            int itemHeight = item.getHeight();
+            if (y >= itemPos && y <= itemPos + itemHeight) {
+                selectionMode = true;
+                selectedItem = i;
+                if (totalScroll < itemHeight/8) {
                     executeItemAction();
-                } else {
-                    selectionMode = true;
-                    selectedItem = i;
                 }
                 break;
             }

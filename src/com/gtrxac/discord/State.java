@@ -116,9 +116,10 @@ public class State implements Strings {
 		ic = null;
 		ic = new Icons(this);
 
+		loadTheme();
         loadFonts();
         http = new HTTPThing(this);
-        disp.setCurrent(new MainMenu(this));
+        disp.setCurrent(MainMenu.get(this));
 
         if (useGateway) {
             this.gateway = new GatewayThread(this);
@@ -154,6 +155,7 @@ public class State implements Strings {
 	}
 	
 	public void error(Exception e, Displayable next) {
+		e.printStackTrace();
 		error(e.toString(), next);
 	}
 	
@@ -162,6 +164,7 @@ public class State implements Strings {
 	}
 
 	public void error(Exception e) {
+		e.printStackTrace();
 		error(e.toString());
 	}
 
@@ -172,6 +175,21 @@ public class State implements Strings {
 		timestampFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[authorFontSize]);
 		messageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[messageFontSize]);
 		titleFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[messageFontSize]);
+
+		ListScreen.setAppearance(messageFont, menuIconSize, Locale.get(SELECT), Locale.get(SELECT_L), Locale.get(BACK), Locale.get(BACK_L));
+	}
+
+	public void loadTheme() {
+		//                               Dark      Light     Black
+		final int[] listBgColors      = {0x2b2d31, 0xffffff, 0x000000};
+		final int[] listTextColors    = {0xdddddd, 0x222222, 0xdddddd};
+		final int[] listSelTextColors = {0xffffff, 0x000000, 0xffffff};
+		final int[] listHlColors      = {0x404249, 0xbbbbbb, 0x333333};
+
+		ListScreen.backgroundColor = listBgColors[theme];
+		ListScreen.textColor = listTextColors[theme];
+		ListScreen.selectedTextColor = listSelTextColors[theme];
+		ListScreen.highlightColor = listHlColors[theme];
 	}
 
 	public boolean gatewayActive() {

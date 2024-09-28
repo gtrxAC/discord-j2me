@@ -22,7 +22,7 @@ public class IconCache {
         activeResizes = new Vector();
     }
 
-    public Image get(HasIcon target) {
+    private Image get(HasIcon target) {
         // Don't show icons if they are disabled
         if (target instanceof User) {
             // For profile pictures
@@ -47,12 +47,12 @@ public class IconCache {
         return null;
     }
 
-    public void removeRequest(String hash) {
+    public synchronized void removeRequest(String hash) {
         int index = activeRequests.indexOf(hash);
         if (index != -1) activeRequests.removeElementAt(index);
     }
 
-    public void removeResize(String hash) {
+    public synchronized void removeResize(String hash) {
         int index = activeResizes.indexOf(hash);
         if (index != -1) activeResizes.removeElementAt(index);
     }

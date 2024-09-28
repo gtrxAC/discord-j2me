@@ -56,11 +56,6 @@ public class DMChannel implements HasIcon, Strings {
         return null;
     }
 
-    public String toString(State s) {
-        if (s.unreads.hasUnreads(this)) return "* " + name;
-        return name;
-    }
-
     public String getIconID() { return iconID; }
     public String getIconHash() { return iconHash; }
     public String getIconType() { return isGroup ? "/channel-icons/" : "/avatars/"; }
@@ -69,5 +64,7 @@ public class DMChannel implements HasIcon, Strings {
 		if (s.dmSelector != null) s.dmSelector.update(id);
     }
 
-    public void largeIconLoaded(State s) {}
+    public void largeIconLoaded(State s) {
+        iconLoaded(s);
+    }
 }

@@ -4,3 +4,5 @@ MIDlet-Vendor: gtrxAC
 MIDlet-Version: 4.0.0
 MicroEdition-Configuration: CLDC-1.0
 MicroEdition-Profile: MIDP-2.0
+Nokia-MIDlet-S60-Selection-Key-Compatibility: true
+Nokia-MIDlet-On-Screen-Keypad: no
