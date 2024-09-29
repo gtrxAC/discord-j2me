@@ -232,6 +232,9 @@ public class Message implements Strings {
         // This message is a reply -> true
         if (recipient != null) return true;
 
+        // This message only consists of an attachment -> true
+        if (attachments != null && attachments.size() > 0 && content.length() == 0) return true;
+
         // This message or above message is a status message -> true
         if (isStatus || above.isStatus) return true;
 
