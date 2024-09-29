@@ -7,7 +7,7 @@ import cc.nnproject.json.*;
 /**
  * Message list for channels (both guild channels and DM channels).
  */
-public class ChannelView extends Canvas implements CommandListener, Strings {
+public class ChannelView extends KineticScrollingCanvas implements CommandListener, Strings {
     private State s;
     private Command backCommand;
     private Command selectCommand;
@@ -33,16 +33,12 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
     boolean haveDrawn;
     boolean outdated;
     String bannerText;
-    int scroll;
     int maxScroll;
-    int pressY;
-    int totalScroll;
 
     boolean touchMode;
     boolean selectionMode;
     int selectedItem;
 
-    int messageFontHeight;
     int authorFontHeight;
     int width, height;
 
@@ -77,7 +73,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 9);
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 10);
 
-        messageFontHeight = s.messageFont.getHeight();
+        fontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
 
         addCommand(backCommand);
@@ -148,8 +144,8 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         }
 
         boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
-        int contentWidth = width - (useIcons ? messageFontHeight*2 : 0);
-        int embedTextWidth = contentWidth - messageFontHeight/2 - messageFontHeight*2/3;
+        int contentWidth = width - (useIcons ? fontHeight*2 : 0);
+        int embedTextWidth = contentWidth - fontHeight/2 - fontHeight*2/3;
 
         for (int i = 0; i < s.messages.size(); i++) {
             Message msg = (Message) s.messages.elementAt(i);
@@ -347,10 +343,14 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         }
     }
 
-    protected void paint(Graphics g) {
+    protected void checkScrollInRange() {
         if (scroll < 0) scroll = 0;
         if (scroll > maxScroll) scroll = maxScroll;
-        
+    }
+
+    protected void paint(Graphics g) {
+        checkScrollInRange();
+
         if (width != getWidth() || height != getHeight()) {
             width = getWidth();
             height = getHeight();
@@ -378,7 +378,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
         if (items.size() == 0) {
             g.setColor(timestampColors[s.theme]);
             g.drawString(
-                Locale.get(CHANNEL_VIEW_EMPTY), width/2, height/2 - messageFontHeight/2,
+                Locale.get(CHANNEL_VIEW_EMPTY), width/2, height/2 - fontHeight/2,
                 Graphics.HCENTER | Graphics.TOP
             );
         } else {
@@ -401,32 +401,32 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
             g.setFont(s.messageFont);
             String[] lines = Util.wordWrap(bannerText, width, s.messageFont);
             g.setColor(0x005865f2);
-            g.fillRect(0, 0, width, messageFontHeight*lines.length + messageFontHeight/4);
+            g.fillRect(0, 0, width, fontHeight*lines.length + fontHeight/4);
 
             g.setColor(0x00FFFFFF);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
-                    lines[i], width/2, i*messageFontHeight + messageFontHeight/8,
+                    lines[i], width/2, i*fontHeight + fontHeight/8,
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
-            bannerY += messageFontHeight*lines.length + messageFontHeight/4;
+            bannerY += fontHeight*lines.length + fontHeight/4;
         }
 
         if (outdated) {
             g.setFont(s.messageFont);
             String[] lines = Util.wordWrap(Locale.get(CHANNEL_VIEW_OUTDATED), width, s.messageFont);
             g.setColor(0x00AA1122);
-            g.fillRect(0, bannerY, width, messageFontHeight*lines.length + messageFontHeight/4);
+            g.fillRect(0, bannerY, width, fontHeight*lines.length + fontHeight/4);
 
             g.setColor(0x00FFFFFF);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
-                    lines[i], width/2, bannerY + i*messageFontHeight + messageFontHeight/8,
+                    lines[i], width/2, bannerY + i*fontHeight + fontHeight/8,
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
-            bannerY += messageFontHeight*lines.length + messageFontHeight/4;
+            bannerY += fontHeight*lines.length + fontHeight/4;
         }
 
         if (s.typingUsers.size() > 0) {
@@ -435,12 +435,12 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
             g.setFont(s.messageFont);
             String[] lines = Util.wordWrap(typingStr, width, s.messageFont);
             g.setColor(darkBgColors[s.theme]);
-            g.fillRect(0, bannerY, width, messageFontHeight*lines.length + messageFontHeight/4);
+            g.fillRect(0, bannerY, width, fontHeight*lines.length + fontHeight/4);
 
             g.setColor(authorColors[s.theme]);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
-                    lines[i], width/2, bannerY + i*messageFontHeight + messageFontHeight/8,
+                    lines[i], width/2, bannerY + i*fontHeight + fontHeight/8,
                     Graphics.TOP | Graphics.HCENTER
                 );
             }
@@ -523,7 +523,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
                 }
                 // Message is taller than screen -> scroll up by two lines
                 else if (thisItemHeight > height && thisItemPos < 0) {
-                    scroll -= messageFontHeight*2;
+                    scroll -= fontHeight*2;
                 }
                 // Else go up by one message
                 else {
@@ -537,7 +537,7 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
             case DOWN: {
                 // Message is taller than screen -> scroll down by two lines
                 if (thisItemHeight > height && thisItemPos + thisItemHeight > height) {
-                    scroll += messageFontHeight*2;
+                    scroll += fontHeight*2;
                 }
                 // Bottom-most message -> disable selection mode
                 else if (selectedItem == 0) {
@@ -596,21 +596,21 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
 
     protected void pointerPressed(int x, int y) {
         touchMode = true;
-        pressY = y;
-        totalScroll = 0;
+        super.pointerPressed(x, y);
     }
 
     protected void pointerDragged(int x, int y) {
         touchMode = true;
-        scroll -= y - pressY;
-        totalScroll += Math.abs(y - pressY);
-        pressY = y;
-        repaint();
+        super.pointerDragged(x, y);
     }
 
     protected void pointerReleased(int x, int y) {
         touchMode = true;
 
+        if (totalScroll > fontHeight/4) {
+            super.pointerReleased(x, y);
+            return;
+        }
         for (int i = 0; i < items.size(); i++) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
             int itemPos = getItemPosition(i);
@@ -618,9 +618,9 @@ public class ChannelView extends Canvas implements CommandListener, Strings {
             if (y >= itemPos && y <= itemPos + itemHeight) {
                 selectionMode = true;
                 selectedItem = i;
-                if (totalScroll < itemHeight/8) {
-                    executeItemAction();
-                }
+                // if (totalScroll < itemHeight/8) {
+                executeItemAction();
+                // }
                 break;
             }
         }

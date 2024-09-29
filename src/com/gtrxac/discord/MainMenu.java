@@ -14,13 +14,12 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
     }
 
     private MainMenu(State s) {
-        super("Discord", List.IMPLICIT);
+        super("Discord", false);
         setCommandListener(this); 
         this.s = s;
 
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 0);
         addCommand(quitCommand);
-        removeCommand(BACK_COMMAND);
 
         append(Locale.get(MAIN_MENU_GUILDS), s.ic.guilds);
         if (!FavoriteGuilds.empty()) append(Locale.get(MAIN_MENU_FAVORITES), s.ic.favorites);

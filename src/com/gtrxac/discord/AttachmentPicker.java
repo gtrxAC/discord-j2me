@@ -58,6 +58,18 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
         }
     }
 
+    private static String getFirstString(Vector v) {
+        String result = null;
+        for (int i = 0; i < v.size(); i++) {
+            String cur = (String) v.elementAt(i);
+            if (result == null || cur.compareTo(result) < 0) {
+                result = cur;
+            }
+        }
+        v.removeElement(result);
+        return result;
+    }
+
     private void listFiles() {
         deleteAll();
         try {
@@ -70,9 +82,24 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
             } else {
                 FileConnection fc = (FileConnection) Connector.open(currentPath, Connector.READ);
                 Enumeration list = fc.list();
+
+                // Add items in alphabetical order, directories first
+                Vector dirs = new Vector();
+                Vector files = new Vector();
+
                 while (list.hasMoreElements()) {
                     String fileName = (String) list.nextElement();
-                    append(fileName, null);
+                    if (fileName.endsWith("/")) {
+                        dirs.addElement(fileName);
+                    } else {
+                        files.addElement(fileName);
+                    }
+                }
+                while (!dirs.isEmpty()) {
+                    append(getFirstString(dirs), null);
+                }
+                while (!files.isEmpty()) {
+                    append(getFirstString(files), null);
                 }
                 fc.close();
             }

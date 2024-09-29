@@ -14,7 +14,7 @@ import cc.nnproject.json.*;
  *   If you want to use your own back command, or don't need a back command,
  *   remove it (either from this code or by using removeCommand())
  */
-public abstract class ListScreen extends Canvas implements CommandListener, Strings {
+public abstract class ListScreen extends KineticScrollingCanvas implements CommandListener {
     private Vector items;
     private Vector displayedItems;
     private Vector itemImages;
@@ -23,15 +23,11 @@ public abstract class ListScreen extends Canvas implements CommandListener, Stri
     private boolean hasIndicators;
 
     private int selected;
-    private int scroll;
-    private int pressY;
-    private int totalScroll;
 
     private static boolean globalTouchMode;
     private boolean touchMode;
 
     private static Font font;
-    private static int fontHeight;
     private static int margin;
     private static int itemHeight;
     private static int itemContentHeight;
@@ -87,7 +83,11 @@ public abstract class ListScreen extends Canvas implements CommandListener, Stri
         indicatorImage = Util.resizeImageBilinear(indicatorImage, fontHeight/4, itemContentHeight);
     }
 
-    ListScreen(String title, int type) {
+    ListScreen(String title, int unusedType) {
+        this(title, true);
+    }
+
+    ListScreen(String title, boolean hasBackCommand) {
         super();
         setTitle(title);
         items = new Vector();
@@ -97,7 +97,7 @@ public abstract class ListScreen extends Canvas implements CommandListener, Stri
         selected = 0;
         scroll = minScroll;
         addCommand(SELECT_COMMAND);
-        addCommand(BACK_COMMAND);
+        if (hasBackCommand) addCommand(BACK_COMMAND);
     }
 
     void append(String text, Image image, boolean indicator) {
@@ -199,10 +199,13 @@ public abstract class ListScreen extends Canvas implements CommandListener, Stri
         updateDisplayedItems();
     }
 
-    protected void paint(Graphics g) {
-        // Check that scroll is in range
+    protected void checkScrollInRange() {
         if (scroll < minScroll) scroll = minScroll;
         if (scroll > getMaxScroll()) scroll = getMaxScroll();
+    }
+
+    protected void paint(Graphics g) {
+        checkScrollInRange();
 
         // Clear screen
         g.setColor(backgroundColor);
@@ -258,6 +261,8 @@ public abstract class ListScreen extends Canvas implements CommandListener, Stri
 
             if (y > getHeight()) break;
         }
+        // g.setColor(0xFF0000);
+        // g.drawString(new Integer(velocity).toString(), 0, 0, Graphics.TOP | Graphics.LEFT);
     }
     
     private void keyEvent(int keycode, CommandListener listener) {
@@ -308,8 +313,7 @@ public abstract class ListScreen extends Canvas implements CommandListener, Stri
 
     protected void pointerPressed(int x, int y) {
         touchMode = false;
-        pressY = y;
-        totalScroll = 0;
+        super.pointerPressed(x, y);
 
         for (int i = 0; i < items.size(); i++) {
             int itemPos = getItemPosition(i);
@@ -319,16 +323,10 @@ public abstract class ListScreen extends Canvas implements CommandListener, Stri
         repaint();
     }
 
-    protected void pointerDragged(int x, int y) {
-        scroll -= y - pressY;
-        totalScroll += Math.abs(y - pressY);
-        pressY = y;
-        repaint();
-    }
-
     protected void pointerReleased(int x, int y) {
-        if (totalScroll > margin) {
+        if (totalScroll > fontHeight/4) {
             touchMode = true;
+            super.pointerReleased(x, y);
         } else {
             globalTouchMode = true;
             touchMode = false;
