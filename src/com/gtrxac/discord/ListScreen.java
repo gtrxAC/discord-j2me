@@ -40,6 +40,8 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
     public static int textColor;
     public static int selectedTextColor;
     public static int highlightColor;
+    public static int noItemsColor;
+    public static String noItemsString;
 
     public static Command SELECT_COMMAND;
     public static Command BACK_COMMAND;
@@ -205,13 +207,21 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
     }
 
     protected void paint(Graphics g) {
-        checkScrollInRange();
-
         // Clear screen
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
-
         g.setFont(font);
+
+        if (items.size() == 0) {
+            g.setColor(noItemsColor);
+            g.drawString(
+                noItemsString, getWidth()/2, getHeight()/2 - fontHeight/2,
+                Graphics.HCENTER | Graphics.TOP
+            );
+            return;
+        }
+
+        checkScrollInRange();
         int y = -scroll;
 
         // int textX = hasImages ? fontHeight/2 + iconSize + iconMargin : fontHeight/2;

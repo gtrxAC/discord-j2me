@@ -87,7 +87,7 @@
     " (vanha)",
 
     // Text shown at the center of the channel view when it is empty (no messages).
-    "Nothing to see here",
+    "Tyhjä",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
     "Lue uusia viestejä valitsemalla Päivitä",
@@ -536,5 +536,15 @@
     " lähetti sinulle yksityisviestin: \"",
     " lähetti viestin kanavalle ",
 
-    "Uusi viesti"
+    "Uusi viesti",
+
+    "Ilmoitustapa",
+    "Alert window",
+    "Ääni",
+
+    "Pidä kanavat muistissa",
+
+    // Text shown at the center of list screens when they are empty (no items).
+    // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
+    "Tyhjä"
 ]

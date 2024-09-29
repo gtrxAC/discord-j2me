@@ -177,6 +177,7 @@ public class State implements Strings {
 		titleFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[messageFontSize]);
 
 		ListScreen.setAppearance(messageFont, menuIconSize, Locale.get(SELECT), Locale.get(SELECT_L), Locale.get(BACK), Locale.get(BACK_L));
+		ListScreen.noItemsString = Locale.get(LIST_EMPTY);
 	}
 
 	public void loadTheme() {
@@ -190,6 +191,7 @@ public class State implements Strings {
 		ListScreen.textColor = listTextColors[theme];
 		ListScreen.selectedTextColor = listSelTextColors[theme];
 		ListScreen.highlightColor = listHlColors[theme];
+		ListScreen.noItemsColor = ChannelView.timestampColors[theme];
 	}
 
 	public boolean gatewayActive() {

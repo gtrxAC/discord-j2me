@@ -542,5 +542,9 @@
     "Alert window",
     "Sound",
 
-    "Keep channels loaded"
+    "Keep channels loaded",
+
+    // Text shown at the center of list screens when they are empty (no items).
+    // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
+    "Nothing to see here"
 ]
