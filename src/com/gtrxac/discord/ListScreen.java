@@ -41,10 +41,15 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
     public static int selectedTextColor;
     public static int highlightColor;
     public static int noItemsColor;
+
+    public static String selectLabel;
+    public static String selectLabelLong;
+    public static String backLabel;
+    public static String backLabelLong;
     public static String noItemsString;
 
-    public static Command SELECT_COMMAND;
-    public static Command BACK_COMMAND;
+    public Command SELECT_COMMAND;
+    public Command BACK_COMMAND;
 
     private static Image indicatorImage;
 
@@ -71,9 +76,6 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
         itemHeight = margin*4 + itemContentHeight;
         textOffsetY = itemContentHeight/2 - fontHeight/2;
 
-        SELECT_COMMAND = new Command(selectLabel, selectLabelLong, Command.OK, 1);
-        BACK_COMMAND = new Command(backLabel, backLabelLong, Command.BACK, 0);
-
         indicatorImage = Image.createImage(fontHeight/2, itemContentHeight*2);
         Graphics indG = indicatorImage.getGraphics();
 
@@ -83,6 +85,11 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
         indG.fillArc(-fontHeight/2, itemContentHeight - fontHeight/2, fontHeight, fontHeight, 0, 360);
 
         indicatorImage = Util.resizeImageBilinear(indicatorImage, fontHeight/4, itemContentHeight);
+
+        ListScreen.selectLabel = selectLabel;
+        ListScreen.selectLabelLong = selectLabelLong;
+        ListScreen.backLabel = backLabel;
+        ListScreen.backLabelLong = backLabelLong;
     }
 
     ListScreen(String title, int unusedType) {
@@ -98,8 +105,14 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
         indicators = new Vector();
         selected = 0;
         scroll = minScroll;
+
+        SELECT_COMMAND = new Command(selectLabel, selectLabelLong, Command.OK, 1);
         addCommand(SELECT_COMMAND);
-        if (hasBackCommand) addCommand(BACK_COMMAND);
+        
+        if (hasBackCommand) {
+            BACK_COMMAND = new Command(backLabel, backLabelLong, Command.BACK, 0);
+            addCommand(BACK_COMMAND);
+        }
     }
 
     void append(String text, Image image, boolean indicator) {
