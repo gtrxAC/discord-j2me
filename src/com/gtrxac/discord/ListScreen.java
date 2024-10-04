@@ -14,7 +14,7 @@ import cc.nnproject.json.*;
  *   If you want to use your own back command, or don't need a back command,
  *   remove it (either from this code or by using removeCommand())
  */
-public abstract class ListScreen extends KineticScrollingCanvas implements CommandListener {
+public abstract class ListScreen extends KineticScrollingCanvas {
     private Vector items;
     private Vector displayedItems;
     private Vector itemImages;
@@ -28,6 +28,7 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
     private boolean touchMode;
 
     private static Font font;
+    private static int fontHeight;
     private static int margin;
     private static int itemHeight;
     private static int itemContentHeight;
@@ -50,6 +51,7 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
 
     public Command SELECT_COMMAND;
     public Command BACK_COMMAND;
+    private CommandListener listener;
 
     private static Image indicatorImage;
 
@@ -105,6 +107,7 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
         indicators = new Vector();
         selected = 0;
         scroll = minScroll;
+        scrollUnit = fontHeight;
 
         SELECT_COMMAND = new Command(selectLabel, selectLabelLong, Command.OK, 1);
         addCommand(SELECT_COMMAND);
@@ -169,6 +172,11 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
         return (String) items.elementAt(index);
     }
 
+    public void setCommandListener(CommandListener newListener) {
+        listener = newListener;
+        super.setCommandListener(newListener);
+    }
+
     private String getDisplayedItem(String item) {
         int leftMargin = fontHeight/2;
         if (hasIndicators) leftMargin += fontHeight/3;
@@ -191,6 +199,7 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
     }
 
     private void updateDisplayedItems() {
+        if (items == null) return;
         for (int i = 0; i < items.size(); i++) {
             updateDisplayedItem(i);
         }
@@ -220,6 +229,9 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
     }
 
     protected void paint(Graphics g) {
+        // BlackBerry fix
+        g.setClip(0, 0, getWidth(), getHeight());
+
         // Clear screen
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
@@ -288,7 +300,7 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
         // g.drawString(new Integer(velocity).toString(), 0, 0, Graphics.TOP | Graphics.LEFT);
     }
     
-    private void keyEvent(int keycode, CommandListener listener) {
+    private void keyEvent(int keycode) {
         touchMode = false;
         globalTouchMode = false;
         int action = getGameAction(keycode);
@@ -331,8 +343,8 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
         }
         repaint();
     }
-    protected void keyPressed(int a) { keyEvent(a, this); }
-    protected void keyRepeated(int a) { keyEvent(a, this); }
+    protected void keyPressed(int a) { keyEvent(a); }
+    protected void keyRepeated(int a) { keyEvent(a); }
 
     protected void pointerPressed(int x, int y) {
         touchMode = false;
@@ -353,7 +365,7 @@ public abstract class ListScreen extends KineticScrollingCanvas implements Comma
         } else {
             globalTouchMode = true;
             touchMode = false;
-            commandAction(SELECT_COMMAND, this);
+            listener.commandAction(SELECT_COMMAND, this);
         }
         repaint();
     }

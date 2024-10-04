@@ -6,7 +6,7 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
     public int scroll;
     public int totalScroll;
 
-    public static int fontHeight;
+    public int scrollUnit;
 
     private int velocity;
     private boolean isScrolling;
@@ -44,14 +44,14 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
     protected void pointerReleased(int x, int y) {
         isScrolling = false;
         // Start kinetic scrolling thread if finger was not held in place for too long
-        if (System.currentTimeMillis() <= lastPointerTime + 110 && Math.abs(velocity) > fontHeight*4) {
+        if (System.currentTimeMillis() <= lastPointerTime + 110 && Math.abs(velocity) > scrollUnit*4) {
             new Thread(this).start();
         }
     }
     
     // Kinetic scrolling thread
     public void run() {
-        int maxVel = fontHeight*30;
+        int maxVel = scrollUnit*30;
 
         while (Math.abs(velocity) > 1) {
             if (velocity > maxVel) {

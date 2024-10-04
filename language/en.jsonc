@@ -527,21 +527,31 @@
     // Settings option for enabling fullscreen mode by default in the chat view.
     "Fullscreen mode",
 
+    // Settings section for selecting which kinds of messages notifications should be shown for.
     "Show notifications for",
 
+    // Options for the kinds of messages that notifications should be shown for.
     "All messages",
     "Mentions",
     "Direct messages",
 
+    // Text shown in notification alert windows. This is in the form of:
+    // User sent you a direct message: "message content"
+    // User sent a message in Server Name #channel: "message content"
     " sent you a direct message: \"",
     " sent a message in ",
 
+    // Title for notification alert windows
     "New message",
 
+    // Settings section for selecting which kinds of notification methods should be used for incoming messages.
     "Notify me with:",
+
+    // Options for the kinds of notification methods.
     "Alert window",
     "Sound",
 
+    // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
     "Keep channels loaded",
 
     // Text shown at the center of list screens when they are empty (no items).

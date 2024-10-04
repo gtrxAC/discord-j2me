@@ -39,6 +39,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     boolean selectionMode;
     int selectedItem;
 
+    int fontHeight;
     int authorFontHeight;
     int width, height;
 
@@ -75,6 +76,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
         fontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
+        scrollUnit = fontHeight;
 
         addCommand(backCommand);
         addCommand(sendCommand);

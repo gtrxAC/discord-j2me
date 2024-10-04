@@ -527,21 +527,31 @@
     // Settings option for enabling fullscreen mode by default in the chat view.
     "Koko näytön tila",
 
+    // Settings section for selecting which kinds of messages notifications should be shown for.
     "Näytä ilmoitukset",
 
+    // Options for the kinds of messages that notifications should be shown for.
     "Kaikki viestit",
     "Maininnat",
     "Yksityisviestit",
 
+    // Text shown in notification alert windows. This is in the form of:
+    // User sent you a direct message: "message content"
+    // User sent a message in Server Name #channel: "message content"
     " lähetti sinulle yksityisviestin: \"",
     " lähetti viestin kanavalle ",
 
+    // Title for notification alert windows
     "Uusi viesti",
 
+    // Settings section for selecting which kinds of notification methods should be used for incoming messages.
     "Ilmoitustapa",
+
+    // Options for the kinds of notification methods.
     "Alert window",
     "Ääni",
 
+    // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
     "Pidä kanavat muistissa",
 
     // Text shown at the center of list screens when they are empty (no items).
