@@ -331,14 +331,12 @@ public class HTTPThread extends Thread implements Strings {
                 case FETCH_ICON: {
                     if (s.cdn == null || s.cdn.length() == 0) throw new Exception();
 
-                    String format = (s.useJpeg ? "jpg" : "png");
-                    int size;
                     String type = iconTarget.getIconType();
                     String id = iconTarget.getIconID();
                     String hash = iconTarget.getIconHash();
+                    String format = (s.useJpeg ? "jpg" : "png");
+                    int size = (s.pfpSize == State.ICON_SIZE_32) ? 32 : 16;
 
-                        size = (s.pfpSize == State.ICON_SIZE_32) ? 32 : 16;
-                    
                     Image icon = s.http.getImage(s.cdn + type + id + "/" + hash + "." + format + "?size=" + size);
 
                     // Resize menu icon if fetched size doesn't match requested size
