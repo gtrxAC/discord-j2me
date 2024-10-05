@@ -19,9 +19,12 @@ public class GatewayThread extends Thread implements Strings {
     private InputStream is;
     private OutputStream os;
 
+    private static int reconnectAttempts;
+
     public GatewayThread(State s) {
         this.s = s;
         s.subscribedGuilds = new Vector();
+        reconnectAttempts++;
     }
 
     private void disconnect() {
@@ -36,7 +39,7 @@ public class GatewayThread extends Thread implements Strings {
 
     public void disconnected(String message) {
         disconnect();
-        if (s.autoReConnect) {
+        if (s.autoReConnect && reconnectAttempts < 3) {
             if (s.channelView != null) {
                 s.channelView.bannerText = Locale.get(CHANNEL_VIEW_RECONNECTING);
                 s.channelView.repaint();
@@ -179,6 +182,7 @@ public class GatewayThread extends Thread implements Strings {
                             s.channelView.bannerText = null;
                             s.channelView.repaint();
                         }
+                        reconnectAttempts = 0;
                     }
                     else if (op.equals("GATEWAY_DISCONNECT")) {
                         String reason = message.getObject("d").getString("message");

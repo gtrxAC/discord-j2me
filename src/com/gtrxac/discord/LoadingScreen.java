@@ -5,13 +5,13 @@ import javax.microedition.lcdui.game.*;
 
 public class LoadingScreen extends Canvas implements Runnable, Strings {
     private State s;
-    private boolean upscaled;
     private int iconOffset;
 
     String text;
     int curFrame;
     int animDirection;
 
+    static boolean upscaled;
     static Image[] frames;
 
     public LoadingScreen(State s) {
@@ -21,33 +21,42 @@ public class LoadingScreen extends Canvas implements Runnable, Strings {
         curFrame = 0;
         animDirection = 1;
 
-        upscaled = getWidth() > 270 && getHeight() > 270;
-        iconOffset = upscaled ? 8 : 4;
-
-        if (frames == null) {
-            Image sheet;
-            frames = new Image[8];
-
-            try {
-                sheet = Image.createImage("/loading.png");
-            }
-            catch (Exception e) {
-                return;
-            }
-
-            for (int i = 0; i < 8; i++) {
-                try {
-                    frames[i] = Image.createImage(sheet, i*48, 0, 48, 48, Sprite.TRANS_NONE);
-                    if (upscaled) {
-                        frames[i] = Util.resizeImage(frames[i], 96, 96);
-                    }
-                }
-                catch (Exception e) {}
-            }
-        }
+        checkLoadFrames();
 
         // Start loading icon animation
         new Thread(this).start();
+    }
+
+    private void checkLoadFrames() {
+        boolean shouldUpscale = getWidth() > 270 && getHeight() > 270;
+
+        if (frames == null || upscaled != shouldUpscale) {
+            upscaled = shouldUpscale;
+            loadFrames();
+        }
+        iconOffset = upscaled ? 8 : 4;
+    }
+
+    private void loadFrames() {
+        Image sheet;
+        frames = new Image[8];
+
+        try {
+            sheet = Image.createImage("/loading.png");
+        }
+        catch (Exception e) {
+            return;
+        }
+
+        for (int i = 0; i < 8; i++) {
+            try {
+                frames[i] = Image.createImage(sheet, i*48, 0, 48, 48, Sprite.TRANS_NONE);
+                if (upscaled) {
+                    frames[i] = Util.resizeImage(frames[i], 96, 96);
+                }
+            }
+            catch (Exception e) {}
+        }
     }
 
     // Icon animation thread
@@ -74,6 +83,10 @@ public class LoadingScreen extends Canvas implements Runnable, Strings {
             }
             catch (Exception e) {}
         }
+    }
+
+    protected void sizeChanged(int w, int h) {
+        checkLoadFrames();
     }
 
     protected void paint(Graphics g) {

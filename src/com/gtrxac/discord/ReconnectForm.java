@@ -18,7 +18,7 @@ public class ReconnectForm extends Form implements CommandListener, Strings {
             lastScreen = ((ErrorAlert) lastScreen).next;
         }
 
-        append(new StringItem(null, Locale.get(RECONNECT_FORM_TEXT)));
+        append(new StringItem(null, s.autoReConnect ? Locale.get(AUTO_RECONNECT_FAILED) : Locale.get(RECONNECT_FORM_TEXT)));
 
         if (message != null && message.length() > 0) {
             append(new StringItem(Locale.get(RECONNECT_FORM_MESSAGE), message));
