@@ -65,7 +65,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         }
         else if (c == refreshCommand) {
             if (isFavGuilds) {
-                FavoriteGuilds.openSelector(s, true);
+                FavoriteGuilds.openSelector(s, true, true);
             } else {
                 s.openGuildSelector(true, true);
             }
@@ -76,7 +76,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         }
         else if (c == removeFavCommand) {
             FavoriteGuilds.remove(s, getSelectedIndex());
-            FavoriteGuilds.openSelector(s, false);
+            FavoriteGuilds.openSelector(s, false, false);
         }
         else if (c == SELECT_COMMAND) {
             Guild newGuild = (Guild) guilds.elementAt(getSelectedIndex());

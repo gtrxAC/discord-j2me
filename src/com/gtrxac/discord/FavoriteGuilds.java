@@ -60,9 +60,11 @@ public class FavoriteGuilds {
         return false;
     }
 
-    public static void openSelector(State s, boolean refresh) {
+    public static void openSelector(State s, boolean refresh, boolean forceRefresh) {
+        if (s.highRamMode) refresh = false;
+        
         // If guilds not loaded, load them. This method is called again by the thread when it's done.
-        if (s.guilds == null || refresh) {
+        if (s.guilds == null || refresh || forceRefresh) {
             HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_GUILDS);
             h.showFavGuilds = true;
             h.start();

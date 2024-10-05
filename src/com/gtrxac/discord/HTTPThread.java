@@ -116,7 +116,7 @@ public class HTTPThread extends Thread implements Strings {
                     }
 
                     if (showFavGuilds) {
-                        FavoriteGuilds.openSelector(s, false);
+                        FavoriteGuilds.openSelector(s, false, false);
                     } else {
                         s.guildSelector = new GuildSelector(s, s.guilds, false);
                         s.disp.setCurrent(s.guildSelector);

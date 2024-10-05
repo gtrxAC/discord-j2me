@@ -222,7 +222,16 @@ public class State implements Strings {
 		if (reload || forceReload || guildSelector == null || guilds == null) {
 			new HTTPThread(this, HTTPThread.FETCH_GUILDS).start();
 		} else {
-			disp.setCurrent(guildSelector);
+			try {
+				if (guildSelector.isFavGuilds) {
+					// Guild list is already loaded but current selector is showing favorite guilds - create new selector from full guild list
+					guildSelector = new GuildSelector(this, guilds, false);
+				}
+				disp.setCurrent(guildSelector);
+			}
+			catch (Exception e) {
+				error(e);
+			}
 		}
 	}
 

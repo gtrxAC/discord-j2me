@@ -53,7 +53,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
                     break;
                 }
                 case 1: {
-                    FavoriteGuilds.openSelector(s, true);
+                    FavoriteGuilds.openSelector(s, true, false);
                     break;
                 }
                 case 2: {

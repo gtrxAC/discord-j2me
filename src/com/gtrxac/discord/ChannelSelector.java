@@ -55,7 +55,8 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
                 s.selectedGuild.channels = null;
             }
             s.guildSelector.update(s.selectedGuild.id);
-            s.openGuildSelector(false, false);
+            // s.openGuildSelector(false, false);
+            s.disp.setCurrent(s.guildSelector);
         }
         else if (c == refreshCommand) {
             s.openChannelSelector(true, true);
