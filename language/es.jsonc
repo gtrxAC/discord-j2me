@@ -405,7 +405,7 @@
     "Interfaz de usuario",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-    "Usar IU antigua",
+    null,
 
     // Settings option for using 12-hour time format in timestamps.
     "Formato 12-horas",

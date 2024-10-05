@@ -405,7 +405,7 @@
     "Interfejs użytkownika",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-    "Użyj stary interfejs",
+    null,
 
     // Settings option for using 12-hour time format in timestamps.
     "Czas 12-godzinny",

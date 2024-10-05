@@ -405,7 +405,7 @@
     "Interfaccia",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-    "Vecchia interfaccia",
+    null,
 
     // Settings option for using 12-hour time format in timestamps.
     "Formato orario a 12 ore",
@@ -507,54 +507,54 @@
     "Inserisci",
 
     // Title for language selection screen.
-    "Language",
+    "Lingua",
 
     // Settings section for language options.
-    "Language",
+    "Lingua",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "Lingua",
+    "Imposta lingua",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "Schermo intero",
+    "Schermo intero on/off",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "attivare/disattivare schermo intero",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "Chat a schermo intero",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "Mostra notifiche per",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "Tutti i messaggi",
+    "Menzioni",
+    "Messaggi Diretti",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " ti ha mandato un messaggio diretto: \"",
+    " ha mandato un messaggio in ",
 
     // Title for notification alert windows
-    "New message",
+    "Nuovo messaggio",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "Notificami con:",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "Finestra di avviso",
+    "Suono",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "Mantieni i canali caricati",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here"
+    "Nulla da vedere qui"
 ]

@@ -142,8 +142,28 @@ public abstract class ListScreen extends KineticScrollingCanvas {
         set(index, text, image, false);
     }
 
-    private void checkUpdateDisplayedItems(Image image, boolean indicator) {
-        boolean shouldUpdate = false;
+    void insert(int index, String text, Image image, boolean indicator) {
+        items.insertElementAt(text, index);
+        itemImages.insertElementAt(image, index);
+        indicators.insertElementAt(indicator ? JSON.TRUE : JSON.FALSE, index);
+        displayedItems.addElement(null);
+        checkUpdateDisplayedItems(image, indicator, true);
+    }
+
+    void insert(int index, String text, Image image) {
+        insert(index, text, image, false);
+    }
+
+    void delete(int index) {
+        items.removeElementAt(index);
+        itemImages.removeElementAt(index);
+        indicators.removeElementAt(index);
+        updateDisplayedItems();
+        repaint();
+    }
+
+    private void checkUpdateDisplayedItems(Image image, boolean indicator, boolean alwaysUpdate) {
+        boolean shouldUpdate = alwaysUpdate;
         if (image != null && !hasImages) {
             hasImages = true;
             shouldUpdate = true;
@@ -154,6 +174,10 @@ public abstract class ListScreen extends KineticScrollingCanvas {
         }
         if (shouldUpdate) updateDisplayedItems();
         repaint();
+    }
+
+    private void checkUpdateDisplayedItems(Image image, boolean indicator) {
+        checkUpdateDisplayedItems(image, indicator, false);
     }
 
     void deleteAll() {

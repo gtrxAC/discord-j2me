@@ -405,7 +405,7 @@
     "Käyttöliittymä",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-    "Vanha käyttöliittymä",
+    null,
 
     // Settings option for using 12-hour time format in timestamps.
     "12-tuntinen aika",

@@ -165,7 +165,7 @@ public interface Strings {
     static final int THEME_LIGHT = 161;
     static final int THEME_BLACK = 162;
     static final int SETTINGS_SECTION_UI = 163;
-    static final int USE_OLD_UI = 164;
+    // static final int USE_OLD_UI = 164;
     static final int USE_12H_TIME = 165;
     static final int NATIVE_FILE_PICKER = 166;
     static final int AUTO_RECONNECT = 167;

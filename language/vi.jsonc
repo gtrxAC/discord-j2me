@@ -405,7 +405,7 @@
     "Giao diện",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-    "Sử dụng g.diện cũ",
+    null,
 
     // Settings option for using 12-hour time format in timestamps.
     "Định dạng giờ 12 tiếng",

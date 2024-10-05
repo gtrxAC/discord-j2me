@@ -5,11 +5,26 @@ import javax.microedition.lcdui.*;
 public class MainMenu extends ListScreen implements CommandListener, Strings {
     private State s;
     private Command quitCommand;
+    private static boolean hasFavorites;
 
     private static MainMenu instance;
 
     public static MainMenu get(State s) {
-        if (instance == null || s != null) instance = new MainMenu(s);
+        if (instance == null || s != null) {
+            instance = new MainMenu(s);
+            hasFavorites = false;
+        }
+        // Determine if favorites option should be shown:
+        // Add if needed
+        if (!FavoriteGuilds.empty() && !hasFavorites) {
+            instance.insert(1, Locale.get(MAIN_MENU_FAVORITES), instance.s.ic.favorites);
+            hasFavorites = true;
+        }
+        // Remove if needed
+        else if (FavoriteGuilds.empty() && hasFavorites) {
+            instance.delete(1);
+            hasFavorites = false;
+        }
         return instance;
     }
 
@@ -22,7 +37,6 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         addCommand(quitCommand);
 
         append(Locale.get(MAIN_MENU_GUILDS), s.ic.guilds);
-        if (!FavoriteGuilds.empty()) append(Locale.get(MAIN_MENU_FAVORITES), s.ic.favorites);
         append(Locale.get(MAIN_MENU_DMS), s.ic.dms);
         append(Locale.get(MAIN_MENU_SETTINGS), s.ic.settings);
         append(Locale.get(MAIN_MENU_LOG_OUT), s.ic.logout);
@@ -31,7 +45,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
             int index = getSelectedIndex();
-            if (FavoriteGuilds.empty() && index >= 1) index++;
+            if (!hasFavorites && index >= 1) index++;
 
             switch (index) {
                 case 0: {

@@ -405,7 +405,7 @@
     "หน้าตา",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-    "ใช้ UI แบบเก่า",
+    null,
 
     // Settings option for using 12-hour time format in timestamps.
     "แสดงเวลาแบบ 12 ชั่วโมง",

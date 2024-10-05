@@ -56,9 +56,9 @@ public class Locale {
         // unknown locale = use English (don't load extra language data)
         if (name == null) return;
 
-        // selected language is English = don't load extra language data
+        // selected language is English (but not en-US) = don't load extra language data
         String shortName = name.substring(0, 2);
-        if ("en".equals(shortName)) return;
+        if ("en".equals(shortName) && !"en-US".equals(name)) return;
 
         try {
             // try full language code (e.g. en-US.json)

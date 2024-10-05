@@ -179,7 +179,7 @@
     "User not found. Try creating the DM from another client.",
 
     // Title text for direct message list.
-    "Direct Message",
+    "Direct message",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
     "Search",
@@ -192,15 +192,15 @@
     "Servers",
 
     // Title text shown for favorite servers list.
-    "Favorites",
+    "Favourites",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
     "Remove",
     "Remove",
 
     // Softkey command for adding a server to the favorites list.
-    "Favorite",
-    "Add to favorites",
+    "Favourite",
+    "Add to favourites",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
     "Heartbeat thread error: ",
@@ -301,7 +301,7 @@
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
     "Servers",
-    "Favorites",
+    "Favourites",
     "Direct messages",
     "Settings",
     "Log out",
@@ -405,7 +405,8 @@
     "User interface",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-    "Use old UI",
+    // This is no longer used, so keep it as null.
+    null,
 
     // Settings option for using 12-hour time format in timestamps.
     "12-hour time",
@@ -420,7 +421,7 @@
     "Server/DM icons",
 
     // Settings option for enabling nickname role colors.
-    "Name colors",
+    "Name colours",
 
     // Settings screen heading for message author font size.
     "Message author font",
