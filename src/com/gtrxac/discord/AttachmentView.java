@@ -19,15 +19,13 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 1);
         addCommand(backCommand);
         addCommand(refreshCommand);
-
-        new HTTPThread(s, HTTPThread.FETCH_ATTACHMENTS).start();
     }
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
             s.openChannelView(false);
         }
-        if (c == refreshCommand) {
+        else if (c == refreshCommand) {
             s.openAttachmentView(true, msg);
         }
     }

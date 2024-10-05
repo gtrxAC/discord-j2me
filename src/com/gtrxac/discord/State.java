@@ -285,6 +285,7 @@ public class State implements Strings {
 	public void openAttachmentView(boolean reload, Message msg) {
 		if (reload || attachmentView == null || attachmentView.msg != msg) {
 			attachmentView = new AttachmentView(this, msg);
+			new HTTPThread(this, HTTPThread.FETCH_ATTACHMENTS).start();
 		}
 		disp.setCurrent(attachmentView);
 	}
