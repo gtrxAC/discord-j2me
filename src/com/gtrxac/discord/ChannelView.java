@@ -14,6 +14,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     private Command sendCommand;
     private Command replyCommand;
     private Command uploadCommand;
+    private Command replyUploadCommand;
     private Command copyCommand;
     private Command editCommand;
     private Command deleteCommand;
@@ -67,12 +68,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         sendCommand = Locale.createCommand(SEND_MESSAGE, Command.ITEM, 2);
         replyCommand = Locale.createCommand(REPLY, Command.ITEM, 3);
         uploadCommand = Locale.createCommand(UPLOAD_FILE, Command.ITEM, 4);
-        copyCommand = Locale.createCommand(COPY_CONTENT, Command.ITEM, 5);
-        editCommand = Locale.createCommand(EDIT, Command.ITEM, 6);
-        deleteCommand = Locale.createCommand(DELETE, Command.ITEM, 7);
-        openUrlCommand = Locale.createCommand(OPEN_URL, Command.ITEM, 8);
-        fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 9);
-        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 10);
+        replyUploadCommand = Locale.createCommand(REPLY_FILE, Command.ITEM, 5);
+        copyCommand = Locale.createCommand(COPY_CONTENT, Command.ITEM, 6);
+        editCommand = Locale.createCommand(EDIT, Command.ITEM, 7);
+        deleteCommand = Locale.createCommand(DELETE, Command.ITEM, 8);
+        openUrlCommand = Locale.createCommand(OPEN_URL, Command.ITEM, 9);
+        fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 10);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 11);
 
         fontHeight = s.messageFont.getHeight();
         authorFontHeight = s.authorFont.getHeight();
@@ -309,8 +311,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
         if (selectionMode && selected.shouldShowReplyOption()) {
             addCommand(replyCommand);
+            addCommand(replyUploadCommand);
         } else {
             removeCommand(replyCommand);
+            removeCommand(replyUploadCommand);
         }
     }
 
@@ -620,13 +624,35 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             if (y >= itemPos && y <= itemPos + itemHeight) {
                 selectionMode = true;
                 selectedItem = i;
-                // if (totalScroll < itemHeight/8) {
                 executeItemAction();
-                // }
                 break;
             }
         }
         repaint();
+    }
+
+    private void uploadFile(Message recipientMsg) {
+        try {
+            if (!s.isLiteProxy) {
+                s.error(Locale.get(UPLOAD_NOT_SUPPORTED));
+            }
+            else if (s.nativeFilePicker) {
+                if (System.getProperty("microedition.io.file.FileConnection.version") != null) {
+                    s.disp.setCurrent(new AttachmentPicker(s, recipientMsg));
+                } else {
+                    s.error(Locale.get(UPLOAD_ERROR_FILECONN));
+                }
+            }
+            else {
+                String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                String url = s.api + "/upload?channel=" + id + "&token=" + s.token;
+                if (recipientMsg != null) url += "&reply=" + recipientMsg.id;
+                s.platformRequest(url);
+            }
+        }
+        catch (Exception e) {
+            s.error(e);
+        }
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -646,31 +672,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         else if (c == selectCommand) {
             executeItemAction();
         }
-        else if (c == replyCommand) {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
-            s.disp.setCurrent(new ReplyForm(s, item.msg));
-        }
         else if (c == uploadCommand) {
-            try {
-                if (!s.isLiteProxy) {
-                    s.error(Locale.get(UPLOAD_NOT_SUPPORTED));
-                }
-                else if (s.nativeFilePicker) {
-                    if (System.getProperty("microedition.io.file.FileConnection.version") != null) {
-                        s.disp.setCurrent(new AttachmentPicker(s));
-                    } else {
-                        s.error(Locale.get(UPLOAD_ERROR_FILECONN));
-                    }
-                }
-                else {
-                    String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
-                    String url = s.api + "/upload?channel=" + id + "&token=" + s.token;
-                    s.platformRequest(url);
-                }
-            }
-            catch (Exception e) {
-                s.error(e);
-            }
+            uploadFile(null);
         }
         else if (c == fullScreenCommand) {
             fullscreen = !fullscreen;
@@ -679,7 +682,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         else {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
 
-            if (c == copyCommand) {
+            if (c == replyUploadCommand) {
+                uploadFile(item.msg);
+            }
+            else if (c == replyCommand) {
+                s.disp.setCurrent(new ReplyForm(s, item.msg));
+            }
+            else if (c == copyCommand) {
                 s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
             }
             else if (c == openUrlCommand) {

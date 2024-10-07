@@ -561,5 +561,12 @@
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?"
+    "Cannot connect to gateway. Do you want to retry?",
+
+    // Softkey labels for sending an attachment as a reply to the selected message.
+    "Reply upload",
+    "Reply with file",
+
+    // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
+    "Attached file"
 ]

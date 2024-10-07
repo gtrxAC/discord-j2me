@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class ReplyForm extends Form implements CommandListener, Strings {
-    State s;
+    private State s;
     Message msg;
 
     public TextField replyField;
@@ -12,17 +12,30 @@ public class ReplyForm extends Form implements CommandListener, Strings {
     private Command addMentionCommand;
     private Command backCommand;
 
+    private String attachName;
+    private String attachPath;
+
     public ReplyForm(State s, Message msg) {
+        this(s, msg, null, null);
+    }
+
+    public ReplyForm(State s, Message msg, String attachName, String attachPath) {
         super("");
         setTitle(MessageBox.getMessageBoxTitle(s));
         
         setCommandListener(this);
         this.s = s;
         this.msg = msg;
+        this.attachName = attachName;
+        this.attachPath = attachPath;
 
         StringItem refItem = new StringItem(Locale.get(REPLYING_TO) + msg.author.name, msg.content);
         refItem.setFont(s.messageFont);
         append(refItem);
+
+        StringItem fileItem = new StringItem(Locale.get(ATTACHED_FILE), attachName);
+        fileItem.setFont(s.messageFont);
+        append(fileItem);
 
         replyField = new TextField(Locale.get(REPLY_FORM_LABEL), "", 2000, 0);
         append(replyField);
@@ -50,7 +63,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             boolean[] selected = {true};
             if (!s.isDM) pingGroup.getSelectedFlags(selected);
             
-            MessageBox.sendMessage(s, replyField.getString(), msg.id, selected[0]);
+            MessageBox.sendMessage(s, replyField.getString(), msg.id, attachName, attachPath, selected[0]);
         }
         else if (c == backCommand) {
             s.disp.setCurrent(s.channelView);

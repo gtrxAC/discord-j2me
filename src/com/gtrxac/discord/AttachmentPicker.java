@@ -12,9 +12,12 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
     private Command closeCommand;
     private String currentPath; // Root directory
 
-    public AttachmentPicker(State s) {
+    private Message recipientMsg;
+
+    public AttachmentPicker(State s, Message recipientMsg) {
         super(Locale.get(ATTACHMENT_PICKER_TITLE), List.IMPLICIT);
         this.s = s;
+        this.recipientMsg = recipientMsg;
         setCommandListener(this);
 
         closeCommand = Locale.createCommand(CLOSE, Command.BACK, 2);
@@ -35,10 +38,11 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
                     currentPath = selectedPath;
                     listFiles();
                 } else { // File
-                    HTTPThread h = new HTTPThread(s, HTTPThread.SEND_ATTACHMENT);
-                    h.attachName = selected;
-                    h.attachPath = selectedPath;
-                    h.start();
+                    if (recipientMsg != null) {
+                        s.disp.setCurrent(new ReplyForm(s, recipientMsg, selected, selectedPath));
+                    } else {
+                        s.disp.setCurrent(new MessageBox(s, selected, selectedPath));
+                    }
                 }
             }
         }

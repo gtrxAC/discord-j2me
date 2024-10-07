@@ -3,6 +3,7 @@ const axios = require('axios');
 const FormData = require('form-data');
 const multer = require('multer')
 const path = require('path');
+const sanitizeHtml = require('sanitize-html');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -162,6 +163,19 @@ app.get(`/upload`, async (req, res) => {
     try {
         if (!req.query?.channel || !req.query?.token) {
             res.send(`<p>Token or destination channel not defined</p>`);
+            return;
+        }
+
+        const reply = req.query.reply;
+        let username, content;
+
+        if (reply) {
+            const messageData = await axios.get(
+                `${DEST_BASE}/channels/${req.query.channel}/messages?around=${reply}&limit=1`,
+                {headers: {Authorization: req.query.token}}
+            );
+            username = messageData.data[0].author.global_name ?? messageData.data[0].author.username ?? "(no name)";
+            content = messageData.data[0].content ?? "";
         }
 
         res.send(
@@ -174,14 +188,19 @@ app.get(`/upload`, async (req, res) => {
 </head>
 <body>
     <h1>Upload file</h1>
+    ${reply ? `<p>Replying to ${sanitizeHtml(username)}</p><p>${sanitizeHtml(content.slice(0, 50))}</p>` : ""}
     <form method="post" enctype="multipart/form-data" action="${BASE}/channels/${req.query.channel}/upload">
         <input type="hidden" name="token" value="${req.query.token}" />
+        ${reply ? `<input type="hidden" name="reply" value="${reply}" />` : ""}
 
         <label for="file">File:</label><br />
         <input type="file" name="files" id="files"></input><br />
 
         <label for="content">Text:</label><br />
         <textarea name="content" id="content"></textarea><br />
+
+        ${reply ? `<input type="checkbox" name="ping" id="ping" checked></input>` : ""}
+        ${reply ? `<label for="ping">Mention author</label><br />` : ""}
 
         <input type="submit" value="Upload" />
     </form>
@@ -386,7 +405,25 @@ app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), getToken, a
             form.append('files[0]', req.file.buffer, options);
             text = "File sent!"
         }
-        if (req.body) form.append('content', req.body.content);
+        if (req.body) {
+            const json = {
+                content: req.body.content
+            }
+            if (req.body.reply !== undefined) {
+                json.message_reference = {
+                    message_id: req.body.reply
+                }
+            }
+            if (Number(req.body.ping) != 1 && req.body.ping != "on") {
+                json.allowed_mentions = {
+                    replied_user: false
+                }
+            }
+            const options = {
+                header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: form-data; name="payload_json"\r\nContent-Type: application/json\r\n\r\n`
+            };
+            form.append('payload_json', JSON.stringify(json), options);
+        }
 
         await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,

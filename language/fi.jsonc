@@ -64,7 +64,7 @@
     "Vastaa",
 
     // Softkey labels for sending an attachment in the currently open channel.
-    "Upload",
+    "Lähetä tiedosto",
     "Lähetä tiedosto",
 
     // Softkey labels for copying the text content of the selected message.
@@ -548,7 +548,7 @@
     "Ilmoitustapa",
 
     // Options for the kinds of notification methods.
-    "Alert window",
+    "Ponnahdusikkuna",
     "Ääni",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
@@ -560,5 +560,12 @@
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Socket-palvelimeen ei saada yhteyttä. Haluatko yrittää uudelleen?"
+    "Socket-palvelimeen ei saada yhteyttä. Haluatko yrittää uudelleen?",
+
+    // Softkey labels for sending an attachment as a reply to the selected message.
+    "Vastaa tiedostolla",
+    "Vastaa tiedostolla",
+
+    // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
+    "Liite"
 ]

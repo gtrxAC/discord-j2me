@@ -35,7 +35,7 @@ public class HTTPThread extends Thread implements Strings {
     String fetchMsgsBefore;
     String fetchMsgsAfter;
 
-    // Parameters for SEND_MESSAGE
+    // Parameters for SEND_MESSAGE (and SEND_ATTACHMENT)
 	String sendMessage;
 	String sendReference;  // ID of the message the user is replying to
 	boolean sendPing;
@@ -371,7 +371,25 @@ public class HTTPThread extends Thread implements Strings {
                         os.write(LINE_FEED.getBytes());
 
                         os.write(createFormPart("content", null));
+                        if (sendMessage != null) {
+                            try {
+                                os.write(sendMessage.getBytes("UTF-8"));
+                            }
+                            catch (UnsupportedEncodingException e) {
+                                os.write(sendMessage.getBytes());
+                            }
+                        }
                         os.write(LINE_FEED.getBytes());
+
+                        if (sendReference != null) {
+                            os.write(createFormPart("reply", null));
+                            os.write(sendReference.getBytes());
+                            os.write(LINE_FEED.getBytes());
+
+                            os.write(createFormPart("ping", null));
+                            os.write(sendPing ? "1".getBytes() : "0".getBytes());
+                            os.write(LINE_FEED.getBytes());
+                        }
 
                         os.write(createFormPart("files", attachName));
 

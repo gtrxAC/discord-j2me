@@ -227,4 +227,7 @@ public interface Strings {
     static final int HIGH_RAM_MODE = 223;
     static final int LIST_EMPTY = 224;
     static final int AUTO_RECONNECT_FAILED = 225;
+    static final int REPLY_FILE = 226;
+    static final int REPLY_FILE_L = 227;
+    static final int ATTACHED_FILE = 228;
 }
