@@ -116,6 +116,9 @@ public class State implements Strings {
 		ic = null;
 		ic = new Icons(this);
 
+		guilds = null;
+		dmChannels = null;
+
 		loadTheme();
         loadFonts();
         http = new HTTPThing(this);
