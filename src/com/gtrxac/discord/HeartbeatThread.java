@@ -39,8 +39,7 @@ public class HeartbeatThread extends Thread implements Strings {
                     os.flush();
                     lastHeartbeat = now;
                 }
-
-                Thread.sleep(interval);
+                Util.sleep(interval);
             }
         }
         catch (Exception e) {

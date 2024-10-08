@@ -278,6 +278,9 @@ public class HTTPThread extends Thread implements Strings {
                     Vector attachments = s.attachmentView.msg.attachments;
                     int layout = Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
+                    // Fix for https://github.com/nikita36078/J2ME-Loader/pull/1046
+                    if (Util.isJ2MELoader) Util.sleep(100);
+
                     for (int i = 0; i < attachments.size(); i++) {
                         Attachment attach = (Attachment) attachments.elementAt(i);
 

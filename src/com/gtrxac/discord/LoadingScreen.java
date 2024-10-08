@@ -63,25 +63,19 @@ public class LoadingScreen extends Canvas implements Runnable, Strings {
     public void run() {
         // Wait for the load screen to show up
         while (s.disp.getCurrent() != this) {
-            try {
-                Thread.sleep(10);
-            }
-            catch (Exception e) {}
+            Util.sleep(10);
         }
 
         while (s.disp.getCurrent() == this) {
             repaint();
             serviceRepaints();
 
-            try {
-                // Sleep based on the frame number that was just drawn (first frame = 167 ms, last frame = 500 ms)
-                switch (curFrame - animDirection) {
-                    case 0: Thread.sleep(167); break;
-                    case 7: Thread.sleep(500); break;
-                    default: Thread.sleep(83); break;
-                }
+            // Sleep based on the frame number that was just drawn (first frame = 167 ms, last frame = 500 ms)
+            switch (curFrame - animDirection) {
+                case 0: Util.sleep(167); break;
+                case 7: Util.sleep(500); break;
+                default: Util.sleep(83); break;
             }
-            catch (Exception e) {}
         }
     }
 

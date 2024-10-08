@@ -14,10 +14,7 @@ public class StopTypingThread extends Thread {
     }
 
     public void run() {
-        try {
-            Thread.sleep(10000);
-        }
-        catch (Exception e) {}
+        Util.sleep(10000);
 
         for (int i = 0; i < s.typingUsers.size(); i++) {
             if (s.typingUserIDs.elementAt(i).equals(userID)) {

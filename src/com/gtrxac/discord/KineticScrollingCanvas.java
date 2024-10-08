@@ -65,10 +65,7 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
             checkScrollInRange();
             repaint();
 
-            try {
-                Thread.sleep(16);
-            }
-            catch (InterruptedException e) {}
+            Util.sleep(16);
         }
     }
 }

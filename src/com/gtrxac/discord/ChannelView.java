@@ -88,6 +88,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
         setFullScreenMode(s.fullscreenDefault);
         fullscreen = s.fullscreenDefault;
+
+        commands = new Vector();
     }
 
     protected void showNotify() {
@@ -274,47 +276,65 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         repaint();
     }
 
+    Vector commands;
+
+    private void _removeCommand(Command c) {
+        if (commands.contains(c)) {
+            commands.removeElement(c);
+            if (Util.isJ2MELoader) Util.sleep(20);
+            removeCommand(c);
+        }
+    }
+
+    private void _addCommand(Command c) {
+        if (!commands.contains(c)) {
+            commands.addElement(c);
+            if (Util.isJ2MELoader) Util.sleep(20);
+            addCommand(c);
+        }
+    }
+
     private void updateCommands(ChannelViewItem selected) {
         if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
             if (selected.type == ChannelViewItem.MESSAGE) {
-                removeCommand(selectCommand);
+                _removeCommand(selectCommand);
 
                 if (selected.msg.isStatus) {
-                    removeCommand(copyCommand);
+                    _removeCommand(copyCommand);
                 } else {
-                    addCommand(copyCommand);
+                    _addCommand(copyCommand);
                 }
 
                 if (Util.indexOfAny(selected.msg.content, URLList.urlStarts, 0) != -1) {
-                    addCommand(openUrlCommand);
+                    _addCommand(openUrlCommand);
                 } else {
-                    removeCommand(openUrlCommand);
+                    _removeCommand(openUrlCommand);
                 }
 
                 if (s.myUserId.equals(selected.msg.author.id) && !selected.msg.isStatus) {
-                    addCommand(editCommand);
-                    addCommand(deleteCommand);
+                    _addCommand(editCommand);
+                    _addCommand(deleteCommand);
                 } else {
-                    removeCommand(editCommand);
-                    removeCommand(deleteCommand);
+                    _removeCommand(editCommand);
+                    _removeCommand(deleteCommand);
                 }
             } else {
-                removeCommand(openUrlCommand);
-                removeCommand(copyCommand);
-                addCommand(selectCommand);
+                _removeCommand(openUrlCommand);
+                _removeCommand(copyCommand);
+                _addCommand(selectCommand);
             }
         } else {
-            removeCommand(openUrlCommand);
-            removeCommand(copyCommand);
-            removeCommand(selectCommand);
+            _removeCommand(openUrlCommand);
+            _removeCommand(copyCommand);
+            _removeCommand(selectCommand);
         }
 
         if (selectionMode && selected.shouldShowReplyOption()) {
-            addCommand(replyCommand);
-            addCommand(replyUploadCommand);
+            _addCommand(replyCommand);
+            _addCommand(replyUploadCommand);
         } else {
-            removeCommand(replyCommand);
-            removeCommand(replyUploadCommand);
+            _removeCommand(replyCommand);
+            _removeCommand(replyUploadCommand);
         }
     }
 

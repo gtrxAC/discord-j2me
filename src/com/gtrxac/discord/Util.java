@@ -291,6 +291,13 @@ public class Util {
 		return (str.length() >= length) ? str.substring(0, length - 3) + "..." : str;
 	}
 
+	public static void sleep(int ms) {
+		try {
+			Thread.sleep(ms);
+		}
+		catch (InterruptedException e) {}
+	}
+
 	public static boolean isBlackBerry;
 	public static boolean isJ2MELoader;
 	public static boolean isSymbian;
