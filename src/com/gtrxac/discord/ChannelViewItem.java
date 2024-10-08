@@ -8,7 +8,7 @@ public class ChannelViewItem implements Strings {
     static final int NEWER_BUTTON = 2;
     static final int ATTACHMENTS_BUTTON = 3;
 
-    State s;
+    private static State s;
     int type;  // one of the constants defined above
     Message msg;  // message data for MESSAGE and ATTACHMENTS_BUTTON types
 
@@ -18,6 +18,7 @@ public class ChannelViewItem implements Strings {
     boolean refImgHasPfp;  // cached ref image has profile picture loaded
     boolean refImgHasColor;  // cached ref image has name color loaded
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
+    long refImgLastDrawn;    // timestamp when ref image was last drawn, used for preventing too frequent redraws
 
     public ChannelViewItem(State s, int type) {
         this.s = s;
@@ -81,14 +82,9 @@ public class ChannelViewItem implements Strings {
         // Rendered ref image's selection status (= background color) has changed
         if (refImgSelected != selected) return true;
 
-        // Profile pic for recipient has just been loaded
-        int size = s.messageFont.getHeight();
-        if (!refImgHasPfp && s.iconCache.hasResized(msg.recipient, size)) return true;
-
-        // Name color for recipient has just been loaded
-        if (!refImgHasColor && s.nameColorCache.has(msg.recipient)) return true;
-
-        return false;
+        // Finally, check if profile pic or name color for recipient has not been shown/loaded yet
+        // In this case, also check if the last redraw was not too recent
+        return ((!refImgHasPfp || !refImgHasColor) && System.currentTimeMillis() > refImgLastDrawn + 250);
     }
 
     /**
@@ -136,6 +132,7 @@ public class ChannelViewItem implements Strings {
                             if (shouldRedrawRefMessage(selected)) {
                                 refImgHasPfp =
                                     !useIcons || s.pfpSize == State.PFP_SIZE_PLACEHOLDER ||
+                                    msg.recipient.getIconHash() == null ||
                                     s.iconCache.hasResized(msg.recipient, messageFontHeight);
 
                                 refImgHasColor = hasColor;
@@ -182,6 +179,7 @@ public class ChannelViewItem implements Strings {
 
                                 refImg = Util.resizeImageBilinear(refImgFull, width - refDrawX, messageFontHeight*3/4);
                                 refImgSelected = selected;
+                                refImgLastDrawn = System.currentTimeMillis();
                             }
 
                             // draw downscaled refmessage
