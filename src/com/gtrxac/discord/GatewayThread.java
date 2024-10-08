@@ -107,9 +107,23 @@ public class GatewayThread extends Thread implements Strings {
 
         String content = msg.content;
         if (content.length() > 50) {
-            content = content.substring(0, 50) + "...";
+            notif.append(content.substring(0, 47));
+            notif.append("...");
+        } else {
+            notif.append(content);
         }
-        notif.append(content).append('"');
+        if (msg.attachments != null) {
+            if (content.length() != 0) notif.append(" ");
+            notif.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
+            notif.append(msg.attachments.size());
+
+            if (msg.attachments.size() != 1) {
+                notif.append(Locale.get(NOTIFICATION_ATTACHMENTS_SUFFIX));
+            } else {
+                notif.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX));
+            }
+        }
+        notif.append('"');
 
         s.showAlert(Locale.get(NOTIFICATION_TITLE), notif.toString(), null);
     }

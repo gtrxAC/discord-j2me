@@ -40,8 +40,9 @@ public class Attachment implements Strings {
         int imageWidth = data.getInt("width");
         int imageHeight = data.getInt("height");
 
-        int screenWidth = s.channelSelector != null ? s.channelSelector.getWidth() : s.dmSelector.getWidth();
-        int screenHeight = s.channelSelector != null ? s.channelSelector.getHeight() : s.dmSelector.getHeight();
+        MainMenu menu = MainMenu.get(null);
+        int screenWidth = menu.getWidth();
+        int screenHeight = menu.getHeight();
 
         int[] size = Util.resizeFit(imageWidth, imageHeight, screenWidth, screenHeight);
 

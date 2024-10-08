@@ -230,4 +230,7 @@ public interface Strings {
     static final int REPLY_FILE = 226;
     static final int REPLY_FILE_L = 227;
     static final int ATTACHED_FILE = 228;
+    static final int NOTIFICATION_ATTACHMENT_PREFIX = 229;
+    static final int NOTIFICATION_ATTACHMENT_SUFFIX = 230;
+    static final int NOTIFICATION_ATTACHMENTS_SUFFIX = 231;
 }
