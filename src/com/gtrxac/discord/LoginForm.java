@@ -22,7 +22,7 @@ public class LoginForm extends Form implements CommandListener, Strings {
 
         LoginSettings.load(s);
 
-        if (Util.isBlackBerry()) {
+        if (Util.isBlackBerry) {
             String[] wifiChoices = {Locale.get(USE_WIFI)};
             wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, null);
             wifiGroup.setSelectedIndex(0, s.bbWifi);
@@ -80,7 +80,7 @@ public class LoginForm extends Form implements CommandListener, Strings {
             gatewayGroup.getSelectedFlags(selected);
             s.useGateway = selected[0];
 
-            if (Util.isBlackBerry()) {
+            if (Util.isBlackBerry) {
                 wifiGroup.getSelectedFlags(selected);
                 s.bbWifi = selected[0];
             }

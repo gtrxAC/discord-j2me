@@ -105,15 +105,10 @@ public class GatewayThread extends Thread implements Strings {
             notif.append(": \"");
         }
 
-        String content = msg.content;
-        if (content.length() > 50) {
-            notif.append(content.substring(0, 47));
-            notif.append("...");
-        } else {
-            notif.append(content);
-        }
+        notif.append(Util.stringToLength(msg.content, 50));
+
         if (msg.attachments != null) {
-            if (content.length() != 0) notif.append(" ");
+            if (msg.content.length() != 0) notif.append(" ");
             notif.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
             notif.append(msg.attachments.size());
 

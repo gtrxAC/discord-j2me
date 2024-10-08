@@ -204,7 +204,7 @@ public class State implements Strings {
 	// Required for Wi-Fi support on BlackBerry
 	// See https://github.com/shinovon/JTube/blob/670ea59a94d6b5be8af53d94d7804b2d35b64e52/src/jtube/Util.java#L521
 	public String getPlatformSpecificUrl(String url) {
-		if (Util.isBlackBerry() && bbWifi) {
+		if (Util.isBlackBerry && bbWifi) {
 			return url + ";deviceside=true;interface=wifi";
 		}
 		return url;

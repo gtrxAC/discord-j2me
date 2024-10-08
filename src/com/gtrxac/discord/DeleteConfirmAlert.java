@@ -11,9 +11,7 @@ public class DeleteConfirmAlert extends Alert implements CommandListener, String
     public DeleteConfirmAlert(State s, Message msg) {
         super(Locale.get(DELETE_CONFIRM_TITLE));
 
-        String content = (msg.content.length() >= 30) ?
-            msg.content.substring(0, 27) + "..." :
-            msg.content;
+        String content = Util.stringToLength(msg.content, 30);
 
         setString(Locale.get(DELETE_CONFIRM_TEXT) + " \r\n\"" + content + '"');
 

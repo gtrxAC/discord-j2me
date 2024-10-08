@@ -61,7 +61,7 @@ public class LoginSettings {
                 s.showNotifsAll = getBoolRecord(false);
                 s.showNotifsPings = getBoolRecord(true);
                 s.showNotifsDMs = getBoolRecord(true);
-                s.highRamMode = getBoolRecord(Util.isSymbian() || Util.isJ2MELoader());
+                s.highRamMode = getBoolRecord(Util.isSymbian || Util.isJ2MELoader);
                 s.showNotifAlert = getBoolRecord(true);
                 s.playNotifSound = getBoolRecord(true);
 

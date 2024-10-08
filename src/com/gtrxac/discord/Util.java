@@ -287,10 +287,26 @@ public class Util {
 		keys.addElement(key);
 	}
 
-	private static String platform;
+	public static String stringToLength(String str, int length) {
+		return (str.length() >= length) ? str.substring(0, length - 3) + "..." : str;
+	}
+
+	public static boolean isBlackBerry;
+	public static boolean isJ2MELoader;
+	public static boolean isSymbian;
+
 	static {
-		platform = System.getProperty("microedition.platform");
+		String platform = System.getProperty("microedition.platform");
 		if (platform == null) platform = "";
+
+		isJ2MELoader = checkClass("javax.microedition.shell.MicroActivity");
+		isBlackBerry = platform.toLowerCase().startsWith("blackberry");
+
+		isSymbian = platform.indexOf("platform=S60") != -1 ||
+				System.getProperty("com.symbian.midp.serversocket.support") != null ||
+				System.getProperty("com.symbian.default.to.suite.icon") != null ||
+				checkClass("com.symbian.midp.io.protocol.http.Protocol") ||
+				checkClass("com.symbian.lcdjava.io.File");
 	}
 	
 	// https://github.com/shinovon/JTube/blob/master/src/jtube/PlatformUtils.java
@@ -302,21 +318,5 @@ public class Util {
 		catch (Exception e) {}
 
 		return false;
-	}
-
-	public static boolean isJ2MELoader() {
-		return checkClass("javax.microedition.shell.MicroActivity");
-	}
-	
-	public static boolean isBlackBerry() {
-		return platform.toLowerCase().startsWith("blackberry");
-	}
-
-	public static boolean isSymbian() {
-		return platform.indexOf("platform=S60") != -1 ||
-				System.getProperty("com.symbian.midp.serversocket.support") != null ||
-				System.getProperty("com.symbian.default.to.suite.icon") != null ||
-				checkClass("com.symbian.midp.io.protocol.http.Protocol") ||
-				checkClass("com.symbian.lcdjava.io.File");
 	}
 }
