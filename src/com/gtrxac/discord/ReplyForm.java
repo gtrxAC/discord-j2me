@@ -33,9 +33,11 @@ public class ReplyForm extends Form implements CommandListener, Strings {
         refItem.setFont(s.messageFont);
         append(refItem);
 
-        StringItem fileItem = new StringItem(Locale.get(ATTACHED_FILE), attachName);
-        fileItem.setFont(s.messageFont);
-        append(fileItem);
+        if (attachName != null) {
+            StringItem fileItem = new StringItem(Locale.get(ATTACHED_FILE), attachName);
+            fileItem.setFont(s.messageFont);
+            append(fileItem);
+        }
 
         replyField = new TextField(Locale.get(REPLY_FORM_LABEL), "", 2000, 0);
         append(replyField);
