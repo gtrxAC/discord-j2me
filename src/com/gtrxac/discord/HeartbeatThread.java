@@ -5,17 +5,15 @@ import cc.nnproject.json.*;
 import java.util.*;
 
 public class HeartbeatThread extends Thread implements Strings {
-    State s;
-    private OutputStream os;
+    private GatewayThread gateway;
 
     int lastReceived;
     private long lastHeartbeat;
     private int interval;
     volatile boolean stop;
 
-    public HeartbeatThread(State s, OutputStream os, int interval) {
-        this.s = s;
-        this.os = os;
+    public HeartbeatThread(GatewayThread gateway, int interval) {
+        this.gateway = gateway;
         this.interval = interval - 3000;  // Discord already more or less accounts for network latency but this is 2G we're talking about
         this.lastReceived = -1;
     }
@@ -35,16 +33,15 @@ public class HeartbeatThread extends Thread implements Strings {
                         hbMsg.put("d", JSON.json_null);
                     }
 
-                    os.write((hbMsg.build() + "\n").getBytes());
-                    os.flush();
+                    gateway.send(hbMsg);
                     lastHeartbeat = now;
                 }
                 Util.sleep(interval);
             }
         }
         catch (Exception e) {
-            s.gateway.stopMessage = Locale.get(HEARTBEAT_THREAD_ERROR) + e.toString();
-            s.gateway.stop = true;
+            gateway.stopMessage = Locale.get(HEARTBEAT_THREAD_ERROR) + e.toString();
+            gateway.stop = true;
         }
     }
 }

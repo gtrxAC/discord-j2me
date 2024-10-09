@@ -21,7 +21,7 @@ public class ChannelViewItem implements Strings {
     long refImgLastDrawn;    // timestamp when ref image was last drawn, used for preventing too frequent redraws
 
     public ChannelViewItem(State s, int type) {
-        this.s = s;
+        ChannelViewItem.s = s;
         this.type = type;
     }
 

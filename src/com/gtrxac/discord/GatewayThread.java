@@ -126,7 +126,12 @@ public class GatewayThread extends Thread implements Strings {
     public void run() {
         try {
             sc = (SocketConnection) Connector.open(s.getPlatformSpecificUrl(s.gatewayUrl));
-            sc.setSocketOption(SocketConnection.KEEPALIVE, 1);
+
+            // Not supported on JBlend (e.g. some Samsungs)
+            try {
+                sc.setSocketOption(SocketConnection.KEEPALIVE, 1);
+            }
+            catch (Exception e) {}
 
             is = sc.openInputStream();
             os = sc.openOutputStream();
@@ -433,7 +438,7 @@ public class GatewayThread extends Thread implements Strings {
                 }
                 else if (message.getInt("op", 0) == 10) {
                     int heartbeatInterval = message.getObject("d").getInt("heartbeat_interval");
-                    hbThread = new HeartbeatThread(s, os, heartbeatInterval);
+                    hbThread = new HeartbeatThread(this, heartbeatInterval);
                     hbThread.start();
 
                     // Identify
