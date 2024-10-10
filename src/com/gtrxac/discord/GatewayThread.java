@@ -29,12 +29,9 @@ public class GatewayThread extends Thread implements Strings {
 
     private void disconnect() {
         if (hbThread != null) hbThread.stop = true;
-        try {
-            if (is != null) is.close();
-            if (os != null) os.close();
-            if (sc != null) sc.close();
-        }
-        catch (Exception ee) {}
+        try { is.close(); } catch (Exception e) {}
+        try { os.close(); } catch (Exception e) {}
+        try { sc.close(); } catch (Exception e) {}
     }
 
     public void disconnected(String message) {

@@ -64,7 +64,7 @@ public class HTTPThing implements Strings {
                 throw new Exception(Locale.get(HTTP_ERROR_CODE) + respCode);
             }
         } finally {
-            if (is != null) is.close();
+            try { is.close(); } catch (Exception e) {}
         }
     }
 
@@ -93,8 +93,8 @@ public class HTTPThing implements Strings {
 
             return sendRequest(c);
         } finally {
-            if (os != null) os.close();
-            if (c != null) c.close();
+            try { os.close(); } catch (Exception e) {}
+            try { c.close(); } catch (Exception e) {}
         }
     }
 
@@ -117,7 +117,7 @@ public class HTTPThing implements Strings {
             c.setRequestMethod(HttpConnection.GET);
             return sendRequest(c);
         } finally {
-            if (c != null) c.close();
+            try { c.close(); } catch (Exception e) {}
         }
     }
 
@@ -153,14 +153,8 @@ public class HTTPThing implements Strings {
 			in = hc.openInputStream();
 			return readBytes(in, (int) hc.getLength(), 1024, 2048);
 		} finally {
-			try {
-				if (in != null) in.close();
-			} catch (IOException e) {
-			}
-			try {
-				if (hc != null) hc.close();
-			} catch (IOException e) {
-			}
+            try { in.close(); } catch (Exception e) {}
+            try { hc.close(); } catch (Exception e) {}
 		}
 	}
 
