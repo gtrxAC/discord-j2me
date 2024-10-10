@@ -491,7 +491,6 @@
     "取消",
 
     // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
-    "The app must be closed before the URL can be opened.",
     "在打開網址前，此應用程式必須被關閉。",
 
     // Prefix of error message shown when an error occurs when trying to open an URL.
@@ -508,71 +507,71 @@
     "加入",
 
     // Title for language selection screen.
-    "Language",
+    "語言",
 
     // Settings section for language options.
-    "Language",
+    "語言",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "語言",
+    "選擇語言",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "全螢幕",
+    "開/關全螢幕",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "開/關全螢幕",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "全螢幕模式",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "為以下訊息顯示通知：",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "全部訊息",
+    "被標記訊息",
+    "私人訊息",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " 向你傳送了一條訊息: \"",
+    " 傳送了一條訊息在 ",
 
     // Title for notification alert windows
-    "New message",
+    "新訊息",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "用以下方式通知新訊息",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "警告窗",
+    "聲音",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "保留頻道內容",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "此地無銀三百兩",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "無法連接至閘道器。是否重新連接？",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "上傳及回覆",
+    "以附件回覆",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "附件",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
-    "(",
-    " attachment)",
-    " attachments)"
+    "（",
+    "個附件",
+    "個附件"
 ]
