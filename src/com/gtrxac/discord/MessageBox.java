@@ -4,6 +4,7 @@ import javax.microedition.lcdui.*;
 
 public class MessageBox extends TextBox implements CommandListener, Strings {
     private State s;
+    private Displayable lastScreen;
     private Command sendCommand;
     private Command addMentionCommand;
     private Command backCommand;
@@ -21,6 +22,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         
         setCommandListener(this);
         this.s = s;
+        this.lastScreen = s.disp.getCurrent();
         this.attachName = attachName;
         this.attachPath = attachPath;
 
@@ -68,7 +70,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
             sendMessage(s, getString(), null, attachName, attachPath, false);
         }
         else if (c == backCommand) {
-            s.disp.setCurrent(s.channelView);
+            s.disp.setCurrent(lastScreen);
         }
         else if (c == addMentionCommand) {
             if (!s.gatewayActive()) {

@@ -4,6 +4,7 @@ import javax.microedition.lcdui.*;
 
 public class ReplyForm extends Form implements CommandListener, Strings {
     private State s;
+    private Displayable lastScreen;
     Message msg;
 
     public TextField replyField;
@@ -25,6 +26,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
         
         setCommandListener(this);
         this.s = s;
+        this.lastScreen = s.disp.getCurrent();
         this.msg = msg;
         this.attachName = attachName;
         this.attachPath = attachPath;
@@ -68,7 +70,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             MessageBox.sendMessage(s, replyField.getString(), msg.id, attachName, attachPath, selected[0]);
         }
         else if (c == backCommand) {
-            s.disp.setCurrent(s.channelView);
+            s.disp.setCurrent(lastScreen);
         }
         else if (c == addMentionCommand) {
             if (!s.gatewayActive()) {

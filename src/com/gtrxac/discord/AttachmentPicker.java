@@ -10,20 +10,25 @@ import java.io.*;
 public class AttachmentPicker extends ListScreen implements CommandListener, Strings {
     private State s;
     private Command closeCommand;
-    private String currentPath; // Root directory
-
+    private String currentPath;
+    private Displayable lastScreen;
     private Message recipientMsg;
 
     public AttachmentPicker(State s, Message recipientMsg) {
+        this(s, recipientMsg, "file:///");
+    }
+
+    private AttachmentPicker(State s, Message recipientMsg, String currentPath) {
         super(Locale.get(ATTACHMENT_PICKER_TITLE), List.IMPLICIT);
         this.s = s;
         this.recipientMsg = recipientMsg;
+        this.lastScreen = s.disp.getCurrent();
         setCommandListener(this);
 
         closeCommand = Locale.createCommand(CLOSE, Command.BACK, 2);
         addCommand(closeCommand);
 
-        currentPath = "file:///";
+        this.currentPath = currentPath;
         listFiles();
     }
 
@@ -35,8 +40,7 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
                 String selectedPath = currentPath + selected;
 
                 if (selected.endsWith("/")) { // Directory
-                    currentPath = selectedPath;
-                    listFiles();
+                    s.disp.setCurrent(new AttachmentPicker(s, recipientMsg, selectedPath));
                 } else { // File
                     if (recipientMsg != null) {
                         s.disp.setCurrent(new ReplyForm(s, recipientMsg, selected, selectedPath));
@@ -50,8 +54,7 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
             if (!currentPath.equals("file:///")) {
                 int lastSlashIndex = currentPath.lastIndexOf('/', currentPath.length() - 2);
                 if (lastSlashIndex != -1) {
-                    currentPath = currentPath.substring(0, lastSlashIndex + 1);
-                    listFiles();
+                    s.disp.setCurrent(lastScreen);
                 }
             } else {
                 s.openChannelView(false);
@@ -75,7 +78,6 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
     }
 
     private void listFiles() {
-        deleteAll();
         try {
             if (currentPath.equals("file:///")) {
                 Enumeration roots = FileSystemRegistry.listRoots();
