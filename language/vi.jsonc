@@ -292,7 +292,7 @@
     // Token sending options.
     "Header (mặc định)",
     null,
-    "Query parameter",
+    "Tham số truy vấn",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
     "Hãy nhập mã truy cập",
@@ -507,71 +507,71 @@
     "Thêm vào",
 
     // Title for language selection screen.
-    "Language",
+    "Đổi ngôn ngữ",
 
     // Settings section for language options.
-    "Language",
+    "Ngôn ngữ",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "Ngôn ngữ",
+    "Đổi ngôn ngữ",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "Toàn m.hình",
+    "Bật/tắt toàn m.hình",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "bật/tắt toàn m.hình",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "Toàn màn hình",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "Hiển thị thông báo cho",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "Tất cả t.nhắn",
+    "Ping",
+    "T.nhắn trực tiếp",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " đã gửi một t.nhắn trực tiếp: \"",
+    " đã gửi một t.nhắn trong ",
 
     // Title for notification alert windows
-    "New message",
+    "T.nhắn mới",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "Thông báo bằng cách",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "Cửa sổ t.báo",
+    "Âm thanh",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "Tải các kênh trong nền",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "Không có gì ở đây",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "Không thể kết nối với cổng. Bạn có muốn thử lại không?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "Trả lời tệp",
+    "Trả lời đính kèm tệp",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "Tệp đính kèm",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)"
+    " tệp đính kèm)",
+    " tệp đính kèm)"
 ]
