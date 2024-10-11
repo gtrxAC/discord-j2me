@@ -367,7 +367,7 @@
     "Requiere una conexion al gateway activa",
 
     // Title text for "copy message content" screen.
-    "Copar mensaje",
+    "Copiar mensaje",
 
     // Title text for "edit message content" screen.
     "Editar mensaje",
@@ -507,71 +507,71 @@
     "Insertar",
 
     // Title for language selection screen.
-    "Language",
+    "Idiomas",
 
     // Settings section for language options.
-    "Language",
+    "Idiomas",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "Idiomas",
+    "Seleccionar idioma",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "Pantalla completa",
+    "Cambiar pantalla completa",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "Cambiar pantalla completa",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "Modo pantalla completa",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "Mostrar notificaciones para",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "Todos los mensajes",
+    "Menciones",
+    "Mensajes directos",
 
     // Text shown in notification alert windows. This is in the form of:
-    // User sent you a direct message: "message content"
-    // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    // User sent you a direct message: "contenido del mensaje"
+    // User sent a message in Server Name #channel: "contenido del mensaje"
+    " te envío un mensaje directo: \"",
+    " envío un mensaje en ",
 
     // Title for notification alert windows
-    "New message",
+    "Nuevo mensaje",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "Notificarme con:",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "Ventanas de alerta",
+    "Sonido",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "Mantener canales cargados",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "Vacío",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "No se pudo conectar al gateway. ¿Desea reintentar?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "Responder subida",
+    "Responder con archivo",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "Archivo adjuntado",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)"
+    " archivo)",
+    " archivos)"
 ]
