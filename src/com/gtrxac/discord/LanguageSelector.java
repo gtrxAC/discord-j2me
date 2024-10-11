@@ -8,7 +8,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
     private Displayable lastScreen;
 
     private static String[] langIds = {
-        "en", "en-US", "es", "fi", "id", "it", "pl", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW"
+        "en", "en-US", "es", "fi", "id", "it", "pl", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW", "yue"
     };
 
     private static String[] langNames = {
