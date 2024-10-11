@@ -507,71 +507,71 @@
     "Dodaj",
 
     // Title for language selection screen.
-    "Language",
+    "Język",
 
     // Settings section for language options.
-    "Language",
+    "Język",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "Język",
+    "Ustaw język",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "Pełny ekran",
+    "Przeł. pełny ekr.",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "przeł. pełnego ekranu",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "Tryb pełnoekranowy",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "Pokaż powiadomienia dla",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "Wszystkie wiadomości",
+    "Wzmianki",
+    "Wiadomość prywatna",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " wysłał/a ci wiadomość prywatną: \"",
+    " wysłal/a wiadomość na ",
 
     // Title for notification alert windows
-    "New message",
+    "Nowa wiadomość",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "Powiadom mnie przez:",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "Okno powiadomienia",
+    "Dźwięk",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "Zachowaj kanały załadowane",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "Nic do zobaczenia tutaj",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "Nie można się połączyć z bramą. Czy chcesz spróbować ponownie?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "Odpowiedz na plik",
+    "Odpowiedz plikiem",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "Załączony plik",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)"
+    " załącznik)",
+    " załączniki/ów)"
 ]

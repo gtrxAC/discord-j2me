@@ -8,7 +8,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
     private Displayable lastScreen;
 
     private static String[] langIds = {
-        "en", "en-US", "es", "fi", "id", "it", "pl", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW"
+        "en", "en-US", "es", "fi", "id", "it", "pl", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW", "yue"
     };
 
     private static String[] langNames = {
@@ -27,7 +27,8 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         "Türkçe",       // tr (Turkish)
         "Українська",   // uk (Ukrainian)
         "Tiếng Việt",    // vi (Vietnamese)
-        "繁體中文"  // zh_TW
+        "繁體中文", // zh_TW (Mandarin - Taiwan)
+        "廣東話" // yue (Cantonese)
     };
 
     public LanguageSelector(State s) {
@@ -40,7 +41,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
             s.ic.flagGB, s.ic.flagUS, s.ic.flagES, s.ic.flagFI, s.ic.flagID,
             s.ic.flagIT, s.ic.flagPL, s.ic.flagBR, s.ic.flagRO,
             s.ic.flagRU, s.ic.flagSV, s.ic.flagTH, s.ic.flagTR,
-            s.ic.flagUK, s.ic.flagVI, null
+            s.ic.flagUK, s.ic.flagVI, null, null
         };
 
         for (int i = 0; i < langIds.length; i++) {
