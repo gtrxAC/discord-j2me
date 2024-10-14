@@ -560,7 +560,7 @@
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot ไม่สามารถเชื่อมต่อกับ gateway ได้ ต้องการลองอีกครั้งหรือไม่?",
+    "ไม่สามารถเชื่อมต่อกับ gateway ได้ ต้องการลองอีกครั้งหรือไม่?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
     "อัพโหลดการตอบกลับ",
