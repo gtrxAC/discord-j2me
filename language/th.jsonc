@@ -123,9 +123,9 @@
     ", ",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
-    "พร็อกซี่นีีี้ไม่รองรับการอัพโหลดไฟล์",
-    "พร็อกซี่นีีี้ไม่รองรับการลบข้อความ",
-    "พร็อกซี่นีีี้ไม่รองรับการแก้ไขข้อความ",
+    "พร็อกซี่นี้ไม่รองรับการอัพโหลดไฟล์",
+    "พร็อกซี่นี้ไม่รองรับการลบข้อความ",
+    "พร็อกซี่นี้ไม่รองรับการแก้ไขข้อความ",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
     "อุปกรณ์นี้ไม่รองรับ API FileConnection สำหรับการเลือกไฟล์",
@@ -376,7 +376,7 @@
     "การเชื่อมต่อถูกตัด",
 
     // Main body text for gateway disconnect prompt screen.
-    "Gateway error. Do you want to reconnect?",
+    "การเชื่อมต่อ gateway มีปัญหา ต้องการเชื่อมต่ออีกครั้งหรือไม่?",
 
     // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
     "ข้อความ",
@@ -507,71 +507,71 @@
     "ใส่",
 
     // Title for language selection screen.
-    "Language",
+    "ภาษา",
 
     // Settings section for language options.
-    "Language",
+    "ภาษา",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "ภาษา",
+    "เลือกภาษา",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "โหมดเต็มจอ",
+    "เปิด/ปิดโหมดเต็มจอ",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "เปิด/ปิดโหมดเต็มจอ",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "โหมดเต็มจอ",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "แสดงการแจ้งเตือนสำหรับ",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "ทุกข้อความ",
+    "การกล่าวถึง",
+    "ข้อความส่วนตัว",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " ส่งข้อความส่วนตัวมา: \"",
+    " ส่งข้อความใน ",
 
     // Title for notification alert windows
-    "New message",
+    "ข้อความใหม่",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "แจ้งเตือนด้วย:",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "หน้าต่างเตือน",
+    "เสียง",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "โหลดช่องค้างไว้",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "ไม่มีอะไรอยู่ในนี้",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "ไม่สามารถเชื่อมต่อกับ gateway ได้ ต้องการลองอีกครั้งหรือไม่?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "อัพโหลดการตอบกลับ",
+    "ตอบกลับพร้อมไฟล์",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "ไฟล์ที่แนบ",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)"
+    " ไฟล์แนบ)",
+    " ไฟล์แนบ)"
 ]
