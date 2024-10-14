@@ -4,6 +4,7 @@ const FormData = require('form-data');
 const multer = require('multer')
 const path = require('path');
 const sanitizeHtml = require('sanitize-html');
+const crypto = require('crypto').webcrypto;
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -22,6 +23,8 @@ const PORT = 8080;
 const BASE = "/api/v9";
 const BASE_L = "/api/l";
 const DEST_BASE = "https://discord.com/api/v9";
+
+const uploadTokens = new Map();
 
 // ID -> username mapping cache (used for parsing mentions)
 const userCache = new Map();
@@ -66,6 +69,16 @@ function getToken(req, res, next) {
         delete req.body.token;
     }
 
+    if (token.startsWith("j2me-") && uploadTokens.has(token)) {
+        const uploadToken = uploadTokens.get(token);
+        if (new Date() < uploadToken.expires) {
+            res.locals.uploadToken = token;
+            token = uploadToken.token;
+        } else {
+            token = undefined;
+        }
+    }
+
     res.locals.headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0",
         "Accept": "*/*",
@@ -104,6 +117,16 @@ function parseMessageContent(content) {
 
 function generateLiteIDHash(id) {
     return (BigInt(id)%100000n).toString(36);
+}
+
+function generateUploadToken(token) {
+    const randArr = new Uint8Array(16);
+    crypto.getRandomValues(randArr);
+    const result = "j2me-" + new Array(...randArr).map(n => n.toString(16)).join('');
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+    uploadTokens.set(result, {token, expires});
+    return result;
 }
 
 // Get servers
@@ -432,7 +455,7 @@ app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), getToken, a
         )
 
         res.send(
-            `<p>${text}</p><a href="/upload?channel=${req.params.channel}&token=${res.locals.headers.Authorization}">Send another</a>`
+            `<p>${text}</p><a href="/upload?channel=${req.params.channel}&token=${res.locals.uploadToken ?? res.locals.headers.Authorization}">Send another</a>`
         );
     }
     catch (e) { handleError(res, e); }
@@ -460,6 +483,7 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
         );
         res.send(JSON.stringify({
             id: response.data.id,
+            _uploadtoken: generateUploadToken(res.locals.headers.Authorization),
             _liteproxy: true
         }));
     }

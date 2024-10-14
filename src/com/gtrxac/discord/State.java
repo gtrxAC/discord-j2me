@@ -63,6 +63,7 @@ public class State implements Strings {
 	String gatewayUrl;
 	String cdn;
 	String token;
+	String uploadToken;
 
 	String myUserId;
 	boolean isLiteProxy;

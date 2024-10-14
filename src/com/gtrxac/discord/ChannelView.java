@@ -665,7 +665,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
             else {
                 String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
-                String url = s.api + "/upload?channel=" + id + "&token=" + s.token;
+                String url = s.api + "/upload?channel=" + id + "&token=" + s.uploadToken;
                 if (recipientMsg != null) url += "&reply=" + recipientMsg.id;
                 s.platformRequest(url);
             }

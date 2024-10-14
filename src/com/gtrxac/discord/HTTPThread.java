@@ -79,8 +79,8 @@ public class HTTPThread extends Thread implements Strings {
 
     private boolean shouldShowLoadScreen() {
         return !s.dontShowLoadScreen
-            && action != FETCH_ATTACHMENTS
             && action != FETCH_ICON
+            && action != FETCH_ATTACHMENTS
             && action != SEND_MESSAGE
             && action != EDIT_MESSAGE
             && action != DELETE_MESSAGE;
@@ -98,10 +98,12 @@ public class HTTPThread extends Thread implements Strings {
                 JSONObject resp = JSON.getObject(s.http.get("/users/@me"));
                 s.myUserId = resp.getString("id", "");
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
+                s.uploadToken = resp.getString("_uploadtoken", s.token);
             }
             catch (Exception e) {
                 s.error(e);
                 s.myUserId = "";
+                s.uploadToken = s.token;
             }
         }
         
