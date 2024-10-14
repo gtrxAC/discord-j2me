@@ -69,7 +69,7 @@ function getToken(req, res, next) {
         delete req.body.token;
     }
 
-    if (token.startsWith("j2me-") && uploadTokens.has(token)) {
+    if (req.route.path == `${BASE}/channels/:channel/upload` && token.startsWith("j2me-") && uploadTokens.has(token)) {
         const uploadToken = uploadTokens.get(token);
         if (new Date() < uploadToken.expires) {
             res.locals.uploadToken = token;
