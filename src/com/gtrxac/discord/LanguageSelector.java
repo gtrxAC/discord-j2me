@@ -41,7 +41,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
             s.ic.flagGB, s.ic.flagUS, s.ic.flagES, s.ic.flagFI, s.ic.flagID,
             s.ic.flagIT, s.ic.flagPL, s.ic.flagBR, s.ic.flagRO,
             s.ic.flagRU, s.ic.flagSV, s.ic.flagTH, s.ic.flagTR,
-            s.ic.flagUK, s.ic.flagVI, null, null
+            s.ic.flagUK, s.ic.flagVI, s.ic.flagTW, null
         };
 
         for (int i = 0; i < langIds.length; i++) {

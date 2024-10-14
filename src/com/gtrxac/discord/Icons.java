@@ -70,6 +70,7 @@ public class Icons {
     Image notifySound;
     Image fullscreen;
     Image keepChLoaded;
+    Image flagTW;
 
     Image sheet;
     int size;
@@ -176,6 +177,7 @@ public class Icons {
         notifySound = next();
         fullscreen = next();
         keepChLoaded = next();
+        flagTW = next();
 
         sheet = null;
     }
