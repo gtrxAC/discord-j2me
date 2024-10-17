@@ -49,7 +49,7 @@
 
     // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
     "Oznacz wszystko jako przeczytane",
-    "Oznacz wszystko jako przyeczytane",
+    "Oznacz wszystko jako przeczytane",
 
     // Generic "Select" softkey labels.
     "Wybierz",
@@ -105,7 +105,7 @@
     "Usuwanie wiadomości",
 
     // Channel view banner shown when messages are being loaded, e.g. during a refresh or after a message was sent by the client.
-    "Wyczytywanie wiadomości",
+    "Wczytywanie wiadomości",
 
     // Suffix for channel view banner text when one person is typing.
     // Example: "aa is typing",
@@ -141,13 +141,13 @@
     // Examples: "View 2 attachments",
     "Zobacz ",
     " załącznik",
-    " załączniki",
+    " załączniki/ów",
 
     // Title for confirmation screen shown when deleting a message.
     "Usuń",
 
     // Body text for confirmation screen shown when deleting a message.
-    "Usunąć tą wiadomość?",
+    "Usunąć tę wiadomość?",
 
     // Generic softkey labels.
     "Tak",
@@ -247,10 +247,10 @@
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
     // "going back" only applies to the chat view, 
-    "wysyłanie wiadomości",
-    "odpowiadanie na wiadomość",
-    "kopiowanie zawartości wiadomości",
-    "odświeżanie wiadomości",
+    "wysył. wiadomości",
+    "odp. na wiadomość",
+    "kop. zaw. wiadomości",
+    "odśw. wiadomości",
     "powrót",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
@@ -330,15 +330,15 @@
     " z grupy",
 
     // Status messages.
-    "rozpoczął/ęła rozmowę",
+    "rozpoczął/eła rozmowę",
     "zmienił/a nazwę grupy",
     "zmienił/a ikonę grupy",
-    "przypiął/eła wiadomość",
-    "dołączył/yła do serwera",
-    "ulepszył/yła serwer",
+    "przypiął/ęła wiadomość",
+    "dołączył/a do serwera",
+    "ulepszył/a serwer",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "ulepszył/yła serwer do poziomu ",
+    "ulepszył/a serwer do poziomu ",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)",
@@ -533,7 +533,7 @@
     // Options for the kinds of messages that notifications should be shown for.
     "Wszystkie wiadomości",
     "Wzmianki",
-    "Wiadomość prywatna",
+    "Wiadomości prywatne",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
@@ -556,7 +556,7 @@
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nic do zobaczenia tutaj",
+    "Nic do zobaczenia",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
