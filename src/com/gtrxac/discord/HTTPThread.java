@@ -54,6 +54,8 @@ public class HTTPThread extends Thread implements Strings {
     Message editMessage;
     String editContent;
 
+    private boolean showLoad;
+
     public HTTPThread(State s, int action) {
         this.s = s;
         this.action = action;
@@ -86,8 +88,15 @@ public class HTTPThread extends Thread implements Strings {
             && action != DELETE_MESSAGE;
     }
 
+    private void setBannerText(String newText) {
+        if (!showLoad && s.channelView != null) {
+            s.channelView.bannerText = newText;
+            s.channelView.repaint();
+        }
+    }
+
     public void run() {
-        boolean showLoad = shouldShowLoadScreen();
+        showLoad = shouldShowLoadScreen();
         s.dontShowLoadScreen = false;
 
         Displayable prevScreen = s.disp.getCurrent();
@@ -220,10 +229,7 @@ public class HTTPThread extends Thread implements Strings {
 
                     // If gateway enabled, don't need to fetch new messages
                     if (s.gatewayActive()) {
-                        if (!showLoad && s.channelView != null) {
-                            s.channelView.bannerText = null;
-                            s.channelView.repaint();
-                        }
+                        setBannerText(null);
                         break;
                     }
 
@@ -232,10 +238,7 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case FETCH_MESSAGES: {
-                    if (!showLoad && s.channelView != null) {
-                        s.channelView.bannerText = Locale.get(CHANNEL_VIEW_LOADING);
-                        s.channelView.repaint();
-                    }
+                    setBannerText(Locale.get(CHANNEL_VIEW_LOADING));
 
                     String id;
                     if (s.isDM) id = s.selectedDmChannel.id;
@@ -450,10 +453,7 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case EDIT_MESSAGE: {
-                    if (!showLoad && s.channelView != null) {
-                        s.channelView.bannerText = Locale.get(CHANNEL_VIEW_EDITING);
-                        s.channelView.repaint();
-                    }
+                    setBannerText(Locale.get(CHANNEL_VIEW_EDITING));
                     
                     JSONObject newMessage = new JSONObject();
                     newMessage.put("content", editContent);
@@ -471,18 +471,12 @@ public class HTTPThread extends Thread implements Strings {
                         s.channelView.requestUpdate(false);
                     }
 
-                    if (!showLoad && s.channelView != null) {
-                        s.channelView.bannerText = null;
-                        s.channelView.repaint();
-                    }
+                    setBannerText(null);
                     break;
                 }
 
                 case DELETE_MESSAGE: {
-                    if (!showLoad && s.channelView != null) {
-                        s.channelView.bannerText = Locale.get(CHANNEL_VIEW_DELETING);
-                        s.channelView.repaint();
-                    }
+                    setBannerText(Locale.get(CHANNEL_VIEW_DELETING));
 
                     String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
 
@@ -495,10 +489,7 @@ public class HTTPThread extends Thread implements Strings {
                         s.channelView.requestUpdate(false);
                     }
 
-                    if (!showLoad && s.channelView != null) {
-                        s.channelView.bannerText = null;
-                        s.channelView.repaint();
-                    }
+                    setBannerText(null);
                     break;
                 }
             }
