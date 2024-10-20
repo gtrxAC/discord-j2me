@@ -55,6 +55,16 @@ function defaultContentType(req, res, next) {
     next();
 }
 
+function getTokenFromUploadToken(token) {
+    if (!token.startsWith("j2me-")) return token;
+    if (!uploadTokens.has(token)) return token;
+
+    const uploadToken = uploadTokens.get(token);
+    if (new Date() > uploadToken.expires) return token;
+
+    return uploadToken.token;
+}
+
 function getToken(req, res, next) {
     let token;
 
@@ -69,14 +79,9 @@ function getToken(req, res, next) {
         delete req.body.token;
     }
 
-    if (req.route.path == `${BASE}/channels/:channel/upload` && token.startsWith("j2me-") && uploadTokens.has(token)) {
-        const uploadToken = uploadTokens.get(token);
-        if (new Date() < uploadToken.expires) {
-            res.locals.uploadToken = token;
-            token = uploadToken.token;
-        } else {
-            token = undefined;
-        }
+    if (req.route.path == `${BASE}/channels/:channel/upload`) {
+        res.locals.uploadToken = token;
+        token = getTokenFromUploadToken(token);
     }
 
     res.locals.headers = {
@@ -195,7 +200,7 @@ app.get(`/upload`, async (req, res) => {
         if (reply) {
             const messageData = await axios.get(
                 `${DEST_BASE}/channels/${req.query.channel}/messages?around=${reply}&limit=1`,
-                {headers: {Authorization: req.query.token}}
+                {headers: {Authorization: getTokenFromUploadToken(req.query.token)}}
             );
             username = messageData.data[0].author.global_name ?? messageData.data[0].author.username ?? "(no name)";
             content = messageData.data[0].content ?? "";
