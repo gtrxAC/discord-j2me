@@ -93,21 +93,14 @@ public class HTTPThread extends Thread implements Strings {
         Displayable prevScreen = s.disp.getCurrent();
         if (showLoad) s.disp.setCurrent(new LoadingScreen(s));
 
-        if (s.myUserId == null) {
-            try {
+        try {
+            if (s.myUserId == null) {
                 JSONObject resp = JSON.getObject(s.http.get("/users/@me"));
                 s.myUserId = resp.getString("id", "");
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
                 s.uploadToken = resp.getString("_uploadtoken", s.token);
             }
-            catch (Exception e) {
-                s.error(e);
-                s.myUserId = "";
-                s.uploadToken = s.token;
-            }
-        }
-        
-        try {
+
             switch (action) {
                 case FETCH_GUILDS: {
                     JSONArray guilds = JSON.getArray(s.http.get("/users/@me/guilds"));
@@ -191,9 +184,7 @@ public class HTTPThread extends Thread implements Strings {
                         s.channelView.repaint();
                     }
 
-                    String id;
-                    if (s.isDM) id = s.selectedDmChannel.id;
-                    else id = s.selectedChannel.id;
+                    String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
 
                     JSONObject json = new JSONObject();
                     json.put("content", sendMessage);
@@ -204,7 +195,7 @@ public class HTTPThread extends Thread implements Strings {
                     // Reply
                     if (sendReference != null) {
                         JSONObject ref = new JSONObject();
-                        ref.put("channel_id", s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id);
+                        ref.put("channel_id", channelId);
                         if (!s.isDM) ref.put("guild_id", s.selectedGuild.id);
                         ref.put("message_id", sendReference);
                         json.put("message_reference", ref);
@@ -216,7 +207,7 @@ public class HTTPThread extends Thread implements Strings {
                         }
                     }
 
-                    s.http.post("/channels/" + id + "/messages", json);
+                    s.http.post("/channels/" + channelId + "/messages", json);
 
                     // If gateway enabled, don't need to fetch new messages
                     if (s.gatewayActive()) {
@@ -237,12 +228,10 @@ public class HTTPThread extends Thread implements Strings {
                         s.channelView.repaint();
                     }
 
-                    String id;
-                    if (s.isDM) id = s.selectedDmChannel.id;
-                    else id = s.selectedChannel.id;
+                    String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
                     
                     StringBuffer url = new StringBuffer(
-                        "/channels/" + id + "/messages?limit=" + s.messageLoadCount
+                        "/channels/" + channelId + "/messages?limit=" + s.messageLoadCount
                     );
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
@@ -418,18 +407,9 @@ public class HTTPThread extends Thread implements Strings {
                         s.http.sendRequest(httpConn);
                         new HTTPThread(s, FETCH_MESSAGES).start();
                     }
-                    catch (Exception e) {
-                        s.error(Locale.get(UPLOAD_ERROR) + e.toString());
-                    }
                     finally {
-                        try {
-                            if (os != null) {
-                                os.close();
-                            }
-                            if (httpConn != null) {
-                                httpConn.close();
-                            }
-                        } catch (Exception ex) {}
+                        try { os.close(); } catch (Exception e) {}
+                        try { httpConn.close(); } catch (Exception e) {}
                     }
                     break;
                 }
@@ -504,10 +484,19 @@ public class HTTPThread extends Thread implements Strings {
             }
         }
         catch (Exception e) {
-            if (action == FETCH_ICON) {
-                s.iconCache.removeRequest(iconTarget.getIconHash());
-            } else {
-                s.error(e, prevScreen);
+            switch (action) {
+                case FETCH_ICON: {
+                    s.iconCache.removeRequest(iconTarget.getIconHash());
+                    break;
+                }
+                case SEND_ATTACHMENT: {
+                    s.error(Locale.get(UPLOAD_ERROR) + e.toString(), prevScreen);
+                    break;
+                }
+                default: {
+                    s.error(e, prevScreen);
+                    break;
+                }
             }
         }
     }
