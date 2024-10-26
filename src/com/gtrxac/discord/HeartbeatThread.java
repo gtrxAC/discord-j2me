@@ -8,7 +8,6 @@ public class HeartbeatThread extends Thread implements Strings {
     private GatewayThread gateway;
 
     int lastReceived;
-    private long lastHeartbeat;
     private int interval;
     volatile boolean stop;
 
@@ -22,20 +21,16 @@ public class HeartbeatThread extends Thread implements Strings {
         try {
             while (true) {
                 if (stop) break;
-                long now = new Date().getTime();
                 
-                if (interval > 0 && now > lastHeartbeat + interval) {
-                    JSONObject hbMsg = new JSONObject();
-                    hbMsg.put("op", 1);
-                    if (lastReceived >= 0) {
-                        hbMsg.put("d", lastReceived);
-                    } else {
-                        hbMsg.put("d", JSON.json_null);
-                    }
-
-                    gateway.send(hbMsg);
-                    lastHeartbeat = now;
+                JSONObject hbMsg = new JSONObject();
+                hbMsg.put("op", 1);
+                if (lastReceived >= 0) {
+                    hbMsg.put("d", lastReceived);
+                } else {
+                    hbMsg.put("d", JSON.json_null);
                 }
+                gateway.send(hbMsg);
+
                 Util.sleep(interval);
             }
         }

@@ -1,5 +1,6 @@
 package com.gtrxac.discord;
 
+import java.io.*;
 import java.util.*;
 import javax.microedition.lcdui.*;
 import java.lang.Math;
@@ -289,6 +290,24 @@ public class Util {
 
 	public static String stringToLength(String str, int length) {
 		return (str.length() >= length) ? str.substring(0, length - 3) + "..." : str;
+	}
+
+	public static byte[] stringToBytes(String str) {
+		try {
+			return str.getBytes("UTF-8");
+		}
+		catch (UnsupportedEncodingException e) {
+			return str.getBytes();
+		}
+	}
+
+	public static String bytesToString(byte[] bytes) {
+		try {
+			return new String(bytes, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e) {
+			return new String(bytes);
+		}
 	}
 
 	public static void sleep(int ms) {

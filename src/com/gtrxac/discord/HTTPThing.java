@@ -76,13 +76,7 @@ public class HTTPThing implements Strings {
             c = openConnection(url);
             c.setRequestMethod(method);
             
-            byte[] b;
-            try {
-                b = data.getBytes("UTF-8");
-            }
-            catch (UnsupportedEncodingException e) {
-                b = data.getBytes();
-            }
+            byte[] b = Util.stringToBytes(data);
 
             if (s.tokenType == State.TOKEN_TYPE_HEADER) {
                 c.setRequestProperty("Content-Length", String.valueOf(b.length));

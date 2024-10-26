@@ -369,12 +369,7 @@ public class HTTPThread extends Thread implements Strings {
 
                         os.write(createFormPart("content", null));
                         if (sendMessage != null) {
-                            try {
-                                os.write(sendMessage.getBytes("UTF-8"));
-                            }
-                            catch (UnsupportedEncodingException e) {
-                                os.write(sendMessage.getBytes());
-                            }
+                            os.write(Util.stringToBytes(sendMessage));
                         }
                         os.write(LINE_FEED.getBytes());
 
@@ -418,14 +413,9 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case VIEW_ATTACHMENT_TEXT: {
-                    String text;
                     byte[] textBytes = s.http.getBytes(viewAttach.browserUrl);
-                    try {
-                        text = new String(textBytes, "UTF-8");
-                    }
-                    catch (UnsupportedEncodingException e) {
-                        text = new String(textBytes);
-                    }
+                    String text = Util.bytesToString(textBytes);
+                    
                     MessageCopyBox copyBox = new MessageCopyBox(s, viewAttach.name, text);
                     copyBox.lastScreen = s.attachmentView;
                     s.disp.setCurrent(copyBox);

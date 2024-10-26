@@ -452,14 +452,7 @@ public class GatewayThread extends Thread implements Strings {
                     JSONObject idMsg = new JSONObject();
                     idMsg.put("op", 2);
                     idMsg.put("d", idData);
-
-                    try {
-                        os.write((idMsg.build() + "\n").getBytes("UTF-8"));
-                    }
-                    catch (UnsupportedEncodingException e) {
-                        os.write((idMsg.build() + "\n").getBytes());
-                    }
-                    os.flush();
+                    send(idMsg);
                 }
             }
         }
