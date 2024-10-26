@@ -29,7 +29,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
     }
 
     private MainMenu(State s) {
-        super("Discord", false);
+        super("Discord", false, false, false);
         setCommandListener(this); 
         this.s = s;
 
@@ -61,7 +61,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
                     break;
                 }
                 case 3: {
-                    s.disp.setCurrent(new SettingsForm(s));
+                    s.disp.setCurrent(new SettingsScreen(s));
                     break;
                 }
                 case 4: {

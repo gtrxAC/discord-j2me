@@ -10,13 +10,13 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
     private Command markGuildReadCommand;
 
     public ChannelSelector(State s) throws Exception {
-        super(s.selectedGuild.name, List.IMPLICIT);
+        super(s.selectedGuild.name, true, true, false);
         setCommandListener(this);
         this.s = s;
 
         for (int i = 0; i < s.channels.size(); i++) {
             Channel ch = (Channel) s.channels.elementAt(i);
-            append(ch.toString(s), null, s.unreads.hasUnreads(ch));
+            append(ch.toString(s), null, null, s.unreads.hasUnreads(ch));
         }
 
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
@@ -38,7 +38,7 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
             Channel ch = (Channel) s.channels.elementAt(i);
             if (id != null && !ch.id.equals(id)) continue;
 
-            set(i, ch.toString(s), null, s.unreads.hasUnreads(ch));
+            set(i, ch.toString(s), null, null, s.unreads.hasUnreads(ch));
         }
     }
 

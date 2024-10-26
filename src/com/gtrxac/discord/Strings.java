@@ -214,7 +214,7 @@ public interface Strings {
     static final int TOGGLE_FULLSCREEN_L = 210;
     static final int HOTKEY_FULLSCREEN = 211;
     static final int FULLSCREEN_DEFAULT = 212;
-    static final int SETTINGS_SECTION_NOTIFICATIONS = 213;
+    // static final int SETTINGS_SECTION_NOTIFICATIONS = 213;
     static final int NOTIFICATIONS_ALL = 214;
     static final int NOTIFICATIONS_MENTIONS = 215;
     static final int NOTIFICATIONS_DMS = 216;
@@ -233,4 +233,11 @@ public interface Strings {
     static final int NOTIFICATION_ATTACHMENT_PREFIX = 229;
     static final int NOTIFICATION_ATTACHMENT_SUFFIX = 230;
     static final int NOTIFICATION_ATTACHMENTS_SUFFIX = 231;
+    static final int SETTINGS_SECTION_APPEARANCE = 232;
+    static final int SETTINGS_SECTION_IMAGES = 233;
+    static final int SETTINGS_SECTION_BEHAVIOR = 234;
+    static final int SETTINGS_SECTION_NOTIFICATIONS = 235;
+    static final int SETTING_VALUE_OFF = 236;
+    static final int SETTING_VALUE_ON = 237;
+    static final int SETTINGS_ERROR_INVALID_NUMBER = 238;
 }
