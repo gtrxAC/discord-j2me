@@ -3,6 +3,7 @@
 -libraryjars sdk/lib/midpapi20.jar
 -libraryjars sdk/lib/cldcapi10.jar
 -libraryjars sdk/lib/jsr75.jar
+-libraryjars sdk/lib/javapiglerapi.jar
 -printmapping bin/out.map
 
 -microedition

@@ -24,7 +24,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         { 2, 2, 2, 1, 1, 1, 1 },
         { 1, 10000, 3, 2, 255, 1 },
         { 100, 1, 1, 1, 1 },
-        { 1, 1, 1, 1, 1 },
+        { 1, 1, 1, 1, 1, 1 },
     };
 
     private boolean isInSubmenu;
@@ -80,6 +80,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(NOTIFICATIONS_DMS),
                 Locale.get(NOTIFICATIONS_ALERT),
                 Locale.get(NOTIFICATIONS_SOUND),
+                Locale.get(NOTIFICATIONS_PIGLER),
             },
         };
 
@@ -116,6 +117,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.notifyDM },
                 { s.ic.notifyAlert },
                 { s.ic.notifySound },
+                { null },
             }
         };
         String[] boolValues = { Locale.get(SETTING_VALUE_OFF), Locale.get(SETTING_VALUE_ON) };
@@ -148,6 +150,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 null,
             }, {
                 // Notifications
+                boolValues,
                 boolValues,
                 boolValues,
                 boolValues,
@@ -188,6 +191,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.showNotifsDMs ? 1 : 0,
                 s.showNotifAlert ? 1 : 0,
                 s.playNotifSound ? 1 : 0,
+                s.showNotifPigler ? 1 : 0,
             }
         };
         showMainScreen();
@@ -362,8 +366,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.showNotifsDMs = values[3][2] == 1;
                 s.showNotifAlert = values[3][3] == 1;
                 s.playNotifSound = values[3][4] == 1;
+                s.showNotifPigler = values[3][5] == 1;
 
                 s.iconCache = new IconCache(s);
+                if (s.gatewayActive()) s.gateway.checkInitPigler();
                 LoginSettings.save(s);
                 s.ic = null;
                 s.ic = new Icons(s);

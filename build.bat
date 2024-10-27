@@ -35,7 +35,7 @@ for /r src %%f in (*.java) do (
 :: Compile for Java 1.2. Most (but not all) J2ME devices support Java 1.3
 :: If you want to change the APIs (bootclasspath), also edit the ProGuard config (midlets.pro)
 echo Compiling
-%JAVA_HOME%\bin\javac -d classes -source 1.2 -target 1.2 -Xlint:-options -encoding UTF-8 -bootclasspath sdk\lib\jsr75.jar;sdk\lib\midpapi20.jar;sdk\lib\cldcapi10.jar !JAVA_FILES! > sdk\log.txt
+%JAVA_HOME%\bin\javac -d classes -source 1.2 -target 1.2 -Xlint:-options -encoding UTF-8 -bootclasspath sdk\lib\javapiglerapi.jar;sdk\lib\jsr75.jar;sdk\lib\midpapi20.jar;sdk\lib\cldcapi10.jar !JAVA_FILES! > sdk\log.txt
 
 :: Check for compilation errors
 if errorlevel 1 (

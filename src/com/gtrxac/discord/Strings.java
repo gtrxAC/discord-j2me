@@ -240,4 +240,7 @@ public interface Strings {
     static final int SETTING_VALUE_OFF = 236;
     static final int SETTING_VALUE_ON = 237;
     static final int SETTINGS_ERROR_INVALID_NUMBER = 238;
+    static final int NOTIFICATIONS_PIGLER = 239;
+    static final int PIGLER_ERROR = 240;
+    static final int PIGLER_NOT_SUPPORTED = 241;
 }

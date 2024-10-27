@@ -4,10 +4,11 @@ import java.io.*;
 import java.util.*;
 import javax.microedition.io.*;
 import javax.microedition.lcdui.*;
+import org.pigler.tester.*;
 
 import cc.nnproject.json.*;
 
-public class GatewayThread extends Thread implements Strings {
+public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLayer {
     private State s;
 
     volatile boolean stop;
@@ -20,6 +21,11 @@ public class GatewayThread extends Thread implements Strings {
     private OutputStream os;
 
     private static int reconnectAttempts;
+
+    private static Image appIcon;
+    private static PiglerAPILayer pigler;
+    private static boolean piglerInitFailed;
+    private static Object piglerLock = new Object();
 
     public GatewayThread(State s) {
         this.s = s;
@@ -76,52 +82,133 @@ public class GatewayThread extends Thread implements Strings {
         return false;
     }
 
-    private void handleNotificationAlert(JSONObject msgData) {
-        String guildID = msgData.getString("guild_id", null);
+    private void handleNotification(JSONObject msgData) {
         Message msg = new Message(s, msgData);
-        
-        StringBuffer notif = new StringBuffer();
-        notif.append(msg.author.name);
 
+        // Display name of person who sent the message.
+        String author = msg.author.name;
+
+        // Name of the server and channel where the notification occurred.
+        // "(unknown)" if server list not loaded.
+        // "Server Name" if server list loaded, but channel list for that server not loaded.
+        // "Server Name #channel" if server and channel lists loaded.
+        // null if notification occurred in a DM
+        String location = null;
+
+        // Message content, limited to 50 characters, with attachments parsed into text, e.g. "Text content (3 attachments)"
+        String content = null;
+
+        // true if message sent in a direct message or DM group, false if sent in a server
+        boolean isDM = false;
+
+        String guildID = msgData.getString("guild_id", null);
         if (guildID == null) {
-            notif.append(Locale.get(NOTIFICATION_DM));
+            isDM = true;
         } else {
             // Get the name of the server where the message was sent
             // (only available if server list has been loaded)
             Guild g = Guild.getById(s, guildID);
-            String guildName = (g != null) ? g.name : Locale.get(NAME_UNKNOWN);
-
-            notif.append(Locale.get(NOTIFICATION_SERVER)).append(guildName);
+            location = (g != null) ? g.name : Locale.get(NAME_UNKNOWN);
 
             // Get the name of the channel
             // (only available if channel list for that server has been loaded)
             String channelID = msgData.getString("channel_id", null);
             Channel c = Channel.getByID(s, channelID);
-
-            if (c != null) notif.append(" #").append(c.name);
-            notif.append(": \"");
+            if (c != null) location += " #" + c.name;
         }
 
-        notif.append(Util.stringToLength(msg.content, 50));
+        StringBuffer c = new StringBuffer();
+        c.append(Util.stringToLength(msg.content, 50));
 
         if (msg.attachments != null) {
-            if (msg.content.length() != 0) notif.append(" ");
-            notif.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
-            notif.append(msg.attachments.size());
+            if (msg.content.length() != 0) c.append(" ");
+            c.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
+            c.append(msg.attachments.size());
 
             if (msg.attachments.size() != 1) {
-                notif.append(Locale.get(NOTIFICATION_ATTACHMENTS_SUFFIX));
+                c.append(Locale.get(NOTIFICATION_ATTACHMENTS_SUFFIX));
             } else {
-                notif.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX));
+                c.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX));
             }
         }
-        notif.append('"');
+        content = c.toString();
 
-        s.showAlert(Locale.get(NOTIFICATION_TITLE), notif.toString(), null);
+        if (s.showNotifAlert) {
+            StringBuffer n = new StringBuffer();
+            n.append(msg.author.name);
+            if (isDM) {
+                n.append(Locale.get(NOTIFICATION_DM));
+            } else {
+                n.append(Locale.get(NOTIFICATION_SERVER)).append(location);
+                n.append(": \"");
+            }
+            n.append(content);
+            n.append("\"");
+            s.showAlert(Locale.get(NOTIFICATION_TITLE), n.toString(), null);
+        }
+        
+        synchronized (piglerLock) {
+            if (s.showNotifPigler && pigler != null) {
+                try {
+                    if (isDM) {
+                        pigler.createNotification(author, content, appIcon, true);
+                    } else {
+                        pigler.createNotification(location, author + ": " + content, appIcon, true);
+                    }
+                }
+                catch (Exception e) {}
+            }
+        }
+    }
+
+    public void checkInitPigler() {
+        synchronized (piglerLock) {
+            if (s.showNotifPigler) {
+                if (pigler == null && !piglerInitFailed) {
+                    initPigler();
+                }
+            } else {
+                appIcon = null;
+                pigler = null;
+                piglerInitFailed = false;
+            }
+        }
+    }
+
+    private void initPigler() {
+		String version = System.getProperty("org.pigler.api.version");
+		if (version == null) {
+            s.error(Locale.get(PIGLER_NOT_SUPPORTED));
+            piglerInitFailed = true;
+			return;
+		}
+
+        try {
+            appIcon = Image.createImage("/icon.png");
+        }
+        catch (Exception e) {}
+        
+		try {
+            synchronized (piglerLock) {
+                pigler = new PiglerAPILayer();
+                pigler.setListener(this);
+                pigler.init("Discord");
+                // ... handle init
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+            s.error(Locale.get(PIGLER_ERROR) + e.toString());
+		}
+    }
+    
+    public void handleNotificationTap(int uid) {
+        // ...
     }
 
     public void run() {
         try {
+            checkInitPigler();
+
             sc = (SocketConnection) Connector.open(s.getPlatformSpecificUrl(s.gatewayUrl));
 
             // Not supported on JBlend (e.g. some Samsungs)
@@ -216,8 +303,8 @@ public class GatewayThread extends Thread implements Strings {
                             if (authorID.equals(s.myUserId)) continue;
 
                             if (shouldNotify(msgData)) {
-                                if (s.showNotifAlert) handleNotificationAlert(msgData);
                                 if (s.playNotifSound) AlertType.ALARM.playSound(s.disp);
+                                if (s.showNotifAlert || s.showNotifPigler) handleNotification(msgData);
                             }
 
                             Channel ch = Channel.getByID(s, chId);

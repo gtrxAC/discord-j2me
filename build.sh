@@ -30,7 +30,7 @@ fi
 echo "Compiling"
 ${JAVA_HOME}/bin/javac `find src -name '*'.java` -d classes \
     -source 1.2 -target 1.2 -Xlint:-options \
-    -bootclasspath sdk/lib/jsr75.jar:sdk/lib/midpapi20.jar:sdk/lib/cldcapi10.jar \
+    -bootclasspath sdk/lib/javapiglerapi.jar:sdk/lib/jsr75.jar:sdk/lib/midpapi20.jar:sdk/lib/cldcapi10.jar \
     > sdk/log.txt
 
 echo "Creating JAR"

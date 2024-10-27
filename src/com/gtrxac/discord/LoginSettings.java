@@ -64,6 +64,7 @@ public class LoginSettings {
                 s.highRamMode = getBoolRecord(Util.isSymbian || Util.isJ2MELoader);
                 s.showNotifAlert = getBoolRecord(true);
                 s.playNotifSound = getBoolRecord(true);
+                s.showNotifPigler = getBoolRecord(System.getProperty("org.pigler.api.version") != null);
 
                 // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
@@ -128,6 +129,7 @@ public class LoginSettings {
             setBoolRecord(s.highRamMode);
             setBoolRecord(s.showNotifAlert);
             setBoolRecord(s.playNotifSound);
+            setBoolRecord(s.showNotifPigler);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {
