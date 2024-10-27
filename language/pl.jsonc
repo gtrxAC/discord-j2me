@@ -600,5 +600,5 @@
     "Błąd Pigler API: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Brak obsługi API powiadomień Pigler. Zainstaluj Pigler API przez stronę nnp.nnchan.ru/pna lub wyłącz powiadomienia Piglera w Ustawieniach."
+    "Brak obsługi API powiadomień Pigler. Zainstaluj Pigler API ze strony nnp.nnchan.ru/pna lub wyłącz powiadomienia Piglera w Ustawieniach."
 ]
