@@ -1,11 +1,20 @@
 package com.gtrxac.discord;
 
+import javax.microedition.lcdui.*;
 import javax.microedition.rms.*;
 
 public class LoginSettings {
     static RecordStore loginRms;
     static int numRecords;
     static int index;
+
+    private static int getBestMenuIconSize() {
+        int height = Font.getDefaultFont().getHeight();
+        int result = height/16*16;
+        if (height - result >= 10) result += 16;
+        if (result == 0) return 8;
+        return result;
+    }
 
     private static void open() throws Exception {
         loginRms = RecordStore.openRecordStore("login", true);
@@ -54,7 +63,7 @@ public class LoginSettings {
                 s.backHotkey = getIntRecord(0);
                 s.showRefMessage = getBoolRecord(true);
                 s.defaultHotkeys = getBoolRecord(true);
-                s.menuIconSize = getByteRecord(16);
+                s.menuIconSize = getByteRecord(getBestMenuIconSize());
                 s.language = getStringRecord(System.getProperty("microedition.locale"));
                 s.fullscreenDefault = getBoolRecord(false);
                 s.fullscreenHotkey = getIntRecord(0);

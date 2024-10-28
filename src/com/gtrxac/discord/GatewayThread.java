@@ -335,7 +335,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
                         if (skip) continue;
 
                         // If we're on the newest page, make the new message visible
-                        if (s.channelView.page == 0) {
+                        if (s.channelView.page == 0 && !s.channelView.outdated) {
                             // Add the new message to the message list
                             s.messages.insertElementAt(new Message(s, msgData), 0);
 
