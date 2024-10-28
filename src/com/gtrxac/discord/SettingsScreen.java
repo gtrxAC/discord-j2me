@@ -340,6 +340,17 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         else if (d == this) {
             // Save or cancel command in main settings screen: (if save, write changes to state and save them persistently), then return to main menu
             if (c == saveCommand) {
+                // Check if icons need to be reloaded (if any icon-related settings have changed)
+                boolean reloadMenuIcons =
+                    s.menuIconSize != values[1][4] ||
+                    s.showMenuIcons != (values[1][5] == 1);
+
+                boolean reloadIcons =
+                    reloadMenuIcons ||
+                    s.pfpType != values[1][2] ||
+                    s.pfpSize != values[1][3] ||
+                    s.useJpeg != (values[1][0] == 1);
+
                 s.theme = values[0][0];
                 s.authorFontSize = values[0][1];
                 s.messageFontSize = values[0][2];
@@ -368,11 +379,19 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.playNotifSound = values[3][4] == 1;
                 s.showNotifPigler = values[3][5] == 1;
 
-                s.iconCache = new IconCache(s);
+                if (reloadIcons) {
+                    // Unload server and DM lists so the icons get refreshed
+                    s.iconCache = new IconCache(s);
+                    s.guilds = null;
+                    s.dmChannels = null;
+                    if (reloadMenuIcons) {
+                        s.ic = null;
+                        s.ic = new Icons(s);
+                    }
+                }
+
                 if (s.gatewayActive()) s.gateway.checkInitPigler();
                 LoginSettings.save(s);
-                s.ic = null;
-                s.ic = new Icons(s);
                 s.loadTheme();
                 s.loadFonts();
             }

@@ -83,9 +83,6 @@ public class ListScreen extends KineticScrollingCanvas {
         minScroll = -fontHeight/6;
 
         iconSize = newIconSize;
-        System.out.println(fontHeight/3);
-        System.out.println(iconSize/5);
-        System.out.println(Math.max(fontHeight/3, iconSize/5));
         iconMargin = Math.max(fontHeight*3/8, iconSize/5);
         baseContentHeight = Math.max(fontHeight, iconSize);
 
