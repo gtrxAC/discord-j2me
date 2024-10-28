@@ -318,6 +318,7 @@ public class Util {
 	}
 
 	public static boolean isBlackBerry;
+	public static boolean isKemulator;
 	public static boolean isJ2MELoader;
 	public static boolean isSymbian;
 
@@ -326,6 +327,7 @@ public class Util {
 		if (platform == null) platform = "";
 
 		isJ2MELoader = checkClass("javax.microedition.shell.MicroActivity");
+		isKemulator = checkClass("emulator.custom.CustomMethod");
 		isBlackBerry = platform.toLowerCase().startsWith("blackberry");
 
 		isSymbian = platform.indexOf("platform=S60") != -1 ||

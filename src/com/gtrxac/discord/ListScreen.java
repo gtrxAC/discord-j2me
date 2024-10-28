@@ -289,7 +289,10 @@ public class ListScreen extends KineticScrollingCanvas {
         return -scroll + itemHeight*index;
     }
 
-    private int getMaxScroll() {
+    protected int getMinScroll() {
+        return minScroll;
+    }
+    protected int getMaxScroll() {
         return Math.max(items.size()*itemHeight - getHeight(), minScroll);
     }
 
@@ -300,11 +303,6 @@ public class ListScreen extends KineticScrollingCanvas {
     protected void sizeChanged(int w, int h) {
         setItemHeight(w);
         updateDisplayedItems();
-    }
-
-    protected void checkScrollInRange() {
-        if (scroll < minScroll) scroll = minScroll;
-        if (scroll > getMaxScroll()) scroll = getMaxScroll();
     }
 
     protected void paint(Graphics g) {
@@ -403,6 +401,8 @@ public class ListScreen extends KineticScrollingCanvas {
         }
         // g.setColor(0xFF0000);
         // g.drawString(new Integer(velocity).toString(), 0, 0, Graphics.TOP | Graphics.LEFT);
+
+        drawScrollbar(g);
     }
 
     public void customKeyEvent(int keycode) {}

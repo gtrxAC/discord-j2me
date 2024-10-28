@@ -369,9 +369,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
     }
 
-    protected void checkScrollInRange() {
-        if (scroll < 0) scroll = 0;
-        if (scroll > maxScroll) scroll = maxScroll;
+    protected int getMinScroll() {
+        return 0;
+    }
+    protected int getMaxScroll() {
+        return maxScroll;
     }
 
     protected void paint(Graphics g) {
@@ -478,6 +480,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         //     Graphics.TOP | Graphics.RIGHT
         // );
 
+        drawScrollbar(g);
         haveDrawn = true;
     }
 

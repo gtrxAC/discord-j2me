@@ -19,23 +19,19 @@ public class Icons {
     Image autoReconnect;
     Image menuIcons;
     Image nameColors;
-    Image fontSize;
     Image fontSmall;
     Image fontMedium;
     Image fontLarge;
     Image msgCount;
     Image attachFormat;
     Image attachSize;
-    Image pfpType;
     Image pfpNone;
     Image pfpSquare;
     Image pfpCircle;
     Image pfpCircleHq;
-    Image pfpSize;
     Image pfpPlaceholder;
     Image pfp16;
     Image pfp32;
-    Image repliesGroup;
     Image repliesName;
     Image repliesFull;
     Image keys;
@@ -126,23 +122,23 @@ public class Icons {
         autoReconnect = next();
         menuIcons = next();
         nameColors = next();
-        fontSize = next();
+        next(); // skip removed icon
         fontSmall = next();
         fontMedium = next();
         fontLarge = next();
         msgCount = next();
         attachFormat = next();
         attachSize = next();
-        pfpType = next();
+        next(); // skip removed icon
         pfpNone = next();
         pfpSquare = next();
         pfpCircle = next();
         pfpCircleHq = next();
-        pfpSize = next();
+        next(); // skip removed icon
         pfpPlaceholder = next();
         pfp16 = next();
         pfp32 = next();
-        repliesGroup = next();
+        next(); // skip removed icon
         repliesName = next();
         repliesFull = next();
         keys = next();
