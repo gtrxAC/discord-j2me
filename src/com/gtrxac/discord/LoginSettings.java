@@ -70,10 +70,10 @@ public class LoginSettings {
                 s.showNotifsAll = getBoolRecord(false);
                 s.showNotifsPings = getBoolRecord(true);
                 s.showNotifsDMs = getBoolRecord(true);
-                s.highRamMode = getBoolRecord(Util.isSymbian || Util.isJ2MELoader);
+                s.highRamMode = getBoolRecord(Util.isSymbian || Util.isJ2MELoader || Util.isKemulator);
                 s.showNotifAlert = getBoolRecord(true);
                 s.playNotifSound = getBoolRecord(true);
-                s.showNotifPigler = getBoolRecord(System.getProperty("org.pigler.api.version") != null);
+                s.showNotifPigler = getBoolRecord(Util.supportsPigler);
 
                 // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;

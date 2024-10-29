@@ -303,7 +303,7 @@
     "Server",
     "Preferiti",
     "Messaggi diretti",
-    "Impostazioni",
+    "Opzioni",
     "Disconnettiti",
 
     // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
@@ -391,7 +391,7 @@
     "Menziona l'utente",
 
     // Title text for settings menu.
-    "Impostazioni",
+    "Opzioni",
 
     // Settings screen heading for themes section.
     "Tema",
@@ -560,27 +560,27 @@
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "Impossibile connettersi al gateway. Riprova?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "Rispondi con file",
+    "Rispondi con un file",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "File allegato",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)",
+    " allegato)",
+    " allegati)",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
-    "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "Interfaccia",
+    "Immagini",
+    "Impostazioni",
+    "Notifiche",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
@@ -591,14 +591,14 @@
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
     // The whole message is in the form of "Please enter a valid number between 1 and X"
     // where X is the maximum value for that setting.
-    "Please enter a valid number between 1 and ",
+    "Inserisci un numero valido tra 1 e ",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "Pigler API",
+    "API Pigler",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "Errore API Pigler: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings."
+    "API di notifiche Pigler non supportato. Installa l'API Pigler da nnp.nnchan.ru/pna o disabilita notifiche Pigler nelle impostazioni."
 ]

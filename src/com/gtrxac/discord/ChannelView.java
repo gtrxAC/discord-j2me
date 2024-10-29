@@ -55,7 +55,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     static final int[] refMessageColors = {0xDDDDDD, 0x333333, 0xCCCCCC};
     static final int[] messageColors =    {0xFFFFFF, 0x111111, 0xEEEEEE};
     static final int[] authorColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
-    static final int[] timestampColors =  {0xAAAAAA, 0x888888, 0x999999};
+    static final int[] timestampColors =  {0xAAAAAA, 0x666666, 0x999999};
 
     public ChannelView(State s) throws Exception {
         super();

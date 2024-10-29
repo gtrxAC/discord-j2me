@@ -317,10 +317,12 @@ public class Util {
 		catch (InterruptedException e) {}
 	}
 
-	public static boolean isBlackBerry;
-	public static boolean isKemulator;
-	public static boolean isJ2MELoader;
-	public static boolean isSymbian;
+	public static final boolean isBlackBerry;
+	public static final boolean isKemulator;
+	public static final boolean isJ2MELoader;
+	public static final boolean isSymbian;
+
+	public static final boolean supportsPigler;
 
 	static {
 		String platform = System.getProperty("microedition.platform");
@@ -335,6 +337,8 @@ public class Util {
 				System.getProperty("com.symbian.default.to.suite.icon") != null ||
 				checkClass("com.symbian.midp.io.protocol.http.Protocol") ||
 				checkClass("com.symbian.lcdjava.io.File");
+
+		supportsPigler = System.getProperty("org.pigler.api.version") != null;
 	}
 	
 	// https://github.com/shinovon/JTube/blob/master/src/jtube/PlatformUtils.java

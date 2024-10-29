@@ -37,9 +37,17 @@ public class Icons {
     Image keys;
     Image keysDefault;
     Image iconSize;
-    Image icon16;
-    Image icon32;
     Image language;
+    Image notify;
+    Image notifyPing;
+    Image notifyDM;
+    Image notifyAlert;
+    Image notifySound;
+    Image fullscreen;
+    Image keepChLoaded;
+    Image scrollBars;
+    Image pigler;
+    Image about;
     Image flagGB;
     Image flagUS;
     Image flagES;
@@ -59,14 +67,8 @@ public class Icons {
     Image flagSV;
     Image flagVI;
     Image flagTH;
-    Image notify;
-    Image notifyPing;
-    Image notifyDM;
-    Image notifyAlert;
-    Image notifySound;
-    Image fullscreen;
-    Image keepChLoaded;
     Image flagTW;
+    Image flagHK;
 
     Image sheet;
     int size;
@@ -122,31 +124,35 @@ public class Icons {
         autoReconnect = next();
         menuIcons = next();
         nameColors = next();
-        next(); // skip removed icon
         fontSmall = next();
         fontMedium = next();
         fontLarge = next();
         msgCount = next();
         attachFormat = next();
         attachSize = next();
-        next(); // skip removed icon
         pfpNone = next();
         pfpSquare = next();
         pfpCircle = next();
         pfpCircleHq = next();
-        next(); // skip removed icon
         pfpPlaceholder = next();
         pfp16 = next();
         pfp32 = next();
-        next(); // skip removed icon
         repliesName = next();
         repliesFull = next();
         keys = next();
         keysDefault = next();
         iconSize = next();
-        icon16 = next();
-        icon32 = next();
         language = next();
+        notify = next();
+        notifyPing = next();
+        notifyDM = next();
+        notifyAlert = next();
+        notifySound = next();
+        fullscreen = next();
+        keepChLoaded = next();
+        scrollBars = next();
+        pigler = next();
+        about = next();
         flagGB = next();
         flagUS = next();
         flagES = next();
@@ -166,14 +172,8 @@ public class Icons {
         flagVI = next();
         flagSV = next();
         flagTH = next();
-        notify = next();
-        notifyPing = next();
-        notifyDM = next();
-        notifyAlert = next();
-        notifySound = next();
-        fullscreen = next();
-        keepChLoaded = next();
         flagTW = next();
+        flagHK = next();
 
         sheet = null;
     }

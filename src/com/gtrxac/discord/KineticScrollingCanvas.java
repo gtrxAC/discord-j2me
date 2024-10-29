@@ -12,7 +12,7 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
     private long lastPointerTime;
     private int lastPointerY;
 
-    private boolean usingScrollBar;
+    public boolean usingScrollBar;
 
     private static final int scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
 

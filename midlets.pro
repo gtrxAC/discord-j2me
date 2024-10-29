@@ -16,5 +16,3 @@
 -repackageclasses ''
 -overloadaggressively
 -allowaccessmodification
-
--keep public class * implements language.Language

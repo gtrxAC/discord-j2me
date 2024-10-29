@@ -454,26 +454,39 @@ public class ListScreen extends KineticScrollingCanvas {
     protected void keyPressed(int a) { keyEvent(a); }
     protected void keyRepeated(int a) { keyEvent(a); }
 
+    private boolean pressedOnBlank;
+
     protected void pointerPressed(int x, int y) {
-        touchMode = false;
         super.pointerPressed(x, y);
 
-        for (int i = 0; i < items.size(); i++) {
-            int itemPos = getItemPosition(i);
-            if (y < itemPos || y >= itemPos + itemHeight) continue;
-            selected = i;
+        if (y > getItemPosition(items.size())) {
+            pressedOnBlank = true;
+        }
+        else if (!usingScrollBar) {
+            pressedOnBlank = false;
+            touchMode = false;
+            for (int i = 0; i < items.size(); i++) {
+                int itemPos = getItemPosition(i);
+                if (y < itemPos || y >= itemPos + itemHeight) continue;
+                selected = i;
+            }
         }
         repaint();
     }
 
     protected void pointerReleased(int x, int y) {
-        if (totalScroll > fontHeight/4) {
-            touchMode = true;
-            super.pointerReleased(x, y);
-        } else {
-            globalTouchMode = true;
-            touchMode = false;
-            listener.commandAction(SELECT_COMMAND, this);
+        if (!pressedOnBlank) {
+            if (totalScroll > fontHeight/4) {
+                // Scrolled: start kinetic scrolling if needed
+                touchMode = true;
+                super.pointerReleased(x, y);
+            }
+            else {
+                // Not scrolled and not tapped on empty space: select item
+                globalTouchMode = true;
+                touchMode = false;
+                listener.commandAction(SELECT_COMMAND, this);
+            }
         }
         repaint();
     }

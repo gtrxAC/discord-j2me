@@ -117,7 +117,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.notifyDM },
                 { s.ic.notifyAlert },
                 { s.ic.notifySound },
-                { null },
+                { s.ic.pigler },
             }
         };
         String[] boolValues = { Locale.get(SETTING_VALUE_OFF), Locale.get(SETTING_VALUE_ON) };
@@ -270,7 +270,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
         deleteAll();
         for (int i = 0; i < labels[index].length; i++) {
-            append(labels[index][i], getValueLabel(index, i), getIcon(index, i), false);
+            // Pigler API option is only shown on devices that support said API
+            if (index != 3 || i != 5 || Util.supportsPigler) {
+                append(labels[index][i], getValueLabel(index, i), getIcon(index, i), false);
+            }
         }
     }
 
