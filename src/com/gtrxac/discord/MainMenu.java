@@ -39,6 +39,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         append(Locale.get(MAIN_MENU_GUILDS), s.ic.guilds);
         append(Locale.get(MAIN_MENU_DMS), s.ic.dms);
         append(Locale.get(MAIN_MENU_SETTINGS), s.ic.settings);
+        append("About", s.ic.about);
         append(Locale.get(MAIN_MENU_LOG_OUT), s.ic.logout);
     }
 
@@ -65,6 +66,10 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
                     break;
                 }
                 case 4: {
+                    s.disp.setCurrent(new AboutForm(s));
+                    break;
+                }
+                case 5: {
                     if (s.gateway != null) s.gateway.stop = true;
                     s.myUserId = null;
                     s.disp.setCurrent(new LoginForm(s));
