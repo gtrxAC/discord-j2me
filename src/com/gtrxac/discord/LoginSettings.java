@@ -74,7 +74,11 @@ public class LoginSettings {
                 s.showNotifAlert = getBoolRecord(true);
                 s.playNotifSound = getBoolRecord(true);
                 s.showNotifPigler = getBoolRecord(Util.supportsPigler);
-                KineticScrollingCanvas.scrollBarMode = getByteRecord(KineticScrollingCanvas.SCROLL_BAR_HIDDEN);
+                KineticScrollingCanvas.scrollBarMode = getByteRecord(
+                    Util.isKemulator ?
+                        KineticScrollingCanvas.SCROLL_BAR_VISIBLE :
+                        KineticScrollingCanvas.SCROLL_BAR_HIDDEN
+                );
 
                 // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
