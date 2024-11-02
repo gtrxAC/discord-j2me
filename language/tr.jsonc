@@ -323,7 +323,7 @@
     " gruba eklendi",
 
     // Status message shown when a user has left a group DM.
-    "gruptan ayrıldı",
+    " gruptan ayrıldı",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
     "",
@@ -335,10 +335,10 @@
     "grup simgesini değiştirdi",
     "bir mesaj sabitledi",
     "sunucuya katıldı",
-    "sunucuyu boostladı",
+    "sunucuya takviye etti",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "sunucuyu şu seviyeye boostladı ",
+    "sunucuyu şu seviyeye takviye etti",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
@@ -522,7 +522,7 @@
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "Tam ekran modunga geçiş yapılıyor",
+    "Tam ekran moduna geçiş yapılıyor",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
     "Tam ekran modu",
@@ -539,7 +539,7 @@
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
     " sana bir direkt mesaj gönderdi: \"",
-    " şurada mesaj gönderildi ",
+    " şurada mesaj gönderdi ",
 
     // Title for notification alert windows
     "Yeni mesaj",
@@ -560,7 +560,7 @@
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Geçite bağlanılamıyor. Yeniden denenilsin mi?",
+    "Gateway'e bağlanılamıyor. Yeniden bağlanmak ister misiniz?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
     "Yeniden yükle",
@@ -591,7 +591,8 @@
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
     // The whole message is in the form of "Please enter a valid number between 1 and X"
     // where X is the maximum value for that setting.
-    "Lütfen bir ya da X arasında geçerli bir numara girin",
+    "Lütfen bir ya da  arasında geçerli bir numara girin",
+
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
@@ -600,5 +601,5 @@
     "Pigler API hatası: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Bildirim API desktelenilmiyor. Lütfen Pigler API'ı nnp.nnchan.ru/pna sitesinden indirip kurun ya da Pigler bildirimlerini Ayarlar menüsünden kapatın."
+    "Pigler Bildirim API desktelenilmiyor. Lütfen Pigler API'ı nnp.nnchan.ru/pna sitesinden yükleyin ya da Pigler bildirimlerini Ayarlar menüsünden kapatın."
 ]
