@@ -176,7 +176,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
     }
 
     private void initPigler() {
-		if (Util.supportsPigler) {
+		if (!Util.supportsPigler) {
             s.error(Locale.get(PIGLER_NOT_SUPPORTED));
             piglerInitFailed = true;
 			return;

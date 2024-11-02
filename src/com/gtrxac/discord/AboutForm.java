@@ -29,9 +29,13 @@ public class AboutForm extends Form implements CommandListener, Strings {
     }
 
     private void addDeveloper(String name, String desc) {
-        append(new Spacer(getWidth(), spacerHeight));
+        addSpacer();
         addString(name, Font.STYLE_BOLD, Font.SIZE_SMALL, LAYOUT_DEFAULT);
         addString(desc, Font.SIZE_SMALL, LAYOUT_DEFAULT);
+        addSpacer();
+    }
+
+    private void addSpacer() {
         append(new Spacer(getWidth(), spacerHeight));
     }
 
@@ -42,6 +46,8 @@ public class AboutForm extends Form implements CommandListener, Strings {
 
         try {
             appIcon = Image.createImage("/icon.png");
+            int size = LoginSettings.getBestMenuIconSize()*3;
+            appIcon = Util.resizeImage(appIcon, size, size);
             append(new ImageItem(null, appIcon, LAYOUT_CENTER, null));
         }
         catch (Exception e) {}
@@ -50,14 +56,33 @@ public class AboutForm extends Form implements CommandListener, Strings {
 
         String versionStr = "Version " + s.midlet.getAppProperty("MIDlet-Version") + " (beta)";
         addString(versionStr, Font.SIZE_SMALL, LAYOUT_CENTER);
-        append(new Spacer(getWidth(), spacerHeight));
+        addSpacer();
 
         addString("Developers", Font.SIZE_MEDIUM, LAYOUT_CENTER);
-        //
-        append(new Spacer(getWidth(), spacerHeight));
+        addDeveloper("gtrxAC", "Lead developer");
+        addDeveloper("Shinovon", "Attachment loading, Pigler API integration, JSON parser");
+        addDeveloper("Saetta06", "Loading animation, menu icons, Italian translation");
+        addSpacer();
 
-        addString("Contributors", Font.SIZE_MEDIUM, LAYOUT_CENTER);
-        //
+        addString("Translators", Font.SIZE_MEDIUM, LAYOUT_CENTER);
+        addDeveloper("ACPI Fixed Feature Button", "Vietnamese");
+        addDeveloper("Alex222", "Swedish");
+        addDeveloper("Borsain", "Indonesian");
+        addDeveloper("cappuchi", "Polish");
+        addDeveloper("ElHamexd", "Spanish");
+        addDeveloper("Kaiky Alexandre Souza", "Portuguese (Brazil)");
+        addDeveloper("logoffon", "Thai");
+        addDeveloper("pdyq", "Chinese (Traditional) and Cantonese");
+        addDeveloper("proxion", "Ukrainian");
+        addDeveloper("raul0028", "Romanian");
+        addDeveloper("SpiroWalkman\nmultiplemegapixels", "Russian");
+        addDeveloper("violent body", "Turkish");
+        
+        addString("Support", Font.SIZE_MEDIUM, LAYOUT_CENTER);
+        addSpacer();
+        addString("discord.gg/2GKuJjQagp", Font.SIZE_SMALL, LAYOUT_DEFAULT);
+        addSpacer();
+        addString("t.me/dscforsymbian", Font.SIZE_SMALL, LAYOUT_DEFAULT);
 
         addCommand(Locale.createCommand(BACK, Command.BACK, 0));
     }

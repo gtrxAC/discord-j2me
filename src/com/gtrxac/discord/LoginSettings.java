@@ -8,7 +8,7 @@ public class LoginSettings {
     static int numRecords;
     static int index;
 
-    private static int getBestMenuIconSize() {
+    public static int getBestMenuIconSize() {
         int height = Font.getDefaultFont().getHeight();
         int result = height/16*16;
         if (height - result >= 10) result += 16;
