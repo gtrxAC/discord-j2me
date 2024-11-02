@@ -320,14 +320,14 @@
 
     // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
     "",
-    " gruba eklendi",
+    "gruba eklendi",
 
     // Status message shown when a user has left a group DM.
-    " gruptan ayrıldı",
+    "gruptan ayrıldı",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
     "",
-    " gruptan çıkartıldı",
+    "gruptan çıkartıldı",
 
     // Status messages.
     "bir arama başlattı",
@@ -592,7 +592,6 @@
     // The whole message is in the form of "Please enter a valid number between 1 and X"
     // where X is the maximum value for that setting.
     "Lütfen bir ya da  arasında geçerli bir numara girin",
-
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
