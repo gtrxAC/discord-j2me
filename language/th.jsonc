@@ -214,7 +214,7 @@
     "ข้อผิดพลาด HTTP ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    " ไม่ได้กำหนด URL สำหรับพร็อกซี่ CDN ตอนนี้เรียกดูไฟล์แนบไม่ได้",
+    "ไม่ได้กำหนด URL สำหรับพร็อกซี่ CDN ตอนนี้เรียกดูไฟล์แนบไม่ได้",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
     " (",
@@ -327,7 +327,7 @@
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
     "ลบ ",
-    " ออกกจากกลุ่ม",
+    " ออกจากกลุ่ม",
 
     // Status messages.
     "ได้เริ่มการโทร",
@@ -577,28 +577,28 @@
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
-    "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "การแสดงผล",
+    "รูปภาพ",
+    "ทั่วไป",
+    "การแจ้งเตือน",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "ปิด",
+    "เปิด",
 
     // Prefix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
     // The whole message is in the form of "Please enter a valid number between 1 and X"
     // where X is the maximum value for that setting.
-    "Please enter a valid number between 1 and ",
+    "กรุณาใส่จำนวนที่ถูกต้องระหว่าง 1 ถึง ",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "ข้อผิดพลาด Pigler API: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings."
+    "ไม่สามารถเรียกใช้ Pigler Notifications API ได้ กรุณาติดตั้ง Pigler API จากเว็บ nnp.nnchan.ru/pna หรือปิดใช้งานการแจ้งเตือนผ่าน Pigler ในเมนูการตั้งค่า"
 ]
