@@ -138,7 +138,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { "0" },
                 { Locale.get(PFP_OFF), Locale.get(PFP_SQUARE), Locale.get(PFP_CIRCLE), Locale.get(PFP_CIRCLE_HQ) },
                 { Locale.get(PFP_PLACEHOLDER), Locale.get(PFP_16PX), Locale.get(PFP_32PX) },
-                { "0" },
+                { Locale.get(SETTING_VALUE_OFF) },
                 boolValues,
             }, {
                 // Behavior
@@ -407,7 +407,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 int max = maxValues[currentSection][selected];
                 try {
                     int value = Integer.parseInt(((TextBox) d).getString());
-                    if (value < 1 || value > max) throw new Exception();
+                    // Menu icon size has a minimum of 0 (off), other options have a min of 1
+                    int min = (currentSection == 1 && selected == 4) ? 0 : 1;
+                    if (value < min || value > max) throw new Exception();
 
                     // Special case for menu icon size:
                     // 1 and 2 are reserved values that older versions used for 16 and 32 px
