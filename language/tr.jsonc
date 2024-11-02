@@ -602,5 +602,4 @@
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
     "Pigler Bildirim API desktelenilmiyor. Lütfen Pigler API'ı nnp.nnchan.ru/pna sitesinden yükleyin ya da Pigler bildirimlerini Ayarlar menüsünden kapatın."
-
 ]
