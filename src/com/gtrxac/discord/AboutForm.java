@@ -72,11 +72,12 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("ElHamexd", "Spanish");
         addDeveloper("Kaiky Alexandre Souza", "Portuguese (Brazil)");
         addDeveloper("logoffon", "Thai");
+        addDeveloper("mal0gen", "Portuguese");
         addDeveloper("pdyq", "Chinese (Traditional) and Cantonese");
         addDeveloper("proxion", "Ukrainian");
         addDeveloper("raul0028", "Romanian");
+        addDeveloper("SpazJR61\nviolent body", "Turkish");
         addDeveloper("SpiroWalkman\nmultiplemegapixels", "Russian");
-        addDeveloper("violent body", "Turkish");
         
         addString("Support", Font.SIZE_MEDIUM, LAYOUT_CENTER);
         addSpacer();
