@@ -52,9 +52,17 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
 
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
-            s.language = langIds[getSelectedIndex()];
-            Locale.setLanguage(s);
-            LoginSettings.save(s);
+            String newLanguage = langIds[getSelectedIndex()];
+
+            if (!s.language.equals(newLanguage)) {
+                s.language = newLanguage;
+                Locale.setLanguage(s);
+                LoginSettings.save(s);
+    
+                // Clear servers/DMs (so the lists get refreshed, which in turn updates the softkey labels)
+                s.guilds = null;
+                s.dmChannels = null;
+            }
         }
         s.disp.setCurrent(lastScreen);
     }
