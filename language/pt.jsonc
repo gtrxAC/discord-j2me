@@ -504,5 +504,15 @@
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
     "Inserir",
-    "Inserir"
+    "Inserir",
+
+    // Settings option for showing the scrollbar on the right side of the screen.
+    "Scroll bar",
+
+    // Options for the "Show scroll bar" setting.
+    // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
+    // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
+    // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on desktop emulators (KEmulator and WTK).
+    "Hidden",
+    "Visible"
 ]

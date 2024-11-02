@@ -74,6 +74,7 @@ public class LoginSettings {
                 s.showNotifAlert = getBoolRecord(true);
                 s.playNotifSound = getBoolRecord(true);
                 s.showNotifPigler = getBoolRecord(Util.supportsPigler);
+                KineticScrollingCanvas.scrollBarMode = getByteRecord(KineticScrollingCanvas.SCROLL_BAR_HIDDEN);
 
                 // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
@@ -139,6 +140,7 @@ public class LoginSettings {
             setBoolRecord(s.showNotifAlert);
             setBoolRecord(s.playNotifSound);
             setBoolRecord(s.showNotifPigler);
+            setByteRecord(KineticScrollingCanvas.scrollBarMode);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {

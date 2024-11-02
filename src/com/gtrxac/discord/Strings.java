@@ -243,4 +243,7 @@ public interface Strings {
     static final int NOTIFICATIONS_PIGLER = 239;
     static final int PIGLER_ERROR = 240;
     static final int PIGLER_NOT_SUPPORTED = 241;
+    static final int SHOW_SCROLLBAR = 242;
+    static final int SCROLLBAR_WHEN_NEEDED = 243;
+    static final int SCROLLBAR_PERMANENT = 244;
 }

@@ -2,7 +2,16 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
+/**
+ * Canvas with vertical scrolling support (kinetic/smooth scrolling when swiping + optional scroll bar)
+ * Scrollable content can be drawn using the 'scroll' field as a vertical offset
+ */
 public abstract class KineticScrollingCanvas extends Canvas implements Runnable {
+	static final int SCROLL_BAR_OFF = 0;
+	static final int SCROLL_BAR_HIDDEN = 1;
+	static final int SCROLL_BAR_VISIBLE = 2;
+    public static int scrollBarMode;
+
     public int scroll;
     public int totalScroll;
 
@@ -34,13 +43,18 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
     }
 
     public int getWidth() {
-        if (Util.isKemulator && isScrollable()) return super.getWidth() - scrollBarSize;
+        if (scrollBarMode == SCROLL_BAR_VISIBLE && isScrollable()) {
+            return super.getWidth() - scrollBarSize;
+        }
         return super.getWidth();
     }
 
     protected void pointerPressed(int x, int y) {
         // Use scrollbar if the content is tall enough to be scrollable and the user pressed on the right edge of the screen
-        usingScrollBar = isScrollable() && x > super.getWidth() - scrollBarSize;
+        usingScrollBar =
+            scrollBarMode != SCROLL_BAR_OFF &&
+            isScrollable() &&
+            x > super.getWidth() - scrollBarSize;
 
         if (usingScrollBar) {
             velocity = 0;  // stop any kinetic scrolling
@@ -106,7 +120,7 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
     protected void drawScrollbar(Graphics g) {
         g.setClip(0, 0, super.getWidth(), getHeight());
 
-        if ((Util.isKemulator && isScrollable()) || usingScrollBar) {
+        if ((scrollBarMode == SCROLL_BAR_VISIBLE && isScrollable()) || usingScrollBar) {
             int x = super.getWidth() - scrollBarSize;
 
             int ratio = scroll*1000/(getMaxScroll() - getMinScroll());

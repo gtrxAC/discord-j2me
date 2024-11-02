@@ -449,7 +449,7 @@
     // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
     "Neliö",
     "Ympyrä",
-    "Ympyrä (HQ)",
+    "Ympyrä (HD)",
 
     // Settings section for profile picture resolution.
     "Prof.kuvien tarkkuus",
@@ -600,5 +600,15 @@
     "Pigler API -virhe: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Laite ei tue Pigler Notifications API -rajapintaa. Asenna Pigler-rajapinta osoitteesta nnp.nnchan.ru/pna tai poista Pigler-ilmoitukset käytöstä asetuksista."
+    "Laite ei tue Pigler Notifications API -rajapintaa. Asenna Pigler-rajapinta osoitteesta nnp.nnchan.ru/pna tai poista Pigler-ilmoitukset käytöstä asetuksista.",
+
+    // Settings option for showing the scrollbar on the right side of the screen.
+    "Vierityspalkki",
+
+    // Options for the "Show scroll bar" setting.
+    // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
+    // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
+    // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on desktop emulators (KEmulator and WTK).
+    "Piilotettu",
+    "Näkyvä"
 ]

@@ -600,5 +600,15 @@
     "Ошибка Pigler API: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API не поддерживается. Пожалуйста, установите Pigler API с сайта nnp.nnchan.ru/pna или отключите Pigler-уведомления в настройках."
+    "Pigler Notifications API не поддерживается. Пожалуйста, установите Pigler API с сайта nnp.nnchan.ru/pna или отключите Pigler-уведомления в настройках.",
+
+    // Settings option for showing the scrollbar on the right side of the screen.
+    "Scroll bar",
+
+    // Options for the "Show scroll bar" setting.
+    // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
+    // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
+    // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on desktop emulators (KEmulator and WTK).
+    "Hidden",
+    "Visible"
 ]
