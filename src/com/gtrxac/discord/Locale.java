@@ -38,7 +38,7 @@ public class Locale {
 
         String result = buf.toString();
         try {
-            return new String(result.getBytes(), "UTF-8");
+            return new String(result.getBytes("ISO-8859-1"), "UTF-8");
         }
         catch (UnsupportedEncodingException e) {
             return result;

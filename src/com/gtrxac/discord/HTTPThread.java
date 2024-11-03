@@ -76,7 +76,12 @@ public class HTTPThread extends Thread implements Strings {
         }
         r.append(LINE_FEED);
 
-        return r.toString().getBytes();
+        try {
+            return r.toString().getBytes("ISO-8859-1");
+        }
+        catch (UnsupportedEncodingException e) {
+            return r.toString().getBytes();
+        }
     }
 
     private boolean shouldShowLoadScreen() {

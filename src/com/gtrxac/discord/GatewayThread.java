@@ -56,7 +56,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
 
     public void send(JSONObject msg) {
         try {
-            os.write((msg.build() + "\n").getBytes());
+            os.write((msg.build() + "\n").getBytes("UTF-8"));
             os.flush();
         }
         catch (Exception e) {}
@@ -235,7 +235,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
                     if (ch == '\n' || ch == -1) {
                         if (sb.length() > 0) {
                             // This message has been fully received, start processing it
-                            msgStr = new String(sb.toString().getBytes(), "UTF-8");
+                            msgStr = new String(sb.toString().getBytes("ISO-8859-1"), "UTF-8");
                             sb = new StringBuffer();
                             break;
                         }
