@@ -246,4 +246,26 @@ public interface Strings {
     static final int SHOW_SCROLLBAR = 242;
     static final int SCROLLBAR_WHEN_NEEDED = 243;
     static final int SCROLLBAR_PERMANENT = 244;
+    static final int MAIN_MENU_ABOUT = 245;
+    static final int ABOUT_TITLE = 246;
+    static final int VERSION = 247;
+    static final int ABOUT_DEVELOPERS = 248;
+    static final int ABOUT_TRANSLATORS = 249;
+    static final int ABOUT_SUPPORT = 250;
+    static final int LEAD_DEVELOPER = 251;
+    static final int WHAT_SHINOVON_DID = 252;
+    static final int WHAT_SAETTA06_DID = 253;
+    static final int TRANSLATOR_VI = 254;
+    static final int TRANSLATOR_SV = 255;
+    static final int TRANSLATOR_ID = 256;
+    static final int TRANSLATOR_PL = 257;
+    static final int TRANSLATOR_ES = 258;
+    static final int TRANSLATOR_PTBR = 259;
+    static final int TRANSLATOR_TH = 260;
+    static final int TRANSLATOR_PT = 261;
+    static final int TRANSLATOR_ZHTW_YUE = 262;
+    static final int TRANSLATOR_UK = 263;
+    static final int TRANSLATOR_RO = 264;
+    static final int TRANSLATOR_TR = 265;
+    static final int TRANSLATOR_RU = 266;
 }

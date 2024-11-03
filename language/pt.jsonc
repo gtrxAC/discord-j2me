@@ -506,13 +506,151 @@
     "Inserir",
     "Inserir",
 
+    // Title for language selection screen.
+    "Language",
+
+    // Settings section for language options.
+    "Language",
+    
+    // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
+    "Language",
+    "Set language",
+
+    // Softkey commands for toggling fullscreen mode in the chat view.
+    "Fullscreen",
+    "Toggle fullscreen",
+
+    // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
+    // Related to "Names of hotkey actions shown in the key mapper" above.
+    "toggling fullscreen",
+
+    // Settings option for enabling fullscreen mode by default in the chat view.
+    "Fullscreen mode",
+
+    // Settings section for selecting which kinds of messages notifications should be shown for.
+    "Show notifications for",
+
+    // Options for the kinds of messages that notifications should be shown for.
+    "All messages",
+    "Mentions",
+    "Direct messages",
+
+    // Text shown in notification alert windows. This is in the form of:
+    // User sent you a direct message: "message content"
+    // User sent a message in Server Name #channel: "message content"
+    " sent you a direct message: \"",
+    " sent a message in ",
+
+    // Title for notification alert windows
+    "New message",
+
+    // Settings section for selecting which kinds of notification methods should be used for incoming messages.
+    "Notify me with:",
+
+    // Options for the kinds of notification methods.
+    "Alert window",
+    "Sound",
+
+    // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
+    "Keep channels loaded",
+
+    // Text shown at the center of list screens when they are empty (no items).
+    // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
+    "Nothing to see here",
+
+    // Main body text for gateway disconnect prompt screen.
+    // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
+    "Cannot connect to gateway. Do you want to retry?",
+
+    // Softkey labels for sending an attachment as a reply to the selected message.
+    "Reply upload",
+    "Reply with file",
+
+    // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
+    "Attached file",
+
+    // Prefix and suffix for text shown in the notification alert window when the message has attachments.
+    // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
+    "(",
+    " attachment)",
+    " attachments)",
+
+    // Settings section names/titles.
+    // "Language" title is defined above (see "Settings section for language options")
+    // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
+    "Appearance",
+    "Images",
+    "Behaviour",
+    "Notifications",
+
+    // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
+    // On large screens, these are instead shown on the right side of the options.
+    "Off",
+    "On",
+
+    // Prefix for error message shown when an invalid value was entered into a textbox in the settings menu.
+    // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
+    // The whole message is in the form of "Please enter a valid number between 1 and X"
+    // where X is the maximum value for that setting.
+    "Please enter a valid number between 1 and ",
+
+    // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
+    "Pigler API",
+
+    // Prefix for error messages related to Pigler Notifications API.
+    "Pigler API error: ",
+
+    // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
+    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+
     // Settings option for showing the scrollbar on the right side of the screen.
     "Scroll bar",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
-    // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on desktop emulators (KEmulator and WTK).
+    // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
     "Hidden",
-    "Visible"
+    "Visible",
+
+    // Main menu option for about/credits screen.
+    // Related to "Main menu items" above.
+    "About",
+
+    // Title text for about screen.
+    "About",
+
+    // Prefix for version line shown in the about screen. The app's version number is shown after this.
+    "Version ",
+
+    // Heading shown in the about screen for developers.
+    "Developers",
+
+    // Heading shown in the about screen for language translation authors. Shown below developers.
+    "Translators",
+
+    // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
+    "Support",
+
+    // Lines shown in the about (credits) screen for what each developer (major contributor) did.
+    // The name of the person in question is shown above each line.
+    "Lead developer",
+    "Attachment loading, Pigler API integration, JSON parser",
+    "Loading animation, menu icons, Italian translation",
+
+    // Lines shown in the about screen for which language(s) each person wrote translations for.
+    // Note: These are ordered alphabetically based on the person's name, not the language's name
+    "Vietnamese",
+    "Swedish",
+    "Indonesian",
+    "Polish",
+    "Spanish",
+    "Portuguese (Brazil)",
+    "Thai",
+    "Portuguese",
+    "Chinese (Traditional) and Cantonese",
+    "Ukrainian",
+    "Romanian",
+    "Turkish",
+    "Russian"
 ]

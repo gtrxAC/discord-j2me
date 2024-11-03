@@ -28,10 +28,10 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addString(str, Font.STYLE_PLAIN, fontSize, layout);
     }
 
-    private void addDeveloper(String name, String desc) {
+    private void addDeveloper(String name, int descKey) {
         addSpacer();
         addString(name, Font.STYLE_BOLD, Font.SIZE_SMALL, LAYOUT_DEFAULT);
-        addString(desc, Font.SIZE_SMALL, LAYOUT_DEFAULT);
+        addString(Locale.get(descKey), Font.SIZE_SMALL, LAYOUT_DEFAULT);
         addSpacer();
     }
 
@@ -40,7 +40,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
     }
 
     AboutForm(State s) {
-        super("About");
+        super(Locale.get(ABOUT_TITLE));
         setCommandListener(this);
         this.s = s;
 
@@ -54,32 +54,32 @@ public class AboutForm extends Form implements CommandListener, Strings {
         
         addString("Discord J2ME", Font.SIZE_MEDIUM, LAYOUT_CENTER);
 
-        String versionStr = "Version " + s.midlet.getAppProperty("MIDlet-Version") + " (beta)";
+        String versionStr = Locale.get(VERSION) + s.midlet.getAppProperty("MIDlet-Version") + " (beta)";
         addString(versionStr, Font.SIZE_SMALL, LAYOUT_CENTER);
         addSpacer();
 
-        addString("Developers", Font.SIZE_MEDIUM, LAYOUT_CENTER);
-        addDeveloper("gtrxAC", "Lead developer");
-        addDeveloper("Shinovon", "Attachment loading, Pigler API integration, JSON parser");
-        addDeveloper("Saetta06", "Loading animation, menu icons, Italian translation");
+        addString(Locale.get(ABOUT_DEVELOPERS), Font.SIZE_MEDIUM, LAYOUT_CENTER);
+        addDeveloper("gtrxAC", LEAD_DEVELOPER);
+        addDeveloper("Shinovon", WHAT_SHINOVON_DID);
+        addDeveloper("Saetta06", WHAT_SAETTA06_DID);
         addSpacer();
 
-        addString("Translators", Font.SIZE_MEDIUM, LAYOUT_CENTER);
-        addDeveloper("ACPI Fixed Feature Button", "Vietnamese");
-        addDeveloper("Alex222", "Swedish");
-        addDeveloper("Borsain", "Indonesian");
-        addDeveloper("cappuchi", "Polish");
-        addDeveloper("ElHamexd", "Spanish");
-        addDeveloper("Kaiky Alexandre Souza", "Portuguese (Brazil)");
-        addDeveloper("logoffon", "Thai");
-        addDeveloper("mal0gen", "Portuguese");
-        addDeveloper("pdyq", "Chinese (Traditional) and Cantonese");
-        addDeveloper("proxion", "Ukrainian");
-        addDeveloper("raul0028", "Romanian");
-        addDeveloper("SpazJR61\nviolent body", "Turkish");
-        addDeveloper("SpiroWalkman\nmultiplemegapixels", "Russian");
+        addString(Locale.get(ABOUT_TRANSLATORS), Font.SIZE_MEDIUM, LAYOUT_CENTER);
+        addDeveloper("ACPI Fixed Feature Button", TRANSLATOR_VI);
+        addDeveloper("Alex222", TRANSLATOR_SV);
+        addDeveloper("Borsain", TRANSLATOR_ID);
+        addDeveloper("cappuchi", TRANSLATOR_PL);
+        addDeveloper("ElHamexd", TRANSLATOR_ES);
+        addDeveloper("Kaiky Alexandre Souza", TRANSLATOR_PTBR);
+        addDeveloper("logoffon", TRANSLATOR_TH);
+        addDeveloper("mal0gen", TRANSLATOR_PT);
+        addDeveloper("pdyq", TRANSLATOR_ZHTW_YUE);
+        addDeveloper("proxion", TRANSLATOR_UK);
+        addDeveloper("raul0028", TRANSLATOR_RO);
+        addDeveloper("SpazJR61\nviolent body", TRANSLATOR_TR);
+        addDeveloper("SpiroWalkman\nmultiplemegapixels", TRANSLATOR_RU);
         
-        addString("Support", Font.SIZE_MEDIUM, LAYOUT_CENTER);
+        addString(Locale.get(ABOUT_SUPPORT), Font.SIZE_MEDIUM, LAYOUT_CENTER);
         addSpacer();
         addString("discord.gg/2GKuJjQagp", Font.SIZE_SMALL, LAYOUT_DEFAULT);
         addSpacer();

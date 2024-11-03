@@ -39,7 +39,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         append(Locale.get(MAIN_MENU_GUILDS), s.ic.guilds);
         append(Locale.get(MAIN_MENU_DMS), s.ic.dms);
         append(Locale.get(MAIN_MENU_SETTINGS), s.ic.settings);
-        append("About", s.ic.about);
+        append(Locale.get(MAIN_MENU_ABOUT), s.ic.about);
         append(Locale.get(MAIN_MENU_LOG_OUT), s.ic.logout);
     }
 
