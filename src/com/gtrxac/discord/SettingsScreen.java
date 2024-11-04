@@ -426,7 +426,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     updateMenuItem(selected);
                 }
                 catch (Exception e) {
-                    s.error(Locale.get(SETTINGS_ERROR_INVALID_NUMBER) + max);
+                    s.error(Locale.get(SETTINGS_ERROR_INVALID_NUMBER_PREFIX) + max + Locale.get(SETTINGS_ERROR_INVALID_NUMBER_SUFFIX));
                     return;
                 }
             }

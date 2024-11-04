@@ -592,6 +592,7 @@
     // The whole message is in the form of "Please enter a valid number between 1 and X"
     // where X is the maximum value for that setting.
     "Будь ласка, введіть дійсне число від 1 до ",
+    "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
