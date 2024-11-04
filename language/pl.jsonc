@@ -603,53 +603,53 @@
     "Brak obsługi API powiadomień Pigler. Zainstaluj Pigler API ze strony nnp.nnchan.ru/pna lub wyłącz powiadomienia Piglera w Ustawieniach.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Pasek przewijania",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "Niewidoczny",
+    "Widoczny",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "O",
 
     // Title text for about screen.
-    "About",
+    "O",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Wersja ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Twórcy",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Tłumacze",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Wsparcie",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, Italian translation",
+    "Główny twórca",
+    "Wczytywanie załączników, integracja Pigler API, parser JSON",
+    "Animacja wczytywania, ikony menu, Włoskie tłumaczenie",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian"
+    "Wietnamskie",
+    "Szwedzkie",
+    "Indonezyjskie",
+    "Polskie",
+    "Hiszpańskie",
+    "Portugualskie (Brazylijskie)",
+    "Tajskie",
+    "Portugualskie",
+    "Chińskie (Tradycyjne) oraz Kantońskie",
+    "Ukraińskie",
+    "Rumuńskie",
+    "Tureckie",
+    "Rosyjskie"
 ]
