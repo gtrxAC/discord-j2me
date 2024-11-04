@@ -635,7 +635,7 @@
     // The name of the person in question is shown above each line.
     "Główny twórca",
     "Wczytywanie załączników, integracja Pigler API, parser JSON",
-    "Animacja wczytywania, ikony menu, włoskie tłumaczenie",
+    "Animacja wczytywania, ikony menu, Włoskie tłumaczenie",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
