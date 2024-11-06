@@ -640,17 +640,17 @@
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Wietnamskie",
-    "Szwedzkie",
-    "Indonezyjskie",
-    "Polskie",
-    "Hiszpańskie",
-    "Portugualskie (Brazylijskie)",
-    "Tajskie",
-    "Portugualskie",
-    "Chińskie (Tradycyjne) oraz Kantońskie",
-    "Ukraińskie",
-    "Rumuńskie",
-    "Tureckie",
-    "Rosyjskie"
+    "Wietnamski",
+    "Szwedzki",
+    "Indonezyjski",
+    "Polski",
+    "Hiszpański",
+    "Portugualski (Brazylia)",
+    "Tajski",
+    "Portugualski",
+    "Chiński (Tradycyjny) oraz Kantoński",
+    "Ukraiński",
+    "Rumuński",
+    "Turecki",
+    "Rosyjski"
 ]
