@@ -14,7 +14,7 @@ public class MainMenu extends List implements CommandListener {
         quitCommand = new Command("Quit", Command.EXIT, 0);
 
         append("Servers", null);
-        append("Direct messages", null);
+        append("Direct msgs.", null);
         append("Settings", null);
         append("Log out", null);
         addCommand(quitCommand);

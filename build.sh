@@ -2,7 +2,6 @@
 
 # Path to Java JDK. The JDK listed here must support targeting Java 1.2 (J2ME).
 # For example OpenJDK 8 (https://adoptium.net/temurin/releases/?version=8) or JDK 1.6.0_45
-# If the JDK in your PATH supports targeting Java 1.2, you can leave this blank.
 JAVA_HOME=sdk/jdk8u422-b05
 
 # Project name, used as output JAR file name. By default this is the name of the current directory.

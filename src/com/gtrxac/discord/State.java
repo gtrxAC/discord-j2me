@@ -52,23 +52,27 @@ public class State {
     }
 
 	public void error(String message, Displayable next) {
-		// J2ME has this stupid limitation where you cannot have two Alerts stacked
-		// on top of each other. So we work around that by checking if there is an
-		// existing alert. If so, change the text shown in the alert, instead of
-		// creating a new alert.
 		Displayable current = disp.getCurrent();
 
-		if (current instanceof ErrorAlert) {
-			((ErrorAlert) current).update(message, next);
+		if (current instanceof Alert) {
+			((Alert) current).setString(message);
+			if (next == null) {
+				disp.setCurrent(current);
+			} else {
+				disp.setCurrent((Alert) current, next);
+			}
 			return;
 		}
 
-		// No existing alert - create a new one and show it.
-		// Note: this might still sometimes fail if two errors occur at just the right time
-		try {
-			disp.setCurrent(new ErrorAlert(disp, message, next));
+		Alert a = new Alert("Error");
+		a.setString(message);
+		a.setTimeout(Alert.FOREVER);
+
+		if (next == null) {
+			disp.setCurrent(a);
+		} else {
+			disp.setCurrent(a, next);
 		}
-		catch (Exception e) {}
 	}
 	
 	public void error(Exception e, Displayable next) {
