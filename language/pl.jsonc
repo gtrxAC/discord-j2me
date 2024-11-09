@@ -615,10 +615,10 @@
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "O",
+    "O aplikacji",
 
     // Title text for about screen.
-    "O",
+    "O aplikacji",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
     "Wersja ",
@@ -645,9 +645,9 @@
     "Indonezyjski",
     "Polski",
     "Hiszpański",
-    "Portugualski (Brazylia)",
+    "Portugalski (Brazylia)",
     "Tajski",
-    "Portugualski",
+    "Portugalski",
     "Chiński (Tradycyjny) oraz Kantoński",
     "Ukraiński",
     "Rumuński",
@@ -655,6 +655,6 @@
     "Rosyjski",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View"
+    "Zobacz",
+    "Zobacz"
 ]
