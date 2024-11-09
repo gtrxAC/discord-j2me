@@ -491,8 +491,8 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case VIEW_NOTIFICATION: {
-                    s.isDM = isDM;
-                    if (isDM) {
+                    s.isDM = (guildID == null);
+                    if (s.isDM) {
                         if (s.dmSelector == null) {
                             runSilentHTTP(HTTPThread.FETCH_DM_CHANNELS);
                         }

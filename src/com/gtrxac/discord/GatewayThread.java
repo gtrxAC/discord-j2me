@@ -27,6 +27,11 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
     private static boolean piglerInitFailed;
     private static Object piglerLock = new Object();
 
+    /**
+     * Pigler notification UID -> Notification object
+     */
+    public static Hashtable piglerNotifs;
+
     public GatewayThread(State s) {
         this.s = s;
         s.subscribedGuilds = new Vector();
@@ -134,18 +139,22 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
         }
         content = c.toString();
 
+        Notification notif = new Notification(guildID, channelID);
+
         if (s.showNotifAlert) {
-            s.disp.setCurrent(new NotificationDialog(s, isDM, guildID, channelID, location, msg));
+            s.disp.setCurrent(new NotificationDialog(s, notif, location, msg));
         }
         
         synchronized (piglerLock) {
             if (s.showNotifPigler && pigler != null) {
                 try {
+                    int uid;
                     if (isDM) {
-                        pigler.createNotification(author, content, appIcon, true);
+                        uid = pigler.createNotification(author, content, appIcon, true);
                     } else {
-                        pigler.createNotification(location, author + ": " + content, appIcon, true);
+                        uid = pigler.createNotification(location, author + ": " + content, appIcon, true);
                     }
+                    piglerNotifs.put(new Integer(uid), notif);
                 }
                 catch (Exception e) {}
             }
@@ -162,6 +171,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
                 appIcon = null;
                 pigler = null;
                 piglerInitFailed = false;
+                piglerNotifs = null;
             }
         }
     }
@@ -180,10 +190,11 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
         
 		try {
             synchronized (piglerLock) {
+                piglerNotifs = new Hashtable();
                 pigler = new PiglerAPILayer();
                 pigler.setListener(this);
-                pigler.init("Discord");
-                // ... handle init
+                int missedUid = pigler.init("Discord");
+                if (missedUid != 0) handleNotificationTap(missedUid);
             }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,7 +203,12 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
     }
     
     public void handleNotificationTap(int uid) {
-        // ...
+        Integer uidObject = new Integer(uid);
+        Notification notif = (Notification) piglerNotifs.get(uidObject);
+        if (notif == null) return;
+
+        piglerNotifs.remove(uidObject);
+        notif.view(s);
     }
 
     public void run() {
@@ -254,6 +270,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
                         events.add("MESSAGE_UPDATE");
                         events.add("TYPING_START");
                         events.add("GUILD_MEMBERS_CHUNK");
+                        events.add("J2ME_READY");
 
                         JSONObject connData = new JSONObject();
                         connData.put("supported_events", events);
@@ -507,6 +524,11 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
                                 s.nameColorCache.set(id + guildId, resultColor);
                             }
                             s.nameColorCache.activeRequest = false;
+                        }
+                    }
+                    else if (op.equals("J2ME_READY")) {
+                        if (s.myUserId == null) {
+                            s.myUserId = message.getObject("d").getString("id");
                         }
                     }
                 }

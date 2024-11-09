@@ -8,30 +8,23 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
     private Command closeCommand;
     private Displayable lastScreen;
 
-    private boolean isDM;
-    private String guildID;
-    private String channelID;
+    private Notification notif;
     
-    public NotificationDialog(State s, boolean isDM, String guildID, String channelID, String location, Message msg) {
+    public NotificationDialog(State s, Notification notif, String location, Message msg) {
         super(s.disp, Locale.get(NOTIFICATION_TITLE), "");
         setCommandListener(this);
         this.s = s;
+        this.notif = notif;
         lastScreen = s.disp.getCurrent();
-
-        this.isDM = isDM;
-        this.guildID = guildID;
-        this.channelID = channelID;
 
         StringBuffer sb = new StringBuffer();
         sb.append(msg.author.name);
-        if (isDM) {
+        if (notif.guildID == null) {
             sb.append(Locale.get(NOTIFICATION_DM));
         } else {
-            sb.append(Locale.get(NOTIFICATION_SERVER)).append(location);
-            sb.append(": \"");
+            sb.append(Locale.get(NOTIFICATION_SERVER)).append(location).append(": \"");
         }
-        sb.append(msg.content);
-        sb.append("\"");
+        sb.append(msg.content).append("\"");
         setString(sb.toString());
 
         viewCommand = Locale.createCommand(VIEW, Command.OK, 1);
@@ -42,11 +35,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
 
     public void commandAction(Command c, Displayable d) {
         if (c == viewCommand) {
-            HTTPThread h = new HTTPThread(s, HTTPThread.VIEW_NOTIFICATION);
-            h.isDM = isDM;
-            h.guildID = guildID;
-            h.channelID = channelID;
-            h.start();
+            notif.view(s);
         }
         else if (c == closeCommand) {
             s.disp.setCurrent(lastScreen);
