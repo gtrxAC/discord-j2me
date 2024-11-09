@@ -50,7 +50,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
             s.gateway = new GatewayThread(s);
             s.gateway.start();
         } else {
-            s.disp.setCurrent(new ReconnectForm(s, message));
+            s.disp.setCurrent(new ReconnectDialog(s, message));
         }
     }
 
@@ -102,6 +102,8 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
         boolean isDM = false;
 
         String guildID = msgData.getString("guild_id", null);
+        String channelID = msgData.getString("channel_id", null);
+        
         if (guildID == null) {
             isDM = true;
         } else {
@@ -112,7 +114,6 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
 
             // Get the name of the channel
             // (only available if channel list for that server has been loaded)
-            String channelID = msgData.getString("channel_id", null);
             Channel c = Channel.getByID(s, channelID);
             if (c != null) location += " #" + c.name;
         }
@@ -134,17 +135,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
         content = c.toString();
 
         if (s.showNotifAlert) {
-            StringBuffer n = new StringBuffer();
-            n.append(msg.author.name);
-            if (isDM) {
-                n.append(Locale.get(NOTIFICATION_DM));
-            } else {
-                n.append(Locale.get(NOTIFICATION_SERVER)).append(location);
-                n.append(": \"");
-            }
-            n.append(content);
-            n.append("\"");
-            s.showAlert(Locale.get(NOTIFICATION_TITLE), n.toString(), null);
+            s.disp.setCurrent(new NotificationDialog(s, isDM, guildID, channelID, location, msg));
         }
         
         synchronized (piglerLock) {

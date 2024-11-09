@@ -721,7 +721,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 if (!s.isLiteProxy) {
                     s.error(Locale.get(DELETE_NOT_SUPPORTED));
                 } else {
-                    s.disp.setCurrent(new DeleteConfirmAlert(s, item.msg));
+                    s.disp.setCurrent(new DeleteConfirmDialog(s, item.msg));
                 }
             }
             else if (c == editCommand) {

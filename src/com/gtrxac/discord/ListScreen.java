@@ -39,7 +39,7 @@ public class ListScreen extends KineticScrollingCanvas {
     private int textOffsetY;
     private int iconY;
 
-    private static Font font;
+    public static Font font;  // do not overwrite! use setAppearance instead
     private static int fontHeight;
     private static int margin;
     private static int baseContentHeight;

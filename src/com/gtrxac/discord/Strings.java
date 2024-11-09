@@ -269,4 +269,6 @@ public interface Strings {
     static final int TRANSLATOR_RO = 265;
     static final int TRANSLATOR_TR = 266;
     static final int TRANSLATOR_RU = 267;
+    static final int VIEW = 268;
+    static final int VIEW_L = 269;
 }

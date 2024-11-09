@@ -2,14 +2,14 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class DeleteConfirmAlert extends Alert implements CommandListener, Strings {
+public class DeleteConfirmDialog extends Dialog implements CommandListener, Strings {
     State s;
     Message msg;
     Command yesCommand;
     Command noCommand;
     
-    public DeleteConfirmAlert(State s, Message msg) {
-        super(Locale.get(DELETE_CONFIRM_TITLE));
+    public DeleteConfirmDialog(State s, Message msg) {
+        super(s.disp, Locale.get(DELETE_CONFIRM_TITLE), "");
 
         String content = Util.stringToLength(msg.content, 30);
 

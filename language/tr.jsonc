@@ -652,5 +652,9 @@
     "Ukraynaca",
     "Rumence",
     "Türkçe",
-    "Rusça"
+    "Rusça",
+
+    // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
+    "View",
+    "View"
 ]

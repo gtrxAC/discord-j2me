@@ -2,27 +2,26 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class ReconnectForm extends Form implements CommandListener, Strings {
+public class ReconnectDialog extends Dialog implements CommandListener, Strings {
     private State s;
     private Command yesCommand;
     private Command noCommand;
     private Displayable lastScreen;
     
-    public ReconnectForm(State s, String message) {
-        super(Locale.get(RECONNECT_FORM_TITLE));
+    public ReconnectDialog(State s, String message) {
+        super(s.disp, Locale.get(RECONNECT_FORM_TITLE), "");
         setCommandListener(this);
         this.s = s;
-
         lastScreen = s.disp.getCurrent();
-        if (lastScreen instanceof ErrorAlert) {
-            lastScreen = ((ErrorAlert) lastScreen).next;
-        }
 
-        append(new StringItem(null, s.autoReConnect ? Locale.get(AUTO_RECONNECT_FAILED) : Locale.get(RECONNECT_FORM_TEXT)));
-
+        StringBuffer sb = new StringBuffer(Locale.get(s.autoReConnect ? AUTO_RECONNECT_FAILED : RECONNECT_FORM_TEXT));
         if (message != null && message.length() > 0) {
-            append(new StringItem(Locale.get(RECONNECT_FORM_MESSAGE), message));
+            sb.append("\n");
+            sb.append(Locale.get(RECONNECT_FORM_MESSAGE));
+            sb.append(":\n");
+            sb.append(message);
         }
+        setString(sb.toString());
 
         yesCommand = Locale.createCommand(YES, Command.OK, 0);
         noCommand = Locale.createCommand(NO, Command.BACK, 1);

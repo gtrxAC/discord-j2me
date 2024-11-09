@@ -654,5 +654,9 @@
     "Bahasa Ukraina",
     "Bahasa Romania",
     "Bahasa Turki",
-    "Bahasa Rusia"
+    "Bahasa Rusia",
+
+    // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
+    "View",
+    "View"
 ]

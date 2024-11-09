@@ -21,12 +21,14 @@ public class HTTPThread extends Thread implements Strings {
     static final int VIEW_ATTACHMENT_TEXT = 8;
     static final int EDIT_MESSAGE = 9;
     static final int DELETE_MESSAGE = 10;
+    static final int VIEW_NOTIFICATION = 11;
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
     private static final String LINE_FEED = "\r\n";
 
     State s;
     int action;
+    boolean silent;
 
     // Parameters for FETCH_GUILDS
     boolean showFavGuilds;
@@ -53,6 +55,11 @@ public class HTTPThread extends Thread implements Strings {
     // Parameters for EDIT_MESSAGE
     Message editMessage;
     String editContent;
+
+    // Parameters for VIEW_NOTIFICATION
+    boolean isDM;
+    String guildID;
+    String channelID;
 
     private boolean showLoad;
 
@@ -100,6 +107,21 @@ public class HTTPThread extends Thread implements Strings {
         }
     }
 
+    private void runSilentHTTP(int action) {
+        HTTPThread h = new HTTPThread(s, action);
+        s.dontShowLoadScreen = true;
+        h.silent = true;
+        h.start();
+        try {
+            h.join();
+        }
+        catch (Exception e) {}
+    }
+
+    private void setScreen(Displayable d) {
+        if (!silent) s.disp.setCurrent(d);
+    }
+
     public void run() {
         showLoad = shouldShowLoadScreen();
         s.dontShowLoadScreen = false;
@@ -128,7 +150,7 @@ public class HTTPThread extends Thread implements Strings {
                         FavoriteGuilds.openSelector(s, false, false);
                     } else {
                         s.guildSelector = new GuildSelector(s, s.guilds, false);
-                        s.disp.setCurrent(s.guildSelector);
+                        setScreen(s.guildSelector);
                     }
                     break;
                 }
@@ -171,7 +193,7 @@ public class HTTPThread extends Thread implements Strings {
 
                     s.channels = s.selectedGuild.channels;
                     s.channelSelector = new ChannelSelector(s);
-                    s.disp.setCurrent(s.channelSelector);
+                    setScreen(s.channelSelector);
                     break;
                 }
 
@@ -187,7 +209,7 @@ public class HTTPThread extends Thread implements Strings {
                         s.dmChannels.addElement(new DMChannel(s, ch));
                     }
                     s.dmSelector = new DMSelector(s);
-                    s.disp.setCurrent(s.dmSelector);
+                    setScreen(s.dmSelector);
                     break;
                 }
 
@@ -465,6 +487,29 @@ public class HTTPThread extends Thread implements Strings {
                     }
 
                     setBannerText(null);
+                    break;
+                }
+
+                case VIEW_NOTIFICATION: {
+                    s.isDM = isDM;
+                    if (isDM) {
+                        if (s.dmSelector == null) {
+                            runSilentHTTP(HTTPThread.FETCH_DM_CHANNELS);
+                        }
+                        s.selectedDmChannel = DMChannel.getById(s, channelID);
+                    } else {
+                        if (s.guildSelector == null) {
+                            runSilentHTTP(HTTPThread.FETCH_GUILDS);
+                        }
+                        s.selectedGuild = Guild.getById(s, guildID);
+
+                        if (s.channelSelector == null) {
+                            runSilentHTTP(HTTPThread.FETCH_CHANNELS);
+                        }
+                        s.selectedChannel = Channel.getByID(s, channelID);
+                    }
+                    s.dontShowLoadScreen = true;
+                    new HTTPThread(s, HTTPThread.FETCH_MESSAGES).start();
                     break;
                 }
             }

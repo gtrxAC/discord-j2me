@@ -652,5 +652,9 @@
     null,
     null,
     null,
+    null,
+
+    // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
+    null,
     null
 ]

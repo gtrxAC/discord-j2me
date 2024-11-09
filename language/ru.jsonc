@@ -652,5 +652,9 @@
     "Украинский",
     "Румынский",
     "Турецкий",
-    "Русский"
+    "Русский",
+
+    // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
+    "View",
+    "View"
 ]
