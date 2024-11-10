@@ -179,7 +179,7 @@
     "Nie znaleziono użytkownika. Spróbuj utworzyć konwersację z innego klienta.",
 
     // Title text for direct message list.
-    "Wiadomość prywatna",
+    "Wiadomości prywatne",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
     "Szukaj",
@@ -482,7 +482,7 @@
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
     "Przypisz klawisze",
-    "Przyp. skróty ponownie",
+    "Przyp. skr. pon.",
 
     // Generic softkey labels. Currently used in settings menu.
     "Zapisz",
@@ -538,7 +538,7 @@
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " wysłał/a ci wiadomość prywatną: \"",
+    " wysłał/a Ci wiadomość prywatną: \"",
     " wysłał/a wiadomość na ",
 
     // Title for notification alert windows
@@ -610,7 +610,7 @@
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Niewidoczny",
+    "Ukryty",
     "Widoczny",
 
     // Main menu option for about/credits screen.
@@ -636,7 +636,7 @@
     // The name of the person in question is shown above each line.
     "Główny twórca",
     "Wczytywanie załączników, integracja Pigler API, parser JSON",
-    "Animacja wczytywania, ikony menu, Włoskie tłumaczenie",
+    "Animacja wczytywania, ikony menu, włoskie tłumaczenie",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
@@ -648,7 +648,7 @@
     "Portugalski (Brazylia)",
     "Tajski",
     "Portugalski",
-    "Chiński (Tradycyjny) oraz Kantoński",
+    "Chiński (tradycyjny) oraz Kantoński",
     "Ukraiński",
     "Rumuński",
     "Turecki",
@@ -659,16 +659,16 @@
     "Wyświetl",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Auto. aktualizacja",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Dostępna aktualizacja",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Dostępna jest nowa wersja Discord J2ME. Czy chcesz zaktualizować?\nObecna wersja: ",
+    "\nNajnowsza wersja: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update"
+    "Aktualizuj",
+    "Aktualizuj"
 ]
