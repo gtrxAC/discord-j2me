@@ -9,11 +9,12 @@ import javax.microedition.lcdui.*;
 public class Dialog extends Canvas implements CommandListener {
     public static String okLabel;
     public static String okLabelLong;
+    private static Image overlay;
 
     public String text;
     private String[] textLines;
     private Display disp;
-    private Displayable nextScreen;
+    public Displayable nextScreen;
     private int fontHeight;
 
     public Command DISMISS_COMMAND;
@@ -25,6 +26,7 @@ public class Dialog extends Canvas implements CommandListener {
     }
     Dialog(Display disp, String title, String text, Displayable nextScreen) {
         super();
+        checkInitOverlay(disp);
         setTitle(title);
         super.setCommandListener(this);
 
@@ -37,6 +39,15 @@ public class Dialog extends Canvas implements CommandListener {
         super.addCommand(DISMISS_COMMAND);
 
         setString(text);
+    }
+
+    private static void checkInitOverlay(Display disp) {
+        if (overlay == null && disp.numAlphaLevels() > 2) {
+            try {
+                overlay = Image.createImage("/overlay.png");
+            }
+            catch (Exception e) {}
+        }
     }
 
     public int getWidth() {
@@ -68,16 +79,46 @@ public class Dialog extends Canvas implements CommandListener {
     }
 
     protected void paint(Graphics g) {
-        int themeBg = ListScreen.backgroundColor;
-        int background =
-            (themeBg & 0xFF0000) >> 17 << 16
-            | (themeBg & 0xFF00) >> 9 << 8
-            | (themeBg & 0xFF) >> 1;
-
-        // Darkened background
-        g.setColor(background);
         g.setClip(0, 0, super.getWidth(), getHeight());
-        g.fillRect(0, 0, super.getWidth(), getHeight());
+        int themeBg = ListScreen.backgroundColor;
+
+        // Get the screen that should be drawn behind this one
+        // If this Dialog is stacked above another Dialog, get the next non-Dialog screen
+        Displayable behindScreen = nextScreen;
+        while (behindScreen instanceof Dialog) {
+            behindScreen = ((Dialog) behindScreen).nextScreen;
+        }
+
+        // If possible, draw next screen (screen that will be returned to) behind a darkened overlay
+        // KineticScrollingCanvas has a _paint() proxy method for protected paint() that lets us do this
+        if (overlay != null && behindScreen instanceof KineticScrollingCanvas) {
+            // When changing screen size, the _paint() method will keep using the old width/height.
+            // There may be a proper fix for this, but for now, we just fill the background with the theme
+            // background color (so at least there isn't a white background)
+            g.setColor(themeBg);
+            g.fillRect(0, 0, super.getWidth(), getHeight());
+
+            ((KineticScrollingCanvas) nextScreen)._paint(g);
+
+            g.setClip(0, 0, super.getWidth(), getHeight());
+    
+            // Draw overlay (grid of 64×64 black square images with 70% opacity)
+            for (int y = 0; y < getHeight(); y += 64) {
+                for (int x = 0; x < super.getWidth(); x += 64) {
+                    g.drawImage(overlay, x, y, Graphics.TOP | Graphics.LEFT);
+                }
+            }
+        } else {
+            // Not possible to draw the next screen, or display doesn't support alpha blending:
+            // fill background with darkened version of theme background color
+            int background =
+                (themeBg & 0xFF0000) >> 18 << 16
+                | (themeBg & 0xFF00) >> 10 << 8
+                | (themeBg & 0xFF) >> 2;
+
+            g.setColor(background);
+            g.fillRect(0, 0, super.getWidth(), getHeight());
+        }
 
         // Centered card with actual theme background color
         int baseX = (super.getWidth() - getWidth())/2;

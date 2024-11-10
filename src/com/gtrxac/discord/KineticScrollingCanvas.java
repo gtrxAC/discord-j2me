@@ -38,7 +38,9 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
 
     private void handleScrollBar(int y) {
         int ratio = y*1000/getHeight();
-        scroll = getMinScroll() + (getMaxScroll() - getMinScroll())*ratio/1000;
+        scroll = getMinScroll() + (getMaxScroll() - getMinScroll())*ratio;
+        if (scroll%1000 > 500) scroll += 500;
+        scroll /= 1000;
         repaint();
     }
 
@@ -47,6 +49,10 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
             return super.getWidth() - scrollBarSize;
         }
         return super.getWidth();
+    }
+
+    public void _paint(Graphics g) {
+        paint(g);
     }
 
     protected void pointerPressed(int x, int y) {
