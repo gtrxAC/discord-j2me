@@ -50,6 +50,7 @@ public class State implements Strings {
 	boolean showNotifPigler;
 	boolean playNotifSound;
 	boolean highRamMode;
+	boolean autoUpdate;
 
 	int authorFontSize;
 	int messageFontSize;

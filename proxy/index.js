@@ -489,7 +489,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
         res.send(JSON.stringify({
             id: response.data.id,
             _uploadtoken: generateUploadToken(res.locals.headers.Authorization),
-            _liteproxy: true
+            _liteproxy: true,
+            _latest: "4.0.0"
         }));
     }
     catch (e) { handleError(res, e); }

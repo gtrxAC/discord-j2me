@@ -135,6 +135,19 @@ public class HTTPThread extends Thread implements Strings {
                 s.myUserId = resp.getString("id", "");
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
                 s.uploadToken = resp.getString("_uploadtoken", s.token);
+
+                if (s.autoUpdate) {
+                    String latestStr = resp.getString("_latest", null);
+                    if (latestStr != null) {
+                        int latest = Integer.parseInt(Util.replace(latestStr, ".", ""));
+                        int current = Integer.parseInt(Util.replace(s.midlet.getAppProperty("MIDlet-Version"), ".", ""));
+    
+                        if (latest > current) {
+                            s.disp.setCurrent(new UpdateDialog(s, latestStr));
+                            return;
+                        }
+                    }
+                }
             }
 
             switch (action) {

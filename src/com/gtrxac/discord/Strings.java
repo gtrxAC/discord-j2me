@@ -271,4 +271,10 @@ public interface Strings {
     static final int TRANSLATOR_RU = 267;
     static final int VIEW = 268;
     static final int VIEW_L = 269;
+    static final int AUTO_UPDATE = 270;
+    static final int UPDATE_AVAILABLE_TITLE = 271;
+    static final int UPDATE_AVAILABLE = 272;
+    static final int UPDATE_AVAILABLE_LATEST = 273;
+    static final int UPDATE = 274;
+    static final int UPDATE_L = 275;
 }

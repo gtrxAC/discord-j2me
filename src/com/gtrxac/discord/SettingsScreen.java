@@ -23,7 +23,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     private static final int[][] maxValues = {
         { 2, 2, 2, 1, 1, 1, 1 },
         { 1, 10000, 3, 2, 255, 1 },
-        { 100, 1, 1, 1, 1, 1, 2 },
+        { 100, 1, 1, 1, 1, 1, 2, 1 },
         { 1, 1, 1, 1, 1, 1 },
     };
 
@@ -74,6 +74,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(DEFAULT_HOTKEYS),
                 Locale.get(REMAP_HOTKEYS_L),
                 Locale.get(SHOW_SCROLLBAR),
+                Locale.get(AUTO_UPDATE),
             }, {
                 // Notifications
                 Locale.get(NOTIFICATIONS_ALL),
@@ -112,6 +113,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.keysDefault },
                 { s.ic.keys },
                 { s.ic.scrollBars },
+                { null },
             }, {
                 // Notifications
                 { s.ic.msgCount },
@@ -151,6 +153,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolValues,
                 null,
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(SCROLLBAR_WHEN_NEEDED), Locale.get(SCROLLBAR_PERMANENT) },
+                boolValues,
             }, {
                 // Notifications
                 boolValues,
@@ -187,7 +190,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.autoReConnect ? 1 : 0,
                 s.defaultHotkeys ? 1 : 0,
                 0,
-                KineticScrollingCanvas.scrollBarMode
+                KineticScrollingCanvas.scrollBarMode,
+                s.autoUpdate ? 1 : 0,
             }, {
                 // Notifications
                 s.showNotifsAll ? 1 : 0, 
@@ -379,6 +383,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.autoReConnect = values[2][3] == 1;
                 s.defaultHotkeys = values[2][4] == 1;
                 KineticScrollingCanvas.scrollBarMode = values[2][6];
+                s.autoUpdate = values[2][7] == 1;
 
                 s.showNotifsAll = values[3][0] == 1;
                 s.showNotifsPings = values[3][1] == 1;

@@ -658,5 +658,19 @@
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
     "View",
-    "View"
+    "View",
+
+    // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
+    "Auto update",
+
+    // Title for dialog box shown when an update was found.
+    "Update available",
+
+    // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
+    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
+    "\nLatest: ",
+
+    // Softkey labels for confirming an update in the update dialog box.
+    "Update",
+    "Update"
 ]
