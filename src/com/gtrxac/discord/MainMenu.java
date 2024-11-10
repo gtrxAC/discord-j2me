@@ -6,6 +6,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
     private State s;
     private Command quitCommand;
     private static boolean hasFavorites;
+    private static boolean hasDoneSamsungJetFontFix;
 
     private static MainMenu instance;
 
@@ -41,6 +42,19 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         append(Locale.get(MAIN_MENU_SETTINGS), s.ic.settings);
         append(Locale.get(MAIN_MENU_ABOUT), s.ic.about);
         append(Locale.get(MAIN_MENU_LOG_OUT), s.ic.logout);
+    }
+
+    protected void showNotify() {
+        // On Samsung Jet S8000 (tested with S800MCEIK1 firmware) the first canvas that is shown
+        // in a Java app will have fonts that are way too small (approx 16px on a 480p display).
+        // The solution is to reload the fonts and the main menu.
+        if (Util.isSamsungJet && !hasDoneSamsungJetFontFix) {
+            s.loadFonts();
+            s.disp.setCurrent(get(s));
+            hasDoneSamsungJetFontFix = true;
+        } else {
+            super.showNotify();
+        }
     }
 
     public void commandAction(Command c, Displayable d) {

@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class KeyMapper extends Canvas implements CommandListener, Strings {
+public class KeyMapper extends MyCanvas implements CommandListener, Strings {
     static final int HOTKEY_COUNT = 6;
 
     private State s;

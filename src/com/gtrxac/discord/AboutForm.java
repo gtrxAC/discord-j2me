@@ -6,7 +6,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
     private State s;
     private Image appIcon;
 
-    private static final int spacerHeight = Font.getDefaultFont().getHeight()/8;
+    private static final int spacerHeight = Util.fontSize/8;
 
     private static final int LAYOUT_BASE =
         Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER;

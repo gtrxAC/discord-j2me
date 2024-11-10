@@ -6,7 +6,7 @@ import javax.microedition.lcdui.*;
  * Canvas with vertical scrolling support (kinetic/smooth scrolling when swiping + optional scroll bar)
  * Scrollable content can be drawn using the 'scroll' field as a vertical offset
  */
-public abstract class KineticScrollingCanvas extends Canvas implements Runnable {
+public abstract class KineticScrollingCanvas extends MyCanvas implements Runnable {
 	static final int SCROLL_BAR_OFF = 0;
 	static final int SCROLL_BAR_HIDDEN = 1;
 	static final int SCROLL_BAR_VISIBLE = 2;
@@ -23,7 +23,12 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
 
     public boolean usingScrollBar;
 
-    private static final int scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
+    private static int scrollBarSize; 
+    
+    static {
+        scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
+        if (Util.isSamsungJet) scrollBarSize = scrollBarSize*5/2;
+    }
 
     protected abstract int getMinScroll();
     protected abstract int getMaxScroll();
@@ -49,10 +54,6 @@ public abstract class KineticScrollingCanvas extends Canvas implements Runnable 
             return super.getWidth() - scrollBarSize;
         }
         return super.getWidth();
-    }
-
-    public void _paint(Graphics g) {
-        paint(g);
     }
 
     protected void pointerPressed(int x, int y) {

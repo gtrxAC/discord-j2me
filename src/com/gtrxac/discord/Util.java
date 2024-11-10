@@ -321,8 +321,11 @@ public class Util {
 	public static final boolean isKemulator;
 	public static final boolean isJ2MELoader;
 	public static final boolean isSymbian;
+	public static final boolean isSamsungJet;
 
 	public static final boolean supportsPigler;
+
+	public static int fontSize;
 
 	static {
 		String platform = System.getProperty("microedition.platform");
@@ -331,6 +334,7 @@ public class Util {
 		isJ2MELoader = checkClass("javax.microedition.shell.MicroActivity");
 		isKemulator = checkClass("emulator.custom.CustomMethod");
 		isBlackBerry = platform.toLowerCase().startsWith("blackberry");
+		isSamsungJet = platform.startsWith("S8000") || platform.startsWith("S8003");
 
 		isSymbian = platform.indexOf("platform=S60") != -1 ||
 				System.getProperty("com.symbian.midp.serversocket.support") != null ||
@@ -339,6 +343,9 @@ public class Util {
 				checkClass("com.symbian.lcdjava.io.File");
 
 		supportsPigler = System.getProperty("org.pigler.api.version") != null;
+
+		fontSize = Font.getDefaultFont().getHeight();
+		if (isSamsungJet) fontSize *= 2;
 	}
 	
 	// https://github.com/shinovon/JTube/blob/master/src/jtube/PlatformUtils.java

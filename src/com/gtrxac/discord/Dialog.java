@@ -6,7 +6,7 @@ import javax.microedition.lcdui.*;
 /**
  * Canvas-based replacement for LCDUI Alert.
  */
-public class Dialog extends Canvas implements CommandListener {
+public class Dialog extends MyCanvas implements CommandListener {
     public static String okLabel;
     public static String okLabelLong;
     private static Image overlay;
@@ -14,6 +14,7 @@ public class Dialog extends Canvas implements CommandListener {
     public String text;
     private String[] textLines;
     private Display disp;
+    public Displayable lastScreen;
     public Displayable nextScreen;
     private int fontHeight;
 
@@ -31,7 +32,8 @@ public class Dialog extends Canvas implements CommandListener {
         super.setCommandListener(this);
 
         this.disp = disp;
-        this.nextScreen = (nextScreen != null) ? nextScreen : disp.getCurrent();
+        lastScreen = disp.getCurrent();
+        this.nextScreen = (nextScreen != null) ? nextScreen : lastScreen;
 
         fontHeight = ListScreen.font.getHeight();
         commandCount = 0;
@@ -83,22 +85,22 @@ public class Dialog extends Canvas implements CommandListener {
         int themeBg = ListScreen.backgroundColor;
 
         // Get the screen that should be drawn behind this one
-        // If this Dialog is stacked above another Dialog, get the next non-Dialog screen
-        Displayable behindScreen = nextScreen;
+        // If this Dialog is stacked above another Dialog, get the last non-Dialog screen
+        Displayable behindScreen = lastScreen;
         while (behindScreen instanceof Dialog) {
-            behindScreen = ((Dialog) behindScreen).nextScreen;
+            behindScreen = ((Dialog) behindScreen).lastScreen;
         }
 
-        // If possible, draw next screen (screen that will be returned to) behind a darkened overlay
-        // KineticScrollingCanvas has a _paint() proxy method for protected paint() that lets us do this
-        if (overlay != null && behindScreen instanceof KineticScrollingCanvas) {
+        // If possible, draw last screen behind a darkened overlay
+        // MyCanvas has a _paint() proxy method for protected paint() that lets us do this
+        if (overlay != null && behindScreen instanceof MyCanvas) {
             // When changing screen size, the _paint() method will keep using the old width/height.
             // There may be a proper fix for this, but for now, we just fill the background with the theme
             // background color (so at least there isn't a white background)
             g.setColor(themeBg);
             g.fillRect(0, 0, super.getWidth(), getHeight());
 
-            ((KineticScrollingCanvas) nextScreen)._paint(g);
+            ((MyCanvas) behindScreen)._paint(g);
 
             g.setClip(0, 0, super.getWidth(), getHeight());
     

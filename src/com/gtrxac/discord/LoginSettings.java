@@ -9,9 +9,9 @@ public class LoginSettings {
     static int index;
 
     public static int getBestMenuIconSize() {
-        int height = Font.getDefaultFont().getHeight();
+        int height = Util.fontSize;
         int result = height/16*16;
-        if (height - result >= 10) result += 16;
+        if (height - result >= 6) result += 16;
         if (result == 0) return 8;
         return result;
     }

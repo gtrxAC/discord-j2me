@@ -3,7 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
-public class LoadingScreen extends Canvas implements Runnable, Strings {
+public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     private State s;
     private int iconOffset;
 
