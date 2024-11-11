@@ -22,6 +22,7 @@ public class HTTPThread extends Thread implements Strings {
     static final int EDIT_MESSAGE = 9;
     static final int DELETE_MESSAGE = 10;
     static final int VIEW_NOTIFICATION = 11;
+    static final int FETCH_LANGUAGE = 12;
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
     private static final String LINE_FEED = "\r\n";
@@ -61,6 +62,9 @@ public class HTTPThread extends Thread implements Strings {
     String guildID;
     String channelID;
 
+    // Parameters for FETCH_LANGUAGE
+    String langID;
+
     private boolean showLoad;
 
     public HTTPThread(State s, int action) {
@@ -97,7 +101,8 @@ public class HTTPThread extends Thread implements Strings {
             && action != FETCH_ATTACHMENTS
             && action != SEND_MESSAGE
             && action != EDIT_MESSAGE
-            && action != DELETE_MESSAGE;
+            && action != DELETE_MESSAGE
+            && action != FETCH_LANGUAGE;
     }
 
     private void setBannerText(String newText) {
@@ -130,7 +135,7 @@ public class HTTPThread extends Thread implements Strings {
         if (showLoad) s.disp.setCurrent(new LoadingScreen(s));
 
         try {
-            if (s.myUserId == null) {
+            if (s.myUserId == null && action != FETCH_LANGUAGE) {
                 JSONObject resp = JSON.getObject(s.http.get("/users/@me"));
                 s.myUserId = resp.getString("id", "");
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
@@ -525,6 +530,18 @@ public class HTTPThread extends Thread implements Strings {
                     new HTTPThread(s, HTTPThread.FETCH_MESSAGES).start();
                     break;
                 }
+
+                case FETCH_LANGUAGE: {
+                    while (s.http == null) {
+                        Util.sleep(10);
+                    }
+                    byte[] langBytes = s.http.getBytes(s.api + "/lang/" + langID + ".json");
+                    Locale.languageLoaded(langID, Util.bytesToString(langBytes));
+                    if (s.disp.getCurrent() instanceof MainMenu) {
+                        s.disp.setCurrent(MainMenu.get(s));
+                    }
+                    break;
+                }
             }
         }
         catch (Exception e) {
@@ -535,6 +552,14 @@ public class HTTPThread extends Thread implements Strings {
                 }
                 case SEND_ATTACHMENT: {
                     s.error(Locale.get(UPLOAD_ERROR) + e.toString(), prevScreen);
+                    break;
+                }
+                case FETCH_LANGUAGE: {
+                    // Wait until main menu is shown, then show error
+                    while (!(s.disp.getCurrent() instanceof MainMenu)) {
+                        Util.sleep(10);
+                    }
+                    s.error("Failed to download language data: " + e.toString(), MainMenu.get(null));
                     break;
                 }
                 default: {

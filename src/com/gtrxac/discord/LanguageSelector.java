@@ -7,10 +7,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
     private State s;
     private Displayable lastScreen;
 
-    private static String[] langIds = {
-        "en", "en-US", "es", "fi", "id", "it", "pl", "pt", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW", "yue"
-    };
-
+    // Should match the order that is in Locale.langIds
     private static String[] langNames = {
         "English (UK)",      // en
         "English (US)",
@@ -45,24 +42,20 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
             s.ic.flagUK, s.ic.flagVI, s.ic.flagTW, null
         };
 
-        for (int i = 0; i < langIds.length; i++) {
+        for (int i = 0; i < Locale.langIds.length; i++) {
             append(langNames[i], flags[i]);
         }
     }
 
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
-            String newLanguage = langIds[getSelectedIndex()];
+            s.language = Locale.langIds[getSelectedIndex()];
+            Locale.setLanguage(s);
+            LoginSettings.save(s);
 
-            if (!s.language.equals(newLanguage)) {
-                s.language = newLanguage;
-                Locale.setLanguage(s);
-                LoginSettings.save(s);
-    
-                // Clear servers/DMs (so the lists get refreshed, which in turn updates the softkey labels)
-                s.guilds = null;
-                s.dmChannels = null;
-            }
+            // Clear servers/DMs (so the lists get refreshed, which in turn updates the softkey labels)
+            s.guilds = null;
+            s.dmChannels = null;
         }
         s.disp.setCurrent(lastScreen);
     }
