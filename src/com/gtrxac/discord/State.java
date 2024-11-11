@@ -5,6 +5,9 @@ import javax.microedition.lcdui.*;
 import java.util.*;
 
 public class State implements Strings {
+	public static final int VERSION_CODE = 1;
+	public static final String VERSION_NAME = "4.0.0 pre1";
+	
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
 	static final int PFP_TYPE_NONE = 0;
@@ -20,6 +23,10 @@ public class State implements Strings {
 	static final int ICON_SIZE_OFF = 0;
 	static final int ICON_SIZE_16 = 1;
 	static final int ICON_SIZE_32 = 2;
+
+	static final int AUTO_UPDATE_OFF = 0;
+	static final int AUTO_UPDATE_RELEASE_ONLY = 1;
+	static final int AUTO_UPDATE_ALL = 2;
 
 	MIDlet midlet;
 	Display disp;
@@ -50,7 +57,7 @@ public class State implements Strings {
 	boolean showNotifPigler;
 	boolean playNotifSound;
 	boolean highRamMode;
-	boolean autoUpdate;
+	int autoUpdate;
 
 	int authorFontSize;
 	int messageFontSize;

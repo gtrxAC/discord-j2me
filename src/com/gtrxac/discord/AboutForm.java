@@ -54,7 +54,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
         
         addString("Discord J2ME", Font.SIZE_MEDIUM, LAYOUT_CENTER);
 
-        String versionStr = Locale.get(VERSION) + s.midlet.getAppProperty("MIDlet-Version") + " (beta)";
+        String versionStr = Locale.get(VERSION) + State.VERSION_NAME;
         addString(versionStr, Font.SIZE_SMALL, LAYOUT_CENTER);
         addSpacer();
 

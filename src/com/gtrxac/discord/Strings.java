@@ -277,4 +277,6 @@ public interface Strings {
     static final int UPDATE_AVAILABLE_LATEST = 273;
     static final int UPDATE = 274;
     static final int UPDATE_L = 275;
+    static final int RELEASES_ONLY = 276;
+    static final int AUTO_UPDATE_ALL_STR = 277;
 }

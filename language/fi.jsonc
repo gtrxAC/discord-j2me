@@ -670,5 +670,10 @@
 
     // Softkey labels for confirming an update in the update dialog box.
     "Päivitä",
-    "Päivitä"
+    "Päivitä",
+
+    // Options for the "Auto update" setting.
+    // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All" means the user is also notified for betas.
+    "Vain julkaisut",
+    "Kaikki"
 ]

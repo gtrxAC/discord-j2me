@@ -48,6 +48,7 @@ public class Icons {
     Image scrollBars;
     Image pigler;
     Image about;
+    Image autoUpdate;
     Image flagGB;
     Image flagUS;
     Image flagES;
@@ -153,6 +154,7 @@ public class Icons {
         scrollBars = next();
         pigler = next();
         about = next();
+        autoUpdate = next();
         flagGB = next();
         flagUS = next();
         flagES = next();

@@ -141,17 +141,20 @@ public class HTTPThread extends Thread implements Strings {
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
                 s.uploadToken = resp.getString("_uploadtoken", s.token);
 
-                if (s.autoUpdate) {
-                    String latestStr = resp.getString("_latest", null);
-                    if (latestStr != null) {
-                        int latest = Integer.parseInt(Util.replace(latestStr, ".", ""));
-                        int current = Integer.parseInt(Util.replace(s.midlet.getAppProperty("MIDlet-Version"), ".", ""));
-    
-                        if (latest > current) {
-                            s.disp.setCurrent(new UpdateDialog(s, latestStr));
-                            return;
-                        }
-                    }
+                int latest = resp.getInt("_latestbeta", 0);
+
+                if (latest > State.VERSION_CODE && s.autoUpdate == State.AUTO_UPDATE_ALL) {
+                    String latestName = resp.getString("_latestbetaname", Locale.get(NAME_UNKNOWN));
+                    s.disp.setCurrent(new UpdateDialog(s, latestName, true));
+                    return;
+                }
+                
+                latest = resp.getInt("_latest", 0);
+
+                if (latest > State.VERSION_CODE && s.autoUpdate != State.AUTO_UPDATE_OFF) {
+                    String latestName = resp.getString("_latestname", Locale.get(NAME_UNKNOWN));
+                    s.disp.setCurrent(new UpdateDialog(s, latestName, false));
+                    return;
                 }
             }
 
