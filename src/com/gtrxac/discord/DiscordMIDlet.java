@@ -27,6 +27,9 @@ public class DiscordMIDlet extends MIDlet {
             }
 
             if (!haveLoginRms && getAppProperty("Token") == null) {
+                // Theme and fonts need to be loaded so Dialog screens can be shown as part of the LoginForm
+                s.loadTheme();
+                s.loadFonts();
                 s.disp.setCurrent(new LoginForm(s));
             } else {
                 LoginSettings.load(s);
