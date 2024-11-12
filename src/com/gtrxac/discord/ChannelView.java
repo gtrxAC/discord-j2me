@@ -89,7 +89,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         setFullScreenMode(s.fullscreenDefault);
         fullscreen = s.fullscreenDefault;
 
+        // ifdef J2ME_LOADER
         commands = new Vector();
+        // endif
     }
 
     protected void showNotify() {
@@ -276,22 +278,32 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         repaint();
     }
 
+    // ifdef J2ME_LOADER
     Vector commands;
+    // endif
 
     private void _removeCommand(Command c) {
+        // ifdef J2ME_LOADER
         if (commands.contains(c)) {
             commands.removeElement(c);
-            if (Util.isJ2MELoader) Util.sleep(20);
+            Util.sleep(20);
+        // endif
             removeCommand(c);
+        // ifdef J2ME_LOADER
         }
+        // endif
     }
 
     private void _addCommand(Command c) {
+        // ifdef J2ME_LOADER
         if (!commands.contains(c)) {
             commands.addElement(c);
-            if (Util.isJ2MELoader) Util.sleep(20);
+            Util.sleep(20);
+        // endif
             addCommand(c);
+        // ifdef J2ME_LOADER
         }
+        // endif
     }
 
     private void updateCommands(ChannelViewItem selected) {

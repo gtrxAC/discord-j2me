@@ -317,13 +317,18 @@ public class Util {
 		catch (InterruptedException e) {}
 	}
 
-	public static final boolean isBlackBerry;
+	// ifdef MIDP2_GENERIC
 	public static final boolean isKemulator;
-	public static final boolean isJ2MELoader;
 	public static final boolean isSymbian;
-	public static final boolean isSamsungJet;
+	// endif
 
+	// ifdef SAMSUNG
+	public static final boolean isSamsungJet;
+	// endif
+
+	// ifdef PIGLER_SUPPORT
 	public static final boolean supportsPigler;
+	// endif
 
 	public static int fontSize;
 
@@ -331,21 +336,28 @@ public class Util {
 		String platform = System.getProperty("microedition.platform");
 		if (platform == null) platform = "";
 
-		isJ2MELoader = checkClass("javax.microedition.shell.MicroActivity");
+		// ifdef MIDP2_GENERIC
 		isKemulator = checkClass("emulator.custom.CustomMethod");
-		isBlackBerry = platform.toLowerCase().startsWith("blackberry");
-		isSamsungJet = platform.startsWith("S8000") || platform.startsWith("S8003");
 
 		isSymbian = platform.indexOf("platform=S60") != -1 ||
 				System.getProperty("com.symbian.midp.serversocket.support") != null ||
 				System.getProperty("com.symbian.default.to.suite.icon") != null ||
 				checkClass("com.symbian.midp.io.protocol.http.Protocol") ||
 				checkClass("com.symbian.lcdjava.io.File");
+		// endif
 
+		// ifdef SAMSUNG
+		isSamsungJet = platform.startsWith("S8000") || platform.startsWith("S8003");
+		// endif
+
+		// ifdef PIGLER_SUPPORT
 		supportsPigler = System.getProperty("org.pigler.api.version") != null;
+		// endif
 
 		fontSize = Font.getDefaultFont().getHeight();
+		// ifdef SAMSUNG
 		if (isSamsungJet) fontSize *= 2;
+		// endif
 	}
 	
 	// https://github.com/shinovon/JTube/blob/master/src/jtube/PlatformUtils.java

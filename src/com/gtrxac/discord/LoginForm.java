@@ -6,7 +6,9 @@ public class LoginForm extends Form implements CommandListener, Strings {
     State s;
 
     private TextField apiField;
+    // ifdef BLACKBERRY
     private ChoiceGroup wifiGroup;
+    // endif
     private ChoiceGroup gatewayGroup;
     private TextField gatewayField;
     private TextField cdnField;
@@ -22,12 +24,12 @@ public class LoginForm extends Form implements CommandListener, Strings {
 
         LoginSettings.load(s);
 
-        if (Util.isBlackBerry) {
-            String[] wifiChoices = {Locale.get(USE_WIFI)};
-            wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, null);
-            wifiGroup.setSelectedIndex(0, s.bbWifi);
-            append(wifiGroup);
-        }
+        // ifdef BLACKBERRY
+        String[] wifiChoices = {Locale.get(USE_WIFI)};
+        wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, null);
+        wifiGroup.setSelectedIndex(0, s.bbWifi);
+        append(wifiGroup);
+        // endif
 
         apiField = new TextField(Locale.get(API_URL), s.api, 200, 0);
         cdnField = new TextField(Locale.get(CDN_URL), s.cdn, 200, 0);
@@ -80,10 +82,10 @@ public class LoginForm extends Form implements CommandListener, Strings {
             gatewayGroup.getSelectedFlags(selected);
             s.useGateway = selected[0];
 
-            if (Util.isBlackBerry) {
-                wifiGroup.getSelectedFlags(selected);
-                s.bbWifi = selected[0];
-            }
+            // ifdef BLACKBERRY
+            wifiGroup.getSelectedFlags(selected);
+            s.bbWifi = selected[0];
+            // endif
 
             s.tokenType = tokenGroup.getSelectedIndex();
             

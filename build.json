@@ -1,0 +1,32 @@
+[
+  {
+    "name": "discord_midp2",
+    "defines": ["MIDP2_GENERIC", "PIGLER_SUPPORT"],
+    "bootclasspath": ["sdk/lib/javapiglerapi.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
+  },
+  {
+    "name": "discord_midp2_alt",
+    "defines": ["MIDP2_ALT"],
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
+  },
+  {
+    "name": "discord_blackberry",
+    "defines": ["BLACKBERRY"],
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
+  },
+  {
+    "name": "discord_samsung",
+    "defines": ["SAMSUNG"],
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
+  },
+  {
+    "name": "discord_lg",
+    "defines": ["LG"],
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
+  },
+  {
+    "name": "discord_jl",
+    "defines": ["J2ME_LOADER"],
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
+  }
+]

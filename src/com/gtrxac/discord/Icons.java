@@ -46,7 +46,9 @@ public class Icons {
     Image fullscreen;
     Image keepChLoaded;
     Image scrollBars;
+    // ifdef PIGLER_SUPPORT
     Image pigler;
+    // endif
     Image about;
     Image autoUpdate;
     Image flagGB;
@@ -152,7 +154,10 @@ public class Icons {
         fullscreen = next();
         keepChLoaded = next();
         scrollBars = next();
-        pigler = next();
+        // ifdef PIGLER_SUPPORT
+        pigler =
+        // endif
+        next();
         about = next();
         autoUpdate = next();
         flagGB = next();

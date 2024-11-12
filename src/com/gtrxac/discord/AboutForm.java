@@ -31,6 +31,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
     private void addDeveloper(String name, int descKey) {
         addSpacer();
         addString(name, Font.STYLE_BOLD, Font.SIZE_SMALL, LAYOUT_DEFAULT);
+        append(new Spacer(getWidth(), 1));
         addString(Locale.get(descKey), Font.SIZE_SMALL, LAYOUT_DEFAULT);
         addSpacer();
     }
@@ -53,8 +54,9 @@ public class AboutForm extends Form implements CommandListener, Strings {
         catch (Exception e) {}
         
         addString("Discord J2ME", Font.SIZE_MEDIUM, LAYOUT_CENTER);
+        append(new Spacer(getWidth(), 1));
 
-        String versionStr = Locale.get(VERSION) + State.VERSION_NAME;
+        String versionStr = Locale.get(VERSION) + State.VERSION_NAME + Locale.get(LEFT_PAREN) + State.VERSION_VARIANT + Locale.get(RIGHT_PAREN);
         addString(versionStr, Font.SIZE_SMALL, LAYOUT_CENTER);
         addSpacer();
 

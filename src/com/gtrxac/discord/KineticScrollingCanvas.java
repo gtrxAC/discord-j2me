@@ -27,7 +27,9 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
     
     static {
         scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
+        // ifdef SAMSUNG
         if (Util.isSamsungJet) scrollBarSize = scrollBarSize*5/2;
+        // endif
     }
 
     protected abstract int getMinScroll();

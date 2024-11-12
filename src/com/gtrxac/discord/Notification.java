@@ -1,7 +1,6 @@
 package com.gtrxac.discord;
 
 import java.util.Hashtable;
-import org.pigler.tester.*;
 
 public class Notification {
     public String guildID;

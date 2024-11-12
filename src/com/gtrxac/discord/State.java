@@ -7,6 +7,27 @@ import java.util.*;
 public class State implements Strings {
 	public static final int VERSION_CODE = 1;
 	public static final String VERSION_NAME = "4.0.0 pre1";
+
+	// Should match the file name
+	public static final String VERSION_VARIANT =
+	// ifdef MIDP2_GENERIC
+	"midp2";
+	// endif
+	// ifdef MIDP2_ALT
+	"midp2_alt";
+	// endif
+	// ifdef BLACKBERRY
+	"blackberry";
+	// endif
+	// ifdef SAMSUNG
+	"samsung";
+	// endif
+	// ifdef LG
+	"lg";
+	// endif
+	// ifdef J2ME_LOADER
+	"jl";
+	// endif
 	
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
@@ -34,7 +55,9 @@ public class State implements Strings {
 	int theme;  // 0 = dark, 1 = light, 2 = black
 	boolean use12hTime;
 	boolean useGateway;
+	// ifdef BLACKBERRY
 	boolean bbWifi;
+	// endif
 	int messageLoadCount;
 	boolean useJpeg;
 	int attachmentSize;
@@ -54,7 +77,9 @@ public class State implements Strings {
 	boolean showNotifsPings;
 	boolean showNotifsDMs;
 	boolean showNotifAlert;
+	// ifdef PIGLER_SUPPORT
 	boolean showNotifPigler;
+	// endif
 	boolean playNotifSound;
 	boolean highRamMode;
 	int autoUpdate;
@@ -196,9 +221,11 @@ public class State implements Strings {
 	// Required for Wi-Fi support on BlackBerry
 	// See https://github.com/shinovon/JTube/blob/670ea59a94d6b5be8af53d94d7804b2d35b64e52/src/jtube/Util.java#L521
 	public String getPlatformSpecificUrl(String url) {
-		if (Util.isBlackBerry && bbWifi) {
+		// ifdef BLACKBERRY
+		if (bbWifi) {
 			return url + ";deviceside=true;interface=wifi";
 		}
+		// endif
 		return url;
 	}
 

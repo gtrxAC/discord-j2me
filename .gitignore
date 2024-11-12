@@ -1,10 +1,10 @@
 .vscode/
+build/
 classes/
 lib/
-tmpclasses/
-tmplib/
 node_modules/
-sdk/
+sdk/jdk*/
+log.txt
 res/*.json
 *.jar
 *.jad

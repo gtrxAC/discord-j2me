@@ -31,9 +31,22 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == updateCommand) {
-            char format = (Util.isJ2MELoader || Util.isKemulator) ? 'r' : 'd';
-            String type = isBeta ? "beta" : "midp2";
-            s.platformRequest(s.api + "/discord_" + type + ".ja" + format);
+            StringBuffer target = new StringBuffer();
+            String format = ".jad";
+            // ifdef MIDP2_GENERIC
+            if (Util.isKemulator) format = ".jar";
+            // endif
+            // ifdef J2ME_LOADER
+            format = ".jar";
+            // endif
+
+            target.append(s.api);
+            target.append("/discord_");
+            target.append(State.VERSION_VARIANT);
+            if (isBeta) target.append("_beta");
+            target.append(format);
+
+            s.platformRequest(target.toString());
         }
         else if (c == closeCommand) {
             s.disp.setCurrent(MainMenu.get(null));

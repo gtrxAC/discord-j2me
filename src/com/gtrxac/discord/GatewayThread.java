@@ -4,11 +4,18 @@ import java.io.*;
 import java.util.*;
 import javax.microedition.io.*;
 import javax.microedition.lcdui.*;
+
+// ifdef PIGLER_SUPPORT
 import org.pigler.tester.*;
+// endif
 
 import cc.nnproject.json.*;
 
-public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLayer {
+public class GatewayThread extends Thread implements Strings
+// ifdef PIGLER_SUPPORT
+, PiglerAPIHandlerLayer
+// endif
+{
     private State s;
 
     volatile boolean stop;
@@ -22,6 +29,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
 
     private static int reconnectAttempts;
 
+    // ifdef PIGLER_SUPPORT
     private static Image appIcon;
     private static PiglerAPILayer pigler;
     private static boolean piglerInitFailed;
@@ -31,6 +39,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
      * Pigler notification UID -> Notification object
      */
     public static Hashtable piglerNotifs;
+    // endif
 
     public GatewayThread(State s) {
         this.s = s;
@@ -145,6 +154,7 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
             s.disp.setCurrent(new NotificationDialog(s, notif, location, msg));
         }
         
+        // ifdef PIGLER_SUPPORT
         synchronized (piglerLock) {
             if (s.showNotifPigler && pigler != null) {
                 try {
@@ -159,8 +169,10 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
                 catch (Exception e) {}
             }
         }
+        // endif
     }
 
+    // ifdef PIGLER_SUPPORT
     public void checkInitPigler() {
         synchronized (piglerLock) {
             if (s.showNotifPigler) {
@@ -210,10 +222,13 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
         piglerNotifs.remove(uidObject);
         notif.view(s);
     }
+    // endif
 
     public void run() {
         try {
+            // ifdef PIGLER_SUPPORT
             checkInitPigler();
+            // endif
 
             sc = (SocketConnection) Connector.open(s.getPlatformSpecificUrl(s.gatewayUrl));
 
@@ -311,7 +326,12 @@ public class GatewayThread extends Thread implements Strings, PiglerAPIHandlerLa
 
                             if (shouldNotify(msgData)) {
                                 if (s.playNotifSound) AlertType.ALARM.playSound(s.disp);
-                                if (s.showNotifAlert || s.showNotifPigler) handleNotification(msgData);
+                                if (
+                                    s.showNotifAlert
+                                    // ifdef PIGLER_SUPPORT
+                                    || s.showNotifPigler
+                                    // endif
+                                ) handleNotification(msgData);
                             }
 
                             Channel ch = Channel.getByID(s, chId);

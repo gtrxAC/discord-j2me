@@ -45,7 +45,10 @@ public class LoginSettings {
                 s.use12hTime = getBoolRecord(false);
                 s.messageLoadCount = getByteRecord(20);
                 s.useGateway = getBoolRecord(true);
-                s.bbWifi = getBoolRecord(true);
+                // ifdef BLACKBERRY
+                s.bbWifi =
+                // endif
+                getBoolRecord(true);
                 s.useJpeg = getBoolRecord(true);
                 s.cdn = getStringRecord(s.cdn);
                 s.pfpType = getByteRecord(State.PFP_TYPE_CIRCLE_HQ);
@@ -70,14 +73,32 @@ public class LoginSettings {
                 s.showNotifsAll = getBoolRecord(false);
                 s.showNotifsPings = getBoolRecord(true);
                 s.showNotifsDMs = getBoolRecord(true);
-                s.highRamMode = getBoolRecord(Util.isSymbian || Util.isJ2MELoader || Util.isKemulator);
+                s.highRamMode = getBoolRecord(
+                    false
+                    // ifdef J2ME_LOADER
+                    || true
+                    // endif
+                    // ifdef MIDP2_GENERIC
+                    || Util.isSymbian || Util.isKemulator
+                    // endif
+                );
                 s.showNotifAlert = getBoolRecord(true);
                 s.playNotifSound = getBoolRecord(true);
-                s.showNotifPigler = getBoolRecord(Util.supportsPigler);
+                // ifdef PIGLER_SUPPORT
+                s.showNotifPigler =
+                // endif
+                getBoolRecord(
+                    // ifdef PIGLER_SUPPORT
+                    Util.supportsPigler ||
+                    // endif
+                    false
+                );
                 KineticScrollingCanvas.scrollBarMode = getByteRecord(
+                    // ifdef MIDP2_GENERIC
                     Util.isKemulator ?
                         KineticScrollingCanvas.SCROLL_BAR_VISIBLE :
-                        KineticScrollingCanvas.SCROLL_BAR_HIDDEN
+                    // endif
+                    KineticScrollingCanvas.SCROLL_BAR_HIDDEN
                 );
                 s.autoUpdate = getByteRecord(State.AUTO_UPDATE_RELEASE_ONLY);
 
@@ -116,7 +137,12 @@ public class LoginSettings {
             setBoolRecord(s.use12hTime);
             setByteRecord(s.messageLoadCount);
             setBoolRecord(s.useGateway);
-            setBoolRecord(s.bbWifi);
+            setBoolRecord(
+                // ifdef BLACKBERRY
+                s.bbWifi ||
+                // endif
+                false
+            );
             setBoolRecord(s.useJpeg);
             setStringRecord(s.cdn);
             setByteRecord(s.pfpType);
@@ -144,7 +170,12 @@ public class LoginSettings {
             setBoolRecord(s.highRamMode);
             setBoolRecord(s.showNotifAlert);
             setBoolRecord(s.playNotifSound);
-            setBoolRecord(s.showNotifPigler);
+            setBoolRecord(
+                // ifdef PIGLER_SUPPORT
+                s.showNotifPigler ||
+                // endif
+                false
+            );
             setByteRecord(KineticScrollingCanvas.scrollBarMode);
             setByteRecord(s.autoUpdate);
             loginRms.closeRecordStore();
