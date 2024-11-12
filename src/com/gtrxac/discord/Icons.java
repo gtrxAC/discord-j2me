@@ -19,6 +19,7 @@ public class Icons {
     Image autoReconnect;
     Image menuIcons;
     Image nameColors;
+    Image nameColorsOff;
     Image fontSmall;
     Image fontMedium;
     Image fontLarge;
@@ -127,6 +128,7 @@ public class Icons {
         autoReconnect = next();
         menuIcons = next();
         nameColors = next();
+        nameColorsOff = next();
         fontSmall = next();
         fontMedium = next();
         fontLarge = next();

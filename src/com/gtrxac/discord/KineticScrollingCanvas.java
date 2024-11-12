@@ -60,10 +60,11 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
 
     protected void pointerPressed(int x, int y) {
         // Use scrollbar if the content is tall enough to be scrollable and the user pressed on the right edge of the screen
+        // Note: Scrollbar hitbox is wider than the actual rendered scrollbar
         usingScrollBar =
             scrollBarMode != SCROLL_BAR_OFF &&
             isScrollable() &&
-            x > super.getWidth() - scrollBarSize;
+            x > super.getWidth() - scrollBarSize*5/3;
 
         if (usingScrollBar) {
             velocity = 0;  // stop any kinetic scrolling

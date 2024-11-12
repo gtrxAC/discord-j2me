@@ -27,6 +27,8 @@ public class HTTPThread extends Thread implements Strings {
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
     private static final String LINE_FEED = "\r\n";
 
+    private static boolean haveFetchedUserInfo;
+
     State s;
     int action;
     boolean silent;
@@ -135,11 +137,12 @@ public class HTTPThread extends Thread implements Strings {
         if (showLoad) s.disp.setCurrent(new LoadingScreen(s));
 
         try {
-            if (s.myUserId == null && action != FETCH_LANGUAGE) {
+            if (!haveFetchedUserInfo && action != FETCH_LANGUAGE) {
                 JSONObject resp = JSON.getObject(s.http.get("/users/@me"));
                 s.myUserId = resp.getString("id", "");
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
                 s.uploadToken = resp.getString("_uploadtoken", s.token);
+                haveFetchedUserInfo = true;
 
                 int latest = resp.getInt("_latestbeta", 0);
 
@@ -524,9 +527,10 @@ public class HTTPThread extends Thread implements Strings {
                         if (s.guildSelector == null) {
                             runSilentHTTP(HTTPThread.FETCH_GUILDS);
                         }
+                        Guild prevSelectedGuild = s.selectedGuild;
                         s.selectedGuild = Guild.getById(s, guildID);
 
-                        if (s.channelSelector == null) {
+                        if (s.channelSelector == null || prevSelectedGuild != s.selectedGuild) {
                             runSilentHTTP(HTTPThread.FETCH_CHANNELS);
                         }
                         s.selectedChannel = Channel.getByID(s, channelID);

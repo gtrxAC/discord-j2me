@@ -28,12 +28,14 @@ public class Dialog extends MyCanvas implements CommandListener {
     Dialog(Display disp, String title, String text, Displayable nextScreen) {
         super();
         checkInitOverlay(disp);
-        setTitle(title);
         super.setCommandListener(this);
 
         this.disp = disp;
         lastScreen = disp.getCurrent();
         this.nextScreen = (nextScreen != null) ? nextScreen : lastScreen;
+
+        // Don't show title bar if the previous screen didn't have a title bar
+        if (lastScreen == null || lastScreen.getTitle() != null) setTitle(title);
 
         fontHeight = ListScreen.font.getHeight();
         commandCount = 0;

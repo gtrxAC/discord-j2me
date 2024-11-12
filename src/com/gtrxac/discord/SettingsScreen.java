@@ -100,7 +100,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.fontSmall, s.ic.fontMedium, s.ic.fontLarge },
                 { s.ic.repliesName, s.ic.repliesFull },
                 { s.ic.use12h },
-                { s.ic.nameColors },
+                { s.ic.nameColorsOff, s.ic.nameColors },
                 { s.ic.fullscreen },
             }, {
                 // Images

@@ -414,7 +414,7 @@
     "Selettore file nativo",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "Riconnessione gateway automatica",
+    "Riconnessione gateway auto",
 
     // Settings option for enabling icons in server and direct message lists.
     "Icone Server/MD",
@@ -604,76 +604,76 @@
     "API di notifiche Pigler non supportato. Installa l'API Pigler da nnp.nnchan.ru/pna o disabilita notifiche Pigler nelle impostazioni.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Barra scorrimento",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "Nascosta",
+    "Visibile",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Riconoscimenti",
 
     // Title text for about screen.
-    "About",
+    "Riconoscimenti",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Versione ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Sviluppatori",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Traduttori",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Supporto",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
     "Lead developer",
     "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, Italian translation",
+    "Animazione di caricamento, icone menu, Traduzione italiana",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
     "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "Svedese",
+    "Indonesiano",
+    "Polacco",
+    "Spagnolo",
+    "Portoghese (Brasile)",
+    "Tailandese",
+    "Portoghese",
+    "Cinese (Tradizionale) e Cantonese",
+    "Ucraino",
+    "Rumeno",
+    "Turco",
+    "Russo",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Visualizza",
+    "Visualizza",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Aggiornamento automatico",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Aggiornamento disponibile",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Una nuova versione di DiscordJ2ME è disponibile. Vuoi aggiornare?\nVersione attuale: ",
+    "\nUltima versione: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Aggiorna",
+    "Aggiorna",
 
     // Options for the "Auto update" setting.
-    // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All" means the user is also notified for betas.
-    "Releases only",
-    "All"
+    // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
+    "Versioni di release",
+    "Tutte le versioni"
 ]
