@@ -260,10 +260,10 @@
     "Masuk",
 
     // Proxy server warning message shown at the top of the login screen.
-    "Hanya gunakan proxy yang terpercaya!",
+    "Hanya gunakan proxy yang anda percaya!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "Token dapat ditemukan m'gunakan Dev Tools di peramban PC anda (cari caranya secara daring), Kami merekomendasikan anda untuk menggunakan akun alternatif/kedua",
+    "Token dapat ditemukan m'gunakan Dev Tools di peramban PC anda (cari caranya secara daring), Kami merekomendasikan anda untuk menggunakan akun alt/kedua",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "Gunakan Wi-Fi",
@@ -514,7 +514,7 @@
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
     "Pilih",
-    "Pilih Bahasa",
+    "Pilih",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
     "Layar penuh",
@@ -626,10 +626,10 @@
     "Versi ",
 
     // Heading shown in the about screen for developers.
-    "Pengembang",
+    "Para Pengembang",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Penerjemah",
+    "Para Penerjemah",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
     "Dukungan",
@@ -657,25 +657,25 @@
     "Bahasa Rusia",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Buka",
+    "Buka",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Pembaruan Otomatis",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Pembaruan tersedia",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Pembaruan Discord J2ME telah tersedia. Perbarui sekarang?\nVersi sekarang: ",
+    "\nVersi terbaru: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "P'barui",
+    "Perbarui",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions"
+    "Hanya releases (Stabil)",
+    "Seluruhnya (Stabil/Beta)"
 ]
