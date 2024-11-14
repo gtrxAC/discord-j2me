@@ -125,7 +125,7 @@
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
     "Ten serwer proxy nie wspiera przesyłania plików",
     "Ten serwer proxy nie wspiera usuwania wiadomości",
-    "Ten serwer proxy nie wspiera edytwowania wiadomości",
+    "Ten serwer proxy nie wspiera edytowania wiadomości",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
     "FileConnection nieobsługiwane",
@@ -176,7 +176,7 @@
     "Wprowadź nazwę użytkownika",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "Nie znaleziono użytkownika. Spróbuj utworzyć konwersację z innego klienta.",
+    "Nie znaleziono użytkownika. Spróbuj utworzyć konwersację za pomocą innego klienta.",
 
     // Title text for direct message list.
     "Wiadomości prywatne",
