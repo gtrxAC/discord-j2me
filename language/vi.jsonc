@@ -677,5 +677,8 @@
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
     "Releases only",
-    "All versions"
+    "All versions",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "German"
 ]

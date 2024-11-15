@@ -290,6 +290,7 @@ public class ListScreen extends KineticScrollingCanvas {
         return minScroll;
     }
     protected int getMaxScroll() {
+        if (items == null) return minScroll;
         return Math.max(items.size()*itemHeight - getHeight(), minScroll);
     }
 

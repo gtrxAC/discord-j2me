@@ -672,5 +672,8 @@
 
     // Softkey labels for confirming an update in the update dialog box.
     "Update",
-    "Update"
+    "Update",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "German"
 ]
