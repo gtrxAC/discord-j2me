@@ -507,86 +507,86 @@
     "Inserir",
 
     // Title for language selection screen.
-    "Language",
+    "Linguagem",
 
     // Settings section for language options.
-    "Language",
+    "Linguagem",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "Linguagem",
+    "Selecionar Linguagem",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "Ecrã int.",
+    "Ativar ecrã inteiro",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "ativar ecrã inteiro",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "Modo de ecrã inteiro",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "Mostrar notificações para",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "Todas as mensagens",
+    "Menções",
+    "Mensagens Diretas",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " mandou-te uma MD: \"",
+    " mandou uma mensagem no servidor ",
 
     // Title for notification alert windows
-    "New message",
+    "Nova mensagem",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "Notifque-me com:",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "Janela de alerta",
+    "Som",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "Manter canais carregados",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "Sem mensagens",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "Não foi possível conectar-se à gateway. Quer tentar de novo?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "Resp. c/ fich.",
+    "Responder com ficheiro",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "Ficheiro anexado",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)",
+    " anexo)",
+    " anexos)",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
     // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
-    "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "Interface",
+    "Imagens",
+    "Comportamento",
+    "Notificações",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "Ligado/a",
+    "Desligado/a",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -594,92 +594,92 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Please enter a valid number between 1 and ",
+    "Por favor insira um número válido entre 1 e ",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "Pigler API",
+    "API Pigler",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "Erro da API Pigler: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+    "API de Notificações Pigler não suportada. Por favor instale a API Pigler a partir do site nnp.nnchan.ru/pna ou desative notificações Pigler nas Definições.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Barra vertical (scroll bar)",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "Escondida",
+    "Visível",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Sobre o programa...",
 
     // Title text for about screen.
-    "About",
+    "Sobre o programa",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Versão",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Desenvolvedores",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Tradutores",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Suporte",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, Italian translation",
+    "Desenvolvedor principal",
+    "Anexo a carregar, integração da API Pigler, parser JSON",
+    "Animação de progresso, ícones do menu, tradução em italiano",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "Vietnamita",
+    "Sueco",
+    "Indonésio",
+    "Polaco",
+    "Espanhol",
+    "Português (Brasil)",
+    "Tailandês",
+    "Português (Portugal)",
+    "Chinês (Tradicional) e Cantonês",
+    "Ucraniano",
+    "Romeno",
+    "Turco",
+    "Russo",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Ver",
+    "Ver",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Auto atualizações",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Atualização disponível",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Uma nova versão do Discord J2ME está disponível. Quer atualizar?\nVersão atual: ",
+    "\nÚltima versão: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Atualizar",
+    "Atualizar",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "Apenas versões estáveis",
+    "Todas as versões",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German"
+    "Alemão"
 ]
