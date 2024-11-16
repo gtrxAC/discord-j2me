@@ -655,28 +655,28 @@
     "Rusça",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Göster",
+    "Göster",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Oto. güncelle",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Güncelleme mevcut",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Yeni bir Discord J2ME sürümü mevcut. Güncellemek ister misiniz?\nŞuanki sürüm: ",
+    "\nSon sürüm: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Güncelle",
+    "Güncelle",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "Sadece çıkış sürümleri",
+    "Beta ve çıkış sürümleri",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German"
+    "Almanca"
 ]
