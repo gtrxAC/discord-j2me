@@ -2,7 +2,7 @@
 
 :: Path to Java JDK. The JDK listed here must support targeting Java 1.2 (J2ME).
 :: For example OpenJDK 8 (https://adoptium.net/temurin/releases/?version=8)
-set JAVA_HOME=sdk\jdk8u432-b06
+set JAVA_HOME=sdk\jdk*
 
 where node >nul 2>nul
 if errorlevel 1 (

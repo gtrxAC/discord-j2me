@@ -2,7 +2,7 @@
 
 # Path to Java JDK. The JDK listed here must support targeting Java 1.2 (J2ME).
 # For example OpenJDK 8 (https://adoptium.net/temurin/releases/?version=8)
-export JAVA_HOME=sdk/jdk8u432-b06
+export JAVA_HOME=sdk/jdk*
 
 if ! command -v node > /dev/null; then
   echo "Please install Node.js"
