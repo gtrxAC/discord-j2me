@@ -47,7 +47,7 @@ public class PiglerAPILayer {
 	}
 
 	public void showGlobalPopup(String title, String text, int flags) throws Exception {
-		api.showGlobalPopup(title, text, flags);
+		api.showGlobalPopup(title, text, flags);  // If you get a compiler error here, make sure you have the correct javapiglerapi.jar version from https://nnp.nnchan.ru/pna/lib/javapiglerapi.jar
 	}
 
 	public int getAPIVersion() throws Exception {

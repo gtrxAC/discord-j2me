@@ -635,12 +635,12 @@
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
     "Pääkehittäjä",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, Italian translation",
+    "Liite-, JSON- ja Pigler API-tuki",
+    "Latausanimaatio, kuvakkeet, italiankielinen käännös",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
+    "vietnam",
     "ruotsi",
     "indonesia",
     "puola",
@@ -648,7 +648,7 @@
     "portugali (Brasilia)",
     "thai",
     "portugali",
-    "kiina (perinteinen) ja Cantonese",
+    "kiina (perinteinen) ja kantoninkiina",
     "ukraina",
     "romania",
     "turkki",

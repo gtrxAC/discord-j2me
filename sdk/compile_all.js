@@ -12,5 +12,11 @@ targets.forEach(target => {
   console.log(`${"_".repeat(80)}\n`)
   console.log(` Compiling: ${target.name}`)
   console.log(`${"_".repeat(80)}\n`)
-  console.log(cp.execSync(compileScript).toString());
+  try {
+    console.log(cp.execSync(compileScript).toString());
+  }
+  catch (e) {
+    console.log("Compilation failed");
+    process.exit(1);
+  }
 })
