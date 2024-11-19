@@ -2,7 +2,10 @@
 
 :: Path to Java JDK. The JDK listed here must support targeting Java 1.2 (J2ME).
 :: For example OpenJDK 8 (https://adoptium.net/temurin/releases/?version=8)
-set JAVA_HOME=sdk\jdk*
+:: By default, the folder starting with "jdk" inside the sdk folder is used.
+:: To use another folder, uncomment the next line and comment the one after it:
+:: set JAVA_HOME=path\to\jdk
+for /f "delims=" %%G in ('dir /b "sdk\jdk*"') do set JAVA_HOME="sdk\%%G"
 
 where node >nul 2>nul
 if errorlevel 1 (
