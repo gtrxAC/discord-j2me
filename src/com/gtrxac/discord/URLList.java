@@ -23,14 +23,14 @@ public class URLList extends ListScreen implements CommandListener, Strings {
             // Find a character that indicates the end of an URL. If not found, the rest of the string is the URL.
             int urlEndIndex = Util.indexOfAny(content, urlEnds, urlStartIndex);
             if (urlEndIndex == -1) {
-                urlEndIndex = content.length() - 1;
+                urlEndIndex = content.length();
             }
 
             // Add this URL
             append(content.substring(urlStartIndex, urlEndIndex), null);
 
             // If searched through whole string, stop
-            if (urlEndIndex >= content.length() - 1) break;
+            if (urlEndIndex >= content.length()) break;
 
             // Begin next search iteration where we left off
             index = urlEndIndex;
