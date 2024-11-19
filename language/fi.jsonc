@@ -615,10 +615,10 @@
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Tietoja",
 
     // Title text for about screen.
-    "About",
+    "Tietoja",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
     "Versio ",
@@ -630,29 +630,29 @@
     "Kääntäjät",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Tuki",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
+    "Pääkehittäjä",
     "Attachment loading, Pigler API integration, JSON parser",
     "Loading animation, menu icons, Italian translation",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
     "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "ruotsi",
+    "indonesia",
+    "puola",
+    "espanja",
+    "portugali (Brasilia)",
+    "thai",
+    "portugali",
+    "kiina (perinteinen) ja Cantonese",
+    "ukraina",
+    "romania",
+    "turkki",
+    "venäjä",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
     "Näytä",
@@ -678,5 +678,5 @@
     "Kaikki versiot",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German"
+    "saksa"
 ]
