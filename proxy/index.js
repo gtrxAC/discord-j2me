@@ -186,58 +186,75 @@ app.get(`${BASE}/guilds/:guild/channels`, getToken, async (req, res) => {
     catch (e) { handleError(res, e); }
 });
 
-// File upload form
 app.get(`/upload`, async (req, res) => {
-//     try {
-//         if (!req.query?.channel || !req.query?.token) {
-//             res.send(`<p>Token or destination channel not defined</p>`);
-//             return;
-//         }
+    res.send(
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+</head>
+<body>
+    <p>File uploading is currently disabled due to concerns about Discord flagging file uploads from third-party clients as spam.</p>
+    <p>If you want to try uploading anyway, <a href="${req.url.replace('/upload', '/upload2')}">click here</a> at your own risk.</p>
+</body>
+</html>`
+    )
+})
 
-//         const reply = req.query.reply;
-//         let username, content;
+// File upload form
+app.get(`/upload2`, async (req, res) => {
+    try {
+        if (!req.query?.channel || !req.query?.token) {
+            res.send(`<p>Token or destination channel not defined</p>`);
+            return;
+        }
 
-//         if (reply) {
-//             const messageData = await axios.get(
-//                 `${DEST_BASE}/channels/${req.query.channel}/messages?around=${reply}&limit=1`,
-//                 {headers: {Authorization: getTokenFromUploadToken(req.query.token)}}
-//             );
-//             username = messageData.data[0].author.global_name ?? messageData.data[0].author.username ?? "(no name)";
-//             content = messageData.data[0].content ?? "";
-//         }
+        const reply = req.query.reply;
+        let username, content;
 
-//         res.send(
-// `<!DOCTYPE html>
-// <html lang="en">
-// <head>
-//     <meta charset="UTF-8">
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <title>Upload</title>
-// </head>
-// <body>
-//     <h1>Upload file</h1>
-//     ${reply ? `<p>Replying to ${sanitizeHtml(username)}</p><p>${sanitizeHtml(content.slice(0, 50))}</p>` : ""}
-//     <form method="post" enctype="multipart/form-data" action="${BASE}/channels/${req.query.channel}/upload">
-//         <input type="hidden" name="token" value="${req.query.token}" />
-//         ${reply ? `<input type="hidden" name="reply" value="${reply}" />` : ""}
+        if (reply) {
+            const messageData = await axios.get(
+                `${DEST_BASE}/channels/${req.query.channel}/messages?around=${reply}&limit=1`,
+                {headers: {Authorization: getTokenFromUploadToken(req.query.token)}}
+            );
+            username = messageData.data[0].author.global_name ?? messageData.data[0].author.username ?? "(no name)";
+            content = messageData.data[0].content ?? "";
+        }
 
-//         <label for="file">File:</label><br />
-//         <input type="file" name="files" id="files"></input><br />
+        res.send(
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+</head>
+<body>
+    <h1>Upload file</h1>
+    ${reply ? `<p>Replying to ${sanitizeHtml(username)}</p><p>${sanitizeHtml(content.slice(0, 50))}</p>` : ""}
+    <form method="post" enctype="multipart/form-data" action="${BASE}/channels/${req.query.channel}/upload">
+        <input type="hidden" name="token" value="${req.query.token}" />
+        <input type="hidden" name="bypass" value="1" />
+        ${reply ? `<input type="hidden" name="reply" value="${reply}" />` : ""}
 
-//         <label for="content">Text:</label><br />
-//         <textarea name="content" id="content"></textarea><br />
+        <label for="file">File:</label><br />
+        <input type="file" name="files" id="files"></input><br />
 
-//         ${reply ? `<input type="checkbox" name="ping" id="ping" checked></input>` : ""}
-//         ${reply ? `<label for="ping">Mention author</label><br />` : ""}
+        <label for="content">Text:</label><br />
+        <textarea name="content" id="content"></textarea><br />
 
-//         <input type="submit" value="Upload" />
-//     </form>
-// </body>
-// </html>`
-//         );
-//     }
-//     catch (e) { handleError(res, e); }
-    res.send("File uploading is currently disabled due to concerns about Discord detecting file uploads from third-party clients.");
+        ${reply ? `<input type="checkbox" name="ping" id="ping" checked></input>` : ""}
+        ${reply ? `<label for="ping">Mention author</label><br />` : ""}
+
+        <input type="submit" value="Upload" />
+    </form>
+</body>
+</html>`
+        );
+    }
+    catch (e) { handleError(res, e); }
 });
 
 // Get DM channels
@@ -423,49 +440,62 @@ app.post(`${BASE}/channels/:channel/messages`, getToken, sendMessage);
 
 // Send message with attachments
 app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), getToken, async (req, res) => {
-    // try {
-    //     const form = new FormData();
-    //     let text = "Message sent!";
+    try {
+        const form = new FormData();
+        let text = "Message sent!";
 
-    //     if (req.file != null) {
-    //         const options = {
-    //             header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: form-data; name="files[0]"; filename="${req.file.originalname}"\r\nContent-Type: ${req.file.mimetype}\r\n\r\n`
-    //         };
-    //         form.append('files[0]', req.file.buffer, options);
-    //         text = "File sent!"
-    //     }
-    //     if (req.body) {
-    //         const json = {
-    //             content: req.body.content
-    //         }
-    //         if (req.body.reply !== undefined) {
-    //             json.message_reference = {
-    //                 message_id: req.body.reply
-    //             }
-    //         }
-    //         if (Number(req.body.ping) != 1 && req.body.ping != "on") {
-    //             json.allowed_mentions = {
-    //                 replied_user: false
-    //             }
-    //         }
-    //         const options = {
-    //             header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: form-data; name="payload_json"\r\nContent-Type: application/json\r\n\r\n`
-    //         };
-    //         form.append('payload_json', JSON.stringify(json), options);
-    //     }
+        if (req.file != null) {
+            const options = {
+                header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: form-data; name="files[0]"; filename="${req.file.originalname}"\r\nContent-Type: ${req.file.mimetype}\r\n\r\n`
+            };
+            form.append('files[0]', req.file.buffer, options);
+            text = "File sent!"
+        }
+        let bypass = false;
+        if (req.body) {
+            if (req.body.bypass) {
+                bypass = true;
+            }
+            else if (req.body.content?.startsWith("#")) {
+                bypass = true;
+                req.body.content = req.body.content.slice(1);
+            }
+            const json = {
+                content: req.body.content
+            }
+            if (req.body.reply !== undefined) {
+                json.message_reference = {
+                    message_id: req.body.reply
+                }
+            }
+            if (Number(req.body.ping) != 1 && req.body.ping != "on") {
+                json.allowed_mentions = {
+                    replied_user: false
+                }
+            }
+            const options = {
+                header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: form-data; name="payload_json"\r\nContent-Type: application/json\r\n\r\n`
+            };
+            form.append('payload_json', JSON.stringify(json), options);
+        }
+        if (!bypass) {
+            res.status(400).send({
+                message: "Uploading is disabled due to Discord flagging uploads from 3rd-party clients as spam. To upload anyway at your own risk, include a # at the beginning of your message. The # will not be included in the actual message."
+            });
+            return;
+        }
 
-    //     await axios.post(
-    //         `${DEST_BASE}/channels/${req.params.channel}/messages`,
-    //         form,
-    //         {headers: res.locals.headers}
-    //     )
+        await axios.post(
+            `${DEST_BASE}/channels/${req.params.channel}/messages`,
+            form,
+            {headers: res.locals.headers}
+        )
 
-    //     res.send(
-    //         `<p>${text}</p><a href="/upload?channel=${req.params.channel}&token=${res.locals.uploadToken ?? res.locals.headers.Authorization}">Send another</a>`
-    //     );
-    // }
-    // catch (e) { handleError(res, e); }
-    res.status(400).send({message: "File uploading is currently disabled due to concerns about Discord detecting file uploads from third-party clients."});
+        res.send(
+            `<p>${text}</p><a href="/upload?channel=${req.params.channel}&token=${res.locals.uploadToken ?? res.locals.headers.Authorization}">Send another</a>`
+        );
+    }
+    catch (e) { handleError(res, e); }
 });
 
 // Mark message as read
