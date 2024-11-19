@@ -282,4 +282,5 @@ public interface Strings {
     static final int RELEASES_ONLY = 276;
     static final int AUTO_UPDATE_ALL_STR = 277;
     static final int TRANSLATOR_DE = 278;
+    static final int TRANSLATOR_HR = 279;
 }

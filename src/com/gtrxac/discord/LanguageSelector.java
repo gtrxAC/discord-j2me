@@ -14,6 +14,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         "English (US)",
         "Español",
         "Suomi",        // fi (Finnish)
+        "",
         "Bahasa Indonesia", // id
         "Italiano",     // it (Italian)
         "Polski",       // pl (Polish)
@@ -37,10 +38,10 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         lastScreen = s.disp.getCurrent();
 
         Image[] flags = {
-            s.ic.flagDE, s.ic.flagGB, s.ic.flagUS, s.ic.flagES, s.ic.flagFI, s.ic.flagID,
+            s.ic.flagDE, s.ic.flagGB, s.ic.flagUS, s.ic.flagES, s.ic.flagFI, null, s.ic.flagID,
             s.ic.flagIT, s.ic.flagPL, s.ic.flagPT, s.ic.flagBR, s.ic.flagRO,
             s.ic.flagRU, s.ic.flagSV, s.ic.flagTH, s.ic.flagTR,
-            s.ic.flagUK, s.ic.flagVI, s.ic.flagTW, null
+            s.ic.flagUK, s.ic.flagVI, s.ic.flagTW, s.ic.flagHK
         };
 
         for (int i = 0; i < Locale.langIds.length; i++) {

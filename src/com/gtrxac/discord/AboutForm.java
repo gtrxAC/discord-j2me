@@ -68,6 +68,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
 
         addString(Locale.get(ABOUT_TRANSLATORS), Font.SIZE_MEDIUM, LAYOUT_CENTER);
         addDeveloper("ACPI Fixed Feature Button", TRANSLATOR_VI);
+        addDeveloper("AlanHudik", TRANSLATOR_HR);
         addDeveloper("Alex222", TRANSLATOR_SV);
         addDeveloper("Borsain", TRANSLATOR_ID);
         addDeveloper("cappuchi", TRANSLATOR_PL);
