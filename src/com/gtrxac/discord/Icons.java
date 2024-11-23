@@ -73,6 +73,7 @@ public class Icons {
     Image flagTH;
     Image flagTW;
     Image flagHK;
+    Image flagHR;
 
     Image sheet;
     int size;
@@ -122,7 +123,6 @@ public class Icons {
         themeLight = next();
         themeBlack = next();
         uiGroup = next();
-        next(); // skip removed icon
         use12h = next();
         nativePicker = next();
         autoReconnect = next();
@@ -183,6 +183,7 @@ public class Icons {
         flagTH = next();
         flagTW = next();
         flagHK = next();
+        flagHR = next();
 
         sheet = null;
     }

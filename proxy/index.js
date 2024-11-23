@@ -524,8 +524,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             _liteproxy: true,
             _latest: 0,
             _latestname: "4.0.0",
-            _latestbeta: 4,
-            _latestbetaname: "4.0.0 pre4",
+            _latestbeta: 5,
+            _latestbetaname: "4.0.0 pre5",
         }));
     }
     catch (e) { handleError(res, e); }
