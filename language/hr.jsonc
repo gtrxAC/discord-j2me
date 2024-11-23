@@ -480,8 +480,8 @@
     "Zadane brze tipke",
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
-    "Postavi tipke",
-    "Ponovo postavi tipke",
+    "Postavi brze tipke",
+    "Ponovo postavi brze tipke",
 
     // Generic softkey labels. Currently used in settings menu.
     "Spremi",
@@ -524,7 +524,7 @@
     "mijenanje vrste prikaza",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "vrsta punog ekrana",
+    "Cijeli zaslon",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
     "Prikaži notifikacije za",
@@ -612,8 +612,8 @@
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Skriven",
-    "Vidljiv",
+    "Skrivena",
+    "Vidljiva",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
@@ -681,5 +681,5 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "Njemački",
-    "Croatian"
+    "Hrvatski"
 ]
