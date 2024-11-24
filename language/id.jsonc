@@ -28,7 +28,7 @@
     "Pilih lampiran",
 
     // Softkey labels for going back to the previous screen.
-    "Balik",
+    "Kembali",
     "Kembali",
 
     // Softkey label for closing a menu.
@@ -65,7 +65,7 @@
 
     // Softkey labels for sending an attachment in the currently open channel.
     "Unggah",
-    "Unggah berkas",
+    "Unggah lampiran",
 
     // Softkey labels for copying the text content of the selected message.
     "Salin",
@@ -84,22 +84,22 @@
     "Buka tautan",
 
     // Channel view title suffix when reading older messages.
-    " (lama)",
+    " (terdahulu)",
 
     // Text shown at the center of the channel view when it is empty (no messages).
-    "Tidak ada pesan",
+    "Tiada pesan",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
     "Segarkan utk membaca pesan t'baru",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
-    "Menyambungkan",
+    "Menghubungkan",
 
     // Channel view banner shown when a message is being sent by the client.
     "Mengirim pesan",
 
     // Channel view banner shown when a message is being edited by the client.
-    "Mengubah pesan",
+    "Menyunting pesan",
 
     // Channel view banner shown when a message is being deleted by the client.
     "Menghapus pesan",
@@ -125,10 +125,10 @@
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
     "Mengunggah file tdk didukung oleh proxy yg anda gunakan",
     "Menghapus pesan tdk didukung oleh proxy yg anda gunakan",
-    "Mengedit psn tdk didukung oleh proxy yg anda gunakan",
+    "Menyunting psn tdk didukung oleh proxy yg anda gunakan",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
-    "FileConnection tidak didukung",
+    "Tidak dapat menggunakan FileConnection",
 
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
@@ -152,7 +152,7 @@
     // Generic softkey labels.
     "Ya",
     "Ya",
-    "Tdk",
+    "Tidak",
     "Tidak",
     "Ok",
     "Ok",
@@ -161,13 +161,13 @@
     "(tidak diketahui)",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "(tidak ada konten)",
+    "(tiada konten)",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    "(pesan tidak didukung)",
+    "(tidak didukung)",
 
     // Message content shown for a message that has been deleted.
-    "(telah dihapus)",
+    "(dihapus)",
 
     // Title text for direct message search screen.
     "Cari DM",
@@ -176,7 +176,7 @@
     "Masukkan nama pengguna",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "P'guna tdk ditemukan. Cobalah untuk membuat DM dgn p'guna tersebut dgn klien lain.",
+    "P'guna tdk ditemukan. Coba buat DM dgn p'guna tersebut dg. apl discord resmi.",
 
     // Title text for direct message list.
     "Pesan-pesan Saya",
@@ -186,7 +186,7 @@
     "Cari",
 
     // Title text shown for all error message screens.
-    "Kesalahan",
+    "Galat",
 
     // Title text shown for guild (server) selector.
     "Server",
@@ -254,7 +254,7 @@
     "Kembali",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-    "Tmbl ini telah digunakan utk ",
+    "Tombol ini telah digunakan utk ",
 
     // Title text shown in login screen.
     "Masuk",
@@ -319,14 +319,14 @@
     "Tidak ada yang dipilih",
 
     // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
-    " telah ditambahkan",
+    " telah menambahkan ",
     " ke dalam grup",
 
     // Status message shown when a user has left a group DM.
-    "keluar dari grup",
+    " keluar dari grup",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
-    " telah menghapus",
+    " telah menghapus ",
     " dari grup",
 
     // Status messages.
@@ -345,7 +345,7 @@
     "(stiker: ",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
-    "tidak dikenal",
+    "tidak diketahui",
 
     // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
     // Note: order of day and month cannot be changed currently
@@ -434,7 +434,7 @@
     "Ukuran fon isi pesan",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-    "Hitungan pesan yg akan dimuat",
+    "Juml. pesan yg dimuat",
 
     // Settings screen heading for selecting attachment file format.
     "Jenis lampiran",
@@ -452,7 +452,7 @@
     "Bulat (HQ)",
 
     // Settings section for profile picture resolution.
-    "Resolusi",
+    "Ukuran",
 
     // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
     "Hny Placeholder",
@@ -681,5 +681,5 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "Bahasa Jerman",
-    "Croatian"
+    "Bahasa Kroasia"
 ]
