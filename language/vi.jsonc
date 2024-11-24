@@ -307,7 +307,7 @@
     "Đăng xuất",
 
     // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
-    "Ping ai đó",
+    "Đề cập ai đó",
 
     // Label shown for username search results in "Insert mention" screen. Shown if more than one user matches the username query.
     "Các kết quả tìm kiếm",
@@ -355,8 +355,8 @@
     "CH",
 
     // Softkey labels for inserting a mention/ping in the "send message" screen.
-    "Ping",
-    "Ping ai đó",
+    "Đề cập",
+    "Đề cập ai đó",
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
@@ -388,7 +388,7 @@
     "Tin nhắn của bạn:",
 
     // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
-    "Ping tác giả",
+    "Đề tác giả",
 
     // Title text for settings menu.
     "Cài đặt",
@@ -532,7 +532,7 @@
 
     // Options for the kinds of messages that notifications should be shown for.
     "Tất cả t.nhắn",
-    "Ping",
+    "Đề cập",
     "T.nhắn trực tiếp",
 
     // Text shown in notification alert windows. This is in the form of:
@@ -578,14 +578,14 @@
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
     "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "Các hình ảnh",
+    "Các biểu hiện",
+    "Các thông báo",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "Tắt",
+    "Bật",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -593,46 +593,46 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Please enter a valid number between 1 and ",
+    "Hãy nhập một giá trị đúng từ 1 đến ",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "Pigler API",
+    "API Pigler",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "Lỗi API Pigler: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
     "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Thanh kéo",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "Ẩn",
+    "Hiện",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Giới thiệu",
 
     // Title text for about screen.
-    "About",
+    "Giới thiệu",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Phiên bản ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Các nhà phát triển",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Những người phiên dịch",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Cần trợ giúp?",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
@@ -642,44 +642,44 @@
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
+    "Tiếng Việt",
     "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "Tiếng Indonesia",
+    "Tiếng Ba Lan",
+    "Tiếng Tây Ban Nha",
+    "Tiếng Bồ Đào Nha (Brazil)",
+    "Tiếng Thái",
+    "Tiếng Bồ Đào Nha",
+    "Tiếng Trung (Phồn thể) và tiếng Quảng Đông",
+    "Tiếng Ukraina",
+    "Tiếng Rumani",
+    "Tiếng Thổ Nhĩ Kỳ",
+    "Tiếng Nga",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Xem",
+    "Xem",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Tự động cập nhật",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Có bản cập nhật mới",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Discord J2ME đã có một phiên bản mới. Bạn có muốn cập nhật không?\nP. bản hiện tại: ",
+    "\nP. bản mới nhất: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Cập nhật",
+    "Cập nhật",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "Chỉ những p.bản ổn định",
+    "Tất cả phiên bản",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German",
-    "Croatian"
+    "Tiếng Đức",
+    "Tiếng Croatia"
 ]
