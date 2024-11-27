@@ -52,7 +52,7 @@
     "Marcar todo como leído",
 
     // Generic "Select" softkey labels.
-    "Seleccionar",
+    "Selec.",
     "Seleccionar",
 
     // Softkey labels for sending a message in the currently open channel.
@@ -123,9 +123,9 @@
     ", ",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
-    "Este proxy no soporta la subida de archivos",
-    "Este proxy no soporta la eliminación de mensajes",
-    "Este proxy no soporta la edición de mensajes",
+    "Este proxy no tiene soporte de subida de archivos",
+    "Este proxy no tiene soporte de eliminación de mensajes",
+    "Este proxy no tiene soporte de edición de mensajes",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
     "FileConnection no soportado",
@@ -254,17 +254,16 @@
     "volver",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-    "Esta tecla ya esta mapeada para ",
+    "Esta tecla ya esta asignada para ",
 
     // Title text shown in login screen.
     "Iniciar sesión",
 
     // Proxy server warning message shown at the top of the login screen.
-    "¡Usa solo proxys que confies!",
+    "¡Usa solo proxies que confies!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "Puedes encontrar tu token usando dev tools del navegador de tu ordenador (busca en internet para más ayuda). Recomiendo usar una cuenta alternativa.",
-
+    "Puedes encontrar el token utilizando la herramienta DevTools del navegador de tu ordenador (Busca en Internet para más información).\nRecomendamos por seguridad que utilize una cuenta alternativa.",
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "Usar Wi-Fi",
 
@@ -292,11 +291,11 @@
     // Token sending options.
     "Header (predeterminado)",
     "JSON",
-    "Query parameter",
+    "Parámetro Query",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "Porfavor ingrese su token",
-    "Porfavor especifique un API URL",
+    "Por favor ingrese su token",
+    "Por favor especifique un API URL",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
@@ -364,7 +363,7 @@
     "Enviar mensaje en (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "Requiere una conexion al gateway activa",
+    "Se requiere una conexion al gateway activa",
 
     // Title text for "copy message content" screen.
     "Copiar mensaje",
@@ -376,7 +375,7 @@
     "Desconectado",
 
     // Main body text for gateway disconnect prompt screen.
-    "Gateway error. ¿Quieres reconectar?",
+    "Error de Gateway. ¿Quieres reconectar?",
 
     // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
     "Mensaje",
@@ -414,7 +413,7 @@
     "Selector de archivos nativo",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "auto reconectar Gateway",
+    "Auto-reconectar Gateway",
 
     // Settings option for enabling icons in server and direct message lists.
     "Iconos del Servidor/MDs",
@@ -455,7 +454,7 @@
     "Resolución del avatar",
 
     // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
-    "Solo placeholder",
+    "Solo Inicial",
 
     // Resolution options. Used for profile picture resolution and menu icon resolution.
     "Desactivado",
@@ -481,8 +480,8 @@
     "Hotkeys predeterminadas",
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
-    "Mapear teclas",
-    "Remapear hotkeys",
+    "Asignar teclas",
+    "Reasignar hotkeys",
 
     // Generic softkey labels. Currently used in settings menu.
     "Guardar",
@@ -577,15 +576,15 @@
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
-    "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "Apariencia",
+    "Imágenes",
+    "Comportamiento",
+    "Notificaciones",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "Desactivar",
+    "Activar",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -593,93 +592,93 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Please enter a valid number between 1 and ",
+    "Por favor ingrese un número valido entre 1 y ",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "error de API Pigler: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+    "Notificaciones de API Pigler no soportada. Por favor instale la API Pigler de nnp.nnchan.ru/pna o desactive las notificaciones de Pigler en Ajustes.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Barra de navegación",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
+    "Oculto",
     "Visible",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Acerca de",
 
     // Title text for about screen.
-    "About",
+    "Acerca de",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Versión ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Desarrolladores",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Traductores",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Soporte",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, Italian translation",
+    "Desarrollador Principal",
+    "Carga de archivos adjuntos, integración de API Pigler, analizador JSON",
+    "Animación de carga, iconos del menú, traducción Italiana",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "Vietnamita",
+    "Sueco",
+    "Indonesio",
+    "Polaco",
+    "Español",
+    "Portugués (Brasil)",
+    "Tailandés",
+    "Portugués",
+    "Chino (Tradicional) and Cantonés",
+    "Ucraniano",
+    "Romano",
+    "Turco",
+    "Ruso",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Ver",
+    "Ver",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
     "Auto update",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Actualización disponible",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Una nueva versión de Discord J2ME está disponible. ¿Quieres actualizarla?\nActual: ",
+    "\nÚltima: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Actualizar",
+    "Actualizar",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "Solo estable",
+    "Todas las versiones",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German",
-    "Croatian"
+    "Alemán",
+    "Croata"
 ]
