@@ -9,14 +9,8 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
     private Displayable lastScreen;
 
     private Notification notif;
-    
-    public NotificationDialog(State s, Notification notif, String location, Message msg) {
-        super(s.disp, Locale.get(NOTIFICATION_TITLE), "");
-        setCommandListener(this);
-        this.s = s;
-        this.notif = notif;
-        lastScreen = s.disp.getCurrent();
 
+    public static String createString(Notification notif, String location, Message msg) {
         StringBuffer sb = new StringBuffer();
         sb.append(msg.author.name);
         if (notif.guildID == null) {
@@ -25,7 +19,17 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
             sb.append(Locale.get(NOTIFICATION_SERVER)).append(location).append(": \"");
         }
         sb.append(msg.content).append("\"");
-        setString(sb.toString());
+        return sb.toString();
+    }
+    
+    public NotificationDialog(State s, Notification notif, String location, Message msg) {
+        super(s.disp, Locale.get(NOTIFICATION_TITLE), "");
+        setCommandListener(this);
+        this.s = s;
+        this.notif = notif;
+        lastScreen = s.disp.getCurrent();
+
+        setString(createString(notif, location, msg));
 
         viewCommand = Locale.createCommand(VIEW, Command.OK, 1);
         closeCommand = Locale.createCommand(CLOSE, Command.BACK, 0);

@@ -26,7 +26,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         { 100, 1, 1, 1, 1, 1, 2, 2 },
         { 1, 1, 1, 1, 1,
         // ifdef PIGLER_SUPPORT
-        1
+        1,
+        // endif
+        // ifdef NOKIA_UI_SUPPORT
+        1,
         // endif
         },
     };
@@ -89,6 +92,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // ifdef PIGLER_SUPPORT
                 Locale.get(NOTIFICATIONS_PIGLER),
                 // endif
+                // ifdef NOKIA_UI_SUPPORT
+                "Nokia UI",
+                // endif
             },
         };
 
@@ -129,6 +135,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.notifySound },
                 // ifdef PIGLER_SUPPORT
                 { s.ic.pigler },
+                // endif
+                // ifdef NOKIA_UI_SUPPORT
+                { null },
                 // endif
             }
         };
@@ -172,6 +181,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // ifdef PIGLER_SUPPORT
                 boolValues,
                 // endif
+                // ifdef NOKIA_UI_SUPPORT
+                boolValues,
+                // endif
             }
         };
         values = new int[][] {
@@ -211,6 +223,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.playNotifSound ? 1 : 0,
                 // ifdef PIGLER_SUPPORT
                 s.showNotifPigler ? 1 : 0,
+                // endif
+                // ifdef NOKIA_UI_SUPPORT
+                s.showNotifNokiaUI ? 1 : 0,
                 // endif
             }
         };
@@ -289,15 +304,28 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         currentSection = index;
 
         deleteAll();
+        int nokiaUIOptionIndex = 5;
+        // ifdef PIGLER_SUPPORT
+        nokiaUIOptionIndex++;
+        // endif
         for (int i = 0; i < labels[index].length; i++) {
-            // ifdef PIGLER_SUPPORT
-            // Pigler API option is only shown on devices that support said API
-            if (index != 3 || i != 5 || Util.supportsPigler) {
-            // endif
-                append(labels[index][i], getValueLabel(index, i), getIcon(index, i), false);
-            // ifdef PIGLER_SUPPORT
+            if (index == 3) {
+                // Pigler API option is only shown on devices that support said API
+                // ifdef PIGLER_SUPPORT
+                if (i == 5) {
+                    if (!Util.supportsPigler)
+                    continue;
+                }
+                // endif
+                // Same for Nokia UI API
+                // ifdef NOKIA_UI_SUPPORT
+                if (i == nokiaUIOptionIndex) {
+                    if (System.getProperty("com.nokia.mid.ui.softnotification") == null)
+                    continue;
+                }
+                // endif
             }
-            // endif
+            append(labels[index][i], getValueLabel(index, i), getIcon(index, i), false);
         }
     }
 
@@ -406,8 +434,13 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.showNotifsDMs = values[3][2] == 1;
                 s.showNotifAlert = values[3][3] == 1;
                 s.playNotifSound = values[3][4] == 1;
+                int index = 5;
                 // ifdef PIGLER_SUPPORT
-                s.showNotifPigler = values[3][5] == 1;
+                s.showNotifPigler = values[3][index] == 1;
+                index++;
+                // endif
+                // ifdef NOKIA_UI_SUPPORT
+                s.showNotifNokiaUI = values[3][index] == 1;
                 // endif
 
                 if (reloadIcons) {

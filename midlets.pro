@@ -4,6 +4,7 @@
 -libraryjars sdk/lib/cldcapi10.jar
 -libraryjars sdk/lib/jsr75.jar
 -libraryjars sdk/lib/javapiglerapi.jar
+-libraryjars sdk/lib/nokiaui.jar
 
 -microedition
 -target 1.2

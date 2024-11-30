@@ -9,6 +9,10 @@ import javax.microedition.lcdui.*;
 import org.pigler.tester.*;
 // endif
 
+// ifdef NOKIA_UI_SUPPORT
+import com.nokia.mid.ui.*;
+// endif
+
 import cc.nnproject.json.*;
 
 public class GatewayThread extends Thread implements Strings
@@ -169,6 +173,18 @@ public class GatewayThread extends Thread implements Strings
                 catch (Exception e) {}
             }
         }
+        // endif
+
+        // ifdef NOKIA_UI_SUPPORT
+        try {
+            SoftNotification sn = SoftNotification.newInstance();
+            sn.setText(
+                NotificationDialog.createString(notif, location, msg),
+                (isDM ? author : location) + ": " + content
+            );
+            sn.post();
+        }
+        catch (Exception e) {}
         // endif
     }
 

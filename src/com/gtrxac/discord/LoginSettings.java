@@ -101,6 +101,15 @@ public class LoginSettings {
                     KineticScrollingCanvas.SCROLL_BAR_HIDDEN
                 );
                 s.autoUpdate = getByteRecord(State.AUTO_UPDATE_RELEASE_ONLY);
+                // ifdef NOKIA_UI_SUPPORT
+                s.showNotifNokiaUI =
+                // endif
+                getBoolRecord(
+                    false
+                    // ifdef NOKIA_UI_SUPPORT
+                    || true
+                    // endif
+                );
 
                 // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
@@ -178,6 +187,12 @@ public class LoginSettings {
             );
             setByteRecord(KineticScrollingCanvas.scrollBarMode);
             setByteRecord(s.autoUpdate);
+            setBoolRecord(
+                // ifdef NOKIA_UI_SUPPORT
+                s.showNotifNokiaUI ||
+                // endif
+                false
+            );
             loginRms.closeRecordStore();
         }
         catch (Exception e) {
