@@ -15,6 +15,9 @@ public class ChannelViewItem implements Strings {
     // Ref message (referenced message) = recipient message of a reply
 
     Image refImg;  // cached ref message image for MESSAGE type if it is a reply
+    // ifdef SAMSUNG
+    Image refImg2;  // second (right-side) part of ref message image
+    // endif
     boolean refImgHasPfp;  // cached ref image has profile picture loaded
     boolean refImgHasColor;  // cached ref image has name color loaded
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
@@ -139,12 +142,20 @@ public class ChannelViewItem implements Strings {
 
                                 // Create an image where the ref message will be rendered.
                                 // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
-                                Image refImgFull = Image.createImage((width - refDrawX)*4/3, messageFontHeight);
+                                int refImgFullWidth = (width - refDrawX)*4/3;
+                                // On Samsung (JBlend), the image has to be drawn in two parts due to a bug
+                                // ifdef SAMSUNG
+                                int refImgFull2Width = refImgFullWidth - width;
+                                refImgFullWidth = width;
+                                // endif
+                                Image refImgFull = Image.createImage(refImgFullWidth, messageFontHeight);
                                 Graphics refG = refImgFull.getGraphics();
 
                                 // Fill ref message image with the same background color that the rest of the message has
-                                refG.setColor(selected ? ChannelView.highlightColors[s.theme] : ChannelView.backgroundColors[s.theme]);
-                                refG.fillRect(0, 0, width*4/3, messageFontHeight);
+                                int refImgBackgroundColor = selected ?
+                                    ChannelView.highlightColors[s.theme] : ChannelView.backgroundColors[s.theme];
+                                refG.setColor(refImgBackgroundColor);
+                                refG.fillRect(0, 0, refImgFullWidth, messageFontHeight);
 
                                 int refX = 0;
 
@@ -177,7 +188,26 @@ public class ChannelViewItem implements Strings {
                                 refG.setColor(ChannelView.refMessageColors[s.theme]);
                                 refG.drawString(msg.refContent, refX, 0, Graphics.TOP | Graphics.LEFT);
 
-                                refImg = Util.resizeImageBilinear(refImgFull, width - refDrawX, messageFontHeight*3/4);
+                                int refImgResizeWidth = width - refDrawX;
+                                // ifdef SAMSUNG
+                                refImgResizeWidth = width*3/4;
+                                // endif
+                                refImg = Util.resizeImageBilinear(refImgFull, refImgResizeWidth, messageFontHeight*3/4);
+
+                                // ifdef SAMSUNG
+                                Image refImgFull2 = Image.createImage(refImgFull2Width, messageFontHeight);
+                                refG = refImgFull2.getGraphics();
+
+                                refG.setColor(refImgBackgroundColor);
+                                refG.fillRect(0, 0, refImgFull2Width, messageFontHeight);
+
+                                refG.setFont(s.messageFont);
+                                refG.setColor(ChannelView.refMessageColors[s.theme]);
+                                refG.drawString(msg.refContent, -refImgFullWidth + refX, 0, Graphics.TOP | Graphics.LEFT);
+
+                                refImg2 = Util.resizeImageBilinear(refImgFull2, refImgFull2Width*3/4, messageFontHeight*3/4);
+                                // endif
+
                                 refImgSelected = selected;
                                 refImgLastDrawn = System.currentTimeMillis();
                             }
@@ -185,6 +215,9 @@ public class ChannelViewItem implements Strings {
                             // draw downscaled refmessage
                             y += messageFontHeight/4;
                             g.drawImage(refImg, refDrawX, y, Graphics.TOP | Graphics.LEFT);
+                            // ifdef SAMSUNG
+                            g.drawImage(refImg2, refDrawX + width*3/4, y, Graphics.TOP | Graphics.LEFT);
+                            // endif
 
                             // draw connecting line between refmessage and message
                             y += messageFontHeight*3/8;
