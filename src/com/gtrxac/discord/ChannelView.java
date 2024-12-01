@@ -62,6 +62,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         setCommandListener(this);
         this.s = s;
         s.channelIsOpen = true;
+        updateTitle();
 
         backCommand = Locale.createCommand(BACK, Command.BACK, 0);
         selectCommand = Locale.createCommand(SELECT, Command.OK, 1);
@@ -108,20 +109,22 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         reqUpdateGateway = wasGateway;
     }
 
-    private void update(boolean wasResized, boolean wasGateway) {
-        if (!wasGateway) {
-            if (s.isDM) {
-                if (s.selectedDmChannel.isGroup) {
-                    setTitle(s.selectedDmChannel.name);
-                } else {
-                    setTitle("@" + s.selectedDmChannel.name);
-                }
-            } else {
-                setTitle("#" + s.selectedChannel.name);
-            }
-            if (page > 0) setTitle(getTitle() + Locale.get(CHANNEL_VIEW_TITLE_OLD));
+    public void updateTitle() {
+        StringBuffer resultBuf = new StringBuffer();
+        if (s.isDM) {
+            if (!s.selectedDmChannel.isGroup) {
+                resultBuf.append("@");
+            } 
+            resultBuf.append(s.selectedDmChannel.name);
+        } else {
+            resultBuf.append("#").append(s.selectedChannel.name);
         }
+        if (page > 0) resultBuf.append(Locale.get(CHANNEL_VIEW_TITLE_OLD));
 
+        setTitle(resultBuf.toString());
+    }
+
+    private void update(boolean wasResized, boolean wasGateway) {
         items = new Vector();
 
         if (s.messages.size() == 0) return;

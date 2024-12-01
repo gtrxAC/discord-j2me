@@ -307,6 +307,7 @@ public class HTTPThread extends Thread implements Strings {
 
                     // Show the channel view screen (hide the loading screen)
                     s.channelView.bannerText = null;
+                    s.channelView.updateTitle();
                     s.disp.setCurrent(s.channelView);
                     s.channelView.repaint();
 
