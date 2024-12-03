@@ -348,6 +348,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     }
 
     public void customKeyEvent(int keycode) {
+        if (!isInSubmenu) return;
+        
         switch (getGameAction(keycode)) {
             case LEFT: {
                 cycleValue(-1);
