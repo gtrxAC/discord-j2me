@@ -7,6 +7,7 @@ public class ChannelViewItem implements Strings {
     static final int OLDER_BUTTON = 1;
     static final int NEWER_BUTTON = 2;
     static final int ATTACHMENTS_BUTTON = 3;
+    static final int UNREAD_INDICATOR = 4;
 
     private static State s;
     int type;  // one of the constants defined above
@@ -26,6 +27,46 @@ public class ChannelViewItem implements Strings {
     public ChannelViewItem(State s, int type) {
         ChannelViewItem.s = s;
         this.type = type;
+    }
+
+    private static Image unreadIndicatorImage;
+
+    public static void createUnreadIndicatorImage(State s) {
+        int fontHeight = s.messageFont.getHeight();
+        int stringWidth = s.messageFont.stringWidth("NEW");
+        int totalWidth = fontHeight/2 + stringWidth + fontHeight/4;
+
+        unreadIndicatorImage = Image.createImage(totalWidth, fontHeight);
+        Graphics g = unreadIndicatorImage.getGraphics();
+
+        g.setColor(ChannelView.backgroundColors[s.theme]);
+        g.fillRect(0, 0, totalWidth, fontHeight);
+
+        g.setColor(0xf23f43);
+        g.fillRect(
+            fontHeight/2,
+            0,
+            stringWidth + fontHeight/4,
+            fontHeight
+        );
+        g.fillTriangle(
+            fontHeight/2,
+            0,
+            fontHeight/2,
+            fontHeight,
+            0,
+            fontHeight/2
+        );
+        g.setColor(0xFFFFFF);
+        g.setFont(s.messageFont);
+        g.drawString(
+            "NEW",
+            fontHeight/2,
+            0,
+            Graphics.TOP | Graphics.LEFT
+        );
+
+        unreadIndicatorImage = Util.resizeImageBilinear(unreadIndicatorImage, totalWidth*2/3, fontHeight*2/3);
     }
 
     /**
@@ -51,31 +92,39 @@ public class ChannelViewItem implements Strings {
      */
     public int getHeight() {
         int messageFontHeight = s.messageFont.getHeight();
-
-        if (type == MESSAGE) {
-            // Each content line + little bit of spacing between messages
-            int result = messageFontHeight*msg.contentLines.length + messageFontHeight/4;
-
-            // One line for message author
-            if (msg.showAuthor) result += s.authorFont.getHeight();
-
-            // Each embed's height + top margin
-            if (msg.embeds != null && msg.embeds.size() > 0) {
-                for (int i = 0; i < msg.embeds.size(); i++) {
-                    Embed emb = (Embed) msg.embeds.elementAt(i);
-                    result += emb.getHeight(messageFontHeight) + messageFontHeight/4;
+        switch (type) {
+            case MESSAGE: {
+                // Each content line + little bit of spacing between messages
+                int result = messageFontHeight*msg.contentLines.length + messageFontHeight/4;
+    
+                // One line for message author
+                if (msg.showAuthor) result += s.authorFont.getHeight();
+    
+                // Each embed's height + top margin
+                if (msg.embeds != null && msg.embeds.size() > 0) {
+                    for (int i = 0; i < msg.embeds.size(); i++) {
+                        Embed emb = (Embed) msg.embeds.elementAt(i);
+                        result += emb.getHeight(messageFontHeight) + messageFontHeight/4;
+                    }
                 }
+    
+                // Referenced message if message is a reply and option is enabled
+                if (msg.recipient != null && s.showRefMessage) {
+                    result += messageFontHeight*5/4;
+                }
+    
+                return result;
             }
 
-            // Referenced message if message is a reply and option is enabled
-            if (msg.recipient != null && s.showRefMessage) {
-                result += messageFontHeight*5/4;
+            case UNREAD_INDICATOR: {
+                return messageFontHeight;
             }
 
-            return result;
+            default: {
+                // For buttons
+                return messageFontHeight*5/3;
+            }
         }
-        // For buttons
-        return messageFontHeight*5/3;
     }
 
     private boolean shouldRedrawRefMessage(boolean selected) {
@@ -409,7 +458,25 @@ public class ChannelViewItem implements Strings {
                 );
 
                 g.setColor(ChannelView.authorColors[s.theme]);
-                g.drawString(caption, x + messageFontHeight, y + messageFontHeight/3, Graphics.TOP|Graphics.LEFT);
+                g.drawString(caption, x + messageFontHeight, y + messageFontHeight/3, Graphics.TOP | Graphics.LEFT);
+                break;
+            }
+
+            case UNREAD_INDICATOR: {
+                int screenWidth = s.disp.getCurrent().getWidth();
+                g.setColor(0xf23f43);
+                g.drawLine(
+                    messageFontHeight/4,
+                    y + messageFontHeight/2,
+                    screenWidth - messageFontHeight,
+                    y + messageFontHeight/2
+                );
+                g.drawImage(
+                    unreadIndicatorImage,
+                    screenWidth - messageFontHeight/4,
+                    y + messageFontHeight/6,
+                    Graphics.TOP | Graphics.RIGHT
+                );
                 break;
             }
         }

@@ -38,7 +38,7 @@ public class User implements HasIcon {
         }
         initials = initialsBuf.toString();
 
-        iconColor = Util.hsvToRgb((int) Long.parseLong(id) % 360, 192, 224);
+        iconColor = Util.hsvToRgb((int) Long.parseLong(id) % 360, 192, 208);
     }
 
     public String getIconID() { return id; }

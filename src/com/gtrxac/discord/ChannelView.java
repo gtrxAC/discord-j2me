@@ -143,10 +143,26 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
         Message above = first;
         String clusterStart = first.id;
+        int unreadIndicatorPos = -1;
 
         if (s.messages.size() > 1) {
+            long lastUnreadTime = Long.parseLong(s.unreads.lastUnreadTime);
+
             for (int i = s.messages.size() - 2; i >= 0; i--) {
                 Message msg = (Message) s.messages.elementAt(i);
+
+                // Check if the red "NEW" unread indicator should be placed above this message
+                // Don't show unread indicator for messages that come from gateway
+                if (!wasGateway && unreadIndicatorPos == -1) {
+                    long aboveTime = Long.parseLong(above.id) >> 22;
+                    long msgTime = Long.parseLong(msg.id) >> 22;
+
+                    if (lastUnreadTime >= aboveTime && lastUnreadTime < msgTime) {
+                        unreadIndicatorPos = i;
+                    }
+                }
+
+                // Recalculate "should show author" value for message
                 msg.showAuthor = msg.shouldShowAuthor(above, clusterStart);
 
                 if (msg.showAuthor) clusterStart = msg.id;
@@ -194,6 +210,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 msgItem.msg = msg;
                 items.addElement(msgItem);
                 maxScroll += msgItem.getHeight();
+            }
+
+            // If this message is the last one read by the user, show the "NEW" indicator above it
+            if (i == unreadIndicatorPos) {
+                ChannelViewItem unreadItem = new ChannelViewItem(s, ChannelViewItem.UNREAD_INDICATOR);
+                items.addElement(unreadItem);
+                maxScroll += unreadItem.getHeight();
             }
         }
 

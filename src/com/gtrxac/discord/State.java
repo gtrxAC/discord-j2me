@@ -201,6 +201,7 @@ public class State implements Strings {
 		ListScreen.noItemsString = Locale.get(LIST_EMPTY);
 		Dialog.okLabel = Locale.get(OK);
 		Dialog.okLabelLong = Locale.get(OK_L);
+		ChannelViewItem.createUnreadIndicatorImage(this);
 	}
 
 	public void loadTheme() {

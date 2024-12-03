@@ -8,6 +8,8 @@ public class UnreadManager {
     private Hashtable channels;
     private State s;
     public boolean autoSave;
+    public String lastUnreadTime;  // previously unread message ID for the last channel that markRead() was used on
+    public boolean lastHadUnreads;
 
     public UnreadManager(State s) {
         this.s = s;
@@ -106,8 +108,13 @@ public class UnreadManager {
     public void markRead(String channelID, long lastMessageID) {
         long lastMessageTime = lastMessageID >> 22;
         String lastReadTime = (String) channels.get(channelID);
+        boolean isUnread = lastReadTime == null || Long.parseLong(lastReadTime) < lastMessageTime;
 
-        if (lastReadTime == null || Long.parseLong(lastReadTime) < lastMessageTime) {
+        if (autoSave) {
+            lastUnreadTime = lastReadTime;
+            lastHadUnreads = isUnread;
+        }
+        if (isUnread) {
             put(channelID, String.valueOf(lastMessageTime));
         }
     }
