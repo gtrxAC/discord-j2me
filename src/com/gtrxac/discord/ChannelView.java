@@ -145,15 +145,20 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         String clusterStart = first.id;
         int unreadIndicatorPos = -1;
 
-        if (s.messages.size() > 1) {
-            long lastUnreadTime = Long.parseLong(s.unreads.lastUnreadTime);
+        long lastUnreadTime = Long.parseLong(s.unreads.lastUnreadTime);
+        long firstTime = Long.parseLong(first.id) >> 22;
 
+        // does channel view have more unread messages than what can be shown on one page?
+        // i.e. is the top-most message unread?
+        boolean hasMoreUnreads = (lastUnreadTime < firstTime);
+
+        if (s.messages.size() > 1) {
             for (int i = s.messages.size() - 2; i >= 0; i--) {
                 Message msg = (Message) s.messages.elementAt(i);
 
                 // Check if the red "NEW" unread indicator should be placed above this message
                 // Don't show unread indicator for messages that come from gateway
-                if (!wasGateway && unreadIndicatorPos == -1) {
+                if (!hasMoreUnreads && !wasGateway && unreadIndicatorPos == -1) {
                     long aboveTime = Long.parseLong(above.id) >> 22;
                     long msgTime = Long.parseLong(msg.id) >> 22;
 
@@ -226,6 +231,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             maxScroll += olderItem.getHeight();
         }
 
+        // Place unread indicator above the "older messages" button if there are more unreads than what can be shown on one page
+        if (hasMoreUnreads) {
+            ChannelViewItem unreadItem = new ChannelViewItem(s, ChannelViewItem.UNREAD_INDICATOR);
+            items.addElement(unreadItem);
+            maxScroll += unreadItem.getHeight();
+        }
+
         maxScroll -= height;
 
         if (haveDrawn && wasResized) {
@@ -245,12 +257,32 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             // If we were at the bottom of the message list, stay at the bottom
             if (scroll == oldMaxScroll) scroll = maxScroll;
         }
-        else {
-            // If user selected Show newer messages, go to the top of the
+        if (before != null) {
+            // User selected Show older messages - go to bottom of message list
+            scroll = maxScroll;
+            selectedItem = 0;
+            selectionMode = true;
+        }
+        else if (after != null || hasMoreUnreads) {
+            // If user selected Show newer messages, or there are more unreads, go to the top of the
             // message list, so it's more intuitive to scroll through
-            scroll = (after != null) ? 0 : maxScroll;
-            selectedItem = (after != null) ? (items.size() - 1) : 0;
-            selectionMode = (before != null || after != null);
+            scroll = 0;
+            selectedItem = items.size() - 1;
+            selectionMode = true;
+        }
+        // Channel view was updated for the first time - check if there is an unread message indicator, and if so, scroll to it
+        else if (unreadIndicatorPos != -1) {
+            // Note: scroll is set to maxScroll (bottom of screen).
+            // If unread indicator is offscreen, it will be shown because makeSelectedItemVisible is called by paint.
+            scroll = maxScroll;
+            selectedItem = unreadIndicatorPos + 1;
+            selectionMode = true;
+        }
+        else {
+            // Channel was opened normally (no page change, no unread indicator) - go to bottom
+            scroll = maxScroll;
+            selectedItem = 0;
+            selectionMode = false;
         }
     }
 
