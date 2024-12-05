@@ -2,7 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class LoginForm extends Form implements CommandListener, Strings {
+public class LoginForm extends Form implements CommandListener, ItemCommandListener, Strings {
     State s;
 
     private TextField apiField;
@@ -12,10 +12,14 @@ public class LoginForm extends Form implements CommandListener, Strings {
     private ChoiceGroup gatewayGroup;
     private TextField gatewayField;
     private TextField cdnField;
-    private TextField tokenField;
+    private Command changeTokenCommand;
     private ChoiceGroup tokenGroup;
     private Command nextCommand;
     private Command quitCommand;
+
+    private TextBox tokenBox;
+    private Command tokenBoxOkCommand;
+    private Command tokenBoxCancelCommand;
 
     public LoginForm(State s) {
         super(Locale.get(LOGIN_FORM_TITLE));
@@ -34,9 +38,19 @@ public class LoginForm extends Form implements CommandListener, Strings {
         apiField = new TextField(Locale.get(API_URL), s.api, 200, 0);
         cdnField = new TextField(Locale.get(CDN_URL), s.cdn, 200, 0);
         gatewayField = new TextField(Locale.get(GATEWAY_URL), s.gatewayUrl, 200, 0);
-        tokenField = new TextField(Locale.get(TOKEN), s.token, 200, TextField.NON_PREDICTIVE);
-        nextCommand = Locale.createCommand(LOG_IN, Command.OK, 0);
-        quitCommand = Locale.createCommand(QUIT, Command.EXIT, 1);
+
+        boolean haveToken = (s.token != null && s.token.length() != 0);
+        String tokenLabel = haveToken ? "Change token" : "Set token";
+        String tokenLabelShort = haveToken ? "Change" : "Set";
+
+        changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0); //Locale.createCommand(SHOW, Command.ITEM, i + 100);
+        StringItem tokenButton = new StringItem(null, tokenLabel, Item.BUTTON);
+        tokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
+        tokenButton.setDefaultCommand(changeTokenCommand);
+        tokenButton.setItemCommandListener(this);
+
+        nextCommand = Locale.createCommand(LOG_IN, Command.OK, 1);
+        quitCommand = Locale.createCommand(QUIT, Command.EXIT, 2);
 
         String[] gatewayChoices = {Locale.get(USE_GATEWAY)};
         gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, null);
@@ -56,7 +70,7 @@ public class LoginForm extends Form implements CommandListener, Strings {
         append(gatewayGroup);
         append(gatewayField);
         append(new StringItem(null, Locale.get(LOGIN_FORM_TOKEN_HELP)));
-        append(tokenField);
+        append(tokenButton);
         append(tokenGroup);
         addCommand(nextCommand);
         addCommand(quitCommand);
@@ -67,7 +81,6 @@ public class LoginForm extends Form implements CommandListener, Strings {
             s.api = apiField.getString();
             s.cdn = cdnField.getString();
             s.gatewayUrl = gatewayField.getString();
-            s.token = tokenField.getString().trim();
 
             if (s.token.length() == 0) {
                 s.error(Locale.get(LOGIN_ERROR_TOKEN));
@@ -95,5 +108,20 @@ public class LoginForm extends Form implements CommandListener, Strings {
         else if (c == quitCommand) {
             s.midlet.notifyDestroyed();
         }
+        else {
+            if (c == tokenBoxOkCommand) s.token = tokenBox.getString().trim();
+            s.disp.setCurrent(this);
+        }
+    }
+
+    public void commandAction(Command c, Item i) {
+        // Only item command action is to change token
+        tokenBox = new TextBox("Set token", s.token, 200, 0);
+        tokenBoxOkCommand = Locale.createCommand(OK, Command.OK, 0);
+        tokenBoxCancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
+        tokenBox.addCommand(tokenBoxOkCommand);
+        tokenBox.addCommand(tokenBoxCancelCommand);
+        tokenBox.setCommandListener(this);
+        s.disp.setCurrent(tokenBox);
     }
 }

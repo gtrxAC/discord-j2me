@@ -86,15 +86,21 @@ public class ListScreen extends KineticScrollingCanvas {
         iconMargin = Math.max(fontHeight*3/8, iconSize/5);
         baseContentHeight = Math.max(fontHeight, iconSize);
 
-        indicatorImage = Image.createImage(fontHeight/2, baseContentHeight*2);
-        Graphics indG = indicatorImage.getGraphics();
+        int[] indicatorCircleBuf = IconResizeThread.createCircleBuf(fontHeight);
+        int[] indicatorImageData = new int[(fontHeight/4)*baseContentHeight];
 
-        indG.setColor(backgroundColor);
-        indG.fillRect(0, 0, fontHeight/2, baseContentHeight*2);
-        indG.setColor(selectedTextColor);
-        indG.fillArc(-fontHeight/2, baseContentHeight - fontHeight/2, fontHeight, fontHeight, 0, 360);
+        for (int y = 0; y < baseContentHeight; y++) {
+            for (int x = 0; x < fontHeight/4; x++) {
+                int circleBufX = x + fontHeight/4;
+                int circleBufY = y - (baseContentHeight/2 - fontHeight/4);
+                if (circleBufY < 0 || circleBufY >= fontHeight/2) continue;
 
-        indicatorImage = Util.resizeImageBilinear(indicatorImage, fontHeight/4, baseContentHeight);
+                indicatorImageData[y*(fontHeight/4) + x] =
+                    (0xFF000000 | selectedTextColor) & IconResizeThread.getCircleBufAlpha(indicatorCircleBuf, fontHeight/2, circleBufX, circleBufY);
+            }
+        }
+
+        indicatorImage = Image.createRGBImage(indicatorImageData, fontHeight/4, baseContentHeight, true);
 
         ListScreen.selectLabel = selectLabel;
         ListScreen.selectLabelLong = selectLabelLong;
@@ -228,6 +234,7 @@ public class ListScreen extends KineticScrollingCanvas {
         if (useIndicators) indicators = new Vector();
         if (useRightItems) rightItems = new Vector();
         selected = 0;
+        scroll = 0;
         repaint();
     }
 
@@ -237,10 +244,22 @@ public class ListScreen extends KineticScrollingCanvas {
 
     void setSelectedIndex(int index, boolean unused) {
         selected = index;
+        makeSelectedItemVisible();
     }
 
     String getString(int index) {
         return (String) items.elementAt(index);
+    }
+
+    private void makeSelectedItemVisible() {
+        // Make sure item is visible on screen
+        int itemPos = getItemPosition(selected);
+        if (itemPos < 0) {
+            scroll += itemPos;
+        }
+        else if (itemPos + itemHeight > getHeight()) {
+            scroll += (itemPos + itemHeight) - getHeight();
+        }
     }
 
     public void setCommandListener(CommandListener newListener) {
@@ -441,15 +460,7 @@ public class ListScreen extends KineticScrollingCanvas {
                 break;
             }
         }
-        int itemPos = getItemPosition(selected);
-
-        // Make sure item is visible on screen
-        if (itemPos < 0) {
-            scroll += itemPos;
-        }
-        else if (itemPos + itemHeight > getHeight()) {
-            scroll += (itemPos + itemHeight) - getHeight();
-        }
+        makeSelectedItemVisible();
         repaint();
     }
     protected void keyPressed(int a) { keyEvent(a); }

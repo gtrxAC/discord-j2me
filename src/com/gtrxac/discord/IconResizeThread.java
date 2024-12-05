@@ -17,7 +17,7 @@ public class IconResizeThread extends Thread {
         this.size = size;
     }
 
-    private static int[] createCircleBuf(int size) {
+    public static int[] createCircleBuf(int size) {
         // Draw circle to a secondary buffer (bg = white, circle = black)
         Image circleImage = Image.createImage(size, size);
         Graphics cg = circleImage.getGraphics();
@@ -29,6 +29,15 @@ public class IconResizeThread extends Thread {
         circleImage.getRGB(circleData, 0, size, 0, 0, size, size);
 
         return circleData;
+    }
+
+    public static int getCircleBufAlpha(int[] buf, int size, int x, int y) {
+        int alpha = 0;
+        if (buf[(y*4)*size + (x*2)] == 0xFF000000) alpha++;
+        if (buf[(y*4)*size + (x*2) + 1] == 0xFF000000) alpha++;
+        if (buf[(y*4 + 2)*size + (x*2)] == 0xFF000000) alpha++;
+        if (buf[(y*4 + 2)*size + (x*2) + 1] == 0xFF000000) alpha++;
+        return alphaAndValues[alpha];
     }
 
     public static Image circleCutout(State s, Image img) {
@@ -45,13 +54,7 @@ public class IconResizeThread extends Thread {
 
             for (int y = 0; y < size; y++) {
                 for (int x = 0; x < size; x++) {
-                    int alpha = 0;
-                    if (circleData[(y*4)*size + (x*2)] == 0xFF000000) alpha++;
-                    if (circleData[(y*4)*size + (x*2) + 1] == 0xFF000000) alpha++;
-                    if (circleData[(y*4 + 2)*size + (x*2)] == 0xFF000000) alpha++;
-                    if (circleData[(y*4 + 2)*size + (x*2) + 1] == 0xFF000000) alpha++;
-
-                    imageData[y*size + x] &= alphaAndValues[alpha];
+                    imageData[y*size + x] &= getCircleBufAlpha(circleData, size, x, y);
                 }
             }
         } else {
