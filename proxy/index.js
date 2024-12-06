@@ -607,6 +607,36 @@ app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
     catch (e) { handleError(res, e); }
 });
 
+// Get threads for channel
+app.get(`${BASE}/channels/:channel/threads/search`, getToken, async (req, res) => {
+    try {
+        let proxyUrl = `${DEST_BASE}/channels/${req.params.channel}/threads/search`
+        let queryParam = [];
+        if (req.query.archived) queryParam.push(`archived=${req.query.archived}`);
+        if (req.query.sort_by) queryParam.push(`sort_by=${req.query.sort_by}`);
+        if (req.query.sort_order) queryParam.push(`sort_order=${req.query.sort_order}`);
+        if (req.query.limit) queryParam.push(`limit=${req.query.limit}`);
+        if (req.query.tag_setting) queryParam.push(`tag_setting=${req.query.tag_setting}`);
+        if (req.query.offset) queryParam.push(`offset=${req.query.offset}`);
+        if (queryParam.length) proxyUrl += '?' + queryParam.join('&');
+
+        const response = await axios.get(
+            proxyUrl,
+            {headers: res.locals.headers}
+        );
+        const output = {
+            threads: response.data.threads.map(thr => {
+                return {
+                    id: thr.id,
+                    name: thr.name,
+                    last_message_id: thr.last_message_id
+                }
+            })
+        }
+        res.send(stringifyUnicode(output));
+    }
+    catch (e) { handleError(res, e); }
+})
 
 // Get servers (lite)
 app.get(`${BASE_L}/users/@me/guilds`, getToken, async (req, res) => {

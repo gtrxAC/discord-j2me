@@ -23,6 +23,7 @@ public class HTTPThread extends Thread implements Strings {
     static final int DELETE_MESSAGE = 10;
     static final int VIEW_NOTIFICATION = 11;
     static final int FETCH_LANGUAGE = 12;
+    static final int FETCH_THREADS = 13;
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
     private static final String LINE_FEED = "\r\n";
@@ -550,6 +551,27 @@ public class HTTPThread extends Thread implements Strings {
                     if (s.disp.getCurrent() instanceof MainMenu) {
                         s.disp.setCurrent(MainMenu.get(s));
                     }
+                    break;
+                }
+
+                case FETCH_THREADS: {
+                    String threadData = s.http.get(
+                        "/channels/" +
+                        s.selectedChannelForThreads.id +
+                        "/threads/search?sort_by=last_message_time&sort_order=desc&limit=25&tag_setting=match_some&offset=0"
+                    );
+
+                    JSONArray threads = JSON.getObject(threadData).getArray("threads");
+                    s.threads = new Vector();
+
+                    for (int i = 0; i < threads.size(); i++) {
+                        JSONObject thr = threads.getObject(i);
+                        s.threads.addElement(new Channel(thr, true));
+                    }
+
+                    s.selectedChannelForThreads.threads = s.threads;
+                    s.threadSelector = new ThreadSelector(s);
+                    setScreen(s.threadSelector);
                     break;
                 }
             }

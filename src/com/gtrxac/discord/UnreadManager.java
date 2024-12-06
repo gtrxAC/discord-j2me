@@ -128,24 +128,20 @@ public class UnreadManager {
     }
 
     public void markRead(Guild g) {
-        if (g == null || g.channels == null) return;
-
-        autoSave = false;
-        for (int i = 0; i < g.channels.size(); i++) {
-            Channel ch = (Channel) g.channels.elementAt(i);
-            markRead(ch);
+        if (g != null && g.channels != null) {
+            markRead(g.channels);
         }
-        autoSave = true;
-        save();
     }
 
     public void markDMsRead() {
-        if (s.dmSelector == null) return;
+        if (s.dmSelector != null) markRead(s.dmSelector.lastDMs);
+    }
 
+    public void markRead(Vector v) {
         autoSave = false;
-        for (int i = 0; i < s.dmSelector.lastDMs.size(); i++) {
-            DMChannel dmCh = (DMChannel) s.dmSelector.lastDMs.elementAt(i);
-            markRead(dmCh);
+        for (int i = 0; i < v.size(); i++) {
+            Channel ch = (Channel) v.elementAt(i);
+            markRead(ch);
         }
         autoSave = true;
         save();

@@ -3,15 +3,24 @@ package com.gtrxac.discord;
 import java.util.Vector;
 import cc.nnproject.json.*;
 
+/**
+ * Data structure used for channels (guild channels and threads). For direct message channels, see DMChannel.
+ */
 public class Channel {
     public String id;
     public String name;
     public long lastMessageID;
-    // public Vector messages;
+    public Vector threads;
+    public boolean isThread;
 
     public Channel(JSONObject data) {
+        this(data, false);
+    }
+
+    public Channel(JSONObject data, boolean isThread) {
         id = data.getString("id");
         name = data.getString("name");
+        this.isThread = isThread;
 
         try {
             lastMessageID = Long.parseLong(data.getString("last_message_id"));
@@ -21,7 +30,8 @@ public class Channel {
         }
     }
     
-    public String toString(State s) {
+    public String toString() {
+        if (isThread) return name;
         return "#" + name;
     }
 

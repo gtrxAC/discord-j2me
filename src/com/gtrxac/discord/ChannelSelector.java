@@ -5,6 +5,7 @@ import cc.nnproject.json.*;
 
 public class ChannelSelector extends ListScreen implements CommandListener, Strings {
     State s;
+    private Command viewThreadsCommand;
     private Command refreshCommand;
     private Command markChannelReadCommand;
     private Command markGuildReadCommand;
@@ -16,15 +17,17 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
 
         for (int i = 0; i < s.channels.size(); i++) {
             Channel ch = (Channel) s.channels.elementAt(i);
-            append(ch.toString(s), null, null, s.unreads.hasUnreads(ch));
+            append(ch.toString(), null, null, s.unreads.hasUnreads(ch));
         }
 
+        viewThreadsCommand = new Command("View threads", Command.ITEM, 1);
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
         markChannelReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 3);
         markGuildReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 4);
         addCommand(refreshCommand);
 
         if (s.channels.size() > 0) {
+            addCommand(viewThreadsCommand);
             addCommand(markChannelReadCommand);
             addCommand(markGuildReadCommand);
         }
@@ -38,7 +41,7 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
             Channel ch = (Channel) s.channels.elementAt(i);
             if (id != null && !ch.id.equals(id)) continue;
 
-            set(i, ch.toString(s), null, null, s.unreads.hasUnreads(ch));
+            set(i, ch.toString(), null, null, s.unreads.hasUnreads(ch));
         }
     }
 
@@ -61,21 +64,28 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
         else if (c == refreshCommand) {
             s.openChannelSelector(true, true);
         }
-        else if (c == markChannelReadCommand) {
-            Channel ch = (Channel) s.channels.elementAt(getSelectedIndex());
-            s.unreads.markRead(ch);
-            update(ch.id);
-            s.guildSelector.update(s.selectedGuild.id);
-        }
         else if (c == markGuildReadCommand) {
             s.unreads.markRead(s.selectedGuild);
             update();
             s.guildSelector.update(s.selectedGuild.id);
         }
-        else if (c == SELECT_COMMAND) {
-            s.isDM = false;
-            s.selectedChannel = (Channel) s.channels.elementAt(getSelectedIndex());
-            s.openChannelView(true);
+        else {
+            Channel ch = (Channel) s.channels.elementAt(getSelectedIndex());
+
+            if (c == markChannelReadCommand) {
+                s.unreads.markRead(ch);
+                update(ch.id);
+                s.guildSelector.update(s.selectedGuild.id);
+            }
+            else if (c == SELECT_COMMAND) {
+                s.isDM = false;
+                s.selectedChannel = ch;
+                s.openChannelView(true);
+            }
+            else if (c == viewThreadsCommand) {
+                s.selectedChannelForThreads = ch;
+                s.openThreadSelector(true, false);
+            }
         }
     }
 }

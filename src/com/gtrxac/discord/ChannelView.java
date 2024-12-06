@@ -117,7 +117,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             } 
             resultBuf.append(s.selectedDmChannel.name);
         } else {
-            resultBuf.append("#").append(s.selectedChannel.name);
+            if (!s.selectedChannel.isThread) resultBuf.append("#");
+            resultBuf.append(s.selectedChannel.name);
         }
         if (page > 0) resultBuf.append(Locale.get(CHANNEL_VIEW_TITLE_OLD));
 
@@ -144,6 +145,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         Message above = first;
         String clusterStart = first.id;
         int unreadIndicatorPos = -1;
+        int unreadIndicatorPosFinal = -1;
 
         long lastUnreadTime = Long.parseLong(s.unreads.lastUnreadTime);
         long firstTime = Long.parseLong(first.id) >> 22;
@@ -221,6 +223,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             if (i == unreadIndicatorPos) {
                 ChannelViewItem unreadItem = new ChannelViewItem(s, ChannelViewItem.UNREAD_INDICATOR);
                 items.addElement(unreadItem);
+                unreadIndicatorPosFinal = items.size();
                 maxScroll += unreadItem.getHeight();
             }
         }
@@ -271,11 +274,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             selectionMode = true;
         }
         // Channel view was updated for the first time - check if there is an unread message indicator, and if so, scroll to it
-        else if (unreadIndicatorPos != -1) {
+        else if (unreadIndicatorPosFinal != -1) {
             // Note: scroll is set to maxScroll (bottom of screen).
             // If unread indicator is offscreen, it will be shown because makeSelectedItemVisible is called by paint.
             scroll = maxScroll;
-            selectedItem = unreadIndicatorPos + 1;
+            selectedItem = unreadIndicatorPosFinal - 1;
             selectionMode = true;
         }
         else {
@@ -753,6 +756,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             s.unreads.save();
             s.channelIsOpen = false;
             if (s.isDM) s.openDMSelector(false, false);
+            else if (s.selectedChannel.isThread) s.openThreadSelector(false, false);
             else s.openChannelSelector(false, false);
         }
         else if (c == sendCommand) {
@@ -773,32 +777,32 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             setFullScreenMode(fullscreen);
         }
         else {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+            Message selected = ((ChannelViewItem) items.elementAt(selectedItem)).msg;
 
             if (c == replyUploadCommand) {
-                uploadFile(item.msg);
+                uploadFile(selected);
             }
             else if (c == replyCommand) {
-                s.disp.setCurrent(new ReplyForm(s, item.msg));
+                s.disp.setCurrent(new ReplyForm(s, selected));
             }
             else if (c == copyCommand) {
-                s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
+                s.disp.setCurrent(new MessageCopyBox(s, selected.content));
             }
             else if (c == openUrlCommand) {
-                s.disp.setCurrent(new URLList(s, item.msg.content));
+                s.disp.setCurrent(new URLList(s, selected.content));
             }
             else if (c == deleteCommand) {
                 if (!s.isLiteProxy) {
                     s.error(Locale.get(DELETE_NOT_SUPPORTED));
                 } else {
-                    s.disp.setCurrent(new DeleteConfirmDialog(s, item.msg));
+                    s.disp.setCurrent(new DeleteConfirmDialog(s, selected));
                 }
             }
             else if (c == editCommand) {
                 if (!s.isLiteProxy) {
                     s.error(Locale.get(EDIT_NOT_SUPPORTED));
                 } else {
-                    s.disp.setCurrent(new MessageEditBox(s, item.msg));
+                    s.disp.setCurrent(new MessageEditBox(s, selected));
                 }
             }
         }

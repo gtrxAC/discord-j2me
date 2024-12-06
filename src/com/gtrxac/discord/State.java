@@ -119,6 +119,10 @@ public class State implements Strings {
 	ChannelSelector channelSelector;
 	boolean channelIsOpen;
 
+	Vector threads;
+	ThreadSelector threadSelector;
+	Channel selectedChannelForThreads;
+
 	Vector messages;
 	ChannelView channelView;
 	Vector typingUsers;
@@ -237,6 +241,7 @@ public class State implements Strings {
 		if (isDM) {
 			if (dmSelector != null) dmSelector.update(chId);
 		} else {
+			if (threadSelector != null) threadSelector.update(chId);
 			if (channelSelector != null) channelSelector.update(chId);
 			if (guildSelector != null) guildSelector.update();
 		}
@@ -280,6 +285,28 @@ public class State implements Strings {
 		}
 		else {
 			new HTTPThread(this, HTTPThread.FETCH_CHANNELS).start();
+		}
+	}
+
+	public void openThreadSelector(boolean reload, boolean forceReload) {
+		if (highRamMode) reload = false;
+		boolean keepLoaded = !reload && !forceReload;
+
+		if (keepLoaded && threadSelector != null && threads != null && threads == selectedChannelForThreads.threads) {
+			disp.setCurrent(threadSelector);
+		}
+		else if (keepLoaded && selectedChannelForThreads.threads != null) {
+			try {
+				threads = selectedChannelForThreads.threads;
+				threadSelector = new ThreadSelector(this);
+				disp.setCurrent(threadSelector);
+			}
+			catch (Exception e) {
+				error(e);
+			}
+		}
+		else {
+			new HTTPThread(this, HTTPThread.FETCH_THREADS).start();
 		}
 	}
 
