@@ -13,7 +13,8 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
     public static int scrollBarMode;
 
     public int scroll;
-    public int totalScroll;
+    private int totalScroll;
+    private int totalScrollAbs;
 
     public int scrollUnit;
 
@@ -44,7 +45,12 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
     }
 
     private void handleScrollBar(int y) {
-        int ratio = y*1000/getHeight();
+        int height = getHeight() - scrollBarSize;
+        y = Math.max(Math.min(y, getHeight() - scrollBarSize/2), scrollBarSize/2);
+        lastPointerY = y;
+        y -= scrollBarSize/2;
+        int ratio = y*1000/height;
+
         scroll = getMinScroll() + (getMaxScroll() - getMinScroll())*ratio;
         if (scroll%1000 > 500) scroll += 500;
         scroll /= 1000;
@@ -58,6 +64,10 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
         return super.getWidth();
     }
 
+    protected boolean pointerWasTapped(int fontHeight) {
+        return totalScrollAbs < fontHeight/2 && Math.abs(totalScroll) < fontHeight/4;
+    }
+
     protected void pointerPressed(int x, int y) {
         // Use scrollbar if the content is tall enough to be scrollable and the user pressed on the right edge of the screen
         // Note: Scrollbar hitbox is wider than the actual rendered scrollbar
@@ -68,12 +78,13 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
 
         if (usingScrollBar) {
             velocity = 0;  // stop any kinetic scrolling
-            totalScroll = 9999; // for the purposes of discord j2me, this just means "dont select the highlighted item after releasing finger"
+            totalScrollAbs = 65500;
             handleScrollBar(y);
             return;
         }
         lastPointerY = y;
         totalScroll = 0;
+        totalScrollAbs = 0;
 
         velocity = 0;
         lastPointerTime = System.currentTimeMillis();
@@ -81,6 +92,11 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
     }
 
     protected void pointerDragged(int x, int y) {
+        // Asha fix
+        // ifdef MIDP2_GENERIC
+        if (y > 65500) y = 0;
+        // endif
+        
         if (usingScrollBar) {
             handleScrollBar(y);
             return;
@@ -96,7 +112,8 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
         }
         lastPointerY = y;
         lastPointerTime = currentTime;
-        totalScroll += Math.abs(deltaY);
+        totalScroll += deltaY;
+        totalScrollAbs += Math.abs(deltaY);
         repaint();
     }
     
@@ -132,15 +149,10 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
 
         if ((scrollBarMode == SCROLL_BAR_VISIBLE && isScrollable()) || usingScrollBar) {
             int x = super.getWidth() - scrollBarSize;
-
-            int ratio = scroll*1000/(getMaxScroll() - getMinScroll());
-            int barPos = getHeight()*ratio/1000;
-
-            barPos = Math.min(Math.max(barPos - scrollBarSize/2, 0), getHeight() - scrollBarSize);
+            int barPos = lastPointerY - scrollBarSize/2;
 
             g.setColor(0xDDDDDD);
             g.fillRect(x, 0, scrollBarSize, getHeight());
-
             g.setColor(0x888888);
             g.fillRect(x, barPos, scrollBarSize, scrollBarSize);
         }

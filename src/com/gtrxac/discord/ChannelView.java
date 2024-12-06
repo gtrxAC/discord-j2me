@@ -706,7 +706,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     protected void pointerReleased(int x, int y) {
         touchMode = true;
 
-        if (totalScroll > fontHeight/4) {
+        if (!pointerWasTapped(fontHeight)) {
             super.pointerReleased(x, y);
             return;
         }

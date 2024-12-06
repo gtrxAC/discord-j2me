@@ -488,7 +488,7 @@ public class ListScreen extends KineticScrollingCanvas {
 
     protected void pointerReleased(int x, int y) {
         if (!pressedOnBlank) {
-            if (totalScroll > fontHeight/4) {
+            if (!pointerWasTapped(fontHeight)) {
                 // Scrolled: start kinetic scrolling if needed
                 touchMode = true;
                 super.pointerReleased(x, y);
