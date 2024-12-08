@@ -283,4 +283,7 @@ public interface Strings {
     static final int AUTO_UPDATE_ALL_STR = 277;
     static final int TRANSLATOR_DE = 278;
     static final int TRANSLATOR_HR = 279;
+    static final int SIZE_BYTES = 280;
+    static final int SIZE_KB = 281;
+    static final int SIZE_MB = 282;
 }

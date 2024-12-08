@@ -679,5 +679,10 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "saksa",
-    "kroatia"
+    "kroatia",
+
+    // Units for attachment sizes.
+    " tavua",
+    " kt",
+    " Mt"
 ]

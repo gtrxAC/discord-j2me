@@ -679,5 +679,10 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "Almanca",
-    "Hırvatça"
+    "Hırvatça",
+
+    // Units for attachment sizes.
+    " bytes",
+    " kB",
+    " MB"
 ]

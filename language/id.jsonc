@@ -681,5 +681,10 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "Bahasa Jerman",
-    "Bahasa Kroasia"
+    "Bahasa Kroasia",
+
+    // Units for attachment sizes.
+    " bytes",
+    " kB",
+    " MB"
 ]

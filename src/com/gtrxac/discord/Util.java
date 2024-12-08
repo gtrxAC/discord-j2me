@@ -97,12 +97,6 @@ public class Util {
         return new int[]{width, height};
     }
 
-    public static String fileSizeToString(int size) {
-        if (size >= 1000000) return "" + size/1000000 + " MB";
-        if (size >= 1000) return "" + size/1000 + " kB";
-        return "" + size + " bytes";
-    }
-
     public static int indexOfAny(String haystack, String[] needles, int startIndex) {
         int result = -1;
 

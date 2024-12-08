@@ -17,13 +17,19 @@ public class Attachment implements Strings {
         ".mp4", ".3gp", ".bmp"
     };
 
+    private static String fileSizeToString(int size) {
+        if (size >= 1000000) return "" + size/1000000 + Locale.get(SIZE_MB);
+        if (size >= 1000) return "" + size/1000 + Locale.get(SIZE_KB);
+        return "" + size + Locale.get(SIZE_BYTES);
+    }
+
     public Attachment(State s, JSONObject data) {
         String proxyUrl = data.getString("proxy_url");
 
         browserUrl = s.cdn + proxyUrl.substring("https://media.discordapp.net".length());
 
         name = data.getString("filename", Locale.get(UNNAMED_FILE));
-        size = Util.fileSizeToString(data.getInt("size", 0));
+        size = fileSizeToString(data.getInt("size", 0));
 
         // Attachments that aren't images or videos are unsupported
         // (cannot be previewed but can be viewed as text or downloaded)
