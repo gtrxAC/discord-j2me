@@ -54,6 +54,14 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             Locale.get(SETTINGS_SECTION_NOTIFICATIONS),
             Locale.get(SETTINGS_SECTION_LANGUAGE),
         };
+        
+        // ifdef NOKIA_UI_SUPPORT
+        String nokiaUILabel = Locale.get(NOTIFICATIONS_NOKIA_UI);
+        // ifdef J2ME_LOADER
+        nokiaUILabel = Locale.get(NOTIFICATIONS_ANDROID);
+        // endif
+        // endif
+
         labels = new String[][] {
             {
                 // Appearance
@@ -93,7 +101,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(NOTIFICATIONS_PIGLER),
                 // endif
                 // ifdef NOKIA_UI_SUPPORT
-                "Nokia UI",
+                nokiaUILabel
                 // endif
             },
         };

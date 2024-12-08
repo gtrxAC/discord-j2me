@@ -40,10 +40,10 @@ public class LoginForm extends Form implements CommandListener, ItemCommandListe
         gatewayField = new TextField(Locale.get(GATEWAY_URL), s.gatewayUrl, 200, 0);
 
         boolean haveToken = (s.token != null && s.token.length() != 0);
-        String tokenLabel = haveToken ? "Change token" : "Set token";
-        String tokenLabelShort = haveToken ? "Change" : "Set";
+        String tokenLabel = Locale.get(haveToken ? CHANGE_TOKEN_L : SET_TOKEN_L);
+        String tokenLabelShort = Locale.get(haveToken ? CHANGE_TOKEN : SET_TOKEN);
 
-        changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0); //Locale.createCommand(SHOW, Command.ITEM, i + 100);
+        changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0);
         StringItem tokenButton = new StringItem(null, tokenLabel, Item.BUTTON);
         tokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         tokenButton.setDefaultCommand(changeTokenCommand);

@@ -685,5 +685,26 @@
     // Units for attachment sizes.
     " bytes",
     " kB",
-    " MB"
+    " MB",
+
+    // Softkey labels for opening the thread list of a channel in the channel list.
+    "Threads",
+    "View threads",
+
+    // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
+    "Set",
+    "Set token",
+
+    // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
+    "Change",
+    "Change token",
+
+    // Option in notification settings for using Nokia UI API for notifications.
+    "Nokia UI",
+
+    // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
+    "Android notifications",
+
+    // Text shown in the red bar used for marking the last unread messages in the chat view.
+    "NEW"
 ]

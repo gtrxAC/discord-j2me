@@ -286,4 +286,13 @@ public interface Strings {
     static final int SIZE_BYTES = 280;
     static final int SIZE_KB = 281;
     static final int SIZE_MB = 282;
+    static final int VIEW_THREADS = 283;
+    static final int VIEW_THREADS_L = 284;
+    static final int SET_TOKEN = 285;
+    static final int SET_TOKEN_L = 286;
+    static final int CHANGE_TOKEN = 287;
+    static final int CHANGE_TOKEN_L = 288;
+    static final int NOTIFICATIONS_NOKIA_UI = 289;
+    static final int NOTIFICATIONS_ANDROID = 290;
+    static final int NEW_MARKER = 291;
 }

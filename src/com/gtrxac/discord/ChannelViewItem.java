@@ -33,7 +33,7 @@ public class ChannelViewItem implements Strings {
 
     public static void createUnreadIndicatorImage(State s) {
         int fontHeight = s.messageFont.getHeight();
-        int stringWidth = s.messageFont.stringWidth("NEW");
+        int stringWidth = s.messageFont.stringWidth(Locale.get(NEW_MARKER));
         int totalWidth = fontHeight/2 + stringWidth + fontHeight/4;
 
         unreadIndicatorImage = Image.createImage(totalWidth, fontHeight);
@@ -60,7 +60,7 @@ public class ChannelViewItem implements Strings {
         g.setColor(0xFFFFFF);
         g.setFont(s.messageFont);
         g.drawString(
-            "NEW",
+            Locale.get(NEW_MARKER),
             fontHeight/2,
             0,
             Graphics.TOP | Graphics.LEFT

@@ -20,7 +20,7 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
             append(ch.toString(), null, null, s.unreads.hasUnreads(ch));
         }
 
-        viewThreadsCommand = new Command("View threads", Command.ITEM, 1);
+        viewThreadsCommand = Locale.createCommand(VIEW_THREADS, Command.ITEM, 1);
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
         markChannelReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 3);
         markGuildReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 4);
