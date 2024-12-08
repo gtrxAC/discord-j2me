@@ -232,9 +232,18 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         showMainScreen();
     }
 
+    // Gets settings value index that should be changed based on selected menu item index
+    private int getItemIndex(int item) {
+        // ifdef PIGLER_SUPPORT
+        if (isInSubmenu && currentSection == 3 && item == 5 && !Util.supportsPigler) return 6;
+        // endif
+        return item;
+    }
+
     private String getValueLabel(int section, int item) {
-        String[] itemValueLabels = valueLabels[section][item];
-        int value = values[section][item];
+        int itemIndex = getItemIndex(item);
+        String[] itemValueLabels = valueLabels[section][itemIndex];
+        int value = values[section][itemIndex];
 
         if (itemValueLabels == null) {
             return null;
@@ -246,15 +255,17 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     }
 
     private Image getIcon(int section, int item) {
-        Image[] itemIcons = icons[section][item];
-        int value = values[section][item];
+        int itemIndex = getItemIndex(item);
+        Image[] itemIcons = icons[section][itemIndex];
+        int value = values[section][itemIndex];
         return (itemIcons.length > value) ? itemIcons[value] : itemIcons[0];
     }
 
     private void updateMenuItem(int index) {
+        int itemIndex = getItemIndex(index);
         set(
             index,
-            labels[currentSection][index],
+            labels[currentSection][itemIndex],
             getValueLabel(currentSection, index),
             getIcon(currentSection, index),
             false
@@ -263,15 +274,17 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
     private void cycleValue(int direction) {
         int selected = getSelectedIndex();
-        values[currentSection][selected] += direction;
+        int itemIndex = getItemIndex(selected);
+
+        values[currentSection][itemIndex] += direction;
         
-        int max = maxValues[currentSection][selected];
+        int max = maxValues[currentSection][itemIndex];
         
-        if (values[currentSection][selected] < 0) {
-            values[currentSection][selected] = max;
+        if (values[currentSection][itemIndex] < 0) {
+            values[currentSection][itemIndex] = max;
         }
-        else if (values[currentSection][selected] > max) {
-            values[currentSection][selected] = 0;
+        else if (values[currentSection][itemIndex] > max) {
+            values[currentSection][itemIndex] = 0;
         }
         updateMenuItem(selected);
     }
@@ -312,15 +325,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             if (index == 3) {
                 // Pigler API option is only shown on devices that support said API
                 // ifdef PIGLER_SUPPORT
-                if (i == 5) {
-                    if (!Util.supportsPigler)
-                    continue;
-                }
+                if (i == 5 && !Util.supportsPigler) continue;
                 // endif
                 // Same for Nokia UI API
                 // ifdef NOKIA_UI_SUPPORT
-                if (i == nokiaUIOptionIndex) {
-                    if (System.getProperty("com.nokia.mid.ui.softnotification") == null)
+                if (i == nokiaUIOptionIndex && System.getProperty("com.nokia.mid.ui.softnotification") == null) {
                     continue;
                 }
                 // endif
@@ -332,12 +341,13 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     private void showTextBox(int index) {
         SettingsScreen.instance = this;
 
-        int max = maxValues[currentSection][index];
+        int itemIndex = getItemIndex(index);
+        int max = maxValues[currentSection][itemIndex];
         int maxLength = (max == 0) ? 10 : Integer.toString(max).length();
 
         TextBox tb = new TextBox(
-            labels[currentSection][index],
-            Integer.toString(values[currentSection][index]),
+            labels[currentSection][itemIndex],
+            Integer.toString(values[currentSection][itemIndex]),
             maxLength,
             TextField.NUMERIC
         );
@@ -365,13 +375,14 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
             int selected = getSelectedIndex();
+            int itemIndex = getItemIndex(selected);
             if (isInSubmenu) {
                 // In submenu: select item
-                if (currentSection == 2 && selected == 5) {
+                if (currentSection == 2 && itemIndex == 5) {
                     // Special case for "remap hotkeys" option - open separate menu
                     s.disp.setCurrent(new KeyMapper(s));
                 } else {
-                    int max = maxValues[currentSection][selected];
+                    int max = maxValues[currentSection][itemIndex];
                     
                     if (max == 0 || max >= 5) {
                         // Max value is 0 (any value allowed) or >= 5, show text entry
@@ -469,20 +480,21 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             // OK or cancel command in textbox screen: (if OK, write entered value into values array), then return to where we left off in the settings screen
             if (c == textBoxOkCommand) {
                 int selected = getSelectedIndex();
-                int max = maxValues[currentSection][selected];
+                int itemIndex = getItemIndex(selected);
+                int max = maxValues[currentSection][itemIndex];
                 try {
                     int value = Integer.parseInt(((TextBox) d).getString());
                     // Menu icon size has a minimum of 0 (off), other options have a min of 1
-                    int min = (currentSection == 1 && selected == 4) ? 0 : 1;
+                    int min = (currentSection == 1 && itemIndex == 4) ? 0 : 1;
                     if (value < min || value > max) throw new Exception();
 
                     // Special case for menu icon size:
                     // 1 and 2 are reserved values that older versions used for 16 and 32 px
-                    if (currentSection == 1 && selected == 4 && (value == 1 || value == 2)) {
+                    if (currentSection == 1 && itemIndex == 4 && (value == 1 || value == 2)) {
                         value = 3;
                     }
 
-                    values[currentSection][selected] = value;
+                    values[currentSection][itemIndex] = value;
                     updateMenuItem(selected);
                 }
                 catch (Exception e) {
