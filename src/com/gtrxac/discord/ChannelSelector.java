@@ -77,12 +77,13 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
                 update(ch.id);
                 s.guildSelector.update(s.selectedGuild.id);
             }
-            else if (c == SELECT_COMMAND) {
+            else if (c == SELECT_COMMAND && !ch.isForum) {
                 s.isDM = false;
                 s.selectedChannel = ch;
                 s.openChannelView(true);
             }
-            else if (c == viewThreadsCommand) {
+            // "View threads" command was used, or a channel was selected and it's a forum channel
+            else {
                 s.selectedChannelForThreads = ch;
                 s.openThreadSelector(true, false);
             }

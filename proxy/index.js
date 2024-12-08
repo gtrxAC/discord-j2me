@@ -170,7 +170,7 @@ app.get(`${BASE}/guilds/:guild/channels`, getToken, async (req, res) => {
         })
 
         const channels = response.data
-            .filter(ch => ch.type == 0 || ch.type == 5)
+            .filter(ch => [0, 5, 15, 16].includes(ch.type))
             .map(ch => {
                 return {
                     id: ch.id,
@@ -524,8 +524,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             _liteproxy: true,
             _latest: 6,
             _latestname: "4.0.0",
-            _latestbeta: 7,
-            _latestbetaname: "4.1.0 beta1",
+            _latestbeta: 8,
+            _latestbetaname: "4.1.0 beta2",
         }));
     }
     catch (e) { handleError(res, e); }

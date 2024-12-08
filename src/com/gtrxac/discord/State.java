@@ -5,8 +5,8 @@ import javax.microedition.lcdui.*;
 import java.util.*;
 
 public class State implements Strings {
-	public static final int VERSION_CODE = 7;
-	public static final String VERSION_NAME = "4.1.0 beta1";
+	public static final int VERSION_CODE = 8;
+	public static final String VERSION_NAME = "4.1.0 beta2";
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =

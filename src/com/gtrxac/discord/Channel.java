@@ -11,6 +11,7 @@ public class Channel {
     public String name;
     public long lastMessageID;
     public Vector threads;
+    public boolean isForum;
     public boolean isThread;
 
     public Channel(JSONObject data) {
@@ -21,6 +22,9 @@ public class Channel {
         id = data.getString("id");
         name = data.getString("name");
         this.isThread = isThread;
+        
+        int type = data.getInt("type", 0);
+        isForum = (type == 15 || type == 16);
 
         try {
             lastMessageID = Long.parseLong(data.getString("last_message_id"));
@@ -59,7 +63,7 @@ public class Channel {
                 if (ch.getInt("position", i) != i) continue;
 
                 int type = ch.getInt("type", 0);
-                if (type != 0 && type != 5) continue;
+                if (type != 0 && type != 5 && type != 15 && type != 16) continue;
 
                 result.addElement(new Channel(ch));
             }
