@@ -577,7 +577,7 @@
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
-    "Appearance",
+    "Giao diện",
     "Các hình ảnh",
     "Các biểu hiện",
     "Các thông báo",
@@ -603,7 +603,7 @@
     "Lỗi API Pigler: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+    "Khômg hỗ trợ API thông báo Pigler. Hãy cài đặt API Pigler từ nnp.nnchan.ru/pna hoặc tắt các thông báo Pigler trong Cài đặt.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
     "Thanh kéo",
@@ -638,12 +638,12 @@
     // The name of the person in question is shown above each line.
     "Lead developer",
     "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, Italian translation",
+    "Hoạt hình tải, các biểu tượng menu, phiên dịch tiếng Ý",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
     "Tiếng Việt",
-    "Swedish",
+    "Tiếng Thuỵ Điển",
     "Tiếng Indonesia",
     "Tiếng Ba Lan",
     "Tiếng Tây Ban Nha",
@@ -684,28 +684,28 @@
     "Tiếng Croatia",
 
     // Units for attachment sizes.
-    " bytes",
-    " kB",
-    " MB",
+    " byte",
+    null,
+    null,
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "Các chủ đề",
+    "Xem các chủ đề",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Set",
-    "Set token",
+    "Đặt",
+    "Đặt mã truy cập",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "Đổi",
+    "Đổi mã t.cập",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "Nokia UI",
+    null,
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "Các thông báo cho Android",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW"
+    "MỚI"
 ]
