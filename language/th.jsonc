@@ -497,7 +497,7 @@
     "ไม่สามารถเปิด URL นี้ได้ (",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    ")\n\nลองคัดลอก URL นี้เพื่อนำไปเปิดในบราวเซอร์แทน: ",
+    ")\n\nลองคัดลอก URL นี้แล้วนำไปเปิดในบราวเซอร์แทน: ",
 
     // Title text for URL list screen ('Open URL' option in channel view).
     "เลือก URL",
@@ -595,7 +595,7 @@
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "Pigler API",
+    "ใช้ Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
     "ข้อผิดพลาด Pigler API: ",
@@ -682,28 +682,28 @@
     "ภาษาโครเอเชีย",
 
     // Units for attachment sizes.
-    " bytes",
+    " ไบต์",
     " kB",
     " MB",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "กระทู้",
+    "ดูกระทู้",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Set",
-    "Set token",
+    "ใส่",
+    "ใส่ token",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "เปลี่ยน",
+    "เปลี่ยน token",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "Nokia UI",
+    "ใช้ Nokia UI",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "แจ้งเตือนผ่าน Android โดยตรง",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW"
+    "ใหม่"
 ]
