@@ -51,11 +51,12 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
                         return;
                     }
                     try {
+                        if (!s.useFilePreview) throw new Exception();
                         // Try to show image preview (fails for non-image files)
                         s.disp.setCurrent(new ImagePreviewScreen(s, recipientMsg, selected, fc));
                     }
                     catch (Exception e) {
-                        // File is probably not an image, or viewing it is unsupported by the OS.
+                        // File is probably not an image, or viewing it is unsupported by the OS, or the user disabled file previews.
                         // Attach the file directly without previewing, and show the appropriate message text entry screen (normal message box or reply form).
                         ImagePreviewScreen.showTextEntry(s, recipientMsg, selected, fc);
                     }

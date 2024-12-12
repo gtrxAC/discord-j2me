@@ -35,7 +35,7 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
         width = getWidth();
         height = getHeight();
         fontHeight = s.messageFont.getHeight();
-        int[] size = Util.resizeFit(img.getWidth(), img.getHeight(), width, height - fontHeight*3/2);
+        int[] size = Util.resizeFit(imgFull.getWidth(), imgFull.getHeight(), width, height - fontHeight*3/2);
         img = Util.resizeImage(imgFull, size[0], size[1]);
         imgFull = null;
 

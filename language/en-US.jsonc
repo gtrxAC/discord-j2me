@@ -705,5 +705,11 @@
     null,
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
+    null,
+
+    // Prompt shown at the top of the image preview screen when selecting an attachment.
+    null,
+
+    // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
     null
 ]

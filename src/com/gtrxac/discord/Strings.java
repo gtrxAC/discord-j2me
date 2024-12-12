@@ -296,4 +296,5 @@ public interface Strings {
     static final int NOTIFICATIONS_ANDROID = 290;
     static final int NEW_MARKER = 291;
     static final int IMAGE_PREVIEW_PROMPT = 292;
+    static final int FILE_PREVIEW = 293;
 }

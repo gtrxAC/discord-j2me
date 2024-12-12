@@ -86,6 +86,7 @@ public class State implements Strings {
 	boolean playNotifSound;
 	boolean highRamMode;
 	int autoUpdate;
+	boolean useFilePreview;
 
 	int authorFontSize;
 	int messageFontSize;

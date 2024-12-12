@@ -22,7 +22,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
     private static final int[][] maxValues = {
         { 2, 2, 2, 1, 1, 1, 1 },
-        { 1, 10000, 3, 2, 255, 1 },
+        { 1, 10000, 3, 2, 255, 1, 1 },
         { 100, 1, 1, 1, 1, 1, 2, 2 },
         { 1, 1, 1, 1, 1,
         // ifdef PIGLER_SUPPORT
@@ -54,13 +54,6 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             Locale.get(SETTINGS_SECTION_NOTIFICATIONS),
             Locale.get(SETTINGS_SECTION_LANGUAGE),
         };
-        
-        // ifdef NOKIA_UI_SUPPORT
-        String nokiaUILabel = Locale.get(NOTIFICATIONS_NOKIA_UI);
-        // ifdef J2ME_LOADER
-        nokiaUILabel = Locale.get(NOTIFICATIONS_ANDROID);
-        // endif
-        // endif
 
         labels = new String[][] {
             {
@@ -80,6 +73,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(SETTINGS_SECTION_PFP_RESOLUTION),
                 Locale.get(SETTINGS_SECTION_MENU_ICONS),
                 Locale.get(GUILD_ICONS),
+                Locale.get(FILE_PREVIEW),
             }, {
                 // Behavior
                 Locale.get(SETTINGS_SECTION_MESSAGE_COUNT),
@@ -100,8 +94,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // ifdef PIGLER_SUPPORT
                 Locale.get(NOTIFICATIONS_PIGLER),
                 // endif
-                // ifdef NOKIA_UI_SUPPORT
-                nokiaUILabel
+                // The below two are for the same option, Nokia UI notifications. Only one of these defines is ever defined.
+                // ifdef NOKIA_UI_ICON
+                Locale.get(NOTIFICATIONS_NOKIA_UI),
+                // endif
+                // ifdef J2ME_LOADER
+                Locale.get(NOTIFICATIONS_ANDROID),
                 // endif
             },
         };
@@ -124,6 +122,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.pfpPlaceholder, s.ic.pfp16, s.ic.pfp32 },
                 { s.ic.iconSize },
                 { s.ic.menuIcons },
+                { s.ic.attachFormat },
             }, {
                 // Behavior
                 { s.ic.msgCount },
@@ -173,6 +172,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { Locale.get(PFP_PLACEHOLDER), Locale.get(PFP_16PX), Locale.get(PFP_32PX) },
                 { Locale.get(SETTING_VALUE_OFF) },
                 boolValues,
+                boolValues,
             }, {
                 // Behavior
                 { "0" },
@@ -216,6 +216,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.pfpSize,
                 s.menuIconSize,
                 s.showMenuIcons ? 1 : 0,
+                s.useFilePreview ? 1 : 0,
             }, {
                 // Behavior
                 s.messageLoadCount,
@@ -445,6 +446,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.pfpSize = values[1][3];
                 s.menuIconSize = values[1][4];
                 s.showMenuIcons = values[1][5] == 1;
+                s.useFilePreview = values[1][6] == 1;
 
                 s.messageLoadCount = values[2][0];
                 s.highRamMode = values[2][1] == 1;

@@ -707,5 +707,11 @@
     "Các thông báo cho Android",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "MỚI"
+    "MỚI",
+
+    // Prompt shown at the top of the image preview screen when selecting an attachment.
+    "Upload this image?",
+
+    // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
+    "File picker preview"
 ]

@@ -35,6 +35,14 @@ public class LoginSettings {
                 open();
                 numRecords = loginRms.getNumRecords();
 
+                boolean isHighRam = false;
+                // ifdef J2ME_LOADER
+                isHighRam = true;
+                // endif
+                // ifdef MIDP2_GENERIC
+                isHighRam = Util.isSymbian || Util.isKemulator;
+                // endif
+
                 s.api = getStringRecord(s.api);
                 s.token = getStringRecord(s.token);
                 s.theme = getByteRecord(0);
@@ -73,15 +81,7 @@ public class LoginSettings {
                 s.showNotifsAll = getBoolRecord(false);
                 s.showNotifsPings = getBoolRecord(true);
                 s.showNotifsDMs = getBoolRecord(true);
-                s.highRamMode = getBoolRecord(
-                    false
-                    // ifdef J2ME_LOADER
-                    || true
-                    // endif
-                    // ifdef MIDP2_GENERIC
-                    || Util.isSymbian || Util.isKemulator
-                    // endif
-                );
+                s.highRamMode = getBoolRecord(isHighRam);
                 s.showNotifAlert = getBoolRecord(true);
                 s.playNotifSound = getBoolRecord(true);
                 // ifdef PIGLER_SUPPORT
@@ -110,6 +110,7 @@ public class LoginSettings {
                     || true
                     // endif
                 );
+                s.useFilePreview = getBoolRecord(isHighRam);
 
                 // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
@@ -193,6 +194,7 @@ public class LoginSettings {
                 // endif
                 false
             );
+            setBoolRecord(s.useFilePreview);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {
