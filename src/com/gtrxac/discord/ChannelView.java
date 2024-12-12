@@ -463,7 +463,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
         // BlackBerry fix
+        // ifdef BLACKBERRY
         g.setClip(0, 0, width, height);
+        // endif
 
         if (items.size() > 0) {
             makeSelectedItemVisible();

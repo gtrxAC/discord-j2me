@@ -42,10 +42,22 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
                 if (selected.endsWith("/")) { // Directory
                     s.disp.setCurrent(new AttachmentPicker(s, recipientMsg, selectedPath));
                 } else { // File
-                    if (recipientMsg != null) {
-                        s.disp.setCurrent(new ReplyForm(s, recipientMsg, selected, selectedPath));
-                    } else {
-                        s.disp.setCurrent(new MessageBox(s, selected, selectedPath));
+                    FileConnection fc;
+                    try {
+                        fc = (FileConnection) Connector.open(selectedPath, Connector.READ);
+                    }
+                    catch (Exception e) {
+                        s.error(e);
+                        return;
+                    }
+                    try {
+                        // Try to show image preview (fails for non-image files)
+                        s.disp.setCurrent(new ImagePreviewScreen(s, recipientMsg, selected, fc));
+                    }
+                    catch (Exception e) {
+                        // File is probably not an image, or viewing it is unsupported by the OS.
+                        // Attach the file directly without previewing, and show the appropriate message text entry screen (normal message box or reply form).
+                        ImagePreviewScreen.showTextEntry(s, recipientMsg, selected, fc);
                     }
                 }
             }

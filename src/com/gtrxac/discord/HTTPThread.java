@@ -50,7 +50,7 @@ public class HTTPThread extends Thread implements Strings {
     HasIcon iconTarget;  // item (guild or DM channel) that this icon should be assigned to
 
     // Parameters for SEND_ATTACHMENT
-    String attachPath;
+    FileConnection attachFc;
     String attachName;
 
     // Parameters for VIEW_ATTACHMENT_TEXT
@@ -440,8 +440,7 @@ public class HTTPThread extends Thread implements Strings {
 
                         os.write(createFormPart("files", attachName));
 
-                        FileConnection fc = (FileConnection) Connector.open(attachPath, Connector.READ);
-                        InputStream fileInputStream = fc.openInputStream();
+                        InputStream fileInputStream = attachFc.openInputStream();
 
                         byte[] buffer = new byte[1024];
                         int bytesRead = -1;
@@ -455,7 +454,7 @@ public class HTTPThread extends Thread implements Strings {
                         os.flush();
 
                         fileInputStream.close();
-                        fc.close();
+                        attachFc.close();
                         
                         s.http.sendRequest(httpConn);
                         new HTTPThread(s, FETCH_MESSAGES).start();

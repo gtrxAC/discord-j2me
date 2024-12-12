@@ -295,4 +295,5 @@ public interface Strings {
     static final int NOTIFICATIONS_NOKIA_UI = 289;
     static final int NOTIFICATIONS_ANDROID = 290;
     static final int NEW_MARKER = 291;
+    static final int IMAGE_PREVIEW_PROMPT = 292;
 }

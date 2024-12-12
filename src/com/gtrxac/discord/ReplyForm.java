@@ -1,6 +1,7 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import javax.microedition.io.file.*;
 
 public class ReplyForm extends Form implements CommandListener, Strings {
     private State s;
@@ -14,13 +15,13 @@ public class ReplyForm extends Form implements CommandListener, Strings {
     private Command backCommand;
 
     private String attachName;
-    private String attachPath;
+    private FileConnection attachFc;
 
     public ReplyForm(State s, Message msg) {
         this(s, msg, null, null);
     }
 
-    public ReplyForm(State s, Message msg, String attachName, String attachPath) {
+    public ReplyForm(State s, Message msg, String attachName, FileConnection attachFc) {
         super("");
         setTitle(MessageBox.getMessageBoxTitle(s));
         
@@ -29,7 +30,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
         this.lastScreen = s.disp.getCurrent();
         this.msg = msg;
         this.attachName = attachName;
-        this.attachPath = attachPath;
+        this.attachFc = attachFc;
 
         StringItem refItem = new StringItem(Locale.get(REPLYING_TO) + msg.author.name, msg.content);
         refItem.setFont(s.messageFont);
@@ -67,7 +68,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             boolean[] selected = {true};
             if (!s.isDM) pingGroup.getSelectedFlags(selected);
             
-            MessageBox.sendMessage(s, replyField.getString(), msg.id, attachName, attachPath, selected[0]);
+            MessageBox.sendMessage(s, replyField.getString(), msg.id, attachName, attachFc, selected[0]);
         }
         else if (c == backCommand) {
             s.disp.setCurrent(lastScreen);

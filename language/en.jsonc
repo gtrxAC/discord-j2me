@@ -707,5 +707,8 @@
     "Android notifications",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW"
+    "NEW",
+
+    // Prompt shown at the top of the image preview screen when selecting an attachment.
+    "Upload this image?"
 ]

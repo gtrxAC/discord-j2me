@@ -1,6 +1,7 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import javax.microedition.io.file.*;
 
 public class MessageBox extends TextBox implements CommandListener, Strings {
     private State s;
@@ -10,13 +11,13 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     private Command backCommand;
 
     private String attachName;
-    private String attachPath;
+    private FileConnection attachFc;
 
     public MessageBox(State s) {
         this(s, null, null);
     }
 
-    public MessageBox(State s, String attachName, String attachPath) {
+    public MessageBox(State s, String attachName, FileConnection attachFc) {
         super("", "", 2000, 0);
         setTitle(getMessageBoxTitle(s));
         
@@ -24,7 +25,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         this.s = s;
         this.lastScreen = s.disp.getCurrent();
         this.attachName = attachName;
-        this.attachPath = attachPath;
+        this.attachFc = attachFc;
 
         sendCommand = Locale.createCommand(SEND_MESSAGE, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
@@ -50,12 +51,12 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     }
 
     // Send HTTP request to send a message. Also used by ReplyForm
-    public static void sendMessage(State s, String msg, String refID, String attachName, String attachPath, boolean ping) {
+    public static void sendMessage(State s, String msg, String refID, String attachName, FileConnection attachFc, boolean ping) {
         HTTPThread h;
         if (attachName != null) {
             h = new HTTPThread(s, HTTPThread.SEND_ATTACHMENT);
             h.attachName = attachName;
-            h.attachPath = attachPath;
+            h.attachFc = attachFc;
         } else {
             h = new HTTPThread(s, HTTPThread.SEND_MESSAGE);
         }
@@ -67,7 +68,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
-            sendMessage(s, getString(), null, attachName, attachPath, false);
+            sendMessage(s, getString(), null, attachName, attachFc, false);
         }
         else if (c == backCommand) {
             s.disp.setCurrent(lastScreen);
