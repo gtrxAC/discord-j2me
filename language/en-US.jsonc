@@ -711,5 +711,8 @@
     null,
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
+    null,
+
+    // Header shown at the top of every forwarded message.
     null
 ]

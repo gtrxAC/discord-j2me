@@ -711,5 +711,8 @@
     "Valitaanko tämä kuva?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "Tied.valinn. esikatselu"
+    "Tied.valinn. esikatselu",
+
+    // Header shown at the top of every forwarded message.
+    "Välitetty viesti:"
 ]

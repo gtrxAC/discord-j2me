@@ -39,7 +39,17 @@ public class Message implements Strings {
         id = data.getString("id");
         author = new User(s, data.getObject("author"));
 
-        int t = data.getInt("type", 0);
+        // JSON object to use for filling out message content and related fields.
+        // For forwarded messages, this is an inner object inside the message object.
+        JSONObject contentObj = data;
+        boolean isForwarded = false;
+        try {
+            contentObj = data.getArray("message_snapshots").getObject(0).getObject("message");
+            isForwarded = true;
+        }
+        catch (Exception e) {}
+
+        int t = contentObj.getInt("type", 0);
         if (t >= TYPE_ADDED && t <= TYPE_BOOSTED_LEVEL_3) {
             isStatus = true;
         }
@@ -48,7 +58,7 @@ public class Message implements Strings {
             // Status message -> determine content by message type
             String target = Locale.get(NAME_UNKNOWN);
             try {
-                JSONObject targetData = data.getArray("mentions").getObject(0);
+                JSONObject targetData = contentObj.getArray("mentions").getObject(0);
                 target = new User(s, targetData).name;
             }
             catch (Exception e) {}
@@ -106,27 +116,29 @@ public class Message implements Strings {
         } else {
             // Normal message -> get actual content
             // (and parse extra fields which don't apply to status messages)
-            content = data.getString("content", "");
+            content = contentObj.getString("content", "");
 
             // Get raw content (used for keeping formatting like pings intact when editing messages)
             if (s.myUserId != null && s.myUserId.equals(author.id)) {
-                rawContent = data.getString("_rc", content);
+                rawContent = contentObj.getString("_rc", content);
             }
 
-            try {
-                JSONObject refObj = data.getObject("referenced_message");
-
-                recipient = new User(s, refObj.getObject("author"));
-
-                if (s.showRefMessage) {
-                    refContent = refObj.getString("content", null);
-                    if (refContent == null) refContent = Locale.get(NO_CONTENT);
+            if (!isForwarded) {
+                try {
+                    JSONObject refObj = contentObj.getObject("referenced_message");
+    
+                    recipient = new User(s, refObj.getObject("author"));
+    
+                    if (s.showRefMessage) {
+                        refContent = refObj.getString("content", null);
+                        if (refContent == null) refContent = Locale.get(NO_CONTENT);
+                    }
                 }
+                catch (Exception e) {}
             }
-            catch (Exception e) {}
 
             try {
-                JSONArray attachArray = data.getArray("attachments");
+                JSONArray attachArray = contentObj.getArray("attachments");
                 if (attachArray.size() >= 1) {
                     attachments = new Vector();
 
@@ -139,7 +151,7 @@ public class Message implements Strings {
             catch (Exception e) {}
 
             try {
-                JSONArray stickers = data.getArray("sticker_items");
+                JSONArray stickers = contentObj.getArray("sticker_items");
                 if (stickers.size() >= 1) {
                     if (content.length() > 0) content += "\n";
                     content +=
@@ -151,7 +163,7 @@ public class Message implements Strings {
             catch (Exception e) {}
 
             try {
-                JSONArray embedArray = data.getArray("embeds");
+                JSONArray embedArray = contentObj.getArray("embeds");
                 if (embedArray.size() >= 1) {
                     embeds = new Vector();
 
@@ -207,6 +219,13 @@ public class Message implements Strings {
             time.append(month);
         }
         timestamp = time.toString();
+
+        if (isForwarded) {
+            String tmpContent = content;
+            content = Locale.get(FORWARDED_MESSAGE);
+            if (tmpContent.length() > 0) content += "\n";
+            content += tmpContent;
+        }
 
         if (
             content.length() == 0 &&

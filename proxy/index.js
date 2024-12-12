@@ -120,6 +120,108 @@ function parseMessageContent(content) {
     return result;
 }
 
+function parseMessageObject(msg, req) {
+    const result = {
+        id: msg.id
+    }
+    if (msg.author) {
+        result.author = {
+            id: msg.author.id,
+            avatar: msg.author.avatar,
+            global_name: msg.author.global_name
+        }
+        if (msg.author.global_name == null || req.query.droidcord) {
+            result.author.username = msg.author.username;
+        }
+    }
+    if (msg.type >= 1 && msg.type <= 11) result.type = msg.type;
+
+    // Parse content 
+    if (msg.content) {
+        result.content = parseMessageContent(msg.content);
+        if (result.content != msg.content) result._rc = msg.content;
+    }
+
+    if (msg.referenced_message) {
+        let content = parseMessageContent(msg.referenced_message.content);
+
+        // Replace newlines with spaces (reply is shown as one line)
+        content = content.replace(/\r\n|\r|\n/gm, "  ");
+
+        if (content && content.length > 50) {
+            content = content.slice(0, 47).trim() + '...';
+        }
+        result.referenced_message = {
+            author: {
+                global_name: msg.referenced_message.author.global_name,
+                id: msg.referenced_message.author.id,
+                avatar: msg.referenced_message.author.avatar
+            },
+            content
+        }
+        if (msg.referenced_message.author.global_name == null || req.query.droidcord) {
+            result.referenced_message.author.username =
+                msg.referenced_message.author.username;
+        }
+    }
+
+    if (msg.attachments?.length) {
+        result.attachments = msg.attachments
+            .map(att => {
+                var ret = {
+                    filename: att.filename,
+                    size: att.size,
+                    width: att.width,
+                    height: att.height,
+                    proxy_url: att.proxy_url
+                };
+                if (req.query.droidcord) {
+                    ret.content_type = att.content_type;
+                }
+                return ret;
+            })
+    }
+    if (msg.sticker_items?.length) {
+        result.sticker_items = [{name: msg.sticker_items[0].name}];
+    }
+    if (msg.embeds?.length) {
+        result.embeds = msg.embeds.map(emb => {
+            var ret = {
+                title: emb.title,
+                description: emb.description
+            };
+            if (req.query.droidcord) {
+                ret.url = emb.url;
+                ret.author = emb.author;
+                ret.provider = emb.provider;
+                ret.footer = emb.footer;
+                ret.timestamp = emb.timestamp;
+                ret.color = emb.color;
+                ret.thumbnail = emb.thumbnail;
+                ret.image = emb.image;
+                ret.video = emb.video;
+                ret.fields = emb.fields;
+            }
+            return ret;
+        })
+    }
+
+    // Need first mentioned user for group DM join/leave notification messages
+    if ((msg.type == 1 || msg.type == 2) && msg.mentions.length) {
+        result.mentions = [
+            {
+                id: msg.mentions[0].id,
+                global_name: msg.mentions[0].global_name
+            }
+        ]
+        if (msg.mentions[0].global_name == null) {
+            result.mentions[0].username = msg.mentions[0].username;
+        }
+    }
+
+    return result;
+}
+
 function generateLiteIDHash(id) {
     return (BigInt(id)%100000n).toString(36);
 }
@@ -320,102 +422,14 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         })
 
         const messages = response.data.map(msg => {
-            const result = {
-                id: msg.id,
-                author: {
-                    id: msg.author.id,
-                    avatar: msg.author.avatar,
-                    global_name: msg.author.global_name
-                }
-            }
-            if (msg.author.global_name == null || req.query.droidcord) {
-                result.author.username = msg.author.username;
-            }
-            if (msg.type >= 1 && msg.type <= 11) result.type = msg.type;
+            const result = parseMessageObject(msg, req);
 
-            // Parse content 
-            if (msg.content) {
-                result.content = parseMessageContent(msg.content);
-                if (result.content != msg.content) result._rc = msg.content;
+            // Content from forwarded message
+            if (msg.message_snapshots) {
+                result.message_snapshots = [{
+                    message: parseMessageObject(msg.message_snapshots[0].message, req)
+                }]
             }
-
-            if (msg.referenced_message) {
-                let content = parseMessageContent(msg.referenced_message.content);
-
-                // Replace newlines with spaces (reply is shown as one line)
-                content = content.replace(/\r\n|\r|\n/gm, "  ");
-
-                if (content && content.length > 50) {
-                    content = content.slice(0, 47).trim() + '...';
-                }
-                result.referenced_message = {
-                    author: {
-                        global_name: msg.referenced_message.author.global_name,
-                        id: msg.referenced_message.author.id,
-                        avatar: msg.referenced_message.author.avatar
-                    },
-                    content
-                }
-                if (msg.referenced_message.author.global_name == null || req.query.droidcord) {
-                    result.referenced_message.author.username =
-                        msg.referenced_message.author.username;
-                }
-            }
-
-            if (msg.attachments?.length) {
-                result.attachments = msg.attachments
-                    .map(att => {
-                        var ret = {
-                            filename: att.filename,
-                            size: att.size,
-                            width: att.width,
-                            height: att.height,
-                            proxy_url: att.proxy_url
-                        };
-                        if (req.query.droidcord) {
-                            ret.content_type = att.content_type;
-                        }
-                        return ret;
-                    })
-            }
-            if (msg.sticker_items?.length) {
-                result.sticker_items = [{name: msg.sticker_items[0].name}];
-            }
-            if (msg.embeds?.length) {
-                result.embeds = msg.embeds.map(emb => {
-                    var ret = {
-                        title: emb.title,
-                        description: emb.description
-                    };
-                    if (req.query.droidcord) {
-                        ret.url = emb.url;
-                        ret.author = emb.author;
-                        ret.provider = emb.provider;
-                        ret.footer = emb.footer;
-                        ret.timestamp = emb.timestamp;
-                        ret.color = emb.color;
-                        ret.thumbnail = emb.thumbnail;
-                        ret.image = emb.image;
-                        ret.video = emb.video;
-                        ret.fields = emb.fields;
-                    }
-                    return ret;
-                })
-            }
-
-            // Need first mentioned user for group DM join/leave notification messages
-            if ((msg.type == 1 || msg.type == 2) && msg.mentions.length) {
-                result.mentions = [
-                    {
-                        id: msg.mentions[0].id,
-                        global_name: msg.mentions[0].global_name
-                    }
-                ]
-                if (msg.mentions[0].global_name == null) {
-                    result.mentions[0].username = msg.mentions[0].username;
-                }
-            }
-
             return result;
         })
         res.send(stringifyUnicode(messages));

@@ -712,5 +712,8 @@
     "Upload this image?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview"
+    "File picker preview",
+
+    // Header shown at the top of every forwarded message.
+    "Forwarded message:"
 ]
