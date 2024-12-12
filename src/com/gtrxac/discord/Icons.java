@@ -52,6 +52,13 @@ public class Icons {
     // endif
     Image about;
     Image autoUpdate;
+    // ifdef NOKIA_UI_ICON
+    Image nokiaUI;
+    // endif
+    // ifdef J2ME_LOADER
+    Image android;
+    // endif
+    // Image vibra;
     Image flagGB;
     Image flagUS;
     Image flagES;
@@ -162,6 +169,16 @@ public class Icons {
         next();
         about = next();
         autoUpdate = next();
+        // ifdef NOKIA_UI_ICON
+        nokiaUI =
+        // endif
+        next();
+        // ifdef J2ME_LOADER
+        android =
+        // endif
+        next();
+        next(); // vibra (not used yet)
+        next(); // blank space
         flagGB = next();
         flagUS = next();
         flagES = next();

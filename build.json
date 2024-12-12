@@ -1,7 +1,7 @@
 [
   {
     "name": "discord_midp2",
-    "defines": ["MIDP2_GENERIC", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT"],
+    "defines": ["MIDP2_GENERIC", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT", "NOKIA_UI_ICON"],
     "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/javapiglerapi.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
   },
   {

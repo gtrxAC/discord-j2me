@@ -604,106 +604,106 @@
     "Pigler Notifications API не підтримується. Встановіть Pigler API або вимкніть сповіщення Pigler у налаштуваннях.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Смуга прокрутки",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "Приховувати",
+    "Показувати",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Про додаток",
 
     // Title text for about screen.
-    "About",
+    "Про додаток",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Версія ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Розробники",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Перекладачі",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Підтримка",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, Italian translation",
+    "Головний розробник",
+    "Завантаження вкладень, інтеграція Pigler API, JSON-парсер",
+    "Анімація завантаження, іконки меню, переклад італійською",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "В'єтнамська",
+    "Шведська",
+    "Індонезійська",
+    "Польська",
+    "Іспанська",
+    "Португальська (Бразилія)",
+    "Тайська",
+    "Португальська",
+    "Китайська (традиційна) і кантонська",
+    "Українська",
+    "Румунська",
+    "Турецька",
+    "Російська",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Переглянути",
+    "Переглянути",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Автооновлення",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Доступне оновлення",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Доступна нова версія Discord J2ME. Бажаєте оновити?\nПоточна: ",
+    "\nОстання: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Оновити",
+    "Оновити",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "Тільки релізи",
+    "Усі версії",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German",
-    "Croatian",
+    "Німецька",
+    "Хорватська",
 
     // Units for attachment sizes.
-    " bytes",
-    " kB",
-    " MB",
+    " байт",
+    " КБ",
+    " МБ",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "Гілки",
+    "Показати гілки",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Set",
-    "Set token",
+    "Встановити",
+    "Встановити токен",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "Змінити",
+    "Змінити токен",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "Nokia UI",
+    "Інтерфейс Nokia",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "Сповіщення для Android",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW"
+    "НОВИЙ"
 ]

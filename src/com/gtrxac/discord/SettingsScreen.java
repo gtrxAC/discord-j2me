@@ -144,8 +144,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // ifdef PIGLER_SUPPORT
                 { s.ic.pigler },
                 // endif
-                // ifdef NOKIA_UI_SUPPORT
-                { null },
+                // The below two are for the same option, Nokia UI notifications. Only one of these defines is ever defined.
+                // ifdef NOKIA_UI_ICON
+                { s.ic.nokiaUI },
+                // endif
+                // ifdef J2ME_LOADER
+                { s.ic.android }
                 // endif
             }
         };
