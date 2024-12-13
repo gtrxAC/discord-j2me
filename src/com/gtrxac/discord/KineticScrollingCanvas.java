@@ -6,7 +6,11 @@ import javax.microedition.lcdui.*;
  * Canvas with vertical scrolling support (kinetic/smooth scrolling when swiping + optional scroll bar)
  * Scrollable content can be drawn using the 'scroll' field as a vertical offset
  */
-public abstract class KineticScrollingCanvas extends MyCanvas implements Runnable {
+public abstract class KineticScrollingCanvas extends MyCanvas
+// ifdef OVER_100KB
+implements Runnable
+// endif
+{
 	static final int SCROLL_BAR_OFF = 0;
 	static final int SCROLL_BAR_HIDDEN = 1;
 	static final int SCROLL_BAR_VISIBLE = 2;
@@ -28,7 +32,7 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
     
     static {
         scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
-        // ifdef SAMSUNG
+        // ifdef SAMSUNG_FULL
         if (Util.isSamsungJet) scrollBarSize = scrollBarSize*5/2;
         // endif
     }
@@ -47,13 +51,12 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
     private void handleScrollBar(int y) {
         int height = getHeight() - scrollBarSize;
         y = Math.max(Math.min(y, getHeight() - scrollBarSize/2), scrollBarSize/2);
-        lastPointerY = y;
         y -= scrollBarSize/2;
         int ratio = y*1000/height;
 
-        scroll = getMinScroll() + (getMaxScroll() - getMinScroll())*ratio;
-        if (scroll%1000 > 500) scroll += 500;
-        scroll /= 1000;
+        scroll = (getMaxScroll() - getMinScroll())*ratio;
+        // if (scroll%1000 >= 500) scroll += 500;
+        scroll = scroll/1000 + getMinScroll();
         repaint();
     }
 
@@ -68,6 +71,7 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
         return totalScrollAbs < fontHeight/2 && Math.abs(totalScroll) < fontHeight/4;
     }
 
+    // ifdef OVER_100KB
     protected void pointerPressed(int x, int y) {
         // Use scrollbar if the content is tall enough to be scrollable and the user pressed on the right edge of the screen
         // Note: Scrollbar hitbox is wider than the actual rendered scrollbar
@@ -143,13 +147,23 @@ public abstract class KineticScrollingCanvas extends MyCanvas implements Runnabl
             Util.sleep(16);
         }
     }
+    // endif
+
+    private int getYFromScroll() {
+        int height = getHeight() - scrollBarSize;
+        int ratio = (scroll - getMinScroll())*1000/(getMaxScroll() - getMinScroll());
+        int y = height*ratio;
+        // if (y%1000 >= 500) y += 500;
+        y /= 1000;
+        return y;
+    }
 
     protected void drawScrollbar(Graphics g) {
         g.setClip(0, 0, super.getWidth(), getHeight());
 
         if ((scrollBarMode == SCROLL_BAR_VISIBLE && isScrollable()) || usingScrollBar) {
             int x = super.getWidth() - scrollBarSize;
-            int barPos = lastPointerY - scrollBarSize/2;
+            int barPos = getYFromScroll();
 
             g.setColor(0xDDDDDD);
             g.fillRect(x, 0, scrollBarSize, getHeight());

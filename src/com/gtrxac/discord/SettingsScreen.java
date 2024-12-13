@@ -216,7 +216,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.pfpSize,
                 s.menuIconSize,
                 s.showMenuIcons ? 1 : 0,
+                // ifdef OVER_100KB
                 s.useFilePreview ? 1 : 0,
+                // endif
             }, {
                 // Behavior
                 s.messageLoadCount,
@@ -446,7 +448,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.pfpSize = values[1][3];
                 s.menuIconSize = values[1][4];
                 s.showMenuIcons = values[1][5] == 1;
+                // ifdef OVER_100KB
                 s.useFilePreview = values[1][6] == 1;
+                // endif
 
                 s.messageLoadCount = values[2][0];
                 s.highRamMode = values[2][1] == 1;

@@ -698,6 +698,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     protected void keyPressed(int a) { keyEvent(a); }
     protected void keyRepeated(int a) { keyEvent(a); }
 
+    // ifdef OVER_100KB
     protected void pointerPressed(int x, int y) {
         touchMode = true;
         super.pointerPressed(x, y);
@@ -728,6 +729,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
         repaint();
     }
+    // endif
 
     private void uploadFile(Message recipientMsg) {
         try {

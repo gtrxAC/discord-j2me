@@ -110,7 +110,10 @@ public class LoginSettings {
                     || true
                     // endif
                 );
-                s.useFilePreview = getBoolRecord(isHighRam);
+                // ifdef OVER_100KB
+                s.useFilePreview =
+                // endif
+                getBoolRecord(isHighRam);
 
                 // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
@@ -194,7 +197,12 @@ public class LoginSettings {
                 // endif
                 false
             );
-            setBoolRecord(s.useFilePreview);
+            setBoolRecord(
+                // ifdef OVER_100KB
+                s.useFilePreview ||
+                // endif
+                false
+            );
             loginRms.closeRecordStore();
         }
         catch (Exception e) {

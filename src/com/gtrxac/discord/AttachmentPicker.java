@@ -50,16 +50,20 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
                         s.error(e);
                         return;
                     }
+                    // ifdef OVER_100KB
                     try {
                         if (!s.useFilePreview) throw new Exception();
                         // Try to show image preview (fails for non-image files)
                         s.disp.setCurrent(new ImagePreviewScreen(s, recipientMsg, selected, fc));
                     }
                     catch (Exception e) {
+                    // endif
                         // File is probably not an image, or viewing it is unsupported by the OS, or the user disabled file previews.
                         // Attach the file directly without previewing, and show the appropriate message text entry screen (normal message box or reply form).
-                        ImagePreviewScreen.showTextEntry(s, recipientMsg, selected, fc);
+                        showTextEntry(s, recipientMsg, selected, fc);
+                    // ifdef OVER_100KB
                     }
+                    // endif
                 }
             }
         }
@@ -125,6 +129,14 @@ public class AttachmentPicker extends ListScreen implements CommandListener, Str
         }
         catch (IOException e) {
             s.error(e);
+        }
+    }
+    
+    public static void showTextEntry(State s, Message recipientMsg, String fileName, FileConnection fc) {
+        if (recipientMsg != null) {
+            s.disp.setCurrent(new ReplyForm(s, recipientMsg, fileName, fc));
+        } else {
+            s.disp.setCurrent(new MessageBox(s, fileName, fc));
         }
     }
 }

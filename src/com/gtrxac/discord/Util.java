@@ -316,7 +316,7 @@ public class Util {
 	public static final boolean isSymbian;
 	// endif
 
-	// ifdef SAMSUNG
+	// ifdef SAMSUNG_FULL
 	public static final boolean isSamsungJet;
 	// endif
 
@@ -340,7 +340,7 @@ public class Util {
 				checkClass("com.symbian.lcdjava.io.File");
 		// endif
 
-		// ifdef SAMSUNG
+		// ifdef SAMSUNG_FULL
 		isSamsungJet = platform.startsWith("S8000") || platform.startsWith("S8003");
 		// endif
 
@@ -349,7 +349,7 @@ public class Util {
 		// endif
 
 		fontSize = Font.getDefaultFont().getHeight();
-		// ifdef SAMSUNG
+		// ifdef SAMSUNG_FULL
 		if (isSamsungJet) fontSize *= 2;
 		// endif
 	}

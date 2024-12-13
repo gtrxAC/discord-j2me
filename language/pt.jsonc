@@ -717,5 +717,9 @@
     "File picker preview",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:"
+    "Forwarded message:",
+
+    // Help texts shown in the login screen for how to open the token input text box.
+    "To set your token, press the BlackBerry key.",
+    "To change your token, press the BlackBerry key."
 ]

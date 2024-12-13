@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -67,17 +68,9 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
         g.drawImage(img, width/2, (height - fontHeight*3/2)/2 + fontHeight*3/2, Graphics.HCENTER | Graphics.VCENTER);
     }
 
-    public static void showTextEntry(State s, Message recipientMsg, String fileName, FileConnection fc) {
-        if (recipientMsg != null) {
-            s.disp.setCurrent(new ReplyForm(s, recipientMsg, fileName, fc));
-        } else {
-            s.disp.setCurrent(new MessageBox(s, fileName, fc));
-        }
-    }
-
     public void commandAction(Command c, Displayable d) {
         if (c == yesCommand) {
-            showTextEntry(s, recipientMsg, fileName, fc);
+            AttachmentPicker.showTextEntry(s, recipientMsg, fileName, fc);
         } else {
             try {
                 fc.close();
@@ -87,3 +80,4 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
         }
     }
 }
+// endif
