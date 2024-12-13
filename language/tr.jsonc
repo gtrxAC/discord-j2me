@@ -692,11 +692,11 @@
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
     "Ayarla",
-    "Token'ı ayarla",
+    "Token'i ayarla",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
     "Değiştir",
-    "Token'ı değiştir",
+    "Token'i değiştir",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
@@ -708,11 +708,11 @@
     "YENİ",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "Bu görüntüyü yükle?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "Dosya seçici önizleme",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:"
+    "İletilen mesaj:"
 ]
