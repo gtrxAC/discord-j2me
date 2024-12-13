@@ -708,11 +708,11 @@
     "NOWE",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "Przesłać ten obraz?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "Podgląd przy wybieraniu pliku",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:"
+    "Przekazano dalej:"
 ]
