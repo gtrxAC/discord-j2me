@@ -717,6 +717,6 @@
     "İletilen mesaj:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key."
+    "Token'i ayarlamak için, lütfen BlackBerry tuşuna basın.",
+    "Token'i değiştirmek için, lütfen BlackBerry tuşuna basın."
 ]
