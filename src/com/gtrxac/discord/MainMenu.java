@@ -44,7 +44,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         append(Locale.get(MAIN_MENU_LOG_OUT), s.ic.logout);
     }
 
-    // ifdef SAMSUNG
+    // ifdef SAMSUNG_FULL
     protected void showNotify() {
         // On Samsung Jet S8000 (tested with S800MCEIK1 firmware) the first canvas that is shown
         // in a Java app will have fonts that are way too small (approx 16px on a 480p display).

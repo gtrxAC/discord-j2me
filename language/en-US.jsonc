@@ -714,5 +714,9 @@
     null,
 
     // Header shown at the top of every forwarded message.
+    null,
+
+    // Help texts shown in the login screen for how to open the token input text box.
+    null,
     null
 ]

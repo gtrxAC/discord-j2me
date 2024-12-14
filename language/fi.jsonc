@@ -714,5 +714,9 @@
     "Tied.valinn. esikatselu",
 
     // Header shown at the top of every forwarded message.
-    "Välitetty viesti:"
+    "Välitetty viesti:",
+
+    // Help texts shown in the login screen for how to open the token input text box.
+    "Aseta tokenisi painamalla BlackBerry-näppäintä.",
+    "Vaihda tokenisi painamalla BlackBerry-näppäintä."
 ]

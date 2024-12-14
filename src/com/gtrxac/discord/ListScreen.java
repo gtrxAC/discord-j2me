@@ -234,7 +234,7 @@ public class ListScreen extends KineticScrollingCanvas {
         if (useIndicators) indicators = new Vector();
         if (useRightItems) rightItems = new Vector();
         selected = 0;
-        scroll = 0;
+        scroll = minScroll;
         repaint();
     }
 
@@ -317,14 +317,19 @@ public class ListScreen extends KineticScrollingCanvas {
         touchMode = globalTouchMode;
     }
 
-    protected void sizeChanged(int w, int h) {
-        setItemHeight(w);
-        updateDisplayedItems();
-    }
+    private int lastWidth;
 
     protected void paint(Graphics g) {
+        if (lastWidth != getWidth()) {
+            setItemHeight(getWidth());
+            updateDisplayedItems();
+            lastWidth = getWidth();
+        }
+
         // BlackBerry fix
+        // ifdef BLACKBERRY
         g.setClip(0, 0, getWidth(), getHeight());
+        // endif
 
         // Clear screen
         g.setColor(backgroundColor);
@@ -466,6 +471,7 @@ public class ListScreen extends KineticScrollingCanvas {
     protected void keyPressed(int a) { keyEvent(a); }
     protected void keyRepeated(int a) { keyEvent(a); }
 
+    // ifdef OVER_100KB
     private boolean pressedOnBlank;
 
     protected void pointerPressed(int x, int y) {
@@ -502,4 +508,5 @@ public class ListScreen extends KineticScrollingCanvas {
         }
         repaint();
     }
+    // endif
 }

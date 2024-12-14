@@ -714,5 +714,9 @@
     "Podgląd przy wybieraniu pliku",
 
     // Header shown at the top of every forwarded message.
-    "Przekazano dalej:"
+    "Przekazano dalej:",
+
+    // Help texts shown in the login screen for how to open the token input text box.
+    "To set your token, press the BlackBerry key.",
+    "To change your token, press the BlackBerry key."
 ]

@@ -5,8 +5,8 @@ import javax.microedition.lcdui.*;
 import java.util.*;
 
 public class State implements Strings {
-	public static final int VERSION_CODE = 8;
-	public static final String VERSION_NAME = "4.1.0 beta2";
+	public static final int VERSION_CODE = 9;
+	public static final String VERSION_NAME = "4.1.0 beta3";
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =
@@ -19,8 +19,11 @@ public class State implements Strings {
 	// ifdef BLACKBERRY
 	"blackberry";
 	// endif
-	// ifdef SAMSUNG
+	// ifdef SAMSUNG_FULL
 	"samsung";
+	// endif
+	// ifdef SAMSUNG_100KB
+	"samsung_100kb";
 	// endif
 	// ifdef LG
 	"lg";
@@ -86,7 +89,9 @@ public class State implements Strings {
 	boolean playNotifSound;
 	boolean highRamMode;
 	int autoUpdate;
+	// ifdef OVER_100KB
 	boolean useFilePreview;
+	// endif
 
 	int authorFontSize;
 	int messageFontSize;
@@ -324,8 +329,27 @@ public class State implements Strings {
 	public void openChannelView(boolean reload) {
 		if (reload || channelView == null || messages == null) {
 			new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
+			// markCurrentChannelRead is called by the thread
 		} else {
 			disp.setCurrent(channelView);
+			markCurrentChannelRead();
+		}
+	}
+
+	public void markCurrentChannelRead() {
+		// Ensure that the channel gets marked as read even when gateway is disabled, by updating the channel's last message ID
+		if (!gatewayActive() && messages != null) {
+			Message lastMessage = (Message) messages.elementAt(0);
+			long newLastMessageID = Long.parseLong(lastMessage.id);
+			if (isDM) {
+				if (selectedDmChannel.lastMessageID < newLastMessageID) {
+					selectedDmChannel.lastMessageID = newLastMessageID;
+				}
+			} else {
+				if (selectedChannel.lastMessageID < newLastMessageID) {
+					selectedChannel.lastMessageID = newLastMessageID;
+				}
+			}
 		}
 		if (isDM) {
 			unreads.markRead(selectedDmChannel);

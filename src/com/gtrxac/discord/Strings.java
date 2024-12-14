@@ -298,4 +298,8 @@ public interface Strings {
     static final int IMAGE_PREVIEW_PROMPT = 292;
     static final int FILE_PREVIEW = 293;
     static final int FORWARDED_MESSAGE = 294;
+    // ifdef BLACKBERRY
+    static final int LOGIN_FORM_SET_TOKEN_BB_HINT = 295;
+    static final int LOGIN_FORM_CHANGE_TOKEN_BB_HINT = 296;
+    // endif
 }
