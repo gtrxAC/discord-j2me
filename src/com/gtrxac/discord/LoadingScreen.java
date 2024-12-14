@@ -11,7 +11,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     int curFrame;
     int animDirection;
 
-    static boolean upscaled;
+    static int scale;
     static Image[] frames;
 
     public LoadingScreen(State s) {
@@ -28,13 +28,14 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     }
 
     private void checkLoadFrames() {
-        boolean shouldUpscale = getWidth() > 270 && getHeight() > 270;
+        int smallerDimension = Math.min(getWidth(), getHeight());
+        int newScale = smallerDimension/270 + 1;
 
-        if (frames == null || upscaled != shouldUpscale) {
-            upscaled = shouldUpscale;
+        if (frames == null || scale != newScale) {
+            scale = newScale;
             loadFrames();
         }
-        iconOffset = upscaled ? 8 : 4;
+        iconOffset = 4*scale;
     }
 
     private void loadFrames() {
@@ -51,8 +52,8 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
         for (int i = 0; i < 8; i++) {
             try {
                 frames[i] = Image.createImage(sheet, i*48, 0, 48, 48, Sprite.TRANS_NONE);
-                if (upscaled) {
-                    frames[i] = Util.resizeImage(frames[i], 96, 96);
+                if (scale > 1) {
+                    frames[i] = Util.resizeImage(frames[i], 48*scale, 48*scale);
                 }
             }
             catch (Exception e) {}
@@ -67,15 +68,26 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
         }
 
         while (s.disp.getCurrent() == this) {
+            long paintTime = System.currentTimeMillis();
             repaint();
             serviceRepaints();
+            paintTime = System.currentTimeMillis() - paintTime;
 
             // Sleep based on the frame number that was just drawn (first frame = 167 ms, last frame = 500 ms)
-            switch (curFrame - animDirection) {
-                case 0: Util.sleep(167); break;
-                case 7: Util.sleep(500); break;
-                default: Util.sleep(83); break;
+            int sleepTime;
+            switch (curFrame) {
+                case 0: sleepTime = 167; break;
+                case 7: sleepTime = 500; break;
+                default: sleepTime = 83; break;
             }
+            Util.sleep(sleepTime - (int) paintTime);
+
+            // Go to next animation frame.
+            // If end reached, start going through frames in descending order.
+            // If beginning reached, start going through frames in ascending order.
+            curFrame += animDirection;
+            if (curFrame == 7) animDirection = -1;
+            if (curFrame == 0) animDirection = 1;
         }
     }
 
@@ -91,7 +103,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
         // Draw current animation frame
         if (frames[curFrame] != null) {
             int messageFontHeight = s.messageFont.getHeight();
-            int halfContainerHeight = (upscaled ? 48 : 24) + messageFontHeight*3/4;
+            int halfContainerHeight = 24*scale + messageFontHeight*3/4;
 
             g.drawImage(
                 frames[curFrame], getWidth()/2 - iconOffset, getHeight()/2 - halfContainerHeight,
@@ -105,12 +117,5 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
                 Graphics.HCENTER | Graphics.BOTTOM
             );
         }
-
-        // Go to next animation frame.
-        // If end reached, start going through frames in descending order.
-        // If beginning reached, start going through frames in ascending order.
-        curFrame += animDirection;
-        if (curFrame == 7) animDirection = -1;
-        if (curFrame == 0) animDirection = 1;
     }
 }
