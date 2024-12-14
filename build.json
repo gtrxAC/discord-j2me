@@ -1,32 +1,37 @@
 [
   {
     "name": "discord_midp2",
-    "defines": ["MIDP2_GENERIC", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT", "NOKIA_UI_ICON"],
+    "defines": ["MIDP2_GENERIC", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT", "NOKIA_UI_ICON", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/javapiglerapi.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
   },
   {
     "name": "discord_midp2_alt",
-    "defines": ["MIDP2_ALT"],
+    "defines": ["MIDP2_ALT", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
   },
   {
     "name": "discord_blackberry",
-    "defines": ["BLACKBERRY"],
+    "defines": ["BLACKBERRY", "OVER_100KB"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
   },
   {
     "name": "discord_samsung",
-    "defines": ["SAMSUNG"],
+    "defines": ["SAMSUNG", "SAMSUNG_FULL", "OVER_100KB", "NOT_BLACKBERRY"],
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
+  },
+  {
+    "name": "discord_samsung_100kb",
+    "defines": ["SAMSUNG", "SAMSUNG_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
   },
   {
     "name": "discord_lg",
-    "defines": ["LG"],
+    "defines": ["LG", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
   },
   {
     "name": "discord_jl",
-    "defines": ["J2ME_LOADER", "NOKIA_UI_SUPPORT"],
+    "defines": ["J2ME_LOADER", "NOKIA_UI_SUPPORT", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
   }
 ]

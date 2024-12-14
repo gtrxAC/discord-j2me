@@ -440,13 +440,12 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
 // Send message
 const sendMessage = async (req, res) => {
     try {
-        await axios.post(
+        const response = await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,
             req.body,
             {headers: res.locals.headers}
         );
-        res.set('Content-Type', 'text/plain');
-        res.send("ok");
+        res.send(stringifyUnicode({id: response.data.id}));
     }
     catch (e) { handleError(res, e); }
 }
@@ -538,8 +537,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             _liteproxy: true,
             _latest: 6,
             _latestname: "4.0.0",
-            _latestbeta: 8,
-            _latestbetaname: "4.1.0 beta2",
+            _latestbeta: 9,
+            _latestbetaname: "4.1.0 beta3",
         }));
     }
     catch (e) { handleError(res, e); }

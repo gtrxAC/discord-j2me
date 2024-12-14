@@ -406,7 +406,7 @@ public class GatewayThread extends Thread implements Strings
 
                         // Redraw the message list and mark it as read
                         if (s.channelView.page == 0) {
-                            s.channelView.requestUpdate(true);
+                            s.channelView.requestUpdate(true, true);
                             s.unreads.autoSave = false;
                             s.unreads.markRead(chId, Long.parseLong(msgId));
                             s.unreads.autoSave = true;
@@ -436,7 +436,7 @@ public class GatewayThread extends Thread implements Strings
 
                             msg.delete();
 
-                            s.channelView.requestUpdate(true);
+                            s.channelView.requestUpdate(true, false);
                             s.channelView.repaint();
                             s.channelView.serviceRepaints();
                             break;
@@ -465,7 +465,7 @@ public class GatewayThread extends Thread implements Strings
                             msg.content = newContent;
                             msg.needUpdate = true;
 
-                            s.channelView.requestUpdate(true);
+                            s.channelView.requestUpdate(true, false);
                             s.channelView.repaint();
                             s.channelView.serviceRepaints();
                             break;

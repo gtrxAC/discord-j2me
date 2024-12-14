@@ -2,7 +2,12 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class LoginForm extends Form implements CommandListener, ItemCommandListener, Strings {
+public class LoginForm extends Form implements CommandListener,
+// ifdef NOT_BLACKBERRY
+ItemCommandListener,
+// endif
+Strings
+{
     State s;
 
     private TextField apiField;
@@ -44,10 +49,12 @@ public class LoginForm extends Form implements CommandListener, ItemCommandListe
         String tokenLabelShort = Locale.get(haveToken ? CHANGE_TOKEN : SET_TOKEN);
 
         changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0);
+        // ifdef NOT_BLACKBERRY
         StringItem tokenButton = new StringItem(null, tokenLabel, Item.BUTTON);
         tokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         tokenButton.setDefaultCommand(changeTokenCommand);
         tokenButton.setItemCommandListener(this);
+        // endif
 
         nextCommand = Locale.createCommand(LOG_IN, Command.OK, 1);
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 2);
@@ -70,7 +77,14 @@ public class LoginForm extends Form implements CommandListener, ItemCommandListe
         append(gatewayGroup);
         append(gatewayField);
         append(new StringItem(null, Locale.get(LOGIN_FORM_TOKEN_HELP)));
+        // ifdef BLACKBERRY
+        String tokenHint = Locale.get(haveToken ? LOGIN_FORM_CHANGE_TOKEN_BB_HINT : LOGIN_FORM_SET_TOKEN_BB_HINT);
+        append(new StringItem(null, tokenHint));
+        addCommand(changeTokenCommand);
+        // endif
+        // ifdef NOT_BLACKBERRY
         append(tokenButton);
+        // endif
         append(tokenGroup);
         addCommand(nextCommand);
         addCommand(quitCommand);
@@ -108,14 +122,25 @@ public class LoginForm extends Form implements CommandListener, ItemCommandListe
         else if (c == quitCommand) {
             s.midlet.notifyDestroyed();
         }
+        // ifdef BLACKBERRY
+        else if (c == changeTokenCommand) {
+            showTokenEntry();
+        }
+        // endif
         else {
             if (c == tokenBoxOkCommand) s.token = tokenBox.getString().trim();
             s.disp.setCurrent(this);
         }
     }
 
+    // ifdef NOT_BLACKBERRY
     public void commandAction(Command c, Item i) {
         // Only item command action is to change token
+        showTokenEntry();
+    }
+    // endif
+
+    private void showTokenEntry() {
         tokenBox = new TextBox("Set token", s.token, 200, 0);
         tokenBoxOkCommand = Locale.createCommand(OK, Command.OK, 0);
         tokenBoxCancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);

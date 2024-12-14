@@ -138,7 +138,7 @@ public class HTTPThread extends Thread implements Strings {
         if (showLoad) s.disp.setCurrent(new LoadingScreen(s));
 
         try {
-            if (!haveFetchedUserInfo && action != FETCH_LANGUAGE) {
+            if ((!haveFetchedUserInfo || s.myUserId == null) && action != FETCH_LANGUAGE) {
                 JSONObject resp = JSON.getObject(s.http.get("/users/@me"));
                 s.myUserId = resp.getString("id", "");
                 s.isLiteProxy = resp.getBoolean("_liteproxy", false);
@@ -268,13 +268,18 @@ public class HTTPThread extends Thread implements Strings {
                         }
                     }
 
-                    s.http.post("/channels/" + channelId + "/messages", json);
+                    JSONObject message = JSON.getObject(s.http.post("/channels/" + channelId + "/messages", json));
 
                     // If gateway enabled, don't need to fetch new messages
                     if (s.gatewayActive()) {
                         setBannerText(null);
                         break;
                     }
+
+                    // Mark our message as read (only needed when gateway not active)
+                    s.unreads.autoSave = false;
+                    s.unreads.markRead(channelId, Long.parseLong(message.getString("id")));
+                    s.unreads.autoSave = true;
 
                     // fall through (if gateway disabled, fetch messages because there might have 
                     // been other messages sent during the time the user was writing their message)
@@ -301,9 +306,10 @@ public class HTTPThread extends Thread implements Strings {
                     if ((fetchMsgsBefore == null && fetchMsgsAfter == null) || sendMessage != null) {
                         // If user opened a new channel or sent a message, create a new channel view
                         s.channelView = new ChannelView(s);
+                        s.markCurrentChannelRead();
                     } else {
                         // If user scrolled a page back or forward, keep reusing the same channel view
-                        s.channelView.requestUpdate(false);
+                        s.channelView.requestUpdate(false, false);
                     }
 
                     // Show the channel view screen (hide the loading screen)
@@ -454,9 +460,8 @@ public class HTTPThread extends Thread implements Strings {
                         os.flush();
 
                         fileInputStream.close();
-                        attachFc.close();
-                        
                         s.http.sendRequest(httpConn);
+                        attachFc.close();
                         new HTTPThread(s, FETCH_MESSAGES).start();
                     }
                     finally {
@@ -492,7 +497,7 @@ public class HTTPThread extends Thread implements Strings {
                         editMessage.content = editContent;
                         editMessage.rawContent = editContent;
                         editMessage.needUpdate = true;
-                        s.channelView.requestUpdate(false);
+                        s.channelView.requestUpdate(false, false);
                     }
 
                     setBannerText(null);
@@ -510,7 +515,7 @@ public class HTTPThread extends Thread implements Strings {
                     // (if enabled, deletion event will come through gateway)
                     if (!s.gatewayActive()) {
                         editMessage.delete();
-                        s.channelView.requestUpdate(false);
+                        s.channelView.requestUpdate(false, false);
                     }
 
                     setBannerText(null);
