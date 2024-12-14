@@ -440,13 +440,12 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
 // Send message
 const sendMessage = async (req, res) => {
     try {
-        await axios.post(
+        const response = await axios.post(
             `${DEST_BASE}/channels/${req.params.channel}/messages`,
             req.body,
             {headers: res.locals.headers}
         );
-        res.set('Content-Type', 'text/plain');
-        res.send("ok");
+        res.send(stringifyUnicode({id: response.data.id}));
     }
     catch (e) { handleError(res, e); }
 }

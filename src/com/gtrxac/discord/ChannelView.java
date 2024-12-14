@@ -46,6 +46,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     boolean requestedUpdate;
     boolean reqUpdateGateway;
+    boolean reqUpdateGatewayNewMsg;
 
     //                                     Dark      Light     Black
     static final int[] backgroundColors = {0x313338, 0xFFFFFF, 0x000000};
@@ -100,13 +101,14 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         haveShown = true;
         width = getWidth();
         height = getHeight();
-        requestUpdate(false);
+        requestUpdate(false, false);
         repaint();
     }
 
-    public void requestUpdate(boolean wasGateway) {
+    public void requestUpdate(boolean wasGateway, boolean wasGatewayNewMsg) {
         requestedUpdate = true;
         reqUpdateGateway = wasGateway;
+        reqUpdateGatewayNewMsg = wasGatewayNewMsg;
     }
 
     public void updateTitle() {
@@ -125,7 +127,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         setTitle(resultBuf.toString());
     }
 
-    private void update(boolean wasResized, boolean wasGateway) {
+    private void update(boolean wasResized, boolean wasGateway, boolean wasGatewayNewMsg) {
         items = new Vector();
 
         if (s.messages.size() == 0) return;
@@ -250,8 +252,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             scroll = (scrollPercent*maxScroll)/100;
         }
         else if (wasGateway) {
-            // If new message was received via gateway, keep the previously selected message selected.
-            if (selectionMode) {
+            // If update request was received via gateway, keep the previously selected message selected.
+            // If the request was because of a new message, move the selection one position up, because the previously selected message is now one position above.
+            // If the request was because of a message edit/deletion, the selection stays at the same position.
+            if (wasGatewayNewMsg && selectionMode) {
                 selectedItem++;
                 if (selectedItem >= items.size()) {
                     selectedItem = items.size() - 1;
@@ -260,7 +264,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             // If we were at the bottom of the message list, stay at the bottom
             if (scroll == oldMaxScroll) scroll = maxScroll;
         }
-        if (before != null) {
+        else if (before != null) {
             // User selected Show older messages - go to bottom of message list
             scroll = maxScroll;
             selectedItem = 0;
@@ -455,10 +459,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (width != getWidth() || height != getHeight()) {
             width = getWidth();
             height = getHeight();
-            update(true, false);
+            update(true, false, false);
         }
         else if (requestedUpdate) {
-            update(false, reqUpdateGateway);
+            update(false, reqUpdateGateway, reqUpdateGatewayNewMsg);
             requestedUpdate = false;
         }
 

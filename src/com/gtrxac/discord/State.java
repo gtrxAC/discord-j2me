@@ -329,8 +329,27 @@ public class State implements Strings {
 	public void openChannelView(boolean reload) {
 		if (reload || channelView == null || messages == null) {
 			new HTTPThread(this, HTTPThread.FETCH_MESSAGES).start();
+			// markCurrentChannelRead is called by the thread
 		} else {
 			disp.setCurrent(channelView);
+			markCurrentChannelRead();
+		}
+	}
+
+	public void markCurrentChannelRead() {
+		// Ensure that the channel gets marked as read even when gateway is disabled, by updating the channel's last message ID
+		if (!gatewayActive() && messages != null) {
+			Message lastMessage = (Message) messages.elementAt(0);
+			long newLastMessageID = Long.parseLong(lastMessage.id);
+			if (isDM) {
+				if (selectedDmChannel.lastMessageID < newLastMessageID) {
+					selectedDmChannel.lastMessageID = newLastMessageID;
+				}
+			} else {
+				if (selectedChannel.lastMessageID < newLastMessageID) {
+					selectedChannel.lastMessageID = newLastMessageID;
+				}
+			}
 		}
 		if (isDM) {
 			unreads.markRead(selectedDmChannel);
