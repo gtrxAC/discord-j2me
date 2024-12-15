@@ -38,16 +38,22 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
 
     // Also used by reply form
     public static String getMessageBoxTitle(State s) {
+        StringBuffer sb = new StringBuffer();
+        
         if (s.isDM) {
-            return 
-                Locale.get(MESSAGE_BOX_TITLE_PREFIX_DM) +
-                s.selectedDmChannel.name +
-                Locale.get(RIGHT_PAREN);
+            sb.append(Locale.get(MESSAGE_BOX_TITLE_PREFIX_DM));
+            sb.append(s.selectedDmChannel.name);
+        } else {
+            String prefix = Locale.get(MESSAGE_BOX_TITLE_PREFIX_CHANNEL);
+            // Remove "#" character if we're in a thread
+            if (s.selectedChannel.isThread) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+            }
+            sb.append(prefix);
+            sb.append(s.selectedChannel.name);
         }
-        return 
-            Locale.get(MESSAGE_BOX_TITLE_PREFIX_CHANNEL) +
-            s.selectedChannel.name +
-            Locale.get(RIGHT_PAREN);
+        sb.append(Locale.get(RIGHT_PAREN));
+        return sb.toString();
     }
 
     // Send HTTP request to send a message. Also used by ReplyForm
