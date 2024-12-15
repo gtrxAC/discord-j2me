@@ -105,10 +105,10 @@ public class LoginSettings {
                 s.showNotifNokiaUI =
                 // endif
                 getBoolRecord(
-                    false
                     // ifdef NOKIA_UI_SUPPORT
-                    || true
+                    Util.supportsNokiaUINotifs ||
                     // endif
+                    false
                 );
                 // ifdef OVER_100KB
                 s.useFilePreview =
@@ -129,7 +129,10 @@ public class LoginSettings {
             }
             finally {
                 try {
-                    if (loginRms != null) loginRms.closeRecordStore();
+                    if (loginRms != null) {
+                        loginRms.closeRecordStore();
+                        loginRms = null;
+                    }
                 }
                 catch (Exception e) {}
             }
@@ -204,6 +207,7 @@ public class LoginSettings {
                 false
             );
             loginRms.closeRecordStore();
+            loginRms = null;
         }
         catch (Exception e) {
             s.error(e);

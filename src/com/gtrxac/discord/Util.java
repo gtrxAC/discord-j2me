@@ -316,6 +316,10 @@ public class Util {
 	public static final boolean isSymbian;
 	// endif
 
+	// ifdef NOKIA_UI_SUPPORT
+	public static final boolean supportsNokiaUINotifs;
+	// endif
+
 	// ifdef SAMSUNG_FULL
 	public static final boolean isSamsungJet;
 	// endif
@@ -338,6 +342,10 @@ public class Util {
 				System.getProperty("com.symbian.default.to.suite.icon") != null ||
 				checkClass("com.symbian.midp.io.protocol.http.Protocol") ||
 				checkClass("com.symbian.lcdjava.io.File");
+		// endif
+
+		// ifdef NOKIA_UI_SUPPORT
+		supportsNokiaUINotifs = (System.getProperty("com.nokia.mid.ui.softnotification") != null);
 		// endif
 
 		// ifdef SAMSUNG_FULL

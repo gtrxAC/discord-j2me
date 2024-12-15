@@ -344,7 +344,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // endif
                 // Same for Nokia UI API
                 // ifdef NOKIA_UI_SUPPORT
-                if (i == nokiaUIOptionIndex && System.getProperty("com.nokia.mid.ui.softnotification") == null) {
+                if (i == nokiaUIOptionIndex && !Util.supportsNokiaUINotifs) {
                     continue;
                 }
                 // endif
