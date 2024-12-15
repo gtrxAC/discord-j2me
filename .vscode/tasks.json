@@ -1,0 +1,140 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // TODO: Add possibility to compile a jar for a single specific variant
+            "label": "Compile all JARs",
+            "command": "build.sh",
+            "windows": {
+                "command": "build.bat"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Discord J2ME for MIDP2",
+            "command": "/bin/bash ${config:kemulator.location}/KEmulator_Console.sh ${workspaceFolder}/bin/discord_midp2.jar",
+            "type": "shell",
+            "dependsOn": [
+                "Compile all JARs"
+            ],
+            "windows": {
+                "command": "@echo | call ${config:kemulator.location}\\KEmulator_Console.bat ${workspaceFolder}\\bin\\discord_midp2.jar",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Discord J2ME for MIDP2-alt",
+            "command": "/bin/bash ${config:kemulator.location}/KEmulator_Console.sh ${workspaceFolder}/bin/discord_midp2_alt.jar",
+            "type": "shell",
+            "dependsOn": [
+                "Compile all JARs"
+            ],
+            "windows": {
+                "command": "@echo | call ${config:kemulator.location}\\KEmulator_Console.bat ${workspaceFolder}\\bin\\discord_midp2_alt.jar",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Discord J2ME for BlackBerry",
+            "command": "/bin/bash ${config:kemulator.location}/KEmulator_Console.sh ${workspaceFolder}/bin/discord_blackberry.jar",
+            "type": "shell",
+            "dependsOn": [
+                "Compile all JARs"
+            ],
+            "windows": {
+                "command": "@echo | call ${config:kemulator.location}\\KEmulator_Console.bat ${workspaceFolder}\\bin\\discord_blackberry.jar",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Discord J2ME for J2ME Loader",
+            "command": "/bin/bash ${config:kemulator.location}/KEmulator_Console.sh ${workspaceFolder}/bin/discord_jl.jar",
+            "type": "shell",
+            "dependsOn": [
+                "Compile all JARs"
+            ],
+            "windows": {
+                "command": "@echo | call ${config:kemulator.location}\\KEmulator_Console.bat ${workspaceFolder}\\bin\\discord_jl.jar",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Discord J2ME for LG",
+            "command": "/bin/bash ${config:kemulator.location}/KEmulator_Console.sh ${workspaceFolder}/bin/discord_lg.jar",
+            "type": "shell",
+            "dependsOn": [
+                "Compile all JARs"
+            ],
+            "windows": {
+                "command": "@echo | call ${config:kemulator.location}\\KEmulator_Console.bat ${workspaceFolder}\\bin\\discord_lg.jar",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Discord J2ME for Samsung",
+            "command": "/bin/bash ${config:kemulator.location}/KEmulator_Console.sh ${workspaceFolder}/bin/discord_samsung.jar",
+            "type": "shell",
+            "dependsOn": [
+                "Compile all JARs"
+            ],
+            "windows": {
+                "command": "@echo | call ${config:kemulator.location}\\KEmulator_Console.bat ${workspaceFolder}\\bin\\discord_samsung.jar",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+    ]
+}

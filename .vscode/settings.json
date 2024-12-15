@@ -1,0 +1,20 @@
+{
+    // User-specific settings. Please, update those when setting up
+    
+    // Absolute path to the JDK. This will be reused in some places, but you should also change it in build.sh
+    // Example:
+    // "jdk.location": "D:\\Nokia\\projects\\discord-j2me\\sdk\\jdk8u432-b06",
+    "jdk.location": "/path/to/folder/with/jdk",
+
+    // Location of the KEmulator that is used for quickly launching compiled JARs
+    // You can get KEmulator at https://nnp.nnchan.ru/kem/
+    // Example:
+    // "kemulator.location": "D:\\Nokia\\tools\\kemnnx64",
+    "kemulator.location": "/path/to/folder/with/kemlator",
+
+    // Environment settings for VSCode
+    "java.jdt.ls.java.home": "${config:jdk.location}",
+    "java.project.referencedLibraries": [
+        "sdk/lib/**/*.jar",
+    ],
+}
