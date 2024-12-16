@@ -308,7 +308,7 @@ public class Util {
 		try {
 			Thread.sleep(ms);
 		}
-		catch (InterruptedException e) {}
+		catch (Exception e) {}
 	}
 
 	// ifdef MIDP2_GENERIC
