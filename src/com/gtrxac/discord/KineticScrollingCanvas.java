@@ -61,7 +61,7 @@ implements Runnable
     }
 
     public int getWidth() {
-        if (scrollBarMode == SCROLL_BAR_VISIBLE && isScrollable()) {
+        if (prevShowScrollbar) {
             return super.getWidth() - scrollBarSize;
         }
         return super.getWidth();
@@ -158,10 +158,23 @@ implements Runnable
         return y;
     }
 
+    private boolean prevShowScrollbar = false;
+
     protected void drawScrollbar(Graphics g) {
         g.setClip(0, 0, super.getWidth(), getHeight());
 
-        if ((scrollBarMode == SCROLL_BAR_VISIBLE && isScrollable()) || usingScrollBar) {
+        boolean showScrollbar = (scrollBarMode == SCROLL_BAR_VISIBLE && isScrollable());
+
+        // If scrollbar is set to always show, and the bar's visibility changes
+        // (because of the display content becoming taller/shorter than the screen height)
+        // then the available screen width changes, so notify the sub-class by calling sizeChanged
+        if (showScrollbar != prevShowScrollbar) {
+            sizeChanged(getWidth(), getHeight());
+            repaint();
+            prevShowScrollbar = showScrollbar;
+        }
+        // Draw scroll bar if it is set to always show, or if set to hidden and it's currently being dragged
+        else if (showScrollbar || usingScrollBar) {
             int x = super.getWidth() - scrollBarSize;
             int barPos = getYFromScroll();
 
