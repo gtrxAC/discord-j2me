@@ -636,8 +636,8 @@
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
+    "Trưởng nhóm phát triển",
+    "Tải tệp đính kèm, tích hợp API Pigler, bộ phân tích JSONt",
     "Hoạt hình tải, các biểu tượng menu, phiên dịch tiếng Ý",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
@@ -710,15 +710,15 @@
     "MỚI",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "Đăng ảnh này?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "Xem trước ảnh",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "T.nhắn chuyển tiếp:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key."
+    "Để đặt mã t.cập, hãy ấn phím BlackBerry.",
+    "Để thay đổi mã t.cập, hãy ấn phím BlackBerry."
 ]
