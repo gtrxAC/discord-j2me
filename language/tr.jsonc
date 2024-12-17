@@ -532,7 +532,7 @@
 
     // Options for the kinds of messages that notifications should be shown for.
     "Bütün mesajlar",
-    "Bahseeler",
+    "Bahsetmeler",
     "Direkt mesajlar",
 
     // Text shown in notification alert windows. This is in the form of:
