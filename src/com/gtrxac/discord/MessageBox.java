@@ -13,6 +13,10 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     private String attachName;
     private FileConnection attachFc;
 
+    // ifdef OVER_100KB
+    public boolean showedPreviewScreen = false;
+    // endif
+
     public MessageBox(State s) {
         this(s, null, null);
     }
@@ -77,6 +81,14 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
             sendMessage(s, getString(), null, attachName, attachFc, false);
         }
         else if (c == backCommand) {
+            // ifdef OVER_100KB
+            if (!showedPreviewScreen) {
+                try {
+                    attachFc.close();
+                }
+                catch (Exception e) {}
+            }
+            // endif
             s.disp.setCurrent(lastScreen);
         }
         else if (c == addMentionCommand) {

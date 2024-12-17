@@ -30,8 +30,12 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
         prevScreen = s.disp.getCurrent();
 
         InputStream is = fc.openInputStream();
-        Image imgFull = Image.createImage(is);
-        is.close();
+        Image imgFull;
+        try {
+            imgFull = Image.createImage(is);
+        } finally {
+            is.close();
+        }
 
         width = getWidth();
         height = getHeight();
@@ -70,7 +74,13 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
 
     public void commandAction(Command c, Displayable d) {
         if (c == yesCommand) {
-            AttachmentPicker.showTextEntry(s, recipientMsg, fileName, fc);
+            Displayable screen = AttachmentPicker.createTextEntryScreen(s, recipientMsg, fileName, fc);
+            if (screen instanceof MessageBox) {
+                ((MessageBox) screen).showedPreviewScreen = true;
+            } else {
+                ((ReplyForm) screen).showedPreviewScreen = true;
+            }
+            s.disp.setCurrent(screen);
         } else {
             try {
                 fc.close();

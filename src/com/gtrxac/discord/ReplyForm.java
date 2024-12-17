@@ -17,6 +17,10 @@ public class ReplyForm extends Form implements CommandListener, Strings {
     private String attachName;
     private FileConnection attachFc;
 
+    // ifdef OVER_100KB
+    public boolean showedPreviewScreen = false;
+    // endif
+
     public ReplyForm(State s, Message msg) {
         this(s, msg, null, null);
     }
@@ -71,6 +75,14 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             MessageBox.sendMessage(s, replyField.getString(), msg.id, attachName, attachFc, selected[0]);
         }
         else if (c == backCommand) {
+            // ifdef OVER_100KB
+            if (!showedPreviewScreen) {
+                try {
+                    attachFc.close();
+                }
+                catch (Exception e) {}
+            }
+            // endif
             s.disp.setCurrent(lastScreen);
         }
         else if (c == addMentionCommand) {

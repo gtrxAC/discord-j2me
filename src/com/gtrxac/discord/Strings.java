@@ -302,4 +302,7 @@ public interface Strings {
     static final int LOGIN_FORM_SET_TOKEN_BB_HINT = 295;
     static final int LOGIN_FORM_CHANGE_TOKEN_BB_HINT = 296;
     // endif
+    // ifdef OVER_100KB
+    static final int PREVIEW_NO_MEMORY = 297;
+    // endif
 }

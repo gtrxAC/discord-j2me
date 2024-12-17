@@ -718,5 +718,8 @@
 
     // Help texts shown in the login screen for how to open the token input text box.
     "Token'i ayarlamak için, lütfen BlackBerry tuşuna basın.",
-    "Token'i değiştirmek için, lütfen BlackBerry tuşuna basın."
+    "Token'i değiştirmek için, lütfen BlackBerry tuşuna basın.",
+
+    // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
+    "Not enough memory to show image preview"
 ]
