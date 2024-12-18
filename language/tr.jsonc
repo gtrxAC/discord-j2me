@@ -578,7 +578,7 @@
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
     "Görünüm",
-    "Resimler",
+    "Görüntüler",
     "Davranış",
     "Bildirimler",
 
@@ -675,7 +675,7 @@
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
     "Sadece çıkış sürümleri",
-    "Beta ve çıkış sürümleri",
+    "Beta ve ış sürümleri",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Almanca",
@@ -721,5 +721,5 @@
     "Token'i değiştirmek için, lütfen BlackBerry tuşuna basın.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview"
+    "Görüntüyü önizlemek için yeterli hafıza yok"
 ]
