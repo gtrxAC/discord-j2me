@@ -535,8 +535,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             id: response.data.id,
             _uploadtoken: generateUploadToken(res.locals.headers.Authorization),
             _liteproxy: true,
-            _latest: 6,
-            _latestname: "4.0.0",
+            _latest: 12,
+            _latestname: "4.1.0",
             _latestbeta: 11,
             _latestbetaname: "4.1.0 beta5",
         }));
