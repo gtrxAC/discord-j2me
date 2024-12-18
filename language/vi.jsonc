@@ -637,7 +637,7 @@
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
     "Trưởng nhóm phát triển",
-    "Tải tệp đính kèm, tích hợp API Pigler, bộ phân tích JSONt",
+    "Tải tệp đính kèm, tích hợp API Pigler, bộ phân tích JSON",
     "Hoạt hình tải, các biểu tượng menu, phiên dịch tiếng Ý",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
