@@ -578,7 +578,7 @@
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
     "Görünüm",
-    "Resimler",
+    "Görüntüler",
     "Davranış",
     "Bildirimler",
 
@@ -721,5 +721,5 @@
     "Token'i değiştirmek için, lütfen BlackBerry tuşuna basın.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview"
+    "Görüntüyü önizlemek için yeterli hafıza yok"
 ]
