@@ -708,18 +708,18 @@
     "НОВИЙ",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "Завантажити це зображення?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "Попер. перегляд для вибору файлів",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "Переслане повідомлення:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key.",
+    "Щоб встановити свій токен, натисніть клавішу меню (BlackBerry).",
+    "Щоб змінити свій токен, натисніть клавішу меню (BlackBerry).",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview"
+    "Недостатньо пам'яті для попереднього перегляду зображення"
 ]
