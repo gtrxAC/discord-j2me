@@ -708,18 +708,18 @@
     "ใหม่",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "อัพโหลภาพนี้หรือไม่?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "แสดงตัวอย่างภาพเมื่อเลือกไฟล์",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "ข้อความส่งต่อ:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key.",
+    "กดปุ่ม BlackBerry เพื่อใส่ token",
+    "กดปุ่ม BlackBerry เพื่อเปลี่ยน token",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview"
+    "หน่วยความจำไม่เพียงพอที่จะแสดงตัวอย่างภาพ"
 ]
