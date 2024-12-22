@@ -21,7 +21,7 @@ public class Message implements Strings {
     public String timestamp;
     public String content;
     public String rawContent;
-    public String[] contentLines;
+    public FormattedString contentFormatted;
 
     // is status message? (user joined/left/boosted) - affects rendering
     public boolean isStatus;

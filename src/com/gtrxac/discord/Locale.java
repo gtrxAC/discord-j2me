@@ -17,35 +17,10 @@ public class Locale {
     static {
         // English strings always loaded by default (in case translations are incomplete or have null values)
         try {
-            String data = readFile("/en.json");
+            String data = Util.readFile("/en.json");
             defaultStrs = JSON.getArray(data).toVector();
         }
         catch (Exception e) {}
-    }
-
-    /**
-     * Reads a file's contents from the JAR into a string.
-     * @param name File name
-     * @return String representation of the file's entire contents (UTF-8)
-     * @throws Exception Failed to open file, e.g. it doesn't exist
-     */
-    private static String readFile(String name) throws Exception {
-        InputStream is = new Object().getClass().getResourceAsStream(name);
-        DataInputStream dis = new DataInputStream(is);
-        StringBuffer buf = new StringBuffer();
-
-        int ch;
-        while ((ch = dis.read()) != -1) {
-            buf.append((char) ch);
-        }
-
-        String result = buf.toString();
-        try {
-            return new String(result.getBytes("ISO-8859-1"), "UTF-8");
-        }
-        catch (UnsupportedEncodingException e) {
-            return result;
-        }
     }
 
     /**

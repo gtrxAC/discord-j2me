@@ -83,7 +83,7 @@ public class ChannelViewItem implements Strings {
         // and the message only consists of attachments (only shown as a 'view attachments' button)
         return (
             type == ChannelViewItem.ATTACHMENTS_BUTTON &&
-            !msg.showAuthor && msg.contentLines.length == 0
+            !msg.showAuthor && msg.content.length() == 0
         );
     }
 
@@ -95,7 +95,7 @@ public class ChannelViewItem implements Strings {
         switch (type) {
             case MESSAGE: {
                 // Each content line + little bit of spacing between messages
-                int result = messageFontHeight*msg.contentLines.length + messageFontHeight/4;
+                int result = messageFontHeight*msg.contentFormatted.lineCount + messageFontHeight/4;
     
                 // One line for message author
                 if (msg.showAuthor) result += s.authorFont.getHeight();
@@ -350,10 +350,8 @@ public class ChannelViewItem implements Strings {
                     g.setColor(ChannelView.messageColors[s.theme]);
                 }
                 g.setFont(s.messageFont);
-                for (int i = 0; i < msg.contentLines.length; i++) {
-                    g.drawString(msg.contentLines[i], x, y, Graphics.TOP | Graphics.LEFT);
-                    y += messageFontHeight;
-                }
+                msg.contentFormatted.draw(g, y);
+                y += messageFontHeight*msg.contentFormatted.lineCount;
 
                 // Draw embeds
                 if (msg.embeds != null && msg.embeds.size() > 0) {

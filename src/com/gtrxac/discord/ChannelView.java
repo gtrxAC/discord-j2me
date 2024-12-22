@@ -187,8 +187,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             Message msg = (Message) s.messages.elementAt(i);
             boolean needUpdate = msg.needUpdate;
 
-            if (msg.contentLines == null || wasResized || needUpdate) {
-                msg.contentLines = Util.wordWrap(msg.content, contentWidth, s.messageFont);
+            if (msg.contentFormatted == null || wasResized || needUpdate) {
+                msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, width - contentWidth);
                 msg.needUpdate = false;
             }
 
@@ -214,7 +214,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 }
             }
 
-            if (msg.showAuthor || msg.contentLines.length != 0) {
+            if (msg.showAuthor || msg.contentFormatted.lineCount != 0) {
                 ChannelViewItem msgItem = new ChannelViewItem(s, ChannelViewItem.MESSAGE);
                 msgItem.msg = msg;
                 items.addElement(msgItem);

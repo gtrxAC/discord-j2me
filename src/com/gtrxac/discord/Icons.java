@@ -82,126 +82,97 @@ public class Icons {
     Image flagHK;
     Image flagHR;
 
-    Image sheet;
-    int size;
-    int x;
-    int y;
-
-    private Image next() {
-        Image result = Image.createImage(sheet, x, y, 16, 16, Sprite.TRANS_NONE);
-        
-        // Integer scale to nearest multiple of 16px, rounding up
-        if (size > 16) {
-            int multiple = size/16*16;
-            if (multiple < size) multiple += 16;
-            result = Util.resizeImage(result, multiple, multiple);
-        }
-        // If requested icon size is not an integer multiple, scale down to requested size with bilinear filter
-        if (size % 16 != 0) {
-            result = Util.resizeImageBilinear(result, size, size);
-        }
-
-        x += 16;
-        if (x >= sheet.getWidth()) {
-            x = 0;
-            y += 16;
-        }
-        return result;
-    }
-
     Icons(State s) {
-        size = s.menuIconSize;
-        if (size == 0) return;
+        if (s.menuIconSize == 0) return;
 
+        Spritesheet sh;
         try {
-            sheet = Image.createImage("/icons.png");
+            sh = new Spritesheet("/icons.png", s.menuIconSize);
         }
         catch (Exception e) {
             return;
         }
 
-        favorites = next();
-        dms = next();
-        guilds = next();
-        settings = next();
-        logout = next();
-        themesGroup = next();
-        themeDark = next();
-        themeLight = next();
-        themeBlack = next();
-        uiGroup = next();
-        use12h = next();
-        nativePicker = next();
-        autoReconnect = next();
-        menuIcons = next();
-        nameColors = next();
-        nameColorsOff = next();
-        fontSmall = next();
-        fontMedium = next();
-        fontLarge = next();
-        msgCount = next();
-        attachFormat = next();
-        attachSize = next();
-        pfpNone = next();
-        pfpSquare = next();
-        pfpCircle = next();
-        pfpCircleHq = next();
-        pfpPlaceholder = next();
-        pfp16 = next();
-        pfp32 = next();
-        repliesName = next();
-        repliesFull = next();
-        keys = next();
-        keysDefault = next();
-        iconSize = next();
-        language = next();
-        notify = next();
-        notifyPing = next();
-        notifyDM = next();
-        notifyAlert = next();
-        notifySound = next();
-        fullscreen = next();
-        keepChLoaded = next();
-        scrollBars = next();
+        favorites = sh.next();
+        dms = sh.next();
+        guilds = sh.next();
+        settings = sh.next();
+        logout = sh.next();
+        themesGroup = sh.next();
+        themeDark = sh.next();
+        themeLight = sh.next();
+        themeBlack = sh.next();
+        uiGroup = sh.next();
+        use12h = sh.next();
+        nativePicker = sh.next();
+        autoReconnect = sh.next();
+        menuIcons = sh.next();
+        nameColors = sh.next();
+        nameColorsOff = sh.next();
+        fontSmall = sh.next();
+        fontMedium = sh.next();
+        fontLarge = sh.next();
+        msgCount = sh.next();
+        attachFormat = sh.next();
+        attachSize = sh.next();
+        pfpNone = sh.next();
+        pfpSquare = sh.next();
+        pfpCircle = sh.next();
+        pfpCircleHq = sh.next();
+        pfpPlaceholder = sh.next();
+        pfp16 = sh.next();
+        pfp32 = sh.next();
+        repliesName = sh.next();
+        repliesFull = sh.next();
+        keys = sh.next();
+        keysDefault = sh.next();
+        iconSize = sh.next();
+        language = sh.next();
+        notify = sh.next();
+        notifyPing = sh.next();
+        notifyDM = sh.next();
+        notifyAlert = sh.next();
+        notifySound = sh.next();
+        fullscreen = sh.next();
+        keepChLoaded = sh.next();
+        scrollBars = sh.next();
         // ifdef PIGLER_SUPPORT
         pigler =
         // endif
-        next();
-        about = next();
-        autoUpdate = next();
+        sh.next();
+        about = sh.next();
+        autoUpdate = sh.next();
         // ifdef NOKIA_UI_ICON
         nokiaUI =
         // endif
-        next();
+        sh.next();
         // ifdef J2ME_LOADER
         android =
         // endif
-        next();
-        next(); // vibra (not used yet)
-        next(); // blank space
-        flagGB = next();
-        flagUS = next();
-        flagES = next();
-        flagFR = next();
-        flagDE = next();
-        flagIT = next();
-        flagNL = next();
-        flagPT = next();
-        flagUK = next();
-        flagFI = next();
-        flagPL = next();
-        flagID = next();
-        flagTR = next();
-        flagBR = next();
-        flagRU = next();
-        flagRO = next();
-        flagVI = next();
-        flagSV = next();
-        flagTH = next();
-        flagTW = next();
-        flagHK = next();
-        flagHR = next();
-
-        sheet = null;
+        sh.next();
+        sh.next(); // vibra (not used yet)
+        sh.next(); // blank space
+        flagGB = sh.next();
+        flagUS = sh.next();
+        flagES = sh.next();
+        flagFR = sh.next();
+        flagDE = sh.next();
+        flagIT = sh.next();
+        flagNL = sh.next();
+        flagPT = sh.next();
+        flagUK = sh.next();
+        flagFI = sh.next();
+        flagPL = sh.next();
+        flagID = sh.next();
+        flagTR = sh.next();
+        flagBR = sh.next();
+        flagRU = sh.next();
+        flagRO = sh.next();
+        flagVI = sh.next();
+        flagSV = sh.next();
+        flagTH = sh.next();
+        flagTW = sh.next();
+        flagHK = sh.next();
+        flagHR = sh.next();
     }
 }

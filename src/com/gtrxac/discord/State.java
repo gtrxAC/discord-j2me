@@ -212,6 +212,7 @@ public class State implements Strings {
 		Dialog.okLabel = Locale.get(OK);
 		Dialog.okLabelLong = Locale.get(OK_L);
 		ChannelViewItem.createUnreadIndicatorImage(this);
+		FormattedStringPartEmoji.loadEmoji(messageFont.getHeight());
 	}
 
 	public void loadTheme() {

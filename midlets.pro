@@ -8,7 +8,9 @@
 
 -microedition
 -target 1.2
--dontoptimize
+# -dontobfuscate
+-optimizations !code/simplification/object
+-optimizationpasses 5
 
 -keep public class * extends javax.microedition.midlet.MIDlet
 -dontnote

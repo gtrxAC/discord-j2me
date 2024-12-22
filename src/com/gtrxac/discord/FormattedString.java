@@ -1,0 +1,214 @@
+package com.gtrxac.discord;
+
+import java.util.*;
+import javax.microedition.lcdui.*;
+
+public class FormattedString {
+    private FormattedStringPart[] parts;
+    int lineCount;
+
+    FormattedString(String src, Font font, int width, int xOffset) {
+        if (
+            src == null || src.length() == 0 || src.equals(" ") ||
+            width < font.charWidth('W') + 2
+        ) {
+            parts = new FormattedStringPart[0];
+            return;
+        }
+
+        Vector tempParts = parseParts(src, font);
+        breakParts(tempParts, font, width);
+        positionParts(tempParts, font, width, xOffset);
+        tempParts = flattenParts(tempParts);
+        mergeParts(tempParts);
+        
+        parts = new FormattedStringPart[tempParts.size()];
+        tempParts.copyInto(parts);
+    }
+
+    /**
+     * Parse string into string parts. Each part consists of either a word, a block of one or more whitespace characters, or an emoji.
+     * @param src Text to be parsed.
+     * @return Two-dimensional vector of FormattedStringParts. The string parts do not have x and y position values filled out.
+     */
+    private static Vector parseParts(String src, Font font) {
+        int pos = 0;
+        int partBeginPos = 0;
+		char[] chars = src.toCharArray();
+
+        final int MODE_UNDETERMINED = -1;
+        final int MODE_WORD = 0;
+        final int MODE_WHITESPACE = 1;
+        final int MODE_EMOJI = 2;
+        int mode = MODE_UNDETERMINED;
+
+        Vector result = new Vector();
+        result.addElement(new Vector());  // first line
+
+        while (pos < chars.length) {
+            switch (chars[pos]) {
+                case '\r': break; // ignore
+                case '\n': {
+                    // Newline: end current part by adding new line (new inner vector)
+                    Vector line = (Vector) result.lastElement();
+                    line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
+                    partBeginPos = pos + 1;  // Don't include the newline character in the actual part contents
+                    result.addElement(new Vector());
+                    mode = MODE_UNDETERMINED;
+                    break;
+                }
+                case ' ': {
+                    if (mode != MODE_WHITESPACE) {
+                        if (mode == MODE_WORD || mode == MODE_EMOJI) {
+                            if (mode == MODE_EMOJI) partBeginPos--;
+                            Vector line = (Vector) result.lastElement();
+                            line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
+                            partBeginPos = pos;
+                        }
+                        mode = MODE_WHITESPACE;
+                    }
+                    break;
+                }
+                case ':': {
+                    if (mode == MODE_EMOJI) {
+                        // End of an emoji, check if this emoji is recognized.
+                        Vector line = (Vector) result.lastElement();
+                        line.addElement(FormattedStringPartEmoji.create(src.substring(partBeginPos, pos), font));
+                        mode = MODE_UNDETERMINED;
+                        partBeginPos = pos + 1;  // Don't include this colon character in the actual part contents
+                        break;
+                    }
+                    // Possibly the beginning of an emoji.
+                    // Check if the next character is a word character. If so, this is the beginning of an emoji. If not, treat this ':' like any other non-whitespace character.
+                    else if (pos + 1 < chars.length && chars[pos + 1] != ' ') {
+                        Vector line = (Vector) result.lastElement();
+                        line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
+                        mode = MODE_EMOJI;
+                        partBeginPos = pos + 1;  // Don't include this colon character in the actual part contents
+                        break;
+                    }
+                    // else include the colon character that was previously skipped, and fall through
+                }
+                default: {
+                    if (mode == MODE_WHITESPACE || mode == MODE_UNDETERMINED) {
+                        if (mode == MODE_WHITESPACE) {
+                            Vector line = (Vector) result.lastElement();
+                            line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
+                            partBeginPos = pos;
+                        }
+                        mode = MODE_WORD;
+                    }
+                    break;
+                }
+            }
+            pos++;
+        }
+        // Add last remaining part
+        Vector line = (Vector) result.lastElement();
+        line.addElement(new FormattedStringPartText(src.substring(partBeginPos), font));
+
+        return result;
+    }
+
+    private static void breakParts(Vector lines, Font font, int width) {
+        for (int l = 0; l < lines.size(); l++) {
+            Vector line = (Vector) lines.elementAt(l);
+            for (int i = 0; i < line.size(); i++) {
+                if (!(line.elementAt(i) instanceof FormattedStringPartText)) continue;
+                FormattedStringPartText part = (FormattedStringPartText) line.elementAt(i);
+
+                if (part.getWidth() <= width) continue;
+
+                String curr = part.content;
+                while (font.stringWidth(curr) > width) {
+                    curr = curr.substring(0, curr.length() - 1);
+                }
+
+                line.insertElementAt(new FormattedStringPartText(curr, font), i);
+                part.content = part.content.substring(curr.length());
+            }
+        }
+    }
+
+    private void positionParts(Vector lines, Font font, int width, int xOffset) {
+        int x = xOffset;
+        int y = 0;
+        lineCount = 0;
+        for (int l = 0; l < lines.size(); l++) {
+            Vector line = (Vector) lines.elementAt(l);
+            for (int i = 0; i < line.size(); i++) {
+                FormattedStringPart part = (FormattedStringPart) line.elementAt(i);
+                // Go to a new display line if not enough space left on the current line
+                if (x + part.getWidth() >= xOffset + width) {
+                    x = xOffset;
+                    y += font.getHeight();
+                    lineCount++;
+                }
+                // If a whitespace part ends up at the beginning of a display line, and it is not at the beginning of a line in the source text, discard it
+                if (
+                    x == xOffset && i != 0 &&
+                    part instanceof FormattedStringPartText &&
+                    ((FormattedStringPartText) part).isWhitespace()
+                ) {
+                    line.removeElementAt(i);
+                    i--;
+                    continue;
+                }
+                part.x = x;
+                part.y = y;
+                x += part.getWidth();
+            }
+            x = xOffset;
+            y += font.getHeight();
+            lineCount++;
+        }
+    }
+
+    private static Vector flattenParts(Vector lines) {
+        Vector result = new Vector();
+        for (int l = 0; l < lines.size(); l++) {
+            Vector line = (Vector) lines.elementAt(l);
+            for (int i = 0; i < line.size(); i++) {
+                result.addElement(line.elementAt(i));
+            }
+        }
+        return result;
+    }
+
+    private void mergeParts(Vector parts) {
+        for (int i = 0; i < parts.size() - 1;) {
+            if (!(parts.elementAt(i) instanceof FormattedStringPartText)) {
+                i++;
+                continue;
+            }
+            FormattedStringPartText thisPart = (FormattedStringPartText) parts.elementAt(i);
+
+            if (thisPart.isWhitespace()) {
+                parts.removeElementAt(i);
+                continue;
+            }
+
+            // Next part is not a text part - cannot be merged, skip
+            if (!(parts.elementAt(i + 1) instanceof FormattedStringPartText)) {
+                i++;
+                continue;
+            }
+            FormattedStringPartText nextPart = (FormattedStringPartText) parts.elementAt(i + 1);
+
+            // Not on the same line - cannot be merged, skip
+            if (thisPart.y != nextPart.y) {
+                i++;
+                continue;
+            }
+            // Merge parts and remove the next part which was merged into the current one
+            thisPart.content += nextPart.content;
+            parts.removeElementAt(i + 1);
+        }
+    }
+
+    public void draw(Graphics g, int yOffset) {
+        for (int i = 0; i < parts.length; i++) {
+            parts[i].draw(g, yOffset);
+        }
+    }
+}
