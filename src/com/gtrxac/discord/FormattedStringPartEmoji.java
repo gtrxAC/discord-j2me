@@ -8,14 +8,13 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
     Image image;
 
     private static Hashtable emojiTable;
-    private static int emojiSize;
+    static int emojiSize;
     private static int imageYOffset;
 
     /**
      * Calculate best emoji size (multiple of 16) for a given font size.
      */
     private static int getEmojiSize(int fontSize) {
-        System.out.println(fontSize);
         if (fontSize < 12) return 8;
         if (fontSize < 24) return 16;
         if (fontSize < 40) return 32;

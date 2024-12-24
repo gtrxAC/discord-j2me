@@ -214,7 +214,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 }
             }
 
-            if (msg.showAuthor || msg.contentFormatted.lineCount != 0) {
+            if (msg.showAuthor || msg.contentFormatted.height != 0) {
                 ChannelViewItem msgItem = new ChannelViewItem(s, ChannelViewItem.MESSAGE);
                 msgItem.msg = msg;
                 items.addElement(msgItem);

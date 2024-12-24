@@ -95,7 +95,7 @@ public class ChannelViewItem implements Strings {
         switch (type) {
             case MESSAGE: {
                 // Each content line + little bit of spacing between messages
-                int result = messageFontHeight*msg.contentFormatted.lineCount + messageFontHeight/4;
+                int result = msg.contentFormatted.height + messageFontHeight/4;
     
                 // One line for message author
                 if (msg.showAuthor) result += s.authorFont.getHeight();
@@ -351,7 +351,7 @@ public class ChannelViewItem implements Strings {
                 }
                 g.setFont(s.messageFont);
                 msg.contentFormatted.draw(g, y);
-                y += messageFontHeight*msg.contentFormatted.lineCount;
+                y += msg.contentFormatted.height;
 
                 // Draw embeds
                 if (msg.embeds != null && msg.embeds.size() > 0) {
