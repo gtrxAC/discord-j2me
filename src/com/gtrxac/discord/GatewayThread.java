@@ -296,7 +296,7 @@ public class GatewayThread extends Thread implements Strings
                     if (op.equals("GATEWAY_HELLO")) {
                         // Connect to gateway
                         JSONArray events = new JSONArray();
-                        events.add("MESSAGE_CREATE");
+                        events.add("J2ME_MESSAGE_CREATE");
                         events.add("MESSAGE_DELETE");
                         events.add("MESSAGE_UPDATE");
                         events.add("TYPING_START");
@@ -325,7 +325,7 @@ public class GatewayThread extends Thread implements Strings
                         disconnected(reason);
                         return;
                     }
-                    else if (op.equals("MESSAGE_CREATE")) {
+                    else if (op.equals("J2ME_MESSAGE_CREATE")) {
                         JSONObject msgData = message.getObject("d");
                         String msgId = msgData.getString("id");
                         String chId = msgData.getString("channel_id");

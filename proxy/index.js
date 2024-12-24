@@ -117,6 +117,13 @@ function parseMessageContent(content) {
     emoji.colons_mode = true;
     result = emoji.replace_unified(result);
 
+    // Replace regional indicator emojis with textual representations
+    result = result.replace(/\ud83c[\udde6-\uddff]/g, match => {
+        return ":regional_indicator_"
+            + String.fromCharCode(match.charCodeAt(1) - 0xdde6 + 97)
+            + ":";
+    })
+
     return result;
 }
 
