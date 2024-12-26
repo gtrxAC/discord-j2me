@@ -295,6 +295,10 @@ public class HTTPThread extends Thread implements Strings {
                     );
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
+                    if (s.isLiteProxy) {
+                        url.append("&emoji=");
+                        url.append(1);   // later will add a toggle
+                    }
 
                     JSONArray messages = JSON.getArray(s.http.get(url.toString()));
                     s.messages = new Vector();
@@ -392,17 +396,22 @@ public class HTTPThread extends Thread implements Strings {
                     String type = iconTarget.getIconType();
                     String id = iconTarget.getIconID();
                     String hash = iconTarget.getIconHash();
-                    String format = (s.useJpeg ? "jpg" : "png");
+                    // Choose image file format based on user settings. Emojis are always png.
+                    boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
+                    String format = ((s.useJpeg && notEmoji) ? "jpg" : "png");
                     int size = (s.pfpSize == State.ICON_SIZE_32) ? 32 : 16;
 
-                    Image icon = s.http.getImage(s.cdn + type + id + "/" + hash + "." + format + "?size=" + size);
+                    String urlHashPart = "";
+                    if (notEmoji) urlHashPart = "/" + hash;
+
+                    Image icon = s.http.getImage(s.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
 
                     // Resize menu icon if fetched size doesn't match requested size
                     if (!(iconTarget instanceof User) && size%16 != 0) {
                         icon = Util.resizeImageBilinear(icon, s.menuIconSize, s.menuIconSize);
                     }
 
-                    s.iconCache.set(hash, icon);
+                    IconCache.set(hash, icon);
                     iconTarget.iconLoaded(s);
                     break;
                 }
@@ -583,7 +592,11 @@ public class HTTPThread extends Thread implements Strings {
         catch (Exception e) {
             switch (action) {
                 case FETCH_ICON: {
-                    s.iconCache.removeRequest(iconTarget.getIconHash());
+                    // Retry icon loading, but don't retry for emojis, because someone could
+                    // send a fake emoji with a non-existent ID, and then the client would keep trying to fetch it.
+                    if (!(iconTarget instanceof FormattedStringPartGuildEmoji)) {
+                        IconCache.removeRequest(iconTarget.getIconHash());
+                    }
                     break;
                 }
                 case SEND_ATTACHMENT: {

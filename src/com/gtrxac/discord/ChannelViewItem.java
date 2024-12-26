@@ -19,6 +19,7 @@ public class ChannelViewItem implements Strings {
     // ifdef SAMSUNG
     Image refImg2;  // second (right-side) part of ref message image
     // endif
+    FormattedString refImgFormatStr;
     boolean refImgHasPfp;  // cached ref image has profile picture loaded
     boolean refImgHasColor;  // cached ref image has name color loaded
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
@@ -185,7 +186,7 @@ public class ChannelViewItem implements Strings {
                                 refImgHasPfp =
                                     !useIcons || s.pfpSize == State.PFP_SIZE_PLACEHOLDER ||
                                     msg.recipient.getIconHash() == null ||
-                                    s.iconCache.hasResized(msg.recipient, messageFontHeight);
+                                    IconCache.hasResized(msg.recipient, messageFontHeight);
 
                                 refImgHasColor = hasColor;
 
@@ -209,7 +210,7 @@ public class ChannelViewItem implements Strings {
                                 int refX = 0;
 
                                 if (useIcons) {
-                                    Image icon = s.iconCache.getResized(msg.recipient, messageFontHeight);
+                                    Image icon = IconCache.getResized(msg.recipient, messageFontHeight);
 
                                     if (icon != null) {
                                         refG.drawImage(icon, refX, 0, Graphics.TOP | Graphics.LEFT);
@@ -235,7 +236,10 @@ public class ChannelViewItem implements Strings {
                                 
                                 refG.setFont(s.messageFont);
                                 refG.setColor(ChannelView.refMessageColors[s.theme]);
-                                refG.drawString(msg.refContent, refX, 0, Graphics.TOP | Graphics.LEFT);
+                                if (refImgFormatStr == null) {
+                                    refImgFormatStr = new FormattedString(msg.refContent, s.messageFont, refImgFullWidth, refX, true);
+                                }
+                                refImgFormatStr.draw(refG, 0);
 
                                 int refImgResizeWidth = width - refDrawX;
                                 // ifdef SAMSUNG
@@ -252,7 +256,8 @@ public class ChannelViewItem implements Strings {
 
                                 refG.setFont(s.messageFont);
                                 refG.setColor(ChannelView.refMessageColors[s.theme]);
-                                refG.drawString(msg.refContent, -refImgFullWidth + refX, 0, Graphics.TOP | Graphics.LEFT);
+                                refG.translate(-refImgFullWidth, 0);
+                                refImgFormatStr.draw(refG, 0);
 
                                 refImg2 = Util.resizeImageBilinear(refImgFull2, refImgFull2Width*3/4, messageFontHeight*3/4);
                                 // endif
@@ -280,7 +285,7 @@ public class ChannelViewItem implements Strings {
 
                     // Draw icon
                     if (useIcons) {
-                        Image icon = s.iconCache.getResized(msg.author, iconSize);
+                        Image icon = IconCache.getResized(msg.author, iconSize);
                         int iconX = messageFontHeight/3;
                         int iconY = y + messageFontHeight/6;
 
@@ -376,10 +381,8 @@ public class ChannelViewItem implements Strings {
                         if (emb.title != null) {
                             g.setColor(0x0000a8fc);
                             g.setFont(s.titleFont);
-                            for (int l = 0; l < emb.titleLines.length; l++) {
-                                g.drawString(emb.titleLines[l], x, y, Graphics.TOP|Graphics.LEFT);
-                                y += messageFontHeight;
-                            }
+                            emb.titleFormatted.draw(g, y);
+                            y += emb.titleFormatted.height;
                             // Spacing between title and desc
                             if (emb.description != null) y += messageFontHeight/4;
                         }
@@ -387,10 +390,8 @@ public class ChannelViewItem implements Strings {
                         if (emb.description != null) {
                             g.setColor(ChannelView.messageColors[s.theme]);
                             g.setFont(s.messageFont);
-                            for (int l = 0; l < emb.descLines.length; l++) {
-                                g.drawString(emb.descLines[l], x, y, Graphics.TOP|Graphics.LEFT);
-                                y += messageFontHeight;
-                            }
+                            emb.descFormatted.draw(g, y);
+                            y += emb.descFormatted.height;
                         }
 
                         x -= messageFontHeight/3;  // Undo left padding

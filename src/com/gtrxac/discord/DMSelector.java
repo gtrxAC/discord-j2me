@@ -50,7 +50,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
 
         for (int i = 0; i < lastDMs.size(); i++) {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
-            append(ch.name, null, s.iconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
+            append(ch.name, null, IconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
         }
 
         searchCommand = Locale.createCommand(SEARCH, Command.SCREEN, 2);
@@ -75,7 +75,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
             if (chId != null && !ch.id.equals(chId)) continue;
 
-            set(i, ch.name, null, s.iconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
+            set(i, ch.name, null, IconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
         }
     }
 

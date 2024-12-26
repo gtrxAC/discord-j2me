@@ -5,8 +5,8 @@ import cc.nnproject.json.*;
 public class Embed {
     public String title;
     public String description;
-    public String[] titleLines;
-    public String[] descLines;
+    public FormattedString titleFormatted;
+    public FormattedString descFormatted;
 
     public Embed(JSONObject data) {
         title = data.getString("title", null);
@@ -18,8 +18,8 @@ public class Embed {
         int result = messageFontHeight*2/3;
 
         // Content lines
-        if (title != null && titleLines != null) result += messageFontHeight*titleLines.length;
-        if (description != null && descLines != null) result += messageFontHeight*descLines.length;
+        if (title != null && titleFormatted != null) result += titleFormatted.height;
+        if (description != null && descFormatted != null) result += descFormatted.height;
 
         // Spacing between title and description
         if (title != null && description != null) result += messageFontHeight/4;

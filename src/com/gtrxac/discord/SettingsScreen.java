@@ -476,7 +476,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
                 if (reloadIcons) {
                     // Unload server and DM lists so the icons get refreshed
-                    s.iconCache = new IconCache(s);
+                    IconCache.init(s);
                     s.guilds = null;
                     s.dmChannels = null;
                     if (reloadMenuIcons) {

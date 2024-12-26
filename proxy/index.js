@@ -98,10 +98,12 @@ function getToken(req, res, next) {
     next();
 }
 
-function parseMessageContent(content) {
-    let result = content
+function parseMessageContent(content, showGuildEmoji, convertTags = true) {
+    let result = content;
+
+    if (convertTags) {
         // try to convert <@12345...> format into @username
-        .replace(/<@(\d{15,})>/gm, (mention, id) => {
+        result = result.replace(/<@(\d{15,})>/gm, (mention, id) => {
             if (userCache.has(id)) return `@${userCache.get(id)}`;
             else return mention;
         })
@@ -110,8 +112,12 @@ function parseMessageContent(content) {
             if (channelCache.has(id)) return `#${channelCache.get(id)}`;
             else return mention;
         })
+    }
+
+    if (!showGuildEmoji) {
         // replace <:name:12345...> emoji format with :name:
-        .replace(/<a?(:\w*:)\d{15,}>/gm, "$1")
+        result = result.replace(/<a?(:\w*:)\d{15,}>/gm, "$1")
+    }
 
     // Replace Unicode emojis with :name: textual representations
     emoji.colons_mode = true;
@@ -127,7 +133,7 @@ function parseMessageContent(content) {
     return result;
 }
 
-function parseMessageObject(msg, req) {
+function parseMessageObject(msg, req, showGuildEmoji) {
     const result = {
         id: msg.id
     }
@@ -145,18 +151,30 @@ function parseMessageObject(msg, req) {
 
     // Parse content 
     if (msg.content) {
-        result.content = parseMessageContent(msg.content);
+        result.content = parseMessageContent(msg.content, showGuildEmoji);
         if (result.content != msg.content) result._rc = msg.content;
     }
 
     if (msg.referenced_message) {
-        let content = parseMessageContent(msg.referenced_message.content);
+        let content = parseMessageContent(msg.referenced_message.content, showGuildEmoji);
 
         // Replace newlines with spaces (reply is shown as one line)
         content = content.replace(/\r\n|\r|\n/gm, "  ");
 
-        if (content && content.length > 50) {
-            content = content.slice(0, 47).trim() + '...';
+        if (showGuildEmoji) {
+            // Show 80 characters, but ensure that server emojis don't get cut off in-between
+            // (could do this for standard emojis too)
+            let newContent = content.slice(0, 80);
+            i = 81;
+            while (i < content.length && newContent.lastIndexOf(">") < newContent.lastIndexOf("<")) {
+                newContent = content.slice(0, i);
+                i++;
+            };
+            content = newContent;
+        } else {
+            if (content && content.length > 50) {
+                content = content.slice(0, 47).trim() + '...';
+            }
         }
         result.referenced_message = {
             author: {
@@ -194,8 +212,8 @@ function parseMessageObject(msg, req) {
     if (msg.embeds?.length) {
         result.embeds = msg.embeds.map(emb => {
             var ret = {
-                title: emb.title,
-                description: emb.description
+                title: parseMessageContent(emb.title, true, false),
+                description: parseMessageContent(emb.description, true, false)
             };
             if (req.query.droidcord) {
                 ret.url = emb.url;
@@ -411,9 +429,11 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
     try {
         let proxyUrl = `${DEST_BASE}/channels/${req.params.channel}/messages`;
         let queryParam = [];
+        let showGuildEmoji = false;
         if (req.query.limit) queryParam.push(`limit=${req.query.limit}`);
         if (req.query.before) queryParam.push(`before=${req.query.before}`);
         if (req.query.after) queryParam.push(`after=${req.query.after}`);
+        if (req.query.emoji) showGuildEmoji = true;
         if (queryParam.length) proxyUrl += '?' + queryParam.join('&');
 
         const response = await axios.get(proxyUrl, {headers: res.locals.headers});
@@ -429,12 +449,12 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         })
 
         const messages = response.data.map(msg => {
-            const result = parseMessageObject(msg, req);
+            const result = parseMessageObject(msg, req, showGuildEmoji);
 
             // Content from forwarded message
             if (msg.message_snapshots) {
                 result.message_snapshots = [{
-                    message: parseMessageObject(msg.message_snapshots[0].message, req)
+                    message: parseMessageObject(msg.message_snapshots[0].message, req, showGuildEmoji)
                 }]
             }
             return result;

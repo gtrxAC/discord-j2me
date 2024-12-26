@@ -25,7 +25,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
 
         for (int i = 0; i < guilds.size(); i++) {
             Guild g = (Guild) guilds.elementAt(i);
-            append(g.name, null, s.iconCache.getResized(g, s.menuIconSize), s.unreads.hasUnreads(g));
+            append(g.name, null, IconCache.getResized(g, s.menuIconSize), s.unreads.hasUnreads(g));
         }
 
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 3);
@@ -48,7 +48,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
             Guild g = (Guild) guilds.elementAt(i);
             if (id != null && !g.id.equals(id)) continue;
 
-            set(i, g.name, null, s.iconCache.getResized(g, s.menuIconSize), s.unreads.hasUnreads(g));
+            set(i, g.name, null, IconCache.getResized(g, s.menuIconSize), s.unreads.hasUnreads(g));
         }
     }
 

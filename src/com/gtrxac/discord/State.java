@@ -155,7 +155,7 @@ public class State implements Strings {
 
 	public State() {
 		subscribedGuilds = new Vector();
-		iconCache = new IconCache(this);
+		IconCache.init(this);
 		nameColorCache = new NameColorCache(this);
 		unreads = new UnreadManager(this);
 	}

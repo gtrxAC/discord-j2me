@@ -9,6 +9,10 @@ public class FormattedString {
     private boolean isOnlyEmoji;
 
     FormattedString(String src, Font font, int width, int xOffset) {
+        this(src, font, width, xOffset, false);
+    }
+
+    FormattedString(String src, Font font, int width, int xOffset, boolean singleLine) {
         if (
             src == null || src.length() == 0 || src.equals(" ") ||
             width < font.charWidth('W') + 2
@@ -19,9 +23,11 @@ public class FormattedString {
 
         isOnlyEmoji = true;  // set to false by parseParts if message has any text parts in it
         Vector tempParts = parseParts(src, font);
-        breakParts(tempParts, font, width);
-        if (isOnlyEmoji) upscaleEmoji(tempParts);
-        int lineCount = positionParts(tempParts, font, width, xOffset);
+        if (!singleLine) {
+            breakParts(tempParts, font, width);
+            if (isOnlyEmoji) upscaleEmoji(tempParts);
+        }
+        int lineCount = positionParts(tempParts, font, width, xOffset, singleLine);
         tempParts = flattenParts(tempParts);
         mergeParts(tempParts);
         
@@ -46,6 +52,7 @@ public class FormattedString {
         final int MODE_WORD = 0;
         final int MODE_WHITESPACE = 1;
         final int MODE_EMOJI = 2;
+        final int MODE_GUILD_EMOJI = 3;
         int mode = MODE_UNDETERMINED;
 
         Vector result = new Vector();
@@ -66,7 +73,6 @@ public class FormattedString {
                 case ' ': {
                     if (mode != MODE_WHITESPACE) {
                         if (mode == MODE_WORD || mode == MODE_EMOJI) {
-                            if (mode == MODE_EMOJI) partBeginPos--;
                             Vector line = (Vector) result.lastElement();
                             line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
                             partBeginPos = pos;
@@ -75,27 +81,91 @@ public class FormattedString {
                     }
                     break;
                 }
+                case '<': {
+                    // Possibly the beginning of a guild emoji.
+                    // Check if next character is ':' and if there are enough chars left for there to possibly be a guild emoji
+                    if (pos + 5 < chars.length && chars[pos + 1] == ':') {
+                        // Add previous part as text
+                        if (mode != MODE_UNDETERMINED) {
+                            Vector line = (Vector) result.lastElement();
+                            line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
+                        }
+                        mode = MODE_GUILD_EMOJI;
+                        partBeginPos = pos;
+                    } else {
+                        // Not a guild emoji - treat as normal text
+                        if (mode == MODE_WHITESPACE || mode == MODE_UNDETERMINED) {
+                            if (mode == MODE_WHITESPACE) {
+                                Vector line = (Vector) result.lastElement();
+                                line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
+                                partBeginPos = pos;
+                            }
+                            mode = MODE_WORD;
+                            isOnlyEmoji = false;
+                        }
+                    }
+                    break;
+                }
+                case '>': {
+                    if (mode == MODE_GUILD_EMOJI) {
+                        // End of what is likely a guild emoji.
+                        // Check that the emoji is formatted correctly (two colons and numeric ID), and add it. If it's invalid, it's normal text.
+                        String content = src.substring(partBeginPos, pos);
+                        int colonIndex = content.indexOf(':');
+                        int secondColonIndex = content.indexOf(':', 2);  // begin index of ID, i.e. ignore the beginning '<:' and get index of next ':'
+
+                        if (colonIndex != -1 && secondColonIndex != -1) {
+                            String emojiID = content.substring(secondColonIndex + 1);
+                            boolean emojiIDIsNumeric = true;
+                            try {
+                                Long.parseLong(emojiID);
+                            }
+                            catch (NumberFormatException e) {
+                                emojiIDIsNumeric = false;
+                            }
+
+                            if (emojiIDIsNumeric && emojiID.length() > 10) {
+                                Vector line = (Vector) result.lastElement();
+                                line.addElement(new FormattedStringPartGuildEmoji(emojiID, font));
+                                mode = MODE_UNDETERMINED;
+                                partBeginPos = pos + 1;
+                                break;
+                            }
+                        }
+                    }
+                    // Not a guild emoji - treat as normal text
+                    if (mode == MODE_WHITESPACE || mode == MODE_UNDETERMINED) {
+                        if (mode == MODE_WHITESPACE) {
+                            Vector line = (Vector) result.lastElement();
+                            line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
+                            partBeginPos = pos;
+                        }
+                        mode = MODE_WORD;
+                        isOnlyEmoji = false;
+                    }
+                    break;
+                }
                 case ':': {
                     if (mode == MODE_EMOJI) {
                         // End of an emoji, check if this emoji is recognized.
                         Vector line = (Vector) result.lastElement();
-                        FormattedStringPart newPart = FormattedStringPartEmoji.create(src.substring(partBeginPos, pos), font);
+                        FormattedStringPart newPart = FormattedStringPartEmoji.create(src.substring(partBeginPos + 1, pos), font);
                         if (newPart instanceof FormattedStringPartText) {
                             // not recognized, will show as text - don't do emoji upscaling for this message
                             isOnlyEmoji = false;
                         }
                         line.addElement(newPart);
                         mode = MODE_UNDETERMINED;
-                        partBeginPos = pos + 1;  // Don't include this colon character in the actual part contents
+                        partBeginPos = pos + 1;
                         break;
                     }
                     // Possibly the beginning of an emoji.
                     // Check if the next character is a word character. If so, this is the beginning of an emoji. If not, treat this ':' like any other non-whitespace character.
-                    else if (pos + 1 < chars.length && chars[pos + 1] != ' ') {
+                    else if (mode != MODE_GUILD_EMOJI && pos + 1 < chars.length && chars[pos + 1] != ' ') {
                         Vector line = (Vector) result.lastElement();
                         line.addElement(new FormattedStringPartText(src.substring(partBeginPos, pos), font));
                         mode = MODE_EMOJI;
-                        partBeginPos = pos + 1;  // Don't include this colon character in the actual part contents
+                        partBeginPos = pos;  // Don't include this colon character in the actual part contents
                         break;
                     }
                     // else include the colon character that was previously skipped, and fall through
@@ -118,8 +188,10 @@ public class FormattedString {
         // Add last remaining part
         Vector line = (Vector) result.lastElement();
         String lastStr = src.substring(partBeginPos);
-        if (mode == MODE_EMOJI) lastStr = ":" + lastStr;
-        line.addElement(new FormattedStringPartText(lastStr, font));
+        if (lastStr.length() > 0) {
+            line.addElement(new FormattedStringPartText(lastStr, font));
+            isOnlyEmoji = false;
+        }
 
         return result;
     }
@@ -161,14 +233,19 @@ public class FormattedString {
         for (int l = 0; l < lines.size(); l++) {
             Vector line = (Vector) lines.elementAt(l);
             for (int i = 0; i < line.size(); i++) {
-                if (!(line.elementAt(i) instanceof FormattedStringPartEmoji)) continue;
-                FormattedStringPartEmoji part = (FormattedStringPartEmoji) line.elementAt(i);
-                part.image = Util.resizeImage(part.image, newSize, newSize);
+                if (line.elementAt(i) instanceof FormattedStringPartEmoji) {
+                    FormattedStringPartEmoji part = (FormattedStringPartEmoji) line.elementAt(i);
+                    part.image = Util.resizeImage(part.image, newSize, newSize);
+                }
+                else if (line.elementAt(i) instanceof FormattedStringPartGuildEmoji) {
+                    FormattedStringPartGuildEmoji part = (FormattedStringPartGuildEmoji) line.elementAt(i);
+                    part.size *= 2;
+                }
             }
         }
     }
 
-    private int positionParts(Vector lines, Font font, int width, int xOffset) {
+    private int positionParts(Vector lines, Font font, int width, int xOffset, boolean singleLine) {
         int x = xOffset;
         int y = 0;
         int lineHeight = font.getHeight();
@@ -183,7 +260,7 @@ public class FormattedString {
                 if (isOnlyEmoji) partWidth *= 2;
 
                 // Go to a new display line if not enough space left on the current line
-                if (x + partWidth >= xOffset + width) {
+                if (!singleLine && x + partWidth >= xOffset + width) {
                     x = xOffset;
                     y += lineHeight;
                     lineCount++;

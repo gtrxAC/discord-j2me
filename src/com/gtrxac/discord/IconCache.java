@@ -4,16 +4,16 @@ import java.util.*;
 import javax.microedition.lcdui.*;
 
 public class IconCache {
-    private State s;
-    private Hashtable icons;
-    private Hashtable resizedIcons;
-    private Vector iconHashes;
-    private Vector resizedIconHashes;
-    private Vector activeRequests;
-    private Vector activeResizes;
+    private static State s;
+    private static Hashtable icons;
+    private static Hashtable resizedIcons;
+    private static Vector iconHashes;
+    private static Vector resizedIconHashes;
+    private static Vector activeRequests;
+    private static Vector activeResizes;
 
-    public IconCache(State s) {
-        this.s = s;
+    public static void init(State s) {
+        IconCache.s = s;
         icons = new Hashtable();
         resizedIcons = new Hashtable();
         iconHashes = new Vector();
@@ -22,7 +22,7 @@ public class IconCache {
         activeResizes = new Vector();
     }
 
-    private Image get(HasIcon target) {
+    private static Image get(HasIcon target) {
         // Don't show icons if they are disabled
         if (target instanceof User) {
             // For profile pictures
@@ -47,22 +47,22 @@ public class IconCache {
         return null;
     }
 
-    public synchronized void removeRequest(String hash) {
+    public static synchronized void removeRequest(String hash) {
         int index = activeRequests.indexOf(hash);
         if (index != -1) activeRequests.removeElementAt(index);
     }
 
-    public synchronized void removeResize(String hash) {
+    public static synchronized void removeResize(String hash) {
         int index = activeResizes.indexOf(hash);
         if (index != -1) activeResizes.removeElementAt(index);
     }
 
-    public void set(String hash, Image icon) {
+    public static void set(String hash, Image icon) {
         removeRequest(hash);
         Util.hashtablePutWithLimit(icons, iconHashes, hash, icon, 100);
     }
 
-    public Image getResized(HasIcon target, int size) {
+    public static Image getResized(HasIcon target, int size) {
         String hash = target.getIconHash();
         if (hash == null) return null;
 
@@ -80,16 +80,16 @@ public class IconCache {
         return null;
     }
 
-    public void setResized(String resizedHash, Image icon) {
+    public static void setResized(String resizedHash, Image icon) {
         removeResize(resizedHash);
-        Util.hashtablePutWithLimit(resizedIcons, resizedIconHashes, resizedHash, icon, s.messageLoadCount);
+        Util.hashtablePutWithLimit(resizedIcons, resizedIconHashes, resizedHash, icon, s.messageLoadCount*2);
     }
 
-    public boolean has(HasIcon target) {
+    public static boolean has(HasIcon target) {
         return icons.containsKey(target.getIconHash());
     }
 
-    public boolean hasResized(HasIcon target, int size) {
+    public static boolean hasResized(HasIcon target, int size) {
         String resizedHash = target.getIconHash() + size;
         return resizedIcons.containsKey(resizedHash);
     }

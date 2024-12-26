@@ -77,12 +77,16 @@ public class Util {
 		return arr;
 	}
 
-    public static int[] resizeFit(int imgW, int imgH, int maxW, int maxH) {
+	public static int[] resizeFit(int imgW, int imgH, int maxW, int maxH) {
+		return resizeFit(imgW, imgH, maxW, maxH, false);
+	}
+
+    public static int[] resizeFit(int imgW, int imgH, int maxW, int maxH, boolean mustUpscale) {
         int imgAspect = imgW*100 / imgH;
         int maxAspect = maxW*100 / maxH;
         int width, height;
 
-        if (imgW <= maxW && imgH <= maxH) {
+        if (!mustUpscale && imgW <= maxW && imgH <= maxH) {
             width = imgW;
             height = imgH;
         }

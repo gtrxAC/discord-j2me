@@ -180,7 +180,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
         boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
-        int contentWidth = width - (useIcons ? fontHeight*2 : 0);
+        int iconAreaWidth = (useIcons ? fontHeight*2 : 0);
+        int contentWidth = width - iconAreaWidth;
+        int embedTextX = iconAreaWidth + fontHeight/3;
         int embedTextWidth = contentWidth - fontHeight/2 - fontHeight*2/3;
 
         for (int i = 0; i < s.messages.size(); i++) {
@@ -203,12 +205,12 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 for (int e = 0; e < msg.embeds.size(); e++) {
                     Embed emb = (Embed) msg.embeds.elementAt(e);
 
-                    if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
-                        emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.titleFont);
+                    if ((wasResized || emb.titleFormatted == null || needUpdate) && emb.title != null) {
+                        emb.titleFormatted = new FormattedString(emb.title, s.titleFont, embedTextWidth, embedTextX);
                         msg.needUpdate = false;
                     }
-                    if ((wasResized || emb.descLines == null || needUpdate) && emb.description != null) {
-                        emb.descLines = Util.wordWrap(emb.description, embedTextWidth, s.messageFont);
+                    if ((wasResized || emb.descFormatted == null || needUpdate) && emb.description != null) {
+                        emb.descFormatted = new FormattedString(emb.description, s.messageFont, embedTextWidth, embedTextX);
                         msg.needUpdate = false;
                     }
                 }

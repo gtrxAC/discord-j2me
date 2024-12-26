@@ -75,20 +75,35 @@ public class IconResizeThread extends Thread {
     public void run() {
         try {
             Image resized;
-            if (s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
-                resized = Util.resizeImageBilinear(smallIcon, size, size);
+            int width, height;
+            boolean isEmoji = (target instanceof FormattedStringPartGuildEmoji);
+
+            if (isEmoji) {
+                int[] newSize = Util.resizeFit(smallIcon.getWidth(), smallIcon.getHeight(), size, size, true);
+                width = newSize[0];
+                height = newSize[1];
             } else {
-                resized = Util.resizeImage(smallIcon, size, size);
+                width = size;
+                height = size;
+            }
+
+            if (s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
+                resized = Util.resizeImageBilinear(smallIcon, width, height);
+            } else {
+                resized = Util.resizeImage(smallIcon, width, height);
             }
 
             Image result;
-            if (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
+            if (
+                (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ) && 
+                !isEmoji
+            ) {
                 result = circleCutout(s, resized);
             } else {
                 result = resized;
             }
 
-            s.iconCache.setResized(target.getIconHash() + size, result);
+            IconCache.setResized(target.getIconHash() + size, result);
             target.iconLoaded(s);
         }
         catch (Exception e) {
