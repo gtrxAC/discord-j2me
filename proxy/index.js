@@ -99,6 +99,7 @@ function getToken(req, res, next) {
 }
 
 function parseMessageContent(content, showGuildEmoji, convertTags = true) {
+    if (!content) return content;
     let result = content;
 
     if (convertTags) {

@@ -9,18 +9,18 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
 
     private static Hashtable emojiTable;
     static int emojiSize;
-    private static int imageYOffset;
+    static int largeEmojiSize;
+    static int imageYOffset;
+    static int largeImageYOffset;
 
     /**
      * Calculate best emoji size (multiple of 16) for a given font size.
      */
-    private static int getEmojiSize(int fontSize) {
+    public static int getEmojiSize(int fontSize) {
         if (fontSize < 12) return 8;
-        if (fontSize < 24) return 16;
-        if (fontSize < 40) return 32;
-        if (fontSize < 56) return 48;
-        if (fontSize < 72) return 64;
-        return 80;
+        for (int i = 16; ; i += 16) {
+            if (fontSize < i + 8) return i;
+        }
     }
 
     /**
@@ -32,6 +32,9 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         try {
             emojiSize = getEmojiSize(fontSize);
             imageYOffset = fontSize/2 - emojiSize/2;
+            fontSize *= 2;
+            largeEmojiSize = getEmojiSize(fontSize);
+            largeImageYOffset = fontSize/2 - largeEmojiSize/2;
 
             Spritesheet emojiSheet = new Spritesheet("/emoji.png", emojiSize);
             JSONArray emojiArray = JSON.getArray(Util.readFile("/emoji.json"));
@@ -72,6 +75,6 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
     }
 
     public void draw(Graphics g, int yOffset) {
-        g.drawImage(image, x, y + yOffset + imageYOffset, Graphics.TOP | Graphics.LEFT);
+        g.drawImage(image, x, y + yOffset, Graphics.TOP | Graphics.LEFT);
     }
 }

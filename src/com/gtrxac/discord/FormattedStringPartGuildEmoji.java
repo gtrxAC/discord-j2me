@@ -18,13 +18,6 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
     public String getIconType() { return "/emojis/"; }
 
     public void iconLoaded(State s) {
-        if (!hasLoaded) {
-            // Fix positioning for emojis that aren't square (center within square container)
-            Image img = IconCache.getResized(this, size);
-            x += (size - img.getWidth())/2;
-            y += (size - img.getHeight())/2;
-            hasLoaded = true;
-        }
 		if (s.channelView != null) s.channelView.repaint();
     }
 
@@ -35,6 +28,12 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
     public void draw(Graphics g, int yOffset) {
         Image img = IconCache.getResized(this, size);
         if (img != null) {
+            if (!hasLoaded) {
+                // Fix positioning for emojis that aren't square (center within square container)
+                x += (size - img.getWidth())/2;
+                y += (size - img.getHeight())/2;
+                hasLoaded = true;
+            }
             g.drawImage(img, x, y + yOffset, Graphics.TOP | Graphics.LEFT);
         }
     }
