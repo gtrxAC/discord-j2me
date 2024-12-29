@@ -7,7 +7,7 @@ import cc.nnproject.json.*;
 public class FormattedStringPartEmoji extends FormattedStringPart {
     Image image;
 
-    private static Hashtable emojiTable;
+    static Hashtable emojiTable;
     static int emojiSize;
     static int largeEmojiSize;
     static int imageYOffset;
@@ -53,20 +53,7 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         }
     }
 
-    /**
-     * Try to create a formatted string part (emoji).
-     * If the emoji name is not recognized, a formatted string part (text) is created instead.
-     * @param name Name of the emoji, without colons
-     * @return FormattedStringPartEmoji corresponding to the specified emoji name, or a FormattedStringPartText containing the name of the emoji surrounded by colons
-     */
-    public static FormattedStringPart create(String name, Font font) {
-        if (emojiTable.containsKey(name)) {
-            return new FormattedStringPartEmoji((Image) emojiTable.get(name));
-        }
-        return new FormattedStringPartText(":" + name + ":", font);
-    }
-
-    private FormattedStringPartEmoji(Image image) {
+    FormattedStringPartEmoji(Image image) {
         this.image = image;
     }
 

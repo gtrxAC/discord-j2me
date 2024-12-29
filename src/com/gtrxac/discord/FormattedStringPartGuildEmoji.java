@@ -7,7 +7,7 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
     int size;
     private boolean hasLoaded;
 
-    FormattedStringPartGuildEmoji(String id, Font font) {
+    FormattedStringPartGuildEmoji(String id) {
         this.id = id;
         this.size = FormattedStringPartEmoji.emojiSize;
         hasLoaded = false;
