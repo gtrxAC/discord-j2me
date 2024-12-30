@@ -24,13 +24,7 @@ public class IconCache {
 
     private static Image get(HasIcon target) {
         // Don't show icons if they are disabled
-        if (target instanceof User) {
-            // For profile pictures
-            if (s.pfpType == State.PFP_TYPE_NONE || s.pfpSize == State.PFP_SIZE_PLACEHOLDER) return null;
-        } else {
-            // For menu icons (DMChannel and Guild)
-            if (!s.showMenuIcons || s.menuIconSize == 0) return null;
-        }
+        if (target.isDisabled(s)) return null;
         
         String hash = target.getIconHash();
         if (hash == null) return null;

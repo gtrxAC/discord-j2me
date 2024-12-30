@@ -16,6 +16,10 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
     public String getIconID() { return id; }
     public String getIconHash() { return id; }
     public String getIconType() { return "/emojis/"; }
+    
+    public boolean isDisabled(State s) {
+        return false;
+    }
 
     public void iconLoaded(State s) {
 		if (s.channelView != null) s.channelView.repaint();

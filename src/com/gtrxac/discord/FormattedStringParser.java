@@ -66,11 +66,10 @@ public class FormattedStringParser {
                         if (colon == -1) break emojiChecks;
 
                         String id = src.substring(pos + 1, colon);
-                        Object emojiImg = FormattedStringPartEmoji.emojiTable.get(id);
 
-                        if (emojiImg != null) {
+                        if (FormattedStringPartEmoji.emojiTable.containsKey(id)) {
                             addPreviousPart();
-                            result.addElement(new FormattedStringPartEmoji((Image) emojiImg));
+                            result.addElement(new FormattedStringPartEmoji(id));
                             pos = colon + 1;
                             partBeginPos = pos;
                             continue;

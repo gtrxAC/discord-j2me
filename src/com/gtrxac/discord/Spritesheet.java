@@ -5,7 +5,7 @@ import javax.microedition.lcdui.game.*;
 
 public class Spritesheet {
     private int spriteSize;
-    protected Image sheet;
+    private Image sheet;
     private int x;
     private int y;
 
@@ -33,11 +33,26 @@ public class Spritesheet {
             result = Util.resizeImageBilinear(result, spriteSize, spriteSize);
         }
 
+        skip();
+        return result;
+    }
+
+    public void reset() {
+        x = y = 0;
+    }
+
+    public void skip() {
         x += 16;
         if (x >= sheet.getWidth()) {
             x = 0;
             y += 16;
         }
-        return result;
+    }
+
+    public void skip(int count) {
+        int width = sheet.getWidth();
+        x += 16*count;
+        y += x/width*16;
+        x %= width;
     }
 }

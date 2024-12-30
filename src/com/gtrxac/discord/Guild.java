@@ -43,6 +43,10 @@ public class Guild implements HasIcon, Strings {
     public String getIconID() { return id; }
     public String getIconHash() { return iconHash; }
     public String getIconType() { return "/icons/"; }
+    
+    public boolean isDisabled(State s) {
+        return !s.showMenuIcons || s.menuIconSize == 0;
+    }
 
     public void iconLoaded(State s) {
 		if (s.guildSelector != null) s.guildSelector.update(id);

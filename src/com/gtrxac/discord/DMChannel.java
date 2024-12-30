@@ -59,6 +59,10 @@ public class DMChannel implements HasIcon, Strings {
     public String getIconID() { return iconID; }
     public String getIconHash() { return iconHash; }
     public String getIconType() { return isGroup ? "/channel-icons/" : "/avatars/"; }
+    
+    public boolean isDisabled(State s) {
+        return !s.showMenuIcons || s.menuIconSize == 0;
+    }
 
     public void iconLoaded(State s) {
 		if (s.dmSelector != null) s.dmSelector.update(id);

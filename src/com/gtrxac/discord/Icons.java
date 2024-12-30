@@ -150,8 +150,8 @@ public class Icons {
         android =
         // endif
         sh.next();
-        sh.next(); // vibra (not used yet)
-        sh.next(); // blank space
+        sh.skip(); // vibra (not used yet)
+        sh.skip(); // blank space
         flagGB = sh.next();
         flagUS = sh.next();
         flagES = sh.next();

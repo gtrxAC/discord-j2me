@@ -44,6 +44,10 @@ public class User implements HasIcon {
     public String getIconID() { return id; }
     public String getIconHash() { return iconHash; }
     public String getIconType() { return "/avatars/"; }
+    
+    public boolean isDisabled(State s) {
+        return s.pfpType == State.PFP_TYPE_NONE || s.pfpSize == State.PFP_SIZE_PLACEHOLDER;
+    }
 
     public void iconLoaded(State s) {
         if (s.channelView != null) s.channelView.repaint();
