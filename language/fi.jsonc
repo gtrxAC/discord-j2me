@@ -636,7 +636,7 @@
     // The name of the person in question is shown above each line.
     "Pääkehittäjä",
     "Liite-, JSON- ja Pigler API-tuki",
-    "Latausanimaatio, kuvakkeet, italiankielinen käännös",
+    "Latausanimaatio, kuvakkeet, emojit, italiankielinen käännös",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name

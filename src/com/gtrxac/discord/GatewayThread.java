@@ -37,7 +37,7 @@ public class GatewayThread extends Thread implements Strings
     private static Image appIcon;
     private static PiglerAPILayer pigler;
     private static boolean piglerInitFailed;
-    private static Object piglerLock = new Object();
+    private static final Object piglerLock = new Object();
 
     /**
      * Pigler notification UID -> Notification object
@@ -176,15 +176,17 @@ public class GatewayThread extends Thread implements Strings
         // endif
 
         // ifdef NOKIA_UI_SUPPORT
-        try {
-            SoftNotification sn = SoftNotification.newInstance();
-            sn.setText(
-                NotificationDialog.createString(notif, location, msg),
-                (isDM ? author : location) + ": " + content
-            );
-            sn.post();
+        if (s.showNotifNokiaUI && Util.supportsNokiaUINotifs) {
+            try {
+                SoftNotification sn = SoftNotification.newInstance();
+                sn.setText(
+                    NotificationDialog.createString(notif, location, msg),
+                    (isDM ? author : location) + ": " + content
+                );
+                sn.post();
+            }
+            catch (Throwable e) {}
         }
-        catch (Exception e) {}
         // endif
     }
 
