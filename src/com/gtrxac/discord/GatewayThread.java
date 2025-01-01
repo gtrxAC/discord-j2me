@@ -90,7 +90,13 @@ public class GatewayThread extends Thread implements Strings
         // Check if this message pings us (note: only checks user pings, not role pings)
         if (!s.showNotifsPings) return false;
         
-        JSONArray pings = msgData.getArray("mentions");
+        JSONArray pings;
+        try {
+            pings = msgData.getArray("mentions");
+        }
+        catch (Exception e) {
+            return false;
+        }
 
         for (int i = 0; i < pings.size(); i++) {
             if (pings.getObject(i).getString("id").equals(s.myUserId)) {
