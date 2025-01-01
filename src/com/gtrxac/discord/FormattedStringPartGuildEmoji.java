@@ -42,5 +42,9 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
             g.drawImage(img, x, y + yOffset, Graphics.TOP | Graphics.LEFT);
         }
     }
+
+    // public String toString() {
+    //     return "guildemoji (" + id + ")";
+    // }
 }
 // endif

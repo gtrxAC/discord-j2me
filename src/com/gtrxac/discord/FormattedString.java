@@ -7,7 +7,7 @@ import javax.microedition.lcdui.*;
 public class FormattedString {
     private FormattedStringPart[] parts;
     int height;
-    private boolean isOnlyEmoji;
+    private boolean showLargeEmoji;
 
     public static final int EMOJI_MODE_OFF = 0;
     public static final int EMOJI_MODE_DEFAULT_ONLY = 1;
@@ -29,11 +29,11 @@ public class FormattedString {
 
         FormattedStringParser parser = new FormattedStringParser(src, font);
         Vector tempParts = parser.run();
-        isOnlyEmoji = parser.isOnlyEmoji;
+        showLargeEmoji = parser.showLargeEmoji;
 
         if (!singleLine) {
             breakParts(tempParts, font, width);
-            if (isOnlyEmoji) upscaleEmoji(tempParts, font);
+            if (showLargeEmoji) upscaleEmoji(tempParts, font);
         }
         height = positionParts(tempParts, font, width, xOffset, singleLine);
         mergeParts(tempParts);
@@ -61,11 +61,6 @@ public class FormattedString {
     }
 
     private void upscaleEmoji(Vector parts, Font font) {
-        // Only upscale if message has no more than 10 emoji total
-        if (parts.size() > 10) {
-            isOnlyEmoji = false;
-            return;
-        }
         int newSize = FormattedStringPartEmoji.largeEmojiSize;
 
         for (int i = 0; i < parts.size(); i++) {
@@ -84,7 +79,7 @@ public class FormattedString {
         int x = xOffset;
         int y = 0;
         int lineHeight = font.getHeight();
-        if (isOnlyEmoji) lineHeight = FormattedStringPartEmoji.largeEmojiSize;
+        if (showLargeEmoji) lineHeight = FormattedStringPartEmoji.largeEmojiSize;
         int lineCount = 1;
 
         for (int i = 0; i < parts.size(); i++) {
@@ -101,28 +96,25 @@ public class FormattedString {
             boolean partIsText = (part instanceof FormattedStringPartText);
             
             // Note: formatted strings with "only emoji" (large emoji rendering) can still have whitespace text parts, so also check for those
-            int partWidth = (isOnlyEmoji && !partIsText) ? lineHeight : part.getWidth();
+            int partWidth = (showLargeEmoji && !partIsText) ? lineHeight : part.getWidth();
 
             // Go to a new display line if not enough space left on the current line
             if (!singleLine && x + partWidth >= xOffset + width) {
+                // If a whitespace part ends up at the beginning of a display line, and it is not at the beginning of a line in the source text, discard it
+                if (partIsText && ((FormattedStringPartText) part).isWhitespace()) {
+                    parts.removeElementAt(i);
+                    i--;
+                    continue;
+                }
                 x = xOffset;
                 y += lineHeight;
                 lineCount++;
             }
-            // If a whitespace part ends up at the beginning of a display line, and it is not at the beginning of a line in the source text, discard it
-            if (
-                x == xOffset && i != 0 && partIsText &&
-                ((FormattedStringPartText) part).isWhitespace()
-            ) {
-                parts.removeElementAt(i);
-                i--;
-                continue;
-            }
             part.x = x;
             part.y = y;
             // Vertically center align emojis to the text
-            if (!partIsText) {
-                part.y += (isOnlyEmoji ? FormattedStringPartEmoji.largeImageYOffset : FormattedStringPartEmoji.imageYOffset);
+            if (!partIsText && !showLargeEmoji) {
+                part.y += FormattedStringPartEmoji.imageYOffset;
             }
             x += partWidth;
         }

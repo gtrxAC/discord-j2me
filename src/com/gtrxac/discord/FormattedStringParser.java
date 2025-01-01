@@ -18,7 +18,7 @@ public class FormattedStringParser {
     private int partBeginPos = 0;
     private int pos = 0;
 
-    public boolean isOnlyEmoji = true;
+    public boolean showLargeEmoji = true;
 
     FormattedStringParser(String src, Font font) {
         this.src = src;
@@ -29,12 +29,13 @@ public class FormattedStringParser {
         String substr = src.substring(partBeginPos, pos);
         if (substr.length() != 0) {
             result.addElement(new FormattedStringPartText(substr, font));
-            isOnlyEmoji = false;
+            showLargeEmoji = false;
         }
     }
 
     public Vector run() {
 		char[] chars = src.toCharArray();
+        int emojiCount = 0;
 
         try {
             while (true) {
@@ -73,6 +74,7 @@ public class FormattedStringParser {
                             result.addElement(new FormattedStringPartEmoji(id));
                             pos = colon + 1;
                             partBeginPos = pos;
+                            emojiCount++;
                             continue;
                         }
                     }
@@ -100,6 +102,7 @@ public class FormattedStringParser {
                         result.addElement(new FormattedStringPartGuildEmoji(id));
                         pos = checkPos + 1;
                         partBeginPos = pos;
+                        emojiCount++;
                         continue;
                     }
                 }
@@ -113,6 +116,10 @@ public class FormattedStringParser {
 
         // add last part (any remaining text)
         addPreviousPart();
+
+        // check if we need to zoom in the emojis
+        if (emojiCount > 10) showLargeEmoji = false;
+        
         return result;
     }
 }

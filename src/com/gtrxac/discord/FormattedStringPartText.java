@@ -23,5 +23,9 @@ public class FormattedStringPartText extends FormattedStringPart {
     public void draw(Graphics g, int yOffset) {
         g.drawString(content, x, y + yOffset, Graphics.TOP | Graphics.LEFT);
     }
+
+    // public String toString() {
+    //     return "text (" + content + ")";
+    // }
 }
 // endif

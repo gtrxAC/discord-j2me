@@ -12,7 +12,6 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
     static int emojiSize;
     static int largeEmojiSize;
     static int imageYOffset;
-    static int largeImageYOffset;
 
     private static Hashtable loadedEmoji;
     private static Vector loadedEmojiNames;
@@ -22,7 +21,7 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
     /**
      * Calculate best emoji size (multiple of 16) for a given font size.
      */
-    public static int getEmojiSize(int fontSize) {
+    private static int getEmojiSize(int fontSize) {
         if (fontSize < 12) return 8;
         for (int i = 16; ; i += 16) {
             if (fontSize < i + 8) return i;
@@ -38,7 +37,6 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         imageYOffset = fontSize/2 - emojiSize/2;
         fontSize *= 2;
         largeEmojiSize = getEmojiSize(fontSize);
-        largeImageYOffset = fontSize/2 - largeEmojiSize/2;
 
         // TODO: dynamic load from RMS
         JSONArray emojiArray;
@@ -100,5 +98,9 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
     public void draw(Graphics g, int yOffset) {
         g.drawImage(image, x, y + yOffset, Graphics.TOP | Graphics.LEFT);
     }
+
+    // public String toString() {
+    //     return "emoji (" + image.toString() + ")";
+    // }
 }
 // endif
