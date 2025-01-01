@@ -724,11 +724,11 @@
     "Za mało pamięci, żeby wyświetlić podgląd obrazu",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Show emoji",
+    "Pokaż emotikony",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Default only",
+    "Tylko domyślne",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "All"
+    "Wszystkie"
 ]
