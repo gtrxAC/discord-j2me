@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import java.util.*;
@@ -100,3 +101,4 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         g.drawImage(image, x, y + yOffset, Graphics.TOP | Graphics.LEFT);
     }
 }
+// endif

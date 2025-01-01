@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -42,3 +43,4 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
         }
     }
 }
+// endif

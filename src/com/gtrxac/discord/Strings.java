@@ -296,7 +296,9 @@ public interface Strings {
     static final int NOTIFICATIONS_ANDROID = 290;
     static final int NEW_MARKER = 291;
     static final int IMAGE_PREVIEW_PROMPT = 292;
+    // ifdef OVER_100KB
     static final int FILE_PREVIEW = 293;
+    // endif
     static final int FORWARDED_MESSAGE = 294;
     // ifdef BLACKBERRY
     static final int LOGIN_FORM_SET_TOKEN_BB_HINT = 295;
@@ -304,5 +306,8 @@ public interface Strings {
     // endif
     // ifdef OVER_100KB
     static final int PREVIEW_NO_MEMORY = 297;
+    static final int SHOW_EMOJI = 298;
+    static final int SHOW_EMOJI_DEFAULT_ONLY = 299;
+    static final int SHOW_EMOJI_ALL = 300;
     // endif
 }

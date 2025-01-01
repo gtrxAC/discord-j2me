@@ -21,7 +21,12 @@ public class Message implements Strings {
     public String timestamp;
     public String content;
     public String rawContent;
+    // ifdef OVER_100KB
     public FormattedString contentFormatted;
+    // endif
+    // ifdef SAMSUNG_100KB
+    public String[] contentLines;
+    // endif
 
     // is status message? (user joined/left/boosted) - affects rendering
     public boolean isStatus;

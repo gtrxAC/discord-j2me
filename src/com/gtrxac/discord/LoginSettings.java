@@ -114,6 +114,15 @@ public class LoginSettings {
                 s.useFilePreview =
                 // endif
                 getBoolRecord(isHighRam);
+                // ifdef OVER_100KB
+                FormattedString.emojiMode =
+                // endif
+                getByteRecord(
+                    // ifdef OVER_100KB
+                    Util.fontSize > 14 ? FormattedString.EMOJI_MODE_ALL :
+                    // endif
+                    0
+                );
 
                 // Convert from old enum format (1 = 16, 2 = 32) to new format (actual pixel size)
                 if (s.menuIconSize == 1) s.menuIconSize = 16;
@@ -205,6 +214,12 @@ public class LoginSettings {
                 s.useFilePreview ||
                 // endif
                 false
+            );
+            setByteRecord(
+                // ifdef OVER_100KB
+                FormattedString.emojiMode +
+                // endif
+                0
             );
             loginRms.closeRecordStore();
             loginRms = null;

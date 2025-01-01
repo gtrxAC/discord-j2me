@@ -76,13 +76,17 @@ public class IconResizeThread extends Thread {
         try {
             Image resized;
             int width, height;
+
+            // ifdef OVER_100KB
             boolean isEmoji = (target instanceof FormattedStringPartGuildEmoji);
 
             if (isEmoji) {
                 int[] newSize = Util.resizeFit(smallIcon.getWidth(), smallIcon.getHeight(), size, size, true);
                 width = newSize[0];
                 height = newSize[1];
-            } else {
+            } else
+            // endif
+            {
                 width = size;
                 height = size;
             }
@@ -95,8 +99,10 @@ public class IconResizeThread extends Thread {
 
             Image result;
             if (
-                (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ) && 
-                !isEmoji
+                (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ)
+                // ifdef OVER_100KB
+                && !isEmoji
+                // endif
             ) {
                 result = circleCutout(s, resized);
             } else {

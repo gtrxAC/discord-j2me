@@ -189,10 +189,18 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             Message msg = (Message) s.messages.elementAt(i);
             boolean needUpdate = msg.needUpdate;
 
+            // ifdef OVER_100KB
             if (msg.contentFormatted == null || wasResized || needUpdate) {
                 msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, width - contentWidth);
                 msg.needUpdate = false;
             }
+            // endif
+            // ifdef SAMSUNG_100KB
+            if (msg.contentLines == null || wasResized || needUpdate) {
+                msg.contentLines = Util.wordWrap(msg.content, contentWidth, s.messageFont);
+                msg.needUpdate = false;
+            }
+            // endif
 
             if (msg.attachments != null && msg.attachments.size() > 0) {
                 ChannelViewItem attachItem = new ChannelViewItem(s, ChannelViewItem.ATTACHMENTS_BUTTON);
@@ -205,6 +213,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 for (int e = 0; e < msg.embeds.size(); e++) {
                     Embed emb = (Embed) msg.embeds.elementAt(e);
 
+                    // ifdef OVER_100KB
                     if ((wasResized || emb.titleFormatted == null || needUpdate) && emb.title != null) {
                         emb.titleFormatted = new FormattedString(emb.title, s.titleFont, embedTextWidth, embedTextX);
                         msg.needUpdate = false;
@@ -213,10 +222,29 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                         emb.descFormatted = new FormattedString(emb.description, s.messageFont, embedTextWidth, embedTextX);
                         msg.needUpdate = false;
                     }
+                    // endif
+                    // ifdef SAMSUNG_100KB
+                    if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
+                        emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.titleFont);
+                        msg.needUpdate = false;
+                    }
+                    if ((wasResized || emb.descLines == null || needUpdate) && emb.description != null) {
+                        emb.descLines = Util.wordWrap(emb.description, embedTextWidth, s.messageFont);
+                        msg.needUpdate = false;
+                    }
+                    // endif
                 }
             }
 
-            if (msg.showAuthor || msg.contentFormatted.height != 0) {
+            if (
+                msg.showAuthor
+                // ifdef OVER_100KB
+                || msg.contentFormatted.height != 0
+                // endif
+                // ifdef SAMSUNG_100KB
+                || msg.contentLines.length != 0
+                // endif
+            ) {
                 ChannelViewItem msgItem = new ChannelViewItem(s, ChannelViewItem.MESSAGE);
                 msgItem.msg = msg;
                 items.addElement(msgItem);

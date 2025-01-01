@@ -3,6 +3,7 @@ package com.gtrxac.discord;
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import java.util.*;
+import cc.nnproject.json.*;
 
 public class State implements Strings {
 	public static final int VERSION_CODE = 13;
@@ -212,7 +213,9 @@ public class State implements Strings {
 		Dialog.okLabel = Locale.get(OK);
 		Dialog.okLabelLong = Locale.get(OK_L);
 		ChannelViewItem.createUnreadIndicatorImage(this);
+		// ifdef OVER_100KB
 		FormattedStringPartEmoji.loadEmoji(messageFont.getHeight());
+		// endif
 	}
 
 	public void loadTheme() {
@@ -384,4 +387,16 @@ public class State implements Strings {
 			disp.setCurrent(new MessageCopyBox(this, Locale.get(ERROR_TITLE), msg));
 		}
 	}
+
+	// ifdef OVER_100KB
+	public void gatewayToggleGuildEmoji() {
+		if (gatewayActive()) {
+			JSONObject msg = new JSONObject();
+			msg.put("op", -1);
+			msg.put("t", "GATEWAY_SHOW_GUILD_EMOJI");
+			msg.put("d", FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL);
+			gateway.send(msg);
+		}
+	}
+	// endif
 }

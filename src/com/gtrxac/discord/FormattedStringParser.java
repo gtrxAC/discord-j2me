@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import java.util.Vector;
@@ -61,7 +62,7 @@ public class FormattedStringParser {
                     continue;
                 }
                 emojiChecks: {
-                    if (curr == ':') {
+                    if (curr == ':' && FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) {
                         int colon = src.indexOf(':', pos + 2);
                         if (colon == -1) break emojiChecks;
 
@@ -75,7 +76,7 @@ public class FormattedStringParser {
                             continue;
                         }
                     }
-                    else if (curr == '<' && chars[pos + 1] == ':') {
+                    else if (curr == '<' && chars[pos + 1] == ':' && FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
                         int checkPos = pos + 1;
 
                         // we only need the emoji ID, but do some checks on the emoji name:
@@ -115,3 +116,4 @@ public class FormattedStringParser {
         return result;
     }
 }
+// endif

@@ -300,7 +300,7 @@ public class GatewayThread extends Thread implements Strings
                         JSONArray events = new JSONArray();
                         events.add("J2ME_MESSAGE_CREATE");
                         events.add("MESSAGE_DELETE");
-                        events.add("MESSAGE_UPDATE");
+                        events.add("J2ME_MESSAGE_UPDATE");
                         events.add("TYPING_START");
                         events.add("GUILD_MEMBERS_CHUNK");
                         events.add("J2ME_READY");
@@ -321,6 +321,9 @@ public class GatewayThread extends Thread implements Strings
                             s.channelView.repaint();
                         }
                         reconnectAttempts = 0;
+                        // ifdef OVER_100KB
+                        s.gatewayToggleGuildEmoji();
+                        // endif
                     }
                     else if (op.equals("GATEWAY_DISCONNECT")) {
                         String reason = message.getObject("d").getString("message");
@@ -444,7 +447,7 @@ public class GatewayThread extends Thread implements Strings
                             break;
                         }
                     }
-                    else if (op.equals("MESSAGE_UPDATE")) {
+                    else if (op.equals("J2ME_MESSAGE_UPDATE")) {
                         if (s.channelView == null) continue;
 
                         JSONObject msgData = message.getObject("d");

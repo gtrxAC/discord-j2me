@@ -19,7 +19,9 @@ public class ChannelViewItem implements Strings {
     // ifdef SAMSUNG
     Image refImg2;  // second (right-side) part of ref message image
     // endif
+    // ifdef OVER_100KB
     FormattedString refImgFormatStr;
+    // endif
     boolean refImgHasPfp;  // cached ref image has profile picture loaded
     boolean refImgHasColor;  // cached ref image has name color loaded
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
@@ -96,7 +98,14 @@ public class ChannelViewItem implements Strings {
         switch (type) {
             case MESSAGE: {
                 // Each content line + little bit of spacing between messages
-                int result = msg.contentFormatted.height + messageFontHeight/4;
+                int result =
+                    // ifdef OVER_100KB
+                    msg.contentFormatted.height +
+                    // endif
+                    // ifdef SAMSUNG_100KB
+                    messageFontHeight*msg.contentLines.length +
+                    // endif
+                    messageFontHeight/4;
     
                 // One line for message author
                 if (msg.showAuthor) result += s.authorFont.getHeight();
@@ -236,10 +245,17 @@ public class ChannelViewItem implements Strings {
                                 
                                 refG.setFont(s.messageFont);
                                 refG.setColor(ChannelView.refMessageColors[s.theme]);
-                                if (refImgFormatStr == null) {
-                                    refImgFormatStr = new FormattedString(msg.refContent, s.messageFont, refImgFullWidth, refX, true);
+                                // ifdef OVER_100KB
+                                if (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) {
+                                    if (refImgFormatStr == null) {
+                                        refImgFormatStr = new FormattedString(msg.refContent, s.messageFont, refImgFullWidth, refX, true);
+                                    }
+                                    refImgFormatStr.draw(refG, 0);
+                                } else
+                                // endif
+                                {
+                                    refG.drawString(msg.refContent, refX, 0, Graphics.TOP | Graphics.LEFT);
                                 }
-                                refImgFormatStr.draw(refG, 0);
 
                                 int refImgResizeWidth = width - refDrawX;
                                 // ifdef SAMSUNG
@@ -256,8 +272,15 @@ public class ChannelViewItem implements Strings {
 
                                 refG.setFont(s.messageFont);
                                 refG.setColor(ChannelView.refMessageColors[s.theme]);
-                                refG.translate(-refImgFullWidth, 0);
-                                refImgFormatStr.draw(refG, 0);
+                                // ifdef OVER_100KB
+                                if (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) {
+                                    refG.translate(-refImgFullWidth, 0);
+                                    refImgFormatStr.draw(refG, 0);
+                                } else
+                                // endif
+                                {
+                                    refG.drawString(msg.refContent, -refImgFullWidth + refX, 0, Graphics.TOP | Graphics.LEFT);
+                                }
 
                                 refImg2 = Util.resizeImageBilinear(refImgFull2, refImgFull2Width*3/4, messageFontHeight*3/4);
                                 // endif
@@ -355,8 +378,16 @@ public class ChannelViewItem implements Strings {
                     g.setColor(ChannelView.messageColors[s.theme]);
                 }
                 g.setFont(s.messageFont);
+                // ifdef OVER_100KB
                 msg.contentFormatted.draw(g, y);
                 y += msg.contentFormatted.height;
+                // endif
+                // ifdef SAMSUNG_100KB
+                for (int i = 0; i < msg.contentLines.length; i++) {
+                    g.drawString(msg.contentLines[i], x, y, Graphics.TOP | Graphics.LEFT);
+                    y += messageFontHeight;
+                }
+                // endif
 
                 // Draw embeds
                 if (msg.embeds != null && msg.embeds.size() > 0) {
@@ -381,8 +412,16 @@ public class ChannelViewItem implements Strings {
                         if (emb.title != null) {
                             g.setColor(0x0000a8fc);
                             g.setFont(s.titleFont);
+                            // ifdef OVER_100KB
                             emb.titleFormatted.draw(g, y);
                             y += emb.titleFormatted.height;
+                            // endif
+                            // ifdef SAMSUNG_100KB
+                            for (int l = 0; l < emb.titleLines.length; l++) {
+                                g.drawString(emb.titleLines[l], x, y, Graphics.TOP|Graphics.LEFT);
+                                y += messageFontHeight;
+                            }
+                            // endif
                             // Spacing between title and desc
                             if (emb.description != null) y += messageFontHeight/4;
                         }
@@ -390,8 +429,16 @@ public class ChannelViewItem implements Strings {
                         if (emb.description != null) {
                             g.setColor(ChannelView.messageColors[s.theme]);
                             g.setFont(s.messageFont);
+                            // ifdef OVER_100KB
                             emb.descFormatted.draw(g, y);
                             y += emb.descFormatted.height;
+                            // endif
+                            // ifdef SAMSUNG_100KB
+                            for (int l = 0; l < emb.descLines.length; l++) {
+                                g.drawString(emb.descLines[l], x, y, Graphics.TOP|Graphics.LEFT);
+                                y += messageFontHeight;
+                            }
+                            // endif
                         }
 
                         x -= messageFontHeight/3;  // Undo left padding

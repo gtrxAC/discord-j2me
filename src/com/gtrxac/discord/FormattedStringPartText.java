@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -23,3 +24,4 @@ public class FormattedStringPartText extends FormattedStringPart {
         g.drawString(content, x, y + yOffset, Graphics.TOP | Graphics.LEFT);
     }
 }
+// endif

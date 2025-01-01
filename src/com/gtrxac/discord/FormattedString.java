@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import java.util.*;
@@ -7,6 +8,11 @@ public class FormattedString {
     private FormattedStringPart[] parts;
     int height;
     private boolean isOnlyEmoji;
+
+    public static final int EMOJI_MODE_OFF = 0;
+    public static final int EMOJI_MODE_DEFAULT_ONLY = 1;
+    public static final int EMOJI_MODE_ALL = 2;
+    public static int emojiMode;
 
     FormattedString(String src, Font font, int width, int xOffset) {
         this(src, font, width, xOffset, false);
@@ -162,3 +168,4 @@ public class FormattedString {
         }
     }
 }
+// endif

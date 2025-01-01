@@ -22,7 +22,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
     private static final int[][] maxValues = {
         { 2, 2, 2, 1, 1, 1, 1 },
-        { 1, 10000, 3, 2, 255, 1, 1 },
+        { 1, 10000, 3, 2, 255, 1,
+        // ifdef OVER_100KB    
+        1, 2
+        // endif
+        },
         { 100, 1, 1, 1, 1, 1, 2, 2 },
         { 1, 1, 1, 1, 1,
         // ifdef PIGLER_SUPPORT
@@ -73,7 +77,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(SETTINGS_SECTION_PFP_RESOLUTION),
                 Locale.get(SETTINGS_SECTION_MENU_ICONS),
                 Locale.get(GUILD_ICONS),
+                // ifdef OVER_100KB
                 Locale.get(FILE_PREVIEW),
+                Locale.get(SHOW_EMOJI),
+                // endif
             }, {
                 // Behavior
                 Locale.get(SETTINGS_SECTION_MESSAGE_COUNT),
@@ -122,7 +129,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.pfpPlaceholder, s.ic.pfp16, s.ic.pfp32 },
                 { s.ic.iconSize },
                 { s.ic.menuIcons },
+                // ifdef OVER_100KB
                 { s.ic.attachFormat },
+                { null }
+                // endif
             }, {
                 // Behavior
                 { s.ic.msgCount },
@@ -172,7 +182,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { Locale.get(PFP_PLACEHOLDER), Locale.get(PFP_16PX), Locale.get(PFP_32PX) },
                 { Locale.get(SETTING_VALUE_OFF) },
                 boolValues,
+                // ifdef OVER_100KB
                 boolValues,
+                { Locale.get(SETTING_VALUE_OFF), Locale.get(SHOW_EMOJI_DEFAULT_ONLY), Locale.get(SHOW_EMOJI_ALL) }
+                // endif
             }, {
                 // Behavior
                 { "0" },
@@ -218,6 +231,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.showMenuIcons ? 1 : 0,
                 // ifdef OVER_100KB
                 s.useFilePreview ? 1 : 0,
+                FormattedString.emojiMode
                 // endif
             }, {
                 // Behavior
@@ -450,6 +464,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.showMenuIcons = values[1][5] == 1;
                 // ifdef OVER_100KB
                 s.useFilePreview = values[1][6] == 1;
+                FormattedString.emojiMode = values[1][7];
+                s.gatewayToggleGuildEmoji();
                 // endif
 
                 s.messageLoadCount = values[2][0];
