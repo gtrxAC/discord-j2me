@@ -634,9 +634,9 @@
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Animazione di caricamento, icone menu, Traduzione italiana",
+    "Sviluppatore principale",
+    "Caricamento allegati, Integrazione API Pigler, analizzatore JSON",
+    "Animazione di caricamento, Icone menu, Design emoji, Traduzione italiana",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
@@ -708,27 +708,27 @@
     "NOVITÀ",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "Carica questa immagine?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "Anteprime file",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "Messaggio inoltrato:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key.",
+    "Per impostare il tuo token, premi il tasto BlackBerry.",
+    "Per cambiare il tuo token, premi il tasto BlackBerry.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview",
+    "Memoria insufficiente per mostrare l'anteprima",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Show emoji",
+    "Mostra emoji",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Default only",
+    "Emoji di default",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "All"
+    "Tutte"
 ]
