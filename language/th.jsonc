@@ -636,7 +636,7 @@
     // The name of the person in question is shown above each line.
     "ผู้พัฒนาหลัก",
     "ระบบโหลดไฟล์ การเชื่อม Pigler API และตัวแจงส่วน JSON",
-    "ออกแบบแอนิเมชันหน้าจอโหลด ไอคอนในเมนู และแปลภาษาอิตาลี",
+    "ออกแบบแอนิเมชันหน้าจอโหลด ไอคอนในเมนู อิโมจิ และแปลภาษาอิตาลี",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
@@ -724,11 +724,11 @@
     "หน่วยความจำไม่เพียงพอที่จะแสดงตัวอย่างภาพ",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Show emoji",
+    "แสดงอิโมจิ",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Default only",
+    "เฉพาะอิโมจิปกติ",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "All"
+    "ทั้งหมด"
 ]
