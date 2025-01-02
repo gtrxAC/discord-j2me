@@ -638,7 +638,7 @@
     // The name of the person in question is shown above each line.
     "Lead developer",
     "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, emoji, Italian translation",
+    "Loading animation, menu icons, emoji art, Italian translation",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name

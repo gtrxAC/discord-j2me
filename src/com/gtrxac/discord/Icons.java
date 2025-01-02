@@ -59,6 +59,7 @@ public class Icons {
     Image android;
     // endif
     // Image vibra;
+    Image emoji;
     Image flagGB;
     Image flagUS;
     Image flagES;
@@ -151,7 +152,7 @@ public class Icons {
         // endif
         sh.next();
         sh.skip(); // vibra (not used yet)
-        sh.skip(); // blank space
+        emoji = sh.next();
         flagGB = sh.next();
         flagUS = sh.next();
         flagES = sh.next();

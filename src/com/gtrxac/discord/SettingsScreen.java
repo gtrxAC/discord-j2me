@@ -131,7 +131,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.menuIcons },
                 // ifdef OVER_100KB
                 { s.ic.attachFormat },
-                { null }
+                { s.ic.emoji }
                 // endif
             }, {
                 // Behavior
