@@ -730,5 +730,12 @@
     "Vain oletus",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "Kaikki"
+    "Kaikki",
+
+    // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
+    "Tuo",
+    "Tuo token tiedostosta",
+
+    // Title text for the token import file picker screen.
+    "Valitse token-tiedosto"
 ]

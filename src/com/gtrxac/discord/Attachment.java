@@ -12,7 +12,8 @@ public class Attachment implements Strings {
 
     private static final String[] nonTextFormats = {
         ".zip", ".rar", ".7z",
-        ".exe", ".jar", ".sis", ".sisx", ".bin",
+        ".exe", ".jar", ".sis", ".sisx", ".bin", ".elf", ".vxp", ".mrp",
+        ".nth", ".thm",
         ".mp3", ".wav", ".ogg", ".m4a", ".amr", ".flac", ".mid", ".mmf",
         ".mp4", ".3gp", ".bmp"
     };

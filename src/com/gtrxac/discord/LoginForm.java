@@ -18,6 +18,7 @@ Strings
     private TextField gatewayField;
     private TextField cdnField;
     private Command changeTokenCommand;
+    private Command importTokenCommand;
     private ChoiceGroup tokenGroup;
     private Command nextCommand;
     private Command quitCommand;
@@ -54,7 +55,19 @@ Strings
         tokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         tokenButton.setDefaultCommand(changeTokenCommand);
         tokenButton.setItemCommandListener(this);
+        
+        StringItem importTokenButton = null;
         // endif
+        
+        if (Util.supportsFileConn) {
+            importTokenCommand = Locale.createCommand(IMPORT_TOKEN, Command.ITEM, 1);
+            // ifdef NOT_BLACKBERRY
+            importTokenButton = new StringItem(null, Locale.get(IMPORT_TOKEN_L), Item.BUTTON);
+            importTokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
+            importTokenButton.setDefaultCommand(importTokenCommand);
+            importTokenButton.setItemCommandListener(this);
+            // endif
+        }
 
         nextCommand = Locale.createCommand(LOG_IN, Command.OK, 1);
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 2);
@@ -81,9 +94,11 @@ Strings
         String tokenHint = Locale.get(haveToken ? LOGIN_FORM_CHANGE_TOKEN_BB_HINT : LOGIN_FORM_SET_TOKEN_BB_HINT);
         append(new StringItem(null, tokenHint));
         addCommand(changeTokenCommand);
+        if (Util.supportsFileConn) addCommand(importTokenCommand);
         // endif
         // ifdef NOT_BLACKBERRY
         append(tokenButton);
+        if (Util.supportsFileConn) append(importTokenButton);
         // endif
         append(tokenGroup);
         addCommand(nextCommand);
@@ -126,6 +141,9 @@ Strings
         else if (c == changeTokenCommand) {
             showTokenEntry();
         }
+        else if (c == importTokenCommand) {
+            s.disp.setCurrent(new TokenFilePicker(s));
+        }
         // endif
         else {
             if (c == tokenBoxOkCommand) s.token = tokenBox.getString().trim();
@@ -135,8 +153,12 @@ Strings
 
     // ifdef NOT_BLACKBERRY
     public void commandAction(Command c, Item i) {
-        // Only item command action is to change token
-        showTokenEntry();
+        if (c == changeTokenCommand) {
+            showTokenEntry();
+        } else {
+            // import token command
+            s.disp.setCurrent(new TokenFilePicker(s));
+        }
     }
     // endif
 

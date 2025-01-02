@@ -35,8 +35,7 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
     public static void loadEmoji(int fontSize) {
         emojiSize = getEmojiSize(fontSize);
         imageYOffset = fontSize/2 - emojiSize/2;
-        fontSize *= 2;
-        largeEmojiSize = getEmojiSize(fontSize);
+        largeEmojiSize = (emojiSize == 16) ? 32 : getEmojiSize(fontSize*2);
 
         // TODO: dynamic load from RMS
         JSONArray emojiArray;

@@ -145,34 +145,11 @@ public class HTTPThing implements Strings {
 				throw new IOException(Locale.get(HTTP_ERROR_CODE) + r);
 			}
 			in = hc.openInputStream();
-			return readBytes(in, (int) hc.getLength(), 1024, 2048);
+			return Util.readBytes(in, (int) hc.getLength(), 1024, 2048);
 		} finally {
             try { in.close(); } catch (Exception e) {}
             try { hc.close(); } catch (Exception e) {}
 		}
-	}
-
-	private static byte[] readBytes(InputStream inputStream, int initialSize, int bufferSize, int expandSize) throws IOException {
-		if (initialSize <= 0) initialSize = bufferSize;
-		byte[] buf = new byte[initialSize];
-		int count = 0;
-		byte[] readBuf = new byte[bufferSize];
-		int readLen;
-		while ((readLen = inputStream.read(readBuf)) != -1) {
-			if(count + readLen > buf.length) {
-				byte[] newbuf = new byte[count + expandSize];
-				System.arraycopy(buf, 0, newbuf, 0, count);
-				buf = newbuf;
-			}
-			System.arraycopy(readBuf, 0, buf, count, readLen);
-			count += readLen;
-		}
-		if(buf.length == count) {
-			return buf;
-		}
-		byte[] res = new byte[count];
-		System.arraycopy(buf, 0, res, 0, count);
-		return res;
 	}
 
 	private HttpConnection open(String url) throws IOException {

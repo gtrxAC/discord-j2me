@@ -771,7 +771,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 s.error(Locale.get(UPLOAD_NOT_SUPPORTED));
             }
             else if (s.nativeFilePicker) {
-                if (System.getProperty("microedition.io.file.FileConnection.version") != null) {
+                if (Util.supportsFileConn) {
                     s.disp.setCurrent(new AttachmentPicker(s, recipientMsg));
                 } else {
                     s.error(Locale.get(UPLOAD_ERROR_FILECONN));

@@ -310,4 +310,7 @@ public interface Strings {
     static final int SHOW_EMOJI_DEFAULT_ONLY = 299;
     static final int SHOW_EMOJI_ALL = 300;
     // endif
+    static final int IMPORT_TOKEN = 301;
+    static final int IMPORT_TOKEN_L = 302;
+    static final int TOKEN_PICKER_TITLE = 303;
 }
