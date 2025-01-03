@@ -638,7 +638,7 @@
     // The name of the person in question is shown above each line.
     "Pengembang utama",
     "Dukungan lampiran, integrasi Pigler API, pengurai JSON",
-    "Pembuat animasi dan ikon menu, Penerjemah bahasa Italia",
+    "Pembuat animasi dan ikon menu, Penerjemah bahasa Italia, Pembuat gambar emoji",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
