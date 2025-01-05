@@ -12,15 +12,35 @@ public class Locale {
     };
 
     private static Vector strs;
-    private static Vector defaultStrs;
 
-    static {
-        // English strings always loaded by default (in case translations are incomplete or have null values)
+    private static Vector getDefaultStrings() {
         try {
-            String data = Util.readFile("/en.json");
-            defaultStrs = JSON.getArray(data).toVector();
+            return JSON.getArray(Util.readFile("/en.json")).toVector();
         }
-        catch (Exception e) {}
+        catch (Exception e) {
+            e.printStackTrace();
+            return new Vector();
+        }
+    }
+
+    private static void setStrings(Vector newStrs) {
+        Vector defaultStrs = getDefaultStrings();
+        if (newStrs == null) {
+            strs = defaultStrs;
+            return;
+        }
+        // Fill in any gaps (nulls) in the translation with the default English strings
+        for (int i = 0; i < newStrs.size(); i++) {
+            if (newStrs.elementAt(i) == JSON.json_null) {
+                newStrs.setElementAt(defaultStrs.elementAt(i), i);
+            }
+        }
+        // Fill in missing string indexes with English strings
+        int difference = defaultStrs.size() - newStrs.size();
+        for (int i = difference; i < defaultStrs.size(); i++) {
+            newStrs.addElement(defaultStrs.elementAt(i));
+        }
+        strs = newStrs;
     }
 
     /**
@@ -28,7 +48,7 @@ public class Locale {
      * @param s Discord J2ME state object
      * @param id Language ID to load strings for
      * @return Vector of strings for the specified language; null if language ID doesn't exist;
-     *   English strings if language is not downloaded (in which case the language gets downloaded and languageLoaded is run after download is complete)
+     *   null if language is not downloaded (in which case the language gets downloaded and languageLoaded is run after download is complete)
      */
     private static Vector loadLanguage(State s, String id) {
         // Check if language exists
@@ -42,7 +62,7 @@ public class Locale {
         if (!found) return null;
 
         RecordStore langRms = null;
-        Vector result = defaultStrs;
+        Vector result = null;
         
         try {
             langRms = RecordStore.openRecordStore("lang", true);
@@ -103,7 +123,7 @@ public class Locale {
         }
         catch (Exception e) {}
 
-        strs = JSON.getArray(jsonData).toVector();
+        setStrings(JSON.getArray(jsonData).toVector());
     }
 
     /**
@@ -111,26 +131,27 @@ public class Locale {
      * @param s Discord J2ME State object (s.language contains the language ID)
      */
     static void setLanguage(State s) {
-        strs = null;
-
         // unknown locale = use English (don't load extra language data)
-        if (s.language == null) return;
+        if (s.language == null) {
+            setStrings(null);
+            return;
+        }
 
         // selected language is English (but not en-US) = don't load extra language data
         String shortName = s.language.substring(0, 2);
-        if ("en".equals(shortName) && !"en-US".equals(s.language)) return;
-
-        // try full language code (e.g. en-US.json)
-        strs = loadLanguage(s, s.language);
-
-        if (strs == null) {
-            // try short language code (e.g. en.json)
-            strs = loadLanguage(s, shortName);
-        }
-        if (strs == null) {
-            // no translation available = fallback to English
+        if ("en".equals(shortName) && !"en-US".equals(s.language)) {
+            setStrings(null);
             return;
         }
+
+        // try full language code (e.g. en-US.json)
+        Vector newStrs = loadLanguage(s, s.language);
+
+        if (newStrs == null) {
+            // try short language code (e.g. en.json)
+            newStrs = loadLanguage(s, shortName);
+        }
+        setStrings(newStrs);
     }
 
     /**
@@ -139,17 +160,7 @@ public class Locale {
      * @return String in currently selected language; if not found, English string
      */
     static String get(int id) {
-        // If English is in use or translation doesn't have this string index, use English string
-        if (strs == null || id >= strs.size()) {
-            return (String) defaultStrs.elementAt(id);
-        }
-
-        // Get translation string. If translation is null (json_null which is a blank object), fallback to English string.
-        Object result = strs.elementAt(id);
-        if (!(result instanceof String)) {
-            return (String) defaultStrs.elementAt(id);
-        }
-        return (String) result;
+        return (String) strs.elementAt(id);
     }
 
     /**

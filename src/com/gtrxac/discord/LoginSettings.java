@@ -55,22 +55,22 @@ public class LoginSettings {
         try {
             jsonToState(s);
             if (foundOldToken) save(s);
-            else close();
         }
         catch (Exception e) {
             s.error(e);
         }
+        close();
     }
 
     public static void save(State s) {
         try {
             stateToJson(s);
             write();
-            close();
         }
         catch (Exception e) {
             s.error(e);
         }
+        close();
     }
 
     /**

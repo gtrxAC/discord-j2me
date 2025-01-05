@@ -32,8 +32,6 @@ Strings
         setCommandListener(this); 
         this.s = s;
 
-        LoginSettings.load(s);
-
         // ifdef BLACKBERRY
         String[] wifiChoices = {Locale.get(USE_WIFI)};
         wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, null);
