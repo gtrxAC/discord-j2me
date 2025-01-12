@@ -737,5 +737,12 @@
     null,
 
     // Title text for the token import file picker screen.
+    null,
+
+    // Text shown in loading screen when emoji data is being downloaded or updated.
+    null,
+
+    // Related to "Lines shown in the about screen for which language" above.
+    null,
     null
 ]

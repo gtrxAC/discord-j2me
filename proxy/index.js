@@ -563,11 +563,24 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             id: response.data.id,
             _uploadtoken: generateUploadToken(res.locals.headers.Authorization),
             _liteproxy: true,
+
+            // Number and display name of latest available release version.
             _latest: 12,
             _latestname: "4.1.0",
+
+            // Latest available beta version.
+            // If there is no beta version, the version number should be set to 0 (so clients will always download the newer release version).
+            // If there is a beta version, the beta version number should be higher than the release one.
             _latestbeta: 13,
             _latestbetaname: "5.0.0 beta1",
+
+            // Version number of emoji JSON data.
+            // When the JSON is edited, this number should be increased by one.
+            // If this number increases, the clients re-download the JSON.
             _emojiversion: 1,
+
+            // Version numbers of each emoji spritesheet png.
+            // If any of these numbers increase, or if new sheets are added, the clients re-download the appropriate sheets.
             _emojisheets: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }));
     }

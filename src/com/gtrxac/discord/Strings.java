@@ -313,4 +313,9 @@ public interface Strings {
     static final int IMPORT_TOKEN = 301;
     static final int IMPORT_TOKEN_L = 302;
     static final int TOKEN_PICKER_TITLE = 303;
+    // ifdef OVER_100KB
+    static final int DOWNLOADING = 304;
+    // endif
+    static final int TRANSLATOR_FR = 305;
+    static final int TRANSLATOR_BG = 306;
 }

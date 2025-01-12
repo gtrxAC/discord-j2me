@@ -9,11 +9,13 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
 
     // Should match the order that is in Locale.langIds
     private static String[] langNames = {
+        "Български",
         "Deutsch",
         "English (UK)",      // en
         "English (US)",
         "Español",
         "Suomi",        // fi (Finnish)
+        "Français",
         "Hrvatski",
         "Bahasa Indonesia", // id
         "Italiano",     // it (Italian)
@@ -38,7 +40,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         lastScreen = s.disp.getCurrent();
 
         Image[] flags = {
-            s.ic.flagDE, s.ic.flagGB, s.ic.flagUS, s.ic.flagES, s.ic.flagFI, s.ic.flagHR, s.ic.flagID,
+            null, s.ic.flagDE, s.ic.flagGB, s.ic.flagUS, s.ic.flagES, s.ic.flagFI, s.ic.flagFR, s.ic.flagHR, s.ic.flagID,
             s.ic.flagIT, s.ic.flagPL, s.ic.flagPT, s.ic.flagBR, s.ic.flagRO,
             s.ic.flagRU, s.ic.flagSV, s.ic.flagTH, s.ic.flagTR,
             s.ic.flagUK, s.ic.flagVI, s.ic.flagTW, s.ic.flagHK

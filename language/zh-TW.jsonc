@@ -739,5 +739,12 @@
     "Import token",
 
     // Title text for the token import file picker screen.
-    "Select token file"
+    "Select token file",
+
+    // Text shown in loading screen when emoji data is being downloaded or updated.
+    "Downloading...",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "French",
+    "Bulgarian"
 ]

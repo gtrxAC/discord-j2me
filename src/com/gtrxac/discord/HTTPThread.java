@@ -214,7 +214,7 @@ public class HTTPThread extends Thread implements Strings {
     
                     // Emoji JSON is outdated or not downloaded - download the latest one
                     if (curJsonVersion < newEmojiJsonVersion || numRecs < 2) {
-                        loadScreen.text = "Downloading..."; //§
+                        loadScreen.text = Locale.get(DOWNLOADING);
                         String emojiJson = Util.bytesToString(s.http.getBytes(s.api + "/emoji/emoji.json"));
     
                         curVersionsArray.put(0, newEmojiJsonVersion);
@@ -230,7 +230,7 @@ public class HTTPThread extends Thread implements Strings {
                         int currentVersion = curVersionsArray.getInt(i + 1, -1);
                         
                         if (currentVersion < newVersion) {
-                            loadScreen.text = "Downloading... (" + i + "/" + sheetCount + ")"; //§
+                            loadScreen.text = Locale.get(DOWNLOADING) + Locale.get(LEFT_PAREN) + i + "/" + sheetCount + Locale.get(RIGHT_PAREN);
                             byte[] img = s.http.getBytes(s.api + "/emoji/emoji" + i + ".png");
                             Util.setOrAddRecord(rms, 3 + i, img);
                             curVersionsArray.put(i + 1, newVersion);
