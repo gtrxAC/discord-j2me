@@ -3,6 +3,7 @@ package com.gtrxac.discord;
 import java.io.*;
 import java.util.*;
 import javax.microedition.lcdui.*;
+import javax.microedition.rms.*;
 import java.lang.Math;
 
 public class Util {
@@ -337,6 +338,18 @@ public class Util {
         }
         catch (UnsupportedEncodingException e) {
             return result;
+        }
+    }
+
+    public static void setOrAddRecord(RecordStore rms, int index, String data) throws Exception {
+		setOrAddRecord(rms, index, stringToBytes(data));
+    }
+
+    public static void setOrAddRecord(RecordStore rms, int index, byte[] data) throws Exception {
+        if (rms.getNumRecords() >= index) {
+            rms.setRecord(index, data, 0, data.length);
+        } else {
+            rms.addRecord(data, 0, data.length);
         }
     }
 

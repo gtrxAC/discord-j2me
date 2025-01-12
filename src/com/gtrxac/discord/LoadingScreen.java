@@ -7,7 +7,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     private State s;
     private int iconOffset;
 
-    String text;
+    volatile String text;
     int curFrame;
     int animDirection;
 

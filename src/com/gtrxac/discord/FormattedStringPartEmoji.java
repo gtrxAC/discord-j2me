@@ -3,6 +3,7 @@ package com.gtrxac.discord;
 
 import java.util.*;
 import javax.microedition.lcdui.*;
+import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 
 public class FormattedStringPartEmoji extends FormattedStringPart {
@@ -37,13 +38,13 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         imageYOffset = fontSize/2 - emojiSize/2;
         largeEmojiSize = (emojiSize == 16) ? 32 : getEmojiSize(fontSize*2);
 
-        // TODO: dynamic load from RMS
         JSONArray emojiArray;
         try {
-            emojiArray = JSON.getArray(Util.readFile("/emoji.json"));
+            RecordStore rms = RecordStore.openRecordStore("emoji", false);
+            emojiArray = JSON.getArray(Util.bytesToString(rms.getRecord(2)));
+            rms.closeRecordStore();
         }
         catch (Exception e) {
-            e.printStackTrace();
             return;
         }
 
@@ -72,7 +73,9 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
 
         if (loadedSheetId != sheetId) {
             try {
-                loadedSheet = new Spritesheet("/emoji" + sheetId + ".png", emojiSize);
+                RecordStore rms = RecordStore.openRecordStore("emoji", false);
+                loadedSheet = new Spritesheet(rms.getRecord(3 + sheetId), emojiSize);
+                rms.closeRecordStore();
             }
             catch (Exception e) {
                 e.printStackTrace();

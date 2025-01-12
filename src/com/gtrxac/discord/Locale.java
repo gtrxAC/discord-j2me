@@ -95,15 +95,6 @@ public class Locale {
         return result;
     }
 
-    private static void setOrAddRecord(RecordStore rms, int index, String data) throws Exception {
-        byte[] bytes = Util.stringToBytes(data);
-        if (rms.getNumRecords() >= index) {
-            rms.setRecord(index, bytes, 0, bytes.length);
-        } else {
-            rms.addRecord(bytes, 0, bytes.length);
-        }
-    }
-
     /**
      * Callback for when language data has been downloaded. Used by HTTPThread.
      * @param langId ID of language that was loaded
@@ -113,8 +104,8 @@ public class Locale {
         RecordStore langRms = null;
         try {
             langRms = RecordStore.openRecordStore("lang", false);
-            setOrAddRecord(langRms, 1, langId);
-            setOrAddRecord(langRms, 2, jsonData);
+            Util.setOrAddRecord(langRms, 1, langId);
+            Util.setOrAddRecord(langRms, 2, jsonData);
         }
         catch (Exception e) {}
 

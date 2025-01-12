@@ -8,6 +8,7 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 import javax.microedition.io.*;
 import javax.microedition.io.file.*;
+import javax.microedition.rms.*;
 
 public class HTTPThread extends Thread implements Strings {
     static final int FETCH_GUILDS = 0;
@@ -29,6 +30,10 @@ public class HTTPThread extends Thread implements Strings {
     private static final String LINE_FEED = "\r\n";
 
     private static boolean haveFetchedUserInfo;
+    // ifdef OVER_100KB
+    private static int newEmojiJsonVersion;
+    private static JSONArray newEmojiSheetVersions;
+    // endif
 
     State s;
     int action;
@@ -135,9 +140,17 @@ public class HTTPThread extends Thread implements Strings {
         s.dontShowLoadScreen = false;
 
         Displayable prevScreen = s.disp.getCurrent();
-        if (showLoad) s.disp.setCurrent(new LoadingScreen(s));
+        LoadingScreen loadScreen = null;
+
+        if (showLoad) {
+            loadScreen = new LoadingScreen(s);
+            s.disp.setCurrent(loadScreen);
+        }
 
         try {
+
+            // Fetch user info if needed (upon first API request after starting app)
+            // If Discord J2ME-specific proxy server is in use, this also checks for auto updates to app and emoji data
             if ((!haveFetchedUserInfo || s.myUserId == null) && action != FETCH_LANGUAGE) {
                 JSONObject resp = JSON.getObject(s.http.get("/users/@me"));
                 s.myUserId = resp.getString("id", "");
@@ -160,7 +173,83 @@ public class HTTPThread extends Thread implements Strings {
                     s.disp.setCurrent(new UpdateDialog(s, latestName, false));
                     return;
                 }
+
+                // ifdef OVER_100KB
+                newEmojiJsonVersion = resp.getInt("_emojiversion", 0);
+                newEmojiSheetVersions = resp.getArray("_emojisheets", null);
+                // endif
             }
+
+            // ifdef OVER_100KB
+            // Check for updates to emoji data and download new json/sheet data if needed
+            // (upon first API request after starting app with emojis enabled, or first API request after enabling emojis)
+            if (
+                showLoad && haveFetchedUserInfo && newEmojiSheetVersions != null &&
+                FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF
+            ) {
+                // Emoji RMS layout:
+                // - 1st record is a json array of version numbers (the first number is for the json, the rest are for the sheets)
+                // - 2nd record is emoji.json data
+                // - the rest are the sheet pngs
+                
+                RecordStore rms = null;
+                JSONArray curVersionsArray = null;
+                boolean needRmsWrite = false;
+                
+                try {
+                    // Check if emoji JSON needs to be updated (if saved ver is outdated)
+                    rms = RecordStore.openRecordStore("emoji", true);
+                    int numRecs = rms.getNumRecords();
+                    int curJsonVersion;
+
+                    if (numRecs >= 1) {
+                        curVersionsArray = JSON.getArray(Util.bytesToString(rms.getRecord(1)));
+                        curJsonVersion = curVersionsArray.getInt(0, -1);
+                    } else {
+                        curVersionsArray = new JSONArray();
+                        curJsonVersion = -1;
+                        rms.addRecord(null, 0, 0);
+                        needRmsWrite = true;
+                    }
+    
+                    // Emoji JSON is outdated or not downloaded - download the latest one
+                    if (curJsonVersion < newEmojiJsonVersion || numRecs < 2) {
+                        loadScreen.text = "Downloading..."; //§
+                        String emojiJson = Util.bytesToString(s.http.getBytes(s.api + "/emoji/emoji.json"));
+    
+                        curVersionsArray.put(0, newEmojiJsonVersion);
+                        Util.setOrAddRecord(rms, 2, emojiJson);
+                        needRmsWrite = true;
+                    }
+    
+                    int sheetCount = newEmojiSheetVersions.size();
+    
+                    // Download the required new emoji sheets. If an emoji sheet is already downloaded and isn't outdated, we don't download it again.
+                    for (int i = 0; i < sheetCount; i++) {
+                        int newVersion = newEmojiSheetVersions.getInt(i);
+                        int currentVersion = curVersionsArray.getInt(i + 1, -1);
+                        
+                        if (currentVersion < newVersion) {
+                            loadScreen.text = "Downloading... (" + i + "/" + sheetCount + ")"; //§
+                            byte[] img = s.http.getBytes(s.api + "/emoji/emoji" + i + ".png");
+                            Util.setOrAddRecord(rms, 3 + i, img);
+                            curVersionsArray.put(i + 1, newVersion);
+                            needRmsWrite = true;
+                        }
+                    }
+    
+                    newEmojiSheetVersions = null;
+                    loadScreen.text = Locale.get(LOADING);
+                    FormattedStringPartEmoji.loadEmoji(s.messageFont.getHeight());
+                } finally {
+                    try {
+                        if (needRmsWrite) Util.setOrAddRecord(rms, 1, Util.stringToBytes(curVersionsArray.build()));
+                        rms.closeRecordStore();
+                    }
+                    catch (Exception e) {}
+                }
+            }
+            // endif
 
             switch (action) {
                 case FETCH_GUILDS: {
@@ -426,10 +515,7 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case SEND_ATTACHMENT: {
-                    Displayable screen = s.disp.getCurrent();
-                    if (screen instanceof LoadingScreen) {
-                        ((LoadingScreen) screen).text = Locale.get(SENDING);
-                    }
+                    loadScreen.text = Locale.get(SENDING);
 
                     HttpConnection httpConn = null;
                     DataOutputStream os = null;

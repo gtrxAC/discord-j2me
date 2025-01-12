@@ -567,6 +567,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             _latestname: "4.1.0",
             _latestbeta: 13,
             _latestbetaname: "5.0.0 beta1",
+            _emojiversion: 1,
+            _emojisheets: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }));
     }
     catch (e) { handleError(res, e); }
