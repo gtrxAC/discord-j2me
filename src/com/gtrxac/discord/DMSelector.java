@@ -48,10 +48,12 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             lastDMs.addElement(s.dmChannels.elementAt(highestIndex));
         }
 
+        s.unreads.autoSave = false;
         for (int i = 0; i < lastDMs.size(); i++) {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
             append(ch.name, null, IconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
         }
+        s.unreads.manualSave();
 
         searchCommand = Locale.createCommand(SEARCH, Command.SCREEN, 2);
         refreshCommand = Locale.createCommand(REFRESH, Command.SCREEN, 3);

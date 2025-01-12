@@ -15,10 +15,12 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
         setCommandListener(this);
         this.s = s;
 
+        s.unreads.autoSave = false;
         for (int i = 0; i < s.channels.size(); i++) {
             Channel ch = (Channel) s.channels.elementAt(i);
             append(ch.toString(), null, null, s.unreads.hasUnreads(ch));
         }
+        s.unreads.manualSave();
 
         viewThreadsCommand = Locale.createCommand(VIEW_THREADS, Command.ITEM, 1);
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);

@@ -8,6 +8,7 @@ public class UnreadManager {
     private Hashtable channels;
     private State s;
     public boolean autoSave;
+    public boolean needSave;
     public String lastUnreadTime;  // previously unread message ID for the last channel that markRead() was used on
     public boolean lastHadUnreads;
 
@@ -15,6 +16,7 @@ public class UnreadManager {
         this.s = s;
         channels = new Hashtable();
         autoSave = true;
+        needSave = false;
 
         // Load last read message IDs from RMS (convert JSON to hashtable)
         try {
@@ -67,12 +69,21 @@ public class UnreadManager {
             rms.closeRecordStore();
         }
         catch (Exception e) { s.error(e); }
+
+        needSave = false;
+    }
+
+    public void manualSave() {
+        if (needSave) save();
+        needSave = false;
     }
 
     private void put(String channelID, String lastReadTime) {
         if (lastReadTime == null || lastReadTime.equals("0")) return;
         channels.put(channelID, lastReadTime);
+
         if (autoSave) save();
+        else needSave = true;
     }
 
     public boolean hasUnreads(String channelID, long lastMessageID) {

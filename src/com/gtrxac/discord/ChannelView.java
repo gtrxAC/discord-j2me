@@ -149,12 +149,21 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         int unreadIndicatorPos = -1;
         int unreadIndicatorPosFinal = -1;
 
-        long lastUnreadTime = Long.parseLong(s.unreads.lastUnreadTime);
-        long firstTime = Long.parseLong(first.id) >> 22;
+        boolean hasMoreUnreads;
+        long lastUnreadTime;
+        try {
+            lastUnreadTime = Long.parseLong(s.unreads.lastUnreadTime);
+            long firstTime = Long.parseLong(first.id) >> 22;
 
-        // does channel view have more unread messages than what can be shown on one page?
-        // i.e. is the top-most message unread?
-        boolean hasMoreUnreads = (lastUnreadTime < firstTime);
+            // does channel view have more unread messages than what can be shown on one page?
+            // i.e. is the top-most message unread?
+            hasMoreUnreads = (lastUnreadTime < firstTime);
+        }
+        catch (Exception e) {
+            // channel has not been opened before so there is no last unread time
+            lastUnreadTime = 0;
+            hasMoreUnreads = false;
+        }
 
         if (s.messages.size() > 1) {
             for (int i = s.messages.size() - 2; i >= 0; i--) {

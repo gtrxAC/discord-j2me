@@ -23,10 +23,12 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         this.guilds = guilds;
         this.isFavGuilds = isFavGuilds;
 
+        s.unreads.autoSave = false;
         for (int i = 0; i < guilds.size(); i++) {
             Guild g = (Guild) guilds.elementAt(i);
             append(g.name, null, IconCache.getResized(g, s.menuIconSize), s.unreads.hasUnreads(g));
         }
+        s.unreads.manualSave();
 
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 3);
         addCommand(refreshCommand);
