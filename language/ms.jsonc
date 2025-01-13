@@ -1,0 +1,750 @@
+[
+    // Translation notes:
+    // - Any line that begins with a "//" is a comment and is ignored.
+    //   In this file, comments are used for explaining each string.
+    // - Write your translated string inside the two quotation marks.
+    // - If you need to use a quotation mark inside any of your translated
+    //   strings, write it as \" instead.
+    // - If the original string has any special formatting
+    //   (e.g. space at the beginning or end), keep the formatting the same.
+    // - For any Discord-specific terminology (e.g. servers), use the same
+    //   translated term that Discord officially uses for your language.
+
+    // Notes about softkey command labels:
+    // - Each softkey label has two variations, a short and a long one.
+    // - In this translation file, the short labels are listed above the long ones.
+    // - Short labels are used in places where there is limited screen space.
+    // - Keep short labels as short as possible, ideally below 10 characters.
+    //   If needed, you may use abbreviations.
+    // - If a long label is short enough to where it could be used as a
+    //   short label, use the same string for both labels.
+
+    // Placeholder file name shown when the name of an attachment in the attachment view screen could not be loaded.
+    "Fail tak bernama",
+
+    // Title text for the attachment picker (native file picker) screen.
+    "Pilih lampiran",
+
+    // Softkey labels for going back to the previous screen.
+    "Balik",
+    "Balik",
+
+    // Softkey label for closing a menu.
+    // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
+    "Tutup",
+    "Tutup",
+
+    // Title text for attachment view screen.
+    "Lampiran",
+
+    // Softkey labels for refetching contents of channel view or attachment view.
+    "Segarkn",
+    "Segarkan semula",
+
+    // Softkey labels used in channel or DM list for marking the selected channel or DM as read.
+    "Tnd. sbagai dibaca",
+    "Tandai sebagai dibaca",
+
+    // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
+    "Tnd. semua dibaca",
+    "Tand. semua sbagai dibaca",
+
+    // Generic "Select" softkey labels.
+    "Pilih",
+    "Pilih",
+
+    // Softkey labels for sending a message in the currently open channel.
+    "Hantar",
+    "Hantarkan mesej",
+
+    // Softkey labels for sending a reply to the selected message.
+    "Balas",
+    "Balas",
+
+    // Softkey labels for sending an attachment in the currently open channel.
+    "Muat naik",
+    "Muat naik fail",
+
+    // Softkey labels for copying the text content of the selected message.
+    "Salin",
+    "Salin kandungan",
+
+    // Softkey labels for editing the selected message.
+    "Sunting",
+    "Sunting",
+
+    // Softkey labels for deleting the selected message.
+    "Padam",
+    "Padamkan",
+
+    // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
+    "Buka pautan",
+    "Buka pautan",
+
+    // Channel view title suffix when reading older messages.
+    " (T'lama)",
+
+    // Text shown at the center of the channel view when it is empty (no messages).
+    "Tiada apa yang boleh dilihat di sini...",
+
+    // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
+    "Muat semula utk m'baca mesej baharu",
+
+    // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
+    "Menyambung semula",
+
+    // Channel view banner shown when a message is being sent by the client.
+    "Menghantar mesej",
+
+    // Channel view banner shown when a message is being edited by the client.
+    "Menyunting mesej",
+
+    // Channel view banner shown when a message is being deleted by the client.
+    "Memadamkan mesej",
+
+    // Channel view banner shown when messages are being loaded, e.g. during a refresh or after a message was sent by the client.
+    "Memuatkan mesej",
+
+    // Suffix for channel view banner text when one person is typing.
+    // Example: "aa is typing"
+    " sedang menaip",
+
+    // Suffix for channel view banner text when two or three people are typing.
+    // Example: "aa, bb, cc are typing"
+    " sedang menaip",
+
+    // Suffix for channel view banner text when more than three people are typing.
+    // Example: "4 people are typing"
+    " orang sedang menaip",
+
+    // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
+    ", ",
+
+    // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
+    "Proksi ini tidak menyokong muat naik fail",
+    "Proksi ini tidak menyokong pemadaman mesej",
+    "Proksi ini tidak menyokong penyuntingan mesej",
+
+    // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
+    "FileConnection ialah tak disokong",
+
+    // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
+    // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
+    "Lama",
+    "Lihat mesej lama",
+    "Baharu",
+    "Lihat mesej baharu",
+    
+    // Parts of the button label for viewing attachments of a message.
+    // Examples: "View 1 attachment", "View 2 attachments"
+    "Lihat ",
+    " Lampiran",
+    " Lampiran",
+
+    // Title for confirmation screen shown when deleting a message.
+    "Padam",
+
+    // Body text for confirmation screen shown when deleting a message.
+    "Padam mesej ini?",
+
+    // Generic softkey labels.
+    "Ya",
+    "Ya",
+    "Tak",
+    "Tidak",
+    "OK",
+    "OK",
+
+    // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
+    "(tidak diketahui)",
+
+    // Placeholder shown when the recipient message of a reply does not have any text content.
+    "(tiada kandungan)",
+
+    // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
+    "(mesej tak disokong)",
+
+    // Message content shown for a message that has been deleted.
+    "(mesej dipadam)",
+
+    // Title text for direct message search screen.
+    "Cari DMs",
+
+    // Guide text for text field in direct message search and "insert mention" screens.
+    "Masukkan nama pengguna",
+
+    // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
+    "Pengguna tidak ditemui. Cuba buat DM daripada pelanggan resmi.",
+
+    // Title text for direct message list.
+    "Mesej langsung",
+
+    // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
+    "Cari",
+    "Carian",
+
+    // Title text shown for all error message screens.
+    "Ralat",
+
+    // Title text shown for guild (server) selector.
+    "Server",
+
+    // Title text shown for favorite servers list.
+    "Kegemaran",
+
+    // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
+    "Buang",
+    "Buang",
+
+    // Softkey command for adding a server to the favorites list.
+    "Kegemaran",
+    "Tambahkan pada kegemaran",
+
+    // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
+    "Heartbeat thread error: ",
+
+    // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
+    "Semak token anda",
+
+    // Prefix of error message shown when the HTTP response has an error code.
+    // The full message consists of this string and the code itself,
+    // e.g. HTTP error 500
+    "HTTP ralat ",
+
+    // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
+    "Pautan CDN belum ditentukan. Lampiran tak tersedia.",
+
+    // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
+    " (",
+    ")",
+
+    // Softkey labels for showing a text attachment's contents within the app.
+    "Lihat",
+    "Lihat sbagai teks",
+
+    // Softkey labels for showing an attachment in the device's built-in web browser.
+    "Buka",
+    "Buka dalam browser",
+
+    // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
+    "Pemuatan...",
+
+    // Loading screen text shown when an attachment is being sent.
+    "Penghantaran...",
+
+    // Error message prefix shown when an error occurs while uploading an attachment.
+    "Ralat semasa menghantar fail: ",
+    
+    // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
+    "Langkau",
+    "Langkau",
+
+    // Key press prompt shown in hotkey mapper.
+    "Tekan kekunci utk digunakan untuk:",
+
+    // Names of hotkey actions shown in the key mapper.
+    // These are shown after the "Press the key to use for:" string.
+    // "going back" only applies to the chat view. 
+    "Hantar mesej",
+    "Balas mesej",
+    "Salin kandungan mesej",
+    "Segarkan semula",
+    "Balik",
+
+    // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
+    "Kekunci ini sudah dipetakan ke ",
+
+    // Title text shown in login screen.
+    "Log masuk",
+
+    // Proxy server warning message shown at the top of the login screen.
+    "Only use proxies that you trust!",
+
+    // Help message for finding your token. Shown in login screen above the token field.
+    "Token boleh didapati daripada alat pembangun Browser anda (lihat dalam talian untuk mendapatkan bantuan). Menggunakan akaun alt adalah disyorkan.",
+
+    // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
+    "Guna Wi-Fi",
+
+    // Labels of text fields shown in the login screen.
+    // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
+    "Pautan API",
+    "Pautan CDN",
+    "Pautan Gerbang",
+    "Token",
+
+    // Softkey label for confirming the login options in the login screen.
+    "Log masuk",
+    "Log masuk",
+
+    // Softkey command for exiting the application.
+    "Keluar",
+    "Keluar",
+
+    // "Use gateway" option shown in login screen.
+    "Guna Gerbang",
+
+    // Label for radio button field for token sending options.
+    "Hantar token sbagai",
+
+    // Token sending options.
+    "Header (asli)",
+    "JSON",
+    "Query parameter",
+
+    // Error messages shown when trying to login and the token or API URL fields are empty.
+    "Sila masukkan token anda",
+    "Sila nyatakan Pautan API",
+
+    // Main menu items.
+    // "Log out" brings you back to the login screen where you enter your token and other login settings.
+    "Server",
+    "Kegemaran",
+    "Mesej Langsung",
+    "Tetapan",
+    "Log keluar",
+
+    // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
+    "Menyebut",
+
+    // Label shown for username search results in "Insert mention" screen. Shown if more than one user matches the username query.
+    "Hasil Carian",
+
+    // Message shown when the username query resulted in no matches in the "Insert mention" screen.
+    "Tiada hasil dikemukakan",
+
+    // Error message shown when selecting "Insert" in the "Insert mention" screen and none of the search results (radio buttons) were picked.
+    "Pengguna tidak dipilih",
+
+    // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
+    "Ditambah ",
+    " kepada kumpulan",
+
+    // Status message shown when a user has left a group DM.
+    "meninggalkan kumpulan",
+
+    // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
+    "Dikeluarkan ",
+    " daripada kumpulan",
+
+    // Status messages.
+    "memulakan panggilan",
+    "menukar nama kumpulan",
+    "menukar ikon kumpulan",
+    "menyematkan mesej",
+    "menyertai server ini",
+    "server di boost",
+
+    // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
+    "boost server kepada tahap ",
+
+    // Prefix of message content when the message is a sticker.
+    // The whole message is in the form of "(sticker: Name)"
+    "(sticker: ",
+
+    // Placeholder name for a sticker when the sticker's name could not be fetched.
+    "Tak dikenal",
+
+    // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
+    // Note: order of day and month cannot be changed currently
+    ":",
+    "/",
+    "A",
+    "P",
+
+    // Softkey labels for inserting a mention/ping in the "send message" screen.
+    "Menyebut",
+    "Menyebut seseorang",
+
+    // Prefixes of title text for "send message" screen.
+    // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
+    "Hantar mesej (@",
+    "Hantar mesej (#",
+
+    // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
+    "Memerlukan sambungan gerbang aktif",
+
+    // Title text for "copy message content" screen.
+    "Salin mesej",
+
+    // Title text for "edit message content" screen.
+    "Sunting mesej",
+
+    // Title text for gateway disconnect prompt screen.
+    "Terputus sambungan",
+
+    // Main body text for gateway disconnect prompt screen.
+    "Ralat Gateway. Adakah anda mahu menyambung semula?",
+
+    // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
+    "Mesej",
+
+    // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
+    "Membalas ",
+
+    // Top label for the message entry box in the reply form.
+    "Mesej anda:",
+
+    // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
+    "Menyebut penulis",
+
+    // Title text for settings menu.
+    "Tetapan",
+
+    // Settings screen heading for themes section.
+    "Tema",
+
+    // Theme options.
+    "Gelap",
+    "Cahaya",
+    "Hitam",
+
+    // Settings screen heading for miscellaneous user interface related settings.
+    "Antara muka pengguna",
+
+    // Settings option for enabling the old channel view user interface (from version 1.1 and below).
+    // This is no longer used, so keep it as null.
+    null,
+
+    // Settings option for using 12-hour time format in timestamps.
+    "Masa 12 jam",
+
+    // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
+    "Pemilih fail asli",
+
+    // Settings option for automatically reconnecting to the gateway if the connection closes.
+    "Auto gateway menyambung semula",
+
+    // Settings option for enabling icons in server and direct message lists.
+    "Ikon Server/DM",
+
+    // Settings option for enabling nickname role colors.
+    "Warna nama",
+
+    // Settings screen heading for message author font size.
+    "Fon pengarang mesej",
+
+    // Font size options.
+    "Kecil",
+    "Sederhana",
+    "Besar",
+
+    // Settings screen heading for message content font size.
+    "Fon kandungan mesej",
+
+    // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
+    "Bilangan mesej untuk dimuatkan",
+
+    // Settings screen heading for selecting attachment file format.
+    "Format lampiran",
+
+    // Settings screen heading for maximum attachment size in pixels.
+    "Maks. saiz lampiran (px)",
+
+    // Settings screen heading for profile picture shape.
+    // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
+    "Bentuk ikon avatar",
+
+    // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
+    "Segi empat",
+    "Bulatan",
+    "Bulatan (HQ)",
+
+    // Settings section for profile picture resolution.
+    "Resolusi Avatar",
+
+    // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
+    "Pemegang tempat sahaja",
+
+    // Resolution options. Used for profile picture resolution and menu icon resolution.
+    "Mati",
+    "16 px",
+    "32 px",
+
+    // Settings section for menu icon size.
+    "Saiz ikon menu (px)",
+
+    // Settings section for controlling the display of reply messages.
+    "Tunjuk balasan sbagai",
+    
+    // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
+    "Hanya penerima",
+
+    // Settings option to show replies with the whole recipient message.
+    "Keseluruhan mesej",
+
+    // Settings section for hotkey action management.
+    "Kekunci pantas",
+
+    // Settings option to use "default" hotkeys. When enabled, the J2ME game actions (ABCD) are used for hotkey actions, instead of user-defined key bindings. I named it "default" due to the lack of a better term for people who aren't familiar with J2ME development.
+    "Kekunci pantas yg asli",
+
+    // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
+    "Petakan",
+    "Petakan semula hotksys",
+
+    // Generic softkey labels. Currently used in settings menu.
+    "Simpan",
+    "Simpan",
+    "Batal",
+    "Batal",
+
+    // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
+    "Apl mesti ditutup sebelum pautan boleh dibuka.",
+
+    // Prefix of error message shown when an error occurs when trying to open an URL.
+    "URL tidak dapat dibuka (",
+
+    // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
+    ")\n\nAnda boleh cuba menyalin pautan secara manual ke dalam browser peranti anda: ",
+
+    // Title text for URL list screen ('Open URL' option in channel view).
+    "Pilih URL",
+
+    // Softkey labels for inserting a mention in the "Insert mention" screen.
+    "Sisipkan",
+    "Sisipkan",
+
+    // Title for language selection screen.
+    "Bahasa/Language",
+
+    // Settings section for language options.
+    "Bahasa/Language",
+    
+    // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
+    "Tetapkan",
+    "Tetapkan bahasa",
+
+    // Softkey commands for toggling fullscreen mode in the chat view.
+    "Skrin penuh",
+    "Togol skrin penuh",
+
+    // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
+    // Related to "Names of hotkey actions shown in the key mapper" above.
+    "Menogol skrin penuh",
+
+    // Settings option for enabling fullscreen mode by default in the chat view.
+    "Mode skrin penuh",
+
+    // Settings section for selecting which kinds of messages notifications should be shown for.
+    "Tunjukkan pemberitahuan untuk",
+
+    // Options for the kinds of messages that notifications should be shown for.
+    "Semua mesej",
+    "Sebutan",
+    "Mesej langsung",
+
+    // Text shown in notification alert windows. This is in the form of:
+    // User sent you a direct message: "message content"
+    // User sent a message in Server Name #channel: "message content"
+    " menghantar mesej langsung kepada anda: \"",
+    " menghantar mesej di ",
+
+    // Title for notification alert windows
+    "Mesej baharu",
+
+    // Settings section for selecting which kinds of notification methods should be used for incoming messages.
+    "Beritahu saya dengan:",
+
+    // Options for the kinds of notification methods.
+    "Tetingkap amaran",
+    "Bunyi",
+
+    // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
+    "Pastikan saluran dimuatkan",
+
+    // Text shown at the center of list screens when they are empty (no items).
+    // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
+    "Tiada",
+
+    // Main body text for gateway disconnect prompt screen.
+    // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
+    "Tidak dapat menyambung ke gerbang. Adakah anda mahu mencuba semula?",
+
+    // Softkey labels for sending an attachment as a reply to the selected message.
+    "Balas dgn fail",
+    "Balas dgn fail",
+
+    // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
+    "Fail dilampirkan",
+
+    // Prefix and suffix for text shown in the notification alert window when the message has attachments.
+    // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
+    "(",
+    " lampiran)",
+    " lampiran)",
+
+    // Settings section names/titles.
+    // "Language" title is defined above (see "Settings section for language options")
+    // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
+    "Penampilan",
+    "Imej",
+    "Tingkah laku",
+    "Pemberitahuan",
+
+    // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
+    // On large screens, these are instead shown on the right side of the options.
+    "Mati",
+    "Hidup",
+
+    // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
+    // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
+    // The whole message is in the form of "Please enter a valid number between 1 and X"
+    // where X is the maximum value for that setting.
+    // In English, the suffix is not needed, so it's an empty string, "".
+    // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
+    "Sila masukkan nombor yang sah antara 1 dan ",
+    "",
+
+    // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
+    "Pigler API",
+
+    // Prefix for error messages related to Pigler Notifications API.
+    "Pigler API ralat: ",
+
+    // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
+    "API Pemberitahuan Pigler tidak disokong. Sila pasang API Pigler daripada nnp.nnchan.ru/pna atau lumpuhkan pemberitahuan Pigler dalam Tetapan.",
+
+    // Settings option for showing the scrollbar on the right side of the screen.
+    "Bar tatal",
+
+    // Options for the "Show scroll bar" setting.
+    // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
+    // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
+    // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
+    "Tersembunyi",
+    "Tampak",
+
+    // Main menu option for about/credits screen.
+    // Related to "Main menu items" above.
+    "Mengenai",
+
+    // Title text for about screen.
+    "Mengenai",
+
+    // Prefix for version line shown in the about screen. The app's version number is shown after this.
+    "Versi ",
+
+    // Heading shown in the about screen for developers.
+    "Pemaju",
+
+    // Heading shown in the about screen for language translation authors. Shown below developers.
+    "Penterjemah",
+
+    // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
+    "Sokongan",
+
+    // Lines shown in the about (credits) screen for what each developer (major contributor) did.
+    // The name of the person in question is shown above each line.
+    "Pemaju utama",
+    "Pemuatan lampiran, penyepaduan API Pigler, penghurai JSON",
+    "Memuatkan animasi, ikon menu, seni emoji, terjemahan Bahasa Itali",
+
+    // Lines shown in the about screen for which language(s) each person wrote translations for.
+    // Note: These are ordered alphabetically based on the person's name, not the language's name
+    "Bahasa Vietnam",
+    "Bahasa Sweden",
+    "Bahasa Indonesia",
+    "Bahasa Poland",
+    "Bahasa Sepanyol",
+    "Bahasa Portugis (Brazil)",
+    "Bahasa Thai",
+    "Bahasa Portugis",
+    "Bahasa Cina (Tradisional) dan Kantonis",
+    "Bahasa Ukraine",
+    "Bahasa Rumania",
+    "Bahasa Turki",
+    "Bahasa Russia",
+
+    // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
+    "Tunjukkan",
+    "Tunjukkan",
+
+    // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
+    "Kemas kini automatik",
+
+    // Title for dialog box shown when an update was found.
+    "Kemas kini tersedia",
+
+    // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
+    "Versi baharu Discord J2ME tersedia. Adakah anda mahu mengemas kini?\nSekarang: ",
+    "\nTerbaharu: ",
+
+    // Softkey labels for confirming an update in the update dialog box.
+    "Kemas kini",
+    "Kemas Kini",
+
+    // Options for the "Auto update" setting.
+    // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
+    "Hanya releases (Stable)",
+    "Semuanya (Stable/Beta)",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Bahasa Jerman",
+    "Bahasa Croatia",
+
+    // Units for attachment sizes.
+    " bait",
+    " kB",
+    " MB",
+
+    // Softkey labels for opening the thread list of a channel in the channel list.
+    "Benang",
+    "Lihat benang",
+
+    // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
+    "Tetapkan",
+    "Tetapkan token",
+
+    // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
+    "Sunting",
+    "Sunting token",
+
+    // Option in notification settings for using Nokia UI API for notifications.
+    "Nokia UI",
+
+    // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
+    "Android notifications",
+
+    // Text shown in the red bar used for marking the last unread messages in the chat view.
+    "BARU",
+
+    // Prompt shown at the top of the image preview screen when selecting an attachment.
+    "Muat naik imej ini?",
+
+    // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
+    "Pratonton pemilih fail",
+
+    // Header shown at the top of every forwarded message.
+    "Mesej dimajukan:",
+
+    // Help texts shown in the login screen for how to open the token input text box.
+    "Untuk menetapkan token anda, tekan kekunci BlackBerry.",
+    "Untuk menukar token anda, tekan kekunci BlackBerry.",
+
+    // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
+    "Memori tidak mencukupi untuk menunjukkan pratonton imej",
+
+    // Settings option for enabling or disabling emoji display in chats.
+    "Tunjukkan emoji",
+
+    // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
+    "Hanya asli",
+
+    // Option for "Show emoji" setting where all emoji are shown.
+    "Semua",
+
+    // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
+    "Impor",
+    "Impor token",
+
+    // Title text for the token import file picker screen.
+    "Pilih fail token",
+
+    // Text shown in loading screen when emoji data is being downloaded or updated.
+    "Memuat turun...",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Bahasa Perancis",
+    "Bahasa Bulgaria"
+]
