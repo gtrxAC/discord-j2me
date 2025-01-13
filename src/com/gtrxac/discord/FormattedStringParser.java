@@ -78,8 +78,12 @@ public class FormattedStringParser {
                             continue;
                         }
                     }
-                    else if (curr == '<' && chars[pos + 1] == ':' && FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
+                    else if (curr == '<' && FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
                         int checkPos = pos + 1;
+
+                        // '<' must be followed by 'a:' or ':'
+                        if (chars[checkPos] == 'a') checkPos++;
+                        if (chars[checkPos] != ':') break emojiChecks;
 
                         // we only need the emoji ID, but do some checks on the emoji name:
                         // emoji name must consist of only the allowed characters

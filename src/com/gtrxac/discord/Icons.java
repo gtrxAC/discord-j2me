@@ -82,6 +82,7 @@ public class Icons {
     Image flagTW;
     Image flagHK;
     Image flagHR;
+    Image flagBG;
 
     Icons(State s) {
         if (s.menuIconSize == 0) return;
@@ -175,5 +176,6 @@ public class Icons {
         flagTW = sh.next();
         flagHK = sh.next();
         flagHR = sh.next();
+        flagBG = sh.next();
     }
 }
