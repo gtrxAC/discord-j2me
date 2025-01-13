@@ -735,16 +735,16 @@
     "Semua",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
+    "Impor",
+    "Impor token",
 
     // Title text for the token import file picker screen.
-    "Select token file",
+    "Pilih berkas token",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Downloading...",
+    "Mengunduh...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "French",
-    "Bulgarian"
+    "Bahasa Perancis",
+    "Bahasa Bulgaria"
 ]

@@ -733,16 +733,16 @@
     "ทั้งหมด",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
+    "นำเข้า",
+    "นำเข้า token",
 
     // Title text for the token import file picker screen.
-    "Select token file",
+    "เลือกไฟล์ token",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Downloading...",
+    "กำลังดาวน์โหลด...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "French",
-    "Bulgarian"
+    "ภาษาฝรั่งเศส",
+    "ภาษาบัลแกเรีย"
 ]
