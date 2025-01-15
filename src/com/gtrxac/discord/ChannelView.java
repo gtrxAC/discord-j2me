@@ -189,7 +189,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
         boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
-        int iconAreaWidth = (useIcons ? fontHeight*2 : 0);
+        int iconAreaWidth = (useIcons ? fontHeight*2 : fontHeight/5);
         int contentWidth = width - iconAreaWidth;
         int embedTextX = iconAreaWidth + fontHeight/3;
         int embedTextWidth = contentWidth - fontHeight/2 - fontHeight*2/3;
@@ -200,7 +200,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
             // ifdef OVER_100KB
             if (msg.contentFormatted == null || wasResized || needUpdate) {
-                msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, width - contentWidth);
+                msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, iconAreaWidth);
                 msg.needUpdate = false;
             }
             // endif
