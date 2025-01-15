@@ -80,7 +80,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
                 try {
                     attachFc.close();
                 }
-                catch (Exception e) {}
+                catch (Throwable e) {}
             }
             // endif
             s.disp.setCurrent(lastScreen);

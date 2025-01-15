@@ -86,7 +86,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
                 try {
                     attachFc.close();
                 }
-                catch (Exception e) {}
+                catch (Throwable e) {}
             }
             // endif
             s.disp.setCurrent(lastScreen);
