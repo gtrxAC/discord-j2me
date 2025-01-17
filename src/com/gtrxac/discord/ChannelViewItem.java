@@ -35,8 +35,8 @@ public class ChannelViewItem implements Strings {
     private static Image unreadIndicatorImage;
 
     public static void createUnreadIndicatorImage(State s) {
-        int fontHeight = s.messageFont.getHeight();
-        int stringWidth = s.messageFont.stringWidth(Locale.get(NEW_MARKER));
+        int fontHeight = s.titleFont.getHeight();
+        int stringWidth = s.titleFont.stringWidth(Locale.get(NEW_MARKER));
         int totalWidth = fontHeight/2 + stringWidth + fontHeight/4;
 
         unreadIndicatorImage = Image.createImage(totalWidth, fontHeight);
@@ -61,7 +61,7 @@ public class ChannelViewItem implements Strings {
             fontHeight/2
         );
         g.setColor(0xFFFFFF);
-        g.setFont(s.messageFont);
+        g.setFont(s.titleFont);
         g.drawString(
             Locale.get(NEW_MARKER),
             fontHeight/2,
@@ -510,18 +510,19 @@ public class ChannelViewItem implements Strings {
 
             case UNREAD_INDICATOR: {
                 int screenWidth = s.disp.getCurrent().getWidth();
+                int imageX = screenWidth - messageFontHeight/4 - unreadIndicatorImage.getWidth();
                 g.setColor(0xf23f43);
+                g.drawImage(
+                    unreadIndicatorImage,
+                    imageX,
+                    y + messageFontHeight/6,
+                    Graphics.TOP | Graphics.RIGHT
+                );
                 g.drawLine(
                     messageFontHeight/4,
                     y + messageFontHeight/2,
-                    screenWidth - messageFontHeight,
+                    imageX, // +1?
                     y + messageFontHeight/2
-                );
-                g.drawImage(
-                    unreadIndicatorImage,
-                    screenWidth - messageFontHeight/4,
-                    y + messageFontHeight/6,
-                    Graphics.TOP | Graphics.RIGHT
                 );
                 break;
             }
