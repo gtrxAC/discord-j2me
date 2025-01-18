@@ -134,9 +134,10 @@ public class LoginSettings {
         // endif
         getBoolRecord(
             // ifdef PIGLER_SUPPORT
-            Util.supportsPigler ||
-            // endif
+            Util.supportsPigler
+            // else
             false
+            // endif
         );
         KineticScrollingCanvas.scrollBarMode = getIntRecord(
             // ifdef MIDP2_GENERIC
@@ -151,9 +152,10 @@ public class LoginSettings {
         // endif
         getBoolRecord(
             // ifdef NOKIA_UI_SUPPORT
-            Util.supportsNokiaUINotifs ||
-            // endif
+            Util.supportsNokiaUINotifs
+            // else
             false
+            // endif
         );
         // ifdef OVER_100KB
         s.useFilePreview =
@@ -197,9 +199,10 @@ public class LoginSettings {
         setBoolRecord(s.useGateway);
         setBoolRecord(
             // ifdef BLACKBERRY
-            s.bbWifi ||
-            // endif
+            s.bbWifi
+            // else
             false
+            // endif
         );
         setBoolRecord(s.useJpeg);
         setStringRecord(s.cdn);
@@ -230,35 +233,38 @@ public class LoginSettings {
         setBoolRecord(s.playNotifSound);
         setBoolRecord(
             // ifdef PIGLER_SUPPORT
-            s.showNotifPigler ||
-            // endif
+            s.showNotifPigler
+            // else
             false
+            // endif
         );
         setIntRecord(KineticScrollingCanvas.scrollBarMode);
         setIntRecord(s.autoUpdate);
         setBoolRecord(
             // ifdef NOKIA_UI_SUPPORT
-            s.showNotifNokiaUI ||
-            // endif
+            s.showNotifNokiaUI
+            // else
             false
+            // endif
         );
         setBoolRecord(
             // ifdef OVER_100KB
-            s.useFilePreview ||
-            // endif
+            s.useFilePreview
+            // else
             false
+            // endif
         );
         setIntRecord(
             // ifdef OVER_100KB
-            FormattedString.emojiMode +
-            // endif
+            FormattedString.emojiMode
+            // else
             0
+            // endif
         );
         setBoolRecord(
             // ifdef OVER_100KB
             FormattedString.useMarkdown
-            // endif
-            // ifdef SAMSUNG_100KB
+            // else
             false
             // endif
         );

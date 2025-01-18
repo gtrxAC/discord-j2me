@@ -8,8 +8,7 @@ public class Embed {
     // ifdef OVER_100KB
     public FormattedString titleFormatted;
     public FormattedString descFormatted;
-    // endif
-    // ifdef SAMSUNG_100KB
+    // else
     public String[] titleLines;
     public String[] descLines;
     // endif
@@ -27,8 +26,7 @@ public class Embed {
         // ifdef OVER_100KB
         if (title != null && titleFormatted != null) result += titleFormatted.height;
         if (description != null && descFormatted != null) result += descFormatted.height;
-        // endif
-        // ifdef SAMSUNG_100KB
+        // else
         if (title != null && titleLines != null) result += messageFontHeight*titleLines.length;
         if (description != null && descLines != null) result += messageFontHeight*descLines.length;
         // endif

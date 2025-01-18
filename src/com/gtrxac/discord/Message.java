@@ -23,8 +23,7 @@ public class Message implements Strings {
     public String rawContent;
     // ifdef OVER_100KB
     public FormattedString contentFormatted;
-    // endif
-    // ifdef SAMSUNG_100KB
+    // else
     public String[] contentLines;
     // endif
 

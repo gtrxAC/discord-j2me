@@ -490,8 +490,7 @@ public class HTTPThread extends Thread implements Strings {
                     // ifdef OVER_100KB
                     boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
                     String format = ((s.useJpeg && notEmoji) ? "jpg" : "png");
-                    // endif
-                    // ifdef SAMSUNG_100KB
+                    // else
                     String format = (s.useJpeg ? "jpg" : "png");
                     // endif
                     int size = (s.pfpSize == State.ICON_SIZE_32) ? 32 : 16;

@@ -203,8 +203,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, iconAreaWidth);
                 msg.needUpdate = false;
             }
-            // endif
-            // ifdef SAMSUNG_100KB
+            // else
             if (msg.contentLines == null || wasResized || needUpdate) {
                 msg.contentLines = Util.wordWrap(msg.content, contentWidth, s.messageFont);
                 msg.needUpdate = false;
@@ -231,8 +230,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                         emb.descFormatted = new FormattedString(emb.description, s.messageFont, embedTextWidth, embedTextX);
                         msg.needUpdate = false;
                     }
-                    // endif
-                    // ifdef SAMSUNG_100KB
+                    // else
                     if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
                         emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.titleFont);
                         msg.needUpdate = false;
@@ -249,8 +247,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 msg.showAuthor
                 // ifdef OVER_100KB
                 || msg.contentFormatted.height != 0
-                // endif
-                // ifdef SAMSUNG_100KB
+                // else
                 || msg.contentLines.length != 0
                 // endif
             ) {

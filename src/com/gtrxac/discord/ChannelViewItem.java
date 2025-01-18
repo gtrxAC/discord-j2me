@@ -101,8 +101,7 @@ public class ChannelViewItem implements Strings {
                 int result =
                     // ifdef OVER_100KB
                     msg.contentFormatted.height +
-                    // endif
-                    // ifdef SAMSUNG_100KB
+                    // else
                     messageFontHeight*msg.contentLines.length +
                     // endif
                     messageFontHeight/4;
@@ -387,8 +386,7 @@ public class ChannelViewItem implements Strings {
                 // ifdef OVER_100KB
                 msg.contentFormatted.draw(g, y);
                 y += msg.contentFormatted.height;
-                // endif
-                // ifdef SAMSUNG_100KB
+                // else
                 for (int i = 0; i < msg.contentLines.length; i++) {
                     g.drawString(msg.contentLines[i], x, y, Graphics.TOP | Graphics.LEFT);
                     y += messageFontHeight;
@@ -421,8 +419,7 @@ public class ChannelViewItem implements Strings {
                             // ifdef OVER_100KB
                             emb.titleFormatted.draw(g, y);
                             y += emb.titleFormatted.height;
-                            // endif
-                            // ifdef SAMSUNG_100KB
+                            // else
                             for (int l = 0; l < emb.titleLines.length; l++) {
                                 g.drawString(emb.titleLines[l], x, y, Graphics.TOP|Graphics.LEFT);
                                 y += messageFontHeight;
@@ -438,8 +435,7 @@ public class ChannelViewItem implements Strings {
                             // ifdef OVER_100KB
                             emb.descFormatted.draw(g, y);
                             y += emb.descFormatted.height;
-                            // endif
-                            // ifdef SAMSUNG_100KB
+                            // else
                             for (int l = 0; l < emb.descLines.length; l++) {
                                 g.drawString(emb.descLines[l], x, y, Graphics.TOP|Graphics.LEFT);
                                 y += messageFontHeight;

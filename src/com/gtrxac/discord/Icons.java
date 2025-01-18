@@ -143,25 +143,27 @@ public class Icons {
         keepChLoaded = sh.next();
         scrollBars = sh.next();
         // ifdef PIGLER_SUPPORT
-        pigler =
+        pigler = sh.next();
+        // else
+        sh.skip();
         // endif
-        sh.next();
         about = sh.next();
         autoUpdate = sh.next();
         // ifdef NOKIA_UI_ICON
-        nokiaUI =
+        nokiaUI = sh.next();
+        // else
+        sh.skip();
         // endif
-        sh.next();
         // ifdef J2ME_LOADER
-        android =
+        android = sh.next();
+        // else
+        sh.skip();
         // endif
-        sh.next();
         sh.skip(); // vibra (not used yet)
         // ifdef OVER_100KB
         emoji = sh.next();
         markdown = sh.next();
-        // endif
-        // ifdef SAMSUNG_100KB
+        // else
         sh.skip(2);
         // endif
         flagGB = sh.next();

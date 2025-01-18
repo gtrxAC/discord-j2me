@@ -93,8 +93,7 @@ Strings
         append(new StringItem(null, tokenHint));
         addCommand(changeTokenCommand);
         if (Util.supportsFileConn) addCommand(importTokenCommand);
-        // endif
-        // ifdef NOT_BLACKBERRY
+        // else
         append(tokenButton);
         if (Util.supportsFileConn) append(importTokenButton);
         // endif

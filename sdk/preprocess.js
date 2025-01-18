@@ -47,6 +47,17 @@ function preprocessFile(inputFile) {
       return;
     }
 
+    // Check for //else
+    if (/^\/\/\s*else/.test(lineTrim)) {
+      if (skipStack.length > 0) {
+        skipStack.push(!skipStack.pop());
+        shouldSkip = skipStack.some((skip) => !skip);
+      }
+
+      emptyLine();
+      return;
+    }
+
     // Check for //endif
     if (/^\/\/\s*endif/.test(lineTrim)) {
       if (skipStack.length > 0) {
