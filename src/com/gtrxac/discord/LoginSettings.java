@@ -89,12 +89,17 @@ public class LoginSettings {
         isHighRam = Util.isSymbian || Util.isKemulator;
         // endif
 
+        int defaultFontSize = 0;
+        // ifdef MIDP2_GENERIC
+        if (Util.isNokia128x) defaultFontSize = 1;
+        // endif
+
         s.api = getStringRecord(s.api);
         s.token = getStringRecord(s.token);
         s.theme = getIntRecord(0);
         s.gatewayUrl = getStringRecord(s.gatewayUrl);
-        s.authorFontSize = getIntRecord(0);
-        s.messageFontSize = getIntRecord(0);
+        s.authorFontSize = getIntRecord(defaultFontSize);
+        s.messageFontSize = getIntRecord(defaultFontSize);
         s.use12hTime = getBoolRecord(false);
         s.messageLoadCount = getIntRecord(20);
         s.useGateway = getBoolRecord(true);

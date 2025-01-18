@@ -2,7 +2,16 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public abstract class MyCanvas extends Canvas {
+public
+// ifdef MIDP2_GENERIC
+// else
+abstract
+// endif
+class MyCanvas extends Canvas {
+    // ifdef MIDP2_GENERIC
+    protected void paint(Graphics g) {}
+    // endif
+
     public void _paint(Graphics g) {
         paint(g);
     }

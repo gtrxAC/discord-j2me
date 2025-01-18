@@ -379,6 +379,7 @@ public class Util {
 	// ifdef MIDP2_GENERIC
 	public static final boolean isKemulator;
 	public static final boolean isSymbian;
+	public static final boolean isNokia128x;
 	// endif
 
 	// ifdef NOKIA_UI_SUPPORT
@@ -409,6 +410,8 @@ public class Util {
 				System.getProperty("com.symbian.default.to.suite.icon") != null ||
 				checkClass("com.symbian.midp.io.protocol.http.Protocol") ||
 				checkClass("com.symbian.lcdjava.io.File");
+
+		isNokia128x = platform.startsWith("Nokia") && (new MyCanvas()).getWidth() <= 128;
 		// endif
 
 		// ifdef NOKIA_UI_SUPPORT
