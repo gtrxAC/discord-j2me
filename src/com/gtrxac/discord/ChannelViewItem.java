@@ -516,7 +516,7 @@ public class ChannelViewItem implements Strings {
                     unreadIndicatorImage,
                     imageX,
                     y + messageFontHeight/6,
-                    Graphics.TOP | Graphics.RIGHT
+                    Graphics.TOP | Graphics.LEFT
                 );
                 g.drawLine(
                     messageFontHeight/4,

@@ -86,21 +86,22 @@ public class ListScreen extends KineticScrollingCanvas {
         iconMargin = Math.max(fontHeight*3/8, iconSize/5);
         baseContentHeight = Math.max(fontHeight, iconSize);
 
-        int[] indicatorCircleBuf = IconResizeThread.createCircleBuf(fontHeight);
-        int[] indicatorImageData = new int[(fontHeight/4)*baseContentHeight];
+        int indicatorHeight = baseContentHeight/2*2;
+        int[] indicatorCircleBuf = IconResizeThread.createCircleBuf(fontHeight/4*4);
+        int[] indicatorImageData = new int[(fontHeight/4)*indicatorHeight];
 
-        for (int y = 0; y < baseContentHeight; y++) {
+        for (int y = 0; y < indicatorHeight; y++) {
             for (int x = 0; x < fontHeight/4; x++) {
                 int circleBufX = x + fontHeight/4;
-                int circleBufY = y - (baseContentHeight/2 - fontHeight/4);
-                if (circleBufY < 0 || circleBufY >= fontHeight/2) continue;
+                int circleBufY = y - (indicatorHeight/2 - fontHeight/4);
+                if (circleBufY < 0 || circleBufY >= fontHeight/4*2) continue;
 
                 indicatorImageData[y*(fontHeight/4) + x] =
-                    (0xFF000000 | selectedTextColor) & IconResizeThread.getCircleBufAlpha(indicatorCircleBuf, fontHeight/2, circleBufX, circleBufY);
+                    (0xFF000000 | selectedTextColor) & IconResizeThread.getCircleBufAlpha(indicatorCircleBuf, fontHeight/4*2, circleBufX, circleBufY);
             }
         }
 
-        indicatorImage = Image.createRGBImage(indicatorImageData, fontHeight/4, baseContentHeight, true);
+        indicatorImage = Image.createRGBImage(indicatorImageData, fontHeight/4, indicatorHeight, true);
 
         ListScreen.selectLabel = selectLabel;
         ListScreen.selectLabelLong = selectLabelLong;
