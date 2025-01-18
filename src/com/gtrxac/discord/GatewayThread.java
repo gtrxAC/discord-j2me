@@ -326,7 +326,6 @@ public class GatewayThread extends Thread implements Strings
                             s.channelView.bannerText = null;
                             s.channelView.repaint();
                         }
-                        reconnectAttempts = 0;
                         // ifdef OVER_100KB
                         s.gatewayToggleGuildEmoji();
                         // endif
@@ -577,6 +576,7 @@ public class GatewayThread extends Thread implements Strings
                         if (s.myUserId == null) {
                             s.myUserId = message.getObject("d").getString("id");
                         }
+                        reconnectAttempts = 0;
                     }
                 }
                 else if (message.getInt("op", 0) == 10) {
