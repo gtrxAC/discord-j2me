@@ -83,6 +83,7 @@ public class Icons {
     Image flagHK;
     Image flagHR;
     Image flagBG;
+    Image flagMY;
 
     Icons(State s) {
         if (s.menuIconSize == 0) return;
@@ -154,6 +155,8 @@ public class Icons {
         sh.next();
         sh.skip(); // vibra (not used yet)
         emoji = sh.next();
+        // markdown = sh.next();
+        sh.skip();
         flagGB = sh.next();
         flagUS = sh.next();
         flagES = sh.next();
@@ -177,5 +180,6 @@ public class Icons {
         flagHK = sh.next();
         flagHR = sh.next();
         flagBG = sh.next();
+        flagMY = sh.next();
     }
 }
