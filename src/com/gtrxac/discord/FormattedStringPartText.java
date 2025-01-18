@@ -24,6 +24,10 @@ public class FormattedStringPartText extends FormattedStringPart {
         g.drawString(content, x, y + yOffset, Graphics.TOP | Graphics.LEFT);
     }
 
+    public FormattedStringPartText copy(String newContent) {
+        return new FormattedStringPartText(newContent, font);
+    }
+
     // public String toString() {
     //     return "text (" + content + ")";
     // }

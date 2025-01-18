@@ -55,7 +55,7 @@ public class FormattedString {
                 curr = curr.substring(0, curr.length() - 1);
             }
 
-            parts.insertElementAt(new FormattedStringPartText(curr, font), i);
+            parts.insertElementAt(textPart.copy(curr), i);
             textPart.content = textPart.content.substring(curr.length());
         }
     }
@@ -121,6 +121,31 @@ public class FormattedString {
         return lineCount*lineHeight;
     }
 
+    private static boolean canMerge(FormattedStringPartText a, FormattedStringPartText b) {
+        // rich text cannot merge with non-rich text
+        if ((a instanceof FormattedStringPartRichText) != (b instanceof FormattedStringPartRichText)) {
+            return false;
+        }
+        try {
+            // both are rich text: check if they have same formatting
+            FormattedStringPartRichText ar = (FormattedStringPartRichText) a;
+            FormattedStringPartRichText br = (FormattedStringPartRichText) b;
+            if (ar.font.getStyle() != br.font.getStyle()) return false;
+
+            // check if they have the same color
+            if ((ar instanceof FormattedStringPartRichTextColor) != (br instanceof FormattedStringPartRichTextColor)) {
+                return false;
+            }
+            FormattedStringPartRichTextColor arc = (FormattedStringPartRichTextColor) ar;
+            FormattedStringPartRichTextColor brc = (FormattedStringPartRichTextColor) br;
+            return arc.color == brc.color;
+        }
+        catch (Exception e) {
+            // both are non-rich text or rich non-color text
+            return true;
+        }
+    }
+
     private void mergeParts(Vector parts) {
         for (int i = 0; i < parts.size() - 1;) {
             Object curr = parts.elementAt(i);
@@ -143,8 +168,8 @@ public class FormattedString {
             }
             FormattedStringPartText nextPart = (FormattedStringPartText) next;
 
-            // Not on the same line - cannot be merged, skip
-            if (thisPart.y != nextPart.y) {
+            // Not on the same line or don't have the same rich formatting - cannot be merged, skip
+            if (thisPart.y != nextPart.y || !canMerge(thisPart, nextPart)) {
                 i++;
                 continue;
             }
