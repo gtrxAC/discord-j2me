@@ -76,6 +76,7 @@ public class UnreadManager {
     public void manualSave() {
         if (needSave) save();
         needSave = false;
+        autoSave = true;
     }
 
     private void put(String channelID, String lastReadTime) {
