@@ -199,6 +199,12 @@ public class ChannelViewItem implements Strings {
 
                                 refImgHasColor = hasColor;
 
+                                // ifdef OVER_100KB
+                                boolean useFormattedString =
+                                    FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF ||
+                                    FormattedString.useMarkdown;
+                                // endif
+
                                 // Create an image where the ref message will be rendered.
                                 // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
                                 int refImgFullWidth = (width - refDrawX)*4/3;
@@ -246,7 +252,7 @@ public class ChannelViewItem implements Strings {
                                 refG.setFont(s.messageFont);
                                 refG.setColor(ChannelView.refMessageColors[s.theme]);
                                 // ifdef OVER_100KB
-                                if (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) {
+                                if (useFormattedString) {
                                     if (refImgFormatStr == null) {
                                         refImgFormatStr = new FormattedString(msg.refContent, s.messageFont, refImgFullWidth, refX, true);
                                     }
@@ -273,7 +279,7 @@ public class ChannelViewItem implements Strings {
                                 refG.setFont(s.messageFont);
                                 refG.setColor(ChannelView.refMessageColors[s.theme]);
                                 // ifdef OVER_100KB
-                                if (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) {
+                                if (useFormattedString) {
                                     refG.translate(-refImgFullWidth, 0);
                                     refImgFormatStr.draw(refG, 0);
                                 } else

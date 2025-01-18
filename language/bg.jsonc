@@ -313,5 +313,8 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "French",
-    "Bulgarian"
+    "Bulgarian",
+
+    // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
+    "Text formatting"
 ]

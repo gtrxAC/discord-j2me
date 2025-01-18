@@ -168,6 +168,10 @@ public class LoginSettings {
             // endif
             0
         );
+        // ifdef OVER_100KB
+        FormattedString.useMarkdown =
+        // endif
+        getBoolRecord(true);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
@@ -249,6 +253,14 @@ public class LoginSettings {
             FormattedString.emojiMode +
             // endif
             0
+        );
+        setBoolRecord(
+            // ifdef OVER_100KB
+            FormattedString.useMarkdown
+            // endif
+            // ifdef SAMSUNG_100KB
+            false
+            // endif
         );
     }
 

@@ -744,5 +744,8 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     null,
+    null,
+
+    // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
     null
 ]

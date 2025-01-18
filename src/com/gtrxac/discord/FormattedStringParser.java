@@ -142,122 +142,124 @@ public class FormattedStringParser {
                         emojiCount++;
                         continue;
                     }
-                    else if (curr == '*') {
-                        int asteriskCount = 1;
-                        try {
-                            if (chars[pos + 1] == '*') {
-                                asteriskCount++;
-                                if (chars[pos + 2] == '*') asteriskCount++;
+                    else if (FormattedString.useMarkdown) {
+                        if (curr == '*') {
+                            int asteriskCount = 1;
+                            try {
+                                if (chars[pos + 1] == '*') {
+                                    asteriskCount++;
+                                    if (chars[pos + 2] == '*') asteriskCount++;
+                                }
                             }
-                        }
-                        catch (ArrayIndexOutOfBoundsException e) {}
-
-                        // If these are the starting asterisks
-                        if (curAsteriskCount == 0) {
-                            // Before setting the formatting mode, make sure there is a matching set of closing asterisks upcoming somewhere in the text
-                            if (src.indexOf(ASTERISKS[asteriskCount], pos + asteriskCount) == -1) break specialChecks;
-                            addPreviousPart();
+                            catch (ArrayIndexOutOfBoundsException e) {}
+    
+                            // If these are the starting asterisks
+                            if (curAsteriskCount == 0) {
+                                // Before setting the formatting mode, make sure there is a matching set of closing asterisks upcoming somewhere in the text
+                                if (src.indexOf(ASTERISKS[asteriskCount], pos + asteriskCount) == -1) break specialChecks;
+                                addPreviousPart();
+                                curAsteriskCount = asteriskCount;
+                                pos += asteriskCount;
+                                partBeginPos = pos;
+                                continue;
+                            }
+    
+                            // If a matching set of asterisks was previously encountered (or a smaller set, for example *text***), add a text part and go back to normal text mode
+                            if (curAsteriskCount <= asteriskCount) {
+                                curAsteriskCount = Math.min(asteriskCount, curAsteriskCount);
+                                addPreviousPart();
+                                pos += curAsteriskCount;
+                                partBeginPos = pos;
+                                curAsteriskCount = 0;
+                                continue;
+                            }
+    
+                            // Else these are the ending asterisks but there's less than the beginning ones (for example ***text*):
+    
+                            // First add the difference between the asterisk counts as normal text
+                            // e.g. in the case of ***text*, add a normal text part containing **
+                            int difference = curAsteriskCount - asteriskCount;
+                            result.addElement(new FormattedStringPartText(ASTERISKS[difference], font));
+    
+                            // Add the actual text using the formatting style associated with the smallest asterisk count
+                            // e.g. ***text* -> add "text" in italic.
                             curAsteriskCount = asteriskCount;
-                            pos += asteriskCount;
-                            partBeginPos = pos;
-                            continue;
-                        }
-
-                        // If a matching set of asterisks was previously encountered (or a smaller set, for example *text***), add a text part and go back to normal text mode
-                        if (curAsteriskCount <= asteriskCount) {
-                            curAsteriskCount = Math.min(asteriskCount, curAsteriskCount);
                             addPreviousPart();
-                            pos += curAsteriskCount;
+                            pos += asteriskCount;
                             partBeginPos = pos;
                             curAsteriskCount = 0;
                             continue;
                         }
-
-                        // Else these are the ending asterisks but there's less than the beginning ones (for example ***text*):
-
-                        // First add the difference between the asterisk counts as normal text
-                        // e.g. in the case of ***text*, add a normal text part containing **
-                        int difference = curAsteriskCount - asteriskCount;
-                        result.addElement(new FormattedStringPartText(ASTERISKS[difference], font));
-
-                        // Add the actual text using the formatting style associated with the smallest asterisk count
-                        // e.g. ***text* -> add "text" in italic.
-                        curAsteriskCount = asteriskCount;
-                        addPreviousPart();
-                        pos += asteriskCount;
-                        partBeginPos = pos;
-                        curAsteriskCount = 0;
-                        continue;
-                    }
-                    else if (curr == '_') {
-                        // Same as the asterisk one above but different variables
-                        int underscoreCount = 1;
-                        try {
-                            if (chars[pos + 1] == '_') {
-                                underscoreCount++;
-                                if (chars[pos + 2] == '_') underscoreCount++;
+                        else if (curr == '_') {
+                            // Same as the asterisk one above but different variables
+                            int underscoreCount = 1;
+                            try {
+                                if (chars[pos + 1] == '_') {
+                                    underscoreCount++;
+                                    if (chars[pos + 2] == '_') underscoreCount++;
+                                }
                             }
-                        }
-                        catch (ArrayIndexOutOfBoundsException e) {}
-
-                        if (curUnderscoreCount == 0) {
-                            if (src.indexOf(UNDERSCORES[underscoreCount], pos + underscoreCount) == -1) break specialChecks;
-                            addPreviousPart();
+                            catch (ArrayIndexOutOfBoundsException e) {}
+    
+                            if (curUnderscoreCount == 0) {
+                                if (src.indexOf(UNDERSCORES[underscoreCount], pos + underscoreCount) == -1) break specialChecks;
+                                addPreviousPart();
+                                curUnderscoreCount = underscoreCount;
+                                pos += underscoreCount;
+                                partBeginPos = pos;
+                                continue;
+                            }
+    
+                            if (curUnderscoreCount <= underscoreCount) {
+                                curUnderscoreCount = Math.min(underscoreCount, curUnderscoreCount);
+                                addPreviousPart();
+                                pos += curUnderscoreCount;
+                                partBeginPos = pos;
+                                curUnderscoreCount = 0;
+                                continue;
+                            }
+    
+                            int difference = curUnderscoreCount - underscoreCount;
+                            result.addElement(new FormattedStringPartText(UNDERSCORES[difference], font));
+    
                             curUnderscoreCount = underscoreCount;
-                            pos += underscoreCount;
-                            partBeginPos = pos;
-                            continue;
-                        }
-
-                        if (curUnderscoreCount <= underscoreCount) {
-                            curUnderscoreCount = Math.min(underscoreCount, curUnderscoreCount);
                             addPreviousPart();
-                            pos += curUnderscoreCount;
+                            pos += underscoreCount;
                             partBeginPos = pos;
                             curUnderscoreCount = 0;
                             continue;
                         }
-
-                        int difference = curUnderscoreCount - underscoreCount;
-                        result.addElement(new FormattedStringPartText(UNDERSCORES[difference], font));
-
-                        curUnderscoreCount = underscoreCount;
-                        addPreviousPart();
-                        pos += underscoreCount;
-                        partBeginPos = pos;
-                        curUnderscoreCount = 0;
-                        continue;
-                    }
-                    // blue color text for URLs
-                    else if (curr == 'h') {
-                        if (!src.substring(pos).startsWith("http")) break specialChecks;
-
-                        int checkPos = pos + 4;
-                        if (chars[checkPos] == 's') checkPos++;
-                        if (!src.substring(checkPos).startsWith("://")) break specialChecks;
-                        checkPos += 2;
-
-                        addPreviousPart();
-                        int urlBeginPos = checkPos;
-                        curColor = 0x00aafc;
-                        try {
-                            while (URL_END_CHARS.indexOf(chars[++checkPos]) == -1) {}
-                        }
-                        catch (ArrayIndexOutOfBoundsException e) {
+                        // blue color text for URLs
+                        else if (curr == 'h') {
+                            if (!src.substring(pos).startsWith("http")) break specialChecks;
+    
+                            int checkPos = pos + 4;
+                            if (chars[checkPos] == 's') checkPos++;
+                            if (!src.substring(checkPos).startsWith("://")) break specialChecks;
+                            checkPos += 2;
+    
+                            addPreviousPart();
+                            int urlBeginPos = checkPos;
+                            curColor = 0x00aafc;
+                            try {
+                                while (URL_END_CHARS.indexOf(chars[++checkPos]) == -1) {}
+                            }
+                            catch (ArrayIndexOutOfBoundsException e) {
+                                partBeginPos = pos;
+                                pos = chars.length;
+                                throw e;
+                            }
+    
+                            // add the blue text part
                             partBeginPos = pos;
-                            pos = chars.length;
-                            throw e;
+                            pos = checkPos;
+                            addPreviousPart();
+    
+                            partBeginPos = pos;
+                            pos++;
+                            curColor = 0;
+                            continue;
                         }
-
-                        // add the blue text part
-                        partBeginPos = pos;
-                        pos = checkPos;
-                        addPreviousPart();
-
-                        partBeginPos = pos;
-                        pos++;
-                        curColor = 0;
-                        continue;
                     }
                 }
                 // Normal character, move on

@@ -13,6 +13,7 @@ public class FormattedString {
     public static final int EMOJI_MODE_DEFAULT_ONLY = 1;
     public static final int EMOJI_MODE_ALL = 2;
     public static int emojiMode;
+    public static boolean useMarkdown;
 
     FormattedString(String src, Font font, int width, int xOffset) {
         this(src, font, width, xOffset, false);

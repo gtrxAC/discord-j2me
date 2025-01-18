@@ -59,7 +59,10 @@ public class Icons {
     Image android;
     // endif
     // Image vibra;
+    // ifdef OVER_100KB
     Image emoji;
+    Image markdown;
+    // endif
     Image flagGB;
     Image flagUS;
     Image flagES;
@@ -154,9 +157,13 @@ public class Icons {
         // endif
         sh.next();
         sh.skip(); // vibra (not used yet)
+        // ifdef OVER_100KB
         emoji = sh.next();
-        // markdown = sh.next();
-        sh.skip();
+        markdown = sh.next();
+        // endif
+        // ifdef SAMSUNG_100KB
+        sh.skip(2);
+        // endif
         flagGB = sh.next();
         flagUS = sh.next();
         flagES = sh.next();

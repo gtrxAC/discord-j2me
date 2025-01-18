@@ -318,4 +318,7 @@ public interface Strings {
     // endif
     static final int TRANSLATOR_FR = 305;
     static final int TRANSLATOR_BG = 306;
+    // ifdef OVER_100KB
+    static final int TEXT_FORMATTING = 307;
+    // endif
 }

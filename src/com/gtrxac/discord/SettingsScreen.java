@@ -21,7 +21,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     private int[][] values;
 
     private static final int[][] maxValues = {
-        { 2, 2, 2, 1, 1, 1, 1 },
+        { 2, 2, 2, 1, 1, 1, 1,
+        // ifdef OVER_100KB
+        1
+        // endif
+        },
         { 1, 10000, 3, 2, 255, 1,
         // ifdef OVER_100KB    
         1, 2
@@ -69,6 +73,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(USE_12H_TIME),
                 Locale.get(NAME_COLORS),
                 Locale.get(FULLSCREEN_DEFAULT),
+                // ifdef OVER_100KB
+                Locale.get(TEXT_FORMATTING),
+                // endif
             }, {
                 // Images
                 Locale.get(SETTINGS_SECTION_IMAGE_FORMAT),
@@ -121,6 +128,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.use12h },
                 { s.ic.nameColorsOff, s.ic.nameColors },
                 { s.ic.fullscreen },
+                // ifdef OVER_100KB
+                { s.ic.markdown }
+                // endif
             }, {
                 // Images
                 { s.ic.attachFormat },
@@ -174,6 +184,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolValues,
                 boolValues,
                 boolValues,
+                // ifdef OVER_100KB
+                boolValues
+                // endif
             }, {
                 // Images
                 { "PNG", "JPEG" },
@@ -221,6 +234,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.use12hTime ? 1 : 0,
                 s.useNameColors ? 1 : 0,
                 s.fullscreenDefault ? 1 : 0,
+                // ifdef OVER_100KB
+                FormattedString.useMarkdown ? 1 : 0
+                // endif
             }, {
                 // Images
                 s.useJpeg ? 1 : 0,
@@ -455,6 +471,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.use12hTime = values[0][4] == 1;
                 s.useNameColors = values[0][5] == 1;
                 s.fullscreenDefault = values[0][6] == 1;
+                // ifdef OVER_100KB
+                FormattedString.useMarkdown = values[0][7] == 1;
+                // endif
 
                 s.useJpeg = values[1][0] == 1;
                 s.attachmentSize = values[1][1];
