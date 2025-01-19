@@ -7,6 +7,7 @@ MicroEdition-Profile: MIDP-2.0
 // ifdef MIDP2_GENERIC
 Nokia-MIDlet-S60-Selection-Key-Compatibility: true
 Nokia-MIDlet-On-Screen-Keypad: no
+Nokia-MIDlet-Category: Application
 // endif
 // ifdef SAMSUNG
 MIDlet-Touch-Support: true
