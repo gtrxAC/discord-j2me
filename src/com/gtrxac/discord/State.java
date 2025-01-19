@@ -2,6 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
+import javax.microedition.io.file.*;
 import java.util.*;
 import cc.nnproject.json.*;
 
@@ -399,4 +400,12 @@ public class State implements Strings {
 		}
 	}
 	// endif
+
+    public Displayable createTextEntryScreen(Message recipientMsg, String fileName, FileConnection fc) {
+        if (recipientMsg != null) {
+            return new ReplyForm(this, recipientMsg, fileName, fc);
+        } else {
+            return new MessageBox(this, fileName, fc);
+        }
+    }
 }

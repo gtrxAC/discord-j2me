@@ -1,25 +1,28 @@
-// ifdef OVER_100KB
+// ifdef SAMSUNG_100KB
 package com.gtrxac.discord;
 
+import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import javax.microedition.io.file.*;
 import javax.microedition.io.*;
 import java.util.*;
 import java.io.*;
 
-public abstract class FilePicker extends ListScreen implements CommandListener, Strings {
-    protected State s;
+public class AttachmentPickerOld extends ListScreen implements CommandListener, Strings {
+    private State s;
     private Command closeCommand;
     private String currentPath;
-    public Displayable lastScreen;
+    private Displayable lastScreen;
+    private Message recipientMsg;
 
-    public FilePicker(State s, String title) {
-        this(s, title, "file:///");
+    public AttachmentPickerOld(State s, Message recipientMsg) {
+        this(s, recipientMsg, "file:///");
     }
 
-    protected FilePicker(State s, String title, String currentPath) {
-        super(title, List.IMPLICIT);
+    private AttachmentPickerOld(State s, Message recipientMsg, String currentPath) {
+        super(Locale.get(ATTACHMENT_PICKER_TITLE), List.IMPLICIT);
         this.s = s;
+        this.recipientMsg = recipientMsg;
         this.lastScreen = s.disp.getCurrent();
         setCommandListener(this);
 
@@ -30,23 +33,6 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
         listFiles();
     }
 
-    protected boolean fileFilter(String fileName) {
-        // show all files by default
-        return true;
-    }
-
-    protected abstract void directorySelected(String selectedPath);
-
-    protected abstract void fileSelected(FileConnection fc, String selected);
-
-    protected void close() {
-        Displayable last = lastScreen;
-        while (last instanceof FilePicker) {
-            last = ((FilePicker) last).lastScreen;
-        }
-        s.disp.setCurrent(last);
-    }
-
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
             int index = getSelectedIndex();
@@ -55,7 +41,7 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
                 String selectedPath = currentPath + selected;
 
                 if (selected.endsWith("/")) { // Directory
-                    directorySelected(selectedPath);
+                    s.disp.setCurrent(new AttachmentPickerOld(s, recipientMsg, selectedPath));
                 } else { // File
                     FileConnection fc;
                     try {
@@ -65,7 +51,23 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
                         s.error(e);
                         return;
                     }
-                    fileSelected(fc, selected);
+                    // ifdef OVER_100KB
+                    try {
+                        if (!s.useFilePreview) throw new Exception();
+                        // Try to show image preview (fails for non-image files)
+                        s.disp.setCurrent(new ImagePreviewScreen(s, recipientMsg, selected, fc));
+                    }
+                    catch (Exception e) {
+                    // endif
+                        // File is probably not an image, or viewing it is unsupported by the OS, or the user disabled file previews.
+                        // Attach the file directly without previewing, and show the appropriate message text entry screen (normal message box or reply form).
+                        s.disp.setCurrent(s.createTextEntryScreen(recipientMsg, selected, fc));
+                    // ifdef OVER_100KB
+                    }
+                    catch (OutOfMemoryError e) {
+                        s.error(Locale.get(PREVIEW_NO_MEMORY), s.createTextEntryScreen(recipientMsg, selected, fc));
+                    }
+                    // endif
                 }
             }
         }
@@ -76,17 +78,14 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
                     s.disp.setCurrent(lastScreen);
                 }
             } else {
-                close();
+                s.openChannelView(false);
             }
         }
         else if (c == closeCommand) {
-            close();
+            s.openChannelView(false);
         }
     }
 
-    /**
-     * Get the alphabetically first string from the vector and remove it from the vector.
-     */
     private static String getFirstString(Vector v) {
         String result = null;
         for (int i = 0; i < v.size(); i++) {
@@ -119,8 +118,7 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
                     String fileName = (String) list.nextElement();
                     if (fileName.endsWith("/")) {
                         dirs.addElement(fileName);
-                    }
-                    else if (fileFilter(fileName)) {
+                    } else {
                         files.addElement(fileName);
                     }
                 }

@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.io.file.*;
@@ -37,3 +38,4 @@ public class TokenFilePicker extends FilePicker {
         try { fc.close(); } catch (Exception e) {}
     }
 }
+// endif

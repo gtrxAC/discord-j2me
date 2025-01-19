@@ -74,7 +74,7 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
 
     public void commandAction(Command c, Displayable d) {
         if (c == yesCommand) {
-            Displayable screen = AttachmentPicker.createTextEntryScreen(s, recipientMsg, fileName, fc);
+            Displayable screen = s.createTextEntryScreen(recipientMsg, fileName, fc);
             if (screen instanceof MessageBox) {
                 ((MessageBox) screen).showedPreviewScreen = true;
             } else {

@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.io.file.*;
@@ -20,34 +21,23 @@ public class AttachmentPicker extends FilePicker implements Strings {
     }
     
     protected void fileSelected(FileConnection fc, String selected) {
-        // ifdef OVER_100KB
         try {
             if (!s.useFilePreview) throw new Exception();
             // Try to show image preview (fails for non-image files)
             s.disp.setCurrent(new ImagePreviewScreen(s, recipientMsg, selected, fc));
         }
         catch (Exception e) {
-        // endif
             // File is probably not an image, or viewing it is unsupported by the OS, or the user disabled file previews.
             // Attach the file directly without previewing, and show the appropriate message text entry screen (normal message box or reply form).
-            s.disp.setCurrent(createTextEntryScreen(s, recipientMsg, selected, fc));
-        // ifdef OVER_100KB
+            s.disp.setCurrent(s.createTextEntryScreen(recipientMsg, selected, fc));
         }
         catch (OutOfMemoryError e) {
-            s.error(Locale.get(PREVIEW_NO_MEMORY), createTextEntryScreen(s, recipientMsg, selected, fc));
+            s.error(Locale.get(PREVIEW_NO_MEMORY), s.createTextEntryScreen(recipientMsg, selected, fc));
         }
-        // endif
     }
 
     protected void close() {
         s.openChannelView(false);
     }
-    
-    public static Displayable createTextEntryScreen(State s, Message recipientMsg, String fileName, FileConnection fc) {
-        if (recipientMsg != null) {
-            return new ReplyForm(s, recipientMsg, fileName, fc);
-        } else {
-            return new MessageBox(s, fileName, fc);
-        }
-    }
 }
+// endif
