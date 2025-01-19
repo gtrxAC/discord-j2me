@@ -36,8 +36,7 @@ public class Locale {
             }
         }
         // Fill in missing string indexes with English strings
-        int difference = defaultStrs.size() - newStrs.size();
-        for (int i = difference; i < defaultStrs.size(); i++) {
+        for (int i = newStrs.size(); i < defaultStrs.size(); i++) {
             newStrs.addElement(defaultStrs.elementAt(i));
         }
         strs = newStrs;
