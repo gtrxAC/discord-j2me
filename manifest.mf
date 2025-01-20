@@ -16,4 +16,7 @@ MIDlet-Landscape-Support: true
 // endif
 // ifdef LG
 MIDlet-Screen-Mode: Both
+LGE-MIDlet-Display-Nav-Keypad: no
+LGE-MIDlet-TargetLCD-Height: 800
+LGE-MIDlet-TargetLCD-Width: 480
 // endif
