@@ -750,9 +750,9 @@
     "Formatowanie tekstu",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "Emoji",
-    "Insert emoji",
+    "Emotikona",
+    "Wpr. emotikonę",
 
     // Title for emoji picker screen.
-    "Select emoji"
+    "Wybierz emotikonę"
 ]
