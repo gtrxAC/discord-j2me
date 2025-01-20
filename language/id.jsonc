@@ -399,7 +399,7 @@
     // Theme options.
     "Gelap",
     "Terang",
-    "Hitam pekat",
+    "Hitam",
 
     // Settings screen heading for miscellaneous user interface related settings.
     "Antarmuka",
@@ -414,7 +414,7 @@
     "Pemilih berkas bawaan",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "Gateway reconnect otomatis",
+    "Gateway sambung-ulang otomatis",
 
     // Settings option for enabling icons in server and direct message lists.
     "Ikon Server/DM",
@@ -423,7 +423,7 @@
     "Warna role pada nama",
 
     // Settings screen heading for message author font size.
-    "Ukuran fon nama pengirim",
+    "Ukuran huruf nama pengirim",
 
     // Font size options.
     "Kecil",
@@ -431,7 +431,7 @@
     "Besar",
 
     // Settings screen heading for message content font size.
-    "Ukuran fon isi pesan",
+    "Ukuran huruf isi pesan",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
     "Juml. pesan yg dimuat",
@@ -458,7 +458,7 @@
     "Hny Placeholder",
 
     // Resolution options. Used for profile picture resolution and menu icon resolution.
-    "Mati",
+    "Nonaktif",
     "16 px",
     "32 px",
 
@@ -528,7 +528,7 @@
     "Layar penuh",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Munculkn notifikasi utk",
+    "Munculkn pemberitahuan utk",
 
     // Options for the kinds of messages that notifications should be shown for.
     "Semua pesan",
@@ -545,10 +545,10 @@
     "Pesan baru",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Jenis notifikasi:",
+    "Jenis pemberitahuan:",
 
     // Options for the kinds of notification methods.
-    "Jendela peringatan",
+    "Jendela pemberitahuan",
     "Suara",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
@@ -580,12 +580,12 @@
     "Tampilan",
     "Gambar",
     "Perilaku",
-    "Notifikasi",
+    "Pemberitahuan",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Mati",
-    "Hidup",
+    "Nonaktif",
+    "Aktif",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -593,17 +593,17 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Masukkan nomor yang valid antara 1 sampai ",
+    "Masukkan nomor yang sah antara 1 sampai ",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API salah: ",
+    "Kesalahan Pigler API: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API tidak didukung. Silahkan pasang Pigler API dari nnp.nnchan.ru/pna atau nonaktifkan notif. Pigler di Pengaturan.",
+    "API Pemberitahuan Pigler tidak didukung. Silahkan pasang Pigler API dari nnp.nnchan.ru/pna atau nonaktifkan notif. Pigler di Pengaturan.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
     "Bilah gulir",
@@ -704,7 +704,7 @@
     "Nokia UI",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Notifikasi Android",
+    "Pemberitahuan Android",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
     "NEW",
@@ -749,7 +749,7 @@
     "Bahasa Bulgaria",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "Pemformatan teks",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Emoji",
