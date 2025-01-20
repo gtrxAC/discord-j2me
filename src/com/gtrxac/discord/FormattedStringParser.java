@@ -101,6 +101,14 @@ public class FormattedStringParser {
                         if (colon == -1) break specialChecks;
 
                         String id = src.substring(pos + 1, colon);
+                        
+                        if (id.startsWith("skin-tone-")) {
+                            // emoji is a skin tone modifier - don't show it at all
+                            addPreviousPart();
+                            pos = colon + 1;
+                            partBeginPos = pos;
+                            continue;
+                        }
 
                         if (FormattedStringPartEmoji.emojiTable.containsKey(id)) {
                             addPreviousPart();
