@@ -9,6 +9,8 @@ public class Spritesheet {
     private int x;
     private int y;
 
+    public int blockSize = 16;
+
     /**
      * Create new spritesheet. Spritesheet class is used for reading sequential 16x16 blocks from a larger image.
      * @param fileName Name of image file inside JAR to read from
@@ -32,16 +34,16 @@ public class Spritesheet {
      * @return The next 16x16 block from the loaded spritesheet, scaled to the spritesheet's specified sprite size
      */
     public Image next() {
-        Image result = Image.createImage(sheet, x, y, 16, 16, Sprite.TRANS_NONE);
+        Image result = Image.createImage(sheet, x, y, blockSize, blockSize, Sprite.TRANS_NONE);
         
         // Integer scale to nearest multiple of 16px, rounding up
-        if (spriteSize > 16) {
-            int multiple = spriteSize/16*16;
-            if (multiple < spriteSize) multiple += 16;
+        if (spriteSize > blockSize) {
+            int multiple = spriteSize/blockSize*blockSize;
+            if (multiple < spriteSize) multiple += blockSize;
             result = Util.resizeImage(result, multiple, multiple);
         }
         // If requested icon size is not an integer multiple, scale down to requested size with bilinear filter
-        if (spriteSize % 16 != 0) {
+        if (spriteSize % blockSize != 0) {
             result = Util.resizeImageBilinear(result, spriteSize, spriteSize);
         }
 
@@ -61,10 +63,10 @@ public class Spritesheet {
      * Move the current read position of the spritesheet to skip past one sprite without reading it.
      */
     public void skip() {
-        x += 16;
+        x += blockSize;
         if (x >= sheet.getWidth()) {
             x = 0;
-            y += 16;
+            y += blockSize;
         }
     }
 
@@ -74,8 +76,8 @@ public class Spritesheet {
      */
     public void skip(int count) {
         int width = sheet.getWidth();
-        x += 16*count;
-        y += x/width*16;
+        x += blockSize*count;
+        y += x/width*blockSize;
         x %= width;
     }
 }

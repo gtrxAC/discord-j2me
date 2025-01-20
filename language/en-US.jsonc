@@ -747,5 +747,12 @@
     null,
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
+    null,
+
+    // Softkey labels for inserting an emoji in the "send message" screen.
+    null,
+    null,
+
+    // Title for emoji picker screen.
     null
 ]

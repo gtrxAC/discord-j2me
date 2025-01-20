@@ -747,5 +747,12 @@
     "bulgaria",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Muotoiltu teksti"
+    "Muotoiltu teksti",
+
+    // Softkey labels for inserting an emoji in the "send message" screen.
+    "Hymiöt",
+    "Lisää hymiö",
+
+    // Title for emoji picker screen.
+    "Valitse hymiö"
 ]

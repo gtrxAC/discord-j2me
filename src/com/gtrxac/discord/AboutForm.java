@@ -70,7 +70,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("ACPI Fixed Feature Button", TRANSLATOR_VI);
         addDeveloper("AlanHudik", TRANSLATOR_HR);
         addDeveloper("Alex222", TRANSLATOR_SV);
-        addDeveloper("Borsain", TRANSLATOR_ID);
+        addDeveloper("Calsain", TRANSLATOR_ID);
         addDeveloper("cappuchi", TRANSLATOR_PL);
         addDeveloper("ElHamexd\nAlexisBlade2001", TRANSLATOR_ES);
         addDeveloper("Kaiky Alexandre Souza", TRANSLATOR_PTBR);

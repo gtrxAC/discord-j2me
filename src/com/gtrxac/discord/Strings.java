@@ -320,5 +320,8 @@ public interface Strings {
     static final int TRANSLATOR_BG = 306;
     // ifdef OVER_100KB
     static final int TEXT_FORMATTING = 307;
+    static final int INSERT_EMOJI = 308;
+    static final int INSERT_EMOJI_L = 309;
+    static final int EMOJI_PICKER_TITLE = 310;
     // endif
 }

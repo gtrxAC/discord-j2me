@@ -747,5 +747,12 @@
     "ภาษาบัลแกเรีย",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting"
+    "Text formatting",
+
+    // Softkey labels for inserting an emoji in the "send message" screen.
+    "Emoji",
+    "Insert emoji",
+
+    // Title for emoji picker screen.
+    "Select emoji"
 ]

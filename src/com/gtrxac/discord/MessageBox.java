@@ -8,6 +8,9 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     private Displayable lastScreen;
     private Command sendCommand;
     private Command addMentionCommand;
+    // ifdef OVER_100KB
+    private Command addEmojiCommand;
+    // endif
     private Command backCommand;
 
     private String attachName;
@@ -34,10 +37,16 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         sendCommand = Locale.createCommand(SEND_MESSAGE, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
         addMentionCommand = Locale.createCommand(INSERT_MENTION, Command.ITEM, 2);
+        // ifdef OVER_100KB
+        addEmojiCommand = Locale.createCommand(INSERT_EMOJI, Command.ITEM, 3);
+        // endif
 
         addCommand(sendCommand);
         addCommand(backCommand);
         if (!s.isDM) addCommand(addMentionCommand);
+        // ifdef OVER_100KB
+        addCommand(addEmojiCommand);
+        // endif
     }
 
     // Also used by reply form
@@ -98,5 +107,11 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
             }
             s.disp.setCurrent(new MentionForm(s));
         }
+        // ifdef OVER_100KB
+        else {
+            // add emoji command
+            s.disp.setCurrent(new EmojiPicker(s));
+        }
+        // endif
     }
 }

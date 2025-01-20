@@ -42,7 +42,9 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
     
     protected void paint(Graphics g) {
         // BlackBerry fix
+        // ifdef BLACKBERRY
         g.setClip(0, 0, getWidth(), getHeight());
+        // endif
 
         // Clear screen
         g.setColor(ChannelView.backgroundColors[s.theme]);

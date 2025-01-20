@@ -29,6 +29,19 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         }
     }
 
+    public static JSONArray loadEmojiJson() {
+        JSONArray result;
+        try {
+            RecordStore rms = RecordStore.openRecordStore("emoji", false);
+            result = JSON.getArray(Util.bytesToString(rms.getRecord(2)));
+            rms.closeRecordStore();
+            return result;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
     /**
      * Load emoji names/indexes into hash table. Must be called before using emojis.
      * @param fontSize Pixel size of font used for drawing message contents.
@@ -38,15 +51,7 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         imageYOffset = fontSize/2 - emojiSize/2;
         largeEmojiSize = (emojiSize == 16) ? 32 : getEmojiSize(fontSize*2);
 
-        JSONArray emojiArray;
-        try {
-            RecordStore rms = RecordStore.openRecordStore("emoji", false);
-            emojiArray = JSON.getArray(Util.bytesToString(rms.getRecord(2)));
-            rms.closeRecordStore();
-        }
-        catch (Exception e) {
-            return;
-        }
+        JSONArray emojiArray = loadEmojiJson();
 
         emojiTable = new Hashtable();
         for (int i = 0; i < emojiArray.size(); i++) {
