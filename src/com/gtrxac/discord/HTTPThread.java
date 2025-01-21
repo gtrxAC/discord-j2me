@@ -25,6 +25,9 @@ public class HTTPThread extends Thread implements Strings {
     static final int VIEW_NOTIFICATION = 11;
     static final int FETCH_LANGUAGE = 12;
     static final int FETCH_THREADS = 13;
+    // ifdef OVER_100KB
+    static final int FETCH_EMOJIS = 14;
+    // endif
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
     private static final String LINE_FEED = "\r\n";
@@ -148,7 +151,6 @@ public class HTTPThread extends Thread implements Strings {
         }
 
         try {
-
             // Fetch user info if needed (upon first API request after starting app)
             // If Discord J2ME-specific proxy server is in use, this also checks for auto updates to app and emoji data
             if ((!haveFetchedUserInfo || s.myUserId == null) && action != FETCH_LANGUAGE) {
@@ -185,7 +187,7 @@ public class HTTPThread extends Thread implements Strings {
             // (upon first API request after starting app with emojis enabled, or first API request after enabling emojis)
             if (
                 showLoad && haveFetchedUserInfo && newEmojiSheetVersions != null &&
-                FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF
+                (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF || action == FETCH_EMOJIS)
             ) {
                 // Emoji RMS layout:
                 // - 1st record is a json array of version numbers (the first number is for the json, the rest are for the sheets)
@@ -681,6 +683,16 @@ public class HTTPThread extends Thread implements Strings {
                     setScreen(s.threadSelector);
                     break;
                 }
+
+                // ifdef OVER_100KB
+                case FETCH_EMOJIS: {
+                    // emoji data was already fetched (before the switch statement) so open emoji picker
+                    EmojiPicker picker = new EmojiPicker(s);
+                    picker.lastScreen = ((EmojiDownloadDialog) prevScreen).lastScreen;
+                    s.disp.setCurrent(picker);
+                    break;
+                }
+                // endif
             }
         }
         catch (Exception e) {

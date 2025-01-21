@@ -756,5 +756,8 @@
     "Insert emoji",
 
     // Title for emoji picker screen.
-    "Select emoji"
+    "Select emoji",
+
+    // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
+    "Download emoji data?"
 ]

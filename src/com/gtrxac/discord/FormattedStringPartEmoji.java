@@ -53,6 +53,8 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
 
         JSONArray emojiArray = loadEmojiJson();
 
+        if (emojiArray == null) return;
+
         emojiTable = new Hashtable();
         for (int i = 0; i < emojiArray.size(); i++) {
             JSONArray emojiNames = emojiArray.getArray(i);

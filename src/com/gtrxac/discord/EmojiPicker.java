@@ -7,7 +7,7 @@ import javax.microedition.rms.*;
 import cc.nnproject.json.JSONArray;
 
 public class EmojiPicker extends KineticScrollingCanvas implements Strings, CommandListener, Runnable {
-    private Displayable lastScreen;
+    Displayable lastScreen;
     private Command selectCommand;
     private Command backCommand;
     private State s;
@@ -20,6 +20,17 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
     private int sheetWidth;
     private int emojiSize;
     private int selected;
+
+    public static void show(State s) {
+        try {
+            RecordStore rms = RecordStore.openRecordStore("emoji", false);
+            rms.closeRecordStore();
+            s.disp.setCurrent(new EmojiPicker(s));
+        }
+        catch (Exception e) {
+            s.disp.setCurrent(new EmojiDownloadDialog(s));
+        }
+    }
 
     EmojiPicker(State s) {
         super();

@@ -110,7 +110,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         // ifdef OVER_100KB
         else {
             // add emoji command
-            s.disp.setCurrent(new EmojiPicker(s));
+            EmojiPicker.show(s);
         }
         // endif
     }

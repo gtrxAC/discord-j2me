@@ -323,5 +323,6 @@ public interface Strings {
     static final int INSERT_EMOJI = 308;
     static final int INSERT_EMOJI_L = 309;
     static final int EMOJI_PICKER_TITLE = 310;
+    static final int EMOJI_DOWNLOAD_PROMPT = 311;
     // endif
 }
