@@ -90,11 +90,11 @@ public class MentionForm extends Form implements CommandListener, Strings {
             int caret = field.getCaretPosition();
             field.setString(str.substring(0, caret) + text + str.substring(caret));
         }
-        s.disp.setCurrent(lastScreen);
     }
 
     private void insertMention(User u) {
         insertTextToMessageBox(s, lastScreen, "<@" + u.id + ">");
+        s.disp.setCurrent(lastScreen);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -112,7 +112,7 @@ public class MentionForm extends Form implements CommandListener, Strings {
             loading = true;
             update();
         }
-        if (c == insertCommand) {
+        else if (c == insertCommand) {
             int selIndex = resultsGroup.getSelectedIndex();
             if (selIndex == -1) {
                 s.error(Locale.get(USER_NOT_SELECTED));

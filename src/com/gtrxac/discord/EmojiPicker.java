@@ -51,9 +51,8 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         try {
             Spritesheet selectorSheet = new Spritesheet("/selector.png", emojiSize/16*20);
             selectorSheet.blockSize = 20;
-            selectors = new Image[2];
-            selectors[0] = selectorSheet.next();
-            selectors[1] = selectorSheet.next();
+            selectors = new Image[4];
+            for (int i = 0; i < 4; i++) selectors[i] = selectorSheet.next();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -217,22 +216,35 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         if (c == selectCommand) {
             String emojiName = emojiJson.getArray(selected).getString(0);
             MentionForm.insertTextToMessageBox(s, lastScreen, " :" + emojiName + ":");
+
+            selectorIndex |= 2;
+            repaint();
+            threadIsForSelectorConfirm = true;
+            new Thread(this).start();
         } else {
             s.disp.setCurrent(lastScreen);
         }
     }
 
     private boolean threadIsForSelectorAnim;
+    private boolean threadIsForSelectorConfirm;
 
     public void run() {
         if (threadIsForSelectorAnim) {
             threadIsForSelectorAnim = false;
             while (running) {
-                selectorIndex = 1 - selectorIndex;
+                selectorIndex ^= 1;
                 repaint();
                 Util.sleep(500);
             }
-        } else {
+        }
+        else if (threadIsForSelectorConfirm) {
+            threadIsForSelectorConfirm = false;
+            Util.sleep(200);
+            selectorIndex &= 1;
+            repaint();
+        }
+        else {
             super.run();
         }
     }
