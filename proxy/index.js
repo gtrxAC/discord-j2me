@@ -134,9 +134,12 @@ function parseMessageContent(content, showGuildEmoji, convertTags = true) {
     return result;
 }
 
-function parseMessageObject(msg, req, showGuildEmoji) {
+function parseMessageObject(msg, req, showGuildEmoji, showEdited) {
     const result = {
         id: msg.id
+    }
+    if (showEdited && msg.edited_timestamp) {
+        result.edited_timestamp = msg.edited_timestamp;
     }
     if (msg.author) {
         result.author = {
@@ -431,10 +434,12 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         let proxyUrl = `${DEST_BASE}/channels/${req.params.channel}/messages`;
         let queryParam = [];
         let showGuildEmoji = false;
+        let showEdited = false;
         if (req.query.limit) queryParam.push(`limit=${req.query.limit}`);
         if (req.query.before) queryParam.push(`before=${req.query.before}`);
         if (req.query.after) queryParam.push(`after=${req.query.after}`);
         if (req.query.emoji) showGuildEmoji = true;
+        if (req.query.edit) showEdited = true;
         if (queryParam.length) proxyUrl += '?' + queryParam.join('&');
 
         const response = await axios.get(proxyUrl, {headers: res.locals.headers});
@@ -450,12 +455,12 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         })
 
         const messages = response.data.map(msg => {
-            const result = parseMessageObject(msg, req, showGuildEmoji);
+            const result = parseMessageObject(msg, req, showGuildEmoji, showEdited);
 
             // Content from forwarded message
             if (msg.message_snapshots) {
                 result.message_snapshots = [{
-                    message: parseMessageObject(msg.message_snapshots[0].message, req, showGuildEmoji)
+                    message: parseMessageObject(msg.message_snapshots[0].message, req, showGuildEmoji, showEdited)
                 }]
             }
             return result;

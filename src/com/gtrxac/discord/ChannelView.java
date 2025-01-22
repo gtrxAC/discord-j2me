@@ -90,8 +90,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (!Util.isKemulator)
         // endif
         {
-        setFullScreenMode(s.fullscreenDefault);
-        fullscreen = s.fullscreenDefault;
+            setFullScreenMode(s.fullscreenDefault);
+            fullscreen = s.fullscreenDefault;
 
             fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 10);
             addCommand(fullScreenCommand);
@@ -206,7 +206,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
             // ifdef OVER_100KB
             if (msg.contentFormatted == null || wasResized || needUpdate) {
-                msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, iconAreaWidth);
+                msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, iconAreaWidth, false, msg.isEdited);
                 msg.needUpdate = false;
             }
             // else
@@ -229,11 +229,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
                     // ifdef OVER_100KB
                     if ((wasResized || emb.titleFormatted == null || needUpdate) && emb.title != null) {
-                        emb.titleFormatted = new FormattedString(emb.title, s.titleFont, embedTextWidth, embedTextX);
+                        emb.titleFormatted = new FormattedString(emb.title, s.titleFont, embedTextWidth, embedTextX, false, false);
                         msg.needUpdate = false;
                     }
                     if ((wasResized || emb.descFormatted == null || needUpdate) && emb.description != null) {
-                        emb.descFormatted = new FormattedString(emb.description, s.messageFont, embedTextWidth, embedTextX);
+                        emb.descFormatted = new FormattedString(emb.description, s.messageFont, embedTextWidth, embedTextX, false, false);
                         msg.needUpdate = false;
                     }
                     // else

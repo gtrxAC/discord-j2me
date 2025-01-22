@@ -9,7 +9,11 @@ public class Spritesheet {
     private int x;
     private int y;
 
-    public int blockSize = 16;
+    public
+    // ifdef SAMSUNG_100KB
+    static final
+    // endif
+    int blockSize = 16;
 
     /**
      * Create new spritesheet. Spritesheet class is used for reading sequential 16x16 blocks from a larger image.

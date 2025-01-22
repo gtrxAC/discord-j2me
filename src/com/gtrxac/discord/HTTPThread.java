@@ -387,8 +387,13 @@ public class HTTPThread extends Thread implements Strings {
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
                     // ifdef OVER_100KB
-                    if (s.isLiteProxy && FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
-                        url.append("&emoji=1");
+                    if (s.isLiteProxy) {
+                        if (FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
+                            url.append("&emoji=1");
+                        }
+                        if (FormattedString.useMarkdown) {
+                            url.append("&edit=1");
+                        }
                     }
                     // endif
 

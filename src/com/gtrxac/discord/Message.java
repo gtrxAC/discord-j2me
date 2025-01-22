@@ -23,6 +23,7 @@ public class Message implements Strings {
     public String rawContent;
     // ifdef OVER_100KB
     public FormattedString contentFormatted;
+    public boolean isEdited;
     // else
     public String[] contentLines;
     // endif
@@ -42,6 +43,12 @@ public class Message implements Strings {
     public Message(State s, JSONObject data) {
         id = data.getString("id");
         author = new User(s, data.getObject("author"));
+
+        // ifdef OVER_100KB
+        if (FormattedString.useMarkdown) {
+            isEdited = data.getString("edited_timestamp", null) != null;
+        }
+        // endif
 
         // JSON object to use for filling out message content and related fields.
         // For forwarded messages, this is an inner object inside the message object.

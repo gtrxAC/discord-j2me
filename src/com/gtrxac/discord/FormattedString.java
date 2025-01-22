@@ -15,11 +15,9 @@ public class FormattedString {
     public static int emojiMode;
     public static boolean useMarkdown;
 
-    FormattedString(String src, Font font, int width, int xOffset) {
-        this(src, font, width, xOffset, false);
-    }
+    private static final Font editedFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 
-    FormattedString(String src, Font font, int width, int xOffset, boolean singleLine) {
+    FormattedString(String src, Font font, int width, int xOffset, boolean singleLine, boolean isEdited) {
         if (
             src == null || src.length() == 0 || src.equals(" ") ||
             width < font.charWidth('W') + 2
@@ -32,12 +30,22 @@ public class FormattedString {
         Vector tempParts = parser.run();
         showLargeEmoji = parser.showLargeEmoji;
 
+        if (isEdited) {
+            tempParts.addElement(new FormattedStringPartText(" ", font));
+            tempParts.addElement(new FormattedStringPartRichTextColor("(edited)", editedFont, 0, 0x888888));
+        }
+
         if (!singleLine) {
             breakParts(tempParts, font, width);
             if (showLargeEmoji) upscaleEmoji(tempParts, font);
         }
         height = positionParts(tempParts, font, width, xOffset, singleLine);
         mergeParts(tempParts);
+
+        // Fix vertical alignment of "(edited)" indicator item
+        if (isEdited) {
+            ((FormattedStringPart) tempParts.lastElement()).y += font.getBaselinePosition() - editedFont.getBaselinePosition();
+        }
         
         parts = new FormattedStringPart[tempParts.size()];
         tempParts.copyInto(parts);
