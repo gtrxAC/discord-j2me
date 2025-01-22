@@ -280,7 +280,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     // Gets settings value index that should be changed based on selected menu item index
     private int getItemIndex(int item) {
         // ifdef PIGLER_SUPPORT
+        // Pigler API not supported on device - 5th item in notifs menu corresponds to 6th setting
         if (isInSubmenu && currentSection == 3 && item == 5 && !Util.supportsPigler) return 6;
+        // endif
+        // ifdef MIDP2_GENERIC
+        // KEmu is always fullscreen - 6th item in appearance menu corresponds to 7th setting
+        if (isInSubmenu && currentSection == 0 && item == 6 && Util.isKemulator) return 7;
         // endif
         return item;
     }
@@ -379,6 +384,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 }
                 // endif
             }
+            // Fullscreen option hidden on KEmu
+            // ifdef MIDP2_GENERIC
+            if (index == 0 && i == 6 && Util.isKemulator) continue;
+            // endif
+            
             append(labels[index][i], getValueLabel(index, i), getIcon(index, i), false);
         }
     }

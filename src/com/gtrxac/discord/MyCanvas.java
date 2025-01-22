@@ -9,6 +9,10 @@ abstract
 // endif
 class MyCanvas extends Canvas {
     // ifdef MIDP2_GENERIC
+    MyCanvas() {
+        if (Util.isKemulator) setFullScreenMode(true);
+    }
+
     protected void paint(Graphics g) {}
     // endif
 

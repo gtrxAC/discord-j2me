@@ -75,7 +75,6 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         editCommand = Locale.createCommand(EDIT, Command.ITEM, 7);
         deleteCommand = Locale.createCommand(DELETE, Command.ITEM, 8);
         openUrlCommand = Locale.createCommand(OPEN_URL, Command.ITEM, 9);
-        fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 10);
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 11);
 
         fontHeight = s.messageFont.getHeight();
@@ -85,11 +84,18 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         addCommand(backCommand);
         addCommand(sendCommand);
         addCommand(uploadCommand);
-        addCommand(fullScreenCommand);
         addCommand(refreshCommand);
 
+        // ifdef MIDP2_GENERIC
+        if (!Util.isKemulator)
+        // endif
+        {
         setFullScreenMode(s.fullscreenDefault);
         fullscreen = s.fullscreenDefault;
+
+            fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 10);
+            addCommand(fullScreenCommand);
+        }
 
         // ifdef J2ME_LOADER
         commands = new Vector();
