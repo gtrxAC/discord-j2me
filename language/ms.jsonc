@@ -584,8 +584,8 @@
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Mati",
-    "Hidup",
+    "Tidak aktif",
+    "Aktif",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -650,7 +650,7 @@
     "Bahasa Portugis (Brazil)",
     "Bahasa Thai",
     "Bahasa Portugis",
-    "Bahasa Cina (Tradisional) dan Kantonis",
+    "Bahasa Cina (Tradisional) dan Kanton",
     "Bahasa Ukraine",
     "Bahasa Rumania",
     "Bahasa Turki",
@@ -749,15 +749,15 @@
     "Bahasa Bulgaria",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "Pemformatan teks",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Emoji",
-    "Insert emoji",
+    "Sisip emoji",
 
     // Title for emoji picker screen.
-    "Select emoji",
+    "Pilih emoji",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Download emoji data?"
+    "Muat turun data emoji?"
 ]
