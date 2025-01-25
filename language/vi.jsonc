@@ -684,63 +684,6 @@
     "Tiếng Croatia",
 
     // Units for attachment sizes.
-    " byte",
-    null,
-    null,
-
-    // Softkey labels for opening the thread list of a channel in the channel list.
-    "Các chủ đề",
-    "Xem các chủ đề",
-
-    // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Đặt",
-    "Đặt mã truy cập",
-
-    // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Đổi",
-    "Đổi mã t.cập",
-
-    // Option in notification settings for using Nokia UI API for notifications.
-    null,
-
-    // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Các thông báo cho Android",
-
-    // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "MỚI",
-
-    // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Đăng ảnh này?",
-
-    // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "Xem trước ảnh",
-
-    // Header shown at the top of every forwarded message.
-    "T.nhắn chuyển tiếp:",
-
-    // Help texts shown in the login screen for how to open the token input text box.
-    "Để đặt mã t.cập, hãy ấn phím BlackBerry.",
-    "Để thay đổi mã t.cập, hãy ấn phím BlackBerry.",
-
-    // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Không đủ RAM để hiển thị ảnh xem trước",
-
-    // Settings option for enabling or disabling emoji display in chats.
-    "Hiển thị các emoji",
-
-    // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Chỉ những emoji m.định",
-
-    // Option for "Show emoji" setting where all emoji are shown.
-    "Tất cả emoji",
-
-    // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
-
-    // Title text for the token import file picker screen.
-    "Chọn tệp chứa mã  "Tiếng Croatia",
-
     // Units for attachment sizes.
     " byte",
     null,

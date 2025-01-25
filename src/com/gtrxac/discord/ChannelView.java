@@ -206,7 +206,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
             // ifdef OVER_100KB
             if (msg.contentFormatted == null || wasResized || needUpdate) {
-                msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, iconAreaWidth, false, msg.isEdited);
+                msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, iconAreaWidth, false, msg.isEdited, msg.isForwarded);
                 msg.needUpdate = false;
             }
             // else
@@ -229,11 +229,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
                     // ifdef OVER_100KB
                     if ((wasResized || emb.titleFormatted == null || needUpdate) && emb.title != null) {
-                        emb.titleFormatted = new FormattedString(emb.title, s.titleFont, embedTextWidth, embedTextX, false, false);
+                        emb.titleFormatted = new FormattedString(emb.title, s.titleFont, embedTextWidth, embedTextX, false, false, false);
                         msg.needUpdate = false;
                     }
                     if ((wasResized || emb.descFormatted == null || needUpdate) && emb.description != null) {
-                        emb.descFormatted = new FormattedString(emb.description, s.messageFont, embedTextWidth, embedTextX, false, false);
+                        emb.descFormatted = new FormattedString(emb.description, s.messageFont, embedTextWidth, embedTextX, false, false, false);
                         msg.needUpdate = false;
                     }
                     // else

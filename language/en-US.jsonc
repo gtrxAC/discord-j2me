@@ -757,5 +757,8 @@
     null,
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
+    null,
+
+    // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
     null
 ]

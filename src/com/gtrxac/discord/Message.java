@@ -24,6 +24,7 @@ public class Message implements Strings {
     // ifdef OVER_100KB
     public FormattedString contentFormatted;
     public boolean isEdited;
+    public boolean isForwarded;
     // else
     public String[] contentLines;
     // endif
@@ -53,7 +54,10 @@ public class Message implements Strings {
         // JSON object to use for filling out message content and related fields.
         // For forwarded messages, this is an inner object inside the message object.
         JSONObject contentObj = data;
-        boolean isForwarded = false;
+        // ifdef SAMSUNG_100KB
+        boolean
+        // endif
+        isForwarded = false;
         try {
             contentObj = data.getArray("message_snapshots").getObject(0).getObject("message");
             isForwarded = true;
@@ -231,7 +235,12 @@ public class Message implements Strings {
         }
         timestamp = time.toString();
 
-        if (isForwarded) {
+        if (
+            isForwarded
+            // ifdef OVER_100KB
+            && !FormattedString.useMarkdown
+            // endif
+        ) {
             String tmpContent = content;
             content = Locale.get(FORWARDED_MESSAGE);
             if (tmpContent.length() > 0) content += "\n";

@@ -4,7 +4,7 @@ package com.gtrxac.discord;
 import java.util.*;
 import javax.microedition.lcdui.*;
 
-public class FormattedString {
+public class FormattedString implements Strings {
     private FormattedStringPart[] parts;
     int height;
     private boolean showLargeEmoji;
@@ -17,22 +17,37 @@ public class FormattedString {
 
     private static final Font editedFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 
-    FormattedString(String src, Font font, int width, int xOffset, boolean singleLine, boolean isEdited) {
-        if (
-            src == null || src.length() == 0 || src.equals(" ") ||
-            width < font.charWidth('W') + 2
-        ) {
+    FormattedString(String src, Font font, int width, int xOffset, boolean singleLine, boolean isEdited, boolean isForwarded) {
+        boolean isEmpty = (src == null || src.trim().length() == 0);
+
+        if ((isEmpty && !isForwarded && !isEdited) || width < font.charWidth('W') + 2) {
             parts = new FormattedStringPart[0];
             return;
         }
 
-        FormattedStringParser parser = new FormattedStringParser(src, font);
-        Vector tempParts = parser.run();
-        showLargeEmoji = parser.showLargeEmoji;
+        Vector tempParts;
+        if (isEmpty) {
+            tempParts = new Vector();
+        } else {
+            FormattedStringParser parser = new FormattedStringParser(src, font);
+            tempParts = parser.run();
+            showLargeEmoji = parser.showLargeEmoji;
+        }
 
-        if (isEdited) {
-            tempParts.addElement(new FormattedStringPartText(" ", font));
-            tempParts.addElement(new FormattedStringPartRichTextColor("(edited)", editedFont, 0, 0x888888));
+        if (useMarkdown) {
+            if (isForwarded) {
+                tempParts.insertElementAt(new FormattedStringPartRichTextColor(Locale.get(FORWARDED_MESSAGE), font, 0, 0x888888), 0);
+                if (!isEmpty || isEdited) {
+                    tempParts.insertElementAt(FormattedStringParser.NEWLINE, 1);
+                }
+            }
+    
+            if (isEdited) {
+                if (!isEmpty) {
+                    tempParts.addElement(new FormattedStringPartText(" ", font));
+                }
+                tempParts.addElement(new FormattedStringPartRichTextColor(Locale.get(EDITED_MESSAGE), editedFont, 0, 0x888888));
+            }
         }
 
         if (!singleLine) {

@@ -253,7 +253,7 @@ public class ChannelViewItem implements Strings {
                                 // ifdef OVER_100KB
                                 if (useFormattedString) {
                                     if (refImgFormatStr == null) {
-                                        refImgFormatStr = new FormattedString(msg.refContent, s.messageFont, refImgFullWidth, refX, true, false);
+                                        refImgFormatStr = new FormattedString(msg.refContent, s.messageFont, refImgFullWidth, refX, true, false, false);
                                     }
                                     refImgFormatStr.draw(refG, 0);
                                 } else
