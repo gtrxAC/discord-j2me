@@ -247,7 +247,6 @@ public class FormattedStringParser {
                             checkPos += 2;
     
                             addPreviousPart();
-                            int urlBeginPos = checkPos;
                             curColor = 0x00aafc;
                             try {
                                 while (URL_END_CHARS.indexOf(chars[++checkPos]) == -1) {}
@@ -264,7 +263,6 @@ public class FormattedStringParser {
                             addPreviousPart();
     
                             partBeginPos = pos;
-                            pos++;
                             curColor = 0;
                             continue;
                         }
