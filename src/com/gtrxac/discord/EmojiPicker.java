@@ -214,7 +214,8 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
 
     public void commandAction(Command c, Displayable d) {
         if (c == selectCommand) {
-            String emojiName = emojiJson.getArray(selected).getString(0);
+            JSONArray emojiNames = emojiJson.getArray(selected);
+            String emojiName = emojiNames.getString(emojiNames.size() - 1);
             MentionForm.insertTextToMessageBox(s, lastScreen, " :" + emojiName + ":");
 
             selectorIndex |= 2;
