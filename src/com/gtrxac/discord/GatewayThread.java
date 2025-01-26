@@ -474,6 +474,9 @@ public class GatewayThread extends Thread implements Strings
 
                             msg.content = newContent;
                             msg.needUpdate = true;
+                            // ifdef OVER_100KB
+                            msg.isEdited = true;
+                            // endif
 
                             s.channelView.requestUpdate(true, false);
                             s.channelView.repaint();
