@@ -761,5 +761,9 @@
     "Download emoji data?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)"
+    "(edited)",
+
+    // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
+    "Underscore",
+    "Insert underscore"
 ]

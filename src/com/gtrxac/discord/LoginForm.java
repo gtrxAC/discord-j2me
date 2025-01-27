@@ -28,6 +28,7 @@ Strings
     private TextBox tokenBox;
     private Command tokenBoxOkCommand;
     private Command tokenBoxCancelCommand;
+    private Command tokenBoxUnderscoreCommand;
 
     public LoginForm(State s) {
         super(Locale.get(LOGIN_FORM_TITLE));
@@ -150,6 +151,12 @@ Strings
             s.disp.setCurrent(new TokenFilePicker(s));
         }
         // endif
+        else if (c == tokenBoxUnderscoreCommand) {
+            int caretPosition = tokenBox.getCaretPosition();
+            String currentText = tokenBox.getString();
+            String newText = currentText.substring(0, caretPosition) + "_" + currentText.substring(caretPosition);
+            tokenBox.setString(newText);
+        }
         else {
             if (c == tokenBoxOkCommand) s.token = tokenBox.getString().trim();
             s.disp.setCurrent(this);
@@ -176,8 +183,10 @@ Strings
         tokenBox = new TextBox("Set token", s.token, 200, 0);
         tokenBoxOkCommand = Locale.createCommand(OK, Command.OK, 0);
         tokenBoxCancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
+        tokenBoxUnderscoreCommand = Locale.createCommand(INSERT_UNDERSCORE, Command.ITEM, 2);
         tokenBox.addCommand(tokenBoxOkCommand);
         tokenBox.addCommand(tokenBoxCancelCommand);
+        tokenBox.addCommand(tokenBoxUnderscoreCommand);
         tokenBox.setCommandListener(this);
         s.disp.setCurrent(tokenBox);
     }

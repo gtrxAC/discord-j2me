@@ -760,5 +760,12 @@
     "Chọn emoji",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Tải xuống các emoji?"
+    "Tải xuống các emoji?",
+
+    // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
+    "(edited)",
+
+    // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
+    "Underscore",
+    "Insert underscore"
 ]
