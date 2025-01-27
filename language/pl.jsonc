@@ -765,4 +765,8 @@
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
     "Underscore",
     "Insert underscore"
+
+    //
+    // NOTE for translators: the "Downloading..." text (somewhere around line 745) has been edited to say "Downloading emoji...". This change should be reflected in translations.
+    //
 ]

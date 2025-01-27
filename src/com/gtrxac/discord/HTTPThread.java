@@ -232,7 +232,8 @@ public class HTTPThread extends Thread implements Strings {
                         int currentVersion = curVersionsArray.getInt(i + 1, -1);
                         
                         if (currentVersion < newVersion) {
-                            loadScreen.text = Locale.get(DOWNLOADING) + Locale.get(LEFT_PAREN) + i + "/" + sheetCount + Locale.get(RIGHT_PAREN);
+                            loadScreen.text = Locale.get(DOWNLOADING);
+                            loadScreen.text2 = Locale.get(LEFT_PAREN) + i + "/" + sheetCount + Locale.get(RIGHT_PAREN);
                             byte[] img = s.http.getBytes(s.api + "/emoji/emoji" + i + ".png");
                             Util.setOrAddRecord(rms, 3 + i, img);
                             curVersionsArray.put(i + 1, newVersion);
@@ -242,6 +243,7 @@ public class HTTPThread extends Thread implements Strings {
     
                     newEmojiSheetVersions = null;
                     loadScreen.text = Locale.get(LOADING);
+                    loadScreen.text2 = "";
                     FormattedStringPartEmoji.loadEmoji(s.messageFont.getHeight());
                 } finally {
                     try {
