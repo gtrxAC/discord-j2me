@@ -740,7 +740,7 @@
     "Token dosyasını seçin",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "İndiriliyor...",
+    "Emojiler indiriliyor...",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Fransızca",
@@ -760,11 +760,11 @@
     "Emoji dosyaları indirilsin mi?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "(düzenlendi)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore"
+    "Alt tire işareti",
+    "Alt tire işareti ekle"
 
     //
     // NOTE for translators: the "Downloading..." text (somewhere around line 745) has been edited to say "Downloading emoji...". This change should be reflected in translations.
