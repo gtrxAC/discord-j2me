@@ -117,7 +117,7 @@
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing"
-    " Varias personas están escribiendo",
+    " personas están escribiendo",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
     ", ",
@@ -147,7 +147,7 @@
     "Eliminar",
 
     // Body text for confirmation screen shown when deleting a message.
-    "Eliminar este mensaje?",
+    "¿Eliminar este mensaje?",
 
     // Generic softkey labels.
     "Sí",
@@ -203,7 +203,7 @@
     "Añadir a favoritos",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "Heartbeat thread error: ",
+    "Error de conexión: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
     "Revisa tu token",
@@ -211,10 +211,10 @@
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
     // e.g. HTTP error 500
-    "HTTP error ",
+    "Error HTTP ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "CDN URL no definido. La carga de archivos no esta disponible.",
+    "URL del CDN no definido. La carga de archivos no esta disponible.",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
     " (",
@@ -242,7 +242,7 @@
     "Saltar",
 
     // Key press prompt shown in hotkey mapper.
-    "Presiona la tecla para:",
+    "Presiona una tecla para:",
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
@@ -269,9 +269,9 @@
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
-    "API URL",
-    "CDN URL",
-    "Gateway URL",
+    "URL de la API",
+    "URL del CDN",
+    "URL del Gateway",
     "Token",
 
     // Softkey label for confirming the login options in the login screen.
@@ -295,7 +295,7 @@
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
     "Por favor ingrese su token",
-    "Por favor especifique un API URL",
+    "Por favor especifique una URL de API",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
@@ -318,21 +318,21 @@
     "Usuario no seleccionado",
 
     // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
-    " ",
-    " ha sido agregado al grupo",
+    "ha añadido a ",
+    " al grupo.",
 
     // Status message shown when a user has left a group DM.
-    "salió del grupo",
+    "ha abandonado el grupo.",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
-    " ",
-    " fue eliminado del grupo",
+    "ha eliminado a ",
+    " del grupo.",
 
     // Status messages.
-    "empezo una llamada",
-    "cambió el nombre del grupo",
-    "cambió el icono del groupo",
-    "fijó un mensaje",
+    "ha iniciado una llamada.",
+    "ha cambiado el nombre del canal.",
+    "ha cambiado el icono del grupo.",
+    "ha fijado un mensaje.",
     "se unió al servidor",
     "boosteo el servidor",
 
@@ -474,14 +474,14 @@
     "Mensaje entero",
 
     // Settings section for hotkey action management.
-    "Hotkeys",
+    "Atajos",
 
     // Settings option to use "default" hotkeys. When enabled, the J2ME game actions (ABCD) are used for hotkey actions, instead of user-defined key bindings. I named it "default" due to the lack of a better term for people who aren't familiar with J2ME development.
-    "Hotkeys predeterminadas",
+    "Atajos predeterminados",
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
-    "Asignar teclas",
-    "Reasignar hotkeys",
+    "Asignar",
+    "Asignar Atajos",
 
     // Generic softkey labels. Currently used in settings menu.
     "Guardar",
@@ -596,7 +596,7 @@
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "Pigler API",
+    "API Pigler",
 
     // Prefix for error messages related to Pigler Notifications API.
     "error de API Pigler: ",
@@ -683,87 +683,87 @@
     "Croata",
 
     // Units for attachment sizes.
-    " bytes",
-    " kB",
+    " Bytes",
+    " KB",
     " MB",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "Hilos",
+    "Ver hilos",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Set",
-    "Set token",
+    "Configurar",
+    "Configurar token",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "Cambiar",
+    "Cambiar token",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "Nokia UI",
+    "IU Nokia",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "Notificaciones de Android",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW",
+    "NUEVO",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "¿Subir esta imagen?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
     "File picker preview",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "Mensaje reenviado:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key.",
+    "Para configurar tu token, presiona la tecla BlackBerry.",
+    "Para cambiar tu token, presiona la tecla BlackBerry.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview",
-
+    "Sin memoria suficiente para mostrar vista previa",
+    
     // Settings option for enabling or disabling emoji display in chats.
-    "Show emoji",
+    "Mostrar emoji",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Default only",
+    "Solo por defecto",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "All",
+    "Todos",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
+    "Importar",
+    "Importar token",
 
     // Title text for the token import file picker screen.
-    "Select token file",
+    "Seleccionar archivo token",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Downloading emoji...",
+    "Descargando emoji...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "French",
-    "Bulgarian",
+    "Francés",
+    "Búlgaro",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
     "Text formatting",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Emoji",
-    "Insert emoji",
+    "Insertar emoji",
 
     // Title for emoji picker screen.
-    "Select emoji",
+    "Seleccionar emoji",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Download emoji data?",
+    "¿Descargar datos de emoji?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "(editado)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore"
+    "Guion bajo",
+    "Insertar guion bajo"
 ]
