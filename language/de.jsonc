@@ -735,36 +735,36 @@
     "Alle",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
+    "Einsetzen",
+    "Token einsetzen",
 
     // Title text for the token import file picker screen.
-    "Select token file",
+    "Token-Datei auswählen",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Downloading emoji...",
+    "Emoji wird heruntergeladen...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "French",
-    "Bulgarian",
+    "Französisch",
+    "Bulgarisch",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "Textformatierung",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Emoji",
-    "Insert emoji",
+    "Emoji einfügen",
 
     // Title for emoji picker screen.
-    "Select emoji",
+    "Emoji auswählen",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Download emoji data?",
+    "Emoji-Daten herunterladen?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "(Bearbeitet)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore"
+    "Unterstrich",
+    "Unterstrich einfügen"
 ]
