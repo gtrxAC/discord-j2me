@@ -39,6 +39,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         if (!s.isDM) addCommand(addMentionCommand);
         // ifdef OVER_100KB
         addCommand(addEmojiCommand);
+        s.gatewaySendTyping();
         // endif
     }
 

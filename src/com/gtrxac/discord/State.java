@@ -399,6 +399,16 @@ public class State implements Strings {
 			gateway.send(msg);
 		}
 	}
+
+	public void gatewaySendTyping() {
+		if (gatewayActive()) {
+			JSONObject msg = new JSONObject();
+			msg.put("op", -1);
+			msg.put("t", "GATEWAY_SEND_TYPING");
+			msg.put("d", isDM ? selectedDmChannel.id : selectedChannel.id);
+			gateway.send(msg);
+		}
+	}
 	// endif
 
     public Displayable createTextEntryScreen(Message recipientMsg, String fileName, FileConnection fc) {

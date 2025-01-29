@@ -73,6 +73,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
         if (!s.isDM) addCommand(addMentionCommand);
         // ifdef OVER_100KB
         addCommand(addEmojiCommand);
+        s.gatewaySendTyping();
         // endif
     }
 
