@@ -740,31 +740,31 @@
     "เลือกไฟล์ token",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "กำลังดาวน์โหลด...",
+    "กำลังดาวน์โหลดอิโมจิ...",
 
     // Related to "Lines shown in the about screen for which language" above.
     "ภาษาฝรั่งเศส",
     "ภาษาบัลแกเรีย",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "การจัดรูปแบบข้อความ",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "Emoji",
-    "Insert emoji",
+    "อิโมจิ",
+    "ใส่อิโมจิ",
 
     // Title for emoji picker screen.
-    "Select emoji",
+    "เลือกอิโมจิ",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Download emoji data?",
+    "ดาวน์โหลดข้อมูลอิโมจิหรือไม่?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "(ถูกแก้ไข)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore"
+    "ขีดล่าง",
+    "ใส่ขีดล่าง"
 
     //
     // NOTE for translators: the "Downloading..." text (somewhere around line 745) has been edited to say "Downloading emoji...". This change should be reflected in translations.
