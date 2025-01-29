@@ -210,7 +210,8 @@ public class HTTPThread extends Thread implements Strings {
                     } else {
                         curVersionsArray = new JSONArray();
                         curJsonVersion = -1;
-                        rms.addRecord(null, 0, 0);
+                        byte[] empty = "[]".getBytes();
+                        rms.addRecord(empty, 0, empty.length);
                         needRmsWrite = true;
                     }
     
