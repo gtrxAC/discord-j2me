@@ -16,25 +16,18 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     private String attachName;
     private FileConnection attachFc;
 
+    private Message editMessage;  // message that is being edited, or null if writing a new message
+
     // ifdef OVER_100KB
     public boolean showedPreviewScreen = false;
     // endif
 
-    public MessageBox(State s) {
-        this(s, null, null);
-    }
-
-    public MessageBox(State s, String attachName, FileConnection attachFc) {
-        super("", "", 2000, 0);
-        setTitle(getMessageBoxTitle(s));
-        
+    private void init(State s, int sendCommandLabel) {
         setCommandListener(this);
         this.s = s;
         this.lastScreen = s.disp.getCurrent();
-        this.attachName = attachName;
-        this.attachFc = attachFc;
 
-        sendCommand = Locale.createCommand(SEND_MESSAGE, Command.OK, 0);
+        sendCommand = Locale.createCommand(sendCommandLabel, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
         addMentionCommand = Locale.createCommand(INSERT_MENTION, Command.ITEM, 2);
         // ifdef OVER_100KB
@@ -47,6 +40,23 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         // ifdef OVER_100KB
         addCommand(addEmojiCommand);
         // endif
+    }
+
+    public MessageBox(State s) {
+        this(s, null, null);
+    }
+
+    public MessageBox(State s, Message editMessage) {
+        super(Locale.get(MESSAGE_EDIT_BOX_TITLE), editMessage.rawContent, 2000, 0);
+        init(s, OK);
+        this.editMessage = editMessage;
+    }
+
+    public MessageBox(State s, String attachName, FileConnection attachFc) {
+        super(getMessageBoxTitle(s), "", 2000, 0);
+        init(s, SEND_MESSAGE);
+        this.attachName = attachName;
+        this.attachFc = attachFc;
     }
 
     // Also used by reply form
@@ -87,7 +97,15 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
-            sendMessage(s, getString(), null, attachName, attachFc, false);
+            if (editMessage == null) {
+                sendMessage(s, getString(), null, attachName, attachFc, false);
+            } else {
+                s.openChannelView(false);
+                HTTPThread h = new HTTPThread(s, HTTPThread.EDIT_MESSAGE);
+                h.editMessage = editMessage;
+                h.editContent = getString();
+                h.start();
+            }
         }
         else if (c == backCommand) {
             // ifdef OVER_100KB

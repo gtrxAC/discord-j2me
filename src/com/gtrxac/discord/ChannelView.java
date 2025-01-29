@@ -856,7 +856,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 if (!s.isLiteProxy) {
                     s.error(Locale.get(EDIT_NOT_SUPPORTED));
                 } else {
-                    s.disp.setCurrent(new MessageEditBox(s, selected));
+                    s.disp.setCurrent(new MessageBox(s, selected));
                 }
             }
         }
