@@ -740,7 +740,7 @@
     "Wybierz plik z tokenem",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Pobieranie...",
+    "Pobieranie emotikony...",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Francuski",
@@ -760,11 +760,11 @@
     "Pobrać dane emotikon?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "(edytowano)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore"
+    "Podkreślnik",
+    "Wpr. podkreślnik"
 
     //
     // NOTE for translators: the "Downloading..." text (somewhere around line 745) has been edited to say "Downloading emoji...". This change should be reflected in translations.
