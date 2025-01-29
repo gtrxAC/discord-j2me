@@ -77,23 +77,24 @@ public class MentionForm extends Form implements CommandListener, Strings {
     }
 
     // also used by emoji picker
-    public static void insertTextToMessageBox(State s, Displayable lastScreen, String text) {
+    public static int insertTextToMessageBox(State s, Displayable lastScreen, String text, int caretPos) {
         if (lastScreen instanceof MessageBox) {
             MessageBox msgBox = (MessageBox) lastScreen;
             String str = msgBox.getString();
-            int caret = msgBox.getCaretPosition();
-            msgBox.setString(str.substring(0, caret) + text + str.substring(caret));
+            if (caretPos == -1) caretPos = msgBox.getCaretPosition();
+            msgBox.setString(str.substring(0, caretPos) + text + str.substring(caretPos));
         }
         else if (lastScreen instanceof ReplyForm) {
             TextField field = ((ReplyForm) lastScreen).replyField;
             String str = field.getString();
-            int caret = field.getCaretPosition();
-            field.setString(str.substring(0, caret) + text + str.substring(caret));
+            if (caretPos == -1) caretPos = field.getCaretPosition();
+            field.setString(str.substring(0, caretPos) + text + str.substring(caretPos));
         }
+        return caretPos + text.length();
     }
 
     private void insertMention(User u) {
-        insertTextToMessageBox(s, lastScreen, "<@" + u.id + ">");
+        insertTextToMessageBox(s, lastScreen, "<@" + u.id + ">", -1);
         s.disp.setCurrent(lastScreen);
     }
 

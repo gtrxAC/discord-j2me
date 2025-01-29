@@ -20,6 +20,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
     private int sheetWidth;
     private int emojiSize;
     private int selected;
+    private int caretPos = -1;
 
     public static void show(State s) {
         try {
@@ -216,7 +217,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         if (c == selectCommand) {
             JSONArray emojiNames = emojiJson.getArray(selected);
             String emojiName = emojiNames.getString(emojiNames.size() - 1);
-            MentionForm.insertTextToMessageBox(s, lastScreen, " :" + emojiName + ":");
+            caretPos = MentionForm.insertTextToMessageBox(s, lastScreen, " :" + emojiName + ":", caretPos);
 
             selectorIndex |= 2;
             repaint();
