@@ -60,12 +60,7 @@ public class UnreadManager {
         try {
             RecordStore rms = RecordStore.openRecordStore("unread", true);
             byte[] data = json.build().getBytes();
-            
-            if (rms.getNumRecords() >= 1) {
-                rms.setRecord(1, data, 0, data.length);
-            } else {
-                rms.addRecord(data, 0, data.length);
-            }
+            Util.setOrAddRecord(rms, 1, data);
             rms.closeRecordStore();
         }
         catch (Exception e) { s.error(e); }

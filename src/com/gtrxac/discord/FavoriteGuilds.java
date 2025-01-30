@@ -8,44 +8,67 @@ public class FavoriteGuilds {
     private static JSONArray guilds;  // array of favorite guild IDs
     private static boolean hasChanged;  // list of fav guilds has changed (items added/removed)?
 
+    // ifdef OVER_100KB
+    private static JSONArray muted;  // array of muted guild/channel IDs, where the user wont receive notifications
+    // endif
+
     static {
+        RecordStore rms = null;
         try {
-            RecordStore rms = RecordStore.openRecordStore("favguild", false);
-            guilds = JSON.getArray(new String(rms.getRecord(1)));
+            rms = RecordStore.openRecordStore("favguild", false);
+            try {
+                guilds = JSON.getArray(new String(rms.getRecord(1)));
+            }
+            catch (Exception e) {
+                guilds = new JSONArray();
+            }
+            // ifdef OVER_100KB
+            try {
+                muted = JSON.getArray(new String(rms.getRecord(2)));
+            }
+            catch (Exception e) {
+                muted = new JSONArray();
+            }
+            // endif
+        }
+        catch (Exception e) {}
+
+        try {
             rms.closeRecordStore();
         }
-        catch (Exception e) {
-            guilds = new JSONArray();
-        }
+        catch (Exception e) {}
     }
 
     private static void save(State s) {
-        hasChanged = true;
-
+        RecordStore rms = null;
         try {
-            RecordStore rms = RecordStore.openRecordStore("favguild", true);
+            rms = RecordStore.openRecordStore("favguild", true);
             byte[] bytes = guilds.build().getBytes();
-
-            if (rms.getNumRecords() >= 1) {
-                rms.setRecord(1, bytes, 0, bytes.length);
-            } else {
-                rms.addRecord(bytes, 0, bytes.length);
-            }
-            rms.closeRecordStore();
+            Util.setOrAddRecord(rms, 1, bytes);
+            // ifdef OVER_100KB
+            bytes = muted.build().getBytes();
+            Util.setOrAddRecord(rms, 2, bytes);
+            // endif
         }
         catch (Exception e) {
             s.error(e);
         }
+        try {
+            rms.closeRecordStore();
+        }
+        catch (Exception e) {}
     }
 
     public static void add(State s, Guild g) {
         if (has(g)) return;
         guilds.add(g.id);
+        hasChanged = true;
         save(s);
     }
 
     public static void remove(State s, int index) {
         guilds.remove(index);
+        hasChanged = true;
         save(s);
     }
 
@@ -59,6 +82,23 @@ public class FavoriteGuilds {
         }
         return false;
     }
+
+    // ifdef OVER_100KB
+    public static void mute(State s, String id) {
+        if (isMuted(id)) return;
+        muted.add(id);
+        save(s);
+    }
+
+    public static void unmute(State s, String id) {
+        muted.remove(id);
+        save(s);
+    }
+
+    public static boolean isMuted(String id) {
+        return muted.indexOf(id) != -1;
+    }
+    // endif
 
     public static void openSelector(State s, boolean refresh, boolean forceRefresh) {
         if (s.highRamMode) refresh = false;
