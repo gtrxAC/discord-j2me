@@ -16,22 +16,23 @@ public class FavoriteGuilds {
         RecordStore rms = null;
         try {
             rms = RecordStore.openRecordStore("favguild", false);
-            try {
-                guilds = JSON.getArray(new String(rms.getRecord(1)));
-            }
-            catch (Exception e) {
-                guilds = new JSONArray();
-            }
-            // ifdef OVER_100KB
-            try {
-                muted = JSON.getArray(new String(rms.getRecord(2)));
-            }
-            catch (Exception e) {
-                muted = new JSONArray();
-            }
-            // endif
         }
         catch (Exception e) {}
+        
+        try {
+            guilds = JSON.getArray(new String(rms.getRecord(1)));
+        }
+        catch (Exception e) {
+            guilds = new JSONArray();
+        }
+        // ifdef OVER_100KB
+        try {
+            muted = JSON.getArray(new String(rms.getRecord(2)));
+        }
+        catch (Exception e) {
+            muted = new JSONArray();
+        }
+        // endif
 
         Util.closeRecordStore(rms);
     }
