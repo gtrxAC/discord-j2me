@@ -96,6 +96,7 @@ Strings
         append(gatewayField);
         append(new StringItem(null, Locale.get(LOGIN_FORM_TOKEN_HELP)));
         // ifdef BLACKBERRY
+        append(new Spacer(getWidth(), 1));
         String tokenHint = Locale.get(haveToken ? LOGIN_FORM_CHANGE_TOKEN_BB_HINT : LOGIN_FORM_SET_TOKEN_BB_HINT);
         append(new StringItem(null, tokenHint));
         addCommand(changeTokenCommand);

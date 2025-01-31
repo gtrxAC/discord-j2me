@@ -328,4 +328,7 @@ public interface Strings {
     // endif
     static final int INSERT_UNDERSCORE = 313;
     static final int INSERT_UNDERSCORE_L = 314;
+    // ifdef OVER_100KB
+    static final int WHAT_AEROPURPLE_DID = 315;
+    // endif
 }
