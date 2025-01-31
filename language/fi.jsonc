@@ -764,5 +764,8 @@
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
     "Alaviiva",
-    "Lisää alaviiva"
+    "Lisää alaviiva",
+
+    // Related to "Lines shown in the about (credits) screen for what each developer" above.
+    "Ilmoitusääni"
 ]
