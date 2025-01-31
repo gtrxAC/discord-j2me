@@ -86,11 +86,7 @@ public class Locale {
         }
         catch (Exception e) {}
 
-        try {
-            langRms.closeRecordStore();
-        }
-        catch (Exception e) {}
-        
+        Util.closeRecordStore(langRms);
         return result;
     }
 
@@ -107,11 +103,8 @@ public class Locale {
             Util.setOrAddRecord(langRms, 2, jsonData);
         }
         catch (Exception e) {}
-
-        try {
-            langRms.closeRecordStore();
-        }
-        catch (Exception e) {}
+        
+        Util.closeRecordStore(langRms);
 
         setStrings(JSON.getArray(jsonData).toVector());
     }

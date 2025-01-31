@@ -31,15 +31,16 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
 
     public static JSONArray loadEmojiJson() {
         JSONArray result;
+        RecordStore rms = null;
         try {
-            RecordStore rms = RecordStore.openRecordStore("emoji", false);
+            rms = RecordStore.openRecordStore("emoji", false);
             result = JSON.getArray(Util.bytesToString(rms.getRecord(2)));
-            rms.closeRecordStore();
-            return result;
         }
         catch (Exception e) {
-            return null;
+            result = null;
         }
+        Util.closeRecordStore(rms);
+        return result;
     }
 
     /**
@@ -79,14 +80,17 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         int sheetId = emojiId/45;
 
         if (loadedSheetId != sheetId) {
+            RecordStore rms = null;
             try {
-                RecordStore rms = RecordStore.openRecordStore("emoji", false);
+                rms = RecordStore.openRecordStore("emoji", false);
                 loadedSheet = new Spritesheet(rms.getRecord(3 + sheetId), emojiSize);
-                rms.closeRecordStore();
             }
             catch (Exception e) {
                 e.printStackTrace();
                 return;
+            }
+            finally {
+                Util.closeRecordStore(rms);
             }
             loadedSheetId = sheetId;
         } else {

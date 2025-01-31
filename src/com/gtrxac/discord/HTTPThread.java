@@ -249,9 +249,9 @@ public class HTTPThread extends Thread implements Strings {
                 } finally {
                     try {
                         if (needRmsWrite) Util.setOrAddRecord(rms, 1, Util.stringToBytes(curVersionsArray.build()));
-                        rms.closeRecordStore();
                     }
                     catch (Exception e) {}
+                    Util.closeRecordStore(rms);
                 }
             }
             // endif

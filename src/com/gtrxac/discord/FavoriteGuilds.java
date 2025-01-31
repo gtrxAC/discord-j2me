@@ -33,10 +33,7 @@ public class FavoriteGuilds {
         }
         catch (Exception e) {}
 
-        try {
-            rms.closeRecordStore();
-        }
-        catch (Exception e) {}
+        Util.closeRecordStore(rms);
     }
 
     private static void save(State s) {
@@ -53,10 +50,7 @@ public class FavoriteGuilds {
         catch (Exception e) {
             s.error(e);
         }
-        try {
-            rms.closeRecordStore();
-        }
-        catch (Exception e) {}
+        Util.closeRecordStore(rms);
     }
 
     public static void add(State s, Guild g) {

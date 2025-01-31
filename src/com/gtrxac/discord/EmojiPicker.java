@@ -25,7 +25,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
     public static void show(State s) {
         try {
             RecordStore rms = RecordStore.openRecordStore("emoji", false);
-            rms.closeRecordStore();
+            Util.closeRecordStore(rms);
             s.disp.setCurrent(new EmojiPicker(s));
         }
         catch (Exception e) {
@@ -77,10 +77,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         catch (Exception e) {
             e.printStackTrace();
         }
-        try {
-            rms.closeRecordStore();
-        }
-        catch (Exception e) {}
+        Util.closeRecordStore(rms);
 
         scroll = getMinScroll();
         scrollUnit = s.messageFont.getHeight();

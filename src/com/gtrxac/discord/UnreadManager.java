@@ -35,7 +35,7 @@ public class UnreadManager {
                     channels.put(keyStr, valStr);
                 }
             }
-            rms.closeRecordStore();
+            Util.closeRecordStore(rms);
         }
         catch (RecordStoreNotFoundException e) {}
         catch (Exception e) { s.error(e); }
@@ -61,7 +61,7 @@ public class UnreadManager {
             RecordStore rms = RecordStore.openRecordStore("unread", true);
             byte[] data = json.build().getBytes();
             Util.setOrAddRecord(rms, 1, data);
-            rms.closeRecordStore();
+            Util.closeRecordStore(rms);
         }
         catch (Exception e) { s.error(e); }
 

@@ -353,6 +353,13 @@ public class Util {
         }
     }
 
+    public static void closeRecordStore(RecordStore rms) {
+		try {
+			rms.closeRecordStore();
+		}
+		catch (Exception e) {}
+    }
+
 	public static byte[] readBytes(InputStream inputStream, int initialSize, int bufferSize, int expandSize) throws IOException {
 		if (initialSize <= 0) initialSize = bufferSize;
 		byte[] buf = new byte[initialSize];

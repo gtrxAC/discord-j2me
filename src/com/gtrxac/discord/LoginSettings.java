@@ -39,7 +39,7 @@ public class LoginSettings {
                 s.token = oldToken;
                 foundOldToken = true;
             }
-            oldRms.closeRecordStore();
+            Util.closeRecordStore(oldRms);
             // TODO: will later make it actually delete when the new save system is deemed to be stable enough
             // RecordStore.deleteRecordStore("login");
         }
@@ -290,10 +290,7 @@ public class LoginSettings {
 
     private static void close() {
         loginData = null;
-        try {
-            loginRms.closeRecordStore();
-        }
-        catch (Exception e) {}
+        Util.closeRecordStore(loginRms);
         loginRms = null;
     }
 
