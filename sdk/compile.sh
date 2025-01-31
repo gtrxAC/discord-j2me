@@ -13,6 +13,13 @@ rm -rf classes/*
 echo "Preprocessing"
 node sdk/preprocess.js `find src -name '*'.java` manifest.mf ${DEFINES}
 
+echo "Copying assets"
+mkdir --parents build/res
+cp res/* build/res
+cd build/res
+rm -rf ${EXCLUDES}
+cd ../..
+
 # Compile for Java 1.2. Most (but not all) J2ME devices support Java 1.3
 # If you want to change the APIs (bootclasspath), also edit the ProGuard config (midlets.pro)
 echo "Compiling"
@@ -22,7 +29,7 @@ ${JAVA_HOME}/bin/javac `find build/src -name '*'.java` -d classes \
     > sdk/log.txt
 
 echo "Creating JAR"
-${JAVA_HOME}/bin/jar cvfm bin/in.jar build/manifest.mf -C classes . -C res . >> sdk/log.txt
+${JAVA_HOME}/bin/jar cvfm bin/in.jar build/manifest.mf -C classes . -C build/res . >> sdk/log.txt
 
 # Preverify and obfuscate (ProGuard)
 # Note: ProGuard 6.0.3 is the last version to run under JDK 6, as of writing, the latest version can run under JDK 8

@@ -8,6 +8,7 @@ targets.forEach(target => {
   process.env.JAR_NAME = target.name;
   process.env.DEFINES = "-D" + target.defines.join(" -D");
   process.env.BOOTCLASSPATH = target.bootclasspath.join(classpathJoiner);
+  process.env.EXCLUDES = (target.excludes || []).join(" ");
   
   console.log(`${"_".repeat(80)}\n`)
   console.log(` Compiling: ${target.name}`)

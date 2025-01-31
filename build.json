@@ -22,7 +22,8 @@
   {
     "name": "discord_samsung_100kb",
     "defines": ["SAMSUNG", "SAMSUNG_100KB", "NOT_BLACKBERRY"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"]
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
+    "excludes": ["selector.png", "notify.mid"]
   },
   {
     "name": "discord_lg",
