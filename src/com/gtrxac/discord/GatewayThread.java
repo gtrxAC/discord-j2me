@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import javax.microedition.io.*;
 import javax.microedition.lcdui.*;
+import javax.microedition.media.*;
 
 // ifdef PIGLER_SUPPORT
 import org.pigler.tester.*;
@@ -351,7 +352,20 @@ public class GatewayThread extends Thread implements Strings
                             if (authorID.equals(s.myUserId)) continue;
 
                             if (shouldNotify(msgData)) {
-                                if (s.playNotifSound) AlertType.ALARM.playSound(s.disp);
+                                if (s.playNotifSound) {
+                                    // ifdef OVER_100KB
+                                    try {
+                                        Player player = Manager.createPlayer(getClass().getResourceAsStream("/notify.mid"), "audio/midi");
+                                        player.start();
+                                    }
+                                    catch (Exception e) {
+                                        e.printStackTrace();
+                                        AlertType.ALARM.playSound(s.disp);
+                                    }
+                                    // else
+                                    AlertType.ALARM.playSound(s.disp);
+                                    // endif
+                                }
                                 if (
                                     s.showNotifAlert
                                     // ifdef PIGLER_SUPPORT
