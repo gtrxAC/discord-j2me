@@ -331,4 +331,5 @@ public interface Strings {
     // ifdef OVER_100KB
     static final int WHAT_AEROPURPLE_DID = 315;
     // endif
+    static final int NOTIFICATIONS_VIBRATE = 316;
 }

@@ -32,7 +32,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         // endif
         },
         { 100, 1, 1, 1, 1, 1, 2, 2 },
-        { 1, 1, 1, 1, 1,
+        { 1, 1, 1, 1, 1, 1,
         // ifdef PIGLER_SUPPORT
         1,
         // endif
@@ -105,6 +105,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(NOTIFICATIONS_DMS),
                 Locale.get(NOTIFICATIONS_ALERT),
                 Locale.get(NOTIFICATIONS_SOUND),
+                Locale.get(NOTIFICATIONS_VIBRATE),
                 // ifdef PIGLER_SUPPORT
                 Locale.get(NOTIFICATIONS_PIGLER),
                 // endif
@@ -160,6 +161,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.notifyDM },
                 { s.ic.notifyAlert },
                 { s.ic.notifySound },
+                { s.ic.vibra },
                 // ifdef PIGLER_SUPPORT
                 { s.ic.pigler },
                 // endif
@@ -216,6 +218,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolValues,
                 boolValues,
                 boolValues,
+                boolValues,
                 // ifdef PIGLER_SUPPORT
                 boolValues,
                 // endif
@@ -266,6 +269,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.showNotifsDMs ? 1 : 0,
                 s.showNotifAlert ? 1 : 0,
                 s.playNotifSound ? 1 : 0,
+                s.playNotifVibra ? 1 : 0,
                 // ifdef PIGLER_SUPPORT
                 s.showNotifPigler ? 1 : 0,
                 // endif
@@ -280,8 +284,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     // Gets settings value index that should be changed based on selected menu item index
     private int getItemIndex(int item) {
         // ifdef PIGLER_SUPPORT
-        // Pigler API not supported on device - 5th item in notifs menu corresponds to 6th setting
-        if (isInSubmenu && currentSection == 3 && item == 5 && !Util.supportsPigler) return 6;
+        // Pigler API not supported on device - 6th item in notifs menu corresponds to 7th setting
+        if (isInSubmenu && currentSection == 3 && item == 6 && !Util.supportsPigler) return 7;
         // endif
         // ifdef MIDP2_GENERIC
         // KEmu is always fullscreen - 6th item in appearance menu corresponds to 7th setting
@@ -367,7 +371,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         currentSection = index;
 
         deleteAll();
-        int nokiaUIOptionIndex = 5;
+        int nokiaUIOptionIndex = 6;
         // ifdef PIGLER_SUPPORT
         nokiaUIOptionIndex++;
         // endif
@@ -375,7 +379,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             if (index == 3) {
                 // Pigler API option is only shown on devices that support said API
                 // ifdef PIGLER_SUPPORT
-                if (i == 5 && !Util.supportsPigler) continue;
+                if (i == 6 && !Util.supportsPigler) continue;
                 // endif
                 // Same for Nokia UI API
                 // ifdef NOKIA_UI_SUPPORT
@@ -510,7 +514,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.showNotifsDMs = values[3][2] == 1;
                 s.showNotifAlert = values[3][3] == 1;
                 s.playNotifSound = values[3][4] == 1;
-                int index = 5;
+                s.playNotifVibra = values[3][5] == 1;
+                int index = 6;
                 // ifdef PIGLER_SUPPORT
                 s.showNotifPigler = values[3][index] == 1;
                 index++;

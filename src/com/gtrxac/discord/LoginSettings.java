@@ -179,6 +179,7 @@ public class LoginSettings {
         FormattedString.useMarkdown =
         // endif
         getBoolRecord(true);
+        s.playNotifVibra = getBoolRecord(true);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
@@ -273,6 +274,7 @@ public class LoginSettings {
             false
             // endif
         );
+        setBoolRecord(s.playNotifVibra);
     }
 
     private static void write() throws Exception {

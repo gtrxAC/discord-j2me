@@ -767,5 +767,8 @@
     "Lisää alaviiva",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Ilmoitusääni"
+    "Ilmoitusääni",
+
+    // Settings option for toggling vibration alert for notifications.
+    "Värinä"
 ]

@@ -770,9 +770,8 @@
     "Thêm dấu gạch chân",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Âm thông báo"
+    "Âm thông báo",
 
-    //
-    // NOTE for translators: the "Downloading..." text (somewhere around line 745) has been edited to say "Downloading emoji...". This change should be reflected in translations.
-    //
+    // Settings option for toggling vibration alert for notifications.
+    "Vibration"
 ]

@@ -58,7 +58,7 @@ public class Icons {
     // ifdef J2ME_LOADER
     Image android;
     // endif
-    // Image vibra;
+    Image vibra;
     // ifdef OVER_100KB
     Image emoji;
     Image markdown;
@@ -159,7 +159,7 @@ public class Icons {
         // else
         sh.skip();
         // endif
-        sh.skip(); // vibra (not used yet)
+        vibra = sh.next();
         // ifdef OVER_100KB
         emoji = sh.next();
         markdown = sh.next();

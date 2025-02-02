@@ -89,6 +89,7 @@ public class State implements Strings {
 	boolean showNotifNokiaUI;
 	// endif
 	boolean playNotifSound;
+	boolean playNotifVibra;
 	boolean highRamMode;
 	int autoUpdate;
 	// ifdef OVER_100KB

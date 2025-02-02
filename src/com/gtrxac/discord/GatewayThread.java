@@ -366,6 +366,9 @@ public class GatewayThread extends Thread implements Strings
                                     AlertType.ALARM.playSound(s.disp);
                                     // endif
                                 }
+                                if (s.playNotifVibra) {
+                                    s.disp.vibrate(1000);
+                                }
                                 if (
                                     s.showNotifAlert
                                     // ifdef PIGLER_SUPPORT
