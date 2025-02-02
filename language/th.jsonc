@@ -323,7 +323,7 @@
     " เข้ากลุ่ม",
 
     // Status message shown when a user has left a group DM.
-    "ออกกจากกลุ่ม",
+    "ออกจากกลุ่ม",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
     "ลบ ",
@@ -767,7 +767,7 @@
     "ใส่ขีดล่าง",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Notification sound",
+    "เสียงการแจ้งเตือน",
 
     // Settings option for toggling vibration alert for notifications.
     "Vibration"
