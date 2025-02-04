@@ -13,7 +13,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
     public static String createString(Notification notif, String location, Message msg) {
         StringBuffer sb = new StringBuffer();
         sb.append(msg.author.name);
-        if (notif.guildID == null) {
+        if (location == null) {
             sb.append(Locale.get(NOTIFICATION_DM));
         } else {
             sb.append(Locale.get(NOTIFICATION_SERVER)).append(location).append(": \"");

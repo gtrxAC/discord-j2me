@@ -149,14 +149,20 @@ public class GatewayThread extends Thread implements Strings
         // Message content, limited to 50 characters, with attachments parsed into text, e.g. "Text content (3 attachments)"
         String content = null;
 
-        // true if message sent in a direct message or DM group, false if sent in a server
+        // true if message sent in a direct message, false if sent in a server or DM group
         boolean isDM = false;
 
         String guildID = msgData.getString("guild_id", null);
         String channelID = msgData.getString("channel_id", null);
         
         if (guildID == null) {
-            isDM = true;
+            // Get DM channel name, show it as the location if message was sent in a group DM
+            DMChannel c = DMChannel.getById(s, channelID);
+            if (c != null && c.isGroup) {
+                location = c.name;
+            } else {
+                isDM = true;
+            }
         } else {
             // Get the name of the server where the message was sent
             // (only available if server list has been loaded)
