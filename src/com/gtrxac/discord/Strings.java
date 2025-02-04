@@ -332,4 +332,6 @@ public interface Strings {
     static final int WHAT_AEROPURPLE_DID = 315;
     // endif
     static final int NOTIFICATIONS_VIBRATE = 316;
+    static final int MUTE = 317;
+    static final int MUTE_L = 318;
 }

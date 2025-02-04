@@ -114,9 +114,7 @@ public class State implements Strings {
 	String myUserId;
 	boolean isLiteProxy;
 
-	IconCache iconCache;
 	NameColorCache nameColorCache;
-	UnreadManager unreads;
 
 	Vector guilds;
 	Guild selectedGuild;
@@ -160,7 +158,7 @@ public class State implements Strings {
 		subscribedGuilds = new Vector();
 		IconCache.init(this);
 		nameColorCache = new NameColorCache(this);
-		unreads = new UnreadManager(this);
+		UnreadManager.init(this);
 	}
 
     public void login() {
@@ -358,10 +356,10 @@ public class State implements Strings {
 			}
 		}
 		if (isDM) {
-			unreads.markRead(selectedDmChannel);
+			selectedDmChannel.markRead();
 			updateUnreadIndicators(true, selectedDmChannel.id);
 		} else {
-			unreads.markRead(selectedChannel);
+			selectedChannel.markRead();
 			updateUnreadIndicators(false, selectedChannel.id);
 		}
 	}

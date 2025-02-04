@@ -22,8 +22,14 @@ public class ListScreen extends KineticScrollingCanvas {
     private Vector itemImages;
 
     private boolean useIndicators;
-    private boolean hasIndicators;
+    private boolean hasUnreadIndicators;
     private Vector indicators;
+
+    public static final Object INDICATOR_NONE = null;
+    public static final Object INDICATOR_UNREAD = new Object();
+    // ifdef OVER_100KB
+    public static final Object INDICATOR_MUTED = new Object();
+    // endif
 
     private boolean useRightItems;
     private boolean separateRightItems;
@@ -162,43 +168,43 @@ public class ListScreen extends KineticScrollingCanvas {
         itemHeight = margin*4 + itemContentHeight;
     }
 
-    void append(String text, String rightText, Image image, boolean indicator) {
+    void append(String text, String rightText, Image image, Object indicator) {
         items.addElement(text);
         displayedItems.addElement(getDisplayedItem(text, rightText));
         itemImages.addElement(image);
-        if (useIndicators) indicators.addElement(indicator ? JSON.TRUE : JSON.FALSE);
+        if (useIndicators) indicators.addElement(indicator);
         if (useRightItems) rightItems.addElement(rightText);
         checkUpdateDisplayedItems(image, indicator);
     }
 
     void append(String text, Image image) {
-        append(text, null, image, false);
+        append(text, null, image, null);
     }
 
-    void set(int index, String text, String rightText, Image image, boolean indicator) {
+    void set(int index, String text, String rightText, Image image, Object indicator) {
         items.setElementAt(text, index);
         itemImages.setElementAt(image, index);
-        if (useIndicators) indicators.setElementAt(indicator ? JSON.TRUE : JSON.FALSE, index);
+        if (useIndicators) indicators.setElementAt(indicator, index);
         if (useRightItems) rightItems.setElementAt(rightText, index);
         updateDisplayedItem(index);
         checkUpdateDisplayedItems(image, indicator);
     }
 
     void set(int index, String text, Image image) {
-        set(index, text, null, image, false);
+        set(index, text, null, image, null);
     }
 
-    void insert(int index, String text, String rightText, Image image, boolean indicator) {
+    void insert(int index, String text, String rightText, Image image, Object indicator) {
         items.insertElementAt(text, index);
         itemImages.insertElementAt(image, index);
-        if (useIndicators) indicators.insertElementAt(indicator ? JSON.TRUE : JSON.FALSE, index);
+        if (useIndicators) indicators.insertElementAt(indicator, index);
         if (useRightItems) rightItems.insertElementAt(rightText, index);
         displayedItems.addElement(null);
         checkUpdateDisplayedItems(image, indicator, true);
     }
 
     void insert(int index, String text, Image image) {
-        insert(index, text, null, image, false);
+        insert(index, text, null, image, null);
     }
 
     void delete(int index) {
@@ -210,21 +216,21 @@ public class ListScreen extends KineticScrollingCanvas {
         repaint();
     }
 
-    private void checkUpdateDisplayedItems(Image image, boolean indicator, boolean alwaysUpdate) {
+    private void checkUpdateDisplayedItems(Image image, Object indicator, boolean alwaysUpdate) {
         boolean shouldUpdate = alwaysUpdate;
         if (image != null && !hasImages) {
             hasImages = true;
             shouldUpdate = true;
         }
-        if (useIndicators && indicator && !hasIndicators) {
-            hasIndicators = true;
+        if (useIndicators && indicator == INDICATOR_UNREAD && !hasUnreadIndicators) {
+            hasUnreadIndicators = true;
             shouldUpdate = true;
         }
         if (shouldUpdate) updateDisplayedItems();
         repaint();
     }
 
-    private void checkUpdateDisplayedItems(Image image, boolean indicator) {
+    private void checkUpdateDisplayedItems(Image image, Object indicator) {
         checkUpdateDisplayedItems(image, indicator, false);
     }
 
@@ -270,7 +276,7 @@ public class ListScreen extends KineticScrollingCanvas {
 
     private String getDisplayedItem(String item, String rightItem) {
         int leftMargin = fontHeight/2;
-        if (hasIndicators) leftMargin += fontHeight/3;
+        if (hasUnreadIndicators) leftMargin += fontHeight/3;
         if (hasImages) leftMargin += iconSize + iconMargin;
 
         int area = getWidth() - leftMargin - fontHeight/4;
@@ -349,7 +355,7 @@ public class ListScreen extends KineticScrollingCanvas {
         checkScrollInRange();
         int y = -scroll;
 
-        int baseX = hasIndicators ? fontHeight/3 : 0;
+        int baseX = hasUnreadIndicators ? fontHeight/3 : 0;
         int textX = fontHeight/2 + baseX;
         if (hasImages) textX += iconSize + iconMargin;
 
@@ -360,6 +366,8 @@ public class ListScreen extends KineticScrollingCanvas {
             }
 
             boolean thisSelected = (selected == i) && !touchMode;
+
+            Object indicator = useIndicators ? indicators.elementAt(i) : null;
 
             y += margin;
             if (thisSelected) {
@@ -374,7 +382,7 @@ public class ListScreen extends KineticScrollingCanvas {
                 );
             }
             y += margin;
-            if (useIndicators && ((Boolean) indicators.elementAt(i)).booleanValue()) {
+            if (indicator == INDICATOR_UNREAD) {
                 g.drawImage(indicatorImage, 0, y, Graphics.TOP | Graphics.LEFT);
             }
 
@@ -389,7 +397,15 @@ public class ListScreen extends KineticScrollingCanvas {
             }
 
             String item = (String) displayedItems.elementAt(i);
-            g.setColor(thisSelected ? selectedTextColor : textColor);
+
+            // ifdef OVER_100KB
+            if (indicator == INDICATOR_MUTED) {
+                g.setColor(0x888888);
+            } else
+            // endif
+            {
+                g.setColor(thisSelected ? selectedTextColor : textColor);
+            }
             g.drawString(item, textX, y + textOffsetY, Graphics.TOP | Graphics.LEFT);
 
             if (useRightItems) {

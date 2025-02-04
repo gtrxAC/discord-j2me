@@ -158,7 +158,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         boolean hasMoreUnreads;
         long lastUnreadTime;
         try {
-            lastUnreadTime = Long.parseLong(s.unreads.lastUnreadTime);
+            lastUnreadTime = Long.parseLong(UnreadManager.lastUnreadTime);
             long firstTime = Long.parseLong(first.id) >> 22;
 
             // does channel view have more unread messages than what can be shown on one page?
@@ -810,7 +810,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.unreads.save();
+            UnreadManager.save();
             s.channelIsOpen = false;
             if (s.isDM) s.openDMSelector(false, false);
             else if (s.selectedChannel.isThread) s.openThreadSelector(false, false);

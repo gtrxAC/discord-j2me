@@ -3,9 +3,8 @@ package com.gtrxac.discord;
 import cc.nnproject.json.*;
 import javax.microedition.lcdui.*;
 
-public class DMChannel implements HasIcon, Strings {
+public class DMChannel extends HasUnreads implements HasIcon, Strings {
     boolean isGroup;
-    public String id;
     public String name;
     public String username;
     public long lastMessageID;
@@ -66,5 +65,13 @@ public class DMChannel implements HasIcon, Strings {
 
     public void iconLoaded(State s) {
 		if (s.dmSelector != null) s.dmSelector.update(id);
+    }
+
+    public boolean hasUnreads() {
+        return UnreadManager.hasUnreads(id, lastMessageID);
+    }
+
+    public void markRead() {
+        UnreadManager.markRead(id, lastMessageID);
     }
 }

@@ -6,8 +6,7 @@ import cc.nnproject.json.*;
 /**
  * Data structure used for channels (guild channels and threads). For direct message channels, see DMChannel.
  */
-public class Channel {
-    public String id;
+public class Channel extends HasUnreads {
     public String name;
     public long lastMessageID;
     public Vector threads;
@@ -69,5 +68,13 @@ public class Channel {
             }
         }
         return result;
+    }
+
+    public boolean hasUnreads() {
+        return UnreadManager.hasUnreads(id, lastMessageID);
+    }
+
+    public void markRead() {
+        UnreadManager.markRead(id, lastMessageID);
     }
 }

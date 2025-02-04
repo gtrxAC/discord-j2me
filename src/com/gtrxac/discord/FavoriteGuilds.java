@@ -79,14 +79,12 @@ public class FavoriteGuilds {
     }
 
     // ifdef OVER_100KB
-    public static void mute(State s, String id) {
-        if (isMuted(id)) return;
-        muted.add(id);
-        save(s);
-    }
-
-    public static void unmute(State s, String id) {
-        muted.remove(id);
+    public static void toggleMute(State s, String id) {
+        if (isMuted(id)) {
+            muted.remove(id);
+        } else {
+            muted.add(id);
+        }
         save(s);
     }
 

@@ -5,18 +5,20 @@ import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 
 public class UnreadManager {
-    private Hashtable channels;
-    private State s;
-    public boolean autoSave;
-    public boolean needSave;
-    public String lastUnreadTime;  // previously unread message ID for the last channel that markRead() was used on
-    public boolean lastHadUnreads;
+    private static Hashtable channels;
+    private static State s;
+    public static boolean autoSave;
+    public static boolean needSave;
+    public static String lastUnreadTime;  // previously unread message ID for the last channel that markRead() was used on
+    public static boolean lastHadUnreads;
 
-    public UnreadManager(State s) {
-        this.s = s;
+    public static void init(State s) {
+        UnreadManager.s = s;
         channels = new Hashtable();
         autoSave = true;
         needSave = false;
+        lastUnreadTime = null;
+        lastHadUnreads = false;
 
         // Load last read message IDs from RMS (convert JSON to hashtable)
         try {
@@ -41,7 +43,7 @@ public class UnreadManager {
         catch (Exception e) { s.error(e); }
     }
 
-    public void save() {
+    public static void save() {
         JSONArray json = new JSONArray();
         
         // Convert hashtable to JSON array of key/value pairs
@@ -68,13 +70,13 @@ public class UnreadManager {
         needSave = false;
     }
 
-    public void manualSave() {
+    public static void manualSave() {
         if (needSave) save();
         needSave = false;
         autoSave = true;
     }
 
-    private void put(String channelID, String lastReadTime) {
+    private static void put(String channelID, String lastReadTime) {
         if (lastReadTime == null || lastReadTime.equals("0")) return;
         channels.put(channelID, lastReadTime);
 
@@ -82,7 +84,7 @@ public class UnreadManager {
         else needSave = true;
     }
 
-    public boolean hasUnreads(String channelID, long lastMessageID) {
+    public static boolean hasUnreads(String channelID, long lastMessageID) {
         long lastMessageTime = lastMessageID >> 22;
 
         String lastReadTime = (String) channels.get(channelID);
@@ -94,25 +96,7 @@ public class UnreadManager {
         return Long.parseLong(lastReadTime) < lastMessageTime;
     }
 
-    public boolean hasUnreads(Channel ch) {
-        return hasUnreads(ch.id, ch.lastMessageID);
-    }
-
-    public boolean hasUnreads(DMChannel dmCh) {
-        return hasUnreads(dmCh.id, dmCh.lastMessageID);
-    }
-
-    public boolean hasUnreads(Guild g) {
-        if (g.channels == null) return false;
-
-        for (int i = 0; i < g.channels.size(); i++) {
-            Channel ch = (Channel) g.channels.elementAt(i);
-            if (hasUnreads(ch)) return true;
-        }
-        return false;
-    }
-
-    public void markRead(String channelID, long lastMessageID) {
+    public static void markRead(String channelID, long lastMessageID) {
         long lastMessageTime = lastMessageID >> 22;
         String lastReadTime = (String) channels.get(channelID);
         boolean isUnread = lastReadTime == null || Long.parseLong(lastReadTime) < lastMessageTime;
@@ -126,29 +110,15 @@ public class UnreadManager {
         }
     }
 
-    public void markRead(Channel ch) {
-        markRead(ch.id, ch.lastMessageID);
-    }
-
-    public void markRead(DMChannel dmCh) {
-        markRead(dmCh.id, dmCh.lastMessageID);
-    }
-
-    public void markRead(Guild g) {
-        if (g != null && g.channels != null) {
-            markRead(g.channels);
-        }
-    }
-
-    public void markDMsRead() {
+    public static void markDMsRead() {
         if (s.dmSelector != null) markRead(s.dmSelector.lastDMs);
     }
 
-    public void markRead(Vector v) {
+    public static void markRead(Vector v) {
         autoSave = false;
         for (int i = 0; i < v.size(); i++) {
             Channel ch = (Channel) v.elementAt(i);
-            markRead(ch);
+            ch.markRead();
         }
         autoSave = true;
         save();

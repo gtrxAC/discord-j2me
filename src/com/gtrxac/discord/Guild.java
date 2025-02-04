@@ -4,8 +4,7 @@ import cc.nnproject.json.*;
 import java.util.*;
 import javax.microedition.lcdui.*;
 
-public class Guild implements HasIcon, Strings {
-    public String id;
+public class Guild extends HasUnreads implements HasIcon, Strings {
     public String name;
     public Vector channels;
     public String iconHash;
@@ -50,5 +49,19 @@ public class Guild implements HasIcon, Strings {
 
     public void iconLoaded(State s) {
 		if (s.guildSelector != null) s.guildSelector.update(id);
+    }
+
+    public boolean hasUnreads() {
+        if (channels == null) return false;
+
+        for (int i = 0; i < channels.size(); i++) {
+            Channel ch = (Channel) channels.elementAt(i);
+            if (ch.hasUnreads()) return true;
+        }
+        return false;
+    }
+    
+    public void markRead() {
+        if (channels != null) UnreadManager.markRead(channels);
     }
 }

@@ -12,6 +12,9 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
     private Command refreshCommand;
     private Command markReadCommand;
     private Command markAllReadCommand;
+    // ifdef OVER_100KB
+    private Command muteCommand;
+    // endif
 
     public DMSelector(State s) throws Exception {
         super(Locale.get(DM_SELECTOR_TITLE), true, true, false);
@@ -48,17 +51,20 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             lastDMs.addElement(s.dmChannels.elementAt(highestIndex));
         }
 
-        s.unreads.autoSave = false;
+        UnreadManager.autoSave = false;
         for (int i = 0; i < lastDMs.size(); i++) {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
-            append(ch.name, null, IconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
+            append(ch.name, null, IconCache.getResized(ch, s.menuIconSize), ch.getMenuIndicator());
         }
-        s.unreads.manualSave();
+        UnreadManager.manualSave();
 
         searchCommand = Locale.createCommand(SEARCH, Command.SCREEN, 2);
         refreshCommand = Locale.createCommand(REFRESH, Command.SCREEN, 3);
         markReadCommand = Locale.createCommand(MARK_READ, Command.SCREEN, 4);
         markAllReadCommand = Locale.createCommand(MARK_ALL_READ, Command.SCREEN, 5);
+        // ifdef OVER_100KB
+        muteCommand = Locale.createCommand(MUTE, Command.ITEM, 6);
+        // endif
 
         addCommand(searchCommand);
         addCommand(refreshCommand);
@@ -66,6 +72,9 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
         if (s.dmChannels.size() > 0) {
             addCommand(markReadCommand);
             addCommand(markAllReadCommand);
+            // ifdef OVER_100KB
+            addCommand(muteCommand);
+            // endif
         }
     }
 
@@ -77,7 +86,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
             if (chId != null && !ch.id.equals(chId)) continue;
 
-            set(i, ch.name, null, IconCache.getResized(ch, s.menuIconSize), s.unreads.hasUnreads(ch));
+            set(i, ch.name, null, IconCache.getResized(ch, s.menuIconSize), ch.getMenuIndicator());
         }
     }
 
@@ -98,19 +107,29 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
         if (c == refreshCommand) {
             s.openDMSelector(true, true);
         }
-        if (c == markReadCommand) {
-            DMChannel dmCh = (DMChannel) lastDMs.elementAt(getSelectedIndex());
-            s.unreads.markRead(dmCh);
-            update(dmCh.id);
-        }
         if (c == markAllReadCommand) {
-            s.unreads.markDMsRead();
+            UnreadManager.markDMsRead();
             update();
         }
-        if (c == SELECT_COMMAND) {
-            s.isDM = true;
-            s.selectedDmChannel = (DMChannel) lastDMs.elementAt(getSelectedIndex());
-            s.openChannelView(true);
+        else {
+            DMChannel dmCh = (DMChannel) lastDMs.elementAt(getSelectedIndex());
+
+            if (c == SELECT_COMMAND) {
+                s.isDM = true;
+                s.selectedDmChannel = dmCh;
+                s.openChannelView(true);
+            }
+            // ifdef OVER_100KB
+            else if (c == muteCommand) {
+                FavoriteGuilds.toggleMute(s, dmCh.id);
+                update(dmCh.id);
+            }
+            // endif
+            else {
+                // 'mark as read' command
+                dmCh.markRead();
+                update(dmCh.id);
+            }
         }
     }
 }

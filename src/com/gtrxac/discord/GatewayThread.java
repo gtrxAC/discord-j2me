@@ -73,6 +73,9 @@ public class GatewayThread extends Thread implements Strings
         }
     }
 
+    /**
+     * Send JSON message to gateway socket.
+     */
     public void send(JSONObject msg) {
         try {
             os.write((msg.build() + "\n").getBytes("UTF-8"));
@@ -81,16 +84,13 @@ public class GatewayThread extends Thread implements Strings
         catch (Exception e) {}
     }
 
-    private boolean shouldNotify(JSONObject msgData) {
-        if (s.showNotifsAll) return true;
-
-        // Check if this message is in a DM
-        String guildID = msgData.getString("guild_id", null);
-        if (guildID == null) return s.showNotifsDMs;
-
-        // Check if this message pings us (note: only checks user pings, not role pings)
-        if (!s.showNotifsPings) return false;
-        
+    /**
+     * Check if a message mentions/pings the currently logged in user.
+     * Note: only checks direct user pings, not role pings.
+     * @param msgData JSON data of message
+     * @return true if the user was mentioned in this message, false if not
+     */
+    private boolean isPing(JSONObject msgData) {
         JSONArray pings;
         try {
             pings = msgData.getArray("mentions");
@@ -98,13 +98,39 @@ public class GatewayThread extends Thread implements Strings
         catch (Exception e) {
             return false;
         }
-
         for (int i = 0; i < pings.size(); i++) {
             if (pings.getObject(i).getString("id").equals(s.myUserId)) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Check if a received message should trigger a notification based on the user's notification settings.
+     * @param msgData JSON data of message
+     */
+    private boolean shouldNotify(JSONObject msgData) {
+        String guildID = msgData.getString("guild_id", null);
+        String channelID = msgData.getString("channel_id");
+        boolean isDM = (guildID == null);
+        boolean isPing = isPing(msgData);
+
+        // ifdef OVER_100KB
+        boolean isMutedGuild = isDM ? false : FavoriteGuilds.isMuted(guildID);
+        boolean isMuted = isMutedGuild || FavoriteGuilds.isMuted(channelID);
+        // else
+        final boolean isMuted = false;
+        // endif
+
+        // All notifications enabled - always notify except for muted messages that aren't mentions.
+        if (s.showNotifsAll) return !isMuted || isPing;
+
+        // DM notifs enabled - notify for DMs if that person is not muted
+        if (isDM && s.showNotifsDMs && !isMuted) return true;
+
+        // Lastly, check for mention. If mention notifications enabled, always notify for mentions even if muted.
+        return isPing && s.showNotifsPings;
     }
 
     private void handleNotification(JSONObject msgData) {
@@ -434,9 +460,9 @@ public class GatewayThread extends Thread implements Strings
                         // Redraw the message list and mark it as read
                         if (s.channelView.page == 0) {
                             s.channelView.requestUpdate(true, true);
-                            s.unreads.autoSave = false;
-                            s.unreads.markRead(chId, Long.parseLong(msgId));
-                            s.unreads.autoSave = true;
+                            UnreadManager.autoSave = false;
+                            UnreadManager.markRead(chId, Long.parseLong(msgId));
+                            UnreadManager.autoSave = true;
                         } else {
                             // If user is not on the newest page of messages, ask them to refresh
                             // There is no easy way to do it any other way without breaking pagination

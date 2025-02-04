@@ -371,9 +371,9 @@ public class HTTPThread extends Thread implements Strings {
                     }
 
                     // Mark our message as read (only needed when gateway not active)
-                    s.unreads.autoSave = false;
-                    s.unreads.markRead(channelId, Long.parseLong(message.getString("id")));
-                    s.unreads.autoSave = true;
+                    UnreadManager.autoSave = false;
+                    UnreadManager.markRead(channelId, Long.parseLong(message.getString("id")));
+                    UnreadManager.autoSave = true;
 
                     // fall through (if gateway disabled, fetch messages because there might have 
                     // been other messages sent during the time the user was writing their message)

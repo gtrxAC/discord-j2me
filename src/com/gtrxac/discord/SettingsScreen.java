@@ -322,7 +322,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             labels[currentSection][itemIndex],
             getValueLabel(currentSection, index),
             getIcon(currentSection, index),
-            false
+            ListScreen.INDICATOR_NONE
         );
     }
 
@@ -393,7 +393,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             if (index == 0 && i == 6 && Util.isKemulator) continue;
             // endif
             
-            append(labels[index][i], getValueLabel(index, i), getIcon(index, i), false);
+            append(labels[index][i], getValueLabel(index, i), getIcon(index, i), ListScreen.INDICATOR_NONE);
         }
     }
 
