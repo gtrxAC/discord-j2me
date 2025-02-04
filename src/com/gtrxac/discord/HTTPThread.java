@@ -448,6 +448,8 @@ public class HTTPThread extends Thread implements Strings {
 
                         StringItem titleItem = new StringItem(null, attachName);
                         s.attachmentView.append(titleItem);
+                        
+                        StringItem showButton = null;
 
                         if (attach.supported) {
                             // Supported attachment (image/video) -> show it
@@ -469,7 +471,7 @@ public class HTTPThread extends Thread implements Strings {
                                 // Note: showCommand has a priority starting at 100, so when it's pressed, 
                                 //       we can distinguish it from 'open in browser' buttons
                                 Command showCommand = Locale.createCommand(SHOW, Command.ITEM, i + 100);
-                                StringItem showButton = new StringItem(null, Locale.get(SHOW_L), Item.BUTTON);
+                                showButton = new StringItem(null, Locale.get(SHOW_L), Item.BUTTON);
                                 showButton.setLayout(layout);
                                 showButton.setDefaultCommand(showCommand);
                                 showButton.setItemCommandListener(s.attachmentView);
@@ -483,6 +485,13 @@ public class HTTPThread extends Thread implements Strings {
                         openButton.setDefaultCommand(openCommand);
                         openButton.setItemCommandListener(s.attachmentView);
                         s.attachmentView.append(openButton);
+
+                        // Fix unselectable buttons on early Symbian 9.3 (e.g. N86)
+                        // ifdef MIDP2_GENERIC
+                        if (Util.isSymbian93 && i == 0) {
+                            s.disp.setCurrentItem((showButton != null) ? showButton : openButton);
+                        }
+                        // endif
 
                         Spacer sp = new Spacer(s.attachmentView.getWidth(), s.attachmentView.getHeight()/10);
                         s.attachmentView.append(sp);
