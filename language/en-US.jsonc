@@ -776,5 +776,9 @@
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
     null,
+    null,
+
+    // Related to "Names of hotkey actions shown in the key mapper" above.
+    null,
     null
 ]

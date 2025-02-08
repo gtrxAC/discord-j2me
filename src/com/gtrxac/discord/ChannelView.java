@@ -735,6 +735,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                     else if (keycode == s.fullscreenHotkey) {
                         commandAction(fullScreenCommand, this);
                     }
+                    // ifdef OVER_100KB
+                    else if (keycode == s.scrollTopHotkey) {
+                        selectionMode = true;
+                        selectedItem = items.size() - 1;
+                    }
+                    else if (keycode == s.scrollBottomHotkey) {
+                        selectionMode = true;
+                        selectedItem = 0;
+                    }
+                    // endif
                 }
                 break;
             }

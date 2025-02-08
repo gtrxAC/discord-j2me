@@ -180,6 +180,14 @@ public class LoginSettings {
         // endif
         getBoolRecord(true);
         s.playNotifVibra = getBoolRecord(true);
+        // ifdef OVER_100KB
+        s.scrollTopHotkey =
+        // endif
+        getIntRecord(0);
+        // ifdef OVER_100KB
+        s.scrollBottomHotkey =
+        // endif
+        getIntRecord(0);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
@@ -275,6 +283,20 @@ public class LoginSettings {
             // endif
         );
         setBoolRecord(s.playNotifVibra);
+        setIntRecord(
+            // ifdef OVER_100KB
+            s.scrollTopHotkey
+            // else
+            0
+            // endif
+        );
+        setIntRecord(
+            // ifdef OVER_100KB
+            s.scrollBottomHotkey
+            // else
+            0
+            // endif
+        );
     }
 
     private static void write() throws Exception {

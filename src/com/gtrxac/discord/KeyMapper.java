@@ -3,7 +3,12 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class KeyMapper extends MyCanvas implements CommandListener, Strings {
-    static final int HOTKEY_COUNT = 6;
+    static final int HOTKEY_COUNT =
+        // ifdef OVER_100KB
+        8;
+        // else
+        6;
+        // endif
 
     private State s;
     private int fontHeight;
@@ -31,13 +36,17 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
         addCommand(cancelCommand);
         addCommand(skipCommand);
 
-        hotkeyStrings = new String[6];
+        hotkeyStrings = new String[HOTKEY_COUNT];
         hotkeyStrings[0] = Locale.get(HOTKEY_SEND);
         hotkeyStrings[1] = Locale.get(HOTKEY_REPLY);
         hotkeyStrings[2] = Locale.get(HOTKEY_COPY);
         hotkeyStrings[3] = Locale.get(HOTKEY_REFRESH);
         hotkeyStrings[4] = Locale.get(HOTKEY_BACK);
         hotkeyStrings[5] = Locale.get(HOTKEY_FULLSCREEN);
+        // ifdef OVER_100KB
+        hotkeyStrings[6] = Locale.get(HOTKEY_SCROLL_TOP);
+        hotkeyStrings[7] = Locale.get(HOTKEY_SCROLL_BOTTOM);
+        // endif
     }
     
     protected void paint(Graphics g) {
@@ -77,6 +86,10 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
 	        s.refreshHotkey = newHotkeys[3];
 	        s.backHotkey = newHotkeys[4];
             s.fullscreenHotkey = newHotkeys[5];
+            // ifdef OVER_100KB
+            s.scrollTopHotkey = newHotkeys[6];
+            s.scrollBottomHotkey = newHotkeys[7];
+            // endif
             LoginSettings.save(s);
             s.disp.setCurrent(lastScreen);
         } else {

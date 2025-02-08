@@ -151,6 +151,10 @@ public class State implements Strings {
 	int refreshHotkey;
 	int backHotkey;
 	int fullscreenHotkey;
+	// ifdef OVER_100KB
+	int scrollTopHotkey;
+	int scrollBottomHotkey;
+	// endif
 
 	Icons ic;
 

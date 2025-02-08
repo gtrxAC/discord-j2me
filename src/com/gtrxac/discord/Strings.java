@@ -334,4 +334,8 @@ public interface Strings {
     static final int NOTIFICATIONS_VIBRATE = 316;
     static final int MUTE = 317;
     static final int MUTE_L = 318;
+    // ifdef OVER_100KB
+    static final int HOTKEY_SCROLL_TOP = 319;
+    static final int HOTKEY_SCROLL_BOTTOM = 320;
+    // endif
 }
