@@ -337,5 +337,6 @@ public interface Strings {
     // ifdef OVER_100KB
     static final int HOTKEY_SCROLL_TOP = 319;
     static final int HOTKEY_SCROLL_BOTTOM = 320;
+    static final int SEND_TYPING = 321;
     // endif
 }

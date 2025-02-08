@@ -31,7 +31,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         1, 2
         // endif
         },
-        { 100, 1, 1, 1, 1, 1, 2, 2 },
+        {100, 1, 1, 1, 1, 1, 2, 2,
+        // ifdef OVER_100KB
+        1
+        // endif
+        },
         { 1, 1, 1, 1, 1, 1,
         // ifdef PIGLER_SUPPORT
         1,
@@ -98,6 +102,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(REMAP_HOTKEYS_L),
                 Locale.get(SHOW_SCROLLBAR),
                 Locale.get(AUTO_UPDATE),
+                // ifdef OVER_100KB
+                Locale.get(SEND_TYPING),
+                // endif
             }, {
                 // Notifications
                 Locale.get(NOTIFICATIONS_ALL),
@@ -154,6 +161,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { s.ic.keys },
                 { s.ic.scrollBars },
                 { s.ic.autoUpdate },
+                // ifdef OVER_100KB
+                { null }
+                // endif
             }, {
                 // Notifications
                 { s.ic.msgCount },
@@ -211,6 +221,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 null,
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(SCROLLBAR_WHEN_NEEDED), Locale.get(SCROLLBAR_PERMANENT) },
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(RELEASES_ONLY), Locale.get(AUTO_UPDATE_ALL_STR) },
+                // ifdef OVER_100KB
+                boolValues,
+                // endif
             }, {
                 // Notifications
                 boolValues,
@@ -262,6 +275,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 0,
                 KineticScrollingCanvas.scrollBarMode,
                 s.autoUpdate,
+                // ifdef OVER_100KB
+                s.sendTyping ? 1 : 0,
+                // endif
             }, {
                 // Notifications
                 s.showNotifsAll ? 1 : 0, 
@@ -508,6 +524,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 s.defaultHotkeys = values[2][4] == 1;
                 KineticScrollingCanvas.scrollBarMode = values[2][6];
                 s.autoUpdate = values[2][7];
+                // ifdef OVER_100KB
+                s.sendTyping = values[2][8] == 1;
+                // endif
 
                 s.showNotifsAll = values[3][0] == 1;
                 s.showNotifsPings = values[3][1] == 1;

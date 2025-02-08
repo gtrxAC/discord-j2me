@@ -349,5 +349,8 @@
 
     // Related to "Names of hotkey actions shown in the key mapper" above.
     "scrolling to top",
-    "scrolling to bottom"
+    "scrolling to bottom",
+
+    // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
+    "Send typing indicator"
 ]

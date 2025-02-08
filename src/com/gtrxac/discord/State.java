@@ -94,6 +94,7 @@ public class State implements Strings {
 	int autoUpdate;
 	// ifdef OVER_100KB
 	boolean useFilePreview;
+	boolean sendTyping;
 	// endif
 
 	int authorFontSize;
@@ -404,7 +405,7 @@ public class State implements Strings {
 	}
 
 	public void gatewaySendTyping() {
-		if (gatewayActive()) {
+		if (gatewayActive() && sendTyping) {
 			JSONObject msg = new JSONObject();
 			msg.put("op", -1);
 			msg.put("t", "GATEWAY_SEND_TYPING");
