@@ -40,7 +40,21 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
 
         lastScreen = s.disp.getCurrent();
         this.s = s;
-        emojiSize = FormattedStringPartEmoji.emojiSize*4/3/16*16;
+
+        // ifdef MIDP2_GENERIC
+        if (Util.isKemulator) {
+            emojiSize = FormattedStringPartEmoji.emojiSize*4/3/16*16;
+        } else
+        // endif
+        {
+            int w = getWidth(), h = getHeight();
+            if (w < h) emojiSize = w/9;
+            else emojiSize = h/6;
+
+            emojiSize = (emojiSize + 8)/16*16;
+            if (emojiSize < 16) emojiSize = 16;
+        }
+
         sheetWidth = emojiSize*45;
         emojiJson = FormattedStringPartEmoji.loadEmojiJson();
 
