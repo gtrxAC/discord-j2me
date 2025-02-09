@@ -345,4 +345,11 @@ public interface Strings {
     static final int PLAY_AGAIN = 325;
     static final int PLAY_AGAIN_L = 326;
     static final int APPLY_NOTIF_SOUND_SUCCESS = 327;
+    static final int DATA_MANAGER_TITLE = 328;
+    static final int DATA_MANAGER_EMOJI = 329;
+    static final int DATA_MANAGER_LAST_READ = 330;
+    static final int DATA_MANAGER_NOTIF_SOUND = 331;
+    static final int DATA_MANAGER_LANGUAGE = 332;
+    static final int DATA_MANAGER_PROMPT_TITLE = 333;
+    static final int DATA_MANAGER_PROMPT = 334;
 }

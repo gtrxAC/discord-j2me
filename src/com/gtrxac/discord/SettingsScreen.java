@@ -65,6 +65,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             Locale.get(SETTINGS_SECTION_BEHAVIOR),
             Locale.get(SETTINGS_SECTION_NOTIFICATIONS),
             Locale.get(SETTINGS_SECTION_LANGUAGE),
+            // ifdef OVER_100KB
+            Locale.get(DATA_MANAGER_TITLE),
+            // endif
         };
 
         labels = new String[][] {
@@ -373,6 +376,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         append(sectionNames[2], s.ic.uiGroup);
         append(sectionNames[3], s.ic.notify);
         append(sectionNames[4], s.ic.language);
+        // ifdef OVER_100KB
+        append(sectionNames[5], null);
+        // endif
 
         setSelectedIndex(currentSection, true);
     }
@@ -469,10 +475,16 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 }
             } else {
                 // In top-level settings menu: select submenu (settings section)
-                // Language selection screen is a separate menu, other screens are part of this menu
+                // Language selection and data manager screens are separate menus, other screens are part of this menu
                 if (selected == 4) {
                     s.disp.setCurrent(new LanguageSelector(s));
-                } else {
+                }
+                // ifdef OVER_100KB
+                else if (selected == 5) {
+                    s.disp.setCurrent(new DataManagerScreen(s));
+                }
+                // endif
+                else {
                     showSectionScreen(selected);
                 }
             }

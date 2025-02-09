@@ -797,5 +797,25 @@
     "Soita uudelleen",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Ilmoitusääni vaihdettu!"
+    "Ilmoitusääni vaihdettu!",
+
+    // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
+    "Hallitse dataa",
+
+    // Types of data shown in the data manager:
+
+    // Downloaded image data of default emojis (not custom server emojis)
+    "Hymiöt",
+    // Timestamps of last read messages for each channel, used for handling unread message indicators.
+    "Luetut viestit",
+    // Custom sound file applied as the notification sound via a message attachment.
+    "Ilmoitusääni",
+    // Translated string data for a downloaded language translation.
+    "Ladattu kieli",
+
+    // Title shown in the prompt when deleting a type of app data.
+    "Poista",
+
+    // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
+    "Poistetaanko tämä kohde?\n"
 ]

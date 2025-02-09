@@ -797,5 +797,25 @@
     null,
 
     // Confirmation message shown when a new notification sound has been set.
+    null,
+
+    // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
+    null,
+
+    // Types of data shown in the data manager:
+
+    // Downloaded image data of default emojis (not custom server emojis)
+    null,
+    // Timestamps of last read messages for each channel, used for handling unread message indicators.
+    null,
+    // Custom sound file applied as the notification sound via a message attachment.
+    null,
+    // Translated string data for a downloaded language translation.
+    null,
+
+    // Title shown in the prompt when deleting a type of app data.
+    null,
+
+    // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
     null
 ]

@@ -800,5 +800,25 @@
     "Play again",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!"
+    "Notification sound applied!",
+
+    // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
+    "Manage data",
+
+    // Types of data shown in the data manager:
+
+    // Downloaded image data of default emojis (not custom server emojis)
+    "Emoji images",
+    // Timestamps of last read messages for each channel, used for handling unread message indicators.
+    "Last read messages",
+    // Custom sound file applied as the notification sound via a message attachment.
+    "Notification sound",
+    // Translated string data for a downloaded language translation.
+    "Language data",
+
+    // Title shown in the prompt when deleting a type of app data.
+    "Delete",
+
+    // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
+    "Delete this item?\n"
 ]

@@ -24,7 +24,7 @@ public class Attachment implements Strings {
         ".aac", ".mp3", ".wav", ".ogg", ".m4a", ".amr", ".awb", ".flac", ".mid", ".mmf", ".mxmf", ".ott", ".rng", ".imy"
     };
 
-    private static String fileSizeToString(int size) {
+    public static String fileSizeToString(int size) {
         if (size >= 1000000) return "" + size/1000000 + Locale.get(SIZE_MB);
         if (size >= 1000) return "" + size/1000 + Locale.get(SIZE_KB);
         return "" + size + Locale.get(SIZE_BYTES);
