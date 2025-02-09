@@ -9,13 +9,19 @@ public class Attachment implements Strings {
     public String size;
     public boolean supported;
     public boolean isText;
+    // ifdef OVER_100KB
+    public boolean isAudio;
+    // endif
 
     private static final String[] nonTextFormats = {
         ".zip", ".rar", ".7z",
         ".exe", ".jar", ".sis", ".sisx", ".bin", ".elf", ".vxp", ".mrp",
         ".nth", ".thm",
-        ".mp3", ".wav", ".ogg", ".m4a", ".amr", ".flac", ".mid", ".mmf",
         ".mp4", ".3gp", ".bmp"
+    };
+
+    private static final String[] audioFormats = {
+        ".aac", ".mp3", ".wav", ".ogg", ".m4a", ".amr", ".awb", ".flac", ".mid", ".mmf", ".mxmf", ".ott", ".rng", ".imy"
     };
 
     private static String fileSizeToString(int size) {
@@ -37,8 +43,13 @@ public class Attachment implements Strings {
         if (!data.has("width")) {
             supported = false;
 
+            // ifdef SAMSUNG_100KB
+            boolean
+            // endif
+            isAudio = (Util.indexOfAny(name.toLowerCase(), audioFormats, 0) != -1);
+
             // Can be viewed as text if it's not one of the blacklisted file extensions
-            isText = (Util.indexOfAny(name.toLowerCase(), nonTextFormats, 0) == -1);
+            isText = !isAudio && (Util.indexOfAny(name.toLowerCase(), nonTextFormats, 0) == -1);
 
             return;
         }

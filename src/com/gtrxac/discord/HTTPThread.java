@@ -27,6 +27,7 @@ public class HTTPThread extends Thread implements Strings {
     static final int FETCH_THREADS = 13;
     // ifdef OVER_100KB
     static final int FETCH_EMOJIS = 14;
+    static final int VIEW_ATTACHMENT_AUDIO = 15;
     // endif
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
@@ -61,7 +62,7 @@ public class HTTPThread extends Thread implements Strings {
     FileConnection attachFc;
     String attachName;
 
-    // Parameters for VIEW_ATTACHMENT_TEXT
+    // Parameters for VIEW_ATTACHMENT_TEXT and VIEW_ATTACHMENT_AUDIO
     Attachment viewAttach;
 
     // Parameters for EDIT_MESSAGE
@@ -466,12 +467,21 @@ public class HTTPThread extends Thread implements Strings {
                                 s.attachmentView.append(item);
                             }
                         } else {
-                            if (attach.isText) {
-                                // Unsupported -> show a button to view it as text
+                            final boolean isAudio =
+                                // ifdef OVER_100KB
+                                attach.isAudio;
+                                // else
+                                false;
+                                // endif
+
+                            if (attach.isText || isAudio) {
+                                // Unsupported -> show a button to view it as text, or if it's a sound file, option to use it as a notification sound
                                 // Note: showCommand has a priority starting at 100, so when it's pressed, 
                                 //       we can distinguish it from 'open in browser' buttons
-                                Command showCommand = Locale.createCommand(SHOW, Command.ITEM, i + 100);
-                                showButton = new StringItem(null, Locale.get(SHOW_L), Item.BUTTON);
+                                final int label = isAudio ? USE_AS_NOTIFY_SOUND : SHOW;
+
+                                Command showCommand = Locale.createCommand(label, Command.ITEM, i + 100);
+                                showButton = new StringItem(null, Locale.get(label + 1), Item.BUTTON);
                                 showButton.setLayout(layout);
                                 showButton.setDefaultCommand(showCommand);
                                 showButton.setItemCommandListener(s.attachmentView);
@@ -707,6 +717,12 @@ public class HTTPThread extends Thread implements Strings {
                     EmojiPicker picker = new EmojiPicker(s);
                     picker.lastScreen = ((EmojiDownloadDialog) prevScreen).lastScreen;
                     s.disp.setCurrent(picker);
+                    break;
+                }
+
+                case VIEW_ATTACHMENT_AUDIO: {
+                    byte[] bytes = s.http.getBytes(viewAttach.browserUrl);
+                    s.disp.setCurrent(new NotificationSoundDialog(s, viewAttach.name, bytes));
                     break;
                 }
                 // endif

@@ -5,6 +5,7 @@ import java.util.*;
 import javax.microedition.io.*;
 import javax.microedition.lcdui.*;
 import javax.microedition.media.*;
+import javax.microedition.rms.*;
 
 // ifdef PIGLER_SUPPORT
 import org.pigler.tester.*;
@@ -387,7 +388,19 @@ public class GatewayThread extends Thread implements Strings
                                 if (s.playNotifSound) {
                                     // ifdef OVER_100KB
                                     try {
-                                        Player player = Manager.createPlayer(getClass().getResourceAsStream("/notify.mid"), "audio/midi");
+                                        RecordStore rms = null;
+                                        InputStream is = null;
+                                        try {
+                                            rms = RecordStore.openRecordStore("notifsound", false);
+                                            is = new ByteArrayInputStream(rms.getRecord(2));
+                                        }
+                                        catch (Exception e) {}
+
+                                        Util.closeRecordStore(rms);
+
+                                        if (is == null) is = getClass().getResourceAsStream("/notify.mid");
+                                        
+                                        Player player = Manager.createPlayer(is, null);
                                         player.start();
                                     }
                                     catch (Exception e) {

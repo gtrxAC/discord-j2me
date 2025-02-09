@@ -778,10 +778,24 @@
     "Mykistä",
     "Mykistä",
 
-    // Related to "Names of hotkey actions shown in the key mapper" above.
+    // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
     "vieritys sivun alkuun",
     "vieritys sivun loppuun",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Näytä muille, kun kirjoitan"
+    "Näytä muille, kun kirjoitan",
+
+    // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
+    "Käytä",
+    "Käytä ilmoitusäänenä",
+
+    // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
+    "Käytetäänkö tätä ääntä ilmoitusäänenä?",
+
+    // Softkey command for playing the notification sound again in the aforementioned prompt.
+    "Toista",
+    "Soita uudelleen",
+
+    // Confirmation message shown when a new notification sound has been set.
+    "Ilmoitusääni vaihdettu!"
 ]

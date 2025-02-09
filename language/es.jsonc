@@ -779,10 +779,24 @@
     "Mute",
     "Mute/Unmute",
 
-    // Related to "Names of hotkey actions shown in the key mapper" above.
+    // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
     "scrolling to top",
     "scrolling to bottom",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator"
+    "Send typing indicator",
+
+    // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
+    "Use as",
+    "Use as notif. sound",
+
+    // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
+    "Apply this as the notification sound?",
+
+    // Softkey command for playing the notification sound again in the aforementioned prompt.
+    "Play",
+    "Play again",
+
+    // Confirmation message shown when a new notification sound has been set.
+    "Notification sound applied!"
 ]

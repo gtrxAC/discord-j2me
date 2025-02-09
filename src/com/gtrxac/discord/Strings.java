@@ -339,4 +339,10 @@ public interface Strings {
     static final int HOTKEY_SCROLL_BOTTOM = 320;
     static final int SEND_TYPING = 321;
     // endif
+    static final int USE_AS_NOTIFY_SOUND = 322;
+    static final int USE_AS_NOTIFY_SOUND_L = 323;
+    static final int APPLY_NOTIF_SOUND_PROMPT = 324;
+    static final int PLAY_AGAIN = 325;
+    static final int PLAY_AGAIN_L = 326;
+    static final int APPLY_NOTIF_SOUND_SUCCESS = 327;
 }

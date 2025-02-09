@@ -38,9 +38,14 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
             Attachment attach = (Attachment) msg.attachments.elementAt(prio);
             s.platformRequest(attach.browserUrl);
         } else {
-            // 'View as text' button
+            // 'View as text' or 'Set as notification sound' button
             Attachment attach = (Attachment) msg.attachments.elementAt(prio - 100);
-            HTTPThread h = new HTTPThread(s, HTTPThread.VIEW_ATTACHMENT_TEXT);
+            int act =
+                // ifdef OVER_100KB
+                attach.isAudio ? HTTPThread.VIEW_ATTACHMENT_AUDIO :
+                // endif
+                HTTPThread.VIEW_ATTACHMENT_TEXT;
+            HTTPThread h = new HTTPThread(s, act);
             h.viewAttach = attach;
             h.start();
         }
