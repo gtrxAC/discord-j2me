@@ -136,7 +136,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         int screenWidth = getAvailableWidth();
 
         g.translate((getWidth() - screenWidth)/2, -scroll);
-        g.setClip(0, 0, screenWidth, getEmojiAreaHeight());
+        g.setClip(0, scroll, screenWidth, getHeight());
 
         while (sheet < sheets.length) {
             g.drawImage(sheets[sheet], x, y, Graphics.TOP | Graphics.LEFT);
