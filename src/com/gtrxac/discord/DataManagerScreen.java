@@ -83,6 +83,10 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
                     else if ("unread".equals(rmsName)) {
                         UnreadManager.init(s);
                     }
+                    else if ("emoji".equals(rmsName)) {
+                        // Make sure the emojis get re-downloaded if they are needed again
+                        s.myUserId = null;
+                    }
                 }
                 catch (Exception e) {
                     s.error(e);
