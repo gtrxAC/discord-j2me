@@ -767,55 +767,55 @@
     "Alt tire işareti ekle",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Notification sound",
+    "Bildirim sesi",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "Titreşim",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "Sustur",
+    "Susturmayı kaldır",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "scrolling to top",
-    "scrolling to bottom",
+    "Yukarıya kaydır",
+    "Aşağı kaydır",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    ""Yazıyor" bildirimi gönder",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "olrk. kullan",
+    "Bildirim sesi olrk. kullan",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "Bu dosyayı bildirim sesi olarak ayarla?",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "Oynat",
+    "Yeniden oynat",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "Bildirim sesi ayarlandı.",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "İçeriği yönet",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "Emoji resimleri",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "Son okunan mesajlar",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "Bildirim sesi",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "Dil içeriği",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "Sil",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n"
+    "Bu içeriği sil?\n"
 ]
