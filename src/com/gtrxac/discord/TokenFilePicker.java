@@ -19,7 +19,8 @@ public class TokenFilePicker extends FilePicker {
     }
 
     protected boolean fileFilter(String fileName) {
-        return fileName.endsWith(".txt") || fileName.indexOf('.') == -1;
+        return Util.indexOfAny(fileName, Attachment.nonTextFormats, 0) == -1 &&
+               Util.indexOfAny(fileName, Attachment.audioFormats, 0) == -1;
     }
     
     protected void fileSelected(FileConnection fc, String selected) {

@@ -13,14 +13,14 @@ public class Attachment implements Strings {
     public boolean isAudio;
     // endif
 
-    private static final String[] nonTextFormats = {
+    public static final String[] nonTextFormats = {
         ".zip", ".rar", ".7z",
         ".exe", ".jar", ".sis", ".sisx", ".bin", ".elf", ".vxp", ".mrp",
         ".nth", ".thm",
         ".mp4", ".3gp", ".bmp"
     };
 
-    private static final String[] audioFormats = {
+    public static final String[] audioFormats = {
         ".aac", ".mp3", ".wav", ".ogg", ".m4a", ".amr", ".awb", ".flac", ".mid", ".mmf", ".mxmf", ".ott", ".rng", ".imy"
     };
 

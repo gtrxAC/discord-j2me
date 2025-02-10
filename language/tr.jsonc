@@ -783,7 +783,7 @@
     "En alta kaydır",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    ""Yazıyor" bildirimi gönder",
+    "\"Yazıyor\" bildirimi gönder",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
     "olrk. kullan",
