@@ -779,8 +779,8 @@
     "Susturmayı kaldır",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "Yukarıya kaydır",
-    "Aşağı kaydır",
+    "En üste kaydır",
+    "En alta kaydır",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
     ""Yazıyor" bildirimi gönder",
