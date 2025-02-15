@@ -15,7 +15,7 @@ public class FormattedString implements Strings {
     public static int emojiMode;
     public static boolean useMarkdown;
 
-    private static final Font editedFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+    private static final Font editedFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 
     FormattedString(String src, Font font, int width, int xOffset, boolean singleLine, boolean isEdited, boolean isForwarded) {
         boolean isEmpty = (src == null || src.trim().length() == 0);
@@ -36,7 +36,8 @@ public class FormattedString implements Strings {
 
         if (useMarkdown) {
             if (isForwarded) {
-                tempParts.insertElementAt(new FormattedStringPartRichTextColor(Locale.get(FORWARDED_MESSAGE), font, 0, 0x888888), 0);
+                int gray = ChannelView.timestampColors[Settings.theme];
+                tempParts.insertElementAt(new FormattedStringPartRichTextColor(Locale.get(FORWARDED_MESSAGE), font, 0, gray), 0);
                 if (!isEmpty || isEdited) {
                     tempParts.insertElementAt(FormattedStringParser.NEWLINE, 1);
                 }
@@ -46,7 +47,8 @@ public class FormattedString implements Strings {
                 if (!isEmpty) {
                     tempParts.addElement(new FormattedStringPartText(" ", font));
                 }
-                tempParts.addElement(new FormattedStringPartRichTextColor(Locale.get(EDITED_MESSAGE), editedFont, 0, 0x888888));
+                int gray = ChannelView.timestampColors[Settings.theme];
+                tempParts.addElement(new FormattedStringPartRichTextColor(Locale.get(EDITED_MESSAGE), editedFont, 0, gray));
             }
         }
 
@@ -155,6 +157,7 @@ public class FormattedString implements Strings {
             FormattedStringPartRichText ar = (FormattedStringPartRichText) a;
             FormattedStringPartRichText br = (FormattedStringPartRichText) b;
             if (ar.font.getStyle() != br.font.getStyle()) return false;
+            if (ar.font.getFace() != br.font.getFace()) return false;
 
             // check if they have the same color
             if ((ar instanceof FormattedStringPartRichTextColor) != (br instanceof FormattedStringPartRichTextColor)) {

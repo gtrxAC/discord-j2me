@@ -132,10 +132,10 @@ public class App implements Strings {
 	public static void loadFonts() {
 		final int[] fontSizes = {Font.SIZE_SMALL, Font.SIZE_MEDIUM, Font.SIZE_LARGE};
 
-		authorFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[Settings.authorFontSize]);
-		timestampFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[Settings.authorFontSize]);
-		messageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[Settings.messageFontSize]);
-		titleFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[Settings.messageFontSize]);
+		authorFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, fontSizes[Settings.authorFontSize]);
+		timestampFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, fontSizes[Settings.authorFontSize]);
+		messageFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, fontSizes[Settings.messageFontSize]);
+		titleFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, fontSizes[Settings.messageFontSize]);
 
 		ListScreen.setAppearance(messageFont, Settings.menuIconSize, Locale.get(SELECT), Locale.get(SELECT_L), Locale.get(BACK), Locale.get(BACK_L));
 		ListScreen.noItemsString = Locale.get(LIST_EMPTY);

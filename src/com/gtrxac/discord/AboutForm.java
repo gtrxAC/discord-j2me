@@ -19,7 +19,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
     private void addString(String str, int fontStyle, int fontSize, int layout) {
         StringItem item = new StringItem(null, str);
         item.setLayout(layout);
-        item.setFont(Font.getFont(Font.FACE_SYSTEM, fontStyle, fontSize));
+        item.setFont(Font.getFont(Font.FACE_PROPORTIONAL, fontStyle, fontSize));
         append(item);
     }
 
