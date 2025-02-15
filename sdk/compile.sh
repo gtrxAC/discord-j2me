@@ -5,7 +5,7 @@ set -e
 
 # Create directories if they don't already exist, and remove any leftover files.
 echo "Setting up directories"
-mkdir --parents bin classes res src build
+mkdir -p bin classes res src build
 rm -rf build/*
 rm -rf classes/*
 
@@ -14,7 +14,7 @@ echo "Preprocessing"
 node sdk/preprocess.js `find src -name '*'.java` manifest.mf ${DEFINES}
 
 echo "Copying assets"
-mkdir --parents build/res
+mkdir -p build/res
 cp res/* build/res
 cd build/res
 rm -rf ${EXCLUDES}
