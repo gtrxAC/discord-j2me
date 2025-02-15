@@ -7,13 +7,11 @@ public class EmojiDownloadDialog extends Dialog implements Strings, CommandListe
     Displayable lastScreen;
     private Command yesCommand;
     private Command noCommand;
-    private State s;
 
-    EmojiDownloadDialog(State s) {
-        super(s.disp, null, Locale.get(EMOJI_DOWNLOAD_PROMPT));
+    EmojiDownloadDialog() {
+        super(null, Locale.get(EMOJI_DOWNLOAD_PROMPT));
         setCommandListener(this);
-        lastScreen = s.disp.getCurrent();
-        this.s = s;
+        lastScreen = App.disp.getCurrent();
 
         yesCommand = Locale.createCommand(YES, Command.OK, 0);
         noCommand = Locale.createCommand(NO, Command.BACK, 1);
@@ -23,10 +21,10 @@ public class EmojiDownloadDialog extends Dialog implements Strings, CommandListe
 
     public void commandAction(Command c, Displayable d) {
         if (c == yesCommand) {
-            new HTTPThread(s, HTTPThread.FETCH_EMOJIS).start();
+            new HTTPThread(HTTPThread.FETCH_EMOJIS).start();
         }
         else if (c == noCommand) {
-            s.disp.setCurrent(lastScreen);
+            App.disp.setCurrent(lastScreen);
         }
     }
 }

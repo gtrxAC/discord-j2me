@@ -30,10 +30,10 @@ public class Attachment implements Strings {
         return "" + size + Locale.get(SIZE_BYTES);
     }
 
-    public Attachment(State s, JSONObject data) {
+    public Attachment(JSONObject data) {
         String proxyUrl = data.getString("proxy_url");
 
-        browserUrl = s.cdn + proxyUrl.substring("https://media.discordapp.net".length());
+        browserUrl = Settings.cdn + proxyUrl.substring("https://media.discordapp.net".length());
 
         name = data.getString("filename", Locale.get(UNNAMED_FILE));
         size = fileSizeToString(data.getInt("size", 0));
@@ -58,7 +58,7 @@ public class Attachment implements Strings {
         int imageWidth = data.getInt("width");
         int imageHeight = data.getInt("height");
 
-        MainMenu menu = MainMenu.get(null);
+        MainMenu menu = MainMenu.get(false);
         int screenWidth = menu.getWidth();
         int screenHeight = menu.getHeight();
 
@@ -67,17 +67,17 @@ public class Attachment implements Strings {
         // Preview url is not using our own proxy, because media.discordapp.net works over http
         previewUrl =
             "http://" + proxyUrl.substring("https://".length()) +
-            "format=" + (s.useJpeg ? "jpeg" : "png") + "&width=" + size[0] + "&height=" + size[1];
+            "format=" + (Settings.useJpeg ? "jpeg" : "png") + "&width=" + size[0] + "&height=" + size[1];
 
         // Don't resize when opening in browser if the image is smaller than the configured max attachment size, or if it's a video
         // If resizing, use media.discordapp.net instead of CDN proxy
         if (
-            (imageWidth >= s.attachmentSize || imageHeight >= s.attachmentSize) &&
+            (imageWidth >= Settings.attachmentSize || imageHeight >= Settings.attachmentSize) &&
             browserUrl.indexOf(".mp4") == -1 && browserUrl.indexOf(".mov") == -1
         ) {
-            int[] browserSize = Util.resizeFit(imageWidth, imageHeight, s.attachmentSize, s.attachmentSize);
+            int[] browserSize = Util.resizeFit(imageWidth, imageHeight, Settings.attachmentSize, Settings.attachmentSize);
             browserUrl =
-                "http://media.discordapp.net" + browserUrl.substring(s.cdn.length()) +
+                "http://media.discordapp.net" + browserUrl.substring(Settings.cdn.length()) +
                 "width=" + browserSize[0] + "&height=" + browserSize[1];
         }
     }

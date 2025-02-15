@@ -5,7 +5,6 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class DMSelector extends ListScreen implements CommandListener, Strings {
-    State s;
     Vector lastDMs;
 
     private Command searchCommand;
@@ -16,22 +15,21 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
     private Command muteCommand;
     // endif
 
-    public DMSelector(State s) throws Exception {
+    public DMSelector() throws Exception {
         super(Locale.get(DM_SELECTOR_TITLE), true, true, false);
         setCommandListener(this);
-        this.s = s;
 
         // Get the 20 latest DMs (add into another vector sorted by highest to lowest last message ID)
         int count = 20;
-        if (s.dmChannels.size() < 20) count = s.dmChannels.size();
+        if (App.dmChannels.size() < 20) count = App.dmChannels.size();
         lastDMs = new Vector(count);
         
         for (int i = 0; i < count; i++) {
             long highestID = 0;
             int highestIndex = 0;
 
-            for (int u = 0; u < s.dmChannels.size(); u++) {
-                DMChannel ch = (DMChannel) s.dmChannels.elementAt(u);
+            for (int u = 0; u < App.dmChannels.size(); u++) {
+                DMChannel ch = (DMChannel) App.dmChannels.elementAt(u);
 
                 if (ch.lastMessageID <= highestID) continue;
 
@@ -48,13 +46,13 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
                 highestID = ch.lastMessageID;
                 highestIndex = u;
             }
-            lastDMs.addElement(s.dmChannels.elementAt(highestIndex));
+            lastDMs.addElement(App.dmChannels.elementAt(highestIndex));
         }
 
         UnreadManager.autoSave = false;
         for (int i = 0; i < lastDMs.size(); i++) {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
-            append(ch.name, null, IconCache.getResized(ch, s.menuIconSize), ch.getMenuIndicator());
+            append(ch.name, null, IconCache.getResized(ch, Settings.menuIconSize), ch.getMenuIndicator());
         }
         UnreadManager.manualSave();
 
@@ -69,7 +67,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
         addCommand(searchCommand);
         addCommand(refreshCommand);
 
-        if (s.dmChannels.size() > 0) {
+        if (App.dmChannels.size() > 0) {
             addCommand(markReadCommand);
             addCommand(markAllReadCommand);
             // ifdef OVER_100KB
@@ -86,7 +84,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             DMChannel ch = (DMChannel) lastDMs.elementAt(i);
             if (chId != null && !ch.id.equals(chId)) continue;
 
-            set(i, ch.name, null, IconCache.getResized(ch, s.menuIconSize), ch.getMenuIndicator());
+            set(i, ch.name, null, IconCache.getResized(ch, Settings.menuIconSize), ch.getMenuIndicator());
         }
     }
 
@@ -98,14 +96,14 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
             // Unload DM list if needed, and go back to main menu
-            if (!s.highRamMode) s.dmChannels = null;
-            s.disp.setCurrent(MainMenu.get(null));
+            if (!Settings.highRamMode) App.dmChannels = null;
+            App.disp.setCurrent(MainMenu.get(false));
         }
         if (c == searchCommand) {
-            s.disp.setCurrent(new DMSearchForm(s));
+            App.disp.setCurrent(new DMSearchForm());
         }
         if (c == refreshCommand) {
-            s.openDMSelector(true, true);
+            App.openDMSelector(true, true);
         }
         if (c == markAllReadCommand) {
             UnreadManager.markDMsRead();
@@ -115,13 +113,13 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             DMChannel dmCh = (DMChannel) lastDMs.elementAt(getSelectedIndex());
 
             if (c == SELECT_COMMAND) {
-                s.isDM = true;
-                s.selectedDmChannel = dmCh;
-                s.openChannelView(true);
+                App.isDM = true;
+                App.selectedDmChannel = dmCh;
+                App.openChannelView(true);
             }
             // ifdef OVER_100KB
             else if (c == muteCommand) {
-                FavoriteGuilds.toggleMute(s, dmCh.id);
+                FavoriteGuilds.toggleMute(dmCh.id);
                 update(dmCh.id);
             }
             // endif

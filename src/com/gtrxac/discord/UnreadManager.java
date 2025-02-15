@@ -6,14 +6,12 @@ import cc.nnproject.json.*;
 
 public class UnreadManager {
     private static Hashtable channels;
-    private static State s;
     public static boolean autoSave;
     public static boolean needSave;
     public static String lastUnreadTime;  // previously unread message ID for the last channel that markRead() was used on
     public static boolean lastHadUnreads;
 
-    public static void init(State s) {
-        UnreadManager.s = s;
+    public static void init() {
         channels = new Hashtable();
         autoSave = true;
         needSave = false;
@@ -40,7 +38,7 @@ public class UnreadManager {
             Util.closeRecordStore(rms);
         }
         catch (RecordStoreNotFoundException e) {}
-        catch (Exception e) { s.error(e); }
+        catch (Exception e) { App.error(e); }
     }
 
     public static void save() {
@@ -65,7 +63,7 @@ public class UnreadManager {
             Util.setOrAddRecord(rms, 1, data);
             Util.closeRecordStore(rms);
         }
-        catch (Exception e) { s.error(e); }
+        catch (Exception e) { App.error(e); }
 
         needSave = false;
     }
@@ -111,7 +109,7 @@ public class UnreadManager {
     }
 
     public static void markDMsRead() {
-        if (s.dmSelector != null) markRead(s.dmSelector.lastDMs);
+        if (App.dmSelector != null) markRead(App.dmSelector.lastDMs);
     }
 
     public static void markRead(Vector v) {

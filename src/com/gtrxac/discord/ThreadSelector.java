@@ -4,7 +4,6 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class ThreadSelector extends ListScreen implements CommandListener, Strings {
-    State s;
     private Command refreshCommand;
     private Command markThreadReadCommand;
     private Command markAllReadCommand;
@@ -12,13 +11,12 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
     private Command muteCommand;
     // endif
 
-    public ThreadSelector(State s) throws Exception {
-        super("#" + s.selectedChannelForThreads.name, true, true, false);
+    public ThreadSelector() throws Exception {
+        super("#" + App.selectedChannelForThreads.name, true, true, false);
         setCommandListener(this);
-        this.s = s;
 
-        for (int i = 0; i < s.threads.size(); i++) {
-            Channel ch = (Channel) s.threads.elementAt(i);
+        for (int i = 0; i < App.threads.size(); i++) {
+            Channel ch = (Channel) App.threads.elementAt(i);
             append(ch.toString(), null, null, ch.getMenuIndicator());
         }
 
@@ -30,7 +28,7 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
         // endif
         addCommand(refreshCommand);
 
-        if (s.threads.size() > 0) {
+        if (App.threads.size() > 0) {
             addCommand(markThreadReadCommand);
             addCommand(markAllReadCommand);
             // ifdef OVER_100KB
@@ -43,8 +41,8 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
      * Updates the unread indicator for a thread shown in this selector.
      */
     public void update(String id) {
-        for (int i = 0; i < s.threads.size(); i++) {
-            Channel ch = (Channel) s.threads.elementAt(i);
+        for (int i = 0; i < App.threads.size(); i++) {
+            Channel ch = (Channel) App.threads.elementAt(i);
             if (id != null && !ch.id.equals(id)) continue;
 
             set(i, ch.toString(), null, null, ch.getMenuIndicator());
@@ -59,30 +57,30 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
             // Unload this channel's thread list if needed, and go back to channel list
-            if (!s.highRamMode && !s.gatewayActive()) {
-                s.threads = null;
-                s.selectedChannelForThreads.threads = null;
+            if (!Settings.highRamMode && !App.gatewayActive()) {
+                App.threads = null;
+                App.selectedChannelForThreads.threads = null;
             }
-            s.disp.setCurrent(s.channelSelector);
+            App.disp.setCurrent(App.channelSelector);
         }
         else if (c == refreshCommand) {
-            new HTTPThread(s, HTTPThread.FETCH_THREADS).start();
+            new HTTPThread(HTTPThread.FETCH_THREADS).start();
         }
         else if (c == markAllReadCommand) {
-            UnreadManager.markRead(s.threads);
+            UnreadManager.markRead(App.threads);
             update();
         }
         else {
-            Channel ch = (Channel) s.threads.elementAt(getSelectedIndex());
+            Channel ch = (Channel) App.threads.elementAt(getSelectedIndex());
 
             if (c == SELECT_COMMAND) {
-                s.isDM = false;
-                s.selectedChannel = ch;
-                s.openChannelView(true);
+                App.isDM = false;
+                App.selectedChannel = ch;
+                App.openChannelView(true);
             }
             // ifdef OVER_100KB
             else if (c == muteCommand) {
-                FavoriteGuilds.toggleMute(s, ch.id);
+                FavoriteGuilds.toggleMute(ch.id);
                 update(ch.id);
             }
             // endif

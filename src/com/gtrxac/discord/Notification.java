@@ -14,8 +14,8 @@ public class Notification {
     /**
      * Opens the channel where this notification occurred.
      */
-    public void view(State s) {
-        HTTPThread h = new HTTPThread(s, HTTPThread.VIEW_NOTIFICATION);
+    public void view() {
+        HTTPThread h = new HTTPThread(HTTPThread.VIEW_NOTIFICATION);
         h.guildID = guildID;
         h.channelID = channelID;
         h.start();

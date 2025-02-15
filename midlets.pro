@@ -12,6 +12,7 @@
 # -dontobfuscate
 
 -keep public class * extends javax.microedition.midlet.MIDlet
+-applymapping mapping.map
 -dontnote
 -dontusemixedcaseclassnames
 -repackageclasses ''

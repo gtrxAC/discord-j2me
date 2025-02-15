@@ -2,29 +2,29 @@ package com.gtrxac.discord;
 
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
-import javax.microedition.rms.*;
 
 public class DiscordMIDlet extends MIDlet {
-    private boolean started = false;
-    private static State s;
+    public static DiscordMIDlet instance;
 
-    public DiscordMIDlet() {}
+    private boolean started = false;
+
+    public DiscordMIDlet() {
+        instance = this;
+    }
 
     public void startApp() {
         if (!started) {
-            s = new State();
-            s.midlet = this;
-            s.disp = Display.getDisplay(this);
-            LoginSettings.load(s);
+            App.disp = Display.getDisplay(this);
+            Settings.load();
 
             // If token was not found in save file, go to login screen, else login and go to main menu
-            if (s.token.trim().length() == 0) {
+            if (Settings.token.trim().length() == 0) {
                 // Theme and fonts need to be loaded so Dialog screens can be shown as part of the LoginForm
-                s.loadTheme();
-                s.loadFonts();
-                s.disp.setCurrent(new LoginForm(s));
+                App.loadTheme();
+                App.loadFonts();
+                App.disp.setCurrent(new LoginForm());
             } else {
-                s.login();
+                App.login();
             }
             started = true;
         }

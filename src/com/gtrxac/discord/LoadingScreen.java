@@ -4,7 +4,6 @@ import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 public class LoadingScreen extends MyCanvas implements Runnable, Strings {
-    private State s;
     private int iconOffset;
 
     volatile String text;
@@ -17,9 +16,8 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     static int scale;
     static Image[] frames;
 
-    public LoadingScreen(State s) {
+    public LoadingScreen() {
         super();
-        this.s = s;
         text = Locale.get(LOADING);
         curFrame = 0;
         animDirection = 1;
@@ -66,11 +64,11 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     // Icon animation thread
     public void run() {
         // Wait for the load screen to show up
-        while (s.disp.getCurrent() != this) {
+        while (App.disp.getCurrent() != this) {
             Util.sleep(10);
         }
 
-        while (s.disp.getCurrent() == this) {
+        while (App.disp.getCurrent() == this) {
             long paintTime = System.currentTimeMillis();
             repaint();
             serviceRepaints();
@@ -100,12 +98,12 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
 
     protected void paint(Graphics g) {
         // Fill background with selected theme's background color
-        g.setColor(ChannelView.backgroundColors[s.theme]);
+        g.setColor(ChannelView.backgroundColors[Settings.theme]);
         g.fillRect(0, 0, getWidth(), getHeight());
 
         // Draw current animation frame
         if (frames[curFrame] != null) {
-            int messageFontHeight = s.messageFont.getHeight();
+            int messageFontHeight = App.messageFont.getHeight();
             int halfContainerHeight = 24*scale + messageFontHeight*3/4;
 
             g.drawImage(
@@ -113,8 +111,8 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
                 Graphics.HCENTER | Graphics.TOP
             );
 
-            g.setColor(ChannelView.timestampColors[s.theme]);
-            g.setFont(s.messageFont);
+            g.setColor(ChannelView.timestampColors[Settings.theme]);
+            g.setFont(App.messageFont);
             g.drawString(
                 text, getWidth()/2, getHeight()/2 + halfContainerHeight,
                 Graphics.HCENTER | Graphics.BOTTOM

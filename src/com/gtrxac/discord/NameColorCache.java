@@ -5,27 +5,25 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class NameColorCache {
-    private State s;
-    private Hashtable colors;
-    private Vector keys;
-    public boolean activeRequest;
+    private static Hashtable colors;
+    private static Vector keys;
+    public static boolean activeRequest;
 
-    public NameColorCache(State s) {
-        this.s = s;
+    public static void init() {
         colors = new Hashtable();
         keys = new Vector();
     }
 
-    private void fetch() {
+    private static void fetch() {
         JSONObject reqData = new JSONObject();
-        reqData.put("guild_id", s.selectedGuild.id);
+        reqData.put("guild_id", App.selectedGuild.id);
 
         JSONArray requestIds = new JSONArray();
 
         // Populate requestIds with authors and recipients of all messages that
         // are currently loaded and that don't have name colors already fetched
-        for (int i = 0; i < s.messages.size(); i++) {
-            Message msg = (Message) s.messages.elementAt(i);
+        for (int i = 0; i < App.messages.size(); i++) {
+            Message msg = (Message) App.messages.elementAt(i);
             String userId = msg.author.id;
 
             if (requestIds.indexOf(userId) == -1 && !has(msg.author)) {
@@ -45,21 +43,21 @@ public class NameColorCache {
         JSONObject msg = new JSONObject();
         msg.put("op", 8);
         msg.put("d", reqData);
-        s.gateway.send(msg);
+        App.gateway.send(msg);
     }
 
-    public boolean active() {
-        return s.useNameColors &&
+    public static boolean active() {
+        return Settings.useNameColors &&
             // name colors are not applicable in non-guild contexts
-            !s.isDM && s.selectedGuild != null &&
+            !App.isDM && App.selectedGuild != null &&
             // name colors cannot be fetched without gateway (technically can but isn't practical)
-            s.gatewayActive();
+            App.gatewayActive();
     }
 
-    public int get(String userId) {
+    public static int get(String userId) {
         if (!active()) return 0;
 
-        String key = userId + s.selectedGuild.id;
+        String key = userId + App.selectedGuild.id;
 
         Integer result = (Integer) colors.get(key);
         if (result != null) return result.intValue();
@@ -71,21 +69,21 @@ public class NameColorCache {
         return 0;
     }
     
-    public int get(User user) {
+    public static int get(User user) {
         return get(user.id);
     }
 
-    public void set(String key, int color) {
+    public static void set(String key, int color) {
         Util.hashtablePutWithLimit(colors, keys, key, new Integer(color), 50);
-        s.channelView.repaint();
+        App.channelView.repaint();
     }
 
-    public boolean has(User user, boolean def) {
+    public static boolean has(User user, boolean def) {
         if (!active()) return def;
-        return colors.containsKey(user.id + s.selectedGuild.id);
+        return colors.containsKey(user.id + App.selectedGuild.id);
     }
 
-    public boolean has(User user) {
+    public static boolean has(User user) {
         return has(user, false);
     }
 }

@@ -8,7 +8,6 @@ import cc.nnproject.json.*;
  * Message list for channels (both guild channels and DM channels).
  */
 public class ChannelView extends KineticScrollingCanvas implements CommandListener, Strings {
-    private State s;
     private Command backCommand;
     private Command selectCommand;
     private Command sendCommand;
@@ -58,11 +57,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     static final int[] authorColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
     static final int[] timestampColors =  {0xAAAAAA, 0x666666, 0x999999};
 
-    public ChannelView(State s) throws Exception {
+    public ChannelView() throws Exception {
         super();
         setCommandListener(this);
-        this.s = s;
-        s.channelIsOpen = true;
+        App.channelIsOpen = true;
         updateTitle();
 
         backCommand = Locale.createCommand(BACK, Command.BACK, 0);
@@ -77,8 +75,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         openUrlCommand = Locale.createCommand(OPEN_URL, Command.ITEM, 9);
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 11);
 
-        fontHeight = s.messageFont.getHeight();
-        authorFontHeight = s.authorFont.getHeight();
+        fontHeight = App.messageFont.getHeight();
+        authorFontHeight = App.authorFont.getHeight();
         scrollUnit = fontHeight;
 
         addCommand(backCommand);
@@ -90,8 +88,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (!Util.isKemulator)
         // endif
         {
-            setFullScreenMode(s.fullscreenDefault);
-            fullscreen = s.fullscreenDefault;
+            setFullScreenMode(Settings.fullscreenDefault);
+            fullscreen = Settings.fullscreenDefault;
 
             fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 10);
             addCommand(fullScreenCommand);
@@ -119,14 +117,14 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     public void updateTitle() {
         StringBuffer resultBuf = new StringBuffer();
-        if (s.isDM) {
-            if (!s.selectedDmChannel.isGroup) {
+        if (App.isDM) {
+            if (!App.selectedDmChannel.isGroup) {
                 resultBuf.append("@");
             } 
-            resultBuf.append(s.selectedDmChannel.name);
+            resultBuf.append(App.selectedDmChannel.name);
         } else {
-            if (!s.selectedChannel.isThread) resultBuf.append("#");
-            resultBuf.append(s.selectedChannel.name);
+            if (!App.selectedChannel.isThread) resultBuf.append("#");
+            resultBuf.append(App.selectedChannel.name);
         }
         if (page > 0) resultBuf.append(Locale.get(CHANNEL_VIEW_TITLE_OLD));
 
@@ -136,18 +134,18 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     private void update(boolean wasResized, boolean wasGateway, boolean wasGatewayNewMsg) {
         items = new Vector();
 
-        if (s.messages.size() == 0) return;
+        if (App.messages.size() == 0) return;
 
         int oldMaxScroll = maxScroll;
         maxScroll = 0;
 
         if (page > 0) {
-            ChannelViewItem newerItem = new ChannelViewItem(s, ChannelViewItem.NEWER_BUTTON);
+            ChannelViewItem newerItem = new ChannelViewItem(ChannelViewItem.NEWER_BUTTON);
             items.addElement(newerItem);
             maxScroll += newerItem.getHeight();
         }
 
-        Message first = (Message) s.messages.elementAt(s.messages.size() - 1);
+        Message first = (Message) App.messages.elementAt(App.messages.size() - 1);
         first.showAuthor = true;
 
         Message above = first;
@@ -171,9 +169,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             hasMoreUnreads = false;
         }
 
-        if (s.messages.size() > 1) {
-            for (int i = s.messages.size() - 2; i >= 0; i--) {
-                Message msg = (Message) s.messages.elementAt(i);
+        if (App.messages.size() > 1) {
+            for (int i = App.messages.size() - 2; i >= 0; i--) {
+                Message msg = (Message) App.messages.elementAt(i);
 
                 // Check if the red "NEW" unread indicator should be placed above this message
                 // Don't show unread indicator for messages that come from gateway
@@ -194,30 +192,30 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
         }
 
-        boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
+        boolean useIcons = Settings.pfpType != Settings.PFP_TYPE_NONE;
         int iconAreaWidth = (useIcons ? fontHeight*2 : fontHeight/5);
         int contentWidth = width - iconAreaWidth;
         int embedTextX = iconAreaWidth + fontHeight/3;
         int embedTextWidth = contentWidth - fontHeight/2 - fontHeight*2/3;
 
-        for (int i = 0; i < s.messages.size(); i++) {
-            Message msg = (Message) s.messages.elementAt(i);
+        for (int i = 0; i < App.messages.size(); i++) {
+            Message msg = (Message) App.messages.elementAt(i);
             boolean needUpdate = msg.needUpdate;
 
             // ifdef OVER_100KB
             if (msg.contentFormatted == null || wasResized || needUpdate) {
-                msg.contentFormatted = new FormattedString(msg.content, s.messageFont, contentWidth, iconAreaWidth, false, msg.isEdited, msg.isForwarded);
+                msg.contentFormatted = new FormattedString(msg.content, App.messageFont, contentWidth, iconAreaWidth, false, msg.isEdited, msg.isForwarded);
                 msg.needUpdate = false;
             }
             // else
             if (msg.contentLines == null || wasResized || needUpdate) {
-                msg.contentLines = Util.wordWrap(msg.content, contentWidth, s.messageFont);
+                msg.contentLines = Util.wordWrap(msg.content, contentWidth, App.messageFont);
                 msg.needUpdate = false;
             }
             // endif
 
             if (msg.attachments != null && msg.attachments.size() > 0) {
-                ChannelViewItem attachItem = new ChannelViewItem(s, ChannelViewItem.ATTACHMENTS_BUTTON);
+                ChannelViewItem attachItem = new ChannelViewItem(ChannelViewItem.ATTACHMENTS_BUTTON);
                 attachItem.msg = msg;
                 items.addElement(attachItem);
                 maxScroll += attachItem.getHeight();
@@ -229,20 +227,20 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
                     // ifdef OVER_100KB
                     if ((wasResized || emb.titleFormatted == null || needUpdate) && emb.title != null) {
-                        emb.titleFormatted = new FormattedString(emb.title, s.titleFont, embedTextWidth, embedTextX, false, false, false);
+                        emb.titleFormatted = new FormattedString(emb.title, App.titleFont, embedTextWidth, embedTextX, false, false, false);
                         msg.needUpdate = false;
                     }
                     if ((wasResized || emb.descFormatted == null || needUpdate) && emb.description != null) {
-                        emb.descFormatted = new FormattedString(emb.description, s.messageFont, embedTextWidth, embedTextX, false, false, false);
+                        emb.descFormatted = new FormattedString(emb.description, App.messageFont, embedTextWidth, embedTextX, false, false, false);
                         msg.needUpdate = false;
                     }
                     // else
                     if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
-                        emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, s.titleFont);
+                        emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, App.titleFont);
                         msg.needUpdate = false;
                     }
                     if ((wasResized || emb.descLines == null || needUpdate) && emb.description != null) {
-                        emb.descLines = Util.wordWrap(emb.description, embedTextWidth, s.messageFont);
+                        emb.descLines = Util.wordWrap(emb.description, embedTextWidth, App.messageFont);
                         msg.needUpdate = false;
                     }
                     // endif
@@ -257,7 +255,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 || msg.contentLines.length != 0
                 // endif
             ) {
-                ChannelViewItem msgItem = new ChannelViewItem(s, ChannelViewItem.MESSAGE);
+                ChannelViewItem msgItem = new ChannelViewItem(ChannelViewItem.MESSAGE);
                 msgItem.msg = msg;
                 items.addElement(msgItem);
                 maxScroll += msgItem.getHeight();
@@ -265,22 +263,22 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
             // If this message is the last one read by the user, show the "NEW" indicator above it
             if (i == unreadIndicatorPos) {
-                ChannelViewItem unreadItem = new ChannelViewItem(s, ChannelViewItem.UNREAD_INDICATOR);
+                ChannelViewItem unreadItem = new ChannelViewItem(ChannelViewItem.UNREAD_INDICATOR);
                 items.addElement(unreadItem);
                 unreadIndicatorPosFinal = items.size();
                 maxScroll += unreadItem.getHeight();
             }
         }
 
-        if (s.messages.size() >= s.messageLoadCount) {
-            ChannelViewItem olderItem = new ChannelViewItem(s, ChannelViewItem.OLDER_BUTTON);
+        if (App.messages.size() >= Settings.messageLoadCount) {
+            ChannelViewItem olderItem = new ChannelViewItem(ChannelViewItem.OLDER_BUTTON);
             items.addElement(olderItem);
             maxScroll += olderItem.getHeight();
         }
 
         // Place unread indicator above the "older messages" button if there are more unreads than what can be shown on one page
         if (hasMoreUnreads) {
-            ChannelViewItem unreadItem = new ChannelViewItem(s, ChannelViewItem.UNREAD_INDICATOR);
+            ChannelViewItem unreadItem = new ChannelViewItem(ChannelViewItem.UNREAD_INDICATOR);
             items.addElement(unreadItem);
             maxScroll += unreadItem.getHeight();
         }
@@ -336,7 +334,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
     public void getMessages() throws Exception {
-        HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_MESSAGES);
+        HTTPThread h = new HTTPThread(HTTPThread.FETCH_MESSAGES);
         h.fetchMsgsBefore = before;
         h.fetchMsgsAfter = after;
         h.start();
@@ -430,7 +428,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                     _removeCommand(openUrlCommand);
                 }
 
-                if (s.myUserId.equals(selected.msg.author.id) && !selected.msg.isStatus) {
+                if (App.myUserId.equals(selected.msg.author.id) && !selected.msg.isStatus) {
                     _addCommand(editCommand);
                     _addCommand(deleteCommand);
                 } else {
@@ -458,32 +456,32 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
     // Also used by old channel view
-    public static String getTypingString(State s) {
-        switch (s.typingUsers.size()) {
+    public static String getTypingString() {
+        switch (App.typingUsers.size()) {
             case 1:
                 return
-                    s.typingUsers.elementAt(0) +
+                    App.typingUsers.elementAt(0) +
                     Locale.get(TYPING_ONE); 
 
             case 2:
                 return
-                    s.typingUsers.elementAt(0) +
+                    App.typingUsers.elementAt(0) +
                     Locale.get(COMMA) +
-                    s.typingUsers.elementAt(1) +
+                    App.typingUsers.elementAt(1) +
                     Locale.get(TYPING_MANY);
 
             case 3:
                 return
-                    s.typingUsers.elementAt(0) +
+                    App.typingUsers.elementAt(0) +
                     Locale.get(COMMA) +
-                    s.typingUsers.elementAt(1) +
+                    App.typingUsers.elementAt(1) +
                     Locale.get(COMMA) +
-                    s.typingUsers.elementAt(2) +
+                    App.typingUsers.elementAt(2) +
                     Locale.get(TYPING_MANY);
 
             default:
                 return
-                    s.typingUsers.size() +
+                    App.typingUsers.size() +
                     Locale.get(TYPING_SEVERAL);
         }
     }
@@ -520,12 +518,12 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             updateCommands(selected);
         }
 
-        g.setFont(s.messageFont);
-        g.setColor(backgroundColors[s.theme]);
+        g.setFont(App.messageFont);
+        g.setColor(backgroundColors[Settings.theme]);
         g.fillRect(0, 0, width, height);
 
         if (items.size() == 0) {
-            g.setColor(timestampColors[s.theme]);
+            g.setColor(timestampColors[Settings.theme]);
             g.drawString(
                 Locale.get(CHANNEL_VIEW_EMPTY), width/2, height/2 - fontHeight/2,
                 Graphics.HCENTER | Graphics.TOP
@@ -547,8 +545,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         int bannerY = 0;
 
         if (bannerText != null) {
-            g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap(bannerText, width, s.messageFont);
+            g.setFont(App.messageFont);
+            String[] lines = Util.wordWrap(bannerText, width, App.messageFont);
             g.setColor(0x005865f2);
             g.fillRect(0, 0, width, fontHeight*lines.length + fontHeight/4);
 
@@ -563,8 +561,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
         if (outdated) {
-            g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap(Locale.get(CHANNEL_VIEW_OUTDATED), width, s.messageFont);
+            g.setFont(App.messageFont);
+            String[] lines = Util.wordWrap(Locale.get(CHANNEL_VIEW_OUTDATED), width, App.messageFont);
             g.setColor(0x00AA1122);
             g.fillRect(0, bannerY, width, fontHeight*lines.length + fontHeight/4);
 
@@ -578,15 +576,15 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             bannerY += fontHeight*lines.length + fontHeight/4;
         }
 
-        if (s.typingUsers.size() > 0) {
-            String typingStr = getTypingString(s);
+        if (App.typingUsers.size() > 0) {
+            String typingStr = getTypingString();
 
-            g.setFont(s.messageFont);
-            String[] lines = Util.wordWrap(typingStr, width, s.messageFont);
-            g.setColor(darkBgColors[s.theme]);
+            g.setFont(App.messageFont);
+            String[] lines = Util.wordWrap(typingStr, width, App.messageFont);
+            g.setColor(darkBgColors[Settings.theme]);
             g.fillRect(0, bannerY, width, fontHeight*lines.length + fontHeight/4);
 
-            g.setColor(authorColors[s.theme]);
+            g.setColor(authorColors[Settings.theme]);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
                     lines[i], width/2, bannerY + i*fontHeight + fontHeight/8,
@@ -611,51 +609,51 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             case ChannelViewItem.NEWER_BUTTON: {
                 page--;
                 before = null;
-                after = ((Message) s.messages.elementAt(0)).id;
+                after = ((Message) App.messages.elementAt(0)).id;
                 try {
                     getMessages();
                 }
                 catch (Exception e) {
-                    s.error(e);
+                    App.error(e);
                 }
                 break;
             }
             case ChannelViewItem.OLDER_BUTTON: {
                 page++;
                 after = null;
-                before = ((Message) s.messages.elementAt(s.messages.size() - 1)).id;
+                before = ((Message) App.messages.elementAt(App.messages.size() - 1)).id;
                 try {
                     getMessages();
                 }
                 catch (Exception e) {
-                    s.error(e);
+                    App.error(e);
                 }
                 break;
             }
             case ChannelViewItem.ATTACHMENTS_BUTTON: {
-                s.openAttachmentView(false, selected.msg);
+                App.openAttachmentView(false, selected.msg);
                 break;
             }
         }
     }
 
     private void sendHotkeyAction() {
-        s.dontShowLoadScreen = true;
-        s.disp.setCurrent(new MessageBox(s));
+        App.dontShowLoadScreen = true;
+        App.disp.setCurrent(new MessageBox());
     }
 
     private void replyHotkeyAction() {
         if (!selectionMode || items.size() == 0) return;
         ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
         if (!item.shouldShowReplyOption()) return;
-        s.disp.setCurrent(new ReplyForm(s, item.msg));
+        App.disp.setCurrent(new ReplyForm(item.msg));
     }
 
     private void copyHotkeyAction() {
         if (!selectionMode || items.size() == 0) return;
         ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
         if (item.type != ChannelViewItem.MESSAGE) return;
-        s.disp.setCurrent(new MessageCopyBox(s, item.msg.content));
+        App.disp.setCurrent(new MessageCopyBox(item.msg.content));
     }
     
     private void keyEvent(int keycode) {
@@ -707,7 +705,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
             // not up/down/select - check if it's a hotkey
             default: {
-                if (s.defaultHotkeys) {
+                if (Settings.defaultHotkeys) {
                     // default hotkey (j2me game actions A/B/C/D)
                     switch (action) {
                         case GAME_A: sendHotkeyAction(); break;
@@ -717,30 +715,30 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                     }
                 } else {
                     // user bound key (when 'default hotkeys' option disabled)
-                    if (keycode == s.sendHotkey) {
+                    if (keycode == Settings.sendHotkey) {
                         sendHotkeyAction();
                     }
-                    else if (keycode == s.replyHotkey) {
+                    else if (keycode == Settings.replyHotkey) {
                         replyHotkeyAction();
                     }
-                    else if (keycode == s.copyHotkey) {
+                    else if (keycode == Settings.copyHotkey) {
                         copyHotkeyAction();
                     }
-                    else if (keycode == s.refreshHotkey) {
+                    else if (keycode == Settings.refreshHotkey) {
                         commandAction(refreshCommand, this);
                     }
-                    else if (keycode == s.backHotkey) {
+                    else if (keycode == Settings.backHotkey) {
                         commandAction(backCommand, this);
                     }
-                    else if (keycode == s.fullscreenHotkey) {
+                    else if (keycode == Settings.fullscreenHotkey) {
                         commandAction(fullScreenCommand, this);
                     }
                     // ifdef OVER_100KB
-                    else if (keycode == s.scrollTopHotkey) {
+                    else if (keycode == Settings.scrollTopHotkey) {
                         selectionMode = true;
                         selectedItem = items.size() - 1;
                     }
-                    else if (keycode == s.scrollBottomHotkey) {
+                    else if (keycode == Settings.scrollBottomHotkey) {
                         selectionMode = true;
                         selectedItem = 0;
                     }
@@ -789,49 +787,49 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     private void uploadFile(Message recipientMsg) {
         try {
-            if (!s.isLiteProxy) {
-                s.error(Locale.get(UPLOAD_NOT_SUPPORTED));
+            if (!App.isLiteProxy) {
+                App.error(Locale.get(UPLOAD_NOT_SUPPORTED));
             }
-            else if (s.nativeFilePicker) {
+            else if (Settings.nativeFilePicker) {
                 if (Util.supportsFileConn) {
                     // ifdef SAMSUNG_100KB
-                    s.disp.setCurrent(new AttachmentPickerOld(s, recipientMsg));
+                    App.disp.setCurrent(new AttachmentPickerOld(recipientMsg));
                     // else
-                    s.disp.setCurrent(new AttachmentPicker(s, recipientMsg));
+                    App.disp.setCurrent(new AttachmentPicker(recipientMsg));
                     // endif
                 } else {
-                    s.error(Locale.get(UPLOAD_ERROR_FILECONN));
+                    App.error(Locale.get(UPLOAD_ERROR_FILECONN));
                 }
             }
             else {
                 // ifdef OVER_100KB
-                s.gatewaySendTyping();
+                App.gatewaySendTyping();
                 // endif
-                String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
-                String url = s.api + "/upload?channel=" + id + "&token=" + s.uploadToken;
+                String id = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
+                String url = Settings.api + "/upload?channel=" + id + "&token=" + App.uploadToken;
                 if (recipientMsg != null) url += "&reply=" + recipientMsg.id;
-                s.platformRequest(url);
+                App.platRequest(url);
             }
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
     }
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
             UnreadManager.save();
-            s.channelIsOpen = false;
-            if (s.isDM) s.openDMSelector(false, false);
-            else if (s.selectedChannel.isThread) s.openThreadSelector(false, false);
-            else s.openChannelSelector(false, false);
+            App.channelIsOpen = false;
+            if (App.isDM) App.openDMSelector(false, false);
+            else if (App.selectedChannel.isThread) App.openThreadSelector(false, false);
+            else App.openChannelSelector(false, false);
         }
         else if (c == sendCommand) {
-            s.disp.setCurrent(new MessageBox(s));
+            App.disp.setCurrent(new MessageBox());
         }
         else if (c == refreshCommand) {
-            s.dontShowLoadScreen = true;
-            s.openChannelView(true);
+            App.dontShowLoadScreen = true;
+            App.openChannelView(true);
         }
         else if (c == selectCommand) {
             executeItemAction();
@@ -850,26 +848,26 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 uploadFile(selected);
             }
             else if (c == replyCommand) {
-                s.disp.setCurrent(new ReplyForm(s, selected));
+                App.disp.setCurrent(new ReplyForm(selected));
             }
             else if (c == copyCommand) {
-                s.disp.setCurrent(new MessageCopyBox(s, selected.content));
+                App.disp.setCurrent(new MessageCopyBox(selected.content));
             }
             else if (c == openUrlCommand) {
-                s.disp.setCurrent(new URLList(s, selected.content));
+                App.disp.setCurrent(new URLList(selected.content));
             }
             else if (c == deleteCommand) {
-                if (!s.isLiteProxy) {
-                    s.error(Locale.get(DELETE_NOT_SUPPORTED));
+                if (!App.isLiteProxy) {
+                    App.error(Locale.get(DELETE_NOT_SUPPORTED));
                 } else {
-                    s.disp.setCurrent(new DeleteConfirmDialog(s, selected));
+                    App.disp.setCurrent(new DeleteConfirmDialog(selected));
                 }
             }
             else if (c == editCommand) {
-                if (!s.isLiteProxy) {
-                    s.error(Locale.get(EDIT_NOT_SUPPORTED));
+                if (!App.isLiteProxy) {
+                    App.error(Locale.get(EDIT_NOT_SUPPORTED));
                 } else {
-                    s.disp.setCurrent(new MessageBox(s, selected));
+                    App.disp.setCurrent(new MessageBox(selected));
                 }
             }
         }

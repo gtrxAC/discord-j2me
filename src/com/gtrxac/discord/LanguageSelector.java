@@ -4,7 +4,6 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class LanguageSelector extends ListScreen implements CommandListener, Strings {
-    private State s;
     private Displayable lastScreen;
 
     // Should match the order that is in Locale.langIds
@@ -34,17 +33,16 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         "廣東話" // yue (Cantonese)
     };
 
-    public LanguageSelector(State s) {
+    public LanguageSelector() {
         super(Locale.get(LANGUAGE_SELECTOR_TITLE), List.IMPLICIT);
         setCommandListener(this);
-        this.s = s;
-        lastScreen = s.disp.getCurrent();
+        lastScreen = App.disp.getCurrent();
 
         Image[] flags = {
-            s.ic.flagBG, s.ic.flagDE, s.ic.flagGB, s.ic.flagUS, s.ic.flagES, s.ic.flagFI, s.ic.flagFR, s.ic.flagHR, s.ic.flagID,
-            s.ic.flagIT, s.ic.flagMY, s.ic.flagPL, s.ic.flagPT, s.ic.flagBR, s.ic.flagRO,
-            s.ic.flagRU, s.ic.flagSV, s.ic.flagTH, s.ic.flagTR,
-            s.ic.flagUK, s.ic.flagVI, s.ic.flagTW, s.ic.flagHK
+            App.ic.flagBG, App.ic.flagDE, App.ic.flagGB, App.ic.flagUS, App.ic.flagES, App.ic.flagFI, App.ic.flagFR, App.ic.flagHR, App.ic.flagID,
+            App.ic.flagIT, App.ic.flagMY, App.ic.flagPL, App.ic.flagPT, App.ic.flagBR, App.ic.flagRO,
+            App.ic.flagRU, App.ic.flagSV, App.ic.flagTH, App.ic.flagTR,
+            App.ic.flagUK, App.ic.flagVI, App.ic.flagTW, App.ic.flagHK
         };
 
         for (int i = 0; i < Locale.langIds.length; i++) {
@@ -54,14 +52,14 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
 
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
-            s.language = Locale.langIds[getSelectedIndex()];
-            Locale.setLanguage(s);
-            LoginSettings.save(s);
+            Settings.language = Locale.langIds[getSelectedIndex()];
+            Locale.setLanguage();
+            Settings.save();
 
             // Clear servers/DMs (so the lists get refreshed, which in turn updates the softkey labels)
-            s.guilds = null;
-            s.dmChannels = null;
+            App.guilds = null;
+            App.dmChannels = null;
         }
-        s.disp.setCurrent(lastScreen);
+        App.disp.setCurrent(lastScreen);
     }
 }

@@ -6,16 +6,16 @@ import javax.microedition.lcdui.*;
 import java.io.*;
 
 public class TokenFilePicker extends FilePicker {
-    public TokenFilePicker(State s) {
-        this(s, "file:///");
+    public TokenFilePicker() {
+        this("file:///");
     }
 
-    protected TokenFilePicker(State s, String currentPath) {
-        super(s, Locale.get(TOKEN_PICKER_TITLE), currentPath);
+    protected TokenFilePicker(String currentPath) {
+        super(Locale.get(TOKEN_PICKER_TITLE), currentPath);
     }
 
     protected void directorySelected(String selectedPath) {
-        s.disp.setCurrent(new TokenFilePicker(s, selectedPath));
+        App.disp.setCurrent(new TokenFilePicker(selectedPath));
     }
 
     protected boolean fileFilter(String fileName) {
@@ -28,12 +28,12 @@ public class TokenFilePicker extends FilePicker {
         try {
             int size = (int) fc.fileSize();
             is = fc.openInputStream();
-            s.token = Util.bytesToString(Util.readBytes(is, size, 1024, 2048)).trim();
-            s.token = Util.stringToLength(s.token, 200);
+            Settings.token = Util.bytesToString(Util.readBytes(is, size, 1024, 2048)).trim();
+            Settings.token = Util.stringToLength(Settings.token, 200);
             close();
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
         try { is.close(); } catch (Exception e) {}
         try { fc.close(); } catch (Exception e) {}

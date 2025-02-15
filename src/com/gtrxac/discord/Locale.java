@@ -44,12 +44,11 @@ public class Locale {
 
     /**
      * Loads strings for the specified language ID
-     * @param s Discord J2ME state object
      * @param id Language ID to load strings for
      * @return Vector of strings for the specified language; null if language ID doesn't exist;
      *   null if language is not downloaded (in which case the language gets downloaded and languageLoaded is run after download is complete)
      */
-    private static Vector loadLanguage(State s, String id) {
+    private static Vector loadLanguage(String id) {
         // Check if language exists
         boolean found = false;
         for (int i = 0; i < langIds.length; i++) {
@@ -78,7 +77,7 @@ public class Locale {
                 result = JSON.getArray(jsonData).toVector();
             } else {
                 // Requested language is not loaded: download it
-                HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_LANGUAGE);
+                HTTPThread h = new HTTPThread(HTTPThread.FETCH_LANGUAGE);
                 h.langID = id;
                 h.start();
                 // return English strings - they will be replaced by the requested language's strings when those get loaded
@@ -111,28 +110,27 @@ public class Locale {
 
     /**
      * Set current UI language
-     * @param s Discord J2ME State object (s.language contains the language ID)
      */
-    static void setLanguage(State s) {
+    static void setLanguage() {
         // unknown locale = use English (don't load extra language data)
-        if (s.language == null) {
+        if (Settings.language == null) {
             setStrings(null);
             return;
         }
 
         // selected language is English (but not en-US) = don't load extra language data
-        String shortName = s.language.substring(0, 2);
-        if ("en".equals(shortName) && !"en-US".equals(s.language)) {
+        String shortName = Settings.language.substring(0, 2);
+        if ("en".equals(shortName) && !"en-US".equals(Settings.language)) {
             setStrings(null);
             return;
         }
 
         // try full language code (e.g. en-US.json)
-        Vector newStrs = loadLanguage(s, s.language);
+        Vector newStrs = loadLanguage(Settings.language);
 
         if (newStrs == null) {
             // try short language code (e.g. en.json)
-            newStrs = loadLanguage(s, shortName);
+            newStrs = loadLanguage(shortName);
         }
         setStrings(newStrs);
     }

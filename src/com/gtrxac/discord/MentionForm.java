@@ -5,7 +5,6 @@ import java.util.*;
 import cc.nnproject.json.*;
 
 public class MentionForm extends Form implements CommandListener, Strings {
-    private State s;
     private Displayable lastScreen;
     private Vector searchResults;
     private boolean loading;
@@ -17,10 +16,9 @@ public class MentionForm extends Form implements CommandListener, Strings {
     private TextField searchField;
     private ChoiceGroup resultsGroup;
 
-    MentionForm(State s) {
+    MentionForm() {
         super(Locale.get(MENTION_FORM_TITLE));
-        this.s = s;
-        lastScreen = s.disp.getCurrent();
+        lastScreen = App.disp.getCurrent();
         setCommandListener(this);
 
         searchField = new TextField(Locale.get(ENTER_USERNAME), "", 32, 0);
@@ -39,13 +37,13 @@ public class MentionForm extends Form implements CommandListener, Strings {
 
     public void searchCallback(JSONArray data) {
         if (data.size() == 1) {
-            insertMention(new User(s, data.getObject(0).getObject("user")));
+            insertMention(new User(data.getObject(0).getObject("user")));
             return;
         }
         searchResults = new Vector();
 
         for (int i = 0; i < data.size(); i++) {
-            searchResults.addElement(new User(s, data.getObject(i).getObject("user")));
+            searchResults.addElement(new User(data.getObject(i).getObject("user")));
         }
 
         loading = false;
@@ -77,7 +75,7 @@ public class MentionForm extends Form implements CommandListener, Strings {
     }
 
     // also used by emoji picker
-    public static int insertTextToMessageBox(State s, Displayable lastScreen, String text, int caretPos) {
+    public static int insertTextToMessageBox(Displayable lastScreen, String text, int caretPos) {
         if (lastScreen instanceof MessageBox) {
             MessageBox msgBox = (MessageBox) lastScreen;
             String str = msgBox.getString();
@@ -94,21 +92,21 @@ public class MentionForm extends Form implements CommandListener, Strings {
     }
 
     private void insertMention(User u) {
-        insertTextToMessageBox(s, lastScreen, "<@" + u.id + ">", -1);
-        s.disp.setCurrent(lastScreen);
+        insertTextToMessageBox(lastScreen, "<@" + u.id + ">", -1);
+        App.disp.setCurrent(lastScreen);
     }
 
     public void commandAction(Command c, Displayable d) {
         if (c == searchCommand) {
             JSONObject reqData = new JSONObject();
-            reqData.put("guild_id", s.selectedGuild.id);
+            reqData.put("guild_id", App.selectedGuild.id);
             reqData.put("query", searchField.getString());
             reqData.put("limit", 10);
 
             JSONObject msg = new JSONObject();
             msg.put("op", 8);
             msg.put("d", reqData);
-            s.gateway.send(msg);
+            App.gateway.send(msg);
 
             loading = true;
             update();
@@ -116,7 +114,7 @@ public class MentionForm extends Form implements CommandListener, Strings {
         else if (c == insertCommand) {
             int selIndex = resultsGroup.getSelectedIndex();
             if (selIndex == -1) {
-                s.error(Locale.get(USER_NOT_SELECTED));
+                App.error(Locale.get(USER_NOT_SELECTED));
                 return;
             }
             
@@ -124,7 +122,7 @@ public class MentionForm extends Form implements CommandListener, Strings {
             insertMention(selected);
         }
         else if (c == backCommand) {
-            s.disp.setCurrent(lastScreen);
+            App.disp.setCurrent(lastScreen);
         }
     }
 }

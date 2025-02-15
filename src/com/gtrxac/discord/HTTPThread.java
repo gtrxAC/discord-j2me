@@ -39,7 +39,6 @@ public class HTTPThread extends Thread implements Strings {
     private static JSONArray newEmojiSheetVersions;
     // endif
 
-    State s;
     int action;
     boolean silent;
 
@@ -79,8 +78,7 @@ public class HTTPThread extends Thread implements Strings {
 
     private boolean showLoad;
 
-    public HTTPThread(State s, int action) {
-        this.s = s;
+    public HTTPThread(int action) {
         this.action = action;
         setPriority(Thread.MAX_PRIORITY);
     }
@@ -108,7 +106,7 @@ public class HTTPThread extends Thread implements Strings {
     }
 
     private boolean shouldShowLoadScreen() {
-        return !s.dontShowLoadScreen
+        return !App.dontShowLoadScreen
             && action != FETCH_ICON
             && action != FETCH_ATTACHMENTS
             && action != SEND_MESSAGE
@@ -118,15 +116,15 @@ public class HTTPThread extends Thread implements Strings {
     }
 
     private void setBannerText(String newText) {
-        if (!showLoad && s.channelView != null) {
-            s.channelView.bannerText = newText;
-            s.channelView.repaint();
+        if (!showLoad && App.channelView != null) {
+            App.channelView.bannerText = newText;
+            App.channelView.repaint();
         }
     }
 
     private void runSilentHTTP(int action) {
-        HTTPThread h = new HTTPThread(s, action);
-        s.dontShowLoadScreen = true;
+        HTTPThread h = new HTTPThread(action);
+        App.dontShowLoadScreen = true;
         h.silent = true;
         h.start();
         try {
@@ -136,44 +134,44 @@ public class HTTPThread extends Thread implements Strings {
     }
 
     private void setScreen(Displayable d) {
-        if (!silent) s.disp.setCurrent(d);
+        if (!silent) App.disp.setCurrent(d);
     }
 
     public void run() {
         showLoad = shouldShowLoadScreen();
-        s.dontShowLoadScreen = false;
+        App.dontShowLoadScreen = false;
 
-        Displayable prevScreen = s.disp.getCurrent();
+        Displayable prevScreen = App.disp.getCurrent();
         LoadingScreen loadScreen = null;
 
         if (showLoad) {
-            loadScreen = new LoadingScreen(s);
-            s.disp.setCurrent(loadScreen);
+            loadScreen = new LoadingScreen();
+            App.disp.setCurrent(loadScreen);
         }
 
         try {
             // Fetch user info if needed (upon first API request after starting app)
             // If Discord J2ME-specific proxy server is in use, this also checks for auto updates to app and emoji data
-            if ((!haveFetchedUserInfo || s.myUserId == null) && action != FETCH_LANGUAGE) {
-                JSONObject resp = JSON.getObject(s.http.get("/users/@me"));
-                s.myUserId = resp.getString("id", "");
-                s.isLiteProxy = resp.getBoolean("_liteproxy", false);
-                s.uploadToken = resp.getString("_uploadtoken", s.token);
+            if ((!haveFetchedUserInfo || App.myUserId == null) && action != FETCH_LANGUAGE) {
+                JSONObject resp = JSON.getObject(HTTP.get("/users/@me"));
+                App.myUserId = resp.getString("id", "");
+                App.isLiteProxy = resp.getBoolean("_liteproxy", false);
+                App.uploadToken = resp.getString("_uploadtoken", Settings.token);
                 haveFetchedUserInfo = true;
 
                 int latest = resp.getInt("_latestbeta", 0);
 
-                if (latest > State.VERSION_CODE && s.autoUpdate == State.AUTO_UPDATE_ALL) {
+                if (latest > App.VERSION_CODE && Settings.autoUpdate == Settings.AUTO_UPDATE_ALL) {
                     String latestName = resp.getString("_latestbetaname", Locale.get(NAME_UNKNOWN));
-                    s.disp.setCurrent(new UpdateDialog(s, latestName, true));
+                    App.disp.setCurrent(new UpdateDialog(latestName, true));
                     return;
                 }
                 
                 latest = resp.getInt("_latest", 0);
 
-                if (latest > State.VERSION_CODE && s.autoUpdate != State.AUTO_UPDATE_OFF) {
+                if (latest > App.VERSION_CODE && Settings.autoUpdate != Settings.AUTO_UPDATE_OFF) {
                     String latestName = resp.getString("_latestname", Locale.get(NAME_UNKNOWN));
-                    s.disp.setCurrent(new UpdateDialog(s, latestName, false));
+                    App.disp.setCurrent(new UpdateDialog(latestName, false));
                     return;
                 }
 
@@ -219,7 +217,7 @@ public class HTTPThread extends Thread implements Strings {
                     // Emoji JSON is outdated or not downloaded - download the latest one
                     if (curJsonVersion < newEmojiJsonVersion || numRecs < 2) {
                         loadScreen.text = Locale.get(DOWNLOADING);
-                        String emojiJson = Util.bytesToString(s.http.getBytes(s.api + "/emoji/emoji.json"));
+                        String emojiJson = Util.bytesToString(HTTP.getBytes(Settings.api + "/emoji/emoji.json"));
     
                         curVersionsArray.put(0, newEmojiJsonVersion);
                         Util.setOrAddRecord(rms, 2, emojiJson);
@@ -236,7 +234,7 @@ public class HTTPThread extends Thread implements Strings {
                         if (currentVersion < newVersion) {
                             loadScreen.text = Locale.get(DOWNLOADING);
                             loadScreen.text2 = Locale.get(LEFT_PAREN) + i + "/" + sheetCount + Locale.get(RIGHT_PAREN);
-                            byte[] img = s.http.getBytes(s.api + "/emoji/emoji" + i + ".png");
+                            byte[] img = HTTP.getBytes(Settings.api + "/emoji/emoji" + i + ".png");
                             Util.setOrAddRecord(rms, 3 + i, img);
                             curVersionsArray.put(i + 1, newVersion);
                             needRmsWrite = true;
@@ -246,7 +244,7 @@ public class HTTPThread extends Thread implements Strings {
                     newEmojiSheetVersions = null;
                     loadScreen.text = Locale.get(LOADING);
                     loadScreen.text2 = "";
-                    FormattedStringPartEmoji.loadEmoji(s.messageFont.getHeight());
+                    FormattedStringPartEmoji.loadEmoji(App.messageFont.getHeight());
                 } finally {
                     try {
                         if (needRmsWrite) Util.setOrAddRecord(rms, 1, Util.stringToBytes(curVersionsArray.build()));
@@ -259,38 +257,38 @@ public class HTTPThread extends Thread implements Strings {
 
             switch (action) {
                 case FETCH_GUILDS: {
-                    JSONArray guilds = JSON.getArray(s.http.get("/users/@me/guilds"));
-                    s.guilds = new Vector();
+                    JSONArray guilds = JSON.getArray(HTTP.get("/users/@me/guilds"));
+                    App.guilds = new Vector();
 
                     for (int i = 0; i < guilds.size(); i++) {
-                        s.guilds.addElement(new Guild(s, guilds.getObject(i)));
+                        App.guilds.addElement(new Guild(guilds.getObject(i)));
                     }
 
                     if (showFavGuilds) {
-                        FavoriteGuilds.openSelector(s, false, false);
+                        FavoriteGuilds.openSelector(false, false);
                     } else {
-                        s.guildSelector = new GuildSelector(s, s.guilds, false);
-                        setScreen(s.guildSelector);
+                        App.guildSelector = new GuildSelector(App.guilds, false);
+                        setScreen(App.guildSelector);
                     }
                     break;
                 }
 
                 case FETCH_CHANNELS: {
                     // Fetch role data (role colors) for this server if needed
-                    if (s.gatewayActive() && s.selectedGuild.roles == null && s.useNameColors) {
-                        String roleData = s.http.get("/guilds/" + s.selectedGuild.id + "/roles");
+                    if (App.gatewayActive() && App.selectedGuild.roles == null && Settings.useNameColors) {
+                        String roleData = HTTP.get("/guilds/" + App.selectedGuild.id + "/roles");
                         JSONArray roleArr = JSON.getArray(roleData);
 
-                        s.selectedGuild.roles = new Vector();
+                        App.selectedGuild.roles = new Vector();
 
-                        if (s.isLiteProxy) {
+                        if (App.isLiteProxy) {
                             // Sorted server-side: load roles as-is
                             for (int i = roleArr.size() - 1; i >= 0; i--) {
                                 JSONObject data = roleArr.getObject(i);
                                 
                                 if (data.getInt("color") == 0) continue;
                                 
-                                s.selectedGuild.roles.addElement(new Role(data));
+                                App.selectedGuild.roles.addElement(new Role(data));
                             }
                         } else {
                             // Not sorted server-side: manually sort based on 'position' field
@@ -301,46 +299,46 @@ public class HTTPThread extends Thread implements Strings {
                                     if (data.getInt("position", i) != i) continue;
                                     if (data.getInt("color") == 0) continue;
 
-                                    s.selectedGuild.roles.addElement(new Role(data));
+                                    App.selectedGuild.roles.addElement(new Role(data));
                                 }
                             }
                         }
                     }
 
-                    s.selectedGuild.channels = Channel.parseChannels(
-                        JSON.getArray(s.http.get("/guilds/" + s.selectedGuild.id + "/channels"))
+                    App.selectedGuild.channels = Channel.parseChannels(
+                        JSON.getArray(HTTP.get("/guilds/" + App.selectedGuild.id + "/channels"))
                     );
 
-                    s.channels = s.selectedGuild.channels;
-                    s.channelSelector = new ChannelSelector(s);
-                    setScreen(s.channelSelector);
+                    App.channels = App.selectedGuild.channels;
+                    App.channelSelector = new ChannelSelector();
+                    setScreen(App.channelSelector);
                     break;
                 }
 
                 case FETCH_DM_CHANNELS: {
-                    JSONArray channels = JSON.getArray(s.http.get("/users/@me/channels"));
-                    s.dmChannels = new Vector();
+                    JSONArray channels = JSON.getArray(HTTP.get("/users/@me/channels"));
+                    App.dmChannels = new Vector();
             
                     for (int i = 0; i < channels.size(); i++) {
                         JSONObject ch = channels.getObject(i);
                         int type = ch.getInt("type", 1);
                         if (type != 1 && type != 3) continue;
             
-                        s.dmChannels.addElement(new DMChannel(s, ch));
+                        App.dmChannels.addElement(new DMChannel(ch));
                     }
-                    s.dmSelector = new DMSelector(s);
-                    setScreen(s.dmSelector);
+                    App.dmSelector = new DMSelector();
+                    setScreen(App.dmSelector);
                     break;
                 }
 
                 case SEND_MESSAGE: {
-                    if (!showLoad && s.channelView != null) {
-                        s.disp.setCurrent(s.channelView);
-                        s.channelView.bannerText = Locale.get(CHANNEL_VIEW_SENDING);
-                        s.channelView.repaint();
+                    if (!showLoad && App.channelView != null) {
+                        App.disp.setCurrent(App.channelView);
+                        App.channelView.bannerText = Locale.get(CHANNEL_VIEW_SENDING);
+                        App.channelView.repaint();
                     }
 
-                    String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                    String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
 
                     JSONObject json = new JSONObject();
                     json.put("content", sendMessage);
@@ -352,21 +350,21 @@ public class HTTPThread extends Thread implements Strings {
                     if (sendReference != null) {
                         JSONObject ref = new JSONObject();
                         ref.put("channel_id", channelId);
-                        if (!s.isDM) ref.put("guild_id", s.selectedGuild.id);
+                        if (!App.isDM) ref.put("guild_id", App.selectedGuild.id);
                         ref.put("message_id", sendReference);
                         json.put("message_reference", ref);
 
-                        if (!sendPing && !s.isDM) {
+                        if (!sendPing && !App.isDM) {
                             JSONObject ping = new JSONObject();
                             ping.put("replied_user", false);
                             json.put("allowed_mentions", ping);
                         }
                     }
 
-                    JSONObject message = JSON.getObject(s.http.post("/channels/" + channelId + "/messages", json));
+                    JSONObject message = JSON.getObject(HTTP.post("/channels/" + channelId + "/messages", json));
 
                     // If gateway enabled, don't need to fetch new messages
-                    if (s.gatewayActive()) {
+                    if (App.gatewayActive()) {
                         setBannerText(null);
                         break;
                     }
@@ -383,15 +381,15 @@ public class HTTPThread extends Thread implements Strings {
                 case FETCH_MESSAGES: {
                     setBannerText(Locale.get(CHANNEL_VIEW_LOADING));
 
-                    String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                    String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
                     
                     StringBuffer url = new StringBuffer(
-                        "/channels/" + channelId + "/messages?limit=" + s.messageLoadCount
+                        "/channels/" + channelId + "/messages?limit=" + Settings.messageLoadCount
                     );
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
                     // ifdef OVER_100KB
-                    if (s.isLiteProxy) {
+                    if (App.isLiteProxy) {
                         if (FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
                             url.append("&emoji=1");
                         }
@@ -401,39 +399,39 @@ public class HTTPThread extends Thread implements Strings {
                     }
                     // endif
 
-                    JSONArray messages = JSON.getArray(s.http.get(url.toString()));
-                    s.messages = new Vector();
+                    JSONArray messages = JSON.getArray(HTTP.get(url.toString()));
+                    App.messages = new Vector();
 
                     for (int i = 0; i < messages.size(); i++) {
-                        s.messages.addElement(new Message(s, messages.getObject(i)));
+                        App.messages.addElement(new Message(messages.getObject(i)));
                     }
 
                     if ((fetchMsgsBefore == null && fetchMsgsAfter == null) || sendMessage != null) {
                         // If user opened a new channel or sent a message, create a new channel view
-                        s.channelView = new ChannelView(s);
-                        s.markCurrentChannelRead();
+                        App.channelView = new ChannelView();
+                        App.markCurrentChannelRead();
                     } else {
                         // If user scrolled a page back or forward, keep reusing the same channel view
-                        s.channelView.requestUpdate(false, false);
+                        App.channelView.requestUpdate(false, false);
                     }
 
                     // Show the channel view screen (hide the loading screen)
-                    s.channelView.bannerText = null;
-                    s.channelView.updateTitle();
-                    s.disp.setCurrent(s.channelView);
-                    s.channelView.repaint();
+                    App.channelView.bannerText = null;
+                    App.channelView.updateTitle();
+                    App.disp.setCurrent(App.channelView);
+                    App.channelView.repaint();
 
-                    s.typingUsers = new Vector();
-                    s.typingUserIDs = new Vector();
+                    App.typingUsers = new Vector();
+                    App.typingUserIDs = new Vector();
                     break;
                 }
 
                 case FETCH_ATTACHMENTS: {
-                    if (s.cdn == null || s.cdn.length() == 0) {
+                    if (Settings.cdn == null || Settings.cdn.length() == 0) {
                         throw new Exception(Locale.get(CDN_ERROR_ATTACHMENT));
                     }
 
-                    Vector attachments = s.attachmentView.msg.attachments;
+                    Vector attachments = App.attachmentView.msg.attachments;
                     int layout = Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
                     // Fix for https://github.com/nikita36078/J2ME-Loader/pull/1046
@@ -448,7 +446,7 @@ public class HTTPThread extends Thread implements Strings {
                             Locale.get(LEFT_PAREN) + attach.size + Locale.get(RIGHT_PAREN);
 
                         StringItem titleItem = new StringItem(null, attachName);
-                        s.attachmentView.append(titleItem);
+                        App.attachmentView.append(titleItem);
                         
                         StringItem showButton = null;
 
@@ -456,15 +454,15 @@ public class HTTPThread extends Thread implements Strings {
                             // Supported attachment (image/video) -> show it
                             // For videos, only the first frame is shown (Discord media proxy converts to image)
                             try {
-                                Image image = s.http.getImage(attach.previewUrl);
+                                Image image = HTTP.getImage(attach.previewUrl);
                                 ImageItem item = new ImageItem(null, image, Item.LAYOUT_DEFAULT, null);
                                 item.setLayout(layout);
-                                s.attachmentView.append(item);
+                                App.attachmentView.append(item);
                             }
                             catch (Exception e) {
                                 StringItem item = new StringItem(null, e.toString());
                                 item.setLayout(layout);
-                                s.attachmentView.append(item);
+                                App.attachmentView.append(item);
                             }
                         } else {
                             final boolean isAudio =
@@ -484,8 +482,8 @@ public class HTTPThread extends Thread implements Strings {
                                 showButton = new StringItem(null, Locale.get(label + 1), Item.BUTTON);
                                 showButton.setLayout(layout);
                                 showButton.setDefaultCommand(showCommand);
-                                showButton.setItemCommandListener(s.attachmentView);
-                                s.attachmentView.append(showButton);
+                                showButton.setItemCommandListener(App.attachmentView);
+                                App.attachmentView.append(showButton);
                             }
                         }
 
@@ -493,24 +491,24 @@ public class HTTPThread extends Thread implements Strings {
                         StringItem openButton = new StringItem(null, Locale.get(OPEN_IN_BROWSER_L), Item.BUTTON);
                         openButton.setLayout(layout);
                         openButton.setDefaultCommand(openCommand);
-                        openButton.setItemCommandListener(s.attachmentView);
-                        s.attachmentView.append(openButton);
+                        openButton.setItemCommandListener(App.attachmentView);
+                        App.attachmentView.append(openButton);
 
                         // Fix unselectable buttons on early Symbian 9.3 (e.g. N86)
                         // ifdef MIDP2_GENERIC
                         if (Util.isSymbian93 && i == 0) {
-                            s.disp.setCurrentItem((showButton != null) ? showButton : openButton);
+                            App.disp.setCurrentItem((showButton != null) ? showButton : openButton);
                         }
                         // endif
 
-                        Spacer sp = new Spacer(s.attachmentView.getWidth(), s.attachmentView.getHeight()/10);
-                        s.attachmentView.append(sp);
+                        Spacer sp = new Spacer(App.attachmentView.getWidth(), App.attachmentView.getHeight()/10);
+                        App.attachmentView.append(sp);
                     }
                     break;
                 }
 
                 case FETCH_ICON: {
-                    if (s.cdn == null || s.cdn.length() == 0) throw new Exception();
+                    if (Settings.cdn == null || Settings.cdn.length() == 0) throw new Exception();
 
                     String type = iconTarget.getIconType();
                     String id = iconTarget.getIconID();
@@ -518,11 +516,11 @@ public class HTTPThread extends Thread implements Strings {
                     // Choose image file format based on user settings. Emojis are always png.
                     // ifdef OVER_100KB
                     boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
-                    String format = ((s.useJpeg && notEmoji) ? "jpg" : "png");
+                    String format = ((Settings.useJpeg && notEmoji) ? "jpg" : "png");
                     // else
-                    String format = (s.useJpeg ? "jpg" : "png");
+                    String format = (Settings.useJpeg ? "jpg" : "png");
                     // endif
-                    int size = (s.pfpSize == State.ICON_SIZE_32) ? 32 : 16;
+                    int size = (Settings.pfpSize == Settings.ICON_SIZE_32) ? 32 : 16;
 
                     String urlHashPart
                     // ifdef OVER_100KB
@@ -530,15 +528,15 @@ public class HTTPThread extends Thread implements Strings {
                     // endif
                     = "/" + hash;
 
-                    Image icon = s.http.getImage(s.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
+                    Image icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
 
                     // Resize menu icon if fetched size doesn't match requested size
                     if (!(iconTarget instanceof User) && size%16 != 0) {
-                        icon = Util.resizeImageBilinear(icon, s.menuIconSize, s.menuIconSize);
+                        icon = Util.resizeImageBilinear(icon, Settings.menuIconSize, Settings.menuIconSize);
                     }
 
                     IconCache.set(hash, icon);
-                    iconTarget.iconLoaded(s);
+                    iconTarget.iconLoaded();
                     break;
                 }
 
@@ -549,15 +547,15 @@ public class HTTPThread extends Thread implements Strings {
                     DataOutputStream os = null;
 
                     try {
-                        String id = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
-                        httpConn = s.http.openConnection("/channels/" + id + "/upload");
+                        String id = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
+                        httpConn = HTTP.openConnection("/channels/" + id + "/upload");
                         httpConn.setRequestMethod(HttpConnection.POST);
                         httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 
                         os = httpConn.openDataOutputStream();
 
                         os.write(createFormPart("token", null));
-                        os.write(s.token.getBytes());
+                        os.write(Settings.token.getBytes());
                         os.write(LINE_FEED.getBytes());
 
                         os.write(createFormPart("content", null));
@@ -592,9 +590,9 @@ public class HTTPThread extends Thread implements Strings {
                         os.flush();
 
                         fileInputStream.close();
-                        s.http.sendRequest(httpConn);
+                        HTTP.sendRequest(httpConn);
                         attachFc.close();
-                        new HTTPThread(s, FETCH_MESSAGES).start();
+                        new HTTPThread(FETCH_MESSAGES).start();
                     }
                     finally {
                         try { os.close(); } catch (Exception e) {}
@@ -604,12 +602,12 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case VIEW_ATTACHMENT_TEXT: {
-                    byte[] textBytes = s.http.getBytes(viewAttach.browserUrl);
+                    byte[] textBytes = HTTP.getBytes(viewAttach.browserUrl);
                     String text = Util.bytesToString(textBytes);
                     
-                    MessageCopyBox copyBox = new MessageCopyBox(s, viewAttach.name, text);
-                    copyBox.lastScreen = s.attachmentView;
-                    s.disp.setCurrent(copyBox);
+                    MessageCopyBox copyBox = new MessageCopyBox(viewAttach.name, text);
+                    copyBox.lastScreen = App.attachmentView;
+                    App.disp.setCurrent(copyBox);
                     break;
                 }
 
@@ -619,17 +617,17 @@ public class HTTPThread extends Thread implements Strings {
                     JSONObject newMessage = new JSONObject();
                     newMessage.put("content", editContent);
 
-                    String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                    String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
                     String path = "/channels/" + channelId + "/messages/" + editMessage.id + "/edit";
-                    s.http.post(path, newMessage);
+                    HTTP.post(path, newMessage);
 
                     // Manually update message content if gateway disabled
                     // (if enabled, new message content will come through gateway event)
-                    if (!s.gatewayActive()) {
+                    if (!App.gatewayActive()) {
                         editMessage.content = editContent;
                         editMessage.rawContent = editContent;
                         editMessage.needUpdate = true;
-                        s.channelView.requestUpdate(false, false);
+                        App.channelView.requestUpdate(false, false);
                     }
 
                     setBannerText(null);
@@ -639,15 +637,15 @@ public class HTTPThread extends Thread implements Strings {
                 case DELETE_MESSAGE: {
                     setBannerText(Locale.get(CHANNEL_VIEW_DELETING));
 
-                    String channelId = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                    String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
 
-                    s.http.get("/channels/" + channelId + "/messages/" + editMessage.id + "/delete");
+                    HTTP.get("/channels/" + channelId + "/messages/" + editMessage.id + "/delete");
 
                     // Manually update message to be deleted if gateway disabled
                     // (if enabled, deletion event will come through gateway)
-                    if (!s.gatewayActive()) {
+                    if (!App.gatewayActive()) {
                         editMessage.delete();
-                        s.channelView.requestUpdate(false, false);
+                        App.channelView.requestUpdate(false, false);
                     }
 
                     setBannerText(null);
@@ -655,74 +653,71 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case VIEW_NOTIFICATION: {
-                    s.isDM = (guildID == null);
-                    if (s.isDM) {
-                        if (s.dmSelector == null) {
+                    App.isDM = (guildID == null);
+                    if (App.isDM) {
+                        if (App.dmSelector == null) {
                             runSilentHTTP(HTTPThread.FETCH_DM_CHANNELS);
                         }
-                        s.selectedDmChannel = DMChannel.getById(s, channelID);
+                        App.selectedDmChannel = DMChannel.getById(channelID);
                     } else {
-                        if (s.guildSelector == null) {
+                        if (App.guildSelector == null) {
                             runSilentHTTP(HTTPThread.FETCH_GUILDS);
                         }
-                        Guild prevSelectedGuild = s.selectedGuild;
-                        s.selectedGuild = Guild.getById(s, guildID);
+                        Guild prevSelectedGuild = App.selectedGuild;
+                        App.selectedGuild = Guild.getById(guildID);
 
-                        if (s.channelSelector == null || prevSelectedGuild != s.selectedGuild) {
+                        if (App.channelSelector == null || prevSelectedGuild != App.selectedGuild) {
                             runSilentHTTP(HTTPThread.FETCH_CHANNELS);
                         }
-                        s.selectedChannel = Channel.getByID(s, channelID);
+                        App.selectedChannel = Channel.getByID(channelID);
                     }
-                    s.dontShowLoadScreen = true;
-                    new HTTPThread(s, HTTPThread.FETCH_MESSAGES).start();
+                    App.dontShowLoadScreen = true;
+                    new HTTPThread(HTTPThread.FETCH_MESSAGES).start();
                     break;
                 }
 
                 case FETCH_LANGUAGE: {
-                    while (s.http == null) {
-                        Util.sleep(10);
-                    }
-                    byte[] langBytes = s.http.getBytes(s.api + "/lang/" + langID + ".json");
+                    byte[] langBytes = HTTP.getBytes(Settings.api + "/lang/" + langID + ".json");
                     Locale.languageLoaded(langID, Util.bytesToString(langBytes));
-                    if (s.disp.getCurrent() instanceof MainMenu) {
-                        s.disp.setCurrent(MainMenu.get(s));
+                    if (App.disp.getCurrent() instanceof MainMenu) {
+                        App.disp.setCurrent(MainMenu.get(true));
                     }
                     break;
                 }
 
                 case FETCH_THREADS: {
-                    String threadData = s.http.get(
+                    String threadData = HTTP.get(
                         "/channels/" +
-                        s.selectedChannelForThreads.id +
+                        App.selectedChannelForThreads.id +
                         "/threads/search?sort_by=last_message_time&sort_order=desc&limit=25&tag_setting=match_some&offset=0"
                     );
 
                     JSONArray threads = JSON.getObject(threadData).getArray("threads");
-                    s.threads = new Vector();
+                    App.threads = new Vector();
 
                     for (int i = 0; i < threads.size(); i++) {
                         JSONObject thr = threads.getObject(i);
-                        s.threads.addElement(new Channel(thr, true));
+                        App.threads.addElement(new Channel(thr, true));
                     }
 
-                    s.selectedChannelForThreads.threads = s.threads;
-                    s.threadSelector = new ThreadSelector(s);
-                    setScreen(s.threadSelector);
+                    App.selectedChannelForThreads.threads = App.threads;
+                    App.threadSelector = new ThreadSelector();
+                    setScreen(App.threadSelector);
                     break;
                 }
 
                 // ifdef OVER_100KB
                 case FETCH_EMOJIS: {
                     // emoji data was already fetched (before the switch statement) so open emoji picker
-                    EmojiPicker picker = new EmojiPicker(s);
+                    EmojiPicker picker = new EmojiPicker();
                     picker.lastScreen = ((EmojiDownloadDialog) prevScreen).lastScreen;
-                    s.disp.setCurrent(picker);
+                    App.disp.setCurrent(picker);
                     break;
                 }
 
                 case VIEW_ATTACHMENT_AUDIO: {
-                    byte[] bytes = s.http.getBytes(viewAttach.browserUrl);
-                    s.disp.setCurrent(new NotificationSoundDialog(s, viewAttach.name, bytes));
+                    byte[] bytes = HTTP.getBytes(viewAttach.browserUrl);
+                    App.disp.setCurrent(new NotificationSoundDialog(viewAttach.name, bytes));
                     break;
                 }
                 // endif
@@ -735,19 +730,19 @@ public class HTTPThread extends Thread implements Strings {
                     break;
                 }
                 case SEND_ATTACHMENT: {
-                    s.error(Locale.get(UPLOAD_ERROR) + e.toString(), prevScreen);
+                    App.error(Locale.get(UPLOAD_ERROR) + e.toString(), prevScreen);
                     break;
                 }
                 case FETCH_LANGUAGE: {
                     // Wait until main menu is shown, then show error
-                    while (!(s.disp.getCurrent() instanceof MainMenu)) {
+                    while (!(App.disp.getCurrent() instanceof MainMenu)) {
                         Util.sleep(10);
                     }
-                    s.error("Failed to download language data: " + e.toString(), MainMenu.get(null));
+                    App.error("Failed to download language data: " + e.toString(), MainMenu.get(false));
                     break;
                 }
                 default: {
-                    s.error(e, prevScreen);
+                    App.error(e, prevScreen);
                     break;
                 }
             }

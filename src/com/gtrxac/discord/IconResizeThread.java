@@ -5,13 +5,11 @@ import javax.microedition.lcdui.*;
 public class IconResizeThread extends Thread {
     private static final int[] alphaAndValues = {0x00000000, 0x3FFFFFFF, 0x7FFFFFFF, 0xBFFFFFFF, 0xFFFFFFFF};
 
-    private State s;
     private HasIcon target;
     private Image smallIcon;
     private int size;
 
-    public IconResizeThread(State s, HasIcon target, Image smallIcon, int size) {
-        this.s = s;
+    public IconResizeThread(HasIcon target, Image smallIcon, int size) {
         this.target = target;
         this.smallIcon = smallIcon;
         this.size = size;
@@ -40,14 +38,14 @@ public class IconResizeThread extends Thread {
         return alphaAndValues[alpha];
     }
 
-    public static Image circleCutout(State s, Image img) {
+    public static Image circleCutout(Image img) {
         int size = img.getWidth();
 
         int[] imageData = new int[size*size];
         img.getRGB(imageData, 0, size, 0, 0, size, size);
 
         // Modify the image data to turn the pixels outside the circle transparent
-        if (s.disp.numAlphaLevels() > 2 && s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
+        if (App.disp.numAlphaLevels() > 2 && Settings.pfpType == Settings.PFP_TYPE_CIRCLE_HQ) {
             // Alpha blending supported and enabled - use anti-aliasing (double resolution circle
             // buffer where 4 neighboring pixels are calculated together -> 5 alpha levels)
             int[] circleData = createCircleBuf(size*2);
@@ -91,7 +89,7 @@ public class IconResizeThread extends Thread {
                 height = size;
             }
 
-            if (s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
+            if (Settings.pfpType == Settings.PFP_TYPE_CIRCLE_HQ) {
                 resized = Util.resizeImageBilinear(smallIcon, width, height);
             } else {
                 resized = Util.resizeImage(smallIcon, width, height);
@@ -99,21 +97,21 @@ public class IconResizeThread extends Thread {
 
             Image result;
             if (
-                (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ)
+                (Settings.pfpType == Settings.PFP_TYPE_CIRCLE || Settings.pfpType == Settings.PFP_TYPE_CIRCLE_HQ)
                 // ifdef OVER_100KB
                 && !isEmoji
                 // endif
             ) {
-                result = circleCutout(s, resized);
+                result = circleCutout(resized);
             } else {
                 result = resized;
             }
 
             IconCache.setResized(target.getIconHash() + size, result);
-            target.iconLoaded(s);
+            target.iconLoaded();
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
     }
 }

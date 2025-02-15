@@ -5,35 +5,29 @@ import javax.microedition.io.*;
 import cc.nnproject.json.*;
 import javax.microedition.lcdui.Image;
 
-public class HTTPThing implements Strings {
-    State s;
+public class HTTP implements Strings {
+    public static HttpConnection openConnection(String url) throws IOException {
+        String fullUrl = App.getPlatformSpecificUrl(Settings.api + "/api/v9" + url);
 
-	public HTTPThing(State s) {
-        this.s = s;
-	}
-
-    public HttpConnection openConnection(String url) throws IOException {
-        String fullUrl = s.getPlatformSpecificUrl(s.api + "/api/v9" + url);
-
-        if (s.tokenType == State.TOKEN_TYPE_QUERY) {
+        if (Settings.tokenType == Settings.TOKEN_TYPE_QUERY) {
             if (fullUrl.indexOf("?") != -1) {
-                fullUrl += "&token=" + s.token;
+                fullUrl += "&token=" + Settings.token;
             } else {
-                fullUrl += "?token=" + s.token;
+                fullUrl += "?token=" + Settings.token;
             }
         }
 
         HttpConnection c = (HttpConnection) Connector.open(fullUrl);
 
-        if (s.tokenType == State.TOKEN_TYPE_HEADER) {
+        if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
             c.setRequestProperty("Content-Type", "application/json");
-            c.setRequestProperty("Authorization", s.token);
+            c.setRequestProperty("Authorization", Settings.token);
         }
 
         return c;
     }
 
-    public String sendRequest(HttpConnection c) throws Exception {
+    public static String sendRequest(HttpConnection c) throws Exception {
         InputStream is = null;
 
         is = c.openDataInputStream();
@@ -68,7 +62,7 @@ public class HTTPThing implements Strings {
         }
     }
 
-    private String sendData(String method, String url, String data) throws Exception {
+    private static String sendData(String method, String url, String data) throws Exception {
         HttpConnection c = null;
         OutputStream os = null;
 
@@ -78,7 +72,7 @@ public class HTTPThing implements Strings {
             
             byte[] b = Util.stringToBytes(data);
 
-            if (s.tokenType == State.TOKEN_TYPE_HEADER) {
+            if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
                 c.setRequestProperty("Content-Length", String.valueOf(b.length));
             }
 
@@ -92,15 +86,15 @@ public class HTTPThing implements Strings {
         }
     }
 
-    private String sendJson(String method, String url, JSONObject data) throws Exception {
-        if (s.tokenType == State.TOKEN_TYPE_JSON) data.put("token", s.token);
+    private static String sendJson(String method, String url, JSONObject data) throws Exception {
+        if (Settings.tokenType == Settings.TOKEN_TYPE_JSON) data.put("token", Settings.token);
         return sendData(method, url, data.build());
     }
 
-    public String get(String url) throws Exception {
-        if (s.tokenType == State.TOKEN_TYPE_JSON) {
+    public static String get(String url) throws Exception {
+        if (Settings.tokenType == Settings.TOKEN_TYPE_JSON) {
             JSONObject tokenJson = new JSONObject();
-            tokenJson.put("token", s.token);
+            tokenJson.put("token", Settings.token);
             return get(url, tokenJson);
         }
 
@@ -115,27 +109,27 @@ public class HTTPThing implements Strings {
         }
     }
 
-    public String post(String url, String data) throws Exception {
+    public static String post(String url, String data) throws Exception {
         return sendData(HttpConnection.POST, url, data);
     }
-    public String get(String url, String data) throws Exception {
+    public static String get(String url, String data) throws Exception {
         return sendData(HttpConnection.GET, url, data);
     }
-    public String post(String url, JSONObject data) throws Exception {
+    public static String post(String url, JSONObject data) throws Exception {
         return sendJson(HttpConnection.POST, url, data);
     }
-    public String get(String url, JSONObject data) throws Exception {
+    public static String get(String url, JSONObject data) throws Exception {
         return sendJson(HttpConnection.GET, url, data);
     }
 
     // Image loading code by shinovon
     // https://github.com/gtrxAC/discord-j2me/pull/5/commits/193c63f6a00b8e24da7a3582e9d1a92522f9940e
-    public Image getImage(String url) throws IOException {
+    public static Image getImage(String url) throws IOException {
 		byte[] b = getBytes(url);
 		return Image.createImage(b, 0, b.length);
 	}
 
-	public byte[] getBytes(String url) throws IOException {
+	public static byte[] getBytes(String url) throws IOException {
 		HttpConnection hc = null;
 		InputStream in = null;
 		try {
@@ -152,10 +146,10 @@ public class HTTPThing implements Strings {
 		}
 	}
 
-	private HttpConnection open(String url) throws IOException {
-		HttpConnection hc = (HttpConnection) Connector.open(s.getPlatformSpecificUrl(url));
+	private static HttpConnection open(String url) throws IOException {
+		HttpConnection hc = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(url));
 		hc.setRequestMethod("GET");
-		if (s.tokenType == State.TOKEN_TYPE_HEADER) {
+		if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
             hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
         }
 		return hc;

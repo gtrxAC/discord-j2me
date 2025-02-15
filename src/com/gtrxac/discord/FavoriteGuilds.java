@@ -37,7 +37,7 @@ public class FavoriteGuilds {
         Util.closeRecordStore(rms);
     }
 
-    private static void save(State s) {
+    private static void save() {
         RecordStore rms = null;
         try {
             rms = RecordStore.openRecordStore("favguild", true);
@@ -49,22 +49,22 @@ public class FavoriteGuilds {
             // endif
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
         Util.closeRecordStore(rms);
     }
 
-    public static void add(State s, Guild g) {
+    public static void add(Guild g) {
         if (has(g)) return;
         guilds.add(g.id);
         hasChanged = true;
-        save(s);
+        save();
     }
 
-    public static void remove(State s, int index) {
+    public static void remove(int index) {
         guilds.remove(index);
         hasChanged = true;
-        save(s);
+        save();
     }
 
     public static boolean empty() {
@@ -79,13 +79,13 @@ public class FavoriteGuilds {
     }
 
     // ifdef OVER_100KB
-    public static void toggleMute(State s, String id) {
+    public static void toggleMute(String id) {
         if (isMuted(id)) {
             muted.remove(id);
         } else {
             muted.add(id);
         }
-        save(s);
+        save();
     }
 
     public static boolean isMuted(String id) {
@@ -93,34 +93,34 @@ public class FavoriteGuilds {
     }
     // endif
 
-    public static void openSelector(State s, boolean refresh, boolean forceRefresh) {
-        if (s.highRamMode) refresh = false;
+    public static void openSelector(boolean refresh, boolean forceRefresh) {
+        if (Settings.highRamMode) refresh = false;
         
         // If guilds not loaded, load them. This method is called again by the thread when it's done.
-        if (s.guilds == null || refresh || forceRefresh) {
-            HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_GUILDS);
+        if (App.guilds == null || refresh || forceRefresh) {
+            HTTPThread h = new HTTPThread(HTTPThread.FETCH_GUILDS);
             h.showFavGuilds = true;
             h.start();
             return;
         }
-        if (s.guildSelector == null || !s.guildSelector.isFavGuilds || hasChanged) {
+        if (App.guildSelector == null || !App.guildSelector.isFavGuilds || hasChanged) {
             Vector guildsVec = new Vector();
 
             for (int i = 0; i < guilds.size(); i++) {
-                Guild g = Guild.getById(s, guilds.getString(i));
+                Guild g = Guild.getById(guilds.getString(i));
                 if (g != null) guildsVec.addElement(g);
             }
 
             try {
-                s.guildSelector = new GuildSelector(s, guildsVec, true);
-                s.guildSelector.isFavGuilds = true;
+                App.guildSelector = new GuildSelector(guildsVec, true);
+                App.guildSelector.isFavGuilds = true;
             }
             catch (Exception e) {
-                s.error(e);
+                App.error(e);
                 return;
             }
         }
-        s.disp.setCurrent(s.guildSelector);
+        App.disp.setCurrent(App.guildSelector);
 
         hasChanged = false;
     }

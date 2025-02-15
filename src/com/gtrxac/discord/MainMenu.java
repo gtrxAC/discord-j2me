@@ -3,22 +3,23 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class MainMenu extends ListScreen implements CommandListener, Strings {
-    private State s;
     private Command quitCommand;
     private static boolean hasFavorites;
+    // ifdef SAMSUNG_FULL
     private static boolean hasDoneSamsungJetFontFix;
+    // endif
 
     private static MainMenu instance;
 
-    public static MainMenu get(State s) {
-        if (instance == null || s != null) {
-            instance = new MainMenu(s);
+    public static MainMenu get(boolean reload) {
+        if (instance == null || reload) {
+            instance = new MainMenu();
             hasFavorites = false;
         }
         // Determine if favorites option should be shown:
         // Add if needed
         if (!FavoriteGuilds.empty() && !hasFavorites) {
-            instance.insert(1, Locale.get(MAIN_MENU_FAVORITES), instance.s.ic.favorites);
+            instance.insert(1, Locale.get(MAIN_MENU_FAVORITES), App.ic.favorites);
             hasFavorites = true;
         }
         // Remove if needed
@@ -29,19 +30,18 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         return instance;
     }
 
-    private MainMenu(State s) {
+    private MainMenu() {
         super("Discord", false, false, false);
         setCommandListener(this); 
-        this.s = s;
 
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 0);
         addCommand(quitCommand);
 
-        append(Locale.get(MAIN_MENU_GUILDS), s.ic.guilds);
-        append(Locale.get(MAIN_MENU_DMS), s.ic.dms);
-        append(Locale.get(MAIN_MENU_SETTINGS), s.ic.settings);
-        append(Locale.get(MAIN_MENU_ABOUT), s.ic.about);
-        append(Locale.get(MAIN_MENU_LOG_OUT), s.ic.logout);
+        append(Locale.get(MAIN_MENU_GUILDS), App.ic.guilds);
+        append(Locale.get(MAIN_MENU_DMS), App.ic.dms);
+        append(Locale.get(MAIN_MENU_SETTINGS), App.ic.settings);
+        append(Locale.get(MAIN_MENU_ABOUT), App.ic.about);
+        append(Locale.get(MAIN_MENU_LOG_OUT), App.ic.logout);
     }
 
     // ifdef SAMSUNG_FULL
@@ -50,8 +50,8 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         // in a Java app will have fonts that are way too small (approx 16px on a 480p display).
         // The solution is to reload the fonts and the main menu.
         if (Util.isSamsungJet && !hasDoneSamsungJetFontFix) {
-            s.loadFonts();
-            s.disp.setCurrent(get(s));
+            App.loadFonts();
+            App.disp.setCurrent(get(true));
             hasDoneSamsungJetFontFix = true;
         } else {
             super.showNotify();
@@ -66,34 +66,35 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
 
             switch (index) {
                 case 0: {
-                    s.openGuildSelector(true, false);
+                    App.openGuildSelector(true, false);
                     break;
                 }
                 case 1: {
-                    FavoriteGuilds.openSelector(s, true, false);
+                    FavoriteGuilds.openSelector(true, false);
                     break;
                 }
                 case 2: {
-                    s.openDMSelector(true, false);
+                    App.openDMSelector(true, false);
                     break;
                 }
                 case 3: {
-                    s.disp.setCurrent(new SettingsScreen(s));
+                    App.disp.setCurrent(new SettingsScreen());
                     break;
                 }
                 case 4: {
-                    s.disp.setCurrent(new AboutForm(s));
+                    App.disp.setCurrent(new AboutForm());
                     break;
                 }
                 case 5: {
-                    if (s.gateway != null) s.gateway.stop = true;
-                    s.myUserId = null;
-                    s.disp.setCurrent(new LoginForm(s));
+                    if (App.gateway != null) App.gateway.stop = true;
+                    App.myUserId = null;
+                    App.disp.setCurrent(new LoginForm());
+                    break;
                 }
             }
         }
         else if (c == quitCommand) {
-            s.midlet.notifyDestroyed();
+            DiscordMIDlet.instance.notifyDestroyed();
         }
     }
 }

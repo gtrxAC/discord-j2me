@@ -9,3 +9,4 @@ res/*.json
 *.jar
 *.jad
 *.map
+!mapping.map

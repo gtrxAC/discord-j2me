@@ -7,7 +7,6 @@ import javax.microedition.io.*;
 import java.io.*;
 
 public class ImagePreviewScreen extends MyCanvas implements CommandListener, Strings {
-    private State s;
     private FileConnection fc;
     private Image img;
     private String fileName;
@@ -19,15 +18,14 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
     private int height;
     private int fontHeight;
 
-    ImagePreviewScreen(State s, Message recipientMsg, String fileName, FileConnection fc) throws Exception {
+    ImagePreviewScreen(Message recipientMsg, String fileName, FileConnection fc) throws Exception {
         super();
         setTitle(fileName);
         setCommandListener(this);
-        this.s = s;
         this.fc = fc;
         this.fileName = fileName;
         this.recipientMsg = recipientMsg;
-        prevScreen = s.disp.getCurrent();
+        prevScreen = App.disp.getCurrent();
 
         InputStream is = fc.openInputStream();
         Image imgFull;
@@ -39,7 +37,7 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
 
         width = getWidth();
         height = getHeight();
-        fontHeight = s.messageFont.getHeight();
+        fontHeight = App.messageFont.getHeight();
         int[] size = Util.resizeFit(imgFull.getWidth(), imgFull.getHeight(), width, height - fontHeight*3/2);
         img = Util.resizeImage(imgFull, size[0], size[1]);
         imgFull = null;
@@ -62,11 +60,11 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
         g.setClip(0, 0, width, height);
         // endif
 
-        g.setColor(ChannelView.backgroundColors[s.theme]);
+        g.setColor(ChannelView.backgroundColors[Settings.theme]);
         g.fillRect(0, 0, width, height);
 
-        g.setFont(s.messageFont);
-        g.setColor(ChannelView.messageColors[s.theme]);
+        g.setFont(App.messageFont);
+        g.setColor(ChannelView.messageColors[Settings.theme]);
         g.drawString(Locale.get(IMAGE_PREVIEW_PROMPT), width/2, fontHeight/4, Graphics.TOP | Graphics.HCENTER);
 
         g.drawImage(img, width/2, (height - fontHeight*3/2)/2 + fontHeight*3/2, Graphics.HCENTER | Graphics.VCENTER);
@@ -74,19 +72,19 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
 
     public void commandAction(Command c, Displayable d) {
         if (c == yesCommand) {
-            Displayable screen = s.createTextEntryScreen(recipientMsg, fileName, fc);
+            Displayable screen = App.createTextEntryScreen(recipientMsg, fileName, fc);
             if (screen instanceof MessageBox) {
                 ((MessageBox) screen).showedPreviewScreen = true;
             } else {
                 ((ReplyForm) screen).showedPreviewScreen = true;
             }
-            s.disp.setCurrent(screen);
+            App.disp.setCurrent(screen);
         } else {
             try {
                 fc.close();
             }
             catch (Exception e) {}
-            s.disp.setCurrent(prevScreen);
+            App.disp.setCurrent(prevScreen);
         }
     }
 }

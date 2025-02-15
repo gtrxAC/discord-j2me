@@ -38,10 +38,10 @@ public class Channel extends HasUnreads {
         return "#" + name;
     }
 
-    public static Channel getByID(State s, String id) {
-        if (s.guilds != null) {
-            for (int g = 0; g < s.guilds.size(); g++) {
-                Guild guild = (Guild) s.guilds.elementAt(g);
+    public static Channel getByID(String id) {
+        if (App.guilds != null) {
+            for (int g = 0; g < App.guilds.size(); g++) {
+                Guild guild = (Guild) App.guilds.elementAt(g);
                 if (guild.channels == null) continue;
 
                 for (int c = 0; c < guild.channels.size(); c++) {

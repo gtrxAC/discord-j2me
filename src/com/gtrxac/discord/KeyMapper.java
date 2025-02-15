@@ -10,7 +10,6 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
         6;
         // endif
 
-    private State s;
     private int fontHeight;
     private int curHotkey;
 
@@ -23,13 +22,12 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
 
     private int[] newHotkeys;
 
-    KeyMapper(State s) {
-        this.s = s;
+    KeyMapper() {
         setCommandListener(this);
         
-        fontHeight = s.messageFont.getHeight();
+        fontHeight = App.messageFont.getHeight();
         newHotkeys = new int[HOTKEY_COUNT];
-        lastScreen = s.disp.getCurrent();
+        lastScreen = App.disp.getCurrent();
         
         cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 0);
         skipCommand = Locale.createCommand(SKIP, Command.ITEM, 1);
@@ -56,14 +54,14 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
         // endif
 
         // Clear screen
-        g.setColor(ChannelView.backgroundColors[s.theme]);
+        g.setColor(ChannelView.backgroundColors[Settings.theme]);
         g.fillRect(0, 0, getWidth(), getHeight());
 
         String prompt = Locale.get(KEY_MAPPER_PROMPT) + "\n" + hotkeyStrings[curHotkey];
-        String[] promptLines = Util.wordWrap(prompt, getWidth(), s.messageFont);
+        String[] promptLines = Util.wordWrap(prompt, getWidth(), App.messageFont);
         
-        g.setFont(s.messageFont);
-        g.setColor(ChannelView.messageColors[s.theme]);
+        g.setFont(App.messageFont);
+        g.setColor(ChannelView.messageColors[Settings.theme]);
 
         int y = (getHeight() - fontHeight*promptLines.length)/2;
         
@@ -80,18 +78,18 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
 
         // If all actions have been mapped, save and close
         if (curHotkey == HOTKEY_COUNT) {
-	        s.sendHotkey = newHotkeys[0];
-	        s.replyHotkey = newHotkeys[1];
-	        s.copyHotkey = newHotkeys[2];
-	        s.refreshHotkey = newHotkeys[3];
-	        s.backHotkey = newHotkeys[4];
-            s.fullscreenHotkey = newHotkeys[5];
+	        Settings.sendHotkey = newHotkeys[0];
+	        Settings.replyHotkey = newHotkeys[1];
+	        Settings.copyHotkey = newHotkeys[2];
+	        Settings.refreshHotkey = newHotkeys[3];
+	        Settings.backHotkey = newHotkeys[4];
+            Settings.fullscreenHotkey = newHotkeys[5];
             // ifdef OVER_100KB
-            s.scrollTopHotkey = newHotkeys[6];
-            s.scrollBottomHotkey = newHotkeys[7];
+            Settings.scrollTopHotkey = newHotkeys[6];
+            Settings.scrollBottomHotkey = newHotkeys[7];
             // endif
-            LoginSettings.save(s);
-            s.disp.setCurrent(lastScreen);
+            Settings.save();
+            App.disp.setCurrent(lastScreen);
         } else {
             repaint();
         }
@@ -101,7 +99,7 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
         // Check if key already mapped to another action
         for (int i = 0; i < curHotkey; i++) {
             if (newHotkeys[i] == keycode) {
-                s.error(Locale.get(KEY_MAPPER_DUPLICATE) + hotkeyStrings[i]);
+                App.error(Locale.get(KEY_MAPPER_DUPLICATE) + hotkeyStrings[i]);
                 return;
             }
         }
@@ -113,7 +111,7 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
             mapKey(0);
         }
         else if (c == cancelCommand) {
-            s.disp.setCurrent(lastScreen);
+            App.disp.setCurrent(lastScreen);
         }
     }
 }

@@ -9,7 +9,6 @@ public class ChannelViewItem implements Strings {
     static final int ATTACHMENTS_BUTTON = 3;
     static final int UNREAD_INDICATOR = 4;
 
-    private static State s;
     int type;  // one of the constants defined above
     Message msg;  // message data for MESSAGE and ATTACHMENTS_BUTTON types
 
@@ -27,22 +26,21 @@ public class ChannelViewItem implements Strings {
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
     long refImgLastDrawn;    // timestamp when ref image was last drawn, used for preventing too frequent redraws
 
-    public ChannelViewItem(State s, int type) {
-        ChannelViewItem.s = s;
+    public ChannelViewItem(int type) {
         this.type = type;
     }
 
     private static Image unreadIndicatorImage;
 
-    public static void createUnreadIndicatorImage(State s) {
-        int fontHeight = s.titleFont.getHeight();
-        int stringWidth = s.titleFont.stringWidth(Locale.get(NEW_MARKER));
+    public static void createUnreadIndicatorImage() {
+        int fontHeight = App.titleFont.getHeight();
+        int stringWidth = App.titleFont.stringWidth(Locale.get(NEW_MARKER));
         int totalWidth = fontHeight/2 + stringWidth + fontHeight/4;
 
         unreadIndicatorImage = Image.createImage(totalWidth, fontHeight);
         Graphics g = unreadIndicatorImage.getGraphics();
 
-        g.setColor(ChannelView.backgroundColors[s.theme]);
+        g.setColor(ChannelView.backgroundColors[Settings.theme]);
         g.fillRect(0, 0, totalWidth, fontHeight);
 
         g.setColor(0xf23f43);
@@ -61,7 +59,7 @@ public class ChannelViewItem implements Strings {
             fontHeight/2
         );
         g.setColor(0xFFFFFF);
-        g.setFont(s.titleFont);
+        g.setFont(App.titleFont);
         g.drawString(
             Locale.get(NEW_MARKER),
             fontHeight/2,
@@ -94,7 +92,7 @@ public class ChannelViewItem implements Strings {
      * Gets the amount of vertical pixels that this item will take up on the screen.
      */
     public int getHeight() {
-        int messageFontHeight = s.messageFont.getHeight();
+        int messageFontHeight = App.messageFont.getHeight();
         switch (type) {
             case MESSAGE: {
                 // Each content line + little bit of spacing between messages
@@ -107,7 +105,7 @@ public class ChannelViewItem implements Strings {
                     messageFontHeight/4;
     
                 // One line for message author
-                if (msg.showAuthor) result += s.authorFont.getHeight();
+                if (msg.showAuthor) result += App.authorFont.getHeight();
     
                 // Each embed's height + top margin
                 if (msg.embeds != null && msg.embeds.size() > 0) {
@@ -118,7 +116,7 @@ public class ChannelViewItem implements Strings {
                 }
     
                 // Referenced message if message is a reply and option is enabled
-                if (msg.recipient != null && s.showRefMessage) {
+                if (msg.recipient != null && Settings.showRefMessage) {
                     result += messageFontHeight*5/4;
                 }
     
@@ -155,8 +153,8 @@ public class ChannelViewItem implements Strings {
      * @param width Horizontal area available for drawing, in pixels.
      */
     public void draw(Graphics g, int y, int width, boolean selected) {
-        int messageFontHeight = s.messageFont.getHeight();
-        boolean useIcons = s.pfpType != State.PFP_TYPE_NONE;
+        int messageFontHeight = App.messageFont.getHeight();
+        boolean useIcons = Settings.pfpType != Settings.PFP_TYPE_NONE;
         int iconSize = messageFontHeight*4/3;
 
         switch (type) {
@@ -173,7 +171,7 @@ public class ChannelViewItem implements Strings {
 
                 // Highlight background if message is selected
                 if (selected) {
-                    g.setColor(ChannelView.highlightColors[s.theme]);
+                    g.setColor(ChannelView.highlightColors[Settings.theme]);
                     g.fillRect(0, y, width, getHeight());
                 }
                 
@@ -183,16 +181,16 @@ public class ChannelViewItem implements Strings {
                     int recipientColor = 0;
                     
                     if (msg.recipient != null) {
-                        boolean hasColor = s.nameColorCache.has(msg.recipient, true);
+                        boolean hasColor = NameColorCache.has(msg.recipient, true);
                         
-                        recipientColor = s.nameColorCache.get(msg.recipient.id);
-                        if (recipientColor == 0) recipientColor = ChannelView.authorColors[s.theme];
+                        recipientColor = NameColorCache.get(msg.recipient.id);
+                        if (recipientColor == 0) recipientColor = ChannelView.authorColors[Settings.theme];
 
                         // Draw referenced message if option is enabled
-                        if (s.showRefMessage) {
+                        if (Settings.showRefMessage) {
                             if (shouldRedrawRefMessage(selected)) {
                                 refImgHasPfp =
-                                    !useIcons || s.pfpSize == State.PFP_SIZE_PLACEHOLDER ||
+                                    !useIcons || Settings.pfpSize == Settings.PFP_SIZE_PLACEHOLDER ||
                                     msg.recipient.getIconHash() == null ||
                                     IconCache.hasResized(msg.recipient, messageFontHeight);
 
@@ -217,7 +215,7 @@ public class ChannelViewItem implements Strings {
 
                                 // Fill ref message image with the same background color that the rest of the message has
                                 int refImgBackgroundColor = selected ?
-                                    ChannelView.highlightColors[s.theme] : ChannelView.backgroundColors[s.theme];
+                                    ChannelView.highlightColors[Settings.theme] : ChannelView.backgroundColors[Settings.theme];
                                 refG.setColor(refImgBackgroundColor);
                                 refG.fillRect(0, 0, refImgFullWidth, messageFontHeight);
 
@@ -231,7 +229,7 @@ public class ChannelViewItem implements Strings {
                                     } else {
                                         refG.setColor(msg.recipient.iconColor);
 
-                                        if (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
+                                        if (Settings.pfpType == Settings.PFP_TYPE_CIRCLE || Settings.pfpType == Settings.PFP_TYPE_CIRCLE_HQ) {
                                             refG.fillArc(refX, 0, messageFontHeight, messageFontHeight, 0, 360);
                                         } else {
                                             refG.fillRect(refX, 0, messageFontHeight, messageFontHeight);
@@ -242,18 +240,18 @@ public class ChannelViewItem implements Strings {
                                 }
                                 refX += messageFontHeight/3;
 
-                                refG.setFont(s.titleFont);
+                                refG.setFont(App.titleFont);
                                 refG.setColor(recipientColor);
                                 refG.drawString(msg.recipient.name, refX, 0, Graphics.TOP | Graphics.LEFT);
 
-                                refX += s.titleFont.stringWidth(msg.recipient.name) + messageFontHeight/3;
+                                refX += App.titleFont.stringWidth(msg.recipient.name) + messageFontHeight/3;
                                 
-                                refG.setFont(s.messageFont);
-                                refG.setColor(ChannelView.refMessageColors[s.theme]);
+                                refG.setFont(App.messageFont);
+                                refG.setColor(ChannelView.refMessageColors[Settings.theme]);
                                 // ifdef OVER_100KB
                                 if (useFormattedString) {
                                     if (refImgFormatStr == null) {
-                                        refImgFormatStr = new FormattedString(msg.refContent, s.messageFont, refImgFullWidth, refX, true, false, false);
+                                        refImgFormatStr = new FormattedString(msg.refContent, App.messageFont, refImgFullWidth, refX, true, false, false);
                                     }
                                     refImgFormatStr.draw(refG, 0);
                                 } else
@@ -275,8 +273,8 @@ public class ChannelViewItem implements Strings {
                                 refG.setColor(refImgBackgroundColor);
                                 refG.fillRect(0, 0, refImgFull2Width, messageFontHeight);
 
-                                refG.setFont(s.messageFont);
-                                refG.setColor(ChannelView.refMessageColors[s.theme]);
+                                refG.setFont(App.messageFont);
+                                refG.setColor(ChannelView.refMessageColors[Settings.theme]);
                                 // ifdef OVER_100KB
                                 if (useFormattedString) {
                                     refG.translate(-refImgFullWidth, 0);
@@ -325,14 +323,14 @@ public class ChannelViewItem implements Strings {
                             // initials on a background whose color is determined by the user ID
                             g.setColor(msg.author.iconColor);
 
-                            if (s.pfpType == State.PFP_TYPE_CIRCLE || s.pfpType == State.PFP_TYPE_CIRCLE_HQ) {
+                            if (Settings.pfpType == Settings.PFP_TYPE_CIRCLE || Settings.pfpType == Settings.PFP_TYPE_CIRCLE_HQ) {
                                 g.fillArc(iconX, iconY, iconSize, iconSize, 0, 360);
                             } else {
                                 g.fillRect(iconX, iconY, iconSize, iconSize);
                             }
 
                             g.setColor(0x00FFFFFF);
-                            g.setFont(s.messageFont);
+                            g.setFont(App.messageFont);
                             g.drawString(
                                 msg.author.initials,
                                 iconX + iconSize/2,
@@ -343,46 +341,46 @@ public class ChannelViewItem implements Strings {
                     }
 
                     // Draw author (and recipient if applicable)
-                    int authorColor = s.nameColorCache.get(msg.author);
-                    if (authorColor == 0) authorColor = ChannelView.authorColors[s.theme];
+                    int authorColor = NameColorCache.get(msg.author);
+                    if (authorColor == 0) authorColor = ChannelView.authorColors[Settings.theme];
                     
                     int authorX = x;
 
                     g.setColor(authorColor);
-                    g.setFont(s.authorFont);
+                    g.setFont(App.authorFont);
                     g.drawString(msg.author.name, authorX, y, Graphics.TOP | Graphics.LEFT);
 
-                    authorX += s.authorFont.stringWidth(msg.author.name);
+                    authorX += App.authorFont.stringWidth(msg.author.name);
 
-                    if (msg.recipient != null && !s.showRefMessage) {
-                        g.setFont(s.timestampFont);
-                        g.setColor(ChannelView.authorColors[s.theme]);
+                    if (msg.recipient != null && !Settings.showRefMessage) {
+                        g.setFont(App.timestampFont);
+                        g.setColor(ChannelView.authorColors[Settings.theme]);
                         g.drawString(" -> ", authorX, y, Graphics.TOP | Graphics.LEFT);
                         
-                        authorX += s.timestampFont.stringWidth(" -> ");
+                        authorX += App.timestampFont.stringWidth(" -> ");
 
-                        g.setFont(s.authorFont);
+                        g.setFont(App.authorFont);
                         g.setColor(recipientColor);
                         g.drawString(msg.recipient.name, authorX, y, Graphics.TOP | Graphics.LEFT);
 
-                        authorX += s.authorFont.stringWidth(msg.recipient.name);
+                        authorX += App.authorFont.stringWidth(msg.recipient.name);
                     }
 
                     // Draw timestamp
-                    g.setColor(ChannelView.timestampColors[s.theme]);
-                    g.setFont(s.timestampFont);
+                    g.setColor(ChannelView.timestampColors[Settings.theme]);
+                    g.setFont(App.timestampFont);
                     g.drawString("  " + msg.timestamp, authorX, y, Graphics.TOP | Graphics.LEFT);
-                    y += s.authorFont.getHeight();
+                    y += App.authorFont.getHeight();
                 }
 
                 // Draw message content
                 // Use timestamp color for status messages to distinguish them
                 if (msg.isStatus) {
-                    g.setColor(ChannelView.timestampColors[s.theme]);
+                    g.setColor(ChannelView.timestampColors[Settings.theme]);
                 } else {
-                    g.setColor(ChannelView.messageColors[s.theme]);
+                    g.setColor(ChannelView.messageColors[Settings.theme]);
                 }
-                g.setFont(s.messageFont);
+                g.setFont(App.messageFont);
                 // ifdef OVER_100KB
                 msg.contentFormatted.draw(g, y);
                 y += msg.contentFormatted.height;
@@ -399,8 +397,8 @@ public class ChannelViewItem implements Strings {
                         Embed emb = (Embed) msg.embeds.elementAt(i);
                         y += messageFontHeight/4; // Top margin
 
-                        if (selected) g.setColor(ChannelView.darkBgColors[s.theme]);
-                        else g.setColor(ChannelView.highlightColors2[s.theme]);
+                        if (selected) g.setColor(ChannelView.darkBgColors[Settings.theme]);
+                        else g.setColor(ChannelView.highlightColors2[Settings.theme]);
 
                         g.fillRoundRect(
                             x, y,
@@ -415,7 +413,7 @@ public class ChannelViewItem implements Strings {
 
                         if (emb.title != null) {
                             g.setColor(0x0000a8fc);
-                            g.setFont(s.titleFont);
+                            g.setFont(App.titleFont);
                             // ifdef OVER_100KB
                             emb.titleFormatted.draw(g, y);
                             y += emb.titleFormatted.height;
@@ -430,8 +428,8 @@ public class ChannelViewItem implements Strings {
                         }
 
                         if (emb.description != null) {
-                            g.setColor(ChannelView.messageColors[s.theme]);
-                            g.setFont(s.messageFont);
+                            g.setColor(ChannelView.messageColors[Settings.theme]);
+                            g.setFont(App.messageFont);
                             // ifdef OVER_100KB
                             emb.descFormatted.draw(g, y);
                             y += emb.descFormatted.height;
@@ -452,15 +450,15 @@ public class ChannelViewItem implements Strings {
 
             case OLDER_BUTTON:
             case NEWER_BUTTON: {
-                g.setFont(s.messageFont);
+                g.setFont(App.messageFont);
 
                 String caption = (type == OLDER_BUTTON) ?
                     Locale.get(VIEW_OLDER_MESSAGES_L) : Locale.get(VIEW_NEWER_MESSAGES_L);
 
-                if (selected) g.setColor(ChannelView.darkBgColors[s.theme]);
-                else g.setColor(ChannelView.highlightColors2[s.theme]);
+                if (selected) g.setColor(ChannelView.darkBgColors[Settings.theme]);
+                else g.setColor(ChannelView.highlightColors2[Settings.theme]);
 
-                int textWidth = s.messageFont.stringWidth(caption);
+                int textWidth = App.messageFont.stringWidth(caption);
                 g.fillRoundRect(
                     width/2 - textWidth/2 - messageFontHeight,
                     y + messageFontHeight/6,
@@ -470,7 +468,7 @@ public class ChannelViewItem implements Strings {
                     messageFontHeight/2
                 );
 
-                g.setColor(ChannelView.authorColors[s.theme]);
+                g.setColor(ChannelView.authorColors[Settings.theme]);
                 g.drawString(
                     caption, width/2, y + messageFontHeight/3,
                     Graphics.TOP | Graphics.HCENTER
@@ -488,13 +486,13 @@ public class ChannelViewItem implements Strings {
                         Locale.get(VIEW_ATTACHMENT_SUFFIX)
                     );
 
-                g.setFont(s.messageFont);
+                g.setFont(App.messageFont);
 
-                if (selected) g.setColor(ChannelView.darkBgColors[s.theme]);
-                else g.setColor(ChannelView.highlightColors2[s.theme]);
+                if (selected) g.setColor(ChannelView.darkBgColors[Settings.theme]);
+                else g.setColor(ChannelView.highlightColors2[Settings.theme]);
 
                 int x = useIcons ? messageFontHeight*2 : 0;
-                int textWidth = s.messageFont.stringWidth(caption);
+                int textWidth = App.messageFont.stringWidth(caption);
 
                 g.fillRoundRect(
                     x + messageFontHeight/2,
@@ -505,13 +503,13 @@ public class ChannelViewItem implements Strings {
                     messageFontHeight/2
                 );
 
-                g.setColor(ChannelView.authorColors[s.theme]);
+                g.setColor(ChannelView.authorColors[Settings.theme]);
                 g.drawString(caption, x + messageFontHeight, y + messageFontHeight/3, Graphics.TOP | Graphics.LEFT);
                 break;
             }
 
             case UNREAD_INDICATOR: {
-                int screenWidth = s.disp.getCurrent().getWidth();
+                int screenWidth = App.disp.getCurrent().getWidth();
                 int imageX = screenWidth - messageFontHeight/4 - unreadIndicatorImage.getWidth();
                 g.setColor(0xf23f43);
                 g.drawImage(

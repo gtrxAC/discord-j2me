@@ -4,7 +4,6 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class ChannelSelector extends ListScreen implements CommandListener, Strings {
-    State s;
     private Command viewThreadsCommand;
     private Command refreshCommand;
     private Command markChannelReadCommand;
@@ -13,14 +12,13 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
     private Command muteCommand;
     // endif
 
-    public ChannelSelector(State s) throws Exception {
-        super(s.selectedGuild.name, true, true, false);
+    public ChannelSelector() throws Exception {
+        super(App.selectedGuild.name, true, true, false);
         setCommandListener(this);
-        this.s = s;
 
         UnreadManager.autoSave = false;
-        for (int i = 0; i < s.channels.size(); i++) {
-            Channel ch = (Channel) s.channels.elementAt(i);
+        for (int i = 0; i < App.channels.size(); i++) {
+            Channel ch = (Channel) App.channels.elementAt(i);
             append(ch.toString(), null, null, ch.getMenuIndicator());
         }
         UnreadManager.manualSave();
@@ -34,7 +32,7 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
         // endif
         addCommand(refreshCommand);
 
-        if (s.channels.size() > 0) {
+        if (App.channels.size() > 0) {
             addCommand(viewThreadsCommand);
             addCommand(markChannelReadCommand);
             addCommand(markGuildReadCommand);
@@ -48,8 +46,8 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
      * Updates the unread indicator for a channel shown in this selector.
      */
     public void update(String id) {
-        for (int i = 0; i < s.channels.size(); i++) {
-            Channel ch = (Channel) s.channels.elementAt(i);
+        for (int i = 0; i < App.channels.size(); i++) {
+            Channel ch = (Channel) App.channels.elementAt(i);
             if (id != null && !ch.id.equals(id)) continue;
 
             set(i, ch.toString(), null, null, ch.getMenuIndicator());
@@ -64,45 +62,44 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
             // Unload this server's channel list if needed, and go back to server list
-            if (!s.highRamMode && !s.gatewayActive()) {
-                s.channels = null;
-                s.selectedGuild.channels = null;
+            if (!Settings.highRamMode && !App.gatewayActive()) {
+                App.channels = null;
+                App.selectedGuild.channels = null;
             }
-            s.guildSelector.update(s.selectedGuild.id);
-            // s.openGuildSelector(false, false);
-            s.disp.setCurrent(s.guildSelector);
+            App.guildSelector.update(App.selectedGuild.id);
+            App.disp.setCurrent(App.guildSelector);
         }
         else if (c == refreshCommand) {
-            s.openChannelSelector(true, true);
+            App.openChannelSelector(true, true);
         }
         else if (c == markGuildReadCommand) {
-            s.selectedGuild.markRead();
+            App.selectedGuild.markRead();
             update();
-            s.guildSelector.update(s.selectedGuild.id);
+            App.guildSelector.update(App.selectedGuild.id);
         }
         else {
-            Channel ch = (Channel) s.channels.elementAt(getSelectedIndex());
+            Channel ch = (Channel) App.channels.elementAt(getSelectedIndex());
 
             if (c == markChannelReadCommand) {
                 ch.markRead();
                 update(ch.id);
-                s.guildSelector.update(s.selectedGuild.id);
+                App.guildSelector.update(App.selectedGuild.id);
             }
             // ifdef OVER_100KB
             if (c == muteCommand) {
-                FavoriteGuilds.toggleMute(s, ch.id);
+                FavoriteGuilds.toggleMute(ch.id);
                 update(ch.id);
             }
             // endif
             else if (c == SELECT_COMMAND && !ch.isForum) {
-                s.isDM = false;
-                s.selectedChannel = ch;
-                s.openChannelView(true);
+                App.isDM = false;
+                App.selectedChannel = ch;
+                App.openChannelView(true);
             }
             // "View threads" command was used, or a channel was selected and it's a forum channel
             else {
-                s.selectedChannelForThreads = ch;
-                s.openThreadSelector(true, false);
+                App.selectedChannelForThreads = ch;
+                App.openThreadSelector(true, false);
             }
         }
     }

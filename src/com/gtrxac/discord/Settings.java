@@ -4,7 +4,84 @@ import javax.microedition.lcdui.*;
 import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 
-public class LoginSettings {
+public class Settings {
+	static final int PFP_TYPE_NONE = 0;
+	static final int PFP_TYPE_SQUARE = 1;
+	static final int PFP_TYPE_CIRCLE = 2;
+	static final int PFP_TYPE_CIRCLE_HQ = 3;
+
+	static final int TOKEN_TYPE_HEADER = 0;
+	static final int TOKEN_TYPE_JSON = 1;
+	static final int TOKEN_TYPE_QUERY = 2;
+
+	static final int PFP_SIZE_PLACEHOLDER = 0;
+	static final int ICON_SIZE_OFF = 0;
+	static final int ICON_SIZE_16 = 1;
+	static final int ICON_SIZE_32 = 2;
+
+	static final int AUTO_UPDATE_OFF = 0;
+	static final int AUTO_UPDATE_RELEASE_ONLY = 1;
+	static final int AUTO_UPDATE_ALL = 2;
+    
+	static int theme;  // 0 = dark, 1 = light, 2 = black
+	static boolean use12hTime;
+	static boolean useGateway;
+	// ifdef BLACKBERRY
+	static boolean bbWifi;
+	// endif
+	static int messageLoadCount;
+	static boolean useJpeg;
+	static int attachmentSize;
+	static int pfpType;
+	static int pfpSize;
+	static int menuIconSize;
+	static boolean nativeFilePicker;
+	static boolean autoReConnect;
+	static boolean showMenuIcons;
+	static int tokenType;
+	static boolean useNameColors;
+	static boolean showRefMessage;
+	static boolean defaultHotkeys;
+	static String language;
+	static boolean fullscreenDefault;
+	static boolean showNotifsAll;
+	static boolean showNotifsPings;
+	static boolean showNotifsDMs;
+	static boolean showNotifAlert;
+	// ifdef PIGLER_SUPPORT
+	static boolean showNotifPigler;
+	// endif
+	// ifdef NOKIA_UI_SUPPORT
+	static boolean showNotifNokiaUI;
+	// endif
+	static boolean playNotifSound;
+	static boolean playNotifVibra;
+	static boolean highRamMode;
+	static int autoUpdate;
+	// ifdef OVER_100KB
+	static boolean useFilePreview;
+	static boolean sendTyping;
+	// endif
+
+	static int authorFontSize;
+	static int messageFontSize;
+
+	static String api;
+	static String gatewayUrl;
+	static String cdn;
+	static String token;
+
+	static int sendHotkey;
+	static int replyHotkey;
+	static int copyHotkey;
+	static int refreshHotkey;
+	static int backHotkey;
+	static int fullscreenHotkey;
+	// ifdef OVER_100KB
+	static int scrollTopHotkey;
+	static int scrollBottomHotkey;
+	// endif
+
     private static RecordStore loginRms;
     private static JSONArray loginData;
     private static int index;
@@ -17,16 +94,16 @@ public class LoginSettings {
         return result;
     }
 
-    public static void load(State s) {
+    public static void load() {
         // Initial settings (will be used if there are no saved settings)
-        s.api = "http://146.59.80.3";
-        s.gatewayUrl = "socket://146.59.80.3:8081";
-        s.cdn = "http://146.59.80.3:8080";
-        s.token = "";
+        api = "http://146.59.80.3";
+        gatewayUrl = "socket://146.59.80.3:8081";
+        cdn = "http://146.59.80.3:8080";
+        token = "";
 
         // Check if token is supplied in JAD or manifest. If so, use that as the default.
-        String manifestToken = s.midlet.getAppProperty("Token");
-        if (manifestToken != null) s.token = manifestToken;
+        String manifestToken = DiscordMIDlet.instance.getAppProperty("Token");
+        if (manifestToken != null) token = manifestToken;
 
         // Check if save file in old format is available.
         // If so, load token from there and delete the old file.
@@ -36,7 +113,7 @@ public class LoginSettings {
             String oldToken = Util.bytesToString(oldRms.getRecord(2)).trim();
 
             if (oldToken.length() > 0) {
-                s.token = oldToken;
+                token = oldToken;
                 foundOldToken = true;
             }
             Util.closeRecordStore(oldRms);
@@ -53,22 +130,22 @@ public class LoginSettings {
             loginData = new JSONArray();
         }
         try {
-            jsonToState(s);
-            if (foundOldToken) save(s);
+            jsonToState();
+            if (foundOldToken) save();
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
         close();
     }
 
-    public static void save(State s) {
+    public static void save() {
         try {
-            stateToJson(s);
+            stateToJson();
             write();
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
         close();
     }
@@ -76,9 +153,8 @@ public class LoginSettings {
     /**
      * Load settings from JSON array ("loginData" static field) to state.
      * Applies default values to settings whose values are not found in the save data JSON array.
-     * @param s Discord J2ME State object where to load the settings into.
      */
-    private static void jsonToState(State s) throws Exception {
+    private static void jsonToState() throws Exception {
         index = 0;
 
         boolean isHighRam = false;
@@ -94,48 +170,48 @@ public class LoginSettings {
         if (Util.isNokia128x) defaultFontSize = 1;
         // endif
 
-        s.api = getStringRecord(s.api);
-        s.token = getStringRecord(s.token);
-        s.theme = getIntRecord(0);
-        s.gatewayUrl = getStringRecord(s.gatewayUrl);
-        s.authorFontSize = getIntRecord(defaultFontSize);
-        s.messageFontSize = getIntRecord(defaultFontSize);
-        s.use12hTime = getBoolRecord(false);
-        s.messageLoadCount = getIntRecord(20);
-        s.useGateway = getBoolRecord(true);
+        api = getStringRecord(api);
+        token = getStringRecord(token);
+        theme = getIntRecord(0);
+        gatewayUrl = getStringRecord(gatewayUrl);
+        authorFontSize = getIntRecord(defaultFontSize);
+        messageFontSize = getIntRecord(defaultFontSize);
+        use12hTime = getBoolRecord(false);
+        messageLoadCount = getIntRecord(20);
+        useGateway = getBoolRecord(true);
         // ifdef BLACKBERRY
-        s.bbWifi =
+        bbWifi =
         // endif
         getBoolRecord(true);
-        s.useJpeg = getBoolRecord(true);
-        s.cdn = getStringRecord(s.cdn);
-        s.pfpType = getIntRecord(State.PFP_TYPE_CIRCLE_HQ);
-        s.attachmentSize = getIntRecord(1000);
-        s.pfpSize = getIntRecord(State.ICON_SIZE_16);
-        s.nativeFilePicker = getBoolRecord(false);
-        s.autoReConnect = getBoolRecord(true);
-        s.showMenuIcons = getBoolRecord(true);
-        s.tokenType = getIntRecord(State.TOKEN_TYPE_HEADER);
-        s.useNameColors = getBoolRecord(true);
-        s.sendHotkey = getIntRecord(0);
-        s.replyHotkey = getIntRecord(0);
-        s.copyHotkey = getIntRecord(0);
-        s.refreshHotkey = getIntRecord(0);
-        s.backHotkey = getIntRecord(0);
-        s.showRefMessage = getBoolRecord(true);
-        s.defaultHotkeys = getBoolRecord(true);
-        s.menuIconSize = getIntRecord(getBestMenuIconSize());
-        s.language = getStringRecord(System.getProperty("microedition.locale"));
-        s.fullscreenDefault = getBoolRecord(false);
-        s.fullscreenHotkey = getIntRecord(0);
-        s.showNotifsAll = getBoolRecord(false);
-        s.showNotifsPings = getBoolRecord(true);
-        s.showNotifsDMs = getBoolRecord(true);
-        s.highRamMode = getBoolRecord(isHighRam);
-        s.showNotifAlert = getBoolRecord(true);
-        s.playNotifSound = getBoolRecord(true);
+        useJpeg = getBoolRecord(true);
+        cdn = getStringRecord(cdn);
+        pfpType = getIntRecord(Settings.PFP_TYPE_CIRCLE_HQ);
+        attachmentSize = getIntRecord(1000);
+        pfpSize = getIntRecord(Settings.ICON_SIZE_16);
+        nativeFilePicker = getBoolRecord(false);
+        autoReConnect = getBoolRecord(true);
+        showMenuIcons = getBoolRecord(true);
+        tokenType = getIntRecord(Settings.TOKEN_TYPE_HEADER);
+        useNameColors = getBoolRecord(true);
+        sendHotkey = getIntRecord(0);
+        replyHotkey = getIntRecord(0);
+        copyHotkey = getIntRecord(0);
+        refreshHotkey = getIntRecord(0);
+        backHotkey = getIntRecord(0);
+        showRefMessage = getBoolRecord(true);
+        defaultHotkeys = getBoolRecord(true);
+        menuIconSize = getIntRecord(getBestMenuIconSize());
+        language = getStringRecord(System.getProperty("microedition.locale"));
+        fullscreenDefault = getBoolRecord(false);
+        fullscreenHotkey = getIntRecord(0);
+        showNotifsAll = getBoolRecord(false);
+        showNotifsPings = getBoolRecord(true);
+        showNotifsDMs = getBoolRecord(true);
+        highRamMode = getBoolRecord(isHighRam);
+        showNotifAlert = getBoolRecord(true);
+        playNotifSound = getBoolRecord(true);
         // ifdef PIGLER_SUPPORT
-        s.showNotifPigler =
+        showNotifPigler =
         // endif
         getBoolRecord(
             // ifdef PIGLER_SUPPORT
@@ -151,9 +227,9 @@ public class LoginSettings {
             // endif
             KineticScrollingCanvas.SCROLL_BAR_HIDDEN
         );
-        s.autoUpdate = getIntRecord(State.AUTO_UPDATE_RELEASE_ONLY);
+        autoUpdate = getIntRecord(Settings.AUTO_UPDATE_RELEASE_ONLY);
         // ifdef NOKIA_UI_SUPPORT
-        s.showNotifNokiaUI =
+        showNotifNokiaUI =
         // endif
         getBoolRecord(
             // ifdef NOKIA_UI_SUPPORT
@@ -163,7 +239,7 @@ public class LoginSettings {
             // endif
         );
         // ifdef OVER_100KB
-        s.useFilePreview =
+        useFilePreview =
         // endif
         getBoolRecord(isHighRam);
         // ifdef OVER_100KB
@@ -179,95 +255,95 @@ public class LoginSettings {
         FormattedString.useMarkdown =
         // endif
         getBoolRecord(true);
-        s.playNotifVibra = getBoolRecord(true);
+        playNotifVibra = getBoolRecord(true);
         // ifdef OVER_100KB
-        s.scrollTopHotkey =
+        scrollTopHotkey =
         // endif
         getIntRecord(0);
         // ifdef OVER_100KB
-        s.scrollBottomHotkey =
+        scrollBottomHotkey =
         // endif
         getIntRecord(0);
         // ifdef OVER_100KB
-        s.sendTyping =
+        sendTyping =
         // endif
         getBoolRecord(true);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
-        if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 20;
+        if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
 
-        Locale.setLanguage(s);
+        Locale.setLanguage();
     }
 
     /**
      * Serialize state to JSON array for saving in RMS. Result goes in "loginData" static field.
      */
-    private static void stateToJson(State s) {
+    private static void stateToJson() {
         loginData = new JSONArray();
         index = 0;
 
-        setStringRecord(s.api);
-        setStringRecord(s.token);
-        setIntRecord(s.theme);
-        setStringRecord(s.gatewayUrl);
-        setIntRecord(s.authorFontSize);
-        setIntRecord(s.messageFontSize);
-        setBoolRecord(s.use12hTime);
-        setIntRecord(s.messageLoadCount);
-        setBoolRecord(s.useGateway);
+        setStringRecord(api);
+        setStringRecord(token);
+        setIntRecord(theme);
+        setStringRecord(gatewayUrl);
+        setIntRecord(authorFontSize);
+        setIntRecord(messageFontSize);
+        setBoolRecord(use12hTime);
+        setIntRecord(messageLoadCount);
+        setBoolRecord(useGateway);
         setBoolRecord(
             // ifdef BLACKBERRY
-            s.bbWifi
+            bbWifi
             // else
             false
             // endif
         );
-        setBoolRecord(s.useJpeg);
-        setStringRecord(s.cdn);
-        setIntRecord(s.pfpType);
-        setIntRecord(s.attachmentSize);
-        setIntRecord(s.pfpSize);
-        setBoolRecord(s.nativeFilePicker);
-        setBoolRecord(s.autoReConnect);
-        setBoolRecord(s.showMenuIcons);
-        setIntRecord(s.tokenType);
-        setBoolRecord(s.useNameColors);
-        setIntRecord(s.sendHotkey);
-        setIntRecord(s.replyHotkey);
-        setIntRecord(s.copyHotkey);
-        setIntRecord(s.refreshHotkey);
-        setIntRecord(s.backHotkey);
-        setBoolRecord(s.showRefMessage);
-        setBoolRecord(s.defaultHotkeys);
-        setIntRecord(s.menuIconSize);
-        setStringRecord(s.language);
-        setBoolRecord(s.fullscreenDefault);
-        setIntRecord(s.fullscreenHotkey);
-        setBoolRecord(s.showNotifsAll);
-        setBoolRecord(s.showNotifsPings);
-        setBoolRecord(s.showNotifsDMs);
-        setBoolRecord(s.highRamMode);
-        setBoolRecord(s.showNotifAlert);
-        setBoolRecord(s.playNotifSound);
+        setBoolRecord(useJpeg);
+        setStringRecord(cdn);
+        setIntRecord(pfpType);
+        setIntRecord(attachmentSize);
+        setIntRecord(pfpSize);
+        setBoolRecord(nativeFilePicker);
+        setBoolRecord(autoReConnect);
+        setBoolRecord(showMenuIcons);
+        setIntRecord(tokenType);
+        setBoolRecord(useNameColors);
+        setIntRecord(sendHotkey);
+        setIntRecord(replyHotkey);
+        setIntRecord(copyHotkey);
+        setIntRecord(refreshHotkey);
+        setIntRecord(backHotkey);
+        setBoolRecord(showRefMessage);
+        setBoolRecord(defaultHotkeys);
+        setIntRecord(menuIconSize);
+        setStringRecord(language);
+        setBoolRecord(fullscreenDefault);
+        setIntRecord(fullscreenHotkey);
+        setBoolRecord(showNotifsAll);
+        setBoolRecord(showNotifsPings);
+        setBoolRecord(showNotifsDMs);
+        setBoolRecord(highRamMode);
+        setBoolRecord(showNotifAlert);
+        setBoolRecord(playNotifSound);
         setBoolRecord(
             // ifdef PIGLER_SUPPORT
-            s.showNotifPigler
+            showNotifPigler
             // else
             false
             // endif
         );
         setIntRecord(KineticScrollingCanvas.scrollBarMode);
-        setIntRecord(s.autoUpdate);
+        setIntRecord(autoUpdate);
         setBoolRecord(
             // ifdef NOKIA_UI_SUPPORT
-            s.showNotifNokiaUI
+            showNotifNokiaUI
             // else
             false
             // endif
         );
         setBoolRecord(
             // ifdef OVER_100KB
-            s.useFilePreview
+            useFilePreview
             // else
             false
             // endif
@@ -286,24 +362,24 @@ public class LoginSettings {
             false
             // endif
         );
-        setBoolRecord(s.playNotifVibra);
+        setBoolRecord(playNotifVibra);
         setIntRecord(
             // ifdef OVER_100KB
-            s.scrollTopHotkey
+            scrollTopHotkey
             // else
             0
             // endif
         );
         setIntRecord(
             // ifdef OVER_100KB
-            s.scrollBottomHotkey
+            scrollBottomHotkey
             // else
             0
             // endif
         );
         setBoolRecord(
             // ifdef OVER_100KB
-            s.sendTyping
+            sendTyping
             // else
             false
             // endif

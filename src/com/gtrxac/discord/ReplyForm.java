@@ -4,7 +4,6 @@ import javax.microedition.lcdui.*;
 import javax.microedition.io.file.*;
 
 public class ReplyForm extends Form implements CommandListener, Strings {
-    private State s;
     private Displayable lastScreen;
     Message msg;
 
@@ -24,38 +23,37 @@ public class ReplyForm extends Form implements CommandListener, Strings {
     public boolean showedPreviewScreen = false;
     // endif
 
-    public ReplyForm(State s, Message msg) {
-        this(s, msg, null, null);
+    public ReplyForm(Message msg) {
+        this(msg, null, null);
     }
 
-    public ReplyForm(State s, Message msg, String attachName, FileConnection attachFc) {
+    public ReplyForm(Message msg, String attachName, FileConnection attachFc) {
         super("");
-        setTitle(MessageBox.getMessageBoxTitle(s));
+        setTitle(MessageBox.getMessageBoxTitle());
         
         setCommandListener(this);
-        this.s = s;
-        this.lastScreen = s.disp.getCurrent();
+        this.lastScreen = App.disp.getCurrent();
         this.msg = msg;
         this.attachName = attachName;
         this.attachFc = attachFc;
 
         StringItem refItem = new StringItem(Locale.get(REPLYING_TO) + msg.author.name, msg.content);
-        refItem.setFont(s.messageFont);
+        refItem.setFont(App.messageFont);
         append(refItem);
 
         if (attachName != null) {
             StringItem fileItem = new StringItem(Locale.get(ATTACHED_FILE), attachName);
-            fileItem.setFont(s.messageFont);
+            fileItem.setFont(App.messageFont);
             append(fileItem);
         }
 
         replyField = new TextField(Locale.get(REPLY_FORM_LABEL), "", 2000, 0);
         append(replyField);
 
-        if (!s.isDM) {
+        if (!App.isDM) {
             String[] pingChoices = {Locale.get(REPLY_FORM_PING)};
             Image[] pingImages = {null};
-            boolean[] pingSelection = {!msg.author.id.equals(s.myUserId)};
+            boolean[] pingSelection = {!msg.author.id.equals(App.myUserId)};
             pingGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, pingChoices, pingImages);
             pingGroup.setSelectedFlags(pingSelection);
             append(pingGroup);
@@ -70,19 +68,19 @@ public class ReplyForm extends Form implements CommandListener, Strings {
 
         addCommand(sendCommand);
         addCommand(backCommand);
-        if (!s.isDM) addCommand(addMentionCommand);
+        if (!App.isDM) addCommand(addMentionCommand);
         // ifdef OVER_100KB
         addCommand(addEmojiCommand);
-        s.gatewaySendTyping();
+        App.gatewaySendTyping();
         // endif
     }
 
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
             boolean[] selected = {true};
-            if (!s.isDM) pingGroup.getSelectedFlags(selected);
+            if (!App.isDM) pingGroup.getSelectedFlags(selected);
             
-            MessageBox.sendMessage(s, replyField.getString(), msg.id, attachName, attachFc, selected[0]);
+            MessageBox.sendMessage(replyField.getString(), msg.id, attachName, attachFc, selected[0]);
         }
         else if (c == backCommand) {
             // ifdef OVER_100KB
@@ -93,19 +91,19 @@ public class ReplyForm extends Form implements CommandListener, Strings {
                 catch (Throwable e) {}
             }
             // endif
-            s.disp.setCurrent(lastScreen);
+            App.disp.setCurrent(lastScreen);
         }
         else if (c == addMentionCommand) {
-            if (!s.gatewayActive()) {
-                s.error(Locale.get(REQUIRES_GATEWAY));
+            if (!App.gatewayActive()) {
+                App.error(Locale.get(REQUIRES_GATEWAY));
                 return;
             }
-            s.disp.setCurrent(new MentionForm(s));
+            App.disp.setCurrent(new MentionForm());
         }
         // ifdef OVER_100KB
         else {
             // add emoji command
-            EmojiPicker.show(s);
+            EmojiPicker.show();
         }
         // endif
     }

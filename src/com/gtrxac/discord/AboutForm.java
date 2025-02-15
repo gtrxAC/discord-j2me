@@ -3,7 +3,6 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class AboutForm extends Form implements CommandListener, Strings {
-    private State s;
     private Image appIcon;
 
     private static final int spacerHeight = Util.fontSize/8;
@@ -40,14 +39,13 @@ public class AboutForm extends Form implements CommandListener, Strings {
         append(new Spacer(getWidth(), spacerHeight));
     }
 
-    AboutForm(State s) {
+    AboutForm() {
         super(Locale.get(ABOUT_TITLE));
         setCommandListener(this);
-        this.s = s;
 
         try {
             appIcon = Image.createImage("/icon.png");
-            int size = LoginSettings.getBestMenuIconSize()*3;
+            int size = Settings.getBestMenuIconSize()*3;
             appIcon = Util.resizeImage(appIcon, size, size);
             append(new ImageItem(null, appIcon, LAYOUT_CENTER, null));
         }
@@ -56,7 +54,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addString("Discord J2ME", Font.SIZE_MEDIUM, LAYOUT_CENTER);
         append(new Spacer(getWidth(), 1));
 
-        String versionStr = Locale.get(VERSION) + State.VERSION_NAME + Locale.get(LEFT_PAREN) + State.VERSION_VARIANT + Locale.get(RIGHT_PAREN);
+        String versionStr = Locale.get(VERSION) + App.VERSION_NAME + Locale.get(LEFT_PAREN) + App.VERSION_VARIANT + Locale.get(RIGHT_PAREN);
         addString(versionStr, Font.SIZE_SMALL, LAYOUT_CENTER);
         addSpacer();
 
@@ -98,6 +96,6 @@ public class AboutForm extends Form implements CommandListener, Strings {
     }
     
     public void commandAction(Command c, Displayable d) {
-        s.disp.setCurrent(MainMenu.get(null));
+        App.disp.setCurrent(MainMenu.get(false));
     }
 }

@@ -10,7 +10,6 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
     Displayable lastScreen;
     private Command selectCommand;
     private Command backCommand;
-    private State s;
     private Image[] sheets;
     private Image[] selectors;
     private int selectorIndex;
@@ -22,24 +21,23 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
     private int selected;
     private int caretPos = -1;
 
-    public static void show(State s) {
+    public static void show() {
         try {
             RecordStore rms = RecordStore.openRecordStore("emoji", false);
             Util.closeRecordStore(rms);
-            s.disp.setCurrent(new EmojiPicker(s));
+            App.disp.setCurrent(new EmojiPicker());
         }
         catch (Exception e) {
-            s.disp.setCurrent(new EmojiDownloadDialog(s));
+            App.disp.setCurrent(new EmojiDownloadDialog());
         }
     }
 
-    EmojiPicker(State s) {
+    EmojiPicker() {
         super();
         setTitle(Locale.get(EMOJI_PICKER_TITLE));
         setCommandListener(this);
 
-        lastScreen = s.disp.getCurrent();
-        this.s = s;
+        lastScreen = App.disp.getCurrent();
 
         // ifdef MIDP2_GENERIC
         if (Util.isKemulator) {
@@ -94,7 +92,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         Util.closeRecordStore(rms);
 
         scroll = getMinScroll();
-        scrollUnit = s.messageFont.getHeight();
+        scrollUnit = App.messageFont.getHeight();
     }
 
     private int getEmojiPerRow() {
@@ -127,7 +125,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         // endif
 
         // Clear screen
-        g.setColor(ChannelView.backgroundColors[s.theme]);
+        g.setColor(ChannelView.backgroundColors[Settings.theme]);
         g.fillRect(0, 0, getWidth(), getHeight());
 
         int x = 0;
@@ -228,14 +226,14 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         if (c == selectCommand) {
             JSONArray emojiNames = emojiJson.getArray(selected);
             String emojiName = emojiNames.getString(emojiNames.size() - 1);
-            caretPos = MentionForm.insertTextToMessageBox(s, lastScreen, " :" + emojiName + ":", caretPos);
+            caretPos = MentionForm.insertTextToMessageBox(lastScreen, " :" + emojiName + ":", caretPos);
 
             selectorIndex |= 2;
             repaint();
             threadIsForSelectorConfirm = true;
             new Thread(this).start();
         } else {
-            s.disp.setCurrent(lastScreen);
+            App.disp.setCurrent(lastScreen);
         }
     }
 

@@ -3,22 +3,20 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class UpdateDialog extends Dialog implements CommandListener, Strings {
-    private State s;
     private Command updateCommand;
     private Command closeCommand;
 
     private Notification notif;
     private boolean isBeta;
     
-    public UpdateDialog(State s, String latestVersion, boolean isBeta) {
-        super(s.disp, Locale.get(UPDATE_AVAILABLE_TITLE), "");
+    public UpdateDialog(String latestVersion, boolean isBeta) {
+        super(Locale.get(UPDATE_AVAILABLE_TITLE), "");
         setCommandListener(this);
-        this.s = s;
         this.isBeta = isBeta;
 
         setString(
             Locale.get(UPDATE_AVAILABLE) +
-            State.VERSION_NAME +
+            App.VERSION_NAME +
             Locale.get(UPDATE_AVAILABLE_LATEST) +
             latestVersion
         );
@@ -40,16 +38,16 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
             format = ".jar";
             // endif
 
-            target.append(s.api);
+            target.append(Settings.api);
             target.append("/discord_");
-            target.append(State.VERSION_VARIANT);
+            target.append(App.VERSION_VARIANT);
             if (isBeta) target.append("_beta");
             target.append(format);
 
-            s.platformRequest(target.toString());
+            App.platRequest(target.toString());
         }
         else if (c == closeCommand) {
-            s.disp.setCurrent(MainMenu.get(null));
+            App.disp.setCurrent(MainMenu.get(false));
         }
     }
 }

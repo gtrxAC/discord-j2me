@@ -88,12 +88,12 @@ public class Icons {
     Image flagBG;
     Image flagMY;
 
-    Icons(State s) {
-        if (s.menuIconSize == 0) return;
+    Icons() {
+        if (Settings.menuIconSize == 0) return;
 
         Spritesheet sh;
         try {
-            sh = new Spritesheet("/icons.png", s.menuIconSize);
+            sh = new Spritesheet("/icons.png", Settings.menuIconSize);
         }
         catch (Exception e) {
             return;

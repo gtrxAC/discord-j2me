@@ -10,14 +10,12 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
     private Command promptNoCommand;
 
     private Displayable lastScreen;
-    private State s;
     private Vector rmsNames;
 
-    DataManagerScreen(State s) {
+    DataManagerScreen() {
         super(Locale.get(DATA_MANAGER_TITLE), true, false, true);
         setCommandListener(this);
-        lastScreen = s.disp.getCurrent();
-        this.s = s;
+        lastScreen = App.disp.getCurrent();
         rmsNames = new Vector();
         refresh();
 
@@ -37,7 +35,7 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
             } else {
                 info = size;
             }
-            append(Locale.get(titleKey), info, s.ic.pfpNone, null);
+            append(Locale.get(titleKey), info, App.ic.pfpNone, null);
             rmsNames.addElement(rmsName);
         }
         catch (Exception e) {}
@@ -55,14 +53,14 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
 
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
-            s.disp.setCurrent(lastScreen);
+            App.disp.setCurrent(lastScreen);
         }
         else if (c == SELECT_COMMAND) {
-            Dialog dialog = new Dialog(s.disp, Locale.get(DATA_MANAGER_PROMPT_TITLE), Locale.get(DATA_MANAGER_PROMPT) + getString(getSelectedIndex()));
+            Dialog dialog = new Dialog(Locale.get(DATA_MANAGER_PROMPT_TITLE), Locale.get(DATA_MANAGER_PROMPT) + getString(getSelectedIndex()));
             dialog.addCommand(promptYesCommand);
             dialog.addCommand(promptNoCommand);
             dialog.setCommandListener(this);
-            s.disp.setCurrent(dialog);
+            App.disp.setCurrent(dialog);
         }
         else {
             if (c == promptYesCommand) {
@@ -72,28 +70,28 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
                     refresh();
 
                     if ("lang".equals(rmsName)) {
-                        s.language = "en";
-                        Locale.setLanguage(s);
-                        LoginSettings.save(s);
+                        Settings.language = "en";
+                        Locale.setLanguage();
+                        Settings.save();
             
                         // Clear servers/DMs (so the lists get refreshed, which in turn updates the softkey labels)
-                        s.guilds = null;
-                        s.dmChannels = null;
+                        App.guilds = null;
+                        App.dmChannels = null;
                     }
                     else if ("unread".equals(rmsName)) {
-                        UnreadManager.init(s);
+                        UnreadManager.init();
                     }
                     else if ("emoji".equals(rmsName)) {
                         // Make sure the emojis get re-downloaded if they are needed again
-                        s.myUserId = null;
+                        App.myUserId = null;
                     }
                 }
                 catch (Exception e) {
-                    s.error(e);
+                    App.error(e);
                     return;
                 }
             }
-            s.disp.setCurrent(this);
+            App.disp.setCurrent(this);
         }
     }
 }

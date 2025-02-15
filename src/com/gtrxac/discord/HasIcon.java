@@ -30,10 +30,10 @@ public interface HasIcon {
     /**
      * Callback function that is called when the icon for this object has been loaded and cached.
      */
-    public void iconLoaded(State s);
+    public void iconLoaded();
     
     /**
      * Determine (based on user settings) if this type of icon is disabled (should not be loaded).
      */
-    public boolean isDisabled(State s);
+    public boolean isDisabled();
 }

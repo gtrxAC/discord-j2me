@@ -11,7 +11,7 @@ public class DMChannel extends HasUnreads implements HasIcon, Strings {
     public String iconID;  // for groups, group ID. for users, recipient ID (not DM channel ID)
     public String iconHash;
 
-    public DMChannel(State s, JSONObject data) {
+    public DMChannel(JSONObject data) {
         id = data.getString("id");
         isGroup = data.getInt("type") == 3;
     
@@ -45,11 +45,11 @@ public class DMChannel extends HasUnreads implements HasIcon, Strings {
         if (name == null) name = Locale.get(NAME_UNKNOWN);
     }
 
-    static DMChannel getById(State s, String id) {
-        if (s.dmChannels == null) return null;
+    static DMChannel getById(String id) {
+        if (App.dmChannels == null) return null;
 
-        for (int c = 0; c < s.dmChannels.size(); c++) {
-            DMChannel ch = (DMChannel) s.dmChannels.elementAt(c);
+        for (int c = 0; c < App.dmChannels.size(); c++) {
+            DMChannel ch = (DMChannel) App.dmChannels.elementAt(c);
             if (id.equals(ch.id)) return ch;
         }
         return null;
@@ -59,12 +59,12 @@ public class DMChannel extends HasUnreads implements HasIcon, Strings {
     public String getIconHash() { return iconHash; }
     public String getIconType() { return isGroup ? "/channel-icons/" : "/avatars/"; }
     
-    public boolean isDisabled(State s) {
-        return !s.showMenuIcons || s.menuIconSize == 0;
+    public boolean isDisabled() {
+        return !Settings.showMenuIcons || Settings.menuIconSize == 0;
     }
 
-    public void iconLoaded(State s) {
-		if (s.dmSelector != null) s.dmSelector.update(id);
+    public void iconLoaded() {
+		if (App.dmSelector != null) App.dmSelector.update(id);
     }
 
     public boolean hasUnreads() {

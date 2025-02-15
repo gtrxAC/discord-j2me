@@ -41,9 +41,9 @@ public class Message implements Strings {
 
     public boolean needUpdate;  // does this message's contentlines need to be updated before next draw
 
-    public Message(State s, JSONObject data) {
+    public Message(JSONObject data) {
         id = data.getString("id");
-        author = new User(s, data.getObject("author"));
+        author = new User(data.getObject("author"));
 
         // ifdef OVER_100KB
         if (FormattedString.useMarkdown) {
@@ -74,7 +74,7 @@ public class Message implements Strings {
             String target = Locale.get(NAME_UNKNOWN);
             try {
                 JSONObject targetData = contentObj.getArray("mentions").getObject(0);
-                target = new User(s, targetData).name;
+                target = new User(targetData).name;
             }
             catch (Exception e) {}
 
@@ -134,7 +134,7 @@ public class Message implements Strings {
             content = contentObj.getString("content", "");
 
             // Get raw content (used for keeping formatting like pings intact when editing messages)
-            if (s.myUserId != null && s.myUserId.equals(author.id)) {
+            if (App.myUserId != null && App.myUserId.equals(author.id)) {
                 rawContent = contentObj.getString("_rc", content);
             }
 
@@ -142,9 +142,9 @@ public class Message implements Strings {
                 try {
                     JSONObject refObj = contentObj.getObject("referenced_message");
     
-                    recipient = new User(s, refObj.getObject("author"));
+                    recipient = new User(refObj.getObject("author"));
     
-                    if (s.showRefMessage) {
+                    if (Settings.showRefMessage) {
                         refContent = refObj.getString("content", null);
                         if (refContent == null) refContent = Locale.get(NO_CONTENT);
                     }
@@ -159,7 +159,7 @@ public class Message implements Strings {
 
                     for (int i = 0; i < attachArray.size(); i++) {
                         JSONObject attach = attachArray.getObject(i);
-                        attachments.addElement(new Attachment(s, attach));
+                        attachments.addElement(new Attachment(attach));
                     }
                 }
             }
@@ -192,7 +192,7 @@ public class Message implements Strings {
             catch (Exception e) {}
         }
 
-        Date messageDate = new Date((Long.parseLong(id) >> 22) + State.DISCORD_EPOCH);
+        Date messageDate = new Date((Long.parseLong(id) >> 22) + App.DISCORD_EPOCH);
         String messageDay = messageDate.toString().substring(0, 10);
         String currentDay = new Date().toString().substring(0, 10);
 
@@ -204,7 +204,7 @@ public class Message implements Strings {
             int hour = cal.get(Calendar.HOUR_OF_DAY);
             int minute = cal.get(Calendar.MINUTE);
 
-            if (s.use12hTime) {
+            if (Settings.use12hTime) {
                 String period = hour < 12 ? Locale.get(TIMESTAMP_AM) : Locale.get(TIMESTAMP_PM);
 
                 // Convert hours to 12-hour format

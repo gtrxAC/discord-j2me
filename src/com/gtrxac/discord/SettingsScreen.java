@@ -5,7 +5,6 @@ import javax.microedition.lcdui.*;
 public class SettingsScreen extends ListScreen implements CommandListener, Strings {
     private static SettingsScreen instance;
 
-    private State s;
     private Command saveCommand;
     private Command textBoxOkCommand;
     private Command cancelCommand;
@@ -49,10 +48,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     private boolean isInSubmenu;
     private int currentSection;
 
-    SettingsScreen(State s) {
+    SettingsScreen() {
         super(Locale.get(SETTINGS_FORM_TITLE), false, false, true);
-        setCommandListener(this); 
-        this.s = s;
+        setCommandListener(this);
 
         BACK_COMMAND = Locale.createCommand(BACK, Command.BACK, 0);
         saveCommand = Locale.createCommand(SAVE, Command.BACK, 0);
@@ -132,58 +130,58 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         icons = new Image[][][] {
             {
                 // Appearance
-                { s.ic.themeDark, s.ic.themeLight, s.ic.themeBlack },
-                { s.ic.fontSmall, s.ic.fontMedium, s.ic.fontLarge },
-                { s.ic.fontSmall, s.ic.fontMedium, s.ic.fontLarge },
-                { s.ic.repliesName, s.ic.repliesFull },
-                { s.ic.use12h },
-                { s.ic.nameColorsOff, s.ic.nameColors },
-                { s.ic.fullscreen },
+                { App.ic.themeDark, App.ic.themeLight, App.ic.themeBlack },
+                { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
+                { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
+                { App.ic.repliesName, App.ic.repliesFull },
+                { App.ic.use12h },
+                { App.ic.nameColorsOff, App.ic.nameColors },
+                { App.ic.fullscreen },
                 // ifdef OVER_100KB
-                { s.ic.markdown }
+                { App.ic.markdown }
                 // endif
             }, {
                 // Images
-                { s.ic.attachFormat },
-                { s.ic.attachSize },
-                { s.ic.pfpNone, s.ic.pfpSquare, s.ic.pfpCircle, s.ic.pfpCircleHq },
-                { s.ic.pfpPlaceholder, s.ic.pfp16, s.ic.pfp32 },
-                { s.ic.iconSize },
-                { s.ic.menuIcons },
+                { App.ic.attachFormat },
+                { App.ic.attachSize },
+                { App.ic.pfpNone, App.ic.pfpSquare, App.ic.pfpCircle, App.ic.pfpCircleHq },
+                { App.ic.pfpPlaceholder, App.ic.pfp16, App.ic.pfp32 },
+                { App.ic.iconSize },
+                { App.ic.menuIcons },
                 // ifdef OVER_100KB
-                { s.ic.attachFormat },
-                { s.ic.emoji }
+                { App.ic.attachFormat },
+                { App.ic.emoji }
                 // endif
             }, {
                 // Behavior
-                { s.ic.msgCount },
-                { s.ic.keepChLoaded },
-                { s.ic.nativePicker },
-                { s.ic.autoReconnect },
-                { s.ic.keysDefault },
-                { s.ic.keys },
-                { s.ic.scrollBars },
-                { s.ic.autoUpdate },
+                { App.ic.msgCount },
+                { App.ic.keepChLoaded },
+                { App.ic.nativePicker },
+                { App.ic.autoReconnect },
+                { App.ic.keysDefault },
+                { App.ic.keys },
+                { App.ic.scrollBars },
+                { App.ic.autoUpdate },
                 // ifdef OVER_100KB
                 { null }
                 // endif
             }, {
                 // Notifications
-                { s.ic.msgCount },
-                { s.ic.notifyPing },
-                { s.ic.notifyDM },
-                { s.ic.notifyAlert },
-                { s.ic.notifySound },
-                { s.ic.vibra },
+                { App.ic.msgCount },
+                { App.ic.notifyPing },
+                { App.ic.notifyDM },
+                { App.ic.notifyAlert },
+                { App.ic.notifySound },
+                { App.ic.vibra },
                 // ifdef PIGLER_SUPPORT
-                { s.ic.pigler },
+                { App.ic.pigler },
                 // endif
                 // The below two are for the same option, Nokia UI notifications. Only one of these defines is ever defined.
                 // ifdef NOKIA_UI_ICON
-                { s.ic.nokiaUI },
+                { App.ic.nokiaUI },
                 // endif
                 // ifdef J2ME_LOADER
-                { s.ic.android }
+                { App.ic.android }
                 // endif
             }
         };
@@ -246,54 +244,54 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         values = new int[][] {
             {
                 // Appearance
-                s.theme,
-                s.authorFontSize, 
-                s.messageFontSize,
-                s.showRefMessage ? 1 : 0,
-                s.use12hTime ? 1 : 0,
-                s.useNameColors ? 1 : 0,
-                s.fullscreenDefault ? 1 : 0,
+                Settings.theme,
+                Settings.authorFontSize, 
+                Settings.messageFontSize,
+                Settings.showRefMessage ? 1 : 0,
+                Settings.use12hTime ? 1 : 0,
+                Settings.useNameColors ? 1 : 0,
+                Settings.fullscreenDefault ? 1 : 0,
                 // ifdef OVER_100KB
                 FormattedString.useMarkdown ? 1 : 0
                 // endif
             }, {
                 // Images
-                s.useJpeg ? 1 : 0,
-                s.attachmentSize,
-                s.pfpType,
-                s.pfpSize,
-                s.menuIconSize,
-                s.showMenuIcons ? 1 : 0,
+                Settings.useJpeg ? 1 : 0,
+                Settings.attachmentSize,
+                Settings.pfpType,
+                Settings.pfpSize,
+                Settings.menuIconSize,
+                Settings.showMenuIcons ? 1 : 0,
                 // ifdef OVER_100KB
-                s.useFilePreview ? 1 : 0,
+                Settings.useFilePreview ? 1 : 0,
                 FormattedString.emojiMode
                 // endif
             }, {
                 // Behavior
-                s.messageLoadCount,
-                s.highRamMode ? 1 : 0,
-                s.nativeFilePicker ? 1 : 0,
-                s.autoReConnect ? 1 : 0,
-                s.defaultHotkeys ? 1 : 0,
+                Settings.messageLoadCount,
+                Settings.highRamMode ? 1 : 0,
+                Settings.nativeFilePicker ? 1 : 0,
+                Settings.autoReConnect ? 1 : 0,
+                Settings.defaultHotkeys ? 1 : 0,
                 0,
                 KineticScrollingCanvas.scrollBarMode,
-                s.autoUpdate,
+                Settings.autoUpdate,
                 // ifdef OVER_100KB
-                s.sendTyping ? 1 : 0,
+                Settings.sendTyping ? 1 : 0,
                 // endif
             }, {
                 // Notifications
-                s.showNotifsAll ? 1 : 0, 
-                s.showNotifsPings ? 1 : 0,
-                s.showNotifsDMs ? 1 : 0,
-                s.showNotifAlert ? 1 : 0,
-                s.playNotifSound ? 1 : 0,
-                s.playNotifVibra ? 1 : 0,
+                Settings.showNotifsAll ? 1 : 0, 
+                Settings.showNotifsPings ? 1 : 0,
+                Settings.showNotifsDMs ? 1 : 0,
+                Settings.showNotifAlert ? 1 : 0,
+                Settings.playNotifSound ? 1 : 0,
+                Settings.playNotifVibra ? 1 : 0,
                 // ifdef PIGLER_SUPPORT
-                s.showNotifPigler ? 1 : 0,
+                Settings.showNotifPigler ? 1 : 0,
                 // endif
                 // ifdef NOKIA_UI_SUPPORT
-                s.showNotifNokiaUI ? 1 : 0,
+                Settings.showNotifNokiaUI ? 1 : 0,
                 // endif
             }
         };
@@ -371,11 +369,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         isInSubmenu = false;
 
         deleteAll();
-        append(sectionNames[0], s.ic.themesGroup);
-        append(sectionNames[1], s.ic.attachFormat);
-        append(sectionNames[2], s.ic.uiGroup);
-        append(sectionNames[3], s.ic.notify);
-        append(sectionNames[4], s.ic.language);
+        append(sectionNames[0], App.ic.themesGroup);
+        append(sectionNames[1], App.ic.attachFormat);
+        append(sectionNames[2], App.ic.uiGroup);
+        append(sectionNames[3], App.ic.notify);
+        append(sectionNames[4], App.ic.language);
         // ifdef OVER_100KB
         append(sectionNames[5], null);
         // endif
@@ -435,7 +433,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         tb.addCommand(textBoxOkCommand);
         tb.addCommand(cancelCommand);
         tb.setCommandListener(this);
-        s.disp.setCurrent(tb);
+        App.disp.setCurrent(tb);
     }
 
     public void customKeyEvent(int keycode) {
@@ -461,7 +459,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // In submenu: select item
                 if (currentSection == 2 && itemIndex == 5) {
                     // Special case for "remap hotkeys" option - open separate menu
-                    s.disp.setCurrent(new KeyMapper(s));
+                    App.disp.setCurrent(new KeyMapper());
                 } else {
                     int max = maxValues[currentSection][itemIndex];
                     
@@ -477,11 +475,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // In top-level settings menu: select submenu (settings section)
                 // Language selection and data manager screens are separate menus, other screens are part of this menu
                 if (selected == 4) {
-                    s.disp.setCurrent(new LanguageSelector(s));
+                    App.disp.setCurrent(new LanguageSelector());
                 }
                 // ifdef OVER_100KB
                 else if (selected == 5) {
-                    s.disp.setCurrent(new DataManagerScreen(s));
+                    App.disp.setCurrent(new DataManagerScreen());
                 }
                 // endif
                 else {
@@ -497,83 +495,83 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             if (c == saveCommand) {
                 // Check if icons need to be reloaded (if any icon-related settings have changed)
                 boolean reloadMenuIcons =
-                    s.menuIconSize != values[1][4] ||
-                    s.showMenuIcons != (values[1][5] == 1);
+                    Settings.menuIconSize != values[1][4] ||
+                    Settings.showMenuIcons != (values[1][5] == 1);
 
                 boolean reloadIcons =
                     reloadMenuIcons ||
-                    s.pfpType != values[1][2] ||
-                    s.pfpSize != values[1][3] ||
-                    s.useJpeg != (values[1][0] == 1);
+                    Settings.pfpType != values[1][2] ||
+                    Settings.pfpSize != values[1][3] ||
+                    Settings.useJpeg != (values[1][0] == 1);
 
-                s.theme = values[0][0];
-                s.authorFontSize = values[0][1];
-                s.messageFontSize = values[0][2];
-                s.showRefMessage = values[0][3] == 1;
-                s.use12hTime = values[0][4] == 1;
-                s.useNameColors = values[0][5] == 1;
-                s.fullscreenDefault = values[0][6] == 1;
+                Settings.theme = values[0][0];
+                Settings.authorFontSize = values[0][1];
+                Settings.messageFontSize = values[0][2];
+                Settings.showRefMessage = values[0][3] == 1;
+                Settings.use12hTime = values[0][4] == 1;
+                Settings.useNameColors = values[0][5] == 1;
+                Settings.fullscreenDefault = values[0][6] == 1;
                 // ifdef OVER_100KB
                 FormattedString.useMarkdown = values[0][7] == 1;
                 // endif
 
-                s.useJpeg = values[1][0] == 1;
-                s.attachmentSize = values[1][1];
-                s.pfpType = values[1][2];
-                s.pfpSize = values[1][3];
-                s.menuIconSize = values[1][4];
-                s.showMenuIcons = values[1][5] == 1;
+                Settings.useJpeg = values[1][0] == 1;
+                Settings.attachmentSize = values[1][1];
+                Settings.pfpType = values[1][2];
+                Settings.pfpSize = values[1][3];
+                Settings.menuIconSize = values[1][4];
+                Settings.showMenuIcons = values[1][5] == 1;
                 // ifdef OVER_100KB
-                s.useFilePreview = values[1][6] == 1;
+                Settings.useFilePreview = values[1][6] == 1;
                 FormattedString.emojiMode = values[1][7];
-                s.gatewayToggleGuildEmoji();
+                App.gatewayToggleGuildEmoji();
                 // endif
 
-                s.messageLoadCount = values[2][0];
-                s.highRamMode = values[2][1] == 1;
-                s.nativeFilePicker = values[2][2] == 1;
-                s.autoReConnect = values[2][3] == 1;
-                s.defaultHotkeys = values[2][4] == 1;
+                Settings.messageLoadCount = values[2][0];
+                Settings.highRamMode = values[2][1] == 1;
+                Settings.nativeFilePicker = values[2][2] == 1;
+                Settings.autoReConnect = values[2][3] == 1;
+                Settings.defaultHotkeys = values[2][4] == 1;
                 KineticScrollingCanvas.scrollBarMode = values[2][6];
-                s.autoUpdate = values[2][7];
+                Settings.autoUpdate = values[2][7];
                 // ifdef OVER_100KB
-                s.sendTyping = values[2][8] == 1;
+                Settings.sendTyping = values[2][8] == 1;
                 // endif
 
-                s.showNotifsAll = values[3][0] == 1;
-                s.showNotifsPings = values[3][1] == 1;
-                s.showNotifsDMs = values[3][2] == 1;
-                s.showNotifAlert = values[3][3] == 1;
-                s.playNotifSound = values[3][4] == 1;
-                s.playNotifVibra = values[3][5] == 1;
+                Settings.showNotifsAll = values[3][0] == 1;
+                Settings.showNotifsPings = values[3][1] == 1;
+                Settings.showNotifsDMs = values[3][2] == 1;
+                Settings.showNotifAlert = values[3][3] == 1;
+                Settings.playNotifSound = values[3][4] == 1;
+                Settings.playNotifVibra = values[3][5] == 1;
                 int index = 6;
                 // ifdef PIGLER_SUPPORT
-                s.showNotifPigler = values[3][index] == 1;
+                Settings.showNotifPigler = values[3][index] == 1;
                 index++;
                 // endif
                 // ifdef NOKIA_UI_SUPPORT
-                s.showNotifNokiaUI = values[3][index] == 1;
+                Settings.showNotifNokiaUI = values[3][index] == 1;
                 // endif
 
                 if (reloadIcons) {
                     // Unload server and DM lists so the icons get refreshed
-                    IconCache.init(s);
-                    s.guilds = null;
-                    s.dmChannels = null;
+                    IconCache.init();
+                    App.guilds = null;
+                    App.dmChannels = null;
                     if (reloadMenuIcons) {
-                        s.ic = null;
-                        s.ic = new Icons(s);
+                        App.ic = null;
+                        App.ic = new Icons();
                     }
                 }
 
                 // ifdef PIGLER_SUPPORT
-                if (s.gatewayActive()) s.gateway.checkInitPigler();
+                if (App.gatewayActive()) App.gateway.checkInitPigler();
                 // endif
-                LoginSettings.save(s);
-                s.loadTheme();
-                s.loadFonts();
+                Settings.save();
+                App.loadTheme();
+                App.loadFonts();
             }
-            s.disp.setCurrent(MainMenu.get(s));
+            App.disp.setCurrent(MainMenu.get(true));
         }
         else {
             // OK or cancel command in textbox screen: (if OK, write entered value into values array), then return to where we left off in the settings screen
@@ -597,11 +595,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     updateMenuItem(selected);
                 }
                 catch (Exception e) {
-                    s.error(Locale.get(SETTINGS_ERROR_INVALID_NUMBER_PREFIX) + max + Locale.get(SETTINGS_ERROR_INVALID_NUMBER_SUFFIX));
+                    App.error(Locale.get(SETTINGS_ERROR_INVALID_NUMBER_PREFIX) + max + Locale.get(SETTINGS_ERROR_INVALID_NUMBER_SUFFIX));
                     return;
                 }
             }
-            s.disp.setCurrent(SettingsScreen.instance);
+            App.disp.setCurrent(SettingsScreen.instance);
             SettingsScreen.instance = null;
         }
     }

@@ -6,11 +6,8 @@ public class URLList extends ListScreen implements CommandListener, Strings {
     public static final String[] urlStarts = {"https://", "http://", "www."};
     private static final String[] urlEnds = {" ", "[", "]", "(", ")", "<", ">", "\"", "'", "\t", "\r", "\n"};
 
-    private State s;
-
-    public URLList(State s, String content) {
+    public URLList(String content) {
         super(Locale.get(URL_LIST_TITLE), List.IMPLICIT);
-        this.s = s;
         setCommandListener(this);
 
         int index = 0;
@@ -39,10 +36,10 @@ public class URLList extends ListScreen implements CommandListener, Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
-            s.platformRequest(getString(getSelectedIndex()));
+            App.platRequest(getString(getSelectedIndex()));
         }
         else if (c == BACK_COMMAND) {
-            s.openChannelView(false);
+            App.openChannelView(false);
         }
     }
 }

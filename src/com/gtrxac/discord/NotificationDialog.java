@@ -3,7 +3,6 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class NotificationDialog extends Dialog implements CommandListener, Strings {
-    private State s;
     private Command viewCommand;
     private Command closeCommand;
     private Displayable lastScreen;
@@ -22,12 +21,11 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
         return sb.toString();
     }
     
-    public NotificationDialog(State s, Notification notif, String location, Message msg) {
-        super(s.disp, Locale.get(NOTIFICATION_TITLE), "");
+    public NotificationDialog(Notification notif, String location, Message msg) {
+        super(Locale.get(NOTIFICATION_TITLE), "");
         setCommandListener(this);
-        this.s = s;
         this.notif = notif;
-        lastScreen = s.disp.getCurrent();
+        lastScreen = App.disp.getCurrent();
 
         setString(createString(notif, location, msg));
 
@@ -39,10 +37,10 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
 
     public void commandAction(Command c, Displayable d) {
         if (c == viewCommand) {
-            notif.view(s);
+            notif.view();
         }
         else if (c == closeCommand) {
-            s.disp.setCurrent(lastScreen);
+            App.disp.setCurrent(lastScreen);
         }
     }
 }

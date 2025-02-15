@@ -8,19 +8,17 @@ import java.util.*;
 import java.io.*;
 
 public abstract class FilePicker extends ListScreen implements CommandListener, Strings {
-    protected State s;
     private Command closeCommand;
     private String currentPath;
     public Displayable lastScreen;
 
-    public FilePicker(State s, String title) {
-        this(s, title, "file:///");
+    public FilePicker(String title) {
+        this(title, "file:///");
     }
 
-    protected FilePicker(State s, String title, String currentPath) {
+    protected FilePicker(String title, String currentPath) {
         super(title, List.IMPLICIT);
-        this.s = s;
-        this.lastScreen = s.disp.getCurrent();
+        this.lastScreen = App.disp.getCurrent();
         setCommandListener(this);
 
         closeCommand = Locale.createCommand(CLOSE, Command.BACK, 2);
@@ -44,7 +42,7 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
         while (last instanceof FilePicker) {
             last = ((FilePicker) last).lastScreen;
         }
-        s.disp.setCurrent(last);
+        App.disp.setCurrent(last);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -62,7 +60,7 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
                         fc = (FileConnection) Connector.open(selectedPath, Connector.READ);
                     }
                     catch (Exception e) {
-                        s.error(e);
+                        App.error(e);
                         return;
                     }
                     fileSelected(fc, selected);
@@ -73,7 +71,7 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
             if (!currentPath.equals("file:///")) {
                 int lastSlashIndex = currentPath.lastIndexOf('/', currentPath.length() - 2);
                 if (lastSlashIndex != -1) {
-                    s.disp.setCurrent(lastScreen);
+                    App.disp.setCurrent(lastScreen);
                 }
             } else {
                 close();
@@ -134,7 +132,7 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
             }
         }
         catch (IOException e) {
-            s.error(e);
+            App.error(e);
         }
     }
 }

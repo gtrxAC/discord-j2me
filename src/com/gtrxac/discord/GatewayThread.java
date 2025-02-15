@@ -22,8 +22,6 @@ public class GatewayThread extends Thread implements Strings
 , PiglerAPIHandlerLayer
 // endif
 {
-    private State s;
-
     volatile boolean stop;
     volatile String stopMessage;
 
@@ -47,9 +45,8 @@ public class GatewayThread extends Thread implements Strings
     public static Hashtable piglerNotifs;
     // endif
 
-    public GatewayThread(State s) {
-        this.s = s;
-        s.subscribedGuilds = new Vector();
+    public GatewayThread() {
+        App.subscribedGuilds = new Vector();
         reconnectAttempts++;
     }
 
@@ -62,15 +59,15 @@ public class GatewayThread extends Thread implements Strings
 
     public void disconnected(String message) {
         disconnect();
-        if (s.autoReConnect && reconnectAttempts < 3) {
-            if (s.channelView != null) {
-                s.channelView.bannerText = Locale.get(CHANNEL_VIEW_RECONNECTING);
-                s.channelView.repaint();
+        if (Settings.autoReConnect && reconnectAttempts < 3) {
+            if (App.channelView != null) {
+                App.channelView.bannerText = Locale.get(CHANNEL_VIEW_RECONNECTING);
+                App.channelView.repaint();
             }
-            s.gateway = new GatewayThread(s);
-            s.gateway.start();
+            App.gateway = new GatewayThread();
+            App.gateway.start();
         } else {
-            s.disp.setCurrent(new ReconnectDialog(s, message));
+            App.disp.setCurrent(new ReconnectDialog(message));
         }
     }
 
@@ -100,7 +97,7 @@ public class GatewayThread extends Thread implements Strings
             return false;
         }
         for (int i = 0; i < pings.size(); i++) {
-            if (pings.getObject(i).getString("id").equals(s.myUserId)) {
+            if (pings.getObject(i).getString("id").equals(App.myUserId)) {
                 return true;
             }
         }
@@ -125,17 +122,17 @@ public class GatewayThread extends Thread implements Strings
         // endif
 
         // All notifications enabled - always notify except for muted messages that aren't mentions.
-        if (s.showNotifsAll) return !isMuted || isPing;
+        if (Settings.showNotifsAll) return !isMuted || isPing;
 
         // DM notifs enabled - notify for DMs if that person is not muted
-        if (isDM && s.showNotifsDMs && !isMuted) return true;
+        if (isDM && Settings.showNotifsDMs && !isMuted) return true;
 
         // Lastly, check for mention. If mention notifications enabled, always notify for mentions even if muted.
-        return isPing && s.showNotifsPings;
+        return isPing && Settings.showNotifsPings;
     }
 
     private void handleNotification(JSONObject msgData) {
-        Message msg = new Message(s, msgData);
+        Message msg = new Message(msgData);
 
         // Display name of person who sent the message.
         String author = msg.author.name;
@@ -158,7 +155,7 @@ public class GatewayThread extends Thread implements Strings
         
         if (guildID == null) {
             // Get DM channel name, show it as the location if message was sent in a group DM
-            DMChannel c = DMChannel.getById(s, channelID);
+            DMChannel c = DMChannel.getById(channelID);
             if (c != null && c.isGroup) {
                 location = c.name;
             } else {
@@ -167,12 +164,12 @@ public class GatewayThread extends Thread implements Strings
         } else {
             // Get the name of the server where the message was sent
             // (only available if server list has been loaded)
-            Guild g = Guild.getById(s, guildID);
+            Guild g = Guild.getById(guildID);
             location = (g != null) ? g.name : Locale.get(NAME_UNKNOWN);
 
             // Get the name of the channel
             // (only available if channel list for that server has been loaded)
-            Channel c = Channel.getByID(s, channelID);
+            Channel c = Channel.getByID(channelID);
             if (c != null) location += " #" + c.name;
         }
 
@@ -194,13 +191,13 @@ public class GatewayThread extends Thread implements Strings
 
         Notification notif = new Notification(guildID, channelID);
 
-        if (s.showNotifAlert) {
-            s.disp.setCurrent(new NotificationDialog(s, notif, location, msg));
+        if (Settings.showNotifAlert) {
+            App.disp.setCurrent(new NotificationDialog(notif, location, msg));
         }
         
         // ifdef PIGLER_SUPPORT
         synchronized (piglerLock) {
-            if (s.showNotifPigler && pigler != null) {
+            if (Settings.showNotifPigler && pigler != null) {
                 try {
                     int uid;
                     if (isDM) {
@@ -216,7 +213,7 @@ public class GatewayThread extends Thread implements Strings
         // endif
 
         // ifdef NOKIA_UI_SUPPORT
-        if (s.showNotifNokiaUI && Util.supportsNokiaUINotifs) {
+        if (Settings.showNotifNokiaUI && Util.supportsNokiaUINotifs) {
             try {
                 SoftNotification sn = SoftNotification.newInstance();
                 sn.setText(
@@ -233,7 +230,7 @@ public class GatewayThread extends Thread implements Strings
     // ifdef PIGLER_SUPPORT
     public void checkInitPigler() {
         synchronized (piglerLock) {
-            if (s.showNotifPigler) {
+            if (Settings.showNotifPigler) {
                 if (pigler == null && !piglerInitFailed) {
                     initPigler();
                 }
@@ -248,7 +245,7 @@ public class GatewayThread extends Thread implements Strings
 
     private void initPigler() {
 		if (!Util.supportsPigler) {
-            s.error(Locale.get(PIGLER_NOT_SUPPORTED));
+            App.error(Locale.get(PIGLER_NOT_SUPPORTED));
             piglerInitFailed = true;
 			return;
 		}
@@ -268,7 +265,7 @@ public class GatewayThread extends Thread implements Strings
             }
 		} catch (Exception e) {
 			e.printStackTrace();
-            s.error(Locale.get(PIGLER_ERROR) + e.toString());
+            App.error(Locale.get(PIGLER_ERROR) + e.toString());
 		}
     }
     
@@ -278,7 +275,7 @@ public class GatewayThread extends Thread implements Strings
         if (notif == null) return;
 
         piglerNotifs.remove(uidObject);
-        notif.view(s);
+        notif.view();
     }
     // endif
 
@@ -288,7 +285,7 @@ public class GatewayThread extends Thread implements Strings
             checkInitPigler();
             // endif
 
-            sc = (SocketConnection) Connector.open(s.getPlatformSpecificUrl(s.gatewayUrl));
+            sc = (SocketConnection) Connector.open(App.getPlatformSpecificUrl(Settings.gatewayUrl));
 
             // Not supported on JBlend (e.g. some Samsungs)
             try {
@@ -356,12 +353,12 @@ public class GatewayThread extends Thread implements Strings
                         send(connMsg);
 
                         // Remove "Reconnecting" banner message if auto reconnected
-                        if (s.channelView != null && Locale.get(CHANNEL_VIEW_RECONNECTING).equals(s.channelView.bannerText)) {
-                            s.channelView.bannerText = null;
-                            s.channelView.repaint();
+                        if (App.channelView != null && Locale.get(CHANNEL_VIEW_RECONNECTING).equals(App.channelView.bannerText)) {
+                            App.channelView.bannerText = null;
+                            App.channelView.repaint();
                         }
                         // ifdef OVER_100KB
-                        s.gatewayToggleGuildEmoji();
+                        App.gatewayToggleGuildEmoji();
                         // endif
                     }
                     else if (op.equals("GATEWAY_DISCONNECT")) {
@@ -377,15 +374,15 @@ public class GatewayThread extends Thread implements Strings
 
                         // Mark this channel as unread if it's not the currently opened channel
                         if (
-                            !s.channelIsOpen
-                            || (s.isDM && !chId.equals(s.selectedDmChannel.id))
-                            || (!s.isDM && !chId.equals(s.selectedChannel.id))
+                            !App.channelIsOpen
+                            || (App.isDM && !chId.equals(App.selectedDmChannel.id))
+                            || (!App.isDM && !chId.equals(App.selectedChannel.id))
                         ) {
                             // Don't set unread indicator if message was sent by the logged in user
-                            if (authorID.equals(s.myUserId)) continue;
+                            if (authorID.equals(App.myUserId)) continue;
 
                             if (shouldNotify(msgData)) {
-                                if (s.playNotifSound) {
+                                if (Settings.playNotifSound) {
                                     // ifdef OVER_100KB
                                     try {
                                         RecordStore rms = null;
@@ -405,33 +402,33 @@ public class GatewayThread extends Thread implements Strings
                                     }
                                     catch (Exception e) {
                                         e.printStackTrace();
-                                        AlertType.ALARM.playSound(s.disp);
+                                        AlertType.ALARM.playSound(App.disp);
                                     }
                                     // else
-                                    AlertType.ALARM.playSound(s.disp);
+                                    AlertType.ALARM.playSound(App.disp);
                                     // endif
                                 }
-                                if (s.playNotifVibra) {
-                                    s.disp.vibrate(1000);
+                                if (Settings.playNotifVibra) {
+                                    App.disp.vibrate(1000);
                                 }
                                 if (
-                                    s.showNotifAlert
+                                    Settings.showNotifAlert
                                     // ifdef PIGLER_SUPPORT
-                                    || s.showNotifPigler
+                                    || Settings.showNotifPigler
                                     // endif
                                 ) handleNotification(msgData);
                             }
 
-                            Channel ch = Channel.getByID(s, chId);
+                            Channel ch = Channel.getByID(chId);
                             if (ch != null) {
                                 ch.lastMessageID = Long.parseLong(msgId);
-                                s.updateUnreadIndicators(false, chId);
+                                App.updateUnreadIndicators(false, chId);
                                 continue;
                             }
-                            DMChannel dmCh = DMChannel.getById(s, chId);
+                            DMChannel dmCh = DMChannel.getById(chId);
                             if (dmCh != null) {
                                 dmCh.lastMessageID = Long.parseLong(msgId);
-                                s.updateUnreadIndicators(true, chId);
+                                App.updateUnreadIndicators(true, chId);
                             }
                             continue;
                         }
@@ -440,8 +437,8 @@ public class GatewayThread extends Thread implements Strings
 
                         // If the message is already shown, don't show it again (check for duplicate ID)
                         boolean skip = false;
-                        for (int i = 0; i < s.messages.size(); i++) {
-                            Message m = (Message) s.messages.elementAt(i);
+                        for (int i = 0; i < App.messages.size(); i++) {
+                            Message m = (Message) App.messages.elementAt(i);
                             if (m.id.equals(msgId)) {
                                 skip = true;
                                 break;
@@ -450,72 +447,72 @@ public class GatewayThread extends Thread implements Strings
                         if (skip) continue;
 
                         // If we're on the newest page, make the new message visible
-                        if (s.channelView.page == 0 && !s.channelView.outdated) {
+                        if (App.channelView.page == 0 && !App.channelView.outdated) {
                             // Add the new message to the message list
-                            s.messages.insertElementAt(new Message(s, msgData), 0);
+                            App.messages.insertElementAt(new Message(msgData), 0);
 
                             // Remove the oldest message in the message list so it doesn't break pagination
                             // Except for channels that have less messages than the full page capacity
-                            if (s.messages.size() > s.messageLoadCount) {
-                                s.messages.removeElementAt(s.messages.size() - 1);
+                            if (App.messages.size() > Settings.messageLoadCount) {
+                                App.messages.removeElementAt(App.messages.size() - 1);
                             }
                         }
 
                         // Remove this user's typing indicator
-                        if (s.isDM) {
-                            if (s.typingUsers.size() >= 1) {
-                                s.typingUsers.removeElementAt(0);
-                                s.typingUserIDs.removeElementAt(0);
+                        if (App.isDM) {
+                            if (App.typingUsers.size() >= 1) {
+                                App.typingUsers.removeElementAt(0);
+                                App.typingUserIDs.removeElementAt(0);
                             }
                         } else {
-                            for (int i = 0; i < s.typingUsers.size(); i++) {
-                                if (s.typingUserIDs.elementAt(i).equals(authorID)) {
-                                    s.typingUsers.removeElementAt(i);
-                                    s.typingUserIDs.removeElementAt(i);
+                            for (int i = 0; i < App.typingUsers.size(); i++) {
+                                if (App.typingUserIDs.elementAt(i).equals(authorID)) {
+                                    App.typingUsers.removeElementAt(i);
+                                    App.typingUserIDs.removeElementAt(i);
                                 }
                             }
                         }
 
                         // Redraw the message list and mark it as read
-                        if (s.channelView.page == 0) {
-                            s.channelView.requestUpdate(true, true);
+                        if (App.channelView.page == 0) {
+                            App.channelView.requestUpdate(true, true);
                             UnreadManager.autoSave = false;
                             UnreadManager.markRead(chId, Long.parseLong(msgId));
                             UnreadManager.autoSave = true;
                         } else {
                             // If user is not on the newest page of messages, ask them to refresh
                             // There is no easy way to do it any other way without breaking pagination
-                            s.channelView.outdated = true;
+                            App.channelView.outdated = true;
                         }
 
-                        s.channelView.repaint();
-                        s.channelView.serviceRepaints();
+                        App.channelView.repaint();
+                        App.channelView.serviceRepaints();
                     }
                     else if (op.equals("MESSAGE_DELETE")) {
-                        if (s.channelView == null) continue;
+                        if (App.channelView == null) continue;
 
                         JSONObject msgData = message.getObject("d");
 
                         String channel = msgData.getString("channel_id", "");
-                        String selected = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                        String selected = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
                         if (!channel.equals(selected)) continue;
 
                         String messageId = msgData.getString("id");
 
-                        for (int i = 0; i < s.messages.size(); i++) {
-                            Message msg = (Message) s.messages.elementAt(i);
+                        for (int i = 0; i < App.messages.size(); i++) {
+                            Message msg = (Message) App.messages.elementAt(i);
                             if (!msg.id.equals(messageId)) continue;
 
                             msg.delete();
 
-                            s.channelView.requestUpdate(true, false);
-                            s.channelView.repaint();
-                            s.channelView.serviceRepaints();
+                            App.channelView.requestUpdate(true, false);
+                            App.channelView.repaint();
+                            App.channelView.serviceRepaints();
                             break;
                         }
                     }
                     else if (op.equals("J2ME_MESSAGE_UPDATE")) {
-                        if (s.channelView == null) continue;
+                        if (App.channelView == null) continue;
 
                         JSONObject msgData = message.getObject("d");
 
@@ -525,13 +522,13 @@ public class GatewayThread extends Thread implements Strings
                         if (newContent == null) continue;
 
                         String channel = msgData.getString("channel_id", "");
-                        String selected = s.isDM ? s.selectedDmChannel.id : s.selectedChannel.id;
+                        String selected = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
                         if (!channel.equals(selected)) continue;
 
                         String messageId = msgData.getString("id");
 
-                        for (int i = 0; i < s.messages.size(); i++) {
-                            Message msg = (Message) s.messages.elementAt(i);
+                        for (int i = 0; i < App.messages.size(); i++) {
+                            Message msg = (Message) App.messages.elementAt(i);
                             if (!msg.id.equals(messageId)) continue;
 
                             msg.content = newContent;
@@ -540,38 +537,38 @@ public class GatewayThread extends Thread implements Strings
                             msg.isEdited = true;
                             // endif
 
-                            s.channelView.requestUpdate(true, false);
-                            s.channelView.repaint();
-                            s.channelView.serviceRepaints();
+                            App.channelView.requestUpdate(true, false);
+                            App.channelView.repaint();
+                            App.channelView.serviceRepaints();
                             break;
                         }
                     }
                     else if (op.equals("TYPING_START")) {
-                        if (s.channelView == null) continue;
+                        if (App.channelView == null) continue;
 
                         JSONObject msgData = message.getObject("d");
                         String channel = msgData.getString("channel_id");
 
                         // Check that the opened channel (if there is any) is the one where the typing event happened
-                        if (s.isDM) {
-                            if (!channel.equals(s.selectedDmChannel.id)) continue;
+                        if (App.isDM) {
+                            if (!channel.equals(App.selectedDmChannel.id)) continue;
                         } else {
-                            if (!channel.equals(s.selectedChannel.id)) continue;
+                            if (!channel.equals(App.selectedChannel.id)) continue;
                         }
 
-                        if (s.isDM) {
+                        if (App.isDM) {
                             // Typing events not supported in group DMs (typing event contains guild member info if it happened in a server, but not user info; in a group DM, there's no easy way to know who started typing)
-                            if (s.selectedDmChannel.isGroup) continue;
+                            if (App.selectedDmChannel.isGroup) continue;
 
                             // If we are in a one person DM, then we know the typing user is the other participant
                             // If we already have a typing indicator, don't create a dupe
-                            if (s.typingUsers.size() >= 1) continue;
+                            if (App.typingUsers.size() >= 1) continue;
 
-                            s.typingUsers.addElement(s.selectedDmChannel.name);
-                            s.typingUserIDs.addElement("0");
+                            App.typingUsers.addElement(App.selectedDmChannel.name);
+                            App.typingUserIDs.addElement("0");
 
                             // Remove the name from the typing list after 10 seconds
-                            StopTypingThread stopThread = new StopTypingThread(s, "0");
+                            StopTypingThread stopThread = new StopTypingThread("0");
                             stopThread.start();
                         } else {
                             try {
@@ -585,28 +582,28 @@ public class GatewayThread extends Thread implements Strings
 
                                 // If this user is already in the list, don't add them again
                                 String id = userObj.getString("id");
-                                if (s.typingUserIDs.indexOf(id) != -1) continue;
+                                if (App.typingUserIDs.indexOf(id) != -1) continue;
 
-                                s.typingUsers.addElement(author);
-                                s.typingUserIDs.addElement(id);
+                                App.typingUsers.addElement(author);
+                                App.typingUserIDs.addElement(id);
 
-                                StopTypingThread stopThread = new StopTypingThread(s, id);
+                                StopTypingThread stopThread = new StopTypingThread(id);
                                 stopThread.start();
                             }
                             catch (Exception e) {}
                         }
 
-                        s.channelView.repaint();
+                        App.channelView.repaint();
                     }
                     else if (op.equals("GUILD_MEMBERS_CHUNK")) {
-                        if (s.channelView == null || s.selectedGuild == null) continue;
+                        if (App.channelView == null || App.selectedGuild == null) continue;
 
                         JSONObject data = message.getObject("d");
                         JSONArray members = data.getArray("members");
 
-                        if (s.disp.getCurrent() instanceof MentionForm) {
+                        if (App.disp.getCurrent() instanceof MentionForm) {
                             // Guild member request was for inserting a mention
-                            ((MentionForm) s.disp.getCurrent()).searchCallback(members);
+                            ((MentionForm) App.disp.getCurrent()).searchCallback(members);
                         } else {
                             // Guild member request was for role data (name colors)
                             String guildId = data.getString("guild_id");
@@ -614,7 +611,7 @@ public class GatewayThread extends Thread implements Strings
 
                             for (int i = 0; i < notFound.size(); i++) {
                                 String id = notFound.getString(i);
-                                s.nameColorCache.set(id + guildId, 0);
+                                NameColorCache.set(id + guildId, 0);
                             }
 
                             for (int i = 0; i < members.size(); i++) {
@@ -623,8 +620,8 @@ public class GatewayThread extends Thread implements Strings
                                 JSONObject member = members.getObject(i);
                                 JSONArray memberRoles = member.getArray("roles");
 
-                                for (int r = 0; r < s.selectedGuild.roles.size(); r++) {
-                                    Role role = (Role) s.selectedGuild.roles.elementAt(r);
+                                for (int r = 0; r < App.selectedGuild.roles.size(); r++) {
+                                    Role role = (Role) App.selectedGuild.roles.elementAt(r);
                                     if (memberRoles.indexOf(role.id) == -1) continue;
 
                                     resultColor = role.color;
@@ -632,14 +629,14 @@ public class GatewayThread extends Thread implements Strings
                                 }
 
                                 String id = member.getObject("user").getString("id");
-                                s.nameColorCache.set(id + guildId, resultColor);
+                                NameColorCache.set(id + guildId, resultColor);
                             }
-                            s.nameColorCache.activeRequest = false;
+                            NameColorCache.activeRequest = false;
                         }
                     }
                     else if (op.equals("J2ME_READY")) {
-                        if (s.myUserId == null) {
-                            s.myUserId = message.getObject("d").getString("id");
+                        if (App.myUserId == null) {
+                            App.myUserId = message.getObject("d").getString("id");
                         }
                         reconnectAttempts = 0;
                     }
@@ -656,7 +653,7 @@ public class GatewayThread extends Thread implements Strings
                     idProps.put("device", "");
             
                     JSONObject idData = new JSONObject();
-                    idData.put("token", s.token);
+                    idData.put("token", Settings.token);
                     idData.put("capabilities", 30717);
                     idData.put("properties", idProps);
             

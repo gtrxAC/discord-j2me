@@ -9,21 +9,19 @@ import java.util.*;
 import java.io.*;
 
 public class AttachmentPickerOld extends ListScreen implements CommandListener, Strings {
-    private State s;
     private Command closeCommand;
     private String currentPath;
     private Displayable lastScreen;
     private Message recipientMsg;
 
-    public AttachmentPickerOld(State s, Message recipientMsg) {
-        this(s, recipientMsg, "file:///");
+    public AttachmentPickerOld(Message recipientMsg) {
+        this(recipientMsg, "file:///");
     }
 
-    private AttachmentPickerOld(State s, Message recipientMsg, String currentPath) {
+    private AttachmentPickerOld(Message recipientMsg, String currentPath) {
         super(Locale.get(ATTACHMENT_PICKER_TITLE), List.IMPLICIT);
-        this.s = s;
         this.recipientMsg = recipientMsg;
-        this.lastScreen = s.disp.getCurrent();
+        this.lastScreen = App.disp.getCurrent();
         setCommandListener(this);
 
         closeCommand = Locale.createCommand(CLOSE, Command.BACK, 2);
@@ -41,31 +39,31 @@ public class AttachmentPickerOld extends ListScreen implements CommandListener, 
                 String selectedPath = currentPath + selected;
 
                 if (selected.endsWith("/")) { // Directory
-                    s.disp.setCurrent(new AttachmentPickerOld(s, recipientMsg, selectedPath));
+                    App.disp.setCurrent(new AttachmentPickerOld(recipientMsg, selectedPath));
                 } else { // File
                     FileConnection fc;
                     try {
                         fc = (FileConnection) Connector.open(selectedPath, Connector.READ);
                     }
                     catch (Exception e) {
-                        s.error(e);
+                        App.error(e);
                         return;
                     }
                     // ifdef OVER_100KB
                     try {
-                        if (!s.useFilePreview) throw new Exception();
+                        if (!Settings.useFilePreview) throw new Exception();
                         // Try to show image preview (fails for non-image files)
-                        s.disp.setCurrent(new ImagePreviewScreen(s, recipientMsg, selected, fc));
+                        App.disp.setCurrent(new ImagePreviewScreen(recipientMsg, selected, fc));
                     }
                     catch (Exception e) {
                     // endif
                         // File is probably not an image, or viewing it is unsupported by the OS, or the user disabled file previews.
                         // Attach the file directly without previewing, and show the appropriate message text entry screen (normal message box or reply form).
-                        s.disp.setCurrent(s.createTextEntryScreen(recipientMsg, selected, fc));
+                        App.disp.setCurrent(App.createTextEntryScreen(recipientMsg, selected, fc));
                     // ifdef OVER_100KB
                     }
                     catch (OutOfMemoryError e) {
-                        s.error(Locale.get(PREVIEW_NO_MEMORY), s.createTextEntryScreen(recipientMsg, selected, fc));
+                        App.error(Locale.get(PREVIEW_NO_MEMORY), App.createTextEntryScreen(recipientMsg, selected, fc));
                     }
                     // endif
                 }
@@ -75,14 +73,14 @@ public class AttachmentPickerOld extends ListScreen implements CommandListener, 
             if (!currentPath.equals("file:///")) {
                 int lastSlashIndex = currentPath.lastIndexOf('/', currentPath.length() - 2);
                 if (lastSlashIndex != -1) {
-                    s.disp.setCurrent(lastScreen);
+                    App.disp.setCurrent(lastScreen);
                 }
             } else {
-                s.openChannelView(false);
+                App.openChannelView(false);
             }
         }
         else if (c == closeCommand) {
-            s.openChannelView(false);
+            App.openChannelView(false);
         }
     }
 
@@ -132,7 +130,7 @@ public class AttachmentPickerOld extends ListScreen implements CommandListener, 
             }
         }
         catch (IOException e) {
-            s.error(e);
+            App.error(e);
         }
     }
 }

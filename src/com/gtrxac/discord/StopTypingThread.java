@@ -5,22 +5,20 @@ import cc.nnproject.json.*;
 import java.util.*;
 
 public class StopTypingThread extends Thread {
-    State s;
     String userID;
 
-    public StopTypingThread(State s, String userID) {
-        this.s = s;
+    public StopTypingThread(String userID) {
         this.userID = userID;
     }
 
     public void run() {
         Util.sleep(10000);
 
-        for (int i = 0; i < s.typingUsers.size(); i++) {
-            if (s.typingUserIDs.elementAt(i).equals(userID)) {
-                s.typingUsers.removeElementAt(i);
-                s.typingUserIDs.removeElementAt(i);
-                s.channelView.repaint();
+        for (int i = 0; i < App.typingUsers.size(); i++) {
+            if (App.typingUserIDs.elementAt(i).equals(userID)) {
+                App.typingUsers.removeElementAt(i);
+                App.typingUserIDs.removeElementAt(i);
+                App.channelView.repaint();
                 return;
             }
         }

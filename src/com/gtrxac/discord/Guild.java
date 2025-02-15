@@ -10,7 +10,7 @@ public class Guild extends HasUnreads implements HasIcon, Strings {
     public String iconHash;
     public Vector roles;
 
-    public Guild(State s, JSONObject data) {
+    public Guild(JSONObject data) {
         id = data.getString("id");
         iconHash = data.getString("icon", null);
         
@@ -29,11 +29,11 @@ public class Guild extends HasUnreads implements HasIcon, Strings {
         }
     }
 
-    public static Guild getById(State s, String id) {
-        if (s.guilds == null) return null;
+    public static Guild getById(String id) {
+        if (App.guilds == null) return null;
         
-        for (int i = 0; i < s.guilds.size(); i++) {
-            Guild g = (Guild) s.guilds.elementAt(i);
+        for (int i = 0; i < App.guilds.size(); i++) {
+            Guild g = (Guild) App.guilds.elementAt(i);
             if (g.id.equals(id)) return g;
         }
         return null;
@@ -43,12 +43,12 @@ public class Guild extends HasUnreads implements HasIcon, Strings {
     public String getIconHash() { return iconHash; }
     public String getIconType() { return "/icons/"; }
     
-    public boolean isDisabled(State s) {
-        return !s.showMenuIcons || s.menuIconSize == 0;
+    public boolean isDisabled() {
+        return !Settings.showMenuIcons || Settings.menuIconSize == 0;
     }
 
-    public void iconLoaded(State s) {
-		if (s.guildSelector != null) s.guildSelector.update(id);
+    public void iconLoaded() {
+		if (App.guildSelector != null) App.guildSelector.update(id);
     }
 
     public boolean hasUnreads() {

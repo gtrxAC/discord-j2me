@@ -5,7 +5,6 @@ import cc.nnproject.json.*;
 import java.util.*;
 
 public class GuildSelector extends ListScreen implements CommandListener, Strings {
-    State s;
     boolean isFavGuilds;
 
     private Vector guilds;
@@ -16,20 +15,19 @@ public class GuildSelector extends ListScreen implements CommandListener, String
     private Command muteCommand;
     // endif
 
-    public GuildSelector(State s, Vector guilds, boolean isFavGuilds) throws Exception {
+    public GuildSelector(Vector guilds, boolean isFavGuilds) throws Exception {
         super(Locale.get(GUILD_SELECTOR_TITLE), true, true, false);
         
         if (isFavGuilds) setTitle(Locale.get(FAVORITE_SELECTOR_TITLE));
 
         setCommandListener(this);
-        this.s = s;
         this.guilds = guilds;
         this.isFavGuilds = isFavGuilds;
 
         UnreadManager.autoSave = false;
         for (int i = 0; i < guilds.size(); i++) {
             Guild g = (Guild) guilds.elementAt(i);
-            append(g.name, null, IconCache.getResized(g, s.menuIconSize), g.getMenuIndicator());
+            append(g.name, null, IconCache.getResized(g, Settings.menuIconSize), g.getMenuIndicator());
         }
         UnreadManager.manualSave();
 
@@ -58,7 +56,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
             Guild g = (Guild) guilds.elementAt(i);
             if (id != null && !g.id.equals(id)) continue;
 
-            set(i, g.name, null, IconCache.getResized(g, s.menuIconSize), g.getMenuIndicator());
+            set(i, g.name, null, IconCache.getResized(g, Settings.menuIconSize), g.getMenuIndicator());
         }
     }
 
@@ -70,26 +68,26 @@ public class GuildSelector extends ListScreen implements CommandListener, String
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
             // Unload server list if needed, and go back to main menu
-            if (!s.highRamMode) s.guilds = null;
-            s.disp.setCurrent(MainMenu.get(null));
+            if (!Settings.highRamMode) App.guilds = null;
+            App.disp.setCurrent(MainMenu.get(false));
         }
         else if (c == refreshCommand) {
             if (isFavGuilds) {
-                FavoriteGuilds.openSelector(s, true, true);
+                FavoriteGuilds.openSelector(true, true);
             } else {
-                s.openGuildSelector(true, true);
+                App.openGuildSelector(true, true);
             }
         }
         else if (c == removeFavCommand) {
-            FavoriteGuilds.remove(s, getSelectedIndex());
-            FavoriteGuilds.openSelector(s, false, false);
+            FavoriteGuilds.remove(getSelectedIndex());
+            FavoriteGuilds.openSelector(false, false);
         }
         else {
             Guild g = (Guild) guilds.elementAt(getSelectedIndex());
 
             if (c == SELECT_COMMAND) {
                 // If gateway is active, subscribe to typing events for this server, if not already subscribed
-                if (s.gatewayActive() && s.subscribedGuilds.indexOf(g.id) == -1) {
+                if (App.gatewayActive() && App.subscribedGuilds.indexOf(g.id) == -1) {
                     JSONObject subGuild = new JSONObject();
                     subGuild.put("typing", true);
     
@@ -103,22 +101,22 @@ public class GuildSelector extends ListScreen implements CommandListener, String
                     subMsg.put("op", 37);
                     subMsg.put("d", subData);
     
-                    s.gateway.send(subMsg);
-                    s.subscribedGuilds.addElement(g.id);
+                    App.gateway.send(subMsg);
+                    App.subscribedGuilds.addElement(g.id);
                 }
     
-                s.selectedGuild = g;
-                s.openChannelSelector(false, false);
+                App.selectedGuild = g;
+                App.openChannelSelector(false, false);
             }
             // ifdef OVER_100KB
             else if (c == muteCommand) {
-                FavoriteGuilds.toggleMute(s, g.id);
+                FavoriteGuilds.toggleMute(g.id);
                 update(g.id);
             }
             // endif
             else {
                 // 'add to favorites' command
-                FavoriteGuilds.add(s, g);
+                FavoriteGuilds.add(g);
             }
         }
     }

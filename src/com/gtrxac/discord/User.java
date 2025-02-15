@@ -11,7 +11,7 @@ public class User implements HasIcon {
     int iconColor;
     String initials;
 
-    public User(State s, JSONObject data) {
+    public User(JSONObject data) {
         id = data.getString("id");
 
         name = data.getString("global_name", null);
@@ -19,7 +19,7 @@ public class User implements HasIcon {
             name = data.getString("username", "(no name)");
         }
 
-        if (s.pfpType == State.PFP_TYPE_NONE) return;
+        if (Settings.pfpType == Settings.PFP_TYPE_NONE) return;
 
         iconHash = data.getString("avatar", null);
 
@@ -45,11 +45,11 @@ public class User implements HasIcon {
     public String getIconHash() { return iconHash; }
     public String getIconType() { return "/avatars/"; }
     
-    public boolean isDisabled(State s) {
-        return s.pfpType == State.PFP_TYPE_NONE || s.pfpSize == State.PFP_SIZE_PLACEHOLDER;
+    public boolean isDisabled() {
+        return Settings.pfpType == Settings.PFP_TYPE_NONE || Settings.pfpSize == Settings.PFP_SIZE_PLACEHOLDER;
     }
 
-    public void iconLoaded(State s) {
-        if (s.channelView != null) s.channelView.repaint();
+    public void iconLoaded() {
+        if (App.channelView != null) App.channelView.repaint();
     }
 }

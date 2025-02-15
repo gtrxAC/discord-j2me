@@ -4,7 +4,6 @@ import javax.microedition.lcdui.*;
 import javax.microedition.io.file.*;
 
 public class MessageBox extends TextBox implements CommandListener, Strings {
-    private State s;
     private Displayable lastScreen;
     private Command sendCommand;
     private Command addMentionCommand;
@@ -22,10 +21,9 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     public boolean showedPreviewScreen = false;
     // endif
 
-    private void init(State s, int sendCommandLabel) {
+    private void init(int sendCommandLabel) {
         setCommandListener(this);
-        this.s = s;
-        this.lastScreen = s.disp.getCurrent();
+        this.lastScreen = App.disp.getCurrent();
 
         sendCommand = Locale.createCommand(sendCommandLabel, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
@@ -36,59 +34,59 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
 
         addCommand(sendCommand);
         addCommand(backCommand);
-        if (!s.isDM) addCommand(addMentionCommand);
+        if (!App.isDM) addCommand(addMentionCommand);
         // ifdef OVER_100KB
         addCommand(addEmojiCommand);
-        s.gatewaySendTyping();
+        App.gatewaySendTyping();
         // endif
     }
 
-    public MessageBox(State s) {
-        this(s, null, null);
+    public MessageBox() {
+        this(null, null);
     }
 
-    public MessageBox(State s, Message editMessage) {
+    public MessageBox(Message editMessage) {
         super(Locale.get(MESSAGE_EDIT_BOX_TITLE), editMessage.rawContent, 2000, 0);
-        init(s, OK);
+        init(OK);
         this.editMessage = editMessage;
     }
 
-    public MessageBox(State s, String attachName, FileConnection attachFc) {
-        super(getMessageBoxTitle(s), "", 2000, 0);
-        init(s, SEND_MESSAGE);
+    public MessageBox(String attachName, FileConnection attachFc) {
+        super(getMessageBoxTitle(), "", 2000, 0);
+        init(SEND_MESSAGE);
         this.attachName = attachName;
         this.attachFc = attachFc;
     }
 
     // Also used by reply form
-    public static String getMessageBoxTitle(State s) {
+    public static String getMessageBoxTitle() {
         StringBuffer sb = new StringBuffer();
         
-        if (s.isDM) {
+        if (App.isDM) {
             sb.append(Locale.get(MESSAGE_BOX_TITLE_PREFIX_DM));
-            sb.append(s.selectedDmChannel.name);
+            sb.append(App.selectedDmChannel.name);
         } else {
             String prefix = Locale.get(MESSAGE_BOX_TITLE_PREFIX_CHANNEL);
             // Remove "#" character if we're in a thread
-            if (s.selectedChannel.isThread) {
+            if (App.selectedChannel.isThread) {
                 prefix = prefix.substring(0, prefix.length() - 1);
             }
             sb.append(prefix);
-            sb.append(s.selectedChannel.name);
+            sb.append(App.selectedChannel.name);
         }
         sb.append(Locale.get(RIGHT_PAREN));
         return sb.toString();
     }
 
     // Send HTTP request to send a message. Also used by ReplyForm
-    public static void sendMessage(State s, String msg, String refID, String attachName, FileConnection attachFc, boolean ping) {
+    public static void sendMessage(String msg, String refID, String attachName, FileConnection attachFc, boolean ping) {
         HTTPThread h;
         if (attachName != null) {
-            h = new HTTPThread(s, HTTPThread.SEND_ATTACHMENT);
+            h = new HTTPThread(HTTPThread.SEND_ATTACHMENT);
             h.attachName = attachName;
             h.attachFc = attachFc;
         } else {
-            h = new HTTPThread(s, HTTPThread.SEND_MESSAGE);
+            h = new HTTPThread(HTTPThread.SEND_MESSAGE);
         }
         h.sendMessage = msg;
         h.sendReference = refID;
@@ -99,10 +97,10 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
             if (editMessage == null) {
-                sendMessage(s, getString(), null, attachName, attachFc, false);
+                sendMessage(getString(), null, attachName, attachFc, false);
             } else {
-                s.openChannelView(false);
-                HTTPThread h = new HTTPThread(s, HTTPThread.EDIT_MESSAGE);
+                App.openChannelView(false);
+                HTTPThread h = new HTTPThread(HTTPThread.EDIT_MESSAGE);
                 h.editMessage = editMessage;
                 h.editContent = getString();
                 h.start();
@@ -117,19 +115,19 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
                 catch (Throwable e) {}
             }
             // endif
-            s.disp.setCurrent(lastScreen);
+            App.disp.setCurrent(lastScreen);
         }
         else if (c == addMentionCommand) {
-            if (!s.gatewayActive()) {
-                s.error(Locale.get(REQUIRES_GATEWAY));
+            if (!App.gatewayActive()) {
+                App.error(Locale.get(REQUIRES_GATEWAY));
                 return;
             }
-            s.disp.setCurrent(new MentionForm(s));
+            App.disp.setCurrent(new MentionForm());
         }
         // ifdef OVER_100KB
         else {
             // add emoji command
-            EmojiPicker.show(s);
+            EmojiPicker.show();
         }
         // endif
     }

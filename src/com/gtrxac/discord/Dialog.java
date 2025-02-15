@@ -13,7 +13,6 @@ public class Dialog extends MyCanvas implements CommandListener {
 
     public String text;
     private String[] textLines;
-    private Display disp;
     public Displayable lastScreen;
     public Displayable nextScreen;
     private int fontHeight;
@@ -22,16 +21,16 @@ public class Dialog extends MyCanvas implements CommandListener {
     private int commandCount;
     private CommandListener listener;
 
-    Dialog(Display disp, String title, String text) {
-        this(disp, title, text, null);
+    Dialog(String title, String text) {
+        this(title, text, null);
     }
-    Dialog(Display disp, String title, String text, Displayable nextScreen) {
+
+    Dialog(String title, String text, Displayable nextScreen) {
         super();
-        checkInitOverlay(disp);
+        checkInitOverlay();
         super.setCommandListener(this);
 
-        this.disp = disp;
-        lastScreen = disp.getCurrent();
+        lastScreen = App.disp.getCurrent();
         this.nextScreen = (nextScreen != null) ? nextScreen : lastScreen;
 
         // Don't show title bar if the previous screen didn't have a title bar
@@ -45,8 +44,8 @@ public class Dialog extends MyCanvas implements CommandListener {
         setString(text);
     }
 
-    private static void checkInitOverlay(Display disp) {
-        if (overlay == null && disp.numAlphaLevels() > 2) {
+    private static void checkInitOverlay() {
+        if (overlay == null && App.disp.numAlphaLevels() > 2) {
             try {
                 overlay = Image.createImage("/overlay.png");
             }
@@ -152,7 +151,7 @@ public class Dialog extends MyCanvas implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (listener == null) {
-            disp.setCurrent(nextScreen);
+            App.disp.setCurrent(nextScreen);
         } else {
             listener.commandAction(c, d);
         }

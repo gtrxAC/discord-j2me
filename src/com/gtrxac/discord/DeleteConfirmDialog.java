@@ -3,20 +3,18 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class DeleteConfirmDialog extends Dialog implements CommandListener, Strings {
-    State s;
     Message msg;
     Command yesCommand;
     Command noCommand;
     
-    public DeleteConfirmDialog(State s, Message msg) {
-        super(s.disp, Locale.get(DELETE_CONFIRM_TITLE), "");
+    public DeleteConfirmDialog(Message msg) {
+        super(Locale.get(DELETE_CONFIRM_TITLE), "");
 
         String content = Util.stringToLength(msg.content, 30);
 
         setString(Locale.get(DELETE_CONFIRM_TEXT) + " \r\n\"" + content + '"');
 
         setCommandListener(this);
-        this.s = s;
         this.msg = msg;
 
         yesCommand = Locale.createCommand(YES, Command.OK, 0);
@@ -26,10 +24,10 @@ public class DeleteConfirmDialog extends Dialog implements CommandListener, Stri
     }
 
     public void commandAction(Command c, Displayable d) {
-        s.openChannelView(false);
+        App.openChannelView(false);
         
         if (c == yesCommand) {
-            HTTPThread h = new HTTPThread(s, HTTPThread.DELETE_MESSAGE);
+            HTTPThread h = new HTTPThread(HTTPThread.DELETE_MESSAGE);
             h.editMessage = msg;
             h.start();
         }

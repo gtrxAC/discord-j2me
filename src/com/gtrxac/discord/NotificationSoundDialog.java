@@ -12,15 +12,13 @@ public class NotificationSoundDialog extends Dialog implements Strings, CommandL
     private Command okCommand;
     private Command replayCommand;
 
-    private State s;
     private byte[] soundData;
     private Player player;
     private String fileName;
 
-    NotificationSoundDialog(State s, String fileName, byte[] soundData) {
-        super(s.disp, null, Locale.get(APPLY_NOTIF_SOUND_PROMPT));
+    NotificationSoundDialog(String fileName, byte[] soundData) {
+        super(null, Locale.get(APPLY_NOTIF_SOUND_PROMPT));
         setCommandListener(this);
-        this.s = s;
         this.lastScreen = lastScreen;
         this.fileName = fileName;
         this.soundData = soundData;
@@ -37,7 +35,7 @@ public class NotificationSoundDialog extends Dialog implements Strings, CommandL
             player.start();
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
     }
 
@@ -58,7 +56,7 @@ public class NotificationSoundDialog extends Dialog implements Strings, CommandL
                 addCommand(okCommand);
             }
             catch (Exception e) {
-                s.error(e);
+                App.error(e);
             }
             Util.closeRecordStore(rms);
         }
@@ -67,13 +65,13 @@ public class NotificationSoundDialog extends Dialog implements Strings, CommandL
                 player.start();
             }
             catch (Exception e) {
-                s.error(e);
+                App.error(e);
             }
         }
         else {
             // 'no' command or 'ok' command
             player.close();
-            s.disp.setCurrent(s.attachmentView);
+            App.disp.setCurrent(App.attachmentView);
         }
     }
 }

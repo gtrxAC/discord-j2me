@@ -8,8 +8,6 @@ ItemCommandListener,
 // endif
 Strings
 {
-    State s;
-
     private TextField apiField;
     // ifdef BLACKBERRY
     private ChoiceGroup wifiGroup;
@@ -30,23 +28,22 @@ Strings
     private Command tokenBoxCancelCommand;
     private Command tokenBoxUnderscoreCommand;
 
-    public LoginForm(State s) {
+    public LoginForm() {
         super(Locale.get(LOGIN_FORM_TITLE));
         setCommandListener(this); 
-        this.s = s;
 
         // ifdef BLACKBERRY
         String[] wifiChoices = {Locale.get(USE_WIFI)};
         wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, null);
-        wifiGroup.setSelectedIndex(0, s.bbWifi);
+        wifiGroup.setSelectedIndex(0, Settings.bbWifi);
         append(wifiGroup);
         // endif
 
-        apiField = new TextField(Locale.get(API_URL), s.api, 200, 0);
-        cdnField = new TextField(Locale.get(CDN_URL), s.cdn, 200, 0);
-        gatewayField = new TextField(Locale.get(GATEWAY_URL), s.gatewayUrl, 200, 0);
+        apiField = new TextField(Locale.get(API_URL), Settings.api, 200, 0);
+        cdnField = new TextField(Locale.get(CDN_URL), Settings.cdn, 200, 0);
+        gatewayField = new TextField(Locale.get(GATEWAY_URL), Settings.gatewayUrl, 200, 0);
 
-        boolean haveToken = (s.token != null && s.token.length() != 0);
+        boolean haveToken = (Settings.token != null && Settings.token.length() != 0);
         String tokenLabel = Locale.get(haveToken ? CHANGE_TOKEN_L : SET_TOKEN_L);
         String tokenLabelShort = Locale.get(haveToken ? CHANGE_TOKEN : SET_TOKEN);
 
@@ -79,7 +76,7 @@ Strings
 
         String[] gatewayChoices = {Locale.get(USE_GATEWAY)};
         gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, null);
-        gatewayGroup.setSelectedIndex(0, s.useGateway);
+        gatewayGroup.setSelectedIndex(0, Settings.useGateway);
 
         String[] tokenChoices = {
             Locale.get(SEND_TOKEN_HEADER),
@@ -87,7 +84,7 @@ Strings
             Locale.get(SEND_TOKEN_QUERY)
         };
         tokenGroup = new ChoiceGroup(Locale.get(SEND_TOKEN_AS), ChoiceGroup.EXCLUSIVE, tokenChoices, null);
-        tokenGroup.setSelectedIndex(s.tokenType, true);
+        tokenGroup.setSelectedIndex(Settings.tokenType, true);
 
         append(new StringItem(null, Locale.get(LOGIN_FORM_WARNING)));
         append(apiField);
@@ -114,42 +111,42 @@ Strings
 
     public void commandAction(Command c, Displayable d) {
         if (c == nextCommand) {
-            s.api = apiField.getString();
-            s.cdn = cdnField.getString();
-            s.gatewayUrl = gatewayField.getString();
+            Settings.api = apiField.getString();
+            Settings.cdn = cdnField.getString();
+            Settings.gatewayUrl = gatewayField.getString();
 
-            if (s.token.length() == 0) {
-                s.error(Locale.get(LOGIN_ERROR_TOKEN));
+            if (Settings.token.length() == 0) {
+                App.error(Locale.get(LOGIN_ERROR_TOKEN));
                 return;
             }
-            if (s.api.length() == 0) {
-                s.error(Locale.get(LOGIN_ERROR_API));
+            if (Settings.api.length() == 0) {
+                App.error(Locale.get(LOGIN_ERROR_API));
                 return;
             }
 
             boolean[] selected = {false};
             gatewayGroup.getSelectedFlags(selected);
-            s.useGateway = selected[0];
+            Settings.useGateway = selected[0];
 
             // ifdef BLACKBERRY
             wifiGroup.getSelectedFlags(selected);
-            s.bbWifi = selected[0];
+            Settings.bbWifi = selected[0];
             // endif
 
-            s.tokenType = tokenGroup.getSelectedIndex();
+            Settings.tokenType = tokenGroup.getSelectedIndex();
             
-            LoginSettings.save(s);
-            s.login();
+            Settings.save();
+            App.login();
         }
         else if (c == quitCommand) {
-            s.midlet.notifyDestroyed();
+            DiscordMIDlet.instance.notifyDestroyed();
         }
         // ifdef BLACKBERRY
         else if (c == changeTokenCommand) {
             showTokenEntry();
         }
         else if (c == importTokenCommand) {
-            s.disp.setCurrent(new TokenFilePicker(s));
+            App.disp.setCurrent(new TokenFilePicker());
         }
         // endif
         else if (c == tokenBoxUnderscoreCommand) {
@@ -159,8 +156,8 @@ Strings
             tokenBox.setString(newText);
         }
         else {
-            if (c == tokenBoxOkCommand) s.token = tokenBox.getString().trim();
-            s.disp.setCurrent(this);
+            if (c == tokenBoxOkCommand) Settings.token = tokenBox.getString().trim();
+            App.disp.setCurrent(this);
         }
     }
 
@@ -171,7 +168,7 @@ Strings
             showTokenEntry();
         } else {
             // import token command
-            s.disp.setCurrent(new TokenFilePicker(s));
+            App.disp.setCurrent(new TokenFilePicker());
         }
         // else
         // The only item command is the change token command
@@ -181,7 +178,7 @@ Strings
     // endif
 
     private void showTokenEntry() {
-        tokenBox = new TextBox("Set token", s.token, 200, 0);
+        tokenBox = new TextBox("Set token", Settings.token, 200, 0);
         tokenBoxOkCommand = Locale.createCommand(OK, Command.OK, 0);
         tokenBoxCancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
         tokenBoxUnderscoreCommand = Locale.createCommand(INSERT_UNDERSCORE, Command.ITEM, 2);
@@ -189,6 +186,6 @@ Strings
         tokenBox.addCommand(tokenBoxCancelCommand);
         tokenBox.addCommand(tokenBoxUnderscoreCommand);
         tokenBox.setCommandListener(this);
-        s.disp.setCurrent(tokenBox);
+        App.disp.setCurrent(tokenBox);
     }
 }
