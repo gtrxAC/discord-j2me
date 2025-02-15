@@ -40,6 +40,7 @@ public class FormattedStringParser {
     private int curUnderscoreCount = 0;
     private int curColor = 0;
     private boolean isMonospaceMode = false;
+    private boolean isHeadingMode = false;
 
     public boolean showLargeEmoji = true;
 
@@ -55,8 +56,10 @@ public class FormattedStringParser {
             if (isMonospaceMode) {
                 newPart = new FormattedStringPartMonospace(substr, font);
             }
-            else if (curAsteriskCount > 0 || curUnderscoreCount > 0 || curColor != 0) {
+            else if (curAsteriskCount > 0 || curUnderscoreCount > 0 || curColor != 0 || isHeadingMode) {
                 int format = ASTERISK_FORMAT_STYLES[curAsteriskCount] | UNDERSCORE_FORMAT_STYLES[curUnderscoreCount];
+                if (isHeadingMode) format |= Font.STYLE_BOLD;
+
                 if (curColor != 0) {
                     newPart = new FormattedStringPartRichTextColor(substr, font, format, curColor);
                 } else {
@@ -103,6 +106,7 @@ public class FormattedStringParser {
                     result.addElement(NEWLINE);
                     pos++;
                     partBeginPos = pos;
+                    isHeadingMode = false;
                     continue;
                 }
                 specialChecks: {
@@ -275,6 +279,23 @@ public class FormattedStringParser {
         
                                 partBeginPos = pos;
                                 curColor = 0;
+                                continue;
+                            }
+                            // headings
+                            else if (curr == '#') {
+                                // must be at the start of a line
+                                if (pos != partBeginPos) break specialChecks;
+                                if (pos != 0 && chars[pos - 1] != '\n') break specialChecks;
+
+                                // must have 1-4 '#' characters and the next character must be a space
+                                int checkPos = pos;
+                                while (chars[++checkPos] == '#');
+                                if (checkPos - pos > 3) break specialChecks;
+                                if (chars[checkPos] != ' ') break specialChecks;
+
+                                pos = checkPos + 1;
+                                partBeginPos = pos;
+                                isHeadingMode = true;
                                 continue;
                             }
                         }
