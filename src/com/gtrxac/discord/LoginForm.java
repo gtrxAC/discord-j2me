@@ -16,9 +16,7 @@ Strings
     private TextField gatewayField;
     private TextField cdnField;
     private Command changeTokenCommand;
-    // ifdef OVER_100KB
     private Command importTokenCommand;
-    // endif
     private ChoiceGroup tokenGroup;
     private Command nextCommand;
     private Command quitCommand;
@@ -54,12 +52,9 @@ Strings
         tokenButton.setDefaultCommand(changeTokenCommand);
         tokenButton.setItemCommandListener(this);
         
-        // ifdef OVER_100KB
         StringItem importTokenButton = null;
         // endif
-        // endif
         
-        // ifdef OVER_100KB
         if (Util.supportsFileConn) {
             importTokenCommand = Locale.createCommand(IMPORT_TOKEN, Command.ITEM, 1);
             // ifdef NOT_BLACKBERRY
@@ -69,7 +64,6 @@ Strings
             importTokenButton.setItemCommandListener(this);
             // endif
         }
-        // endif
 
         nextCommand = Locale.createCommand(LOG_IN, Command.OK, 1);
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 2);
@@ -100,9 +94,7 @@ Strings
         if (Util.supportsFileConn) addCommand(importTokenCommand);
         // else
         append(tokenButton);
-        // ifdef OVER_100KB
         if (Util.supportsFileConn) append(importTokenButton);
-        // endif
         // endif
         append(tokenGroup);
         addCommand(nextCommand);
@@ -163,17 +155,12 @@ Strings
 
     // ifdef NOT_BLACKBERRY
     public void commandAction(Command c, Item i) {
-        // ifdef OVER_100KB
         if (c == changeTokenCommand) {
             showTokenEntry();
         } else {
             // import token command
             App.disp.setCurrent(new TokenFilePicker());
         }
-        // else
-        // The only item command is the change token command
-        showTokenEntry();
-        // endif
     }
     // endif
 

@@ -792,11 +792,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
             else if (Settings.nativeFilePicker) {
                 if (Util.supportsFileConn) {
-                    // ifdef SAMSUNG_100KB
-                    App.disp.setCurrent(new AttachmentPickerOld(recipientMsg));
-                    // else
                     App.disp.setCurrent(new AttachmentPicker(recipientMsg));
-                    // endif
                 } else {
                     App.error(Locale.get(UPLOAD_ERROR_FILECONN));
                 }

@@ -1,4 +1,3 @@
-// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -136,4 +135,3 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
         }
     }
 }
-// endif
