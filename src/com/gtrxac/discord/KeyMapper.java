@@ -88,6 +88,11 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
             Settings.scrollTopHotkey = newHotkeys[6];
             Settings.scrollBottomHotkey = newHotkeys[7];
             // endif
+
+            Settings.defaultHotkeys = false;
+            ((SettingsScreen) lastScreen).values[2][4] = 0;
+            ((SettingsScreen) lastScreen).updateMenuItem(4);
+
             Settings.save();
             App.disp.setCurrent(lastScreen);
         } else {

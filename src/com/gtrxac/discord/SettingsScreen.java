@@ -17,7 +17,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     private Image[][][] icons;
     private String[][] labels;
     private String[][][] valueLabels;
-    private int[][] values;
+    public int[][] values;
 
     private static final int[][] maxValues = {
         { 2, 2, 2, 1, 1, 1, 1,
@@ -332,7 +332,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         return (itemIcons.length > value) ? itemIcons[value] : itemIcons[0];
     }
 
-    private void updateMenuItem(int index) {
+    public void updateMenuItem(int index) {
         int itemIndex = getItemIndex(index);
         set(
             index,
