@@ -352,4 +352,8 @@ public interface Strings {
     static final int DATA_MANAGER_LANGUAGE = 332;
     static final int DATA_MANAGER_PROMPT_TITLE = 333;
     static final int DATA_MANAGER_PROMPT = 334;
+    // ifdef OVER_100KB
+    static final int PLAT_REQUEST_DIALOG_TITLE = 335;
+    static final int PLAT_REQUEST_DIALOG_TEXT = 336;
+    // endif
 }

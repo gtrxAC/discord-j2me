@@ -817,5 +817,11 @@
     null,
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
+    null,
+
+    // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
+    null,
+
+    // Text shown in that dialog box.
     null
 ]

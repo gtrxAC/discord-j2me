@@ -817,5 +817,11 @@
     "Delete",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n"
+    "Delete this item?\n",
+
+    // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
+    "Open browser",
+
+    // Text shown in that dialog box.
+    "Do you want to open the web browser? The app will be closed."
 ]

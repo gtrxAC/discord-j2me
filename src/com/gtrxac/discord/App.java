@@ -304,7 +304,11 @@ public class App implements Strings {
 	public static void platRequest(String url) {
 		try {
 			if (DiscordMIDlet.instance.platformRequest(url)) {
+				// ifdef OVER_100KB
+				disp.setCurrent(new PlatformRequestDialog());
+				// else
 				error(Locale.get(PLAT_REQUEST_FAILED));
+				// endif
 			}
 		}
 		catch (Exception e) {
