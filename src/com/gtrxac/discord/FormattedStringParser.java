@@ -107,6 +107,7 @@ public class FormattedStringParser {
                     pos++;
                     partBeginPos = pos;
                     isHeadingMode = false;
+                    curColor = 0;
                     continue;
                 }
                 specialChecks: {
@@ -296,6 +297,22 @@ public class FormattedStringParser {
                                 pos = checkPos + 1;
                                 partBeginPos = pos;
                                 isHeadingMode = true;
+                                continue;
+                            }
+                            // subtext (small headings)
+                            else if (curr == '-') {
+                                // must be at the start of a line
+                                if (pos != partBeginPos) break specialChecks;
+                                if (pos != 0 && chars[pos - 1] != '\n') break specialChecks;
+
+                                // '-' must be followed by "# "
+                                int checkPos = pos + 1;
+                                if (chars[checkPos] != '#') break specialChecks;
+                                if (chars[++checkPos] != ' ') break specialChecks;
+                                
+                                pos = checkPos + 1;
+                                partBeginPos = pos;
+                                curColor = ChannelView.timestampColors[Settings.theme];
                                 continue;
                             }
                         }
