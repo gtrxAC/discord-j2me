@@ -76,19 +76,38 @@ public class MentionForm extends Form implements CommandListener, Strings {
 
     // also used by emoji picker
     public static int insertTextToMessageBox(Displayable lastScreen, String text, int caretPos) {
+        MessageBox msgBox = null;
+        TextField field = null;
+        String oldStr = null;
+
         if (lastScreen instanceof MessageBox) {
-            MessageBox msgBox = (MessageBox) lastScreen;
-            String str = msgBox.getString();
+            msgBox = (MessageBox) lastScreen;
+            oldStr = msgBox.getString();
             if (caretPos == -1) caretPos = msgBox.getCaretPosition();
-            msgBox.setString(str.substring(0, caretPos) + text + str.substring(caretPos));
-        }
-        else if (lastScreen instanceof ReplyForm) {
-            TextField field = ((ReplyForm) lastScreen).replyField;
-            String str = field.getString();
+        } else {
+            field = ((ReplyForm) lastScreen).replyField;
+            oldStr = field.getString();
             if (caretPos == -1) caretPos = field.getCaretPosition();
-            field.setString(str.substring(0, caretPos) + text + str.substring(caretPos));
         }
-        return caretPos + text.length();
+
+        String beginSpace =
+            (caretPos > 0 && " ([{".indexOf(oldStr.charAt(caretPos - 1)) == -1)
+            ? " " : "";
+
+        String endSpace =
+            (caretPos == oldStr.length() || " )]}".indexOf(oldStr.charAt(caretPos)) == -1)
+            ? " " : "";
+
+        String addedText = beginSpace + text + endSpace;
+        String newStr = oldStr.substring(0, caretPos) + addedText + oldStr.substring(caretPos);
+
+        if (lastScreen instanceof MessageBox) {
+            msgBox.setString(newStr);
+        } else {
+            field.setString(newStr);
+        }
+
+        return caretPos + addedText.length();
     }
 
     private void insertMention(User u) {
