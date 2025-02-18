@@ -62,6 +62,8 @@ public class Icons {
     // ifdef OVER_100KB
     Image emoji;
     Image markdown;
+    Image typing;
+    Image dataManager;
     // endif
     Image flagGB;
     Image flagUS;
@@ -163,8 +165,10 @@ public class Icons {
         // ifdef OVER_100KB
         emoji = sh.next();
         markdown = sh.next();
+        typing = sh.next();
+        dataManager = sh.next();
         // else
-        sh.skip(2);
+        sh.skip(4);
         // endif
         flagGB = sh.next();
         flagUS = sh.next();

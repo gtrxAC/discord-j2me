@@ -163,7 +163,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.scrollBars },
                 { App.ic.autoUpdate },
                 // ifdef OVER_100KB
-                { null }
+                { App.ic.typing }
                 // endif
             }, {
                 // Notifications
@@ -375,7 +375,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         append(sectionNames[3], App.ic.notify);
         append(sectionNames[4], App.ic.language);
         // ifdef OVER_100KB
-        append(sectionNames[5], null);
+        append(sectionNames[5], App.ic.dataManager);
         // endif
 
         setSelectedIndex(currentSection, true);
