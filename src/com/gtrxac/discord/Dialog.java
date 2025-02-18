@@ -101,7 +101,10 @@ public class Dialog extends MyCanvas implements CommandListener {
             g.setColor(themeBg);
             g.fillRect(0, 0, super.getWidth(), getHeight());
 
-            ((MyCanvas) behindScreen)._paint(g);
+            try {
+                ((MyCanvas) behindScreen)._paint(g);
+            }
+            catch (Exception e) {}
 
             g.setClip(0, 0, super.getWidth(), getHeight());
     

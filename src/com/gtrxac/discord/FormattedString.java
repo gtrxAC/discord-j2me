@@ -15,8 +15,6 @@ public class FormattedString implements Strings {
     public static int emojiMode;
     public static boolean useMarkdown;
 
-    private static final Font editedFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
-
     FormattedString(String src, Font font, int width, int xOffset, boolean singleLine, boolean isEdited, boolean isForwarded) {
         boolean isEmpty = (src == null || src.trim().length() == 0);
 
@@ -34,6 +32,8 @@ public class FormattedString implements Strings {
             showLargeEmoji = parser.showLargeEmoji;
         }
 
+        Font editedFont = null;
+
         if (useMarkdown) {
             if (isForwarded) {
                 int gray = ChannelView.timestampColors[Settings.theme];
@@ -47,6 +47,7 @@ public class FormattedString implements Strings {
                 if (!isEmpty) {
                     tempParts.addElement(new FormattedStringPartText(" ", font));
                 }
+                editedFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
                 int gray = ChannelView.timestampColors[Settings.theme];
                 tempParts.addElement(new FormattedStringPartRichTextColor(Locale.get(EDITED_MESSAGE), editedFont, 0, gray));
             }
@@ -60,7 +61,7 @@ public class FormattedString implements Strings {
         mergeParts(tempParts);
 
         // Fix vertical alignment of "(edited)" indicator item
-        if (isEdited) {
+        if (useMarkdown && isEdited) {
             ((FormattedStringPart) tempParts.lastElement()).y += font.getBaselinePosition() - editedFont.getBaselinePosition();
         }
         
