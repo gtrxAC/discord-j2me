@@ -263,7 +263,7 @@
     "Używaj tylko serwerów proxy, którym ufasz!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "Token możesz znaleźć przez narzędzia deweloperskie twojej przeglądarki (poszukaj pomocy online). Zalecane jest użycie multikonta.",
+    "Token możesz znaleźć poprzez narzędzia deweloperskie twojej przeglądarki (poszukaj pomocy online). Zalecane jest użycie multikonta.",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "Użyj Wi-Fi",
@@ -323,7 +323,7 @@
     " do grupy",
 
     // Status message shown when a user has left a group DM.
-    "opuścił/a grupę",
+    "opuścił(-a) grupę",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
     "usunięto ",
@@ -331,14 +331,14 @@
 
     // Status messages.
     "rozpoczął/ęła rozmowę",
-    "zmienił/a nazwę grupy",
-    "zmienił/a ikonę grupy",
+    "zmienił(-a) nazwę grupy",
+    "zmienił(-a) ikonę grupy",
     "przypiął/ęła wiadomość",
-    "dołączył/a do serwera",
-    "ulepszył/a serwer",
+    "dołączył(-a) do serwera",
+    "ulepszył(-a) serwer",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "ulepszył/a serwer do poziomu ",
+    "ulepszył(-a) serwer do poziomu ",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)",
@@ -538,8 +538,8 @@
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " wysłał/a Ci wiadomość prywatną: \"",
-    " wysłał/a wiadomość na ",
+    " wysłał(-a) Ci wiadomość prywatną: \"",
+    " wysłał(-a) wiadomość na ",
 
     // Title for notification alert windows
     "Nowa wiadomość",
@@ -740,7 +740,7 @@
     "Wybierz plik z tokenem",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Pobieranie emotikony...",
+    "Pobieranie emotikon...",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Francuski",
@@ -786,7 +786,7 @@
     "Wysyłaj informację o pisaniu",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Użyj jako",
+    "Użyj",
     "Użyj jako dźw. powiad.",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
