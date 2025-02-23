@@ -820,8 +820,8 @@
     "Usunąć ten rodzaj danych?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "Otwórz przeglądarkę",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed."
+    "Czy chcesz otworzyć przeglądarkę? Aplikacja zostanie zamknięta."
 ]
