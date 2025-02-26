@@ -772,58 +772,58 @@
     "Bunyi Pemberitahuan",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "Mod getaran",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "Redamkan",
+    "Redamkan/Bunyikan",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "scrolling to top",
-    "scrolling to bottom",
+    "menatal ke puncak",
+    "menatal ke bawah",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    "Penunjuk menaip",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "Guna",
+    "Gunakan",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "Guna ini sbagai bunyi pemberitahuan?",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "Main",
+    "Main lagi",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "Tetapan disimpan.",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "Pengurus data",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "Imej emoji",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "Mesej terakhir dilihat",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "Bunyi pemberitahuan",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "Bahasa",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "Pemadaman",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "Padamkan?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "Membuka pelayar web",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed."
+    "Buka pelayar web? Aplk ini akan ditutup."
 ]
