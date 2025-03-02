@@ -549,14 +549,10 @@ public class GatewayThread extends Thread implements Strings
                         JSONObject msgData = message.getObject("d");
                         String channel = msgData.getString("channel_id");
 
-                        // Check that the opened channel (if there is any) is the one where the typing event happened
                         if (App.isDM) {
+                            // Check that the opened channel (if there is any) is the one where the typing event happened
                             if (!channel.equals(App.selectedDmChannel.id)) continue;
-                        } else {
-                            if (!channel.equals(App.selectedChannel.id)) continue;
-                        }
 
-                        if (App.isDM) {
                             // Typing events not supported in group DMs (typing event contains guild member info if it happened in a server, but not user info; in a group DM, there's no easy way to know who started typing)
                             if (App.selectedDmChannel.isGroup) continue;
 
@@ -571,6 +567,8 @@ public class GatewayThread extends Thread implements Strings
                             StopTypingThread stopThread = new StopTypingThread("0");
                             stopThread.start();
                         } else {
+                            if (!channel.equals(App.selectedChannel.id)) continue;
+
                             try {
                                 // Get this user's name and add it to the typing users list
                                 JSONObject userObj = msgData.getObject("member").getObject("user");
@@ -583,6 +581,9 @@ public class GatewayThread extends Thread implements Strings
                                 // If this user is already in the list, don't add them again
                                 String id = userObj.getString("id");
                                 if (App.typingUserIDs.indexOf(id) != -1) continue;
+
+                                // If this user is the person using the app, don't add
+                                if (id.equals(App.myUserId)) continue;
 
                                 App.typingUsers.addElement(author);
                                 App.typingUserIDs.addElement(id);

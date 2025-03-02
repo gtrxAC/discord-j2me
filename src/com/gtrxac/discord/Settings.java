@@ -255,7 +255,7 @@ public class Settings {
         FormattedString.useMarkdown =
         // endif
         getBoolRecord(true);
-        playNotifVibra = getBoolRecord(true);
+        playNotifVibra = getBoolRecord(false);
         // ifdef OVER_100KB
         scrollTopHotkey =
         // endif
