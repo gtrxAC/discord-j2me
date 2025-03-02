@@ -215,7 +215,7 @@ public class FormattedStringParser {
                                 continue;
                             }
                             else if (curr == '_') {
-                                // Same as the asterisk one above but different variables
+                                // Mostly same as the asterisk one above but with different variables
                                 int underscoreCount = 1;
                                 try {
                                     if (chars[pos + 1] == '_') {
@@ -226,7 +226,14 @@ public class FormattedStringParser {
                                 catch (ArrayIndexOutOfBoundsException e) {}
         
                                 if (curUnderscoreCount == 0) {
-                                    if (src.indexOf(UNDERSCORES[underscoreCount], pos + underscoreCount) == -1) break specialChecks;
+                                    // Before setting the formatting mode, make sure there is a matching set of closing _ upcoming somewhere in the text
+                                    int endIndex = src.indexOf(UNDERSCORES[underscoreCount], pos + underscoreCount);
+                                    if (endIndex == -1) break specialChecks;
+
+                                    // Special case: with one underscore (italic), the character after the ending underscore must not be a letter or digit for the formatting to apply
+                                    // so "aa_bb_cc" is not shown in italic, but "aa _bb_ cc" and "aa_bb_ cc" are
+                                    if (underscoreCount == 1 && endIndex + 1 < src.length() && EMOJI_NAME_CHARS.indexOf(chars[endIndex + 1]) != -1) break specialChecks;
+
                                     addPreviousPart();
                                     curUnderscoreCount = underscoreCount;
                                     pos += underscoreCount;
