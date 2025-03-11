@@ -32,7 +32,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         },
         {100, 1, 1, 1, 1, 1, 2, 2,
         // ifdef OVER_100KB
-        1
+        1, 1
         // endif
         },
         { 1, 1, 1, 1, 1, 1,
@@ -105,6 +105,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(AUTO_UPDATE),
                 // ifdef OVER_100KB
                 Locale.get(SEND_TYPING),
+                Locale.get(FAST_SCROLLING),
                 // endif
             }, {
                 // Notifications
@@ -163,7 +164,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.scrollBars },
                 { App.ic.autoUpdate },
                 // ifdef OVER_100KB
-                { App.ic.typing }
+                { App.ic.typing },
+                { null },
                 // endif
             }, {
                 // Notifications
@@ -224,6 +226,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(RELEASES_ONLY), Locale.get(AUTO_UPDATE_ALL_STR) },
                 // ifdef OVER_100KB
                 boolValues,
+                boolValues,
                 // endif
             }, {
                 // Notifications
@@ -278,6 +281,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.autoUpdate,
                 // ifdef OVER_100KB
                 Settings.sendTyping ? 1 : 0,
+                KeyRepeatThread.enabled ? 1 : 0,
                 // endif
             }, {
                 // Notifications
@@ -536,6 +540,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.autoUpdate = values[2][7];
                 // ifdef OVER_100KB
                 Settings.sendTyping = values[2][8] == 1;
+                KeyRepeatThread.toggle(values[2][9] == 1);
                 // endif
 
                 Settings.showNotifsAll = values[3][0] == 1;

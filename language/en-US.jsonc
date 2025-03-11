@@ -823,5 +823,8 @@
     null,
 
     // Text shown in that dialog box.
+    null,
+
+    // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
     null
 ]

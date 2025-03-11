@@ -656,7 +656,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         App.disp.setCurrent(new MessageCopyBox(item.msg.content));
     }
     
-    private void keyEvent(int keycode) {
+    protected void keyAction(int keycode) {
         touchMode = false;
         int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).getHeight();
         int thisItemPos = getItemPosition(selectedItem);
@@ -749,8 +749,6 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
         repaint();
     }
-    protected void keyPressed(int a) { keyEvent(a); }
-    protected void keyRepeated(int a) { keyEvent(a); }
 
     // ifdef OVER_100KB
     protected void pointerPressed(int x, int y) {

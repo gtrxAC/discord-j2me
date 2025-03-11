@@ -187,7 +187,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         }
     }
 
-    private void handleKey(int keyCode) {
+    protected void keyAction(int keyCode) {
         switch (getGameAction(keyCode)) {
             case UP: {
                 selected = Math.max(selected - getEmojiPerRow(), 0);
@@ -212,14 +212,6 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         }
         makeSelectedItemVisible();
         repaint();
-    }
-
-    protected void keyPressed(int keyCode) {
-        handleKey(keyCode);
-    }
-
-    protected void keyRepeated(int keyCode) {
-        handleKey(keyCode);
     }
 
     public void commandAction(Command c, Displayable d) {

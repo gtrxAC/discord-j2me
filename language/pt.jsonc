@@ -826,5 +826,8 @@
     "Open browser",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed."
+    "Do you want to open the web browser? The app will be closed.",
+
+    // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
+    "Fast scrolling"
 ]

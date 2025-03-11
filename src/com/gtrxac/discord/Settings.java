@@ -268,6 +268,20 @@ public class Settings {
         sendTyping =
         // endif
         getBoolRecord(true);
+        // ifdef OVER_100KB
+        KeyRepeatThread.toggle(
+        // endif
+            getBoolRecord(
+                // ifdef MIDP2_GENERIC
+                !Util.isSymbian93
+                // else
+                true
+                // endif
+            )
+        // ifdef OVER_100KB
+        )
+        // endif
+        ;
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -380,6 +394,13 @@ public class Settings {
         setBoolRecord(
             // ifdef OVER_100KB
             sendTyping
+            // else
+            false
+            // endif
+        );
+        setBoolRecord(
+            // ifdef OVER_100KB
+            KeyRepeatThread.enabled
             // else
             false
             // endif

@@ -446,7 +446,7 @@ public class ListScreen extends KineticScrollingCanvas {
 
     public void customKeyEvent(int keycode) {}
     
-    private void keyEvent(int keycode) {
+    protected void keyAction(int keycode) {
         touchMode = false;
         globalTouchMode = false;
         int action = getGameAction(keycode);
@@ -485,8 +485,6 @@ public class ListScreen extends KineticScrollingCanvas {
         makeSelectedItemVisible();
         repaint();
     }
-    protected void keyPressed(int a) { keyEvent(a); }
-    protected void keyRepeated(int a) { keyEvent(a); }
 
     // ifdef OVER_100KB
     private boolean pressedOnBlank;
