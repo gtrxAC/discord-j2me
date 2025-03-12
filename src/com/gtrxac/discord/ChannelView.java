@@ -193,7 +193,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
         boolean useIcons = Settings.pfpType != Settings.PFP_TYPE_NONE;
-        int iconAreaWidth = (useIcons ? fontHeight*2 : fontHeight/5);
+        int iconAreaWidth = (useIcons ? fontHeight*2 : fontHeight/4);
         int contentWidth = width - iconAreaWidth;
         int embedTextX = iconAreaWidth + fontHeight/3;
         int embedTextWidth = contentWidth - fontHeight/2 - fontHeight*2/3;

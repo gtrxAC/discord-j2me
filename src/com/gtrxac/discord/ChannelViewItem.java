@@ -167,7 +167,7 @@ public class ChannelViewItem implements Strings {
                 // Horizontal position where message contents begin
                 // pfps on = leave room for pfp and its margins
                 // pfps off = leave a small left margin so text isnt stuck to left edge of screen
-                int x = useIcons ? messageFontHeight*2 : messageFontHeight/5;
+                int x = useIcons ? messageFontHeight*2 : messageFontHeight/4;
 
                 // Highlight background if message is selected
                 if (selected) {
