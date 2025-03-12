@@ -86,7 +86,7 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
                 App.guildSelector.update(App.selectedGuild.id);
             }
             // ifdef OVER_100KB
-            if (c == muteCommand) {
+            else if (c == muteCommand) {
                 FavoriteGuilds.toggleMute(ch.id);
                 update(ch.id);
             }
