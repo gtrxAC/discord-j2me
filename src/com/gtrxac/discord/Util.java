@@ -387,7 +387,6 @@ public class Util {
 	public static final boolean isKemulator;
 	public static final boolean isSymbian;
 	public static final boolean isSymbian93;
-	public static final boolean isNokia128x;
 	// endif
 
 	// ifdef NOKIA_UI_SUPPORT
@@ -420,8 +419,6 @@ public class Util {
 				checkClass("com.symbian.lcdjava.io.File");
 
 		isSymbian93 = isSymbian && platform.indexOf("sw_platform_version=3.2") != -1;
-
-		isNokia128x = platform.startsWith("Nokia") && (new MyCanvas()).getWidth() <= 128;
 		// endif
 
 		// ifdef NOKIA_UI_SUPPORT

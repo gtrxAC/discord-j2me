@@ -2,12 +2,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public
-// ifdef MIDP2_GENERIC
-// else
-abstract
-// endif
-class MyCanvas extends Canvas {
+public abstract class MyCanvas extends Canvas {
     // ifdef MIDP2_GENERIC
     MyCanvas() {
         if (Util.isKemulator) setFullScreenMode(true);

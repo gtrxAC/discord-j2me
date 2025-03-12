@@ -16,6 +16,9 @@ public class App implements Strings {
 	// ifdef MIDP2_GENERIC
 	"midp2";
 	// endif
+	// ifdef NOKIA_128PX
+	"nokia_128px";
+	// endif
 	// ifdef MIDP2_ALT
 	"midp2_alt";
 	// endif

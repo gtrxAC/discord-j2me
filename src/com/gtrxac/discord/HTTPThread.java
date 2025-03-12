@@ -677,7 +677,21 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case FETCH_LANGUAGE: {
-                    byte[] langBytes = HTTP.getBytes(Settings.api + "/lang/" + langID + ".json");
+                    byte[] langBytes = null;
+
+                    // ifdef NOKIA_128PX
+                    try {
+                        langBytes = HTTP.getBytes(Settings.api + "/lang/" + langID + "-compact.json");
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    // endif
+                    
+                    if (langBytes == null) {
+                        langBytes = HTTP.getBytes(Settings.api + "/lang/" + langID + ".json");
+                    }
+
                     Locale.languageLoaded(langID, Util.bytesToString(langBytes));
                     if (App.disp.getCurrent() instanceof MainMenu) {
                         App.disp.setCurrent(MainMenu.get(true));

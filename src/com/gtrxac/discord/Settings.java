@@ -94,6 +94,26 @@ public class Settings {
         return result;
     }
 
+    private static boolean shouldShowEmoji() {
+        boolean result = (Util.fontSize > 14);
+
+        // ifdef NOKIA_128PX
+        // On Nokia 128x128 and 128x160, the default font size (medium) is large enough to somewhat comfortably show emojis.
+        // However, on low-end (DCT4) phones, there may not be enough RAM (usually around 600 kB), so disable emojis there just to stay safe.
+        if (Runtime.getRuntime().totalMemory() >= 1000000) {
+            result = true;
+        }
+        
+        // On S40v2 (except on 6230i, which is a different resolution anyway) the RMS size is 32 kB, not enough to store emojis.
+        // TODO: We could add an option to only show server emojis (which don't need to be stored in RMS), but for now, don't show any.
+        if (!Util.checkClass("javax.microedition.m2g.ScalableGraphics") && !Util.checkClass("com.nokia.mid.pri.PriAccess")) {
+            return false;
+        }
+        // endif
+
+        return result;
+    }
+
     public static void load() {
         // Initial settings (will be used if there are no saved settings)
         api = "http://146.59.80.3";
@@ -165,10 +185,12 @@ public class Settings {
         isHighRam = Util.isSymbian || Util.isKemulator;
         // endif
 
-        int defaultFontSize = 0;
-        // ifdef MIDP2_GENERIC
-        if (Util.isNokia128x) defaultFontSize = 1;
-        // endif
+        final int defaultFontSize =
+            // ifdef NOKIA_128PX
+            1;
+            // else
+            0;
+            // endif
 
         api = getStringRecord(api);
         token = getStringRecord(token);
@@ -243,14 +265,10 @@ public class Settings {
         // endif
         getBoolRecord(isHighRam);
         // ifdef OVER_100KB
-        FormattedString.emojiMode =
+        FormattedString.emojiMode = getIntRecord(shouldShowEmoji() ? FormattedString.EMOJI_MODE_ALL : 0);
+        // else
+        getIntRecord(0);
         // endif
-        getIntRecord(
-            // ifdef OVER_100KB
-            Util.fontSize > 14 ? FormattedString.EMOJI_MODE_ALL :
-            // endif
-            0
-        );
         // ifdef OVER_100KB
         FormattedString.useMarkdown =
         // endif

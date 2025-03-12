@@ -15,7 +15,13 @@ public class Locale {
 
     private static Vector getDefaultStrings() {
         try {
-            return JSON.getArray(Util.readFile("/en.json")).toVector();
+            return JSON.getArray(Util.readFile(
+                // ifdef NOKIA_128PX
+                "/en-compact.json"
+                // else
+                "/en.json"
+                // endif
+            )).toVector();
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -7,9 +7,11 @@ fs.readdirSync(".")
         const content = fs.readFileSync(file).toString();
         const minified = JSON.stringify(JSON.parse(stripJsonComments(content)));
 
-        const path = (file == "en.jsonc") ?
-            "../res/en.json" :
-            `../proxy/static/lang/${file.replace('.jsonc', '.json')}`;
+        file = file.replace('.jsonc', '.json');
+
+        const path = (file == "en.json" || file == "en-compact.json") ?
+            `../res/${file}` :
+            `../proxy/static/lang/${file}`;
 
         fs.writeFileSync(path, minified);
     })
