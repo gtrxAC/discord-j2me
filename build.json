@@ -3,13 +3,13 @@
     "name": "discord_midp2",
     "defines": ["MIDP2_GENERIC", "NOKIA_MANIFEST", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT", "NOKIA_UI_ICON", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/javapiglerapi.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json"]
+    "excludes": ["en-compact.json", "icon_28px.png"]
   },
   {
     "name": "discord_midp2_alt",
     "defines": ["MIDP2_ALT", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json"]
+    "excludes": ["en-compact.json", "icon_28px.png"]
   },
   {
     "name": "discord_nokia_128px",
@@ -21,30 +21,30 @@
     "name": "discord_blackberry",
     "defines": ["BLACKBERRY", "OVER_100KB"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json"]
+    "excludes": ["en-compact.json", "icon_28px.png"]
   },
   {
     "name": "discord_samsung",
     "defines": ["SAMSUNG", "SAMSUNG_FULL", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json"]
+    "excludes": ["en-compact.json", "icon_28px.png"]
   },
   {
     "name": "discord_samsung_100kb",
     "defines": ["SAMSUNG", "SAMSUNG_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "selector.png", "notify.mid"]
+    "excludes": ["en-compact.json", "icon_28px.png", "selector.png", "notify.mid"]
   },
   {
     "name": "discord_lg",
     "defines": ["LG", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json"]
+    "excludes": ["en-compact.json", "icon_28px.png"]
   },
   {
     "name": "discord_jl",
     "defines": ["J2ME_LOADER", "NOKIA_UI_SUPPORT", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json"]
+    "excludes": ["en-compact.json", "icon_28px.png"]
   }
 ]

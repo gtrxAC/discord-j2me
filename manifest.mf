@@ -1,4 +1,8 @@
+// ifdef NOKIA_128PX
+MIDlet-1: Discord, icon_28px.png, com.gtrxac.discord.DiscordMIDlet
+// else
 MIDlet-1: Discord, icon.png, com.gtrxac.discord.DiscordMIDlet
+// endif
 MIDlet-Name: Discord
 MIDlet-Vendor: gtrxAC
 MIDlet-Version: 5.0.0
