@@ -28,7 +28,7 @@
     "Valitse liite",
 
     // Softkey labels for going back to the previous screen.
-    "Takaisin",
+    "Edell.",
     "Takaisin",
 
     // Softkey label for closing a menu.
@@ -411,7 +411,7 @@
     "12-tuntinen aika",
 
     // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-    "Sovell. sis. tied.valinta",
+    "Sovell. sis. tied.val.",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
     "Yhdistä uud. autom.",
@@ -423,7 +423,7 @@
     "Nimien värit",
 
     // Settings screen heading for message author font size.
-    "Lähettäjien fonttikoko",
+    "Lähett. fonttikoko",
 
     // Font size options.
     "Pieni",
@@ -434,13 +434,13 @@
     "Viestien fonttikoko",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-    "Viestien latausmäärä",
+    "Viestien määrä",
 
     // Settings screen heading for selecting attachment file format.
     "Kuvien tied.muoto",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "Kuvien maks.koko (px)",
+    "Kuvien maks.koko",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
@@ -452,7 +452,7 @@
     "Ympyrä (HD)",
 
     // Settings section for profile picture resolution.
-    "Prof.kuvien tarkkuus",
+    "Prof.kuv. tarkkuus",
 
     // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
     "Ei kuvaa",
@@ -485,7 +485,7 @@
     "Määr. pikanäpp.",
 
     // Generic softkey labels. Currently used in settings menu.
-    "Tallenna",
+    "Tallenn.",
     "Tallenna",
     "Peruuta",
     "Peruuta",
@@ -552,7 +552,7 @@
     "Ääni",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Pidä kanavat muistissa",
+    "Muista kanavat",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
@@ -711,7 +711,7 @@
     "Valitaanko tämä kuva?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "Tied.valinn. esikatselu",
+    "Tied.val. esikatselu",
 
     // Header shown at the top of every forwarded message.
     "Välitetty viesti:",
@@ -783,7 +783,7 @@
     "vieritys sivun loppuun",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Näytä muille, kun kirjoitan",
+    "Näytä kun kirjoitan",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
     "Käytä",
