@@ -21,6 +21,10 @@ public class PlatformRequestDialog extends Dialog implements Strings {
         if (c == yesCommand) {
             DiscordMIDlet.instance.notifyDestroyed();
         } else {
+            try {
+                DiscordMIDlet.instance.platformRequest("");  // cancel the request
+            }
+            catch (Exception e) {}
             App.disp.setCurrent(lastScreen);
         }
     }
