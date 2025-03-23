@@ -1,5 +1,5 @@
 // ifdef NOKIA_128PX
-MIDlet-1: Discord, icon_28px.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-1: Discord, icon_28.png, com.gtrxac.discord.DiscordMIDlet
 // else
 MIDlet-1: Discord, icon.png, com.gtrxac.discord.DiscordMIDlet
 // endif
@@ -20,7 +20,10 @@ MIDlet-Landscape-Support: true
 // endif
 // ifdef LG
 MIDlet-Screen-Mode: Both
+LGE-MIDlet-Category: Applications
 LGE-MIDlet-Display-Nav-Keypad: no
 LGE-MIDlet-TargetLCD-Height: 800
 LGE-MIDlet-TargetLCD-Width: 480
+MIDletX-Big-Icon: /icon_32.png
+MIDletX-Medium-Icon: /icon_38_18.png
 // endif
