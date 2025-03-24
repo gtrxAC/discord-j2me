@@ -655,14 +655,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (item.type != ChannelViewItem.MESSAGE) return;
         App.disp.setCurrent(new MessageCopyBox(item.msg.content));
     }
-    
-    protected void keyAction(int keycode) {
-        touchMode = false;
-        int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).getHeight();
-        int thisItemPos = getItemPosition(selectedItem);
 
-        int action = getGameAction(keycode);
-
+    private void navKeyAction(int action, int thisItemHeight, int thisItemPos) {
         switch (action) {
             case UP: {
                 // No message selected -> enable selection mode (bottom-most will be selected)
@@ -703,48 +697,58 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 executeItemAction();
                 break;
             }
-            // not up/down/select - check if it's a hotkey
-            default: {
-                if (Settings.defaultHotkeys) {
-                    // default hotkey (j2me game actions A/B/C/D)
-                    switch (action) {
-                        case GAME_A: sendHotkeyAction(); break;
-                        case GAME_B: replyHotkeyAction(); break;
-                        case GAME_C: copyHotkeyAction(); break;
-                        case GAME_D: commandAction(refreshCommand, this); break;
-                    }
-                } else {
-                    // user bound key (when 'default hotkeys' option disabled)
-                    if (keycode == Settings.sendHotkey) {
-                        sendHotkeyAction();
-                    }
-                    else if (keycode == Settings.replyHotkey) {
-                        replyHotkeyAction();
-                    }
-                    else if (keycode == Settings.copyHotkey) {
-                        copyHotkeyAction();
-                    }
-                    else if (keycode == Settings.refreshHotkey) {
-                        commandAction(refreshCommand, this);
-                    }
-                    else if (keycode == Settings.backHotkey) {
-                        commandAction(backCommand, this);
-                    }
-                    else if (keycode == Settings.fullscreenHotkey) {
-                        commandAction(fullScreenCommand, this);
-                    }
-                    // ifdef OVER_100KB
-                    else if (keycode == Settings.scrollTopHotkey) {
-                        selectionMode = true;
-                        selectedItem = items.size() - 1;
-                    }
-                    else if (keycode == Settings.scrollBottomHotkey) {
-                        selectionMode = true;
-                        selectedItem = 0;
-                    }
-                    // endif
-                }
-                break;
+        }
+    }
+    
+    protected void keyAction(int keycode) {
+        touchMode = false;
+        int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).getHeight();
+        int thisItemPos = getItemPosition(selectedItem);
+
+        int action = getGameAction(keycode);
+
+        // Check if hotkey was pressed
+        if (Settings.defaultHotkeys) {
+            // default hotkey (j2me game actions A/B/C/D)
+            switch (action) {
+                case GAME_A: sendHotkeyAction(); break;
+                case GAME_B: replyHotkeyAction(); break;
+                case GAME_C: copyHotkeyAction(); break;
+                case GAME_D: commandAction(refreshCommand, this); break;
+                default: navKeyAction(action, thisItemHeight, thisItemPos); break;
+            }
+        } else {
+            // user bound key (when 'default hotkeys' option disabled)
+            if (keycode == Settings.sendHotkey) {
+                sendHotkeyAction();
+            }
+            else if (keycode == Settings.replyHotkey) {
+                replyHotkeyAction();
+            }
+            else if (keycode == Settings.copyHotkey) {
+                copyHotkeyAction();
+            }
+            else if (keycode == Settings.refreshHotkey) {
+                commandAction(refreshCommand, this);
+            }
+            else if (keycode == Settings.backHotkey) {
+                commandAction(backCommand, this);
+            }
+            else if (keycode == Settings.fullscreenHotkey) {
+                commandAction(fullScreenCommand, this);
+            }
+            // ifdef OVER_100KB
+            else if (keycode == Settings.scrollTopHotkey) {
+                selectionMode = true;
+                selectedItem = items.size() - 1;
+            }
+            else if (keycode == Settings.scrollBottomHotkey) {
+                selectionMode = true;
+                selectedItem = 0;
+            }
+            // endif
+            else {
+                navKeyAction(action, thisItemHeight, thisItemPos);
             }
         }
         repaint();
