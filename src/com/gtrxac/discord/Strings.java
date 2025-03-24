@@ -356,5 +356,6 @@ public interface Strings {
     static final int PLAT_REQUEST_DIALOG_TITLE = 335;
     static final int PLAT_REQUEST_DIALOG_TEXT = 336;
     static final int FAST_SCROLLING = 337;
+    static final int PLAY_SOUND_FAILED = 338;
     // endif
 }

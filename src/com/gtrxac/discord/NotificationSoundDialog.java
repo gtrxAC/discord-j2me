@@ -16,7 +16,51 @@ public class NotificationSoundDialog extends Dialog implements Strings, CommandL
     private Player player;
     private String fileName;
 
-    NotificationSoundDialog(String fileName, byte[] soundData) {
+    private static final String[][] fileTypeMapping = {
+        { ".aac", "audio/aac", null },
+        { ".amr", "audio/amr", "audio/amr-wb" },
+        { ".awb", "audio/amr-wb", "audio/amr" },
+        { ".m4a", "audio/mp4", null },
+        { ".mid", "audio/midi", "audio/mid" },
+        { ".mmf", "application/vnd.smaf", null },
+        { ".mxmf", "audio/vnd.nokia.mobile-xmf", null },
+        { ".mp3", "audio/mpeg", "audio/mpeg3" },
+        { ".ogg", "audio/ogg", null },
+        { ".wav", "audio/x-wav", "audio/wav" },
+        { ".wma", "audio/x-ms-wma", null },
+    };
+
+    public static Player playSound(String fileName, InputStream stream) throws Exception {
+        String type = "application/octet-stream";
+        String altType = null;
+        fileName = fileName.toLowerCase();
+
+        for (int i = 0; i < fileTypeMapping.length; i++) {
+            if (fileName.endsWith(fileTypeMapping[i][0])) {
+                type = fileTypeMapping[i][1];
+                altType = fileTypeMapping[i][2];
+                break;
+            }
+        }
+        Player player = null;
+        try {
+            player = Manager.createPlayer(stream, type);
+            player.start();
+        }
+        catch (Exception e) {
+            try {
+                player = Manager.createPlayer(stream, altType);
+                player.start();
+            }
+            catch (Exception ee) {
+                player = Manager.createPlayer(stream, null);
+                player.start();
+            }
+        }
+        return player;
+    }
+
+    NotificationSoundDialog(String fileName, byte[] soundData) throws Exception {
         super(null, Locale.get(APPLY_NOTIF_SOUND_PROMPT));
         setCommandListener(this);
         this.lastScreen = lastScreen;
@@ -30,13 +74,7 @@ public class NotificationSoundDialog extends Dialog implements Strings, CommandL
         addCommand(noCommand);
         addCommand(replayCommand);
 
-        try {
-            player = Manager.createPlayer(new ByteArrayInputStream(soundData), null);
-            player.start();
-        }
-        catch (Exception e) {
-            App.error(e);
-        }
+        player = playSound(fileName, new ByteArrayInputStream(soundData));
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -70,7 +108,12 @@ public class NotificationSoundDialog extends Dialog implements Strings, CommandL
         }
         else {
             // 'no' command or 'ok' command
-            player.close();
+            try {
+                player.close();
+            }
+            catch (Exception e) {
+                App.error(e);
+            }
             App.disp.setCurrent(App.attachmentView);
         }
     }

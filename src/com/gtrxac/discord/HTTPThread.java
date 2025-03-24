@@ -755,6 +755,12 @@ public class HTTPThread extends Thread implements Strings {
                     App.error("Failed to download language data: " + e.toString(), MainMenu.get(false));
                     break;
                 }
+                // ifdef OVER_100KB
+                case VIEW_ATTACHMENT_AUDIO: {
+                    App.error(Locale.get(PLAY_SOUND_FAILED), prevScreen);
+                    break;
+                }
+                // endif
                 default: {
                     App.error(e, prevScreen);
                     break;

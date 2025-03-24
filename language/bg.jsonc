@@ -395,5 +395,8 @@
     "Do you want to open the web browser? The app will be closed.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling"
+    "Fast scrolling",
+
+    // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
+    "Failed to play sound. The file type may be unsupported."
 ]

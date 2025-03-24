@@ -384,24 +384,24 @@ public class GatewayThread extends Thread implements Strings
                             if (shouldNotify(msgData)) {
                                 if (Settings.playNotifSound) {
                                     // ifdef OVER_100KB
+                                    RecordStore rms = null;
+                                    InputStream is = null;
+                                    String fileName = "/notify.mid";
                                     try {
-                                        RecordStore rms = null;
-                                        InputStream is = null;
-                                        try {
-                                            rms = RecordStore.openRecordStore("notifsound", false);
-                                            is = new ByteArrayInputStream(rms.getRecord(2));
-                                        }
-                                        catch (Exception e) {}
+                                        rms = RecordStore.openRecordStore("notifsound", false);
+                                        is = new ByteArrayInputStream(rms.getRecord(2));
+                                        fileName = Util.bytesToString(rms.getRecord(1));
+                                    }
+                                    catch (Exception e) {}
 
-                                        Util.closeRecordStore(rms);
+                                    Util.closeRecordStore(rms);
 
-                                        if (is == null) is = getClass().getResourceAsStream("/notify.mid");
-                                        
-                                        Player player = Manager.createPlayer(is, null);
-                                        player.start();
+                                    if (is == null) is = getClass().getResourceAsStream("/notify.mid");
+                                    
+                                    try {
+                                        NotificationSoundDialog.playSound(fileName, is);
                                     }
                                     catch (Exception e) {
-                                        e.printStackTrace();
                                         AlertType.ALARM.playSound(App.disp);
                                     }
                                     // else
