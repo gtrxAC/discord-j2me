@@ -51,18 +51,16 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
                 String selected = getString(index);
                 String selectedPath = currentPath + selected;
 
-                if (selected.endsWith("/")) { // Directory
-                    directorySelected(selectedPath);
-                } else { // File
-                    FileConnection fc;
-                    try {
-                        fc = (FileConnection) Connector.open(selectedPath, Connector.READ);
+                try {
+                    if (selected.endsWith("/")) { // Directory
+                        directorySelected(selectedPath);
+                    } else { // File
+                        FileConnection fc = (FileConnection) Connector.open(selectedPath, Connector.READ);
+                        fileSelected(fc, selected);
                     }
-                    catch (Exception e) {
-                        App.error(e);
-                        return;
-                    }
-                    fileSelected(fc, selected);
+                }
+                catch (Exception e) {
+                    App.error(e);
                 }
             }
         }
