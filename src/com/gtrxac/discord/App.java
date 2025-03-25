@@ -8,8 +8,8 @@ import java.util.*;
 import cc.nnproject.json.*;
 
 public class App implements Strings {
-	public static final int VERSION_CODE = 16;
-	public static final String VERSION_NAME = "5.0.0 beta4";
+	public static final int VERSION_CODE = 17;
+	public static final String VERSION_NAME = "5.0.0 beta5";
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =
