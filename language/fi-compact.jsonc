@@ -829,5 +829,8 @@
     "Nopea vieritys",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Äänen toisto epäonnistui. Laite ei tue tiedostotyyppiä."
+    "Äänen toisto epäonnistui. Laite ei tue tiedostotyyppiä.",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "japani"
 ]

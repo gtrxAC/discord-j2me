@@ -830,5 +830,8 @@
     "Fast scrolling",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported."
+    "Failed to play sound. The file type may be unsupported.",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Japanese"
 ]

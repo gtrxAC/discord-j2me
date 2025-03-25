@@ -7,8 +7,6 @@
     //   strings, write it as \" instead.
     // - If the original string has any special formatting
     //   (e.g. space at the beginning or end), keep the formatting the same.
-    // - If you want the English text to be shown for a specific string,
-    //   replace the string with null (without any quotation marks).
     // - For any Discord-specific terminology (e.g. servers), use the same
     //   translated term that Discord officially uses for your language.
 
@@ -22,808 +20,812 @@
     //   short label, use the same string for both labels.
 
     // Placeholder file name shown when the name of an attachment in the attachment view screen could not be loaded.
-    "ไฟล์ที่ไม่มีชื่อ",
+    "無名のファイル",
 
     // Title text for the attachment picker (native file picker) screen.
-    "เลือกไฟล์แนบ",
+    "添付ファイルを選択",
 
     // Softkey labels for going back to the previous screen.
-    "ย้อนกลับ",
-    "ย้อนกลับ",
+    "戻る",
+    "戻る",
 
     // Softkey label for closing a menu.
     // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
-    "ปิด",
-    "ปิด",
+    "閉じる",
+    "閉じる",
 
     // Title text for attachment view screen.
-    "ไฟล์แนบ",
+    "添付ファイル",
 
     // Softkey labels for refetching contents of channel view or attachment view.
-    "รีเฟรช",
-    "รีเฟรช",
+    "再読み込み",
+    "再読み込み",
 
     // Softkey labels used in channel or DM list for marking the selected channel or DM as read.
-    "ตั้งเป็นอ่านแล้ว",
-    "ตั้งเป็นอ่านแล้ว",
+    "既読にする",
+    "既読にする",
 
     // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
-    "ตั้งทั้งหมดเป็นอ่านแล้ว",
-    "ตั้งทั้งหมดเป็นอ่านแล้ว",
+    "すべて既読にする",
+    "すべて既読にする",
 
     // Generic "Select" softkey labels.
-    "เลือก",
-    "เลือก",
+    "選択",
+    "選択",
 
     // Softkey labels for sending a message in the currently open channel.
-    "ส่ง",
-    "ส่งข้อความ",
+    "送信",
+    "メッセージを送信",
 
     // Softkey labels for sending a reply to the selected message.
-    "ตอบกลับ",
-    "ตอบกลับ",
+    "返信",
+    "返信",
 
     // Softkey labels for sending an attachment in the currently open channel.
-    "อัพโหลด",
-    "อัพโหลดไฟล์",
+    "アップロード",
+    "ファイルをアップロード",
 
     // Softkey labels for copying the text content of the selected message.
-    "คัดลอก",
-    "คัดลอกเนื้อหา",
+    "コピー",
+    "内容をコピー",
 
     // Softkey labels for editing the selected message.
-    "แก้ไข",
-    "แก้ไข",
+    "編集",
+    "編集",
 
     // Softkey labels for deleting the selected message.
-    "ลบ",
-    "ลบ",
+    "削除",
+    "削除",
 
     // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
-    "เปิด URL",
-    "เปิด URL",
+    "URLを開く",
+    "URLを開く",
 
     // Channel view title suffix when reading older messages.
-    " (เก่า)",
+    " (古い)",
 
     // Text shown at the center of the channel view when it is empty (no messages).
-    "ไม่มีอะไรอยู่ในนี้",
+    "ここには何もありません。",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
-    "รีเฟรชเพื่ออ่านข้อความใหม่",
+    "更新して新しいメッセージを表示",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
-    "กำลังเชื่อมต่อใหม่",
+    "再接続中...",
 
     // Channel view banner shown when a message is being sent by the client.
-    "กำลังส่งข้อความ",
+    "メッセージ送信中",
 
     // Channel view banner shown when a message is being edited by the client.
-    "กำลังแก้ไขข้อความ",
+    "メッセージ編集中",
 
     // Channel view banner shown when a message is being deleted by the client.
-    "กำลังลบข้อความ",
+    "メッセージ削除中",
 
     // Channel view banner shown when messages are being loaded, e.g. during a refresh or after a message was sent by the client.
-    "กำลังโหลดข้อความ",
+    "メッセージを読み込み中",
 
     // Suffix for channel view banner text when one person is typing.
     // Example: "aa is typing"
-    " กำลังพิมพ์",
+    " 入力中",
 
     // Suffix for channel view banner text when two or three people are typing.
     // Example: "aa, bb, cc are typing"
-    " กำลังพิมพ์",
+    " 複数の人が入力中",
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing"
-    " คนกำลังพิมพ์",
+    " Mehrere Personen schreiben",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
-    ", ",
+    "、 ",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
-    "พร็อกซี่นี้ไม่รองรับการอัพโหลดไฟล์",
-    "พร็อกซี่นี้ไม่รองรับการลบข้อความ",
-    "พร็อกซี่นี้ไม่รองรับการแก้ไขข้อความ",
+    "このプロキシはファイルのアップロードをサポートしていません",
+    "このプロキシはメッセージの削除をサポートしていません",
+    "このプロキシはメッセージの編集をサポートしていません",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
-    "อุปกรณ์นี้ไม่รองรับ API FileConnection สำหรับการเลือกไฟล์",
+    "FileConnectionはサポートされていません",
 
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
-    "เก่ากว่า",
-    "ดูข้อความเก่ากว่า",
-    "ใหม่กว่า",
-    "ดูข้อความใหม่กว่า",
-
+    "古い",
+    "古いメッセージを表示",
+    "新しい",
+    "新しいメッセージを表示",
+    
     // Parts of the button label for viewing attachments of a message.
     // Examples: "View 1 attachment", "View 2 attachments"
-    "ดู ",
-    " ไฟล์แนบ",
-    " ไฟล์แนบ",
+     "表示 ",
+    " 添付ファイル",
+    " 添付ファイル",
 
     // Title for confirmation screen shown when deleting a message.
-    "ลบ",
+    "削除",
 
     // Body text for confirmation screen shown when deleting a message.
-    "ต้องการลบข้อความนี้หรือไม่?",
+    "このメッセージを削除しますか？",
 
     // Generic softkey labels.
-    "ใช่",
-    "ใช่",
-    "ไม่",
-    "ไม่",
-    "ตกลง",
-    "ตกลง",
+    "はい",
+    "はい",
+    "いいえ",
+    "いいえ",
+    "OK",
+    "OK",
 
     // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
-    "(ไม่รู้จัก)",
+    "(不明)",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "(ไม่มีเนื้อหา)",
+    "(内容なし)",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    "(ข้อความที่ไม่รองรับ)",
+    "(サポートされていないメッセージ/添付ファイル)",
 
     // Message content shown for a message that has been deleted.
-    "(ข้อความถูกลบ)",
+    "(メッセージ削除済み)",
 
     // Title text for direct message search screen.
-    "ค้นหาข้อความส่วนตัว",
+    "DMを検索",
 
     // Guide text for text field in direct message search and "insert mention" screens.
-    "ใส่ชื่อผู้ใช้",
+    "ユーザー名を入力",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "ไม่พบผู้ใช้นี้ ลองส่งข้อความส่วนตัวจากแอพรุ่นอื่น",
+    "ユーザーが見つかりませんでした。他のクライアントでDMを作成してください。",
 
     // Title text for direct message list.
-    "ข้อความส่วนตัว",
+    "ダイレクトメッセージ",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
-    "ค้นหา",
-    "ค้นหา",
+    "検索",
+    "検索",
 
     // Title text shown for all error message screens.
-    "ข้อผิดพลาด",
+    "エラー",
 
     // Title text shown for guild (server) selector.
-    "เซิร์ฟเวอร์",
+    "サーバー",
 
     // Title text shown for favorite servers list.
-    "รายการโปรด",
+    "お気に入り",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
-    "เอาออก",
-    "เอาออก",
+    "削除",
+    "削除",
 
     // Softkey command for adding a server to the favorites list.
-    "เพิ่ม",
-    "เพิ่มไปยังรายการโปรด",
+    "お気に入り",
+    "「お気に入りに追加」",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "ข้อผิดพลาดในการเชื่อมต่อ: ",
+    "Heartbeatスレッドエラー: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "กรุณาตรวจสอบรหัส token ของคุณ",
+    "Tokenを確認してください。",	
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
     // e.g. HTTP error 500
-    "ข้อผิดพลาด HTTP ",
+    "HTTPエラー ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "ไม่ได้กำหนด URL สำหรับพร็อกซี่ CDN ตอนนี้เรียกดูไฟล์แนบไม่ได้",
+    "CDN URLが設定されていません。添付ファイルは利用できません。",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
     " (",
     ")",
 
     // Softkey labels for showing a text attachment's contents within the app.
-    "แสดง",
-    "แสดงเป็นข้อความ",
+    "表示",
+    "テキストとして表示",
 
     // Softkey labels for showing an attachment in the device's built-in web browser.
-    "เปิด",
-    "เปิดในบราวเซอร์",
+    "開く",
+    "ブラウザで開く",
 
     // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
-    "กำลังโหลด...",
+    "読み込み中...",
 
     // Loading screen text shown when an attachment is being sent.
-    "กำลังส่ง...",
+    "送信中...",
 
     // Error message prefix shown when an error occurs while uploading an attachment.
-    "ข้อผิดพลาดขณะส่งไฟล์: ",
-
+    "ファイルの送信中にエラー発生: ",
+    
     // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
-    "ข้าม",
-    "ข้าม",
+    "スキップ",
+    "スキップ",
 
     // Key press prompt shown in hotkey mapper.
-    "กดปุ่มที่จะใช้เพื่อ",
+    "キーを押して使用する:",
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
-    // "going back" only applies to the chat view, 
-    "ส่งข้อความ",
-    "ตอบกลับข้อความ",
-    "คัดลอกเนื้อหาของข้อความ",
-    "รีเฟรชข้อความ",
-    "ย้อนกลัับ",
+    // "going back" only applies to the chat view. 
+    "メッセージ送信",
+    "メッセージに返信",
+    "メッセージ内容をコピー",
+    "メッセージを再読み込み",
+    "戻る",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-    "ปุ่มนี้ถูกใช้แล้วสำหรับการ",
+    "このキーはすでに ",
 
     // Title text shown in login screen.
-    "เข้าสู่ระบบ",
+    "ログインしてください",
 
     // Proxy server warning message shown at the top of the login screen.
-    "เพื่อความปลอดภัย ขอให้ใช้พร็อกซี่ที่ปลอดภัยและไว้ได้เท่านั้น!",
+    "信頼できるプロキシのみ使用してください！",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "Token เป็นรหัสประจำตัวการเข้าสู่ระบบของผู้ใช้งาน ซึ่งดูได้จากเครื่องมือของนักพัฒนาหรือ DevTools (สำหรับวิธีดูให้ค้นหาในเน็ต) ขอแนะนำให้ใช้บัญชีสำรองเพื่อความปลอดภัย",
+    "Tokenはブラウザーの開発者ツールで見つけることができます（詳しい方法はオンラインで確認できます）。代替アカウントの使用を推奨します。",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
-    "ใช้ Wi-Fi",
+    "Wi-Fiを利用",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
-    "URL สำหรับพร็อกซี่ API",
-    "URL สำหรับพร็อกซี่ CDN",
-    "URL สำหรับพร็อกซี่ Gateway",
-    "รหัส token",
+    "API URL",
+    "CDN URL",
+    "Gateway URL",
+    "Token",
 
     // Softkey label for confirming the login options in the login screen.
-    "เข้าสู่ระบบ",
-    "เข้าสู่ระบบ",
+    "ログイン",
+    "ログイン",
 
     // Softkey command for exiting the application.
-    "ออก",
-    "ออก",
+    "閉じる",
+    "閉じる",
 
     // "Use gateway" option shown in login screen.
-    "ใช้ gateway",
+    "Gatewayを利用",
 
     // Label for radio button field for token sending options.
-    "ส่งรหัส token เป็น",
+    "Token送信オプション",
 
     // Token sending options.
-    "Header (ค่าเริ่มต้น)",
+    "Header (標準)",
     "JSON",
-    "Query parameter",
+    "クエリパラメータ",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "กรุณาใส่รหัส token ของคุณ",
-    "กรุณาใส่ URL สำหรับพร็อกซี่ API",
+    "Tokenを入力してください。",
+    "APIのURLを指定してください。",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
-    "เซิร์ฟเวอร์",
-    "รายการโปรด",
-    "ข้อความส่วนตัว",
-    "การตั้งค่า",
-    "ออกจากระบบ",
+    "サーバー",
+    "お気に入り",
+    "DM",
+    "設定",
+    "ログアウト",
 
     // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
-    "ใส่การพูดถึง",
+    "ピングを挿入",
 
     // Label shown for username search results in "Insert mention" screen. Shown if more than one user matches the username query.
-    "ผลการค้นหา",
+    "検索結果：",
 
     // Message shown when the username query resulted in no matches in the "Insert mention" screen.
-    "ไม่มีผลการค้นหา",
+    "結果が見つかりません",
 
     // Error message shown when selecting "Insert" in the "Insert mention" screen and none of the search results (radio buttons) were picked.
-    "ไม่ได้เลือกผู้ใช้",
+    "ユーザーが選択されていません",
 
     // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
-    "เพิ่ม ",
-    " เข้ากลุ่ม",
+    " ",
+    " をグループに追加しました",
 
     // Status message shown when a user has left a group DM.
-    "ออกจากกลุ่ม",
+    " グループを退出しました。",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
-    "ลบ ",
-    " ออกจากกลุ่ม",
+    " ",
+    " をグループから削除しました",
 
     // Status messages.
-    "ได้เริ่มการโทร",
-    "ได้เปลี่ยนชื่อกลุ่ม",
-    "ได้เปลี่ยนรูปของกลุ่ม",
-    "ได้ปักหมุดข้อความ",
-    "ได้เข้าร่วมเซิร์ฟเวอร์",
-    "ได้บูสต์เซิร์ฟเวอร์",
+    "通話を開始しました",
+    "グループ名を変更しました",
+    "グループのアイコンを変更しました",
+    "メッセージをピン留めしました",
+    "サーバーに参加しました",
+    "サーバーをブーストしました",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "บูสต์เซิร์ฟเวอร์ถึงระดับ ",
+    "サーバーをブーストし、レベル  になりました",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
-    "(สติ๊กเกอร์: ",
+    "(スタンプ: ",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
-    "ไม่รู้จัก",
+    "不明",
 
     // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
     // Note: order of day and month cannot be changed currently
     ":",
     "/",
-    "A",
-    "P",
+    "午前",
+    "午後",
 
     // Softkey labels for inserting a mention/ping in the "send message" screen.
-    "พูดถึง",
-    "ใส่การพูดถึง",
+    "メンション",
+    "メンションを挿入",
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
-    "ส่งข้อความ (@",
-    "ส่งข้อความ (#",
+    "メッセージ送信 (@",
+    "メッセージ送信 (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "ต้องมีการเชื่อมต่อ gateway",
+    "アクティブなGateway接続が必要です",
 
     // Title text for "copy message content" screen.
-    "คัดลอกข้อความ",
+    "メッセージをコピー",
 
     // Title text for "edit message content" screen.
-    "แก้ไขข้อความ",
+    "メッセージを編集",
 
     // Title text for gateway disconnect prompt screen.
-    "การเชื่อมต่อถูกตัด",
+    "接続が切断されました",
 
     // Main body text for gateway disconnect prompt screen.
-    "การเชื่อมต่อ gateway มีปัญหา ต้องการเชื่อมต่ออีกครั้งหรือไม่?",
+    "Gatewayエラー。再接続しますか？",
 
     // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
-    "ข้อความ",
+    "メッセージ",
 
     // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
-    "ตอบกลับไปยัง ",
+    "返信先: ",
 
     // Top label for the message entry box in the reply form.
-    "ข้อความของคุณ:",
+    "Ihre Nachricht:",
 
     // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
-    "พูดถึงผู้ส่ง",
+    "投稿者をメンション",
 
     // Title text for settings menu.
-    "การตั้งค่า",
+    "設定",
 
     // Settings screen heading for themes section.
-    "ธีม",
+    "テーマ",
 
     // Theme options.
-    "มืด",
-    "สว่าง",
-    "ดำ",
+    "ダーク",
+    "ライト",
+    "ブラック",
 
     // Settings screen heading for miscellaneous user interface related settings.
-    "หน้าตา",
+    "ユーザーインターフェース (UI)",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
+    // This is no longer used, so keep it as null.
     null,
 
     // Settings option for using 12-hour time format in timestamps.
-    "แสดงเวลาแบบ 12 ชั่วโมง",
+    "12時間制",
 
     // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-    "ใช้เมนูเลือกไฟล์ของเครื่อง",
+    "ネイティブファイル選択",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "เชื่อมต่อ gateway อีกครั้งโดยอัตโนมัติ",
+    "Gatewayに自動再接続",
 
     // Settings option for enabling icons in server and direct message lists.
-    "ไอคอนเซิร์ฟเวอร์/ข้อความส่วนตัว",
+    "サーバー/DMアイコン",
 
     // Settings option for enabling nickname role colors.
-    "สีของชื่อ",
+    "名前の色",
 
     // Settings screen heading for message author font size.
-    "ขนาดตัวอักษรผู้ส่ง",
+    "メッセージ送信者のフォントサイズ",
 
     // Font size options.
-    "เล็ก",
-    "กลาง",
-    "ใหญ่",
+    "小",
+    "中",
+    "大",
 
     // Settings screen heading for message content font size.
-    "ขนาดตัวอักษรข้อความ",
+    "メッセージ内容のフォントサイズ",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-    "จำนวนข้อความที่จะโหลด",
+    "読み込むメッセージ数",
 
     // Settings screen heading for selecting attachment file format.
-    "รูปแบบไฟล์แนบ",
+    "添付ファイル形式",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "ขนาดไฟล์แนบสูงสุด",
+    "最大添付サイズ (px)",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
-    "รูปร่างของรูปโปรไฟล์",
+    "アバターの形",
 
     // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
-    "สี่เหลี่ยม",
-    "วงกลม",
-    "วงกลม (ละเอียด)",
+    "四角",
+    "円形",
+    "円形 (HQ)",
 
     // Settings section for profile picture resolution.
-    "ความละเอียดของรูปโปรไฟล์",
+    "アバターの解像",
 
     // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
-    "เฉพาะอักษรย่อ",
+    "プレースホルダーのみ",
 
     // Resolution options. Used for profile picture resolution and menu icon resolution.
-    "ปิด",
-    "16 พิกเซล",
-    "32 พิกเซล",
+    "オフ",
+    "16 px",
+    "32 px",
 
     // Settings section for menu icon size.
-    "ขนาดไอคอนในเมนู",
+    "メニューアイコンのサイズ (px)",
 
     // Settings section for controlling the display of reply messages.
-    "แสดงการตอบกลับเป็น",
-
+    "返信の表示方法",
+    
     // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
-    "เฉพาะผู้รับ",
+    "受信者のみ",
 
     // Settings option to show replies with the whole recipient message.
-    "ข้อความฉบับเต็ม",
+    "完全なメッセージ",
 
     // Settings section for hotkey action management.
-    "ปุ่มลัด",
+    "ホットキー",
 
     // Settings option to use "default" hotkeys. When enabled, the J2ME game actions (ABCD) are used for hotkey actions, instead of user-defined key bindings. I named it "default" due to the lack of a better term for people who aren't familiar with J2ME development.
-    "ปุ่มลัดเริ่มต้น",
+    "標準ホットキー",
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
-    "ตั้งปุ่มลัด",
-    "เปลี่ยนปุ่มลัด",
+    "キーを割り当てる",
+    "ホットキーを再設定",
 
     // Generic softkey labels. Currently used in settings menu.
-    "บันทึก",
-    "บันทึก",
-    "ยกเลิก",
-    "ยกเลิก",
+    "保存",  
+    "保存",  
+    "キャンセル",  
+    "キャンセル",
 
     // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
-    "ต้องปิดแอพนี้ก่อนจึงจะเปิด URL นี้ได้",
+    "アプリを閉じてからURLを開いてください。",
 
     // Prefix of error message shown when an error occurs when trying to open an URL.
-    "ไม่สามารถเปิด URL นี้ได้ (",
+    "URLを開くことができませんでした（",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    ")\n\nลองคัดลอก URL นี้แล้วนำไปเปิดในบราวเซอร์แทน: ",
+    ")\n\nURL を手動でデバイスのブラウザにコピーして開いてください:",
 
     // Title text for URL list screen ('Open URL' option in channel view).
-    "เลือก URL",
+    "URL を選択",
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
-    "ใส่",
-    "ใส่",
+    "挿入",
+    "挿入",
 
     // Title for language selection screen.
-    "ภาษา",
+    "言語",
 
     // Settings section for language options.
-    "ภาษา",
+    "言語",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "ภาษา",
-    "เลือกภาษา",
+    "言語",
+    "言語を使用",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "โหมดเต็มจอ",
-    "เปิด/ปิดโหมดเต็มจอ",
+    "フルスクリーン",
+    "フルスクリーン切替",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "เปิด/ปิดโหมดเต็มจอ",
+    "フルスクリーン切替",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "โหมดเต็มจอ",
+    "フルスクリーンモード",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "แสดงการแจ้งเตือนสำหรับ",
+    "通知を表示する対象",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "ทุกข้อความ",
-    "การกล่าวถึง",
-    "ข้อความส่วนตัว",
+    "すべてのメッセージ",
+    "メンション",
+    "DM",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " ส่งข้อความส่วนตัวมา: \"",
-    " ส่งข้อความใน ",
+    " があなたにDMを送信しました: \"",
+    " がメッセージを送信しました ",
 
     // Title for notification alert windows
-    "ข้อความใหม่",
+    "新しいメッセージ",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "แจ้งเตือนด้วย:",
+    "通知方法:",
 
     // Options for the kinds of notification methods.
-    "หน้าต่างเตือน",
-    "เสียง",
+    "アラートウィンドウ",
+    "サウンド",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "โหลดช่องค้างไว้",
+    "サーバー/チャンネルのリストをメモリに保持",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "ไม่มีอะไรอยู่ในนี้",
+    "ここには何もありません。",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "ไม่สามารถเชื่อมต่อกับ gateway ได้ ต้องการลองอีกครั้งหรือไม่?",
+    "Gatewayに接続できませんでした。再試行しますか？",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "อัพโหลดการตอบกลับ",
-    "ตอบกลับพร้อมไฟล์",
+    "返信をアップロード",
+    "ファイル付きで返信",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "ไฟล์ที่แนบ",
+    "添付ファイル",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " ไฟล์แนบ)",
-    " ไฟล์แนบ)",
+    " 添付ファイル)",
+    " 添付ファイル)",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
-    "การแสดงผล",
-    "รูปภาพ",
-    "ทั่วไป",
-    "การแจ้งเตือน",
+    // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
+    "外観",
+    "画像",
+    "動作",
+    "通知",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "ปิด",
-    "เปิด",
+    "Off",
+    "On",
 
-    // Prefix for error message shown when an invalid value was entered into a textbox in the settings menu.
+    // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
     // The whole message is in the form of "Please enter a valid number between 1 and X"
     // where X is the maximum value for that setting.
-    "กรุณาใส่จำนวนที่ถูกต้องระหว่าง 1 ถึง ",
+    // In English, the suffix is not needed, so it's an empty string, "".
+    // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
+    "Please enter a valid number between 1 and ",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "ใช้ Pigler API",
+    "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "ข้อผิดพลาด Pigler API: ",
+    "Pigler API error: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "ไม่สามารถเรียกใช้ Pigler Notifications API ได้ กรุณาติดตั้ง Pigler API จากเว็บ nnp.nnchan.ru/pna หรือปิดใช้งานการแจ้งเตือนผ่าน Pigler ในเมนูการตั้งค่า",
+    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "แถบเลื่อน",
+    "Scroll bar",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "ซ่อน",
-    "แสดง",
+    "Hidden",
+    "Visible",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "เกี่ยวกับ",
+    "About",
 
     // Title text for about screen.
-    "เกี่ยวกับ",
+    "About",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "รุ่น ",
+    "Version ",
 
     // Heading shown in the about screen for developers.
-    "ผู้พัฒนา",
+    "Developers",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "ผู้แปล",
+    "翻訳者",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "กลุ่มแชทช่วยเหลือ",
+    "サポート",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "ผู้พัฒนาหลัก",
-    "ระบบโหลดไฟล์ การเชื่อม Pigler API และตัวแจงส่วน JSON",
-    "ออกแบบแอนิเมชันหน้าจอโหลด ไอคอนในเมนู อิโมจิ และแปลภาษาอิตาลี",
+    "主任開発者",
+    "添付ファイルの読み込み、Pigler API統合、JSONパーサー",
+    "ロードアニメーション、メニューアイコン、イタリア語翻訳",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "ภาษาเวียดนาม",
-    "ภาษาสวีเดน",
-    "ภาษาอินโดนีเซีย",
-    "ภาษาโปแลนด์",
-    "ภาษาสเปน",
-    "ภาษาโปรตุเกส (บราซิล)",
-    "ภาษาไทย",
-    "ภาษาโปรตุเกส",
-    "ภาษาจีนตัวเต็มและจีนกวางตุ้ง",
-    "ภาษายูเครน",
-    "ภาษาโรมาเนีย",
-    "ภาษาตุรกี",
-    "ภาษารัสเซีย",
+    "ベトナム語",
+    "スウェーデン語",
+    "インドネシア語",
+    "ポーランド語",
+    "スペイン語",
+    "ポルトガル語（ブラジル",
+    "タイ語",
+    "ポルトガル語",
+    "中国語（繁体字) / 広東語",
+    "ウクライナ語",
+    "ルーマニア語",
+    "トルコ語",
+    "ロシア語",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "ดู",
-    "ดู",
+    "表示",
+    "表示",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "อัพเดทอัตโนมัติ",
+    "自動更新",
 
     // Title for dialog box shown when an update was found.
-    "มีอัพเดทใหม่",
+    "アップデートが利用可能",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "มี Discord J2ME รุ่นใหม่พร้อมให้ใช้งานแล้ว ต้องการอัพเดทหรือไม่?\nรุ่นปัจจุบัน: ",
-    "\nรุ่นล่าสุด: ",
+    "Discord J2ME の新しいバージョンが利用可能です。更新しますか？\n現在のバージョン: ",
+    "\n最新バージョン: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "อัพเดท",
-    "อัพเดท",
+    "更新",
+    "更新",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "รุ่นเสถียรเท่านั้น",
-    "ทุกรุ่น",
+    "安定版のみ",
+    "すべてのバージョン",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "ภาษาเยอรมัน",
-    "ภาษาโครเอเชีย",
+    "ドイツ語",
+    "ロアチア語",
 
     // Units for attachment sizes.
-    " ไบต์",
+    " バイ",
     " kB",
     " MB",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "กระทู้",
-    "ดูกระทู้",
+    "スレッド",
+    "スレッドを表示",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "ใส่",
-    "ใส่ token",
+    "挿入",
+    "トークンを挿入",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "เปลี่ยน",
-    "เปลี่ยน token",
+    "変更",
+    "トークンを変更",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "ใช้ Nokia UI",
+    "Nokia UI",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "แจ้งเตือนผ่าน Android โดยตรง",
+    "Android 通知",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "ใหม่",
+    "新着",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "อัพโหลดภาพนี้หรือไม่?",
+    "この画像をアップロードしますか？",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "แสดงตัวอย่างภาพเมื่อเลือกไฟล์",
+    "ファイル選択時のプレビュー",
 
     // Header shown at the top of every forwarded message.
-    "ข้อความส่งต่อ:",
+    "転送されたメッセージ:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "กดปุ่ม BlackBerry เพื่อใส่ token",
-    "กดปุ่ม BlackBerry เพื่อเปลี่ยน token",
+    "Tokenを挿入するには、BlackBerryキーを押してください。",
+    "Tokenを変更するには、BlackBerryキーを押してください。",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "หน่วยความจำไม่เพียงพอที่จะแสดงตัวอย่างภาพ",
+    "画像プレビューのためのRAMが不足しています。",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "แสดงอิโมจิ",
+    "絵文字を表示",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "เฉพาะอิโมจิปกติ",
+    "標準のみ",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "ทั้งหมด",
+    "すべて",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "นำเข้า",
-    "นำเข้า token",
+    "挿入",
+    "Tokenを挿入",
 
     // Title text for the token import file picker screen.
-    "เลือกไฟล์ token",
+    "Tokenファイルを選択",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "กำลังดาวน์โหลดอิโมจิ...",
+    "絵文字をダウンロード中...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "ภาษาฝรั่งเศส",
-    "ภาษาบัลแกเรีย",
+    "フランス語",
+    "ブルガリア語",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "การจัดรูปแบบข้อความ",
+    "テキストフォーマット",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "อิโมจิ",
-    "ใส่อิโมจิ",
+    "絵文字",
+    "絵文字を挿入",
 
     // Title for emoji picker screen.
-    "เลือกอิโมจิ",
+    "絵文字を選択",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "ดาวน์โหลดข้อมูลอิโมจิหรือไม่?",
+    "絵文字データをダウンロードしますか？",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(ถูกแก้ไข)",
+    "(編集済み)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "ขีดล่าง",
-    "ใส่ขีดล่าง",
+    "アンダースコア",
+    "アンダースコアを挿入",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "เสียงการแจ้งเตือน",
+    "通知音",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "バイブレーション",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "ミュート",
+    "音量オン/ミュート",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "scrolling to top",
-    "scrolling to bottom",
+    "上にスクロール",
+    "下にスクロール",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    "入力中の表示を送信",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "として使用",
+    "通知音として使用",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "この音を通知音として適用しますか？",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "再生",
+    "もう一度再生",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "通知音が設定されました！",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "データ管理",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "絵文字画像",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "最後に読んだメッセージ",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "通知音",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "言語データ",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "削除",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "この項目を削除しますか？\\いいえ",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "ブラウザを開く",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "Webブラウザを開きますか？アプリは閉じられます。",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
     "Fast scrolling",

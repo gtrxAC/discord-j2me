@@ -358,4 +358,5 @@ public interface Strings {
     static final int FAST_SCROLLING = 337;
     static final int PLAY_SOUND_FAILED = 338;
     // endif
+    static final int TRANSLATOR_JA = 339;
 }

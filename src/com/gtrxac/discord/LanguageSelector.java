@@ -18,6 +18,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         "Hrvatski",
         "Bahasa Indonesia", // id
         "Italiano",     // it (Italian)
+        "日本語",  // ja (Japanese)
         "Bahasa Melayu",
         "Polski",       // pl (Polish)
         "Português",
@@ -40,7 +41,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
 
         Image[] flags = {
             App.ic.flagBG, App.ic.flagDE, App.ic.flagGB, App.ic.flagUS, App.ic.flagES, App.ic.flagFI, App.ic.flagFR, App.ic.flagHR, App.ic.flagID,
-            App.ic.flagIT, App.ic.flagMY, App.ic.flagPL, App.ic.flagPT, App.ic.flagBR, App.ic.flagRO,
+            App.ic.flagIT, App.ic.flagJP, App.ic.flagMY, App.ic.flagPL, App.ic.flagPT, App.ic.flagBR, App.ic.flagRO,
             App.ic.flagRU, App.ic.flagSV, App.ic.flagTH, App.ic.flagTR,
             App.ic.flagUK, App.ic.flagVI, App.ic.flagTW, App.ic.flagHK
         };

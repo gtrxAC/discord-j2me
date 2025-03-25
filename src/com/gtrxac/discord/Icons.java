@@ -89,6 +89,7 @@ public class Icons {
     Image flagHR;
     Image flagBG;
     Image flagMY;
+    Image flagJP;
 
     Icons() {
         if (Settings.menuIconSize == 0) return;
