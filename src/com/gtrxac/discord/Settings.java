@@ -289,13 +289,7 @@ public class Settings {
         // ifdef OVER_100KB
         KeyRepeatThread.toggle(
         // endif
-            getBoolRecord(
-                // ifdef MIDP2_GENERIC
-                !Util.isSymbian93
-                // else
-                true
-                // endif
-            )
+            getBoolRecord(false)
         // ifdef OVER_100KB
         )
         // endif
