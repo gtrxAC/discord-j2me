@@ -584,8 +584,8 @@
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "オフ",
+    "オン",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -593,40 +593,40 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Please enter a valid number between 1 and ",
-    "",
+    " までの有効な数字を入力してください",
+    "1から",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "Pigler APIエラー: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+    "Pigler Notifications APIはサポートされていません。nnp.nnchan.ru/pnaからPigler APIをインストールするか、設定でPigler通知を無効にしてください。",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "スクロールバー",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "非表示",
+    "表示",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "アプリについて",
 
     // Title text for about screen.
-    "About",
+    "バージョン",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "バージョン ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "開発者",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
     "翻訳者",
@@ -828,10 +828,10 @@
     "Webブラウザを開きますか？アプリは閉じられます。",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "高速スクロール",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "サウンドの再生に失敗しました。ファイル形式がサポートされていない可能性があります。",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Japanese"
