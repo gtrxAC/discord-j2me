@@ -828,11 +828,11 @@
     "Buka pelayar web? Aplk ini akan ditutup.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "Menatal pantas",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "Gagal memainkan bunyi. Fail mungkin tidak disokong.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese"
+    "Bahasa Jepun"
 ]
