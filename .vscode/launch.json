@@ -1,0 +1,80 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Discord J2ME for MIDP2",
+            "presentation": {
+                "hidden": false,
+                "group": "Discord J2ME",
+                "order": 1
+            },
+            "request": "launch",
+            // We use pre-launch tasks to run the shell scripts
+            "preLaunchTask": "Run Discord J2ME for MIDP2",
+            // Spawning a node terminal and exiting it immediately will make the debugger to stop listening 
+            // and leave us with a pane open from the pre-launch task
+            "type": "node-terminal",
+            "command": "exit",
+        },
+        {
+            "name": "Run Discord J2ME for MIDP2-alt",
+            "presentation": {
+                "hidden": false,
+                "group": "Discord J2ME",
+                "order": 2
+            },
+            "request": "launch",
+            "preLaunchTask": "Run Discord J2ME for MIDP2-alt",
+            "type": "node-terminal",
+            "command": "exit"
+        },
+        {
+            "name": "Run Discord J2ME BalckBerry",
+            "presentation": {
+                "hidden": false,
+                "group": "Discord J2ME",
+                "order": 3
+            },
+            "request": "launch",
+            "preLaunchTask": "Run Discord J2ME for BlackBerry",
+            "type": "node-terminal",
+            "command": "exit"
+        },
+        {
+            "name": "Run Discord J2ME for J2ME Loader",
+            "presentation": {
+                "hidden": false,
+                "group": "Discord J2ME",
+                "order": 4
+            },
+            "request": "launch",
+            "preLaunchTask": "Run Discord J2ME for J2ME Loader",
+            "type": "node-terminal",
+            "command": "exit"
+        },
+        {
+            "name": "Run Discord J2ME for LG",
+            "presentation": {
+                "hidden": false,
+                "group": "Discord J2ME",
+                "order": 5
+            },
+            "request": "launch",
+            "preLaunchTask": "Run Discord J2ME for LG",
+            "type": "node-terminal",
+            "command": "exit"
+        },
+        {
+            "name": "Run Discord J2ME for Samsung",
+            "presentation": {
+                "hidden": false,
+                "group": "Discord J2ME",
+                "order": 6
+            },
+            "request": "launch",
+            "preLaunchTask": "Run Discord J2ME for Samsung",
+            "type": "node-terminal",
+            "command": "exit"
+        }
+    ]
+}
