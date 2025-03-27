@@ -13,7 +13,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         "Deutsch",
         "English (UK)",      // en
         "English (US)",
-        "Español",
+        "Castellano",
         "Suomi",        // fi (Finnish)
         "Français",
         "Hrvatski",
