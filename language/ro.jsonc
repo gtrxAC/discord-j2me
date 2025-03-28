@@ -834,5 +834,6 @@
     "Failed to play sound. The file type may be unsupported.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese"
+    "Japanese",
+    "Catalană"
 ]

@@ -834,5 +834,6 @@
     "サウンドの再生に失敗しました。ファイル形式がサポートされていない可能性があります。",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese"
+    "Japanese",
+    "カタロニア語",
 ]

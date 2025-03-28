@@ -8,7 +8,7 @@ import cc.nnproject.json.*;
 
 public class Locale {
     public static final String[] langIds = {
-        "bg", "de", "en", "en-US", "es", "fi", "fr", "hr", "id", "it", "ja", "ms", "pl", "pt", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW", "yue"
+        "bg", "ca", "de", "en", "en-US", "es", "fi", "fr", "hr", "id", "it", "ja", "ms", "pl", "pt", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW", "yue"
     };
 
     private static Vector strs;
