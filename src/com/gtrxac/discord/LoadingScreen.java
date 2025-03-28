@@ -97,9 +97,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     }
 
     protected void paint(Graphics g) {
-        // Fill background with selected theme's background color
-        g.setColor(ChannelView.backgroundColors[Settings.theme]);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        clearScreen(g, Theme.loadingScreenBackgroundColor);
 
         // Draw current animation frame
         if (frames[curFrame] != null) {
@@ -111,7 +109,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
                 Graphics.HCENTER | Graphics.TOP
             );
 
-            g.setColor(ChannelView.timestampColors[Settings.theme]);
+            g.setColor(Theme.loadingScreenTextColor);
             g.setFont(App.messageFont);
             g.drawString(
                 text, getWidth()/2, getHeight()/2 + halfContainerHeight,

@@ -55,16 +55,10 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
     }
 
     protected void paint(Graphics g) {
-        // BlackBerry fix
-        // ifdef BLACKBERRY
-        g.setClip(0, 0, width, height);
-        // endif
-
-        g.setColor(ChannelView.backgroundColors[Settings.theme]);
-        g.fillRect(0, 0, width, height);
+        clearScreen(g, Theme.imagePreviewBackgroundColor);
 
         g.setFont(App.messageFont);
-        g.setColor(ChannelView.messageColors[Settings.theme]);
+        g.setColor(Theme.imagePreviewTextColor);
         g.drawString(Locale.get(IMAGE_PREVIEW_PROMPT), width/2, fontHeight/4, Graphics.TOP | Graphics.HCENTER);
 
         g.drawImage(img, width/2, (height - fontHeight*3/2)/2 + fontHeight*3/2, Graphics.HCENTER | Graphics.VCENTER);

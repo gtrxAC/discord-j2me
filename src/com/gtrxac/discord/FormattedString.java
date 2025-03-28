@@ -36,8 +36,7 @@ public class FormattedString implements Strings {
 
         if (useMarkdown) {
             if (isForwarded) {
-                int gray = ChannelView.timestampColors[Settings.theme];
-                tempParts.insertElementAt(new FormattedStringPartRichTextColor(Locale.get(FORWARDED_MESSAGE), font, 0, gray), 0);
+                tempParts.insertElementAt(createEditedOrForwardedPart(FORWARDED_MESSAGE, font, Theme.forwardedTextColor), 0);
                 if (!isEmpty || isEdited) {
                     tempParts.insertElementAt(FormattedStringParser.NEWLINE, 1);
                 }
@@ -48,8 +47,7 @@ public class FormattedString implements Strings {
                     tempParts.addElement(new FormattedStringPartText(" ", font));
                 }
                 editedFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
-                int gray = ChannelView.timestampColors[Settings.theme];
-                tempParts.addElement(new FormattedStringPartRichTextColor(Locale.get(EDITED_MESSAGE), editedFont, 0, gray));
+                tempParts.addElement(createEditedOrForwardedPart(EDITED_MESSAGE, editedFont, Theme.editedTextColor));
             }
         }
 
@@ -67,6 +65,12 @@ public class FormattedString implements Strings {
         
         parts = new FormattedStringPart[tempParts.size()];
         tempParts.copyInto(parts);
+    }
+
+    private static FormattedStringPartText createEditedOrForwardedPart(int stringKey, Font font, int color) {
+        return (Settings.theme != Theme.SYSTEM) ?
+            new FormattedStringPartRichTextColor(Locale.get(stringKey), font, 0, color) :
+            new FormattedStringPartText(Locale.get(stringKey), font);
     }
 
     private static void breakParts(Vector parts, Font font, int width) {

@@ -11,7 +11,7 @@ public class FormattedStringPartMonospace extends FormattedStringPartRichText {
 
     public void draw(Graphics g, int yOffset) {
         int lastColor = g.getColor();
-        g.setColor(ChannelView.darkBgColors[Settings.theme]);
+        g.setColor(Theme.monospaceTextBackgroundColor);
         g.fillRect(x, y + yOffset, getWidth(), font.getHeight());
         g.setColor(lastColor);
 

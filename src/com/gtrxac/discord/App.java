@@ -97,7 +97,7 @@ public class App implements Strings {
 		guilds = null;
 		dmChannels = null;
 
-		loadTheme();
+		Theme.load();
         loadFonts();
         disp.setCurrent(MainMenu.get(true));
 
@@ -148,20 +148,6 @@ public class App implements Strings {
 		// ifdef OVER_100KB
 		FormattedStringPartEmoji.loadEmoji(messageFont.getHeight());
 		// endif
-	}
-
-	public static void loadTheme() {
-		//                               Dark      Light     Black
-		final int[] listBgColors      = {0x2b2d31, 0xffffff, 0x000000};
-		final int[] listTextColors    = {0xdddddd, 0x222222, 0xdddddd};
-		final int[] listSelTextColors = {0xffffff, 0x000000, 0xffffff};
-		final int[] listHlColors      = {0x404249, 0xbbbbbb, 0x333333};
-
-		ListScreen.backgroundColor = listBgColors[Settings.theme];
-		ListScreen.textColor = listTextColors[Settings.theme];
-		ListScreen.selectedTextColor = listSelTextColors[Settings.theme];
-		ListScreen.highlightColor = listHlColors[Settings.theme];
-		ListScreen.noItemsColor = ChannelView.timestampColors[Settings.theme];
 	}
 
 	// Required for Wi-Fi support on BlackBerry

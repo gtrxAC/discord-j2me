@@ -53,7 +53,7 @@ public class FormattedStringParser {
         String substr = src.substring(partBeginPos, pos);
         if (substr.length() != 0) {
             Object newPart;
-            if (isMonospaceMode) {
+            if (isMonospaceMode && Settings.theme != Theme.SYSTEM) {
                 newPart = new FormattedStringPartMonospace(substr, font);
             }
             else if (curAsteriskCount > 0 || curUnderscoreCount > 0 || curColor != 0 || isHeadingMode) {
@@ -260,8 +260,8 @@ public class FormattedStringParser {
                                 curUnderscoreCount = 0;
                                 continue;
                             }
-                            // blue color text for URLs
-                            else if (curr == 'h') {
+                            // blue color text for URLs (not in system theme)
+                            else if (curr == 'h' && Settings.theme != Theme.SYSTEM) {
                                 if (!src.substring(pos).startsWith("http")) break specialChecks;
         
                                 int checkPos = pos + 4;
@@ -270,7 +270,7 @@ public class FormattedStringParser {
                                 checkPos += 2;
         
                                 addPreviousPart();
-                                curColor = 0x00aafc;
+                                curColor = Theme.linkColor;
                                 try {
                                     while (URL_END_CHARS.indexOf(chars[++checkPos]) == -1) {}
                                 }
@@ -306,8 +306,8 @@ public class FormattedStringParser {
                                 isHeadingMode = true;
                                 continue;
                             }
-                            // subtext (small headings)
-                            else if (curr == '-') {
+                            // subtext (small headings) (not in system theme)
+                            else if (curr == '-' && Settings.theme != Theme.SYSTEM) {
                                 // must be at the start of a line
                                 if (pos != partBeginPos) break specialChecks;
                                 if (pos != 0 && chars[pos - 1] != '\n') break specialChecks;
@@ -319,7 +319,7 @@ public class FormattedStringParser {
                                 
                                 pos = checkPos + 1;
                                 partBeginPos = pos;
-                                curColor = ChannelView.timestampColors[Settings.theme];
+                                curColor = Theme.subtextColor;
                                 continue;
                             }
                         }

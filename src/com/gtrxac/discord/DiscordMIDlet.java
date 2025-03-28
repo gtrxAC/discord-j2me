@@ -20,7 +20,7 @@ public class DiscordMIDlet extends MIDlet {
             // If token was not found in save file, go to login screen, else login and go to main menu
             if (Settings.token.trim().length() == 0) {
                 // Theme and fonts need to be loaded so Dialog screens can be shown as part of the LoginForm
-                App.loadTheme();
+                Theme.load();
                 App.loadFonts();
                 App.disp.setCurrent(new LoginForm());
             } else {

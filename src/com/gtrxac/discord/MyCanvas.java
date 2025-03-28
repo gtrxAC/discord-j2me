@@ -62,4 +62,28 @@ public abstract class MyCanvas extends Canvas {
         // endif
         keyAction(key);
     }
+
+    // ifdef NOKIA_THEME_BACKGROUND
+    private boolean fullscreen = false;
+
+    public void setFullScreenMode(boolean mode) {
+        fullscreen = mode;
+        super.setFullScreenMode(mode);
+    }
+    // endif
+
+    protected void clearScreen(Graphics g, int color) {
+        // On BlackBerry, the clip is set by default to (0, -y, width, height+y), where y is the height of the title bar. This means that apps can draw stuff over the title bar. We don't want to do that.
+        // ifdef BLACKBERRY
+        g.setClip(0, 0, getWidth(), getHeight());
+        // endif
+
+        // ifdef NOKIA_THEME_BACKGROUND
+        if (Settings.theme != Theme.SYSTEM || fullscreen)
+        // endif
+        {
+            g.setColor(color);
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+    }
 }

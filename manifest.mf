@@ -13,6 +13,9 @@ Nokia-MIDlet-S60-Selection-Key-Compatibility: true
 Nokia-MIDlet-On-Screen-Keypad: no
 Nokia-MIDlet-Category: Application
 // endif
+// ifdef NOKIA_THEME_BACKGROUND
+Nokia-UI-Enhancement: CanvasHasBackground
+// endif
 // ifdef SAMSUNG
 MIDlet-Touch-Support: true
 MIDlet-ScreenMode: ROTATE

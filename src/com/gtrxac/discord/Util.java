@@ -383,6 +383,56 @@ public class Util {
 		return res;
 	}
 
+	/**
+	 * Split RGB color to its components.
+	 * @param color RGB color value
+	 * @return An array of three integers where the first is the red value of the given color, second green, and third blue.
+	 */
+	public static int[] splitRGB(int color) {
+		return new int[] {
+			(color & 0x00FF0000) >> 16,
+			(color & 0x0000FF00) >> 8,
+			(color & 0x000000FF)
+		};
+	}
+
+    public static int contrast(int color, int compare) {
+		int[] colorSplit = splitRGB(color);
+		int[] compareSplit = splitRGB(compare);
+
+		return
+			Math.abs(colorSplit[0] - compareSplit[0]) +
+			Math.abs(colorSplit[1] - compareSplit[1]) +
+			Math.abs(colorSplit[2] - compareSplit[2]);
+    }
+
+	/**
+	 * Get which of the colors (A or B) has a higher contrast against the 'compare' color. Alpha is disregarded.
+	 */
+    public static int higherContrast(int a, int b, int compare) {
+		if (contrast(b, compare) > contrast(a, compare)) return b;
+		return a;
+    }
+	
+	/**
+	 * Blend colors A and B. Alpha is disregarded.
+	 * @param a First RGB color value to be blended
+	 * @param b Second RGB color value to be blended
+	 * @param aRatio The ratio of A to B in increments of 10%, for example, with aRatio = 7, the resulting color will be a blend of 70% A and 30% B.
+	 * @return The blended RGB color value
+	 */
+    public static int blend(int a, int b, int aRatio) {
+		int[] as = splitRGB(a);
+		int[] bs = splitRGB(b);
+
+        int bRatio = 10 - aRatio;
+        int cR = (as[0]*aRatio/10 + bs[0]*bRatio/10) & 0xFF;
+        int cG = (as[1]*aRatio/10 + bs[1]*bRatio/10) & 0xFF;
+        int cB = (as[2]*aRatio/10 + bs[2]*bRatio/10) & 0xFF;
+
+        return (cR << 16) | (cG << 8) | cB;
+    }
+
 	// ifdef MIDP2_GENERIC
 	public static final boolean isKemulator;
 	public static final boolean isSymbian;

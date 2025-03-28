@@ -119,14 +119,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
     protected void paint(Graphics g) {
         checkScrollInRange();
 
-        // BlackBerry fix
-        // ifdef BLACKBERRY
-        g.setClip(0, 0, getWidth(), getHeight());
-        // endif
-
-        // Clear screen
-        g.setColor(ChannelView.backgroundColors[Settings.theme]);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        clearScreen(g, Theme.emojiPickerBackgroundColor);
 
         int x = 0;
         int y = 0;

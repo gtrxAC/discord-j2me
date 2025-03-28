@@ -83,7 +83,7 @@ public class Dialog extends MyCanvas implements CommandListener {
 
     protected void paint(Graphics g) {
         g.setClip(0, 0, super.getWidth(), getHeight());
-        int themeBg = ListScreen.backgroundColor;
+        int themeBg = Theme.dialogBackgroundColor;
 
         // Get the screen that should be drawn behind this one
         // If this Dialog is stacked above another Dialog, get the last non-Dialog screen
@@ -98,8 +98,13 @@ public class Dialog extends MyCanvas implements CommandListener {
             // When changing screen size, the _paint() method will keep using the old width/height.
             // There may be a proper fix for this, but for now, we just fill the background with the theme
             // background color (so at least there isn't a white background)
-            g.setColor(themeBg);
-            g.fillRect(0, 0, super.getWidth(), getHeight());
+            // ifdef NOKIA_THEME_BACKGROUND
+            if (Settings.theme != Theme.SYSTEM)
+            // endif
+            {
+                g.setColor(themeBg);
+                g.fillRect(0, 0, super.getWidth(), getHeight());
+            }
 
             try {
                 ((MyCanvas) behindScreen)._paint(g);
@@ -141,7 +146,7 @@ public class Dialog extends MyCanvas implements CommandListener {
         );
 
         g.setFont(ListScreen.font);
-        g.setColor(ListScreen.textColor);
+        g.setColor(Theme.dialogTextColor);
         for (int i = 0; i < textLines.length; i++) {
             g.drawString(textLines[i], baseX + fontHeight, y, Graphics.TOP | Graphics.LEFT);
             y += fontHeight;

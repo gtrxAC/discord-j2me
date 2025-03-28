@@ -48,20 +48,13 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
     }
     
     protected void paint(Graphics g) {
-        // BlackBerry fix
-        // ifdef BLACKBERRY
-        g.setClip(0, 0, getWidth(), getHeight());
-        // endif
-
-        // Clear screen
-        g.setColor(ChannelView.backgroundColors[Settings.theme]);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        clearScreen(g, Theme.keyMapperBackgroundColor);
 
         String prompt = Locale.get(KEY_MAPPER_PROMPT) + "\n" + hotkeyStrings[curHotkey];
         String[] promptLines = Util.wordWrap(prompt, getWidth(), App.messageFont);
         
         g.setFont(App.messageFont);
-        g.setColor(ChannelView.messageColors[Settings.theme]);
+        g.setColor(Theme.keyMapperTextColor);
 
         int y = (getHeight() - fontHeight*promptLines.length)/2;
         

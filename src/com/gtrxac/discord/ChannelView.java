@@ -47,15 +47,6 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     boolean reqUpdateGateway;
     boolean reqUpdateGatewayNewMsg;
 
-    //                                     Dark      Light     Black
-    static final int[] backgroundColors = {0x313338, 0xFFFFFF, 0x000000};
-    static final int[] highlightColors2 = {0x2b2d31, 0xEEEEEE, 0x202020};
-    static final int[] highlightColors =  {0x232428, 0xDDDDDD, 0x303030};
-    static final int[] darkBgColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
-    static final int[] refMessageColors = {0xDDDDDD, 0x333333, 0xCCCCCC};
-    static final int[] messageColors =    {0xFFFFFF, 0x111111, 0xEEEEEE};
-    static final int[] authorColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
-    static final int[] timestampColors =  {0xAAAAAA, 0x666666, 0x999999};
 
     public ChannelView() throws Exception {
         super();
@@ -506,11 +497,6 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             requestedUpdate = false;
         }
 
-        // BlackBerry fix
-        // ifdef BLACKBERRY
-        g.setClip(0, 0, width, height);
-        // endif
-
         if (items.size() > 0) {
             makeSelectedItemVisible();
 
@@ -519,11 +505,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
         g.setFont(App.messageFont);
-        g.setColor(backgroundColors[Settings.theme]);
-        g.fillRect(0, 0, width, height);
+        clearScreen(g, Theme.channelViewBackgroundColor);
 
         if (items.size() == 0) {
-            g.setColor(timestampColors[Settings.theme]);
+            g.setColor(Theme.channelViewEmptyTextColor);
             g.drawString(
                 Locale.get(CHANNEL_VIEW_EMPTY), width/2, height/2 - fontHeight/2,
                 Graphics.HCENTER | Graphics.TOP
@@ -547,10 +532,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (bannerText != null) {
             g.setFont(App.messageFont);
             String[] lines = Util.wordWrap(bannerText, width, App.messageFont);
-            g.setColor(0x005865f2);
+            g.setColor(Theme.bannerBackgroundColor);
             g.fillRect(0, 0, width, fontHeight*lines.length + fontHeight/4);
 
-            g.setColor(0x00FFFFFF);
+            g.setColor(Theme.bannerTextColor);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
                     lines[i], width/2, i*fontHeight + fontHeight/8,
@@ -563,10 +548,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (outdated) {
             g.setFont(App.messageFont);
             String[] lines = Util.wordWrap(Locale.get(CHANNEL_VIEW_OUTDATED), width, App.messageFont);
-            g.setColor(0x00AA1122);
+            g.setColor(Theme.outdatedBannerBackgroundColor);
             g.fillRect(0, bannerY, width, fontHeight*lines.length + fontHeight/4);
 
-            g.setColor(0x00FFFFFF);
+            g.setColor(Theme.outdatedBannerTextColor);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
                     lines[i], width/2, bannerY + i*fontHeight + fontHeight/8,
@@ -581,10 +566,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
             g.setFont(App.messageFont);
             String[] lines = Util.wordWrap(typingStr, width, App.messageFont);
-            g.setColor(darkBgColors[Settings.theme]);
+            g.setColor(Theme.typingBannerBackgroundColor);
             g.fillRect(0, bannerY, width, fontHeight*lines.length + fontHeight/4);
 
-            g.setColor(authorColors[Settings.theme]);
+            g.setColor(Theme.typingBannerTextColor);
             for (int i = 0; i < lines.length; i++) {
                 g.drawString(
                     lines[i], width/2, bannerY + i*fontHeight + fontHeight/8,

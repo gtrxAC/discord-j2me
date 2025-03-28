@@ -53,12 +53,6 @@ public class ListScreen extends KineticScrollingCanvas {
     private static int iconSize;
     private static int iconMargin;
 
-    public static int backgroundColor;
-    public static int textColor;
-    public static int selectedTextColor;
-    public static int highlightColor;
-    public static int noItemsColor;
-
     public static String selectLabel;
     public static String selectLabelLong;
     public static String backLabel;
@@ -103,7 +97,8 @@ public class ListScreen extends KineticScrollingCanvas {
                 if (circleBufY < 0 || circleBufY >= fontHeight/4*2) continue;
 
                 indicatorImageData[y*(fontHeight/4) + x] =
-                    (0xFF000000 | selectedTextColor) & IconResizeThread.getCircleBufAlpha(indicatorCircleBuf, fontHeight/4*2, circleBufX, circleBufY);
+                    (0xFF000000 | Theme.listIndicatorColor) &
+                    IconResizeThread.getCircleBufAlpha(indicatorCircleBuf, fontHeight/4*2, circleBufX, circleBufY);
             }
         }
 
@@ -333,18 +328,11 @@ public class ListScreen extends KineticScrollingCanvas {
             lastWidth = getWidth();
         }
 
-        // BlackBerry fix
-        // ifdef BLACKBERRY
-        g.setClip(0, 0, getWidth(), getHeight());
-        // endif
-
-        // Clear screen
-        g.setColor(backgroundColor);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        clearScreen(g, Theme.listBackgroundColor);
         g.setFont(font);
 
         if (items.size() == 0) {
-            g.setColor(noItemsColor);
+            g.setColor(Theme.listNoItemsTextColor);
             g.drawString(
                 noItemsString, getWidth()/2, getHeight()/2 - fontHeight/2,
                 Graphics.HCENTER | Graphics.TOP
@@ -371,7 +359,7 @@ public class ListScreen extends KineticScrollingCanvas {
 
             y += margin;
             if (thisSelected) {
-                g.setColor(highlightColor);
+                g.setColor(Theme.listSelectedBackgroundColor);
                 g.fillRoundRect(
                     baseX + fontHeight/4,
                     y,
@@ -400,11 +388,11 @@ public class ListScreen extends KineticScrollingCanvas {
 
             // ifdef OVER_100KB
             if (indicator == INDICATOR_MUTED) {
-                g.setColor(0x888888);
+                g.setColor(thisSelected ? Theme.listSelectedMutedTextColor : Theme.listMutedTextColor);
             } else
             // endif
             {
-                g.setColor(thisSelected ? selectedTextColor : textColor);
+                g.setColor(thisSelected ? Theme.listSelectedTextColor : Theme.listTextColor);
             }
             g.drawString(item, textX, y + textOffsetY, Graphics.TOP | Graphics.LEFT);
 
@@ -412,7 +400,7 @@ public class ListScreen extends KineticScrollingCanvas {
                 String rightItem = (String) rightItems.elementAt(i);
 
                 if (rightItem != null) {
-                    g.setColor(noItemsColor);
+                    g.setColor(thisSelected ? Theme.listSelectedDescriptionTextColor : Theme.listDescriptionTextColor);
 
                     if (separateRightItems) {
                         // Right items are separate: draw right item left-aligned one row below

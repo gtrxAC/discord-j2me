@@ -20,28 +20,37 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     public int[][] values;
 
     private static final int[][] maxValues = {
-        { 2, 2, 2, 1, 1, 1, 1,
-        // ifdef OVER_100KB
-        1
-        // endif
+        {
+            // ifdef OVER_100KB
+            3,
+            // else
+            2,
+            // endif            
+            2, 2, 1, 1, 1, 1,
+            // ifdef OVER_100KB
+            1,
+            // endif
         },
-        { 1, 10000, 3, 2, 255, 1,
-        // ifdef OVER_100KB    
-        1, 2
-        // endif
+        {
+            1, 10000, 3, 2, 255, 1,
+            // ifdef OVER_100KB    
+            1, 2,
+            // endif
         },
-        {100, 1, 1, 1, 1, 1, 2, 2,
-        // ifdef OVER_100KB
-        1, 1
-        // endif
+        {
+            100, 1, 1, 1, 1, 1, 2, 2,
+            // ifdef OVER_100KB
+            1, 1,
+            // endif
         },
-        { 1, 1, 1, 1, 1, 1,
-        // ifdef PIGLER_SUPPORT
-        1,
-        // endif
-        // ifdef NOKIA_UI_SUPPORT
-        1,
-        // endif
+        {
+            1, 1, 1, 1, 1, 1,
+            // ifdef PIGLER_SUPPORT
+            1,
+            // endif
+            // ifdef NOKIA_UI_SUPPORT
+            1,
+            // endif
         },
     };
 
@@ -131,7 +140,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         icons = new Image[][][] {
             {
                 // Appearance
-                { App.ic.themeDark, App.ic.themeLight, App.ic.themeBlack },
+                {
+                    App.ic.themeDark, App.ic.themeLight, App.ic.themeBlack,
+                    // ifdef OVER_100KB
+                    null 
+                    // endif
+                },
                 { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
                 { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
                 { App.ic.repliesName, App.ic.repliesFull },
@@ -192,7 +206,13 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         valueLabels = new String[][][] {
             {
                 // Appearance
-                { Locale.get(THEME_DARK), Locale.get(THEME_LIGHT), Locale.get(THEME_BLACK) },
+                {
+                    Locale.get(THEME_DARK), Locale.get(THEME_LIGHT), Locale.get(THEME_BLACK),
+                    // ifdef OVER_100KB
+                    // Locale.get(THEME_SYSTEM)
+                    "System"
+                    // endif
+                },
                 { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
                 { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
                 { Locale.get(REPLIES_ONLY_RECIPIENT), Locale.get(REPLIES_FULL_MESSAGE) },
@@ -573,7 +593,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 if (App.gatewayActive()) App.gateway.checkInitPigler();
                 // endif
                 Settings.save();
-                App.loadTheme();
+                Theme.load();
                 App.loadFonts();
             }
             App.disp.setCurrent(MainMenu.get(true));
