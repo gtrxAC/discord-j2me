@@ -73,6 +73,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("Alex222", TRANSLATOR_SV);
         addDeveloper("Calsain", TRANSLATOR_ID);
         addDeveloper("cappuchi", TRANSLATOR_PL);
+        addDeveloper("Dragan232", TRANSLATOR_CA);
         addDeveloper("ElHamexd\nAlexisBlade2001", TRANSLATOR_ES);
         addDeveloper("Kaiky Alexandre Souza", TRANSLATOR_PTBR);
         addDeveloper("Lennard_105", TRANSLATOR_DE);
@@ -86,7 +87,6 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("SpazJR61\nviolent body", TRANSLATOR_TR);
         addDeveloper("SpiroWalkman\nmultiplemegapixels", TRANSLATOR_RU);
         addDeveloper("tsukihimeri6969", TRANSLATOR_JA);
-        addDeveloper("Dragan232", TRANSLATOR_CA);
         
         addString(Locale.get(ABOUT_SUPPORT), Font.SIZE_MEDIUM, LAYOUT_CENTER);
         addSpacer();
