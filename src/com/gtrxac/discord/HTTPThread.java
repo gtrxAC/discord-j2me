@@ -28,6 +28,7 @@ public class HTTPThread extends Thread implements Strings {
     // ifdef OVER_100KB
     static final int FETCH_EMOJIS = 14;
     static final int VIEW_ATTACHMENT_AUDIO = 15;
+    static final int SET_THEME = 16;
     // endif
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
@@ -485,6 +486,19 @@ public class HTTPThread extends Thread implements Strings {
                                 showButton.setItemCommandListener(App.attachmentView);
                                 App.attachmentView.append(showButton);
                             }
+
+                            // ifdef OVER_100KB
+                            if (attach.name.endsWith(".json")) {
+                                // Command showCommand = Locale.createCommand(label, Command.ITEM, i + 200);
+                                // showButton = new StringItem(null, Locale.get(label + 1), Item.BUTTON);
+                                Command themeCommand = new Command("Use", Command.ITEM, i + 200);
+                                StringItem themeButton = new StringItem(null, "Use as theme", Item.BUTTON);
+                                themeButton.setLayout(layout);
+                                themeButton.setDefaultCommand(themeCommand);
+                                themeButton.setItemCommandListener(App.attachmentView);
+                                App.attachmentView.append(themeButton);
+                            }
+                            // endif
                         }
 
                         Command openCommand = Locale.createCommand(OPEN_IN_BROWSER, Command.ITEM, i);
@@ -732,6 +746,15 @@ public class HTTPThread extends Thread implements Strings {
                 case VIEW_ATTACHMENT_AUDIO: {
                     byte[] bytes = HTTP.getBytes(viewAttach.browserUrl);
                     App.disp.setCurrent(new NotificationSoundDialog(viewAttach.name, bytes));
+                    break;
+                }
+
+                case SET_THEME: {
+                    byte[] textBytes = HTTP.getBytes(viewAttach.browserUrl);
+                    String text = Util.bytesToString(textBytes);
+                    App.channelView.pendingTheme = JSON.getObject(text);
+                    Theme.loadJsonTheme(App.channelView.pendingTheme);
+                    App.disp.setCurrent(App.channelView);
                     break;
                 }
                 // endif

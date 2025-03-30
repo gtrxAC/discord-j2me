@@ -8,7 +8,7 @@ import cc.nnproject.json.*;
  * Message list for channels (both guild channels and DM channels).
  */
 public class ChannelView extends KineticScrollingCanvas implements CommandListener, Strings {
-    private Command backCommand;
+    public Command backCommand;
     private Command selectCommand;
     private Command sendCommand;
     private Command replyCommand;
@@ -47,6 +47,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     boolean reqUpdateGateway;
     boolean reqUpdateGatewayNewMsg;
 
+    // ifdef OVER_100KB
+    JSONObject pendingTheme;
+    // endif
 
     public ChannelView() throws Exception {
         super();
@@ -801,11 +804,18 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            UnreadManager.save();
-            App.channelIsOpen = false;
-            if (App.isDM) App.openDMSelector(false, false);
-            else if (App.selectedChannel.isThread) App.openThreadSelector(false, false);
-            else App.openChannelSelector(false, false);
+            // ifdef OVER_100KB
+            if (pendingTheme != null) {
+                App.disp.setCurrent(new ThemeSaveDialog());
+            } else
+            // endif
+            {
+                UnreadManager.save();
+                App.channelIsOpen = false;
+                if (App.isDM) App.openDMSelector(false, false);
+                else if (App.selectedChannel.isThread) App.openThreadSelector(false, false);
+                else App.openChannelSelector(false, false);
+            }
         }
         else if (c == sendCommand) {
             App.disp.setCurrent(new MessageBox());

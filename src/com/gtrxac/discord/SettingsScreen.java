@@ -22,7 +22,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     private static final int[][] maxValues = {
         {
             // ifdef OVER_100KB
-            3,
+            4,
             // else
             2,
             // endif            
@@ -143,7 +143,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 {
                     App.ic.themeDark, App.ic.themeLight, App.ic.themeBlack,
                     // ifdef OVER_100KB
-                    null 
+                    null, null
                     // endif
                 },
                 { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
@@ -210,7 +210,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     Locale.get(THEME_DARK), Locale.get(THEME_LIGHT), Locale.get(THEME_BLACK),
                     // ifdef OVER_100KB
                     // Locale.get(THEME_SYSTEM)
-                    "System"
+                    "System", "Custom"
                     // endif
                 },
                 { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },

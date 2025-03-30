@@ -1,6 +1,8 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import javax.microedition.rms.*;
+import cc.nnproject.json.*;
 // import com.nokia.mid.theme.*;
 
 public class Theme {
@@ -9,6 +11,7 @@ public class Theme {
     public static final int BLACK = 2;
     // ifdef OVER_100KB
     public static final int SYSTEM = 3;
+    public static final int CUSTOM = 4;
     // endif
 
     public static int channelViewBackgroundColor;
@@ -263,6 +266,100 @@ public class Theme {
         imagePreviewBackgroundColor = bg;
         imagePreviewTextColor = fg;
     }
+
+    public static void loadJsonRmsTheme() {
+        String jsonStr;
+        RecordStore rms = null;
+        try {
+            rms = RecordStore.openRecordStore("theme", false);
+            jsonStr = Util.bytesToString(rms.getRecord(1));
+        }
+        catch (Exception e) {
+            jsonStr = "{}";
+        }
+
+        Util.closeRecordStore(rms);
+
+        loadJsonTheme(JSON.getObject(jsonStr));
+    }
+    
+    public static void loadJsonTheme(JSONObject data) {
+        // load dark theme as a base
+        Settings.theme = Theme.DARK;
+        loadPresetTheme();
+        Settings.theme = Theme.CUSTOM;
+
+        channelViewBackgroundColor = jsonGetHex(data, "channelViewBackground", channelViewBackgroundColor);
+        channelViewEmptyTextColor = jsonGetHex(data, "channelViewEmptyText", channelViewEmptyTextColor);
+        timestampColor = jsonGetHex(data, "timestamp", timestampColor);
+        selectedTimestampColor = jsonGetHex(data, "selectedTimestamp", selectedTimestampColor);
+        linkColor = jsonGetHex(data, "link", linkColor);
+        messageAuthorColor = jsonGetHex(data, "messageAuthor", messageAuthorColor);
+        messageContentColor = jsonGetHex(data, "messageContent", messageContentColor);
+        recipientMessageContentColor = jsonGetHex(data, "recipientMessageContent", recipientMessageContentColor);
+        statusMessageContentColor = jsonGetHex(data, "statusMessageContent", statusMessageContentColor);
+        selectedMessageBackgroundColor = jsonGetHex(data, "selectedMessageBackground", selectedMessageBackgroundColor);
+        selectedMessageAuthorColor = jsonGetHex(data, "selectedMessageAuthor", selectedMessageAuthorColor);
+        selectedMessageContentColor = jsonGetHex(data, "selectedMessageContent", selectedMessageContentColor);
+        selectedRecipientMessageContentColor = jsonGetHex(data, "selectedRecipientMessageContent", selectedRecipientMessageContentColor);
+        selectedStatusMessageContentColor = jsonGetHex(data, "selectedStatusMessageContent", selectedStatusMessageContentColor);
+        embedBackgroundColor = jsonGetHex(data, "embedBackground", embedBackgroundColor);
+        embedTitleColor = jsonGetHex(data, "embedTitle", embedTitleColor);
+        embedDescriptionColor = jsonGetHex(data, "embedDescription", embedDescriptionColor);
+        selectedEmbedBackgroundColor = jsonGetHex(data, "selectedEmbedBackground", selectedEmbedBackgroundColor);
+        selectedEmbedTitleColor = jsonGetHex(data, "selectedEmbedTitle", selectedEmbedTitleColor);
+        selectedEmbedDescriptionColor = jsonGetHex(data, "selectedEmbedDescription", selectedEmbedDescriptionColor);
+        buttonBackgroundColor = jsonGetHex(data, "buttonBackground", buttonBackgroundColor);
+        buttonTextColor = jsonGetHex(data, "buttonText", buttonTextColor);
+        selectedButtonBackgroundColor = jsonGetHex(data, "selectedButtonBackground", selectedButtonBackgroundColor);
+        selectedButtonTextColor = jsonGetHex(data, "selectedButtonText", selectedButtonTextColor);
+        bannerBackgroundColor = jsonGetHex(data, "bannerBackground", bannerBackgroundColor);
+        bannerTextColor = jsonGetHex(data, "bannerText", bannerTextColor);
+        outdatedBannerBackgroundColor = jsonGetHex(data, "outdatedBannerBackground", outdatedBannerBackgroundColor);
+        outdatedBannerTextColor = jsonGetHex(data, "outdatedBannerText", outdatedBannerTextColor);
+        typingBannerBackgroundColor = jsonGetHex(data, "typingBannerBackground", typingBannerBackgroundColor);
+        typingBannerTextColor = jsonGetHex(data, "typingBannerText", typingBannerTextColor);
+        unreadIndicatorBackgroundColor = jsonGetHex(data, "unreadIndicatorBackground", unreadIndicatorBackgroundColor);
+        unreadIndicatorTextColor = jsonGetHex(data, "unreadIndicatorText", unreadIndicatorTextColor);
+        recipientMessageConnectorColor = jsonGetHex(data, "recipientMessageConnector", recipientMessageConnectorColor);
+        listBackgroundColor = jsonGetHex(data, "listBackground", listBackgroundColor);
+        listTextColor = jsonGetHex(data, "listText", listTextColor);
+        listMutedTextColor = jsonGetHex(data, "listMutedText", listMutedTextColor);
+        listDescriptionTextColor = jsonGetHex(data, "listDescriptionText", listDescriptionTextColor);
+        listSelectedBackgroundColor = jsonGetHex(data, "listSelectedBackground", listSelectedBackgroundColor);
+        listSelectedTextColor = jsonGetHex(data, "listSelectedText", listSelectedTextColor);
+        listSelectedMutedTextColor = jsonGetHex(data, "listSelectedMutedText", listSelectedMutedTextColor);
+        listSelectedDescriptionTextColor = jsonGetHex(data, "listSelectedDescriptionText", listSelectedDescriptionTextColor);
+        listNoItemsTextColor = jsonGetHex(data, "listNoItemsText", listNoItemsTextColor);
+        listIndicatorColor = jsonGetHex(data, "listIndicator", listIndicatorColor);
+        dialogBackgroundColor = jsonGetHex(data, "dialogBackground", dialogBackgroundColor);
+        dialogTextColor = jsonGetHex(data, "dialogText", dialogTextColor);
+        emojiPickerBackgroundColor = jsonGetHex(data, "emojiPickerBackground", emojiPickerBackgroundColor);
+        loadingScreenBackgroundColor = jsonGetHex(data, "loadingScreenBackground", loadingScreenBackgroundColor);
+        loadingScreenTextColor = jsonGetHex(data, "loadingScreenText", loadingScreenTextColor);
+        keyMapperBackgroundColor = jsonGetHex(data, "keyMapperBackground", keyMapperBackgroundColor);
+        keyMapperTextColor = jsonGetHex(data, "keyMapperText", keyMapperTextColor);
+        imagePreviewBackgroundColor = jsonGetHex(data, "imagePreviewBackground", imagePreviewBackgroundColor);
+        imagePreviewTextColor = jsonGetHex(data, "imagePreviewText", imagePreviewTextColor);
+        subtextColor = jsonGetHex(data, "subtext", subtextColor);
+        monospaceTextBackgroundColor = jsonGetHex(data, "monospaceTextBackground", monospaceTextBackgroundColor);
+        forwardedTextColor = jsonGetHex(data, "forwardedText", forwardedTextColor);
+        editedTextColor = jsonGetHex(data, "editedText", editedTextColor);
+    }
+
+    private static int jsonGetHex(JSONObject data, String key, int def) {
+        try {
+            return Integer.parseInt(data.getString(key), 16);
+        }
+        catch (JSONException e) {
+            // key not found - use default color (color from dark theme)
+            return def;
+        }
+        catch (NumberFormatException e) {
+            // invalid color - use red to highlight it
+            return 0xFF0000;
+        }
+    }
     // endif
 
 	public static void load() {
@@ -274,7 +371,11 @@ public class Theme {
         // ifdef OVER_100KB
         if (Settings.theme == Theme.SYSTEM) {
             loadSystemTheme();
-        } else
+        }
+        else if (Settings.theme == Theme.CUSTOM) {
+            loadJsonRmsTheme();
+        }
+        else
         // endif
         loadPresetTheme();
     }

@@ -30,14 +30,18 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
 
     public void commandAction(Command c, Item i) {
         int prio = c.getPriority();
+        Attachment attach = (Attachment) msg.attachments.elementAt(prio % 100);
 
         if (prio < 100) {
             // 'Open in browser' button
-            Attachment attach = (Attachment) msg.attachments.elementAt(prio);
             App.platRequest(attach.browserUrl);
-        } else {
+        }
+        else
+        // ifdef OVER_100KB
+        if (prio < 200)
+        // endif 
+        {
             // 'View as text' or 'Set as notification sound' button
-            Attachment attach = (Attachment) msg.attachments.elementAt(prio - 100);
             int act =
                 // ifdef OVER_100KB
                 attach.isAudio ? HTTPThread.VIEW_ATTACHMENT_AUDIO :
@@ -47,5 +51,13 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
             h.viewAttach = attach;
             h.start();
         }
+        // ifdef OVER_100KB
+        else {
+            // 'Set as theme' button
+            HTTPThread h = new HTTPThread(HTTPThread.SET_THEME);
+            h.viewAttach = attach;
+            h.start();
+        }
+        // endif
     }
 }
