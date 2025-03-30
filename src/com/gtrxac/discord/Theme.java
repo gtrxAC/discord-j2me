@@ -72,11 +72,14 @@ public class Theme {
     public static int imagePreviewBackgroundColor;
     public static int imagePreviewTextColor;
 
-    // these are not used in system theme
+    // these four are not used in system theme
     public static int subtextColor;
     public static int monospaceTextBackgroundColor;
     public static int forwardedTextColor;
     public static int editedTextColor;
+
+    public static int scrollbarColor;
+    public static int scrollbarHandleColor;
 
     //                                     Dark      Light     Black
     private static final int[] channelViewBackgroundColors = {0x313338, 0xFFFFFF, 0x000000};
@@ -131,6 +134,9 @@ public class Theme {
     private static final int[] monospaceTextBackgroundColors = {0x1e1f22, 0xCCCCCC, 0x404040};
     private static final int[] forwardedTextColors = {0xAAAAAA, 0x666666, 0x999999};
     private static final int[] editedTextColors = {0xAAAAAA, 0x666666, 0x999999};
+
+    private static final int[] scrollbarColors = {0xDDDDDD, 0xDDDDDD, 0xDDDDDD};
+    private static final int[] scrollbarHandleColors = {0x888888, 0x888888, 0x888888};
     
 	public static void loadPresetTheme() {
         //§ fmtstr empicker fmtstrpartser loadscr keymap forspmonospace imagepreviewscreen
@@ -192,6 +198,9 @@ public class Theme {
         monospaceTextBackgroundColor = monospaceTextBackgroundColors[Settings.theme];
         forwardedTextColor = forwardedTextColors[Settings.theme];
         editedTextColor = editedTextColors[Settings.theme];
+
+        scrollbarColor = scrollbarColors[Settings.theme];
+        scrollbarHandleColor = scrollbarHandleColors[Settings.theme];
 	}
 
     // ifdef OVER_100KB
@@ -265,6 +274,9 @@ public class Theme {
         keyMapperTextColor = fg;
         imagePreviewBackgroundColor = bg;
         imagePreviewTextColor = fg;
+
+        scrollbarColor = bg;
+        scrollbarHandleColor = hbg;
     }
 
     public static void loadJsonRmsTheme() {
@@ -345,6 +357,8 @@ public class Theme {
         monospaceTextBackgroundColor = jsonGetHex(data, "monospaceTextBackground", monospaceTextBackgroundColor);
         forwardedTextColor = jsonGetHex(data, "forwardedText", forwardedTextColor);
         editedTextColor = jsonGetHex(data, "editedText", editedTextColor);
+        scrollbarColor = jsonGetHex(data, "scrollbar", scrollbarColor);
+        scrollbarHandleColor = jsonGetHex(data, "scrollbarHandle", scrollbarHandleColor);
     }
 
     private static int jsonGetHex(JSONObject data, String key, int def) {

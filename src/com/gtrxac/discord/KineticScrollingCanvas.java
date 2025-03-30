@@ -178,9 +178,9 @@ implements Runnable
             int x = super.getWidth() - scrollBarSize;
             int barPos = getYFromScroll();
 
-            g.setColor(0xDDDDDD);
+            g.setColor(Theme.scrollbarColor);
             g.fillRect(x, 0, scrollBarSize, getHeight());
-            g.setColor(0x888888);
+            g.setColor(Theme.scrollbarHandleColor);
             g.fillRect(x, barPos, scrollBarSize, scrollBarSize);
         }
     }
