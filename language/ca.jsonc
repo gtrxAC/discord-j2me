@@ -23,7 +23,7 @@
     "Fitxer sense nom",
 
     // Title text for the attachment picker (native file picker) screen.
-    "Selecciona el adjunt",
+    "Selecciona adjunt",
 
     // Softkey labels for going back to the previous screen.
     "Enrere",
@@ -63,7 +63,7 @@
 
     // Softkey labels for sending an attachment in the currently open channel.
     "Carrega",
-    "Carrega el fitxer",
+    "Carrega fitxer",
 
     // Softkey labels for copying the text content of the selected message.
     "Copia",
@@ -78,8 +78,8 @@
     "Suprimeix",
 
     // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
-    "Obre l'URL",
-    "Obre l'URL",
+    "Obre URL",
+    "Obre URL",
 
     // Channel view title suffix when reading older messages.
     " (vell)",
@@ -121,9 +121,9 @@
     ", ",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
-    "Aquest proxy no admet la càrrega de fitxers",
-    "Aquest proxy no admet la supressió de missatges",
-    "Aquest proxy no admet l'edició de missatges",
+    "Aquest proxy no admet càrrega de fitxers",
+    "Aquest proxy no admet supressió de missatges",
+    "Aquest proxy no admet edició de missatges",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
     "FileConnection no compatible",
@@ -174,7 +174,7 @@
     "Introdueix el nom d'usuari",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "No s'ha trobat l'usuari. Proveu creant el MD des d'un altre client.",
+    "No s'ha trobat usuari. Proveu creant el MD des d'un altre client.",
 
     // Title text for direct message list.
     "Missatge directe",
@@ -201,10 +201,10 @@
     "Afegeix a preferit",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "Sense resposta del proxy: ",
+    "Sense resposta de proxy: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "Comprova el teu token",
+    "Comprova teu token",
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
@@ -212,7 +212,7 @@
     "Error HTTP ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "URL CDN no s'ha definit. Els adjunts no disponibles.",
+    "URL CDN no s'ha definit. Adjunts no disponibles.",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
     " (",
@@ -224,7 +224,7 @@
 
     // Softkey labels for showing an attachment in the device's built-in web browser.
     "Obre",
-    "Obre al navegador",
+    "Obre a navegador",
 
     // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
     "Carregant...",
@@ -233,7 +233,7 @@
     "Enviant...",
 
     // Error message prefix shown when an error occurs while uploading an attachment.
-    "Error en enviant el fitxer: ",
+    "Error en enviant fitxer: ",
     
     // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
     "Salta",
@@ -246,9 +246,9 @@
     // These are shown after the "Press the key to use for:" string.
     // "going back" only applies to the chat view. 
     "enviant un missatge",
-    "responent al missatge",
-    "copiant el contingut del missatge",
-    "actualizant els missatges",
+    "responent a missatge",
+    "copiant contingut de missatge",
+    "actualizant missatges",
     "tornar enrere",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
@@ -258,10 +258,10 @@
     "Inicia sessió",
 
     // Proxy server warning message shown at the top of the login screen.
-    "Utilitza només proxys en els quals confieu!",
+    "Utilitza només proxys en quals confieu!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "El token es pot trobar a les eines de dev del teu navegador (trobar ajuda online). Es recomana utilitzant un compte alternatiu.",
+    "El token es pot trobar a eines de dev del teu navegador (trobar ajuda online). Es recomana utilitzant un compte alternatiu.",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "Utilitza Wi-Fi",
@@ -282,7 +282,7 @@
     "Surt",
 
     // "Use gateway" option shown in login screen.
-    "Utilitza la passareŀla",
+    "Utilitza passareŀla",
 
     // Label for radio button field for token sending options.
     "Envia token com a",
@@ -293,7 +293,7 @@
     "Paràmetre de consulta",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "Introdueix el teu token",
+    "Introdueix teu token",
     "Especifica un URL API",
 
     // Main menu items.
@@ -336,7 +336,7 @@
     "potenciat el servidor",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "potenciat el servidor al nivell ",
+    "potenciat el servidor a nivell ",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
@@ -422,7 +422,7 @@
     "Colors de nom",
 
     // Settings screen heading for message author font size.
-    "Tipus de lletra de autor",
+    "Tipus de lletra d'autor",
 
     // Font size options.
     "Petit",
@@ -430,7 +430,7 @@
     "Gran",
 
     // Settings screen heading for message content font size.
-    "Tipus de lletra del contingut",
+    "Tipus de lletra de contingut",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
     "Quantitat de missatges carregats",
@@ -439,7 +439,7 @@
     "Format adjunt",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "Mida màxima de l'adjunt (px)",
+    "Mida màxima d'adjunt (px)",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
@@ -462,10 +462,10 @@
     "32 px",
 
     // Settings section for menu icon size.
-    "Mida de icona del menú (px)",
+    "Mida de icona de menú (px)",
 
     // Settings section for controlling the display of reply messages.
-    "Mostra les respostes com a",
+    "Mostra respostes com a",
     
     // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
     "Només destinatari",
@@ -496,10 +496,10 @@
     "No s'ha pogut obrir l'URL (",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    ")\n\nPodeu provar de copiant manualment l'URL al navegador del teu dispositiu: ",
+    ")\n\nPodeu provar de copiant manualment l'URL a navegador de teu dispositiu: ",
 
     // Title text for URL list screen ('Open URL' option in channel view).
-    "Selecciona l'URL",
+    "Selecciona URL",
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
     "Insereix",
@@ -513,7 +513,7 @@
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
     "Idioma",
-    "Estableix l'idioma",
+    "Estableix idioma",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
     "Pantalla completa",
@@ -593,7 +593,7 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Introdueix un número vàlid enter 1 i ",
+    "Introdueix un número vàlid entre 1 i ",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
@@ -603,7 +603,7 @@
     "Error API Pigler API: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notification API no és compatible. Instaŀla l'API de Pigler des de nnp.nnchan.ru/pna o desactiva les notificacions de Pigler a Configuració.",
+    "Pigler Notification API no és compatible. Instaŀla API Pigler des nnp.nnchan.ru/pna o desactiva notificacions de Pigler a Configuració.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
     "Barra de desplaçament",
@@ -637,8 +637,8 @@
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
     "Desenvolupador principal",
-    "Càrrega de adjunts, integració de API Pigler, analitzador JSON",
-    "Animació de càrrega, icones del menú, art emoji, traducció a italià",
+    "Càrrega d'adjunts, integració d'API Pigler, analitzador JSON",
+    "Animació de càrrega, icones de menú, art emoji, traducció a italià",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
@@ -713,7 +713,7 @@
     "Puja aquesta imatge?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "Vista prèvia del selector de fitxers",
+    "Vista prèvia de selector de fitxers",
 
     // Header shown at the top of every forwarded message.
     "Missatge reenviat:",
@@ -723,7 +723,7 @@
     "Per cambiar teu token, premeu la tecla BlackBerry.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "No prou memòria per mostrar la vista prèvia d'imatge",
+    "No prou memòria per mostrar vista prèvia d'imatge",
 
     // Settings option for enabling or disabling emoji display in chats.
     "Mostra emoji",
@@ -749,7 +749,7 @@
     "Búlgar",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Format del text",
+    "Format de text",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Emoji",
@@ -759,7 +759,7 @@
     "Selecciona emoji",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Baixar dades dels emoji?",
+    "Baixar dades de emoji?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
     "(editat)",
@@ -831,7 +831,7 @@
     "Despalaçament ràpid",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "No s'ha pogut reproduir el so. És possible que el tipus de fitxer no sigui compatible.",
+    "No s'ha pogut reproduir so. És possible que el tipus de fitxer no sigui compatible.",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Japonès",
