@@ -537,8 +537,8 @@
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "contenido del mensaje"
     // User sent a message in Server Name #channel: "contenido del mensaje"
-    " te envío un mensaje directo: \"",
-    " envío un mensaje en ",
+    " te envió un mensaje directo: \"",
+    " envió un mensaje en ",
 
     // Title for notification alert windows
     "Nuevo mensaje",
@@ -583,8 +583,8 @@
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Desactivar",
-    "Activar",
+    "Desactivado",
+    "Activado",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -748,7 +748,7 @@
     "Búlgaro",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "Formato de texto",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Emoji",
@@ -768,70 +768,70 @@
     "Insertar guion bajo",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Notification sound",
+    "Sonido de notificacion",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "Vibracion",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "Silenciar",
+    "Silenciar/Desilenciar",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "scrolling to top",
-    "scrolling to bottom",
+    "Scrolling hacia arriba",
+    "scrolling hacia abajo",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    "Enviar indicador de escribiendo",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "Usar como",
+    "Usar como sonido de notif.",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "¿Aplicar como sonido de notificacion?",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "Reproducir",
+    "Reproducir de nuevo",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "Sonido de notificacion aplicado!",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "Administrar datos",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "Emojis",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "Ultimos mensajes leidos",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "Sonido de notificacion",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "Datos de idioma",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "Eliminar",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "Eliminar este contenido?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "Abrir navegador",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "¿Desea abrir el navegador? La app se cerrara.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "Scrolleo rapido",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "Error al reproducir el sonido. El tipo de archivo puede no ser soportado.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese"
+    "Japonés"
 ]
