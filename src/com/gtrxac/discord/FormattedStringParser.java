@@ -111,7 +111,7 @@ public class FormattedStringParser {
                     continue;
                 }
                 specialChecks: {
-                    if (curr == ':' && FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) {
+                    if (curr == ':' && FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF && FormattedStringPartEmoji.emojiTable != null) {
                         int colon = src.indexOf(':', pos + 2);
                         if (colon == -1) break specialChecks;
 
