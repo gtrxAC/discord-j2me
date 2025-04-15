@@ -645,7 +645,7 @@
     "Sueco",
     "Indonesio",
     "Polaco",
-    "Español",
+    "Castellano",
     "Portugués (Brasil)",
     "Tailandés",
     "Portugués",
@@ -833,5 +833,6 @@
     "Error al reproducir el sonido. El tipo de archivo puede no ser soportado.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japonés"
+    "Japonés",
+    "Catalán"
 ]

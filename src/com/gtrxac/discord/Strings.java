@@ -359,4 +359,5 @@ public interface Strings {
     static final int PLAY_SOUND_FAILED = 338;
     // endif
     static final int TRANSLATOR_JA = 339;
+    static final int TRANSLATOR_CA = 340;
 }
