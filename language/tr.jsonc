@@ -826,11 +826,11 @@
     "Tarayıcıyı açmak ister misiniz? Bu uygulama kapatılacaktır.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "Hızlı kaydırma",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "Ses dosyası oynatılamadı. Telefon bu dosya türünü desteklemiyor.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese"
+    "Japonca"
 ]
