@@ -248,7 +248,7 @@
     "enviant un missatge",
     "responent a missatge",
     "copiant contingut de missatge",
-    "actualizant missatges",
+    "actualitzant missatges",
     "tornar enrere",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
