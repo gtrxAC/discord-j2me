@@ -78,6 +78,9 @@ public class GuildSelector extends ListScreen implements CommandListener, String
                 App.openGuildSelector(true, true);
             }
         }
+        else if (guilds.size() == 0) {
+            return;
+        }
         else if (c == removeFavCommand) {
             FavoriteGuilds.remove(getSelectedIndex());
             FavoriteGuilds.openSelector(false, false);

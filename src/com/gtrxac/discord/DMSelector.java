@@ -110,6 +110,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             update();
         }
         else {
+            if (lastDMs.size() == 0) return;
             DMChannel dmCh = (DMChannel) lastDMs.elementAt(getSelectedIndex());
 
             if (c == SELECT_COMMAND) {
