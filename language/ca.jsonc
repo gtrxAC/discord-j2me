@@ -261,7 +261,7 @@
     "Utilitza només proxys en quals confieu!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "El token es pot trobar a eines de dev del teu navegador (trobar ajuda online). Es recomana utilitzant un compte alternatiu.",
+    "El token es pot trobar a eines de desenvolupador de teu navegador (trobar ajuda online). Es recomana utilitzant un compte alternatiu.",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "Utilitza Wi-Fi",
