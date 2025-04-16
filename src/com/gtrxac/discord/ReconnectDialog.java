@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -35,3 +36,4 @@ public class ReconnectDialog extends Dialog implements CommandListener, Strings 
         App.disp.setCurrent(lastScreen);
     }
 }
+// endif

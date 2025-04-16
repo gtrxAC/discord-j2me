@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -6,7 +7,6 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
     private Command updateCommand;
     private Command closeCommand;
 
-    private Notification notif;
     private boolean isBeta;
     
     public UpdateDialog(String latestVersion, boolean isBeta) {
@@ -51,3 +51,4 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
         }
     }
 }
+// endif
