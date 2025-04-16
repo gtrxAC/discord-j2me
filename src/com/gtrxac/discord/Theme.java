@@ -211,6 +211,14 @@ public class Theme {
         int hbg = App.disp.getColor(Display.COLOR_HIGHLIGHTED_BACKGROUND);
         int hfg = App.disp.getColor(Display.COLOR_HIGHLIGHTED_FOREGROUND);
 
+        // fallback color scheme for devices where Display.getColor does not return valid colors (e.g. all black)
+        if (fg == bg || hfg == hbg) {
+            fg = 0x000000;
+            bg = 0xFFFFFF;
+            hfg = 0xFFFFFF;
+            hbg = 0x2211CC;
+        }
+
         // if (Util.contrast(hbg, hfg) < 255) {
         //     hbg = fg;
         //     hfg = bg;
