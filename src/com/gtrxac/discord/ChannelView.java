@@ -62,7 +62,7 @@ public class ChannelView extends Canvas implements CommandListener {
         refreshCommand = new Command("Refresh", Command.ITEM, 6);
 
         fontHeight = App.messageFont.getHeight();
-        ChannelViewItem.arrowStringWidth = App.timestampFont.stringWidth(" > ");
+        Message.arrowStringWidth = App.timestampFont.stringWidth(" > ");
 
         addCommand(backCommand);
         addCommand(sendCommand);
@@ -92,9 +92,8 @@ public class ChannelView extends Canvas implements CommandListener {
         maxScroll = -getHeight();
 
         if (page > 0) {
-            ChannelViewItem newerItem = new ChannelViewItem(ChannelViewItem.NEWER_BUTTON);
-            items.addElement(newerItem);
-            maxScroll += newerItem.calculateHeight();
+            items.addElement(ChannelViewItem.NEWER_MESSAGES_BUTTON);
+            maxScroll += ChannelViewItem.NEWER_MESSAGES_BUTTON.calculateHeight();
         }
 
         Message first = (Message) App.messages.elementAt(messageCount - 1);
@@ -122,17 +121,13 @@ public class ChannelView extends Canvas implements CommandListener {
                 msg.contentLines = Util.wordWrap(msg.content, availableWidth, App.messageFont);
                 msg.needUpdate = false;
             }
-
-            ChannelViewItem msgItem = new ChannelViewItem(ChannelViewItem.MESSAGE);
-            msgItem.msg = msg;
-            items.addElement(msgItem);
-            maxScroll += msgItem.calculateHeight();
+            items.addElement(msg);
+            maxScroll += msg.calculateHeight();
         }
 
         if (messageCount >= App.messageLoadCount) {
-            ChannelViewItem olderItem = new ChannelViewItem(ChannelViewItem.OLDER_BUTTON);
-            items.addElement(olderItem);
-            maxScroll += olderItem.calculateHeight();
+            items.addElement(ChannelViewItem.OLDER_MESSAGES_BUTTON);
+            maxScroll += ChannelViewItem.OLDER_MESSAGES_BUTTON.calculateHeight();
         }
 
         if (haveDrawn && wasResized) {
@@ -199,11 +194,13 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     private void updateCommands(ChannelViewItem selected) {
-        if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
-            if (selected.type == ChannelViewItem.MESSAGE) {
+        boolean isMessage = (selected instanceof Message);
+
+        if (selectionMode && (!isMessage || !((Message) selected).isStatus)) {
+            if (isMessage) {
                 removeCommand(selectCommand);
 
-                if (selected.msg.isOwn && !selected.msg.isStatus) {
+                if (((Message) selected).isOwn) {
                     addCommand(editCommand);
                     addCommand(deleteCommand);
                 } else {
@@ -212,12 +209,16 @@ public class ChannelView extends Canvas implements CommandListener {
                 }
             } else {
                 addCommand(selectCommand);
+                removeCommand(editCommand);
+                removeCommand(deleteCommand);
             }
         } else {
             removeCommand(selectCommand);
+            removeCommand(editCommand);
+            removeCommand(deleteCommand);
         }
 
-        if (selectionMode && selected.shouldShowReplyOption()) {
+        if (selectionMode && isMessage) {
             addCommand(replyCommand);
         } else {
             removeCommand(replyCommand);
@@ -279,21 +280,18 @@ public class ChannelView extends Canvas implements CommandListener {
 
     private void executeItemAction() {
         ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
-        switch (selected.type) {
-            case ChannelViewItem.NEWER_BUTTON: {
-                page--;
-                before = null;
-                after = ((Message) App.messages.elementAt(0)).id;
-                getMessages();
-                break;
-            }
-            case ChannelViewItem.OLDER_BUTTON: {
-                page++;
-                after = null;
-                before = ((Message) App.messages.elementAt(App.messages.size() - 1)).id;
-                getMessages();
-                break;
-            }
+
+        if (selected == ChannelViewItem.NEWER_MESSAGES_BUTTON) {
+            page--;
+            before = null;
+            after = ((Message) App.messages.elementAt(0)).id;
+            getMessages();
+        }
+        else if (selected == ChannelViewItem.OLDER_MESSAGES_BUTTON) {
+            page++;
+            after = null;
+            before = ((Message) App.messages.elementAt(App.messages.size() - 1)).id;
+            getMessages();
         }
     }
     
@@ -395,7 +393,7 @@ public class ChannelView extends Canvas implements CommandListener {
             executeItemAction();
         }
         else {
-            Message selected = ((ChannelViewItem) items.elementAt(selectedItem)).msg;
+            Message selected = (Message) items.elementAt(selectedItem);
 
             if (c == replyCommand) {
                 App.disp.setCurrent(new ReplyForm(selected));
