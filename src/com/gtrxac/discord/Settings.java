@@ -2,51 +2,49 @@ package com.gtrxac.discord;
 
 import javax.microedition.rms.*;
 
-public class LoginSettings {
+public class Settings {
     private static RecordStore loginRms;
     private static int numRecords;
     private static int index;
-
-    private static int getDefaultTokenType() {
-		String profile = System.getProperty("microedition.profiles");
-		String plat = System.getProperty("microedition.platform");
-
-		// Nokia pre-S40v2 doesn't support HTTP header authentication
-		if (profile != null && profile.startsWith("MIDP-1.0") && plat != null && plat.startsWith("Nokia")) {
-			return State.TOKEN_TYPE_QUERY;
-		} else {
-			return State.TOKEN_TYPE_HEADER;
-		}
-    }
 
     private static void open() throws Exception {
         loginRms = RecordStore.openRecordStore("a", true);
         index = 1;
     }
 
-    public static void load(State s) {
-        s.token = "";
-        String manifestToken = s.midlet.getAppProperty("Token");
-        if (manifestToken != null) s.token = manifestToken;
+    public static boolean isAvailable() {
+        try {
+            RecordStore.openRecordStore("a", false).closeRecordStore();
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static void load() {
+        App.token = "";
+        String manifestToken = App.instance.getAppProperty("Token");
+        if (manifestToken != null) App.token = manifestToken;
 
         try {
             open();
             numRecords = loginRms.getNumRecords();
 
-            s.api = getStringRecord("http://146.59.80.3");
-            s.token = getStringRecord(s.token);
-            s.authorFontSize = getByteRecord(0);
-            s.messageFontSize = getByteRecord(0);
-            s.use12hTime = getByteRecord(0) != 0;
-            s.messageLoadCount = getByteRecord(15);
-            s.tokenType = getByteRecord(getDefaultTokenType());
+            App.api = getStringRecord("http://146.59.80.3");
+            App.token = getStringRecord(App.token);
+            App.authorFontSize = getByteRecord(0);
+            App.messageFontSize = getByteRecord(0);
+            App.use12hTime = getByteRecord(0) != 0;
+            App.messageLoadCount = getByteRecord(15);
+            index++; // skip unused record
             // dark theme default for color screens, dedicated monochrome theme default for mono screens
-            s.theme = getByteRecord(s.disp.isColor() ? 1 : 0);
+            App.theme = getByteRecord(App.disp.isColor() ? 1 : 0);
 
-            if (s.messageLoadCount < 1 || s.messageLoadCount > 100) s.messageLoadCount = 15;
+            if (App.messageLoadCount < 1 || App.messageLoadCount > 100) App.messageLoadCount = 15;
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
         finally {
             try {
@@ -56,21 +54,21 @@ public class LoginSettings {
         }
     }
 
-    public static void save(State s) {
+    public static void save() {
         try {
             open();
-            setStringRecord(s.api);
-            setStringRecord(s.token);
-            setByteRecord(s.authorFontSize);
-            setByteRecord(s.messageFontSize);
-            setByteRecord(s.use12hTime ? 1 : 0);
-            setByteRecord(s.messageLoadCount);
-            setByteRecord(s.tokenType);
-            setByteRecord(s.theme);
+            setStringRecord(App.api);
+            setStringRecord(App.token);
+            setByteRecord(App.authorFontSize);
+            setByteRecord(App.messageFontSize);
+            setByteRecord(App.use12hTime ? 1 : 0);
+            setByteRecord(App.messageLoadCount);
+            setByteRecord(0);
+            setByteRecord(App.theme);
             loginRms.closeRecordStore();
         }
         catch (Exception e) {
-            s.error(e);
+            App.error(e);
         }
     }
 

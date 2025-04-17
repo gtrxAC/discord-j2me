@@ -5,16 +5,14 @@ import cc.nnproject.json.*;
 import java.util.*;
 
 public class GuildSelector extends List implements CommandListener {
-    private State s;
     private Vector guilds;
     private Command backCommand;
     private Command refreshCommand;
 
-    public GuildSelector(State s, Vector guilds) {
+    public GuildSelector(Vector guilds) {
         super("Servers", List.IMPLICIT);
 
         setCommandListener(this);
-        this.s = s;
         this.guilds = guilds;
 
         for (int i = 0; i < guilds.size(); i++) {
@@ -30,20 +28,20 @@ public class GuildSelector extends List implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.disp.setCurrent(new MainMenu(s));
+            App.disp.setCurrent(new MainMenu());
         }
         else if (c == refreshCommand) {
-            s.openGuildSelector(true);
+            App.openGuildSelector(true);
         }
         else if (c == List.SELECT_COMMAND) {
             DiscordObject g = (DiscordObject) guilds.elementAt(getSelectedIndex());
 
-            s.isDM = false;
-            if (g == s.selectedGuild) {
-                s.openChannelSelector(false);
+            App.isDM = false;
+            if (g == App.selectedGuild) {
+                App.openChannelSelector(false);
             } else {
-                s.selectedGuild = g;
-                s.openChannelSelector(true);
+                App.selectedGuild = g;
+                App.openChannelSelector(true);
             }
         }
     }

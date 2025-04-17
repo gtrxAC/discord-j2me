@@ -8,7 +8,6 @@ import cc.nnproject.json.*;
  * Message list for channels (both guild channels and DM channels).
  */
 public class ChannelView extends Canvas implements CommandListener {
-    State s;
     private Command backCommand;
     private Command selectCommand;
     private Command sendCommand;
@@ -39,20 +38,20 @@ public class ChannelView extends Canvas implements CommandListener {
 
     boolean requestedUpdate;
 
-    //                                       Monochrome  Dark        Light
-    static final int[] backgroundColors =   {0x00FFFFFF, 0x00313338, 0x00FFFFFF};
-    static final int[] highlightColors =    {0x00000000, 0x00232428, 0x00CCCCCC};
-    static final int[] buttonColors =       {0x00FFFFFF, 0x002b2d31, 0x00CCCCCC};
-    static final int[] selButtonColors =    {0x00000000, 0x001e1f22, 0x00AAAAAA};
-    static final int[] messageColors =      {0x00000000, 0x00FFFFFF, 0x00111111};
-    static final int[] selMessageColors =   {0x00FFFFFF, 0x00FFFFFF, 0x00000000};
-    static final int[] timestampColors =    {0x00000000, 0x00AAAAAA, 0x00777777};
-    static final int[] selTimestampColors = {0x00FFFFFF, 0x00BBBBBB, 0x00555555};
+    //                                      Monochrome Dark      Light
+    static final int[] backgroundColors =   {0xFFFFFF, 0x313338, 0xFFFFFF};
+    static final int[] highlightColors =    {0x000000, 0x1e1f22, 0xBBBBBB};
+    static final int[] buttonColors =       {0xFFFFFF, 0x2b2d31, 0xCCCCCC};
+    static final int[] selButtonColors =    {0x000000, 0x1e1f22, 0xAAAAAA};
+    static final int[] messageColors =      {0x000000, 0xEEEEEE, 0x111111};
+    static final int[] selMessageColors =   {0xFFFFFF, 0xFFFFFF, 0x000000};
+    static final int[] authorColors =       {0x000000, 0xFFFFFF, 0x000000};
+    static final int[] timestampColors =    {0x000000, 0xAAAAAA, 0x777777};
+    static final int[] selTimestampColors = {0xFFFFFF, 0xBBBBBB, 0x555555};
 
-    public ChannelView(State s) {
+    public ChannelView() {
         super();
         setCommandListener(this);
-        this.s = s;
 
         backCommand = new Command("Back", Command.BACK, 0);
         selectCommand = new Command("Select", Command.OK, 1);
@@ -62,7 +61,8 @@ public class ChannelView extends Canvas implements CommandListener {
         deleteCommand = new Command("Delete", Command.ITEM, 5);
         refreshCommand = new Command("Refresh", Command.ITEM, 6);
 
-        fontHeight = s.messageFont.getHeight();
+        fontHeight = App.messageFont.getHeight();
+        ChannelViewItem.arrowStringWidth = App.timestampFont.stringWidth(" > ");
 
         addCommand(backCommand);
         addCommand(sendCommand);
@@ -83,28 +83,29 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     private void update(boolean wasResized) {
-        items = new Vector();
+        items = new Vector(App.messageLoadCount + 2);
 
-        if (s.messages.size() == 0) return;
+        int messageCount = App.messages.size();
+        if (messageCount == 0) return;
 
         int oldMaxScroll = maxScroll;
-        maxScroll = 0;
+        maxScroll = -getHeight();
 
         if (page > 0) {
-            ChannelViewItem newerItem = new ChannelViewItem(s, ChannelViewItem.NEWER_BUTTON);
+            ChannelViewItem newerItem = new ChannelViewItem(ChannelViewItem.NEWER_BUTTON);
             items.addElement(newerItem);
-            maxScroll += newerItem.getHeight();
+            maxScroll += newerItem.calculateHeight();
         }
 
-        Message first = (Message) s.messages.elementAt(s.messages.size() - 1);
+        Message first = (Message) App.messages.elementAt(messageCount - 1);
         first.showAuthor = true;
 
         Message above = first;
         String clusterStart = first.id;
 
-        if (s.messages.size() > 1) {
-            for (int i = s.messages.size() - 2; i >= 0; i--) {
-                Message msg = (Message) s.messages.elementAt(i);
+        if (messageCount > 1) {
+            for (int i = messageCount - 2; i >= 0; i--) {
+                Message msg = (Message) App.messages.elementAt(i);
                 msg.showAuthor = msg.shouldShowAuthor(above, clusterStart);
 
                 if (msg.showAuthor) clusterStart = msg.id;
@@ -112,38 +113,34 @@ public class ChannelView extends Canvas implements CommandListener {
             }
         }
 
-        for (int i = 0; i < s.messages.size(); i++) {
-            Message msg = (Message) s.messages.elementAt(i);
-            boolean needUpdate = msg.needUpdate;
+        int availableWidth = getWidth() - fontHeight/5;
 
-            if (msg.contentLines == null || wasResized || needUpdate) {
-                msg.contentLines = Util.wordWrap(msg.content, getWidth() - 3, s.messageFont);
+        for (int i = 0; i < messageCount; i++) {
+            Message msg = (Message) App.messages.elementAt(i);
+
+            if (msg.contentLines == null || wasResized || msg.needUpdate) {
+                msg.contentLines = Util.wordWrap(msg.content, availableWidth, App.messageFont);
                 msg.needUpdate = false;
             }
 
-            if (msg.showAuthor || msg.contentLines.length != 0) {
-                ChannelViewItem msgItem = new ChannelViewItem(s, ChannelViewItem.MESSAGE);
-                msgItem.msg = msg;
-                items.addElement(msgItem);
-                maxScroll += msgItem.getHeight();
-            }
+            ChannelViewItem msgItem = new ChannelViewItem(ChannelViewItem.MESSAGE);
+            msgItem.msg = msg;
+            items.addElement(msgItem);
+            maxScroll += msgItem.calculateHeight();
         }
 
-        if (s.messages.size() >= s.messageLoadCount) {
-            ChannelViewItem olderItem = new ChannelViewItem(s, ChannelViewItem.OLDER_BUTTON);
+        if (messageCount >= App.messageLoadCount) {
+            ChannelViewItem olderItem = new ChannelViewItem(ChannelViewItem.OLDER_BUTTON);
             items.addElement(olderItem);
-            maxScroll += olderItem.getHeight();
+            maxScroll += olderItem.calculateHeight();
         }
-
-        maxScroll -= getHeight();
 
         if (haveDrawn && wasResized) {
             // If this channel view has been previously drawn and was just resized
             // (e.g. screen rotate), keep the previous relative scroll value
             int scrollPercent = (scroll*100)/oldMaxScroll;
             scroll = (scrollPercent*maxScroll)/100;
-        }
-        else {
+        } else {
             // If user selected Show newer messages, go to the top of the
             // message list, so it's more intuitive to scroll through
             scroll = (after != null) ? 0 : maxScroll;
@@ -153,7 +150,7 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     private void getMessages() {
-        HTTPThread h = new HTTPThread(s, HTTPThread.FETCH_MESSAGES);
+        HTTPThread h = new HTTPThread(HTTPThread.FETCH_MESSAGES);
         h.fetchMsgsBefore = before;
         h.fetchMsgsAfter = after;
         h.start();
@@ -162,9 +159,8 @@ public class ChannelView extends Canvas implements CommandListener {
     // Get the screen Y position that an item will be drawn at
     public int getItemPosition(int index) {
         int y = -scroll;
-        for (int i = items.size() - 1; i >= (index + 1); i--) {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
-            y += item.getHeight();
+        for (int i = items.size() - 1; i > index; i--) {
+            y += ((ChannelViewItem) items.elementAt(i)).height;
         }
         return y;
     }
@@ -175,7 +171,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
         ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
         int itemPos = getItemPosition(selectedItem);
-        int itemHeight = selected.getHeight();
+        int itemHeight = selected.height;
 
         if (itemHeight > height) {
             // For items taller than the screen, make sure one screenful of it is visible:
@@ -242,9 +238,6 @@ public class ChannelView extends Canvas implements CommandListener {
             requestedUpdate = false;
         }
 
-        // BlackBerry fix
-        g.setClip(0, 0, width, height);
-
         if (items.size() > 0) {
             makeSelectedItemVisible();
 
@@ -252,12 +245,12 @@ public class ChannelView extends Canvas implements CommandListener {
             updateCommands(selected);
         }
 
-        g.setFont(s.messageFont);
-        g.setColor(backgroundColors[s.theme]);
+        g.setFont(App.messageFont);
+        g.setColor(backgroundColors[App.theme]);
         g.fillRect(0, 0, width, height);
 
         if (items.size() == 0) {
-            g.setColor(timestampColors[s.theme]);
+            g.setColor(timestampColors[App.theme]);
             g.drawString(
                 "Nothing to see here", width/2, height/2 - fontHeight/2,
                 Graphics.HCENTER | Graphics.TOP
@@ -266,12 +259,11 @@ public class ChannelView extends Canvas implements CommandListener {
             int y = -scroll;
             for (int i = items.size() - 1; i >= 0; i--) {
                 ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
-                int itemHeight = item.getHeight();
                 
-                if (y + itemHeight >= 0) {
+                if (y + item.height >= 0) {
                     item.draw(g, y, width, i == selectedItem && selectionMode);
                 }
-                y += itemHeight;
+                y += item.height;
                 if (y > height) break;
             }
         }
@@ -291,14 +283,14 @@ public class ChannelView extends Canvas implements CommandListener {
             case ChannelViewItem.NEWER_BUTTON: {
                 page--;
                 before = null;
-                after = ((Message) s.messages.elementAt(0)).id;
+                after = ((Message) App.messages.elementAt(0)).id;
                 getMessages();
                 break;
             }
             case ChannelViewItem.OLDER_BUTTON: {
                 page++;
                 after = null;
-                before = ((Message) s.messages.elementAt(s.messages.size() - 1)).id;
+                before = ((Message) App.messages.elementAt(App.messages.size() - 1)).id;
                 getMessages();
                 break;
             }
@@ -307,7 +299,7 @@ public class ChannelView extends Canvas implements CommandListener {
     
     private void keyEvent(int keycode) {
         touchMode = false;
-        int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).getHeight();
+        int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).height;
         int thisItemPos = getItemPosition(selectedItem);
 
         switch (getGameAction(keycode)) {
@@ -317,7 +309,7 @@ public class ChannelView extends Canvas implements CommandListener {
                     selectionMode = true;
                 }
                 // Message is taller than screen -> scroll up by two lines
-                else if (thisItemHeight > getHeight() && thisItemPos < 0) {
+                else if (thisItemHeight > height && thisItemPos < 0) {
                     scroll -= fontHeight*2;
                 }
                 // Else go up by one message
@@ -331,7 +323,7 @@ public class ChannelView extends Canvas implements CommandListener {
             }
             case DOWN: {
                 // Message is taller than screen -> scroll down by two lines
-                if (thisItemHeight > getHeight() && thisItemPos + thisItemHeight > getHeight()) {
+                if (thisItemHeight > height && thisItemPos + thisItemHeight > height) {
                     scroll += fontHeight*2;
                 }
                 // Bottom-most message -> disable selection mode
@@ -375,7 +367,7 @@ public class ChannelView extends Canvas implements CommandListener {
         for (int i = 0; i < items.size(); i++) {
             ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
             int itemPos = getItemPosition(i);
-            if (y >= itemPos && y <= itemPos + item.getHeight()) {
+            if (y >= itemPos && y <= itemPos + item.height) {
                 if (selectionMode && i == selectedItem) {
                     // If this item was already selected, execute its action if it's a button
                     executeItemAction();
@@ -391,13 +383,13 @@ public class ChannelView extends Canvas implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            s.openChannelSelector(false);
+            App.openChannelSelector(false);
         }
         else if (c == sendCommand) {
-            s.disp.setCurrent(new MessageBox(s));
+            App.disp.setCurrent(new MessageBox(null));
         }
         else if (c == refreshCommand) {
-            s.openChannelView(true);
+            App.openChannelView(true);
         }
         else if (c == selectCommand) {
             executeItemAction();
@@ -406,13 +398,13 @@ public class ChannelView extends Canvas implements CommandListener {
             Message selected = ((ChannelViewItem) items.elementAt(selectedItem)).msg;
 
             if (c == replyCommand) {
-                s.disp.setCurrent(new ReplyForm(s, selected));
+                App.disp.setCurrent(new ReplyForm(selected));
             }
             else if (c == editCommand) {
-                s.disp.setCurrent(new MessageBox(s, selected));
+                App.disp.setCurrent(new MessageBox(selected));
             }
             else if (c == deleteCommand) {
-                HTTPThread h = new HTTPThread(s, HTTPThread.DELETE_MESSAGE);
+                HTTPThread h = new HTTPThread(HTTPThread.DELETE_MESSAGE);
                 h.editMessage = selected;
                 h.start();
             }

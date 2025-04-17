@@ -3,13 +3,11 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class MainMenu extends List implements CommandListener {
-    State s;
     private Command quitCommand;
 
-    public MainMenu(State s) {
+    public MainMenu() {
         super("Discord", List.IMPLICIT);
-        setCommandListener(this); 
-        this.s = s;
+        setCommandListener(this);
 
         quitCommand = new Command("Quit", Command.EXIT, 0);
 
@@ -24,26 +22,26 @@ public class MainMenu extends List implements CommandListener {
         if (c == List.SELECT_COMMAND) {
             switch (getSelectedIndex()) {
                 case 0: {
-                    s.openGuildSelector(true);
+                    App.openGuildSelector(true);
                     break;
                 }
                 case 1: {
-                    s.isDM = true;
-                    s.openChannelSelector(true);
+                    App.isDM = true;
+                    App.openChannelSelector(true);
                     break;
                 }
                 case 2: {
-                    s.disp.setCurrent(new SettingsForm(s));
+                    App.disp.setCurrent(new SettingsForm());
                     break;
                 }
                 case 3: {
-                    s.disp.setCurrent(new LoginForm(s));
+                    App.disp.setCurrent(new LoginForm());
                     break;
                 }
             }
         }
         else if (c == quitCommand) {
-            s.midlet.notifyDestroyed();
+            App.instance.notifyDestroyed();
         }
     }
 }

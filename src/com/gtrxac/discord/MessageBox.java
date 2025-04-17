@@ -6,23 +6,17 @@ import javax.microedition.lcdui.*;
  * Prompt for sending and editing messages.
  */
 public class MessageBox extends TextBox implements CommandListener {
-    private State s;
     private Message editMessage;  // null if sending a message
     private Command sendCommand;
     private Command backCommand;
 
-    MessageBox(State s) {
-        this(s, null);
-    }
-
-    MessageBox(State s, Message editMessage) {
+    MessageBox(Message editMessage) {
         super("", "", 2000, 0);
-        this.s = s;
         this.editMessage = editMessage;
         setCommandListener(this);
 
         if (editMessage == null) {
-            setTitle("Send message (" + s.selectedChannel.name + ")");
+            setTitle("Send message (" + App.selectedChannel.name + ")");
         } else {
             setTitle("Edit message");
             setString(editMessage.content);
@@ -35,8 +29,8 @@ public class MessageBox extends TextBox implements CommandListener {
     }
 
     // Send HTTP request to send a message. Also used by ReplyForm
-    public static void sendMessage(State s, String msg, String refID, boolean ping) {
-        HTTPThread h = new HTTPThread(s, HTTPThread.SEND_MESSAGE);
+    public static void sendMessage(String msg, String refID, boolean ping) {
+        HTTPThread h = new HTTPThread(HTTPThread.SEND_MESSAGE);
         h.sendMessage = msg;
         h.sendReference = refID;
         h.sendPing = ping;
@@ -46,16 +40,16 @@ public class MessageBox extends TextBox implements CommandListener {
     public void commandAction(Command c, Displayable d) {
         if (c == sendCommand) {
             if (editMessage == null) {
-                sendMessage(s, getString(), null, false);
+                sendMessage(getString(), null, false);
             } else {
-                HTTPThread h = new HTTPThread(s, HTTPThread.EDIT_MESSAGE);
+                HTTPThread h = new HTTPThread(HTTPThread.EDIT_MESSAGE);
                 h.editMessage = editMessage;
                 h.editContent = getString();
                 h.start();
             }
         }
         else if (c == backCommand) {
-            s.disp.setCurrent(s.channelView);
+            App.disp.setCurrent(App.channelView);
         }
     }
 }

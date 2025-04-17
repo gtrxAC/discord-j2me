@@ -4,6 +4,8 @@ import cc.nnproject.json.*;
 import java.util.*;
 
 public class Message {
+	public static final long DISCORD_EPOCH = 1420070400000L;
+
     static final int TYPE_ADDED = 1;  // user added another user to group DM
     static final int TYPE_REMOVED = 2;  // user left (or was removed) from group DM
     static final int TYPE_CALL = 3;
@@ -34,7 +36,7 @@ public class Message {
 
     public boolean needUpdate;  // does this message's contentlines need to be updated before next draw
 
-    public Message(State s, JSONArray data) {
+    public Message(JSONArray data) {
         id = data.getString(0);
         author = data.getString(1);
         recipient = data.getString(3);
@@ -96,22 +98,22 @@ public class Message {
             content = data.getString(2);
 
             // Check if message is sent by us. If it is, enable flag to allow editing/deleting this message.
-            isOwn = data.getString(5).equals(s.myUserId);
+            isOwn = data.getString(5).equals(App.myUserId);
         }
 
-        Date messageDate = new Date((Long.parseLong(id) >> 22) + State.DISCORD_EPOCH);
+        Date messageDate = new Date((Long.parseLong(id) >> 22) + DISCORD_EPOCH);
         String messageDay = messageDate.toString().substring(0, 10);
         String currentDay = new Date().toString().substring(0, 10);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(messageDate);
-        StringBuffer time = new StringBuffer();
+        StringBuffer time = new StringBuffer("  ");  // begin timestamp string with a bit of padding
 
         if (currentDay.equals(messageDay)) {
             int hour = cal.get(Calendar.HOUR_OF_DAY);
             int minute = cal.get(Calendar.MINUTE);
 
-            if (s.use12hTime) {
+            if (App.use12hTime) {
                 String period = hour < 12 ? "A" : "P";
 
                 // Convert hours to 12-hour format
