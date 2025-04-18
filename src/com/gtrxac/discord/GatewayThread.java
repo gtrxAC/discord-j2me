@@ -200,11 +200,11 @@ public class GatewayThread extends Thread implements Strings
             if (Settings.showNotifPigler && pigler != null) {
                 try {
                     int uid;
-                    if (isDM) {
-                        uid = pigler.createNotification(author, content, appIcon, true);
-                    } else {
-                        uid = pigler.createNotification(location, author + ": " + content, appIcon, true);
-                    }
+					String notificationText = isDM ? content : (author + ": " + content);
+                    uid = pigler.createNotification(location, notificationText, appIcon, true);
+                    try {
+                        pigler.showGlobalPopup(location, notificationText, 0);
+                    } catch (Throwable ignored) {}
                     piglerNotifs.put(new Integer(uid), notif);
                 }
                 catch (Exception e) {}
@@ -244,18 +244,18 @@ public class GatewayThread extends Thread implements Strings
     }
 
     private void initPigler() {
-		if (!Util.supportsPigler) {
+        if (!Util.supportsPigler) {
             App.error(Locale.get(PIGLER_NOT_SUPPORTED));
             piglerInitFailed = true;
-			return;
-		}
+            return;
+        }
 
         try {
             appIcon = Image.createImage("/icon.png");
         }
         catch (Exception e) {}
         
-		try {
+        try {
             synchronized (piglerLock) {
                 piglerNotifs = new Hashtable();
                 pigler = new PiglerAPILayer();
@@ -263,10 +263,10 @@ public class GatewayThread extends Thread implements Strings
                 int missedUid = pigler.init("Discord");
                 if (missedUid != 0) handleNotificationTap(missedUid);
             }
-		} catch (Exception e) {
-			e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             App.error(Locale.get(PIGLER_ERROR) + e.toString());
-		}
+        }
     }
     
     public void handleNotificationTap(int uid) {
