@@ -7,7 +7,7 @@ import javax.microedition.lcdui.Image;
 
 public class HTTP implements Strings {
     public static HttpConnection openConnection(String url) throws IOException {
-        String fullUrl = App.getPlatformSpecificUrl(Settings.api + "/api/v9" + url);
+        String fullUrl = Settings.api + "/api/v9" + url;
 
         if (Settings.tokenType == Settings.TOKEN_TYPE_QUERY) {
             if (fullUrl.indexOf("?") != -1) {
@@ -17,7 +17,7 @@ public class HTTP implements Strings {
             }
         }
 
-        HttpConnection c = (HttpConnection) Connector.open(fullUrl);
+        HttpConnection c = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(fullUrl));
 
         if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
             c.setRequestProperty("Content-Type", "application/json");
@@ -29,11 +29,9 @@ public class HTTP implements Strings {
 
     public static String sendRequest(HttpConnection c) throws Exception {
         InputStream is = null;
-
-        is = c.openDataInputStream();
-
         try {
             int respCode = c.getResponseCode();
+			is = c.openDataInputStream();
             
             // Read response
             StringBuffer stringBuffer = new StringBuffer();
@@ -133,7 +131,11 @@ public class HTTP implements Strings {
 		HttpConnection hc = null;
 		InputStream in = null;
 		try {
-			hc = open(url);
+			hc = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(url));
+			hc.setRequestMethod("GET");
+			if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
+				hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
+			}
 			int r;
 			if((r = hc.getResponseCode()) >= 400) {
 				throw new IOException(Locale.get(HTTP_ERROR_CODE) + r);
@@ -144,14 +146,5 @@ public class HTTP implements Strings {
             try { in.close(); } catch (Exception e) {}
             try { hc.close(); } catch (Exception e) {}
 		}
-	}
-
-	private static HttpConnection open(String url) throws IOException {
-		HttpConnection hc = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(url));
-		hc.setRequestMethod("GET");
-		if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
-            hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
-        }
-		return hc;
 	}
 }
