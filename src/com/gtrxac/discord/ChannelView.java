@@ -274,7 +274,17 @@ public class ChannelView extends Canvas implements CommandListener {
         int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).height;
         int thisItemPos = getItemPosition(selectedItem);
 
-        switch (getGameAction(keycode)) {
+        if (keycode == KEY_NUM2) {
+            // jump to top-most item
+            selectionMode = true;
+            selectedItem = items.size() - 1;
+        }
+        else if (keycode == KEY_NUM8) {
+            // jump to bottom-most item
+            selectionMode = true;
+            selectedItem = 0;
+        }
+        else switch (getGameAction(keycode)) {
             case UP: {
                 // No message selected -> enable selection mode (bottom-most will be selected)
                 if (!selectionMode) {
