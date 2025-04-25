@@ -21,7 +21,7 @@ public class FavoriteGuilds {
         catch (Exception e) {}
         
         try {
-            guilds = JSON.getArray(new String(rms.getRecord(1)));
+            guilds = JSONObject.parseArray(new String(rms.getRecord(1)));
         }
         catch (Exception e) {
             guilds = new JSONArray();

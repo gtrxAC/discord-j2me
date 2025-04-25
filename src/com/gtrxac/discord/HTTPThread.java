@@ -92,7 +92,7 @@ public class HTTPThread extends Thread {
 
             switch (action) {
                 case FETCH_GUILDS: {
-                    JSONArray guilds = JSON.getArray(get("/users/@me/guilds"));
+                    JSONArray guilds = JSONObject.parseArray(get("/users/@me/guilds"));
                     App.guilds = new Vector();
 
                     for (int i = 0; i < guilds.size(); i++) {
@@ -104,7 +104,7 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_CHANNELS: {
-                    JSONArray channels = JSON.getArray(get("/guilds/" + App.selectedGuild.id + "/channels"));
+                    JSONArray channels = JSONObject.parseArray(get("/guilds/" + App.selectedGuild.id + "/channels"));
                     App.channels = new Vector();
 
                     for (int i = 0; i < channels.size(); i++) {
@@ -117,7 +117,7 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_DM_CHANNELS: {
-                    JSONArray channels = JSON.getArray(get("/users/@me/channels"));
+                    JSONArray channels = JSONObject.parseArray(get("/users/@me/channels"));
                     App.channels = new Vector();
             
                     for (int i = 0; i < channels.size(); i++) {
@@ -164,7 +164,7 @@ public class HTTPThread extends Thread {
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
 
-                    JSONArray messages = JSON.getArray(get(url.toString()));
+                    JSONArray messages = JSONObject.parseArray(get(url.toString()));
                     App.messages = new Vector();
 
                     for (int i = 0; i < messages.size(); i++) {
@@ -255,10 +255,10 @@ public class HTTPThread extends Thread {
             }
 
             try {
-                String message = JSON.getObject(response).getString("message");
+                String message = JSONObject.parseObject(response).getString("message");
                 throw new Exception(message);
             }
-            catch (JSONException e) {
+            catch (RuntimeException e) {
                 throw new Exception("HTTP error " + respCode);
             }
         } finally {
