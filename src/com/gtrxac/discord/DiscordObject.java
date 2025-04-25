@@ -12,5 +12,9 @@ public class DiscordObject {
     public DiscordObject(JSONArray data) {
         id = data.getString(0);
         name = data.getString(1);
+
+        if (data.size() > 2) {
+            name = Util.formatTimestamp(Long.parseLong(data.getString(2), 36)) + " " + name;
+        }
     }
 }

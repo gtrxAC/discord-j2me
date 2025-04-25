@@ -40,6 +40,7 @@ public class Settings {
             index++; // skip unused record
             // dark theme default for color screens, dedicated monochrome theme default for mono screens
             App.theme = getByteRecord(App.disp.isColor() ? 1 : 0);
+            App.listTimestamps = getByteRecord(0) != 0;
 
             if (App.messageLoadCount < 1 || App.messageLoadCount > 100) App.messageLoadCount = 15;
         }
@@ -48,7 +49,7 @@ public class Settings {
         }
         finally {
             try {
-                if (loginRms != null) loginRms.closeRecordStore();
+                loginRms.closeRecordStore();
             }
             catch (Exception e) {}
         }
@@ -65,10 +66,16 @@ public class Settings {
             setByteRecord(App.messageLoadCount);
             setByteRecord(0);
             setByteRecord(App.theme);
-            loginRms.closeRecordStore();
+            setByteRecord(App.listTimestamps ? 1 : 0);
         }
         catch (Exception e) {
             App.error(e);
+        }
+        finally {
+            try {
+                loginRms.closeRecordStore();
+            }
+            catch (Exception e) {}
         }
     }
 

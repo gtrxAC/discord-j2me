@@ -118,4 +118,55 @@ public class Util {
 		v.copyInto(arr);
 		return arr;
 	}
+	
+	public static final long DISCORD_EPOCH = 1420070400000L;
+
+	public static String formatTimestamp(long timestamp) {
+		timestamp += DISCORD_EPOCH;
+		long now = System.currentTimeMillis();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(timestamp));
+
+        StringBuffer time = new StringBuffer();
+
+		// Message was sent more than 24 hours ago? (or in the future if the phone's date isn't set)
+		if (now - timestamp > 24*60*60*1000 || now < timestamp) {
+			// Show date in day/month format
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            int month = cal.get(Calendar.MONTH) + 1;
+
+            // if (day < 10) time.append('0');
+            time.append(day);
+            time.append('/');
+            // if (month < 10) time.append('0');
+            time.append(month);
+		} else {
+			// Show time in hour:minute format
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            int minute = cal.get(Calendar.MINUTE);
+
+            if (App.use12hTime) {
+                char period = hour < 12 ? 'A' : 'P';
+
+                // Convert hours to 12-hour format
+                hour = hour % 12;
+                if (hour == 0) {
+                    hour = 12; // 12 AM or 12 PM
+                }
+
+                time.append(hour);
+                time.append(':');
+                if (minute < 10) time.append('0');
+                time.append(minute);
+                time.append(period);
+            } else {
+                time.append(hour);
+                time.append(':');
+                if (minute < 10) time.append('0');
+                time.append(minute);
+            }
+		}
+        return time.toString();
+	}
 }

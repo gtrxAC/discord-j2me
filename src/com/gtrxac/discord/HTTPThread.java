@@ -104,7 +104,9 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_CHANNELS: {
-                    JSONArray channels = JSONObject.parseArray(get("/guilds/" + App.selectedGuild.id + "/channels"));
+                    String url = "/guilds/" + App.selectedGuild.id + "/channels" + (App.listTimestamps ? "?t=1" : "");
+
+                    JSONArray channels = JSONObject.parseArray(get(url));
                     App.channels = new Vector();
 
                     for (int i = 0; i < channels.size(); i++) {
@@ -117,7 +119,9 @@ public class HTTPThread extends Thread {
                 }
 
                 case FETCH_DM_CHANNELS: {
-                    JSONArray channels = JSONObject.parseArray(get("/users/@me/channels"));
+                    String url = "/users/@me/channels" + (App.listTimestamps ? "?t=1" : "");
+
+                    JSONArray channels = JSONObject.parseArray(get(url));
                     App.channels = new Vector();
             
                     for (int i = 0; i < channels.size(); i++) {

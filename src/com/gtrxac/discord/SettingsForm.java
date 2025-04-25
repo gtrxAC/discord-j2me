@@ -22,9 +22,10 @@ public class SettingsForm extends Form implements CommandListener {
             append(themeGroup);
         }
 
-        String[] uiChoices = {"12-hour time"};
+        String[] uiChoices = {"12-hour time", "List timestamps"};
         uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, null);
         uiGroup.setSelectedIndex(0, App.use12hTime);
+        uiGroup.setSelectedIndex(1, App.listTimestamps);
         append(uiGroup);
 
         String[] fontChoices = {"Small", "Medium", "Large"};
@@ -63,6 +64,7 @@ public class SettingsForm extends Form implements CommandListener {
             }
 
             App.use12hTime = uiGroup.isSelected(0);
+            App.listTimestamps = uiGroup.isSelected(1);
             Settings.save();
         }
         App.login();
