@@ -20,6 +20,7 @@ public class Message extends ChannelViewItem {
     static final int TYPE_BOOSTED_LEVEL_3 = 11;
 
     static int arrowStringWidth;
+    static int margin;
 
     public String id;
     public String author;
@@ -39,19 +40,26 @@ public class Message extends ChannelViewItem {
 
     public boolean needUpdate;  // does this message's contentlines need to be updated before next draw
 
+    private int timestampX;
+
     public Message(JSONArray data) {
-        super(null);
+        super();
         id = data.getString(0);
         author = data.getString(1);
         recipient = data.getString(3);
 
-        // bit of padding between author/recipient and message timestamp
+        labelOrAuthorWidth = fontHeight/5;
+
         if (recipient.length() == 0) {
             recipient = null;
-            author += " ";
+            author += " ";  // bit of padding between author and message timestamp
         } else {
             recipient += " ";
+            labelOrAuthorWidth += arrowStringWidth;
+            timestampX = App.authorFont.stringWidth(recipient);
         }
+        labelOrAuthorWidth += App.authorFont.stringWidth(author);
+        timestampX += labelOrAuthorWidth;
 
         int t = data.getInt(4);
         if (t >= TYPE_ADDED && t <= TYPE_BOOSTED_LEVEL_3) {
@@ -168,11 +176,11 @@ public class Message extends ChannelViewItem {
      * @return true if author should be shown, false if messages are "merged"
      */
     public boolean shouldShowAuthor(Message above, String clusterStart) {
-        // Different authors -> true
-        if (!above.author.equals(author)) return true;
-
         // This message is a reply -> true
         if (recipient != null) return true;
+
+        // Different authors -> true
+        if (!above.author.equals(author)) return true;
 
         // This message or above message is a status message -> true
         if (isStatus || above.isStatus) return true;
@@ -185,15 +193,14 @@ public class Message extends ChannelViewItem {
 
     /**
      * Gets the amount of vertical pixels that this item will take up on the screen.
+     * Result is stored in 'height' field for fast access.
      */
     public int calculateHeight() {
-        int fontHeight = App.messageFont.getHeight();
-        
         // Each content line + little bit of spacing between messages
-        int result = fontHeight*contentLines.length + fontHeight/4;
+        int result = fontHeight*contentLines.length + margin*2;
 
         // One line for message author + more spacing
-        if (showAuthor) result += App.authorFont.getHeight() + fontHeight/4;
+        if (showAuthor) result += authorFontHeight + margin;
 
         height = result;
         return result;
@@ -206,69 +213,47 @@ public class Message extends ChannelViewItem {
      * @param width Horizontal area available for drawing, in pixels.
      */
     public void draw(Graphics g, int y, int width, boolean selected) {
-        int fontHeight = App.messageFont.getHeight();
-
         // Highlight background if message is selected
         if (selected) {
-            g.setColor(ChannelView.highlightColors[App.theme]);
+            g.setColor(highlightColor);
             g.fillRect(0, y, width, height);
         }
         
         int x = fontHeight/5;
-        y += fontHeight/8 + fontYOffset;
+        y += margin + fontYOffset;
 
         if (showAuthor) {
-            y += fontHeight/8;
-            int authorX = x;
-
-            if (selected) g.setColor(ChannelView.selMessageColors[App.theme]);
-            else g.setColor(ChannelView.authorColors[App.theme]);
-
             // Draw author name
+            g.setColor(selected ? selMessageColor : authorColor);
             g.setFont(App.authorFont);
-            g.drawString(author, authorX, y, Graphics.TOP | Graphics.LEFT);
-            authorX += App.authorFont.stringWidth(author);
+            g.drawString(author, x, y, Graphics.TOP | Graphics.LEFT);
 
             // Draw recipient name if applicable
             if (recipient != null) {
-                authorX += arrowStringWidth;
-                g.drawString(recipient, authorX, y, Graphics.TOP | Graphics.LEFT);
+                g.drawString(recipient, labelOrAuthorWidth, y, Graphics.TOP | Graphics.LEFT);
             }
 
             g.setFont(App.timestampFont);
-            if (selected) {
-                g.setColor(ChannelView.selTimestampColors[App.theme]);
-            } else {
-                g.setColor(ChannelView.timestampColors[App.theme]);
-            }
+            g.setColor(selected ? selTimestampColor : timestampColor);
 
             // Draw arrow between author and recipient if applicable
             if (recipient != null) {
-                g.drawString(" > ", authorX, y, Graphics.TOP | Graphics.RIGHT);
-                authorX += App.authorFont.stringWidth(recipient);
+                g.drawString(" > ", labelOrAuthorWidth, y, Graphics.TOP | Graphics.RIGHT);
             }
             // Draw timestamp
-            g.drawString(timestamp, authorX, y, Graphics.TOP | Graphics.LEFT);
-            y += App.authorFont.getHeight() + fontHeight/8;
+            g.drawString(timestamp, timestampX, y, Graphics.TOP | Graphics.LEFT);
+            y += authorFontHeight + margin;
+
+            g.setFont(App.messageFont);
+        }
+
+        // For normal messages, use message color
+        // For status messages, the timestamp color (which was already set above) is used to distinguish them from normal messages
+        if (!isStatus) {
+            g.setColor(selected ? selMessageColor : messageColor);
         }
 
         // Draw message content
-        // Use timestamp color for status messages to distinguish them from normal messages
-        if (isStatus) {
-            if (selected) {
-                g.setColor(ChannelView.selTimestampColors[App.theme]);
-            } else {
-                g.setColor(ChannelView.timestampColors[App.theme]);
-            }
-        } else {
-            if (selected) {
-                g.setColor(ChannelView.selMessageColors[App.theme]);
-            } else {
-                g.setColor(ChannelView.messageColors[App.theme]);
-            }
-        }
-
-        g.setFont(App.messageFont);
         for (int i = 0; i < contentLines.length; i++) {
             g.drawString(contentLines[i], x, y, Graphics.TOP | Graphics.LEFT);
             y += fontHeight;

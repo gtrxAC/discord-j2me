@@ -57,11 +57,6 @@ public class App extends MIDlet {
 
     public void destroyApp(boolean unconditional) {}
 
-    public static void login() {
-        loadFonts();
-        disp.setCurrent(new MainMenu());
-    }
-
 	public static void error(String message, Displayable next) {
 		Displayable current = disp.getCurrent();
 
@@ -75,8 +70,7 @@ public class App extends MIDlet {
 			return;
 		}
 
-		Alert a = new Alert("Error");
-		a.setString(message);
+		Alert a = new Alert("Error", message, null, AlertType.ERROR);
 		a.setTimeout(Alert.FOREVER);
 
 		if (next == null) {
@@ -87,6 +81,7 @@ public class App extends MIDlet {
 	}
 	
 	public static void error(Exception e, Displayable next) {
+		e.printStackTrace();
 		error(e.toString(), next);
 	}
 	
@@ -95,15 +90,46 @@ public class App extends MIDlet {
 	}
 
 	public static void error(Exception e) {
-		error(e.toString());
+		error(e, null);
 	}
 
-	public static void loadFonts() {
+	public static void login() {
 		final int[] fontSizes = {Font.SIZE_SMALL, Font.SIZE_MEDIUM, Font.SIZE_LARGE};
 		
 		authorFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, fontSizes[authorFontSize]);
 		timestampFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[authorFontSize]);
 		messageFont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSizes[messageFontSize]);
+
+        ChannelViewItem.fontHeight = messageFont.getHeight();
+        ChannelViewItem.authorFontHeight = authorFont.getHeight();
+		Message.margin = Math.max(1, ChannelViewItem.fontHeight/8);
+        Message.arrowStringWidth = timestampFont.stringWidth(" > ");
+
+		//                               Monochrome Dark      Light
+		final int[] backgroundColors =   {0xFFFFFF, 0x313338, 0xFFFFFF};
+		final int[] highlightColors =    {0x000000, 0x1e1f22, 0xBBBBBB};
+		final int[] buttonColors =       {0xFFFFFF, 0x2b2d31, 0xCCCCCC};
+		final int[] selButtonColors =    {0x000000, 0x1e1f22, 0xAAAAAA};
+		final int[] messageColors =      {0x000000, 0xEEEEEE, 0x111111};
+		final int[] selMessageColors =   {0xFFFFFF, 0xFFFFFF, 0x000000};
+		final int[] authorColors =       {0x000000, 0xFFFFFF, 0x000000};
+		final int[] timestampColors =    {0x000000, 0xAAAAAA, 0x777777};
+		final int[] selTimestampColors = {0xFFFFFF, 0xBBBBBB, 0x555555};
+		
+		ChannelViewItem.backgroundColor = backgroundColors[theme];
+		ChannelViewItem.highlightColor = highlightColors[theme];
+		ChannelViewItem.buttonColor = buttonColors[theme];
+		ChannelViewItem.selButtonColor = selButtonColors[theme];
+		ChannelViewItem.messageColor = messageColors[theme];
+		ChannelViewItem.selMessageColor = selMessageColors[theme];
+		ChannelViewItem.authorColor = authorColors[theme];
+		ChannelViewItem.timestampColor = timestampColors[theme];
+		ChannelViewItem.selTimestampColor = selTimestampColors[theme];
+		
+		ChannelViewItem.olderMessagesButton = new ChannelViewItem("Older messages");
+		ChannelViewItem.newerMessagesButton = new ChannelViewItem("Newer messages");
+
+        disp.setCurrent(new MainMenu());
 	}
 
 	public static void openGuildSelector(boolean reload) {

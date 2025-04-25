@@ -15,10 +15,12 @@ public class SettingsForm extends Form implements CommandListener {
         super("Settings");
         setCommandListener(this);
 
-        String[] themeChoices = {"Monochrome", "Dark", "Light"};
-        themeGroup = new ChoiceGroup("Theme", ChoiceGroup.EXCLUSIVE, themeChoices, null);
-        themeGroup.setSelectedIndex(App.theme, true);
-        append(themeGroup);
+        if (App.disp.isColor()) {
+            String[] themeChoices = {"Monochrome", "Dark", "Light"};
+            themeGroup = new ChoiceGroup("Theme", ChoiceGroup.EXCLUSIVE, themeChoices, null);
+            themeGroup.setSelectedIndex(App.theme, true);
+            append(themeGroup);
+        }
 
         String[] uiChoices = {"12-hour time"};
         uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, null);
@@ -47,7 +49,7 @@ public class SettingsForm extends Form implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == saveCommand) {
-            App.theme = themeGroup.getSelectedIndex();
+            App.theme = App.disp.isColor() ? themeGroup.getSelectedIndex() : 0;
             App.authorFontSize = authorFontGroup.getSelectedIndex();
             App.messageFontSize = messageFontGroup.getSelectedIndex();
 
@@ -60,13 +62,9 @@ public class SettingsForm extends Form implements CommandListener {
                 App.messageLoadCount = 20;
             }
 
-            boolean[] selected = {false, false};
-            uiGroup.getSelectedFlags(selected);
-            App.use12hTime = selected[0];
-
+            App.use12hTime = uiGroup.isSelected(0);
             Settings.save();
         }
-        App.loadFonts();
-        App.disp.setCurrent(new MainMenu());
+        App.login();
     }
 }
