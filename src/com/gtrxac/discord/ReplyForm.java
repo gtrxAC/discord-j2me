@@ -43,8 +43,8 @@ public class ReplyForm extends Form implements CommandListener {
                 msg.id,
                 !App.isDM && pingGroup.isSelected(0)
             );
-        }
-        else if (c == backCommand) {
+        } else {
+            // back command
             App.disp.setCurrent(App.channelView);
         }
     }

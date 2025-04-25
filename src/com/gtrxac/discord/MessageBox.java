@@ -47,8 +47,8 @@ public class MessageBox extends TextBox implements CommandListener {
                 h.editContent = getString();
                 h.start();
             }
-        }
-        else if (c == backCommand) {
+        } else {
+            // back command
             App.disp.setCurrent(App.channelView);
         }
     }

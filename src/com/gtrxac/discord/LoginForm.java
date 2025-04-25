@@ -42,8 +42,8 @@ public class LoginForm extends Form implements CommandListener {
             }
             Settings.save();
             App.login();
-        }
-        else if (c == quitCommand) {
+        } else {
+            // quit command
             App.instance.notifyDestroyed();
         }
     }

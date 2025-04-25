@@ -385,7 +385,8 @@ public class ChannelView extends Canvas implements CommandListener {
             else if (c == editCommand) {
                 App.disp.setCurrent(new MessageBox(selected));
             }
-            else if (c == deleteCommand) {
+            else {
+                // delete command
                 HTTPThread h = new HTTPThread(HTTPThread.DELETE_MESSAGE);
                 h.editMessage = selected;
                 h.start();

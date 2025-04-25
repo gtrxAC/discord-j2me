@@ -98,7 +98,7 @@ public class HTTPThread extends Thread {
                     for (int i = 0; i < guilds.size(); i++) {
                         App.guilds.addElement(new DiscordObject(guilds.getArray(i)));
                     }
-                    App.guildSelector = new GuildSelector(App.guilds);
+                    App.guildSelector = new GuildSelector(App.guilds, false);
                     App.disp.setCurrent(App.guildSelector);
                     break;
                 }
@@ -110,6 +110,7 @@ public class HTTPThread extends Thread {
                     for (int i = 0; i < channels.size(); i++) {
                         App.channels.addElement(new DiscordObject(channels.getArray(i)));
                     }
+                    App.loadedGuild = App.selectedGuild;
                     App.channelSelector = new ChannelSelector();
                     App.disp.setCurrent(App.channelSelector);
                     break;
@@ -122,6 +123,7 @@ public class HTTPThread extends Thread {
                     for (int i = 0; i < channels.size(); i++) {
                         App.channels.addElement(new DiscordObject(channels.getArray(i)));
                     }
+                    App.loadedGuild = null;
                     App.channelSelector = new ChannelSelector();
                     App.disp.setCurrent(App.channelSelector);
                     break;

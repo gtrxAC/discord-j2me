@@ -8,8 +8,14 @@ public class ChannelSelector extends List implements CommandListener {
     private Command refreshCommand;
 
     public ChannelSelector() {
-        super(App.isDM ? "Direct messages" : App.selectedGuild.name, List.IMPLICIT);
+        super("", List.IMPLICIT);
         setCommandListener(this);
+
+        if (App.isDM) {
+            setTitle(Util.screenWidth <= 128 ? "Direct msgs." : "Direct messages");
+        } else {
+            setTitle(App.selectedGuild.name);
+        }
 
         for (int i = 0; i < App.channels.size(); i++) {
             DiscordObject ch = (DiscordObject) App.channels.elementAt(i);
@@ -25,12 +31,13 @@ public class ChannelSelector extends List implements CommandListener {
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
             if (App.isDM) App.disp.setCurrent(new MainMenu());
-            else App.openGuildSelector(false);
+            else App.disp.setCurrent(App.guildSelector);
         }
         else if (c == refreshCommand) {
             App.openChannelSelector(true);
         }
-        else if (c == List.SELECT_COMMAND) {
+        else {
+            // list select command
             App.selectedChannel = (DiscordObject) App.channels.elementAt(getSelectedIndex());
             App.openChannelView(true);
         }

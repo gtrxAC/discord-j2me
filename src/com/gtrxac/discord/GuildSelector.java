@@ -8,12 +8,16 @@ public class GuildSelector extends List implements CommandListener {
     private Vector guilds;
     private Command backCommand;
     private Command refreshCommand;
+    private Command addFavCommand;
+    private Command removeFavCommand;
+    public boolean isFavGuilds;
 
-    public GuildSelector(Vector guilds) {
-        super("Servers", List.IMPLICIT);
+    public GuildSelector(Vector guilds, boolean isFavGuilds) {
+        super(isFavGuilds ? FavoriteGuilds.label2 : "Servers", List.IMPLICIT);
 
         setCommandListener(this);
         this.guilds = guilds;
+        this.isFavGuilds = isFavGuilds;
 
         for (int i = 0; i < guilds.size(); i++) {
             DiscordObject g = (DiscordObject) guilds.elementAt(i);
@@ -21,9 +25,17 @@ public class GuildSelector extends List implements CommandListener {
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
-        refreshCommand = new Command("Refresh", Command.ITEM, 3);
         addCommand(backCommand);
-        addCommand(refreshCommand);
+
+        if (isFavGuilds) {
+            removeFavCommand = new Command("Remove", Command.ITEM, 2);
+            addCommand(removeFavCommand);
+        } else {
+            refreshCommand = new Command("Refresh", Command.ITEM, 3);
+            addFavCommand = new Command(FavoriteGuilds.label, Command.ITEM, 3);
+            addCommand(refreshCommand);
+            addCommand(addFavCommand);
+        }
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -33,15 +45,24 @@ public class GuildSelector extends List implements CommandListener {
         else if (c == refreshCommand) {
             App.openGuildSelector(true);
         }
-        else if (c == List.SELECT_COMMAND) {
+        else if (c == removeFavCommand) {
+            FavoriteGuilds.remove(getSelectedIndex());
+            FavoriteGuilds.openSelector();
+        }
+        else {
             DiscordObject g = (DiscordObject) guilds.elementAt(getSelectedIndex());
 
-            App.isDM = false;
-            if (g == App.selectedGuild) {
-                App.openChannelSelector(false);
+            if (c == List.SELECT_COMMAND) {
+                App.isDM = false;
+                if (g == App.selectedGuild) {
+                    App.openChannelSelector(false);
+                } else {
+                    App.selectedGuild = g;
+                    App.openChannelSelector(true);
+                }
             } else {
-                App.selectedGuild = g;
-                App.openChannelSelector(true);
+                // add to favorites command
+                FavoriteGuilds.add(g);
             }
         }
     }

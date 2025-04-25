@@ -25,6 +25,7 @@ public class App extends MIDlet {
 
 	public static Vector guilds;
 	public static DiscordObject selectedGuild;
+	public static DiscordObject loadedGuild;
 	public static GuildSelector guildSelector;
 
 	public static Vector channels;
@@ -136,12 +137,16 @@ public class App extends MIDlet {
 		if (reload || guildSelector == null || guilds == null) {
 			new HTTPThread(HTTPThread.FETCH_GUILDS).start();
 		} else {
+			if (guildSelector.isFavGuilds) {
+				// Guild list is already loaded but current selector is showing favorite guilds - create new selector from full guild list
+				guildSelector = new GuildSelector(guilds, false);
+			}
 			disp.setCurrent(guildSelector);
 		}
 	}
 
 	public static void openChannelSelector(boolean reload) {
-		if (reload || channelSelector == null || channels == null) {
+		if (reload || channelSelector == null || channels == null || selectedGuild != loadedGuild) {
 			int action = isDM ? HTTPThread.FETCH_DM_CHANNELS : HTTPThread.FETCH_CHANNELS;
 			new HTTPThread(action).start();
 		} else {
