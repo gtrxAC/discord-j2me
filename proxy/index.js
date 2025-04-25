@@ -31,6 +31,10 @@ const userCache = new Map();
 const channelCache = new Map();
 const CACHE_SIZE = 10000;
 
+BigInt.prototype.toJSON = function () {
+    return JSON.rawJSON(this.toString());
+};
+
 function handleError(res, e) {
     if (e.response) {
         console.log(e.response);
@@ -731,12 +735,27 @@ app.get(`${BASE_L}/guilds/:guild/channels`, getToken, async (req, res) => {
             }
         })
 
-        const channels = response.data
-            .filter(ch => ch.type == 0 || ch.type == 5)
-            .sort((a, b) => a.position - b.position)
-            .map(ch => [ch.id, ch.name])
+        let channels = response.data.filter(ch => ch.type == 0 || ch.type == 5);
+        
+        if (req.query?.t) {
+            // Sort by latest first
+            channels.sort((a, b) => {
+                const a_id = BigInt(a.last_message_id ?? 0);
+                const b_id = BigInt(b.last_message_id ?? 0);
+                return (a_id < b_id ? 1 : a_id > b_id ? -1 : 0)
+            });
+            channels = channels.slice(0, 22);
+        } else {
+            channels.sort((a, b) => a.position - b.position)
+        }
 
-        res.send(stringifyUnicode(channels));
+        const output = channels.map(ch => {
+            const result = [ch.id, ch.name];
+            if (req.query?.t) result.push(BigInt(ch.last_message_id ?? 0) >> 22n);
+            return result;
+        })
+
+        res.send(stringifyUnicode(output));
     }
     catch (e) { handleError(res, e); }
 });
@@ -759,7 +778,7 @@ app.get(`${BASE_L}/users/@me/channels`, getToken, async (req, res) => {
             return (a_id < b_id ? 1 : a_id > b_id ? -1 : 0)
         });
 
-        const output = channels.slice(0, 30)
+        const output = channels.slice(0, req.query?.t ? 22 : 30)
             // Convert to [id, name] format
             .map(ch => {
                 const result = [ch.id];
@@ -770,6 +789,10 @@ app.get(`${BASE_L}/users/@me/channels`, getToken, async (req, res) => {
                 } else {
                     // Add first recipient's name for normal DM
                     result.push(ch.recipients[0].global_name ?? ch.recipients[0].username);
+                }
+                if (req.query?.t) {
+                    // timestamp of last message
+                    result.push(BigInt(ch.last_message_id ?? 0) >> 22n);
                 }
                 return result;
             })
