@@ -31,10 +31,6 @@ const userCache = new Map();
 const channelCache = new Map();
 const CACHE_SIZE = 10000;
 
-BigInt.prototype.toJSON = function () {
-    return JSON.rawJSON(this.toString());
-};
-
 function handleError(res, e) {
     if (e.response) {
         console.log(e.response);
@@ -751,7 +747,7 @@ app.get(`${BASE_L}/guilds/:guild/channels`, getToken, async (req, res) => {
 
         const output = channels.map(ch => {
             const result = [ch.id, ch.name];
-            if (req.query?.t) result.push(BigInt(ch.last_message_id ?? 0) >> 22n);
+            if (req.query?.t) result.push((BigInt(ch.last_message_id ?? 0) >> 22n).toString(36));
             return result;
         })
 
@@ -792,7 +788,7 @@ app.get(`${BASE_L}/users/@me/channels`, getToken, async (req, res) => {
                 }
                 if (req.query?.t) {
                     // timestamp of last message
-                    result.push(BigInt(ch.last_message_id ?? 0) >> 22n);
+                    result.push((BigInt(ch.last_message_id ?? 0) >> 22n).toString(36));
                 }
                 return result;
             })
