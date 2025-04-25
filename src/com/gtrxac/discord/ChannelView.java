@@ -49,8 +49,9 @@ public class ChannelView extends Canvas implements CommandListener {
     static final int[] timestampColors =    {0x000000, 0xAAAAAA, 0x777777};
     static final int[] selTimestampColors = {0xFFFFFF, 0xBBBBBB, 0x555555};
 
-    public ChannelView() {
+    public ChannelView(boolean dummy) {
         super();
+        if (dummy) return;
         setCommandListener(this);
 
         backCommand = new Command("Back", Command.BACK, 0);

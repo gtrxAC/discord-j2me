@@ -17,7 +17,7 @@ public class GuildSelector extends List implements CommandListener {
 
         for (int i = 0; i < guilds.size(); i++) {
             DiscordObject g = (DiscordObject) guilds.elementAt(i);
-            append(g.name, null);
+            append(Util.trimItem(g.name), null);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);

@@ -12,7 +12,7 @@ public class MainMenu extends List implements CommandListener {
         quitCommand = new Command("Quit", Command.EXIT, 0);
 
         append("Servers", null);
-        append("Direct msgs.", null);
+        append((Util.screenWidth <= 96) ? "Direct msgs." : "Direct messages", null);
         append("Settings", null);
         append("Log out", null);
         addCommand(quitCommand);

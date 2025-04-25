@@ -5,6 +5,49 @@ import javax.microedition.lcdui.*;
 import java.lang.Math;
 
 public class Util {
+	public static int screenWidth = 0;
+	public static int charsPerItem = 0;
+
+	static {
+		screenWidth = new ChannelView(true).getWidth();
+
+		if (System.getProperty("microedition.platform").indexOf("Nokia") != -1) {
+			switch (screenWidth) {
+				// fix vertically offset canvas font on series 60 (176x208 and 352x416)
+				case 352: {
+					ChannelViewItem.fontYOffset = 2;
+					break;
+				}
+				case 176: {
+					ChannelViewItem.fontYOffset = 1;
+					break;
+				}
+				case 128: {
+					// 128px wide -> could be midp1 or midp2
+					// if it's midp1, it's s40v1, so we must limit the chars per item (read trimItem comment)
+					try {
+						Class.forName("javax.microedition.lcdui.game.GameCanvas");
+					}
+					catch (Throwable e) {
+						charsPerItem = 14;
+					}
+					break;
+				}
+				case 96: {
+					charsPerItem = 12;
+					break;
+				}
+			}
+		}
+	}
+
+	// Trim list item's text to the maximum length that can fit on one line on the screen
+	// Nokia S40v1 uses line wrapping in List screens and we don't want that
+	public static String trimItem(String str) {
+		if (charsPerItem == 0 || str.length() <= charsPerItem) return str;
+		return str.substring(0, charsPerItem - 1) + "..";
+	}
+
 	public static String replace(String str, String from, String to) {
 		int j = str.indexOf(from);
 		if (j == -1)

@@ -10,6 +10,8 @@ public class ChannelViewItem {
     static final ChannelViewItem OLDER_MESSAGES_BUTTON = new ChannelViewItem("Older messages");
     static final ChannelViewItem NEWER_MESSAGES_BUTTON = new ChannelViewItem("Newer messages");
 
+    static int fontYOffset;
+
     String label;
     int height;
 
@@ -60,7 +62,9 @@ public class ChannelViewItem {
         }
 
         g.drawString(
-            label, width/2, y + fontHeight/3,
+            label,
+            width/2,
+            y + fontHeight/3 + fontYOffset,
             Graphics.TOP | Graphics.HCENTER
         );
     }

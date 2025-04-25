@@ -44,7 +44,14 @@ public class Message extends ChannelViewItem {
         id = data.getString(0);
         author = data.getString(1);
         recipient = data.getString(3);
-        if (recipient.length() == 0) recipient = null;
+
+        // bit of padding between author/recipient and message timestamp
+        if (recipient.length() == 0) {
+            recipient = null;
+            author += " ";
+        } else {
+            recipient += " ";
+        }
 
         int t = data.getInt(4);
         if (t >= TYPE_ADDED && t <= TYPE_BOOSTED_LEVEL_3) {
@@ -111,7 +118,7 @@ public class Message extends ChannelViewItem {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(messageDate);
-        StringBuffer time = new StringBuffer(" ");  // begin timestamp string with a bit of padding
+        StringBuffer time = new StringBuffer();
 
         if (currentDay.equals(messageDay)) {
             int hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -186,7 +193,7 @@ public class Message extends ChannelViewItem {
         int result = fontHeight*contentLines.length + fontHeight/4;
 
         // One line for message author + more spacing
-        if (showAuthor) result += App.authorFont.getHeight() + fontHeight/8;
+        if (showAuthor) result += App.authorFont.getHeight() + fontHeight/4;
 
         height = result;
         return result;
@@ -200,23 +207,18 @@ public class Message extends ChannelViewItem {
      */
     public void draw(Graphics g, int y, int width, boolean selected) {
         int fontHeight = App.messageFont.getHeight();
-        int highlightHeight = height;
-
-        if (showAuthor) {
-            y += fontHeight/8;
-            highlightHeight -= fontHeight/8;
-        }
 
         // Highlight background if message is selected
         if (selected) {
             g.setColor(ChannelView.highlightColors[App.theme]);
-            g.fillRect(0, y, width, highlightHeight);
+            g.fillRect(0, y, width, height);
         }
         
         int x = fontHeight/5;
-        y += fontHeight/8;
+        y += fontHeight/8 + fontYOffset;
 
         if (showAuthor) {
+            y += fontHeight/8;
             int authorX = x;
 
             if (selected) g.setColor(ChannelView.selMessageColors[App.theme]);
@@ -247,7 +249,7 @@ public class Message extends ChannelViewItem {
             }
             // Draw timestamp
             g.drawString(timestamp, authorX, y, Graphics.TOP | Graphics.LEFT);
-            y += App.authorFont.getHeight();
+            y += App.authorFont.getHeight() + fontHeight/8;
         }
 
         // Draw message content

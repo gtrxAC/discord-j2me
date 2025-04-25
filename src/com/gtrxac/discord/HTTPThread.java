@@ -171,7 +171,7 @@ public class HTTPThread extends Thread {
 
                     if ((fetchMsgsBefore == null && fetchMsgsAfter == null) || sendMessage != null) {
                         // If user opened a new channel or sent a message, create a new channel view
-                        App.channelView = new ChannelView();
+                        App.channelView = new ChannelView(false);
                     } else {
                         // If user scrolled a page back or forward, keep reusing the same channel view
                         App.channelView.requestUpdate();
@@ -233,10 +233,9 @@ public class HTTPThread extends Thread {
     private static String sendRequest(HttpConnection c) throws Exception {
         InputStream is = null;
 
-        is = c.openDataInputStream();
-
         try {
             int respCode = c.getResponseCode();
+            is = c.openDataInputStream();
             
             // Read response
             StringBuffer stringBuffer = new StringBuffer();
@@ -250,7 +249,7 @@ public class HTTPThread extends Thread {
                 return response;
             }
             if (respCode == HttpConnection.HTTP_UNAUTHORIZED) {
-                throw new Exception("Check your token");
+                throw new Exception("Token is invalid or has expired");
             }
 
             try {

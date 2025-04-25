@@ -13,7 +13,7 @@ public class ChannelSelector extends List implements CommandListener {
 
         for (int i = 0; i < App.channels.size(); i++) {
             DiscordObject ch = (DiscordObject) App.channels.elementAt(i);
-            append(App.isDM ? ch.name : ("#" + ch.name), null);
+            append(Util.trimItem(App.isDM ? ch.name : ("#" + ch.name)), null);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
