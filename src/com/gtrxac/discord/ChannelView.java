@@ -88,7 +88,7 @@ public class ChannelView extends Canvas implements CommandListener {
             }
         }
 
-        int availableWidth = width - ChannelViewItem.fontHeight/5;
+        int availableWidth = width - Message.screenMargin;
 
         for (int i = 0; i < messageCount; i++) {
             Message msg = (Message) App.messages.elementAt(i);
@@ -142,6 +142,11 @@ public class ChannelView extends Canvas implements CommandListener {
 
         int itemPos = getItemPosition(selectedItem);
         int itemHeight = selected.height;
+
+        if (selected instanceof Message && ((Message) selected).showAuthor) {
+            itemPos += Message.groupSpacing;
+            itemHeight -= Message.groupSpacing;
+        }
 
         if (itemHeight > height) {
             // For items taller than the screen, make sure one screenful of it is visible:

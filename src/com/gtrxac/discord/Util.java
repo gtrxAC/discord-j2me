@@ -6,10 +6,13 @@ import java.lang.Math;
 
 public class Util {
 	public static int screenWidth = 0;
+	public static int screenHeight = 0;
 	public static int charsPerItem = 0;
 
 	static {
-		screenWidth = new ChannelView(true).getWidth();
+		ChannelView canvas = new ChannelView(true);
+		screenWidth = canvas.getWidth();
+		screenHeight = canvas.getHeight();
 
 		if (System.getProperty("microedition.platform").indexOf("Nokia") != -1) {
 			switch (screenWidth) {

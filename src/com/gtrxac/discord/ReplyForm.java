@@ -16,7 +16,7 @@ public class ReplyForm extends Form implements CommandListener {
         setCommandListener(this);
         this.msg = msg;
 
-        StringItem refItem = new StringItem("Replying to " + msg.author.trim(), msg.content);
+        StringItem refItem = new StringItem("Replying to " + msg.author, msg.content);
         append(refItem);
 
         replyField = new TextField("Your message:", "", 2000, 0);

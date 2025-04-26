@@ -19,6 +19,9 @@ public class Message extends ChannelViewItem {
 
     static int arrowStringWidth;
     static int margin;
+    static int groupSpacing;
+    static int screenMargin;
+    static int timestampDistance;
 
     public String id;
     public String author;
@@ -46,18 +49,16 @@ public class Message extends ChannelViewItem {
         author = data.getString(1);
         recipient = data.getString(3);
 
-        labelOrAuthorWidth = fontHeight/5;
+        labelOrAuthorWidth = screenMargin;
 
         if (recipient.length() == 0) {
             recipient = null;
-            author += " ";  // bit of padding between author and message timestamp
         } else {
-            recipient += " ";
             labelOrAuthorWidth += arrowStringWidth;
             timestampX = App.authorFont.stringWidth(recipient);
         }
         labelOrAuthorWidth += App.authorFont.stringWidth(author);
-        timestampX += labelOrAuthorWidth;
+        timestampX += labelOrAuthorWidth + timestampDistance;
 
         int t = data.getInt(4);
         if (t >= TYPE_ADDED && t <= TYPE_BOOSTED_LEVEL_3) {
@@ -156,8 +157,8 @@ public class Message extends ChannelViewItem {
         // Each content line + little bit of spacing between messages
         int result = fontHeight*contentLines.length + margin*2;
 
-        // One line for message author + more spacing
-        if (showAuthor) result += authorFontHeight + margin;
+        // One line for message author + more spacing (top margin to separate this message group from others)
+        if (showAuthor) result += authorFontHeight + groupSpacing;
 
         height = result;
         return result;
@@ -170,20 +171,24 @@ public class Message extends ChannelViewItem {
      * @param width Horizontal area available for drawing, in pixels.
      */
     public void draw(Graphics g, int y, int width, boolean selected) {
+        int boxHeight = height;
+        if (showAuthor) {
+            boxHeight -= groupSpacing;
+            y += groupSpacing;
+        }
+
         // Highlight background if message is selected
         if (selected) {
             g.setColor(highlightColor);
-            g.fillRect(0, y, width, height);
+            g.fillRect(0, y, width, boxHeight);
         }
-        
-        int x = fontHeight/5;
         y += margin + fontYOffset;
 
         if (showAuthor) {
             // Draw author name
             g.setColor(selected ? selMessageColor : authorColor);
             g.setFont(App.authorFont);
-            g.drawString(author, x, y, Graphics.TOP | Graphics.LEFT);
+            g.drawString(author, screenMargin, y, Graphics.TOP | Graphics.LEFT);
 
             // Draw recipient name if applicable
             if (recipient != null) {
@@ -199,7 +204,7 @@ public class Message extends ChannelViewItem {
             }
             // Draw timestamp
             g.drawString(timestamp, timestampX, y, Graphics.TOP | Graphics.LEFT);
-            y += authorFontHeight + margin;
+            y += authorFontHeight;
 
             g.setFont(App.messageFont);
         }
@@ -212,7 +217,7 @@ public class Message extends ChannelViewItem {
 
         // Draw message content
         for (int i = 0; i < contentLines.length; i++) {
-            g.drawString(contentLines[i], x, y, Graphics.TOP | Graphics.LEFT);
+            g.drawString(contentLines[i], screenMargin, y, Graphics.TOP | Graphics.LEFT);
             y += fontHeight;
         }
     }

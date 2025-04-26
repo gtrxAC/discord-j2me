@@ -104,14 +104,17 @@ public class App extends MIDlet {
         ChannelViewItem.fontHeight = messageFont.getHeight();
         ChannelViewItem.authorFontHeight = authorFont.getHeight();
 		Message.margin = Math.max(1, ChannelViewItem.fontHeight/8);
+		Message.groupSpacing = Math.max(1, Math.min(ChannelViewItem.fontHeight/5, (Util.screenHeight+2)/49));
+		Message.screenMargin = Math.min(messageFont.stringWidth(" "), Util.screenWidth/58);
+		Message.timestampDistance = authorFont.stringWidth(" ")*4/3;
         Message.arrowStringWidth = timestampFont.stringWidth(" > ");
 
 		//                               Monochrome Dark      Light
 		final int[] backgroundColors =   {0xFFFFFF, 0x313338, 0xFFFFFF};
-		final int[] highlightColors =    {0x000000, 0x1e1f22, 0xBBBBBB};
-		final int[] buttonColors =       {0xFFFFFF, 0x2b2d31, 0xCCCCCC};
-		final int[] selButtonColors =    {0x000000, 0x1e1f22, 0xAAAAAA};
-		final int[] messageColors =      {0x000000, 0xEEEEEE, 0x111111};
+		final int[] highlightColors =    {0x000000, 0x1E1F22, 0xBBBBBB};
+		final int[] buttonColors =       {0xFFFFFF, 0x2B2D31, 0xCCCCCC};
+		final int[] selButtonColors =    {0x000000, 0x1E1F22, 0xAAAAAA};
+		final int[] messageColors =      {0x000000, 0xE8E8E8, 0x181818};
 		final int[] selMessageColors =   {0xFFFFFF, 0xFFFFFF, 0x000000};
 		final int[] authorColors =       {0x000000, 0xFFFFFF, 0x000000};
 		final int[] timestampColors =    {0x000000, 0xAAAAAA, 0x777777};
