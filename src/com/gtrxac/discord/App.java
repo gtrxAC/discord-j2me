@@ -133,6 +133,7 @@ public class App extends MIDlet {
 		ChannelViewItem.olderMessagesButton = new ChannelViewItem("Older messages");
 		ChannelViewItem.newerMessagesButton = new ChannelViewItem("Newer messages");
 
+		MainMenu.lastSelected = 0;
         disp.setCurrent(new MainMenu());
 	}
 

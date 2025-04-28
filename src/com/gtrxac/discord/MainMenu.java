@@ -4,24 +4,27 @@ import javax.microedition.lcdui.*;
 
 public class MainMenu extends List implements CommandListener {
     private Command quitCommand;
+    public static int lastSelected;
 
     public MainMenu() {
         super("Discord", List.IMPLICIT);
         setCommandListener(this);
-
-        quitCommand = new Command("Quit", Command.EXIT, 0);
 
         append("Servers", null);
         if (!FavoriteGuilds.empty()) append(FavoriteGuilds.label2, null);
         append((Util.screenWidth <= 96) ? "Direct msgs." : "Direct messages", null);
         append("Settings", null);
         append("Log out", null);
+        setSelectedIndex(lastSelected, true);
+
+        quitCommand = new Command("Quit", Command.EXIT, 0);
         addCommand(quitCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
         if (c == List.SELECT_COMMAND) {
             int index = getSelectedIndex();
+            lastSelected = index;
             if (FavoriteGuilds.empty() && index > 0) index++;
 
             switch (index) {
