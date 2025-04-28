@@ -6,20 +6,20 @@ import javax.microedition.lcdui.*;
  * Prompt for sending and editing messages.
  */
 public class MessageBox extends TextBox implements CommandListener {
-    private Message editMessage;  // null if sending a message
+    private Message editMessage;  // null if sending a new message
     private Command sendCommand;
     private Command backCommand;
 
     MessageBox(Message editMessage) {
         super("", "", 2000, 0);
-        this.editMessage = editMessage;
         setCommandListener(this);
 
         if (editMessage == null) {
-            setTitle("Send message (" + App.selectedChannel.name + ")");
+            setTitle("Send message");
         } else {
             setTitle("Edit message");
             setString(editMessage.content);
+            this.editMessage = editMessage;
         }
 
         sendCommand = new Command("OK", Command.OK, 0);
