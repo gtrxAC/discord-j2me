@@ -5,16 +5,19 @@ import javax.microedition.lcdui.*;
 import java.lang.Math;
 
 public class Util {
-    public static int screenWidth = 0;
-    public static int screenHeight = 0;
+    public static final boolean isNokia;
+    public static final int screenWidth;
+    public static final int screenHeight;
     public static int charsPerItem = 0;
 
     static {
+        String plat = System.getProperty("microedition.platform");
+        isNokia = (plat != null && plat.indexOf("Nokia") != -1);
         ChannelView canvas = new ChannelView(true);
         screenWidth = canvas.getWidth();
         screenHeight = canvas.getHeight();
 
-        if (System.getProperty("microedition.platform").indexOf("Nokia") != -1) {
+        if (isNokia) {
             switch (screenWidth) {
                 // fix vertically offset canvas font on series 60 (176x208 and 352x416)
                 case 352: {
