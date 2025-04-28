@@ -175,27 +175,35 @@ public class Util {
     public static final long DISCORD_EPOCH = 1420070400000L;
 
     public static String formatTimestamp(long timestamp) {
-        timestamp += DISCORD_EPOCH;
-        long now = System.currentTimeMillis();
+        timestamp += DISCORD_EPOCH;  // remove this if using this function in a different app
 
         Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        int todayDay = cal.get(Calendar.DAY_OF_MONTH);
+        int todayMonth = cal.get(Calendar.MONTH);
+        int todayYear = cal.get(Calendar.YEAR);
+
         cal.setTime(new Date(timestamp));
+        int stampDay = cal.get(Calendar.DAY_OF_MONTH);
+        int stampMonth = cal.get(Calendar.MONTH);
+        int stampYear = cal.get(Calendar.YEAR);
 
-        StringBuffer time = new StringBuffer();
+        StringBuffer out = new StringBuffer();
 
-        // Message was sent more than 24 hours ago? (or in the future if the phone's date isn't set)
-        if (now - timestamp > 24*60*60*1000 || now < timestamp) {
-            // Show date in day/month format
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-            int month = cal.get(Calendar.MONTH) + 1;
+        if (todayDay != stampDay || todayMonth != stampMonth || todayYear != stampYear) {
+            // Timestamp does not point to today -> show date in day/month format
+            // Leading zeros in numbers are optional, here I left them out for the sake of compactness
 
-            // if (day < 10) time.append('0');
-            time.append(day);
-            time.append('/');
-            // if (month < 10) time.append('0');
-            time.append(month);
+            out.append(stampDay).append('/').append(stampMonth + 1);
+
+            // With leading zeros:
+            // stampMonth++;
+            // if (stampDay < 10) time.append('0');
+            // out.append(stampDay).append('/');
+            // if (stampMonth < 10) time.append('0');
+            // time.append(stampMonth);
         } else {
-            // Show time in hour:minute format
+            // Today -> show time in hour:minute format
             int hour = cal.get(Calendar.HOUR_OF_DAY);
             int minute = cal.get(Calendar.MINUTE);
 
@@ -208,18 +216,15 @@ public class Util {
                     hour = 12; // 12 AM or 12 PM
                 }
 
-                time.append(hour);
-                time.append(':');
-                if (minute < 10) time.append('0');
-                time.append(minute);
-                time.append(period);
+                out.append(hour).append(':');
+                if (minute < 10) out.append('0');
+                out.append(minute).append(period);
             } else {
-                time.append(hour);
-                time.append(':');
-                if (minute < 10) time.append('0');
-                time.append(minute);
+                out.append(hour).append(':');
+                if (minute < 10) out.append('0');
+                out.append(minute);
             }
         }
-        return time.toString();
+        return out.toString();
     }
 }
