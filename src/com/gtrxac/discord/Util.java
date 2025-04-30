@@ -45,10 +45,15 @@ public class Util {
                 }
             }
         }
+        else if (screenWidth == 128 && "j2me".equals(plat)) {
+            // probably a samsung with list line wrapping (even if it isn't, limiting to 19 isn't a big deal)
+            // they all seem to have microedition platform = "j2me" but also some others do (like LG)
+            charsPerItem = 19;
+        }
     }
 
     // Trim list item's text to the maximum length that can fit on one line on the screen
-    // Nokia S40v1 uses line wrapping in List screens and we don't want that
+    // Some phones (most notably Nokia S40v1 and certain 128x160 Samsungs, like E250) use line wrapping in List screens and we don't want that
     public static String trimItem(String str) {
         if (charsPerItem == 0 || str.length() <= charsPerItem) return str;
         return str.substring(0, charsPerItem - 1) + "..";
