@@ -39,7 +39,7 @@ public class Settings {
             App.api = getStringRecord("http://146.59.80.3");
             App.token = getStringRecord("");
             App.authorFontSize = getByteRecord(3);
-            App.messageFontSize = getByteRecord(0);
+            App.messageFontSize = getByteRecord(3);
             App.use12hTime = getByteRecord(0) != 0;
             App.messageLoadCount = getByteRecord(15);
             index++; // skip unused record
@@ -63,11 +63,17 @@ public class Settings {
             if (manifestToken != null) App.token = manifestToken;
         }
 
+        if (App.messageFontSize >= 3)  {
+            // default setting for message font size:
+            // medium on s40 128x128 and 128x160, small on everything else
+            App.messageFontSize = (Util.isNokia && Util.screenWidth == 128) ? 1 : 0;
+        }
+
         if (App.authorFontSize >= 3) {
             // default setting for author font size:
             // make sure the author font is distinct enough from the message content font
-            // if the device supports bold fonts, the small font is good enough, else use a larger (medium) font for the author
-            App.authorFontSize = hasBoldFont() ? 0 : 1;
+            // if the device supports bold fonts, use the same font size as the message content, else use a larger font for the author
+            App.authorFontSize = hasBoldFont() ? App.messageFontSize : (App.messageFontSize + 1);
         }
 
         if (App.messageLoadCount < 1 || App.messageLoadCount > 100) App.messageLoadCount = 15;
