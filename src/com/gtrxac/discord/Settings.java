@@ -1,6 +1,9 @@
 package com.gtrxac.discord;
 
+import javax.microedition.lcdui.*;
 import javax.microedition.rms.*;
+import cc.nnproject.json.*;
+import java.util.*;
 
 public class Settings {
     private static RecordStore loginRms;
@@ -9,6 +12,7 @@ public class Settings {
 
     private static void open() throws Exception {
         loginRms = RecordStore.openRecordStore("a", true);
+        numRecords = loginRms.getNumRecords();
         index = 1;
     }
 
@@ -22,18 +26,19 @@ public class Settings {
         }
     }
 
-    public static void load() {
-        App.token = "";
-        String manifestToken = App.instance.getAppProperty("Token");
-        if (manifestToken != null) App.token = manifestToken;
+    private static boolean hasBoldFont() {
+        Font normal = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+        Font bold = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
 
+        return (normal != bold) && (normal.isBold() != bold.isBold());
+    }
+
+    public static void load() {
         try {
             open();
-            numRecords = loginRms.getNumRecords();
-
             App.api = getStringRecord("http://146.59.80.3");
-            App.token = getStringRecord(App.token);
-            App.authorFontSize = getByteRecord(0);
+            App.token = getStringRecord("");
+            App.authorFontSize = getByteRecord(3);
             App.messageFontSize = getByteRecord(0);
             App.use12hTime = getByteRecord(0) != 0;
             App.messageLoadCount = getByteRecord(15);
@@ -41,8 +46,6 @@ public class Settings {
             // dark theme default for color screens, dedicated monochrome theme default for mono screens
             App.theme = getByteRecord(App.disp.isColor() ? 1 : 0);
             App.listTimestamps = getByteRecord(0) != 0;
-
-            if (App.messageLoadCount < 1 || App.messageLoadCount > 100) App.messageLoadCount = 15;
         }
         catch (Exception e) {
             App.error(e);
@@ -53,6 +56,21 @@ public class Settings {
             }
             catch (Exception e) {}
         }
+
+        if ("".equals(App.token)) {
+            // default setting for token: try to find token from manifest/jad
+            String manifestToken = App.instance.getAppProperty("Token");
+            if (manifestToken != null) App.token = manifestToken;
+        }
+
+        if (App.authorFontSize >= 3) {
+            // default setting for author font size:
+            // make sure the author font is distinct enough from the message content font
+            // if the device supports bold fonts, the small font is good enough, else use a larger (medium) font for the author
+            App.authorFontSize = hasBoldFont() ? 0 : 1;
+        }
+
+        if (App.messageLoadCount < 1 || App.messageLoadCount > 100) App.messageLoadCount = 15;
     }
 
     public static void save() {
@@ -102,10 +120,11 @@ public class Settings {
     }
     
     private static void setRecord(byte[] value) throws Exception {
-        if (loginRms.getNumRecords() >= index) {
+        if (numRecords >= index) {
             loginRms.setRecord(index, value, 0, value.length);
         } else {
             loginRms.addRecord(value, 0, value.length);
+            numRecords++;
         }
         index++;
     }
@@ -117,5 +136,105 @@ public class Settings {
 
     private static void setStringRecord(String value) throws Exception {
         setRecord(value.getBytes());
+    }
+
+    // Favorite servers list management
+
+    private static JSONArray guilds;  // array of favorite guild IDs
+    private static boolean hasChanged;  // list of fav guilds has changed (items added/removed)?
+    public static final String favLabel;  // "Favorite" or "Favourite"
+    public static final String favLabel2;  // "Favorites" or "Favourites"
+
+    static {
+        favLabel = ("en-US".equals(System.getProperty("microedition.locale"))) ? "Favorite" : "Favourite";
+        favLabel2 = favLabel + "s";
+
+        RecordStore rms = null;
+        try {
+            rms = RecordStore.openRecordStore("favguild", false);
+        }
+        catch (Exception e) {}
+        
+        try {
+            guilds = JSONObject.parseArray(new String(rms.getRecord(1)));
+        }
+        catch (Exception e) {
+            guilds = new JSONArray();
+        }
+
+		try {
+			rms.closeRecordStore();
+		}
+		catch (Exception e) {}
+    }
+
+    private static void favSave() {
+        RecordStore rms = null;
+        try {
+            rms = RecordStore.openRecordStore("favguild", true);
+            byte[] bytes = guilds.build().getBytes();
+            
+            if (rms.getNumRecords() >= 1) {
+                rms.setRecord(1, bytes, 0, bytes.length);
+            } else {
+                rms.addRecord(bytes, 0, bytes.length);
+            }
+        }
+        catch (Exception e) {
+            App.error(e);
+        }
+
+		try {
+			rms.closeRecordStore();
+		}
+		catch (Exception e) {}
+    }
+
+    public static void favAdd(DiscordObject g) {
+        if (favHas(g)) return;
+        JSONArray gJson = new JSONArray();
+        gJson.add(g.id);
+        gJson.add(g.name);
+        guilds.add(gJson);
+        hasChanged = true;
+        favSave();
+    }
+
+    public static void favRemove(int index) {
+        guilds.remove(index);
+        hasChanged = true;
+        favSave();
+    }
+
+    public static boolean favEmpty() {
+        return guilds.size() == 0;
+    }
+
+    public static boolean favHas(DiscordObject g) {
+        for (int i = 0; i < guilds.size(); i++) {
+            if (guilds.getArray(i).getString(0).equals(g.id)) return true;
+        }
+        return false;
+    }
+
+    public static void favOpenSelector() {
+        if (App.guildSelector == null || !App.guildSelector.isFavGuilds || hasChanged) {
+            Vector guildsVec = new Vector();
+
+            for (int i = 0; i < guilds.size(); i++) {
+                guildsVec.addElement(new DiscordObject(guilds.getArray(i)));
+            }
+
+            try {
+                App.guildSelector = new GuildSelector(guildsVec, true);
+            }
+            catch (Exception e) {
+                App.error(e);
+                return;
+            }
+        }
+        App.disp.setCurrent(App.guildSelector);
+
+        hasChanged = false;
     }
 }

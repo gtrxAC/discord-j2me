@@ -11,7 +11,7 @@ public class MainMenu extends List implements CommandListener {
         setCommandListener(this);
 
         append("Servers", null);
-        if (!FavoriteGuilds.empty()) append(FavoriteGuilds.label2, null);
+        if (!Settings.favEmpty()) append(Settings.favLabel2, null);
         append((Util.screenWidth <= 96) ? "Direct msgs." : "Direct messages", null);
         append("Settings", null);
         append("Log out", null);
@@ -25,7 +25,7 @@ public class MainMenu extends List implements CommandListener {
         if (c == List.SELECT_COMMAND) {
             int index = getSelectedIndex();
             lastSelected = index;
-            if (FavoriteGuilds.empty() && index > 0) index++;
+            if (Settings.favEmpty() && index > 0) index++;
 
             switch (index) {
                 case 0: {
@@ -33,7 +33,7 @@ public class MainMenu extends List implements CommandListener {
                     break;
                 }
                 case 1: {
-                    FavoriteGuilds.openSelector();
+                    Settings.favOpenSelector();
                     break;
                 }
                 case 2: {

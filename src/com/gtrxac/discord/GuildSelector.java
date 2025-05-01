@@ -7,13 +7,13 @@ import java.util.*;
 public class GuildSelector extends List implements CommandListener {
     private Vector guilds;
     private Command backCommand;
-    private Command refreshCommand;
     private Command addFavCommand;
     private Command removeFavCommand;
+    private Command refreshCommand;
     public boolean isFavGuilds;
 
     public GuildSelector(Vector guilds, boolean isFavGuilds) {
-        super(isFavGuilds ? FavoriteGuilds.label2 : "Servers", List.IMPLICIT);
+        super(isFavGuilds ? Settings.favLabel2 : "Servers", List.IMPLICIT);
 
         setCommandListener(this);
         this.guilds = guilds;
@@ -31,10 +31,10 @@ public class GuildSelector extends List implements CommandListener {
             removeFavCommand = new Command("Remove", Command.ITEM, 2);
             addCommand(removeFavCommand);
         } else {
+            addFavCommand = new Command(Settings.favLabel, Command.ITEM, 2);
             refreshCommand = new Command("Refresh", Command.ITEM, 3);
-            addFavCommand = new Command(FavoriteGuilds.label, Command.ITEM, 3);
-            addCommand(refreshCommand);
             addCommand(addFavCommand);
+            addCommand(refreshCommand);
         }
     }
 
@@ -46,8 +46,8 @@ public class GuildSelector extends List implements CommandListener {
             App.openGuildSelector(true);
         }
         else if (c == removeFavCommand) {
-            FavoriteGuilds.remove(getSelectedIndex());
-            FavoriteGuilds.openSelector();
+            Settings.favRemove(getSelectedIndex());
+            Settings.favOpenSelector();
         }
         else {
             DiscordObject g = (DiscordObject) guilds.elementAt(getSelectedIndex());
@@ -62,7 +62,7 @@ public class GuildSelector extends List implements CommandListener {
                 }
             } else {
                 // add to favorites command
-                FavoriteGuilds.add(g);
+                Settings.favAdd(g);
             }
         }
     }
