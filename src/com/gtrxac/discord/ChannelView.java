@@ -206,9 +206,6 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     protected void paint(Graphics g) {
-        if (scroll < 0) scroll = 0;
-        else if (scroll > maxScroll) scroll = maxScroll;
-        
         if (width != getWidth() || height != getHeight()) {
             width = getWidth();
             height = getHeight();
@@ -218,6 +215,9 @@ public class ChannelView extends Canvas implements CommandListener {
             update(false);
             requestedUpdate = false;
         }
+
+        if (scroll < 0) scroll = 0;
+        if (scroll > maxScroll) scroll = maxScroll;
 
         if (items.size() > 0) {
             ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
