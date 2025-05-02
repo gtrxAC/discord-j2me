@@ -116,7 +116,7 @@ public class Message extends ChannelViewItem {
             content = data.getString(2);
 
             // Check if message is sent by us. If it is, enable flag to allow editing/deleting this message.
-            isOwn = data.getString(5).equals(App.myUserId);
+            isOwn = data.getInt(5) != 0;
         }
 
         timestamp = App.formatTimestamp((Long.parseLong(id) >> 22));

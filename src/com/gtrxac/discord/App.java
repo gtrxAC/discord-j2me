@@ -26,7 +26,6 @@ public class App extends MIDlet {
 
 	public static String api;
 	public static String token;
-	public static String myUserId;
 
 	public static Vector guilds;
 	public static DiscordObject selectedGuild;
