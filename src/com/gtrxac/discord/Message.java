@@ -119,7 +119,7 @@ public class Message extends ChannelViewItem {
             isOwn = data.getString(5).equals(App.myUserId);
         }
 
-        timestamp = Util.formatTimestamp((Long.parseLong(id) >> 22));
+        timestamp = App.formatTimestamp((Long.parseLong(id) >> 22));
 
         if (content.length() == 0 && !isStatus) {
             isStatus = true;

@@ -94,7 +94,7 @@ public class ChannelView extends Canvas implements CommandListener {
             Message msg = (Message) App.messages.elementAt(i);
 
             if (msg.contentLines == null || wasResized || msg.needUpdate) {
-                msg.contentLines = Util.wordWrap(msg.content, availableWidth, App.messageFont);
+                msg.contentLines = App.wordWrap(msg.content, availableWidth, App.messageFont);
                 msg.needUpdate = false;
             }
             items.addElement(msg);

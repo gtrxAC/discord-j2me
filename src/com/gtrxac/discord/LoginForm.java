@@ -28,7 +28,7 @@ public class LoginForm extends Form implements CommandListener {
         addCommand(nextCommand);
         addCommand(quitCommand);
 
-        if (!Util.isNokia) {
+        if (!App.isNokia) {
             underscoreCommand = new Command("Underscore", Command.SCREEN, 2);
             addCommand(underscoreCommand);
         }

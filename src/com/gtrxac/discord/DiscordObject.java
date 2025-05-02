@@ -14,7 +14,7 @@ public class DiscordObject {
         name = data.getString(1);
 
         if (data.size() > 2) {
-            name = Util.formatTimestamp(Long.parseLong(data.getString(2), 36)) + " " + name;
+            name = App.formatTimestamp(Long.parseLong(data.getString(2), 36)) + " " + name;
         }
     }
 }

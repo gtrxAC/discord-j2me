@@ -12,7 +12,7 @@ public class MainMenu extends List implements CommandListener {
 
         append("Servers", null);
         if (!Settings.favEmpty()) append(Settings.favLabel2, null);
-        append((Util.screenWidth <= 96) ? "Direct msgs." : "Direct messages", null);
+        append((App.screenWidth <= 96) ? "Direct msgs." : "Direct messages", null);
         append("Settings", null);
         append("Log out", null);
         setSelectedIndex(lastSelected, true);

@@ -66,7 +66,7 @@ public class Settings {
         if (App.messageFontSize >= 3)  {
             // default setting for message font size:
             // medium on s40 128x128 and 128x160, small on everything else
-            App.messageFontSize = (Util.isNokia && Util.screenWidth == 128) ? 1 : 0;
+            App.messageFontSize = (App.isNokia && App.screenWidth == 128) ? 1 : 0;
         }
 
         if (App.authorFontSize >= 3) {

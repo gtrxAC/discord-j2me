@@ -12,7 +12,7 @@ public class ChannelSelector extends List implements CommandListener {
         setCommandListener(this);
 
         if (App.isDM) {
-            setTitle(Util.screenWidth <= 128 ? "Direct msgs." : "Direct messages");
+            setTitle(App.screenWidth <= 128 ? "Direct msgs." : "Direct messages");
         } else {
             setTitle(App.selectedGuild.name);
         }
@@ -20,7 +20,7 @@ public class ChannelSelector extends List implements CommandListener {
         for (int i = 0; i < App.channels.size(); i++) {
             DiscordObject ch = (DiscordObject) App.channels.elementAt(i);
             String label = (App.isDM || App.listTimestamps) ? ch.name : ("#" + ch.name);
-            append(Util.trimItem(label), null);
+            append(App.trimItem(label), null);
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
