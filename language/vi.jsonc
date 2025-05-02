@@ -803,38 +803,38 @@
     "Đã đặt làm âm báo!",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "Quản lý dữ liệu ứng dụng",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "Các emoji",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "Dữ liệu về các tin nhắn đã đọc",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "Âm báo",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "Dữ liệu ngôn ngữngữ",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "Xóa",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "Xóa dữ liệu này?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "Mở trình duyệt",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "Bạn có chắc muốn đóng ứng dụng này để mở trình duyệt khong?",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "Cuộn nhanh",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "Không thể chơi âm báo. Chắc là loại tệp không được hỗ trợ.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese",
+    "Tiếng Nhật",
     "Tiếng Catalan"
 ]
