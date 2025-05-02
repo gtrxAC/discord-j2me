@@ -15,6 +15,7 @@ public class App extends MIDlet {
 	public static boolean use12hTime;
 	public static int messageLoadCount;
 	public static boolean listTimestamps;
+	public static boolean markAsRead;
 
 	public static int authorFontSize;
 	public static int messageFontSize;

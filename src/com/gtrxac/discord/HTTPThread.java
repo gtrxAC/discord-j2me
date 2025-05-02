@@ -167,6 +167,7 @@ public class HTTPThread extends Thread {
                     );
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
+                    if (App.markAsRead) url.append("&m=1");
 
                     JSONArray messages = JSONObject.parseArray(get(url.toString()));
                     App.messages = new Vector();

@@ -15,18 +15,19 @@ public class SettingsForm extends Form implements CommandListener {
         super("Settings");
         setCommandListener(this);
 
+        String[] uiChoices = {"12-hour time", "List timestamps", "Mark as read"};
+        uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, null);
+        uiGroup.setSelectedIndex(0, App.use12hTime);
+        uiGroup.setSelectedIndex(1, App.listTimestamps);
+        uiGroup.setSelectedIndex(2, App.markAsRead);
+        append(uiGroup);
+
         if (App.disp.isColor()) {
             String[] themeChoices = {"Monochrome", "Dark", "Light"};
             themeGroup = new ChoiceGroup("Theme", ChoiceGroup.EXCLUSIVE, themeChoices, null);
             themeGroup.setSelectedIndex(App.theme, true);
             append(themeGroup);
         }
-
-        String[] uiChoices = {"12-hour time", "List timestamps"};
-        uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, null);
-        uiGroup.setSelectedIndex(0, App.use12hTime);
-        uiGroup.setSelectedIndex(1, App.listTimestamps);
-        append(uiGroup);
 
         String[] fontChoices = {"Small", "Medium", "Large"};
         authorFontGroup = new ChoiceGroup("Author font", ChoiceGroup.EXCLUSIVE, fontChoices, null);
@@ -66,6 +67,7 @@ public class SettingsForm extends Form implements CommandListener {
 
             App.use12hTime = uiGroup.isSelected(0);
             App.listTimestamps = uiGroup.isSelected(1);
+            App.markAsRead = uiGroup.isSelected(2);
             Settings.save();
             App.login();
         } else {

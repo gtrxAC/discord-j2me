@@ -5,6 +5,9 @@ import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 import java.util.*;
 
+/**
+ * Static class for save data (RMS) management, i.e. user settings and favorite servers list.
+ */
 public class Settings {
     private static RecordStore loginRms;
     private static int numRecords;
@@ -46,6 +49,7 @@ public class Settings {
             // dark theme default for color screens, dedicated monochrome theme default for mono screens
             App.theme = getByteRecord(App.disp.isColor() ? 1 : 0);
             App.listTimestamps = getByteRecord(0) != 0;
+            App.markAsRead = getByteRecord(0) != 0;
         }
         catch (Exception e) {
             App.error(e);
@@ -91,6 +95,7 @@ public class Settings {
             setByteRecord(0);
             setByteRecord(App.theme);
             setByteRecord(App.listTimestamps ? 1 : 0);
+            setByteRecord(App.markAsRead ? 1 : 0);
         }
         catch (Exception e) {
             App.error(e);
@@ -157,7 +162,7 @@ public class Settings {
 
         RecordStore rms = null;
         try {
-            rms = RecordStore.openRecordStore("favguild", false);
+            rms = RecordStore.openRecordStore("b", false);
         }
         catch (Exception e) {}
         
@@ -177,7 +182,7 @@ public class Settings {
     private static void favSave() {
         RecordStore rms = null;
         try {
-            rms = RecordStore.openRecordStore("favguild", true);
+            rms = RecordStore.openRecordStore("b", true);
             byte[] bytes = guilds.build().getBytes();
             
             if (rms.getNumRecords() >= 1) {
