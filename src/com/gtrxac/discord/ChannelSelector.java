@@ -24,7 +24,7 @@ public class ChannelSelector extends List implements CommandListener {
         }
 
         backCommand = new Command("Back", Command.BACK, 0);
-        refreshCommand = new Command("Refresh", Command.ITEM, 1);
+        refreshCommand = new Command("Refresh", Command.SCREEN, 1);
         addCommand(backCommand);
         addCommand(refreshCommand);
     }

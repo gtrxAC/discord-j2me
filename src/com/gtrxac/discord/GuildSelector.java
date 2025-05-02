@@ -32,7 +32,7 @@ public class GuildSelector extends List implements CommandListener {
             addCommand(removeFavCommand);
         } else {
             addFavCommand = new Command(Settings.favLabel, Command.ITEM, 2);
-            refreshCommand = new Command("Refresh", Command.ITEM, 3);
+            refreshCommand = new Command("Refresh", Command.SCREEN, 3);
             addCommand(addFavCommand);
             addCommand(refreshCommand);
         }

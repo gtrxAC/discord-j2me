@@ -43,11 +43,11 @@ public class ChannelView extends Canvas implements CommandListener {
 
         backCommand = new Command("Back", Command.BACK, 0);
         selectCommand = new Command("Select", Command.OK, 1);
-        sendCommand = new Command("Send", Command.ITEM, 2);
+        sendCommand = new Command("Send", Command.SCREEN, 2);
         replyCommand = new Command("Reply", Command.ITEM, 3);
         editCommand = new Command("Edit", Command.ITEM, 4);
         deleteCommand = new Command("Delete", Command.ITEM, 5);
-        refreshCommand = new Command("Refresh", Command.ITEM, 6);
+        refreshCommand = new Command("Refresh", Command.SCREEN, 6);
 
         addCommand(backCommand);
         addCommand(sendCommand);
