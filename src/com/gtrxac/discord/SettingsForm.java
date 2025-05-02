@@ -41,6 +41,7 @@ public class SettingsForm extends Form implements CommandListener {
         append(messageCountField);
 
         append(new StringItem("About", "Discord client for Java ME (Nokia 6310i version)\nDeveloped by gtrxAC\nJSON parser by Shinovon"));
+        append(new StringItem("Support", "discord.gg/2GKuJjQagp\nt.me/dscforsymbian"));
 
         saveCommand = new Command("Save", Command.BACK, 0);
         cancelCommand = new Command("Cancel", Command.BACK, 1);
