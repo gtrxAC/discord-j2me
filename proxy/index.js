@@ -95,7 +95,16 @@ function getToken(req, res, next) {
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin"
     };
-    next();
+
+    // Get user ID from token (base64 decode the token up to the first period)
+    try {
+        res.locals.userID = atob(token.split('.')[0]);
+        BigInt(res.locals.userID);  // verify that it is a valid numeric ID
+        next();
+    }
+    catch (e) {
+        res.status(400).send({message: "Token is written incorrectly"});
+    }
 }
 
 function parseMessageContent(content, showGuildEmoji, convertTags = true) {
@@ -560,12 +569,8 @@ app.post(`${BASE}/channels/:channel/messages/:message/ack`, getToken, async (req
 // Get user info (only ID is used)
 app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
     try {
-        const response = await axios.get(
-            `${DEST_BASE}/users/@me`,
-            {headers: res.locals.headers}
-        );
         res.send(JSON.stringify({
-            id: response.data.id,
+            id: res.locals.userID,
             _uploadtoken: generateUploadToken(res.locals.headers.Authorization),
             _liteproxy: true,
 
@@ -882,10 +887,26 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
                 content,
                 recipient,
                 msg.type,
-                generateLiteIDHash(msg.author.id)
+                // for old clients, show ID hash.
+                // for new clients, show 1 or 0 (whether message can be edited/deleted by us)
+                (req.query.m == 0 || req.query.m == 1) ?
+                    Number(msg.author.id == res.locals.userID) :
+                    generateLiteIDHash(msg.author.id)
             ];
         })
         res.send(stringifyUnicode(messages));
+
+        // Mark latest message as read
+        if (req.query.m == 1 && response.data?.[0]?.id) {
+            axios.post(
+                `${DEST_BASE}/channels/${req.params.channel}/messages/${response.data[0].id}/ack`,
+                {token: null},
+                {headers: res.locals.headers}
+            )
+            .catch(e => {
+                console.log(e);
+            })
+        }
     }
     catch (e) { handleError(res, e); }
 });
