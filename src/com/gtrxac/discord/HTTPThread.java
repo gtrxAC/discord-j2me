@@ -121,7 +121,7 @@ public class HTTPThread extends Thread {
 
                 case FETCH_MESSAGES: {
                     StringBuffer url = new StringBuffer(
-                        "/channels/" + App.selectedChannel.id + "/messages?limit=" + App.messageLoadCount + "&m=" + App.markAsRead
+                        "/channels/" + App.selectedChannel.id + "/messages?limit=" + App.messageLoadCount + "&m=" + (App.markAsRead ? 1 : 0)
                     );
                     if (fetchMsgsBefore != null) url.append("&before=").append(fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=").append(fetchMsgsAfter);
