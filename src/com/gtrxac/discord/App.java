@@ -115,9 +115,9 @@ public class App extends MIDlet {
 
 		//                               Monochrome Dark      Light
 		final int[] backgroundColors =   {0xFFFFFF, 0x313338, 0xFFFFFF};
-		final int[] highlightColors =    {0x000000, 0x1E1F22, 0xBBBBCC};
-		final int[] buttonColors =       {0xFFFFFF, 0x2B2D31, 0xDDDDDD};
-		final int[] selButtonColors =    {0x000000, 0x17181A, 0x9999AA};
+		final int[] highlightColors =    {0x000000, 0x1E1F22, 0xCCCCDD};
+		final int[] buttonColors =       {0xFFFFFF, 0x2B2D31, 0xEEEEEE};
+		final int[] selButtonColors =    {0x000000, 0x17181A, 0xBBBBCC};
 		final int[] messageColors =      {0x000000, 0xE8E8E8, 0x181818};
 		final int[] selMessageColors =   {0xFFFFFF, 0xFFFFFF, 0x000000};  // selected author name uses the same color
 		final int[] authorColors =       {0x000000, 0xFFFFFF, 0x000000};
