@@ -36,6 +36,10 @@ public class ChannelView extends Canvas implements CommandListener {
 
     boolean requestedUpdate;
 
+    /**
+     * Create new channel view.
+     * @param dummy If true, this instance is not used as an actual channel view, rather as a basic Canvas instance that is only used for getting the width/height of the display
+     */
     public ChannelView(boolean dummy) {
         super();
         if (dummy) return;
@@ -58,6 +62,11 @@ public class ChannelView extends Canvas implements CommandListener {
         requestedUpdate = true;
     }
 
+    /**
+     * Calculate message layouts and contents to be rendered on the channel view.
+     * @param wasResized If true, this update occurred because the screen was resized.
+     *   If false, this update occurred for another reason, for example loading another page of older messages.
+     */
     private void update(boolean wasResized) {
         items = new Vector(App.messageLoadCount + 2);
 

@@ -179,7 +179,9 @@ public class App extends MIDlet {
 
     static {
         String plat = System.getProperty("microedition.platform");
-        isNokia = (plat != null && plat.indexOf("Nokia") != -1);
+        if (plat == null) plat = "";
+        isNokia = (plat.indexOf("Nokia") != -1);
+
         ChannelView canvas = new ChannelView(true);
         screenWidth = canvas.getWidth();
         screenHeight = canvas.getHeight();
@@ -195,15 +197,22 @@ public class App extends MIDlet {
                     ChannelViewItem.fontYOffset = 1;
                     break;
                 }
+                case 240:
+                case 320: {
+                    // if it's 240p s40 (not symbian), we need to do a font fix similar to series 60 like above, but shift the font upwards
+                    boolean isSymbian = plat.indexOf("platform=S60") != -1 ||
+                        System.getProperty("com.symbian.midp.serversocket.support") != null ||
+                        System.getProperty("com.symbian.default.to.suite.icon") != null ||
+                        hasClass("com.symbian.midp.io.protocol.http.Protocol") ||
+                        hasClass("com.symbian.lcdjava.io.File");
+
+                    if (!isSymbian) ChannelViewItem.fontYOffset = -1;
+                    break;
+                }
                 case 128: {
                     // 128px wide -> could be midp1 or midp2
                     // if it's midp1, it's s40v1, so we must limit the chars per item (read trimItem comment)
-                    try {
-                        Class.forName("javax.microedition.lcdui.game.GameCanvas");
-                    }
-                    catch (Throwable e) {
-                        charsPerItem = 14;
-                    }
+                    if (!hasClass("javax.microedition.media.Player")) charsPerItem = 14;
                     break;
                 }
                 case 96: {
@@ -213,10 +222,21 @@ public class App extends MIDlet {
             }
         }
         else if (screenWidth == 128 && "j2me".equals(plat)) {
-            // probably a samsung with list line wrapping (even if it isn't, limiting to 19 isn't a big deal)
+            // probably a samsung with list line wrapping (read trimItem comment)
+            // even if it isn't, limiting to 19 isn't a big deal
             // they all seem to have microedition platform = "j2me" but also some others do (like LG)
             charsPerItem = 19;
         }
+    }
+
+    public static boolean hasClass(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        }
+        catch (Throwable e) {}
+            
+        return false;
     }
 
     // Trim list item's text to the maximum length that can fit on one line on the screen
