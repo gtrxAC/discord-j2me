@@ -86,6 +86,7 @@ public class HTTPThread extends Thread {
                         App.channels.addElement(new DiscordObject(channels.getArray(i)));
                     }
                     App.loadedGuild = null;
+                    App.selectedGuild = null;
                     App.channelSelector = new ChannelSelector();
                     App.disp.setCurrent(App.channelSelector);
                     break;
