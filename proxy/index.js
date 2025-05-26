@@ -79,9 +79,28 @@ function getToken(req, res, next) {
         delete req.body.token;
     }
 
+    if (!token) {
+        res.status(400).send({message: "Failed to receive token. Try changing the \"Send token as\" option in the login screen."});
+        return;
+    }
+
+    // Check that the token is of the correct length (at least 70 characters, could be slightly shorter with some user IDs, not sure)
+    if (token.length < 60) {
+        res.status(400).send({message: "Token is written or copied incorrectly (too short)"});
+        return;
+    }
+
     if (req.route.path == `${BASE}/channels/:channel/upload`) {
         res.locals.uploadToken = token;
         token = getTokenFromUploadToken(token);
+    } else {
+        // Remove any characters that should not be in a token (leftover whitespace, quotation marks, control characters, etc)
+        token = token.replace(/[^\w\-\+\/\=\.]/g, "");
+    }
+
+    if (token.length < 60) {
+        res.status(400).send({message: "Token is written or copied incorrectly (invalid characters)"});
+        return;
     }
 
     res.locals.headers = {
@@ -98,13 +117,21 @@ function getToken(req, res, next) {
 
     // Get user ID from token (base64 decode the token up to the first period)
     try {
-        res.locals.userID = atob(token.split('.')[0]);
-        BigInt(res.locals.userID);  // verify that it is a valid numeric ID
-        next();
+        let idPart = token.split('.')[0];
+        try {
+            res.locals.userID = atob(idPart);
+            BigInt(res.locals.userID);  // verify that it is a valid numeric ID
+        } catch (e) {
+            idPart = idPart.replace(/\-/g, "+").replace(/_/g, "/");  // base64url?
+            res.locals.userID = atob(idPart);
+            BigInt(res.locals.userID);
+        }
     }
     catch (e) {
         res.status(400).send({message: "Token is written incorrectly"});
+        return;
     }
+    next();
 }
 
 function parseMessageContent(content, showGuildEmoji, convertTags = true) {
