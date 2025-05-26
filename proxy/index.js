@@ -923,8 +923,8 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
         })
         res.send(stringifyUnicode(messages));
 
-        // Mark latest message as read
-        if (req.query.m == 1 && response.data?.[0]?.id) {
+        // Mark latest message as read if client requested to do so and we are not reading an older page of messages
+        if (req.query.m == 1 && !req.query.before && !req.query.after && response.data?.[0]?.id) {
             axios.post(
                 `${DEST_BASE}/channels/${req.params.channel}/messages/${response.data[0].id}/ack`,
                 {token: null},
@@ -943,6 +943,7 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
 // Message contents also include a string generated in the same way from the message author's ID.
 // This can be used to compare user IDs (to a reasonable enough accuracy) to check if the message was sent by the logged in user.
 // If a message was sent by the logged in user, the Edit and Delete menu options are shown in the client when that message is highlighted.
+// This route is no longer used by the newest 30KB client (now calculated client-side) but kept here for the sake of compatibility
 app.get(`${BASE_L}/users/@me`, getToken, async (req, res) => {
     try {
         const response = await axios.get(
