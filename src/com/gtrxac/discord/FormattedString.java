@@ -27,7 +27,10 @@ public class FormattedString implements Strings {
         if (isEmpty) {
             tempParts = new Vector();
         } else {
-            FormattedStringParser parser = new FormattedStringParser(src, font);
+            // Emojis are oversized in refmessages if using direct refmessage drawing (see channelviewitem), easiest is just to not show them there at all
+            boolean showEmoji = !singleLine || !ChannelViewItem.shouldUseDirectRefMessage();
+
+            FormattedStringParser parser = new FormattedStringParser(src, font, showEmoji);
             tempParts = parser.run();
             showLargeEmoji = parser.showLargeEmoji;
         }
