@@ -542,19 +542,23 @@ public class ChannelViewItem implements Strings {
                 String caption = (type == OLDER_BUTTON) ?
                     Locale.get(VIEW_OLDER_MESSAGES_L) : Locale.get(VIEW_NEWER_MESSAGES_L);
 
+                // ifdef NOKIA_THEME_BACKGROUND
+                if (selected || Settings.theme != Theme.SYSTEM)
+                // endif
+                {
+                    int textWidth = App.messageFont.stringWidth(caption);
+                    g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+                    g.fillRoundRect(
+                        width/2 - textWidth/2 - messageFontHeight,
+                        y + messageFontHeight/6,
+                        textWidth + messageFontHeight*2,
+                        messageFontHeight*4/3,
+                        messageFontHeight/2,
+                        messageFontHeight/2
+                    );
+                }
+
                 g.setFont(App.messageFont);
-                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-
-                int textWidth = App.messageFont.stringWidth(caption);
-                g.fillRoundRect(
-                    width/2 - textWidth/2 - messageFontHeight,
-                    y + messageFontHeight/6,
-                    textWidth + messageFontHeight*2,
-                    messageFontHeight*4/3,
-                    messageFontHeight/2,
-                    messageFontHeight/2
-                );
-
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
                 g.drawString(
                     caption, width/2, y + messageFontHeight/3,
@@ -573,21 +577,25 @@ public class ChannelViewItem implements Strings {
                         Locale.get(VIEW_ATTACHMENT_SUFFIX)
                     );
 
-                g.setFont(App.messageFont);
-                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-
                 int x = useIcons ? messageFontHeight*2 : 0;
-                int textWidth = App.messageFont.stringWidth(caption);
 
-                g.fillRoundRect(
-                    x + messageFontHeight/2,
-                    y + messageFontHeight/6,
-                    textWidth + messageFontHeight,
-                    messageFontHeight*4/3,
-                    messageFontHeight/2,
-                    messageFontHeight/2
-                );
+                // ifdef NOKIA_THEME_BACKGROUND
+                if (selected || Settings.theme != Theme.SYSTEM)
+                // endif
+                {
+                    int textWidth = App.messageFont.stringWidth(caption);
+                    g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+                    g.fillRoundRect(
+                        x + messageFontHeight/2,
+                        y + messageFontHeight/6,
+                        textWidth + messageFontHeight,
+                        messageFontHeight*4/3,
+                        messageFontHeight/2,
+                        messageFontHeight/2
+                    );
+                }
 
+                g.setFont(App.messageFont);
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
                 g.drawString(caption, x + messageFontHeight, y + messageFontHeight/3, Graphics.TOP | Graphics.LEFT);
                 break;
