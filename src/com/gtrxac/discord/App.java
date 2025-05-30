@@ -144,10 +144,14 @@ public class App implements Strings {
 		ListScreen.noItemsString = Locale.get(LIST_EMPTY);
 		Dialog.okLabel = Locale.get(OK);
 		Dialog.okLabelLong = Locale.get(OK_L);
-		ChannelViewItem.createUnreadIndicatorImage();
 		// ifdef OVER_100KB
 		FormattedStringPartEmoji.loadEmoji(messageFont.getHeight());
+        // endif
+
+		// ifdef NOKIA_THEME_BACKGROUND
+        if (Settings.theme != Theme.SYSTEM)
 		// endif
+        ChannelViewItem.drawUnreadIndicatorImage(null, 0, 0);
 	}
 
 	// Required for Wi-Fi support on BlackBerry

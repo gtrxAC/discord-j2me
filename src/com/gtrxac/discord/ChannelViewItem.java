@@ -35,23 +35,30 @@ public class ChannelViewItem implements Strings {
 
     private static Image unreadIndicatorImage;
 
-    public static void createUnreadIndicatorImage() {
-        int fontHeight = App.titleFont.getHeight();
-        int stringWidth = App.titleFont.stringWidth(Locale.get(NEW_MARKER));
+    public static int drawUnreadIndicatorImage(Graphics directG, int baseX, int baseY) {
+        Font font = (directG == null) ? App.titleFont : smallFont;
+        int fontHeight = (font.getHeight() + 1)/2*2;
+        int stringWidth = font.stringWidth(Locale.get(NEW_MARKER));
         int totalWidth = fontHeight/2 + stringWidth + fontHeight/4;
 
-        unreadIndicatorImage = Image.createImage(totalWidth, fontHeight);
-        Graphics g = unreadIndicatorImage.getGraphics();
+        Graphics g = directG;
+        if (g == null) {
+            unreadIndicatorImage = Image.createImage(totalWidth, fontHeight);
+            g = unreadIndicatorImage.getGraphics();
 
-        g.setColor(Theme.channelViewBackgroundColor);
-        g.fillRect(0, 0, totalWidth, fontHeight);
+            g.setColor(Theme.channelViewBackgroundColor);
+            g.fillRect(0, 0, totalWidth, fontHeight);
+        } else {
+            baseX -= totalWidth;
+            g.translate(baseX, baseY);
+        }
 
         g.setColor(Theme.unreadIndicatorBackgroundColor);
         g.fillRect(
             fontHeight/2,
             0,
             stringWidth + fontHeight/4,
-            fontHeight
+            (directG == null) ? fontHeight : (fontHeight + 1)  // +1 to hide triangle rendering error on s40
         );
         g.fillTriangle(
             fontHeight/2,
@@ -62,15 +69,20 @@ public class ChannelViewItem implements Strings {
             fontHeight/2
         );
         g.setColor(Theme.unreadIndicatorTextColor);
-        g.setFont(App.titleFont);
+        g.setFont(font);
         g.drawString(
             Locale.get(NEW_MARKER),
-            fontHeight/2,
-            0,
+            fontHeight/2 + 1,
+            1,
             Graphics.TOP | Graphics.LEFT
         );
 
-        unreadIndicatorImage = Util.resizeImageBilinear(unreadIndicatorImage, totalWidth*2/3, fontHeight*2/3);
+        if (directG == null) {
+            unreadIndicatorImage = Util.resizeImageBilinear(unreadIndicatorImage, totalWidth*2/3, fontHeight*2/3);
+        } else {
+            g.translate(-baseX, -baseY);
+        }
+        return fontHeight;
     }
 
     /**
@@ -127,6 +139,7 @@ public class ChannelViewItem implements Strings {
             }
 
             case UNREAD_INDICATOR: {
+                if (shouldUseDirectRefMessage()) return smallFont.getHeight() + 1 + messageFontHeight/6*2;
                 return messageFontHeight;
             }
 
@@ -149,21 +162,27 @@ public class ChannelViewItem implements Strings {
         return ((!refImgHasPfp || !refImgHasColor) && System.currentTimeMillis() > refImgLastDrawn + 250);
     }
 
-    private boolean shouldUseDirectRefMessage() {
-        return
-            // ifdef OVER_100KB
-            (Settings.theme == Theme.SYSTEM || Settings.messageFontSize != 0);
-            // else
-            false;
+    public static boolean shouldUseDirectRefMessage() {
+        // ifdef OVER_100KB
+        final boolean result = (
+            // ifdef NOKIA_THEME_BACKGROUND
+            Settings.theme == Theme.SYSTEM ||
             // endif
+            Settings.messageFontSize != 0
+        );
+
+        if (result && smallFont == null) {
+            smallFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+            smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
+        }
+        return result;
+        // else
+        return false;
+        // endif
     }
 
     private int getRefAreaHeight(int messageFontHeight, boolean directRefMessage) {
         if (directRefMessage) {
-            if (smallFont == null) {
-                smallFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
-                smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
-            }
             return smallFont.getHeight()*5/4;
         } else {
             return messageFontHeight;
@@ -575,21 +594,41 @@ public class ChannelViewItem implements Strings {
             }
 
             case UNREAD_INDICATOR: {
-                int screenWidth = App.disp.getCurrent().getWidth();
-                int imageX = screenWidth - messageFontHeight/4 - unreadIndicatorImage.getWidth();
+                // ifdef NOKIA_THEME_BACKGROUND
+                final boolean directDraw = (Settings.theme == Theme.SYSTEM);
+
+                if (directDraw && smallFont == null) {
+                    smallFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+                    smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
+                }
+                // else
+                final boolean directDraw = false;
+                // endif
+                
+                Font font = (directDraw ? smallFont : App.titleFont);
+                int height = (font.getHeight() + 1)/2*2;
+
+                int end = width - messageFontHeight/4;
+                if (directDraw) y += messageFontHeight/6;
+
                 g.setColor(Theme.unreadIndicatorBackgroundColor);
-                g.drawImage(
-                    unreadIndicatorImage,
-                    imageX,
-                    y + messageFontHeight/6,
-                    Graphics.TOP | Graphics.LEFT
-                );
                 g.drawLine(
                     messageFontHeight/4,
-                    y + messageFontHeight/2,
-                    imageX, // +1?
-                    y + messageFontHeight/2
+                    y + height/2,
+                    end - 1,
+                    y + height/2
                 );
+
+                if (directDraw) {
+                    drawUnreadIndicatorImage(g, end, y);
+                } else {
+                    g.drawImage(
+                        unreadIndicatorImage,
+                        end - unreadIndicatorImage.getWidth(),
+                        y + messageFontHeight/6,
+                        Graphics.TOP | Graphics.LEFT
+                    );
+                }
                 break;
             }
         }
