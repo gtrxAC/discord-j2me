@@ -283,6 +283,13 @@ public class Theme {
         imagePreviewBackgroundColor = bg;
         imagePreviewTextColor = fg;
 
+        // check for bad contrast in dialogs (especially on s40 where bg seems to always be white)
+        // use highlighted colors if it noticeably improves contrast
+        if (Util.contrast(bg, fg) + 100 < Util.contrast(hbg, hfg)) {
+            dialogBackgroundColor = hbg;
+            dialogTextColor = hfg;
+        }
+
         scrollbarColor = bg;
         scrollbarHandleColor = hbg;
     }
