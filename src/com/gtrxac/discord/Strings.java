@@ -360,4 +360,5 @@ public interface Strings {
     // endif
     static final int TRANSLATOR_JA = 339;
     static final int TRANSLATOR_CA = 340;
+    static final int TRANSLATOR_AR = 341;
 }
