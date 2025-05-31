@@ -62,7 +62,7 @@ public class FormattedString implements Strings {
         mergeParts(tempParts);
 
         // Fix vertical alignment of "(edited)" indicator item
-        if (useMarkdown && isEdited) {
+        if (isEdited && useMarkdown && Settings.theme != Theme.SYSTEM) {
             ((FormattedStringPart) tempParts.lastElement()).y += font.getBaselinePosition() - editedFont.getBaselinePosition();
         }
         
