@@ -99,7 +99,7 @@ public class Theme {
     private static final int[] embedBackgroundColors = {0x2b2d31, 0xEEEEEE, 0x202020};
     private static final int[] embedDescriptionColors =    {0xFFFFFF, 0x111111, 0xEEEEEE};
     private static final int[] selectedEmbedBackgroundColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
-    private static final int[] selectedEmbedDescriptionColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
+    private static final int[] selectedEmbedDescriptionColors =     {0xFFFFFF, 0x111111, 0xEEEEEE};
 
     private static final int[] buttonBackgroundColors = {0x2b2d31, 0xEEEEEE, 0x202020};
     private static final int[] buttonTextColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
