@@ -133,7 +133,7 @@ public class FormattedString implements Strings {
             int partWidth = (showLargeEmoji && !partIsText) ? lineHeight : part.getWidth();
 
             // Go to a new display line if not enough space left on the current line
-            if (!singleLine && x + partWidth >= xOffset + width) {
+            if (!singleLine && x + partWidth > xOffset + width) {
                 // If a whitespace part ends up at the beginning of a display line, and it is not at the beginning of a line in the source text, discard it
                 if (partIsText && ((FormattedStringPartText) part).isWhitespace()) {
                     parts.removeElementAt(i);
