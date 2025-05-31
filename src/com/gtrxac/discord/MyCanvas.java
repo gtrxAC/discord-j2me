@@ -28,8 +28,8 @@ public abstract class MyCanvas extends Canvas {
     protected void keyAction(int key) {}
 
     // ifdef OVER_100KB
-    private static boolean isKeyPressed = false;
-    public static long beginRepeatTime;
+    private static volatile boolean isKeyPressed = false;
+    public static volatile long beginRepeatTime;
     // endif
 
     protected void keyPressed(int key) {
