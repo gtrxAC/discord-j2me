@@ -361,4 +361,9 @@ public interface Strings {
     static final int TRANSLATOR_JA = 339;
     static final int TRANSLATOR_CA = 340;
     static final int TRANSLATOR_AR = 341;
+    static final int THEME_SYSTEM = 342;
+    static final int THEME_CUSTOM = 343;
+    static final int THEME_SAVE_TITLE = 344;
+    static final int THEME_SAVE_DESCRIPTION = 345;
+    static final int DATA_MANAGER_THEME = 346;
 }

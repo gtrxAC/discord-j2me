@@ -10,7 +10,7 @@ public class ThemeSaveDialog extends Dialog implements Strings {
     private Command cancelCommand;
 
     ThemeSaveDialog() {
-        super("Theme", "Do you want to apply this theme?");
+        super(Locale.get(THEME_SAVE_TITLE), Locale.get(THEME_SAVE_DESCRIPTION));
         setCommandListener(this);
 
         yesCommand = Locale.createCommand(YES, Command.OK, 0);

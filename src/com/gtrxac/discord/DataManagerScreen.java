@@ -49,8 +49,7 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
         addItem(DATA_MANAGER_LAST_READ, "unread", false);
         addItem(DATA_MANAGER_NOTIF_SOUND, "notifsound", true);
         addItem(DATA_MANAGER_LANGUAGE, "lang", true);
-        // addItem(DATA_MANAGER_LANGUAGE, "theme", false);
-        addItem(0, "theme", false);
+        addItem(DATA_MANAGER_THEME, "theme", false);
     }
 
     public void commandAction(Command c, Displayable d) {

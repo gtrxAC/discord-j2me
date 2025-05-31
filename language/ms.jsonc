@@ -836,5 +836,18 @@
     // Related to "Lines shown in the about screen for which language" above.
     "Bahasa Jepun",
     "Bahasa Catalonia",
-    "Arabic"
+    "Arabic",
+
+    // Theme option shown in settings for the theme that uses colors from the system's UI.
+    "System",
+
+    // Theme option shown in settings for the user-defined theme.
+    "Custom",
+
+    // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
+    "Theme",
+    "Do you want to apply this theme?",
+
+    // Item shown in the data manager for the saved custom theme data.
+    "Theme"
 ]

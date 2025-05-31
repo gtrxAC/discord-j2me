@@ -209,8 +209,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 {
                     Locale.get(THEME_DARK), Locale.get(THEME_LIGHT), Locale.get(THEME_BLACK),
                     // ifdef OVER_100KB
-                    // Locale.get(THEME_SYSTEM)
-                    "System", "Custom"
+                    Locale.get(THEME_SYSTEM), Locale.get(THEME_CUSTOM),
                     // endif
                 },
                 { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
