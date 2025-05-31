@@ -847,5 +847,8 @@
     null,
 
     // Item shown in the data manager for the saved custom theme data.
+    null,
+
+    // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
     null
 ]

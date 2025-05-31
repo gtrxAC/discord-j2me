@@ -366,4 +366,5 @@ public interface Strings {
     static final int THEME_SAVE_TITLE = 344;
     static final int THEME_SAVE_DESCRIPTION = 345;
     static final int DATA_MANAGER_THEME = 346;
+    static final int EMOJI_PICKER_NO_MEMORY = 347;
 }

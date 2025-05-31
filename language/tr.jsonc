@@ -847,5 +847,8 @@
     "Do you want to apply this theme?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme"
+    "Theme",
+
+    // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
+    "Not enough memory to show emoji picker"
 ]
