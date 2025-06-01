@@ -80,12 +80,12 @@ function getToken(req, res, next) {
     }
 
     if (!token) {
-        res.status(400).send({message: "Failed to receive token. Try changing the \"Send token as\" option in the login screen."});
+        res.status(400).send({message: "Failed to receive token. Check your token or try changing the \"Send token as\" option in the login screen."});
         return;
     }
 
     // Check that the token is of the correct length (at least 70 characters, could be slightly shorter with some user IDs, not sure)
-    if (token.length < 60) {
+    if (!token.startsWith("j2me-") && token.length < 60) {
         res.status(400).send({message: "Token is written or copied incorrectly (too short)"});
         return;
     }
