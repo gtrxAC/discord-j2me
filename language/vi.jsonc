@@ -840,18 +840,18 @@
     "Arabic",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "System",
+    "Theo hệ thống",
 
     // Theme option shown in settings for the user-defined theme.
-    "Custom",
+    "Tùy chỉnh",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
-    "Theme",
-    "Do you want to apply this theme?",
+    "Chủ đề",
+    "Bạn muốn đặt chủ đề này không?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme",
+    "Chủ đề",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Not enough memory to show emoji picker"
+    "Không đủ RAM để hiển thị trình chọn emoji"
 ]
