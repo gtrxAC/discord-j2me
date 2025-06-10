@@ -820,35 +820,35 @@
     "Elimina questi dati?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "Apri browser",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "Vuoi aprire il browser? L'applicazione verrà chiusa.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "Scorrimento veloce",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "Impossibile riprodurre audio. Il formato potrebbe non essere supportato.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese",
+    "Giapponese",
     "Catalano",
-    "Arabic",
+    "Arabo",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "System",
+    "Sistema",
 
     // Theme option shown in settings for the user-defined theme.
-    "Custom",
+    "Personalizzato",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
     "Theme",
-    "Do you want to apply this theme?",
+    "Vuoi usare questo tema?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme",
+    "Tema",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Not enough memory to show emoji picker"
+    "Memoria insufficiente per selezionare emoji."
 ]

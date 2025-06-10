@@ -61,7 +61,6 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addString(Locale.get(ABOUT_DEVELOPERS), Font.SIZE_MEDIUM, LAYOUT_CENTER);
         addDeveloper("gtrxAC", LEAD_DEVELOPER);
         addDeveloper("Shinovon", WHAT_SHINOVON_DID);
-        addDeveloper("Saetta06", WHAT_SAETTA06_DID);
         // ifdef OVER_100KB
         addDeveloper("AeroPurple", WHAT_AEROPURPLE_DID);
         // endif

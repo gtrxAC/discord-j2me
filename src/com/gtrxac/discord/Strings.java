@@ -257,7 +257,6 @@ public interface Strings {
     static final int ABOUT_SUPPORT = 251;
     static final int LEAD_DEVELOPER = 252;
     static final int WHAT_SHINOVON_DID = 253;
-    static final int WHAT_SAETTA06_DID = 254;
     static final int TRANSLATOR_VI = 255;
     static final int TRANSLATOR_SV = 256;
     static final int TRANSLATOR_ID = 257;

@@ -143,7 +143,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 {
                     App.ic.themeDark, App.ic.themeLight, App.ic.themeBlack,
                     // ifdef OVER_100KB
-                    null, null
+                    App.ic.settings, App.ic.themeCustom
                     // endif
                 },
                 { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
@@ -179,7 +179,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.autoUpdate },
                 // ifdef OVER_100KB
                 { App.ic.typing },
-                { null },
+                { App.ic.fastScroll },
                 // endif
             }, {
                 // Notifications

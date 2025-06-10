@@ -39,5 +39,4 @@ Also see [Droidcord](https://github.com/leap0x7b/Droidcord), a Discord client fo
 * [@uwmpr](https://github.com/uwmpr) for formerly hosting the default proxy server
 * [@WunderWungiel](https://github.com/WunderWungiel) for formerly hosting the CDN proxy
 * [@shinovon](https://github.com/shinovon) for their Java ME [JSON library](https://github.com/shinovon/NNJSON)
-* [@saetta06](https://github.com/saetta06) for creating the menu and emoji graphics, and the loading animation
 * Language translation contributors (see About screen in the app)
