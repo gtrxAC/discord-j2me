@@ -89,7 +89,6 @@ public class Icons {
     Image flagHR;
     Image flagBG;
     Image flagMY;
-    Image flagJP;
     Image flagCA;
     // ifdef OVER_100KB
     Image fastScroll;
@@ -207,6 +206,5 @@ public class Icons {
         flagCA = sh.next();
         flagJP = sh.next();
         flagAR = sh.next();
-
     }
 }
