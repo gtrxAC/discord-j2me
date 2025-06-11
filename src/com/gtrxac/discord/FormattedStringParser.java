@@ -43,12 +43,14 @@ public class FormattedStringParser {
     private boolean isHeadingMode = false;
 
     private boolean showEmoji;
+    private boolean singleLine;
     public boolean showLargeEmoji = true;
 
-    FormattedStringParser(String src, Font font, boolean showEmoji) {
+    FormattedStringParser(String src, Font font, boolean showEmoji, boolean singleLine) {
         this.src = src;
         this.font = font;
         this.showEmoji = (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) && showEmoji;
+        this.singleLine = singleLine;
     }
 
     private void addPreviousPart() {
@@ -103,7 +105,7 @@ public class FormattedStringParser {
                 //     pos++;
                 //     continue;
                 // }
-                if (curr == '\n') {
+                if (curr == '\n' && !singleLine) {
                     addPreviousPart();
                     result.addElement(NEWLINE);
                     pos++;
