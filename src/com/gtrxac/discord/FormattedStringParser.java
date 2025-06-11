@@ -88,7 +88,7 @@ public class FormattedStringParser {
 
                 // Discord does not send tabs or carriage returns but leaving
                 // those here if anyone wants to use this code in another app
-                if (curr == ' ' || (curr == '\n' && singleLine) /* || curr == '\t' */) {
+                if (curr == ' ' /* || curr == '\t' */) {
                     addPreviousPart();
                     partBeginPos = pos;
                     while (chars[++pos] == ' ');  // check for tab here too if needed
