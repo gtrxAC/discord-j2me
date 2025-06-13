@@ -26,29 +26,39 @@ public class ChannelViewItem implements Strings {
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
     long refImgLastDrawn;    // timestamp when ref image was last drawn, used for preventing too frequent redraws
 
+    private static Font smallFont;
+    private static Font smallBoldFont;
+
     public ChannelViewItem(int type) {
         this.type = type;
     }
 
     private static Image unreadIndicatorImage;
 
-    public static void createUnreadIndicatorImage() {
-        int fontHeight = App.titleFont.getHeight();
-        int stringWidth = App.titleFont.stringWidth(Locale.get(NEW_MARKER));
+    public static int drawUnreadIndicatorImage(Graphics directG, int baseX, int baseY) {
+        Font font = (directG == null) ? App.titleFont : smallFont;
+        int fontHeight = (font.getHeight() + 1)/2*2;
+        int stringWidth = font.stringWidth(Locale.get(NEW_MARKER));
         int totalWidth = fontHeight/2 + stringWidth + fontHeight/4;
 
-        unreadIndicatorImage = Image.createImage(totalWidth, fontHeight);
-        Graphics g = unreadIndicatorImage.getGraphics();
+        Graphics g = directG;
+        if (g == null) {
+            unreadIndicatorImage = Image.createImage(totalWidth, fontHeight);
+            g = unreadIndicatorImage.getGraphics();
 
-        g.setColor(Theme.channelViewBackgroundColor);
-        g.fillRect(0, 0, totalWidth, fontHeight);
+            g.setColor(Theme.channelViewBackgroundColor);
+            g.fillRect(0, 0, totalWidth, fontHeight);
+        } else {
+            baseX -= totalWidth;
+            g.translate(baseX, baseY);
+        }
 
         g.setColor(Theme.unreadIndicatorBackgroundColor);
         g.fillRect(
             fontHeight/2,
             0,
             stringWidth + fontHeight/4,
-            fontHeight
+            (directG == null) ? fontHeight : (fontHeight + 1)  // +1 to hide triangle rendering error on s40
         );
         g.fillTriangle(
             fontHeight/2,
@@ -59,15 +69,20 @@ public class ChannelViewItem implements Strings {
             fontHeight/2
         );
         g.setColor(Theme.unreadIndicatorTextColor);
-        g.setFont(App.titleFont);
+        g.setFont(font);
         g.drawString(
             Locale.get(NEW_MARKER),
-            fontHeight/2,
-            0,
+            fontHeight/2 + 1,
+            1,
             Graphics.TOP | Graphics.LEFT
         );
 
-        unreadIndicatorImage = Util.resizeImageBilinear(unreadIndicatorImage, totalWidth*2/3, fontHeight*2/3);
+        if (directG == null) {
+            unreadIndicatorImage = Util.resizeImageBilinear(unreadIndicatorImage, totalWidth*2/3, fontHeight*2/3);
+        } else {
+            g.translate(-baseX, -baseY);
+        }
+        return fontHeight;
     }
 
     /**
@@ -117,13 +132,14 @@ public class ChannelViewItem implements Strings {
     
                 // Referenced message if message is a reply and option is enabled
                 if (msg.recipient != null && Settings.showRefMessage) {
-                    result += messageFontHeight*5/4;
+                    result += getRefAreaHeight(messageFontHeight, shouldUseDirectRefMessage()) + messageFontHeight/4;
                 }
     
                 return result;
             }
 
             case UNREAD_INDICATOR: {
+                if (shouldUseDirectRefMessage()) return smallFont.getHeight() + 1 + messageFontHeight/6*2;
                 return messageFontHeight;
             }
 
@@ -144,6 +160,33 @@ public class ChannelViewItem implements Strings {
         // Finally, check if profile pic or name color for recipient has not been shown/loaded yet
         // In this case, also check if the last redraw was not too recent
         return ((!refImgHasPfp || !refImgHasColor) && System.currentTimeMillis() > refImgLastDrawn + 250);
+    }
+
+    public static boolean shouldUseDirectRefMessage() {
+        // ifdef OVER_100KB
+        final boolean result = (
+            // ifdef NOKIA_THEME_BACKGROUND
+            Settings.theme == Theme.SYSTEM ||
+            // endif
+            Settings.messageFontSize != 0
+        );
+
+        if (result && smallFont == null) {
+            smallFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+            smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
+        }
+        return result;
+        // else
+        return false;
+        // endif
+    }
+
+    private int getRefAreaHeight(int messageFontHeight, boolean directRefMessage) {
+        if (directRefMessage) {
+            return smallFont.getHeight()*5/4;
+        } else {
+            return messageFontHeight;
+        }
     }
 
     /**
@@ -191,126 +234,167 @@ public class ChannelViewItem implements Strings {
 
                         // Draw referenced message if option is enabled
                         if (Settings.showRefMessage) {
-                            if (shouldRedrawRefMessage(selected)) {
-                                refImgHasPfp =
-                                    !useIcons || Settings.pfpSize == Settings.PFP_SIZE_PLACEHOLDER ||
-                                    msg.recipient.getIconHash() == null ||
-                                    IconCache.hasResized(msg.recipient, messageFontHeight);
+                            y += messageFontHeight/4;
 
-                                refImgHasColor = hasColor;
+                            // Should referenced message be drawn directly or onto an image that is then downscaled?
+                            // Drawing directly means we cannot use a smaller font size, but should be faster and supports system theme transparency, so use it in system theme mode and if a larger font is in use
+                            // Drawing onto an image lets us use a smaller font than what J2ME normally allows
+                            final boolean directRefMessage = shouldUseDirectRefMessage();
 
+                            // Determine refmessage area's height based on the font size and whether we are direct drawing
+                            int refAreaHeight = getRefAreaHeight(messageFontHeight, directRefMessage);
+
+                            if (directRefMessage || shouldRedrawRefMessage(selected)) {
                                 // ifdef OVER_100KB
                                 boolean useFormattedString =
                                     FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF ||
                                     FormattedString.useMarkdown;
                                 // endif
 
-                                // Create an image where the ref message will be rendered.
-                                // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
-                                int refImgFullWidth = (width - refDrawX)*4/3;
-                                // On Samsung (JBlend), the image has to be drawn in two parts due to a bug
-                                // ifdef SAMSUNG
-                                int refImgFull2Width = refImgFullWidth - width;
-                                refImgFullWidth = width;
-                                // endif
-                                Image refImgFull = Image.createImage(refImgFullWidth, messageFontHeight);
-                                Graphics refG = refImgFull.getGraphics();
+                                Graphics refG;
+                                int refX, refY, formatStrWidth;
+                                Font refFont, refFontBold;
+                                int refFontHeight;
 
-                                // Fill ref message image with the same background color that the rest of the message has
-                                int refImgBackgroundColor = selected ?
-                                    Theme.selectedMessageBackgroundColor : Theme.channelViewBackgroundColor;
-                                refG.setColor(refImgBackgroundColor);
-                                refG.fillRect(0, 0, refImgFullWidth, messageFontHeight);
+                                Image refImgFull = null;
+                                int refImgFullWidth = 0;
+                                int refImgFull2Width = 0;
+                                int refImgBackgroundColor = 0;
+                                
+                                if (!directRefMessage) {
+                                    refFont = App.messageFont;
+                                    refFontBold = App.titleFont;
+                                    refFontHeight = messageFontHeight;
 
-                                int refX = 0;
+                                    // if drawing to an image, set vars that can be used to determine if the image needs to be redrawn when pfp/name color get loaded
+                                    refImgHasPfp =
+                                        !useIcons || Settings.pfpSize == Settings.PFP_SIZE_PLACEHOLDER ||
+                                        msg.recipient.getIconHash() == null ||
+                                        IconCache.hasResized(msg.recipient, refFontHeight);
+
+                                    refImgHasColor = hasColor;
+
+                                    // Create an image where the ref message will be rendered.
+                                    // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
+                                    refImgFullWidth = (width - refDrawX)*4/3;
+                                    // On Samsung (JBlend), the image has to be drawn in two parts due to a bug
+                                    // ifdef SAMSUNG
+                                    refImgFull2Width = refImgFullWidth - width;
+                                    refImgFullWidth = width;
+                                    // endif
+                                    refImgFull = Image.createImage(refImgFullWidth, refFontHeight);
+                                    refG = refImgFull.getGraphics();
+
+                                    // Fill ref message image with the same background color that the rest of the message has
+                                    refImgBackgroundColor = selected ?
+                                        Theme.selectedMessageBackgroundColor : Theme.channelViewBackgroundColor;
+                                    refG.setColor(refImgBackgroundColor);
+                                    refG.fillRect(0, 0, refImgFullWidth, refFontHeight);
+
+                                    refX = 0;
+                                    refY = 0;
+                                    formatStrWidth = refImgFullWidth;
+                                } else {
+                                    // draw refmessage contents directly onto the screen:
+                                    // use screen as the graphics target, use small font regardless of settings, and set correct base screen coordinates
+                                    refFont = smallFont;
+                                    refFontBold = smallBoldFont;
+                                    refFontHeight = smallFont.getHeight();
+                                    refG = g;
+                                    refX = refDrawX;
+                                    refY = y;
+                                    formatStrWidth = width;
+                                }
 
                                 if (useIcons) {
-                                    Image icon = IconCache.getResized(msg.recipient, messageFontHeight);
+                                    Image icon = IconCache.getResized(msg.recipient, refFontHeight);
 
                                     if (icon != null) {
-                                        refG.drawImage(icon, refX, 0, Graphics.TOP | Graphics.LEFT);
+                                        refG.drawImage(icon, refX, refY, Graphics.TOP | Graphics.LEFT);
                                     } else {
                                         refG.setColor(msg.recipient.iconColor);
 
                                         if (Settings.pfpType == Settings.PFP_TYPE_CIRCLE || Settings.pfpType == Settings.PFP_TYPE_CIRCLE_HQ) {
-                                            refG.fillArc(refX, 0, messageFontHeight, messageFontHeight, 0, 360);
+                                            refG.fillArc(refX, refY, refFontHeight, refFontHeight, 0, 360);
                                         } else {
-                                            refG.fillRect(refX, 0, messageFontHeight, messageFontHeight);
+                                            refG.fillRect(refX, refY, refFontHeight, refFontHeight);
                                         }
                                     }
 
-                                    refX += messageFontHeight;
+                                    refX += refFontHeight;
                                 }
-                                refX += messageFontHeight/3;
+                                refX += refFontHeight/3;
 
-                                refG.setFont(App.titleFont);
+                                refG.setFont(refFontBold);
                                 refG.setColor(recipientColor);
-                                refG.drawString(msg.recipient.name, refX, 0, Graphics.TOP | Graphics.LEFT);
+                                refG.drawString(msg.recipient.name, refX, refY, Graphics.TOP | Graphics.LEFT);
 
-                                refX += App.titleFont.stringWidth(msg.recipient.name) + messageFontHeight/3;
+                                refX += refFontBold.stringWidth(msg.recipient.name) + refFontHeight/3;
                                 
                                 int refImgTextColor = selected ?
                                     Theme.selectedRecipientMessageContentColor : Theme.recipientMessageContentColor;
-                                refG.setFont(App.messageFont);
+                                refG.setFont(refFont);
                                 refG.setColor(refImgTextColor);
                                 // ifdef OVER_100KB
                                 if (useFormattedString) {
                                     if (refImgFormatStr == null) {
-                                        refImgFormatStr = new FormattedString(msg.refContent, App.messageFont, refImgFullWidth, refX, true, false, false);
+                                        refImgFormatStr = new FormattedString(msg.refContent, refFont, formatStrWidth, refX, true, false, false);
                                     }
-                                    refImgFormatStr.draw(refG, 0);
+                                    refImgFormatStr.draw(refG, refY);
                                 } else
                                 // endif
                                 {
-                                    refG.drawString(msg.refContent, refX, 0, Graphics.TOP | Graphics.LEFT);
+                                    refG.drawString(msg.refContent, refX, refY, Graphics.TOP | Graphics.LEFT);
                                 }
 
-                                int refImgResizeWidth = width - refDrawX;
-                                // ifdef SAMSUNG
-                                refImgResizeWidth = width*3/4;
-                                // endif
-                                refImg = Util.resizeImageBilinear(refImgFull, refImgResizeWidth, messageFontHeight*3/4);
+                                if (!directRefMessage) {
+                                    int refImgResizeWidth = width - refDrawX;
+                                    // ifdef SAMSUNG
+                                    refImgResizeWidth = width*3/4;
+                                    // endif
+                                    refImg = Util.resizeImageBilinear(refImgFull, refImgResizeWidth, refFontHeight*3/4);
 
-                                // ifdef SAMSUNG
-                                Image refImgFull2 = Image.createImage(refImgFull2Width, messageFontHeight);
-                                refG = refImgFull2.getGraphics();
+                                    // ifdef SAMSUNG
+                                    Image refImgFull2 = Image.createImage(refImgFull2Width, refFontHeight);
+                                    refG = refImgFull2.getGraphics();
 
-                                refG.setColor(refImgBackgroundColor);
-                                refG.fillRect(0, 0, refImgFull2Width, messageFontHeight);
+                                    refG.setColor(refImgBackgroundColor);
+                                    refG.fillRect(0, 0, refImgFull2Width, refFontHeight);
 
-                                refG.setFont(App.messageFont);
-                                refG.setColor(refImgTextColor);
-                                // ifdef OVER_100KB
-                                if (useFormattedString) {
-                                    refG.translate(-refImgFullWidth, 0);
-                                    refImgFormatStr.draw(refG, 0);
-                                } else
-                                // endif
-                                {
-                                    refG.drawString(msg.refContent, -refImgFullWidth + refX, 0, Graphics.TOP | Graphics.LEFT);
+                                    refG.setFont(refFont);
+                                    refG.setColor(refImgTextColor);
+                                    // ifdef OVER_100KB
+                                    if (useFormattedString) {
+                                        refG.translate(-refImgFullWidth, 0);
+                                        refImgFormatStr.draw(refG, 0);
+                                    } else
+                                    // endif
+                                    {
+                                        refG.drawString(msg.refContent, -refImgFullWidth + refX, 0, Graphics.TOP | Graphics.LEFT);
+                                    }
+
+                                    refImg2 = Util.resizeImageBilinear(refImgFull2, refImgFull2Width*3/4, refFontHeight*3/4);
+                                    // endif
+
+                                    refImgSelected = selected;
+                                    refImgLastDrawn = System.currentTimeMillis();
                                 }
-
-                                refImg2 = Util.resizeImageBilinear(refImgFull2, refImgFull2Width*3/4, messageFontHeight*3/4);
-                                // endif
-
-                                refImgSelected = selected;
-                                refImgLastDrawn = System.currentTimeMillis();
                             }
 
-                            // draw downscaled refmessage
-                            y += messageFontHeight/4;
-                            g.drawImage(refImg, refDrawX, y, Graphics.TOP | Graphics.LEFT);
-                            // ifdef SAMSUNG
-                            g.drawImage(refImg2, refDrawX + width*3/4, y, Graphics.TOP | Graphics.LEFT);
-                            // endif
+                            if (!directRefMessage) {
+                                // draw downscaled refmessage image on screen
+                                g.drawImage(refImg, refDrawX, y, Graphics.TOP | Graphics.LEFT);
+                                // ifdef SAMSUNG
+                                g.drawImage(refImg2, refDrawX + width*3/4, y, Graphics.TOP | Graphics.LEFT);
+                                // endif
+                            }
 
                             // draw connecting line between refmessage and message
-                            y += messageFontHeight*3/8;
+                            y += refAreaHeight*3/8;
                             g.setColor(Theme.recipientMessageConnectorColor);
-                            g.drawLine(refDrawX/2, y, refDrawX/2, y + messageFontHeight/2);  // vertical line |
+                            g.drawLine(refDrawX/2, y, refDrawX/2, y + refAreaHeight/2);  // vertical line |
                             g.drawLine(refDrawX/2, y, refDrawX*7/8, y);  // horizontal line -
-
-                            y += messageFontHeight*5/8;
+                            y += refAreaHeight*5/8;
                         }
                     }
 
@@ -458,19 +542,23 @@ public class ChannelViewItem implements Strings {
                 String caption = (type == OLDER_BUTTON) ?
                     Locale.get(VIEW_OLDER_MESSAGES_L) : Locale.get(VIEW_NEWER_MESSAGES_L);
 
+                // ifdef NOKIA_THEME_BACKGROUND
+                if (selected || Settings.theme != Theme.SYSTEM)
+                // endif
+                {
+                    int textWidth = App.messageFont.stringWidth(caption);
+                    g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+                    g.fillRoundRect(
+                        width/2 - textWidth/2 - messageFontHeight,
+                        y + messageFontHeight/6,
+                        textWidth + messageFontHeight*2,
+                        messageFontHeight*4/3,
+                        messageFontHeight/2,
+                        messageFontHeight/2
+                    );
+                }
+
                 g.setFont(App.messageFont);
-                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-
-                int textWidth = App.messageFont.stringWidth(caption);
-                g.fillRoundRect(
-                    width/2 - textWidth/2 - messageFontHeight,
-                    y + messageFontHeight/6,
-                    textWidth + messageFontHeight*2,
-                    messageFontHeight*4/3,
-                    messageFontHeight/2,
-                    messageFontHeight/2
-                );
-
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
                 g.drawString(
                     caption, width/2, y + messageFontHeight/3,
@@ -489,42 +577,66 @@ public class ChannelViewItem implements Strings {
                         Locale.get(VIEW_ATTACHMENT_SUFFIX)
                     );
 
-                g.setFont(App.messageFont);
-                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-
                 int x = useIcons ? messageFontHeight*2 : 0;
-                int textWidth = App.messageFont.stringWidth(caption);
 
-                g.fillRoundRect(
-                    x + messageFontHeight/2,
-                    y + messageFontHeight/6,
-                    textWidth + messageFontHeight,
-                    messageFontHeight*4/3,
-                    messageFontHeight/2,
-                    messageFontHeight/2
-                );
+                // ifdef NOKIA_THEME_BACKGROUND
+                if (selected || Settings.theme != Theme.SYSTEM)
+                // endif
+                {
+                    int textWidth = App.messageFont.stringWidth(caption);
+                    g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+                    g.fillRoundRect(
+                        x + messageFontHeight/2,
+                        y + messageFontHeight/6,
+                        textWidth + messageFontHeight,
+                        messageFontHeight*4/3,
+                        messageFontHeight/2,
+                        messageFontHeight/2
+                    );
+                }
 
+                g.setFont(App.messageFont);
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
                 g.drawString(caption, x + messageFontHeight, y + messageFontHeight/3, Graphics.TOP | Graphics.LEFT);
                 break;
             }
 
             case UNREAD_INDICATOR: {
-                int screenWidth = App.disp.getCurrent().getWidth();
-                int imageX = screenWidth - messageFontHeight/4 - unreadIndicatorImage.getWidth();
+                // ifdef NOKIA_THEME_BACKGROUND
+                final boolean directDraw = (Settings.theme == Theme.SYSTEM);
+
+                if (directDraw && smallFont == null) {
+                    smallFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+                    smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
+                }
+                // else
+                final boolean directDraw = false;
+                // endif
+                
+                Font font = (directDraw ? smallFont : App.titleFont);
+                int height = (font.getHeight() + 1)/2*2;
+
+                int end = width - messageFontHeight/4;
+                if (directDraw) y += messageFontHeight/6;
+
                 g.setColor(Theme.unreadIndicatorBackgroundColor);
-                g.drawImage(
-                    unreadIndicatorImage,
-                    imageX,
-                    y + messageFontHeight/6,
-                    Graphics.TOP | Graphics.LEFT
-                );
                 g.drawLine(
                     messageFontHeight/4,
-                    y + messageFontHeight/2,
-                    imageX, // +1?
-                    y + messageFontHeight/2
+                    y + height/2,
+                    end - 1,
+                    y + height/2
                 );
+
+                if (directDraw) {
+                    drawUnreadIndicatorImage(g, end, y);
+                } else {
+                    g.drawImage(
+                        unreadIndicatorImage,
+                        end - unreadIndicatorImage.getWidth(),
+                        y + messageFontHeight/6,
+                        Graphics.TOP | Graphics.LEFT
+                    );
+                }
                 break;
             }
         }

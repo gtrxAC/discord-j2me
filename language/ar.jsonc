@@ -7,8 +7,6 @@
     //   strings, write it as \" instead.
     // - If the original string has any special formatting
     //   (e.g. space at the beginning or end), keep the formatting the same.
-    // - If you want the English text to be shown for a specific string,
-    //   replace the string with null (without any quotation marks).
     // - For any Discord-specific terminology (e.g. servers), use the same
     //   translated term that Discord officially uses for your language.
 
@@ -22,570 +20,572 @@
     //   short label, use the same string for both labels.
 
     // Placeholder file name shown when the name of an attachment in the attachment view screen could not be loaded.
-    "Tệp không có tên",
+    "ملف غير مسمى",
 
     // Title text for the attachment picker (native file picker) screen.
-    "Chọn tệp đính kèm",
+    "تحديد مرفق",
 
     // Softkey labels for going back to the previous screen.
-    "Quay lại",
-    "Quay lại",
+    "رجوع",
+    "رجوع",
 
     // Softkey label for closing a menu.
     // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
-    "Đóng",
-    "Đóng",
+    "إغلاق",
+    "إغلاق",
 
     // Title text for attachment view screen.
-    "Tệp đính kèm",
+    "المرفقات",
 
     // Softkey labels for refetching contents of channel view or attachment view.
-    "Tải lại",
-    "Tải lại",
+    "تحديث",
+    "تحديث",
 
     // Softkey labels used in channel or DM list for marking the selected channel or DM as read.
-    "Đ.dấu đã đọc",
-    "Đánh dấu đã đọc",
+    "تعليم كمقروءة",
+    "تعليم كمقروءة",
 
     // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
-    "Đ.dấu tất cả đã đọc",
-    "Đánh dấu tất cả đã đọc",
+    "تعليم الكل كمقروءة",
+    "تعليم الكل كمقروءة",
 
     // Generic "Select" softkey labels.
-    "Chọn",
-    "Chọn",
+    "تحديد",
+    "تحديد",
 
     // Softkey labels for sending a message in the currently open channel.
-    "Gửi",
-    "Gửi tin nhắn",
+    "إرسال",
+    "إرسالل رسالة",
 
     // Softkey labels for sending a reply to the selected message.
-    "Trả lời",
-    "Trả lời tin nhắn",
+    "رد",
+    "رد",
 
     // Softkey labels for sending an attachment in the currently open channel.
-    "Gửi tệp",
-    "Gửi tệp đính kèm",
+    "تحميل",
+    "تحميل ملف",
 
     // Softkey labels for copying the text content of the selected message.
-    "Sao chép",
-    "Sao chép nội dung",
+    "نسخ",
+    "نسخ المحتوى",
 
     // Softkey labels for editing the selected message.
-    "Chỉnh sửa",
-    "Chỉnh sửa",
+    "تحرير",
+    "تحرير",
 
     // Softkey labels for deleting the selected message.
-    "Xóa",
-    "Xóa",
+    "حذف",
+    "حذف",
 
     // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
-    "Mở URL",
-    "Mở URL",
+    "فتح رابط",
+    "فتح رابط",
 
     // Channel view title suffix when reading older messages.
-    " (cũ)",
+    " (قديمة)",
 
     // Text shown at the center of the channel view when it is empty (no messages).
-    "Không có gì ở đây",
+    "لا شيء لرؤيته هنا",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
-    "Tải lại để xem các t.nhắn mới",
+    "التحديث لقراءة الرسائل الجديدة",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
-    "Đang kết nối lại",
+    "قيد إعادة الاتصال",
 
     // Channel view banner shown when a message is being sent by the client.
-    "Đang gửi t.nhắn",
+    "قيد إرسال الرسالة",
 
     // Channel view banner shown when a message is being edited by the client.
-    "Đang chỉnh sửa t.nhắn",
+    "قيد تحرير الرسالة",
 
     // Channel view banner shown when a message is being deleted by the client.
-    "Đang xóa t.nhắn",
+    "قيد حذف الرسالة",
 
     // Channel view banner shown when messages are being loaded, e.g. during a refresh or after a message was sent by the client.
-    "Đang tải t.nhắn",
+    "قيد تحميل الرسائل",
 
     // Suffix for channel view banner text when one person is typing.
     // Example: "aa is typing"
-    " đang nhập",
+    " يكتب",
 
     // Suffix for channel view banner text when two or three people are typing.
     // Example: "aa, bb, cc are typing"
-    " đang nhập",
+    " يكتبون",
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing"
-    " người đang nhập",
+    " من الناس يكتبون",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
-    null,
+    " و",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
-    "Proxy này không hỗ trợ gửi tệp",
-    "Proxy này không hỗ trợ xóa t.nhắn",
-    "Proxy này không hỗ trợ chỉnh sửa t.nhắn",
+    "هذا الوكيل لا يدعم تحميل الملفات",
+    "هذا الوكيل لا يدعم حذف الرسائل",
+    "هذا الوكيل لا يدعم تحرير الرسائل",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
-    "Không hỗ trợ FileConnection",
+    "FileConnection غير مدعوم",
 
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
-    "Cũ",
-    "Xem các tin nhắn cũ",
-    "Mới",
-    "Xem các tin nhắn mới",
-
+    "أقدم",
+    "عرض الرسائل الأقدم",
+    "أحدث",
+    "عرض الرسائل الأحدث",
+    
     // Parts of the button label for viewing attachments of a message.
     // Examples: "View 1 attachment", "View 2 attachments"
-    "Xem ",
-    " tệp đ.kèm",
-    " tệp đ.kèm",
+    "عرض ",
+    " مرفق",
+    " من المرفقات",
 
     // Title for confirmation screen shown when deleting a message.
-    "Xóa",
+    "حذف",
 
     // Body text for confirmation screen shown when deleting a message.
-    "Bạn có chắc chắn muốn xóa tin nhắn này không?",
+    "حذف هذه الرسالة؟",
 
     // Generic softkey labels.
-    "Có",
-    "Có",
-    "Không",
-    "Không",
-    null,
-    null,
+    "نعم",
+    "نعم",
+    "لا",
+    "لا",
+    "حسنًا",
+    "حسنًا",
 
     // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
-    "(không rõ)",
+    "(غير معروف)",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "(không có nội dung)",
+    "(لا محتوى)",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    "(nội dung không hỗ trợ)",
+    "(رسالة غير مدعومة)",
 
     // Message content shown for a message that has been deleted.
-    "(tin nhắn đã xóa)",
+    "(رسالة محذوفة)",
 
     // Title text for direct message search screen.
-    "Tìm kiếm t.nhắn t.tiếp",
+    "البحث في الرسائل الخاصة",
 
     // Guide text for text field in direct message search and "insert mention" screens.
-    "Nhập tên người dùng",
+    "إدخال اسم المستخدم",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "Không thể tìm thấy người dùng. Hãy tạo tin nhắn tr.tiếp từ một ứng dụng khác",
+    "المستخدم لم يعثر عليه. محاولة إنشاء الرسالة الخاصة باستخدام عميل آخر.",
 
     // Title text for direct message list.
-    "Tin nhắn trực tiếp",
+    "الرسائل الخاصة",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
-    "Tìm kiếm",
-    "Tìm kiếm",
+    "بحث",
+    "بحث",
 
     // Title text shown for all error message screens.
-    "Lỗi",
+    "خطأ",
 
     // Title text shown for guild (server) selector.
-    "Các máy chủ",
+    "الخوادم",
 
     // Title text shown for favorite servers list.
-    "Các máy chủ yêu thích",
+    "المفضلة",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
-    "Loại bỏ",
-    "Loại bỏ",
+    "إزالة",
+    "إزالة",
 
     // Softkey command for adding a server to the favorites list.
-    "Thích",
-    "Thêm vào danh sách yêu thích",
+    "تفضيل",
+    "إضافة إلى المفضلة",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "Lỗi kết nối: ",
+    "خطأ في الاتصال: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "Kiểm tra mã truy cập của bạn",
+    "التحقق من رمزك المميز",
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
     // e.g. HTTP error 500
-    "Lỗi HTTP ",
+    "خطأ HTTP ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "Chưa xác định URL CDN, các tệp đính kèm không khả dụng",
+    "لم يتم تعريف عنوان شبكة توصيل المحتوى. المرفقات غير متاحة.",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
-    null,
-    null,
+    " (",
+    ")",
 
     // Softkey labels for showing a text attachment's contents within the app.
-    "Hiện",
-    "Hiện theo văn bản",
+    "عرض",
+    "عرض كنص",
 
     // Softkey labels for showing an attachment in the device's built-in web browser.
-    "Mở",
-    "Mở trong trình duyệt",
+    "فتح",
+    "فتح في المتصفح",
 
     // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
-    "Đang tải...",
+    "قيد التحميل...",
 
     // Loading screen text shown when an attachment is being sent.
-    "Đang gửi tệp...",
+    "قيد الإرسال...",
 
     // Error message prefix shown when an error occurs while uploading an attachment.
-    "Lỗi khi gửi tệp: ",
-
+    "خطأ أثناء إرسال الملف: ",
+    
     // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
-    "Bỏ qua",
-    "Bỏ qua",
+    "تخطي",
+    "تخطي",
 
     // Key press prompt shown in hotkey mapper.
-    "Nhấn một phím để dùng cho:",
+    "الضغط على المفتاح المراد اسخدامه لأجل:",
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
-    // "going back" only applies to the chat view, 
-    "gửi tin nhắn",
-    "trả lời tin nhắn",
-    "sao chép nội dung tin nhắn",
-    "tải lại tin nhắn",
-    "quay lại",
+    // "going back" only applies to the chat view. 
+    "إرسال رسالة",
+    "الرد على رسالة",
+    "نسخ محتوى رسالة",
+    "تحديث الرسائل",
+    "العودة",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-    "Phím này đã đặt cho ",
+    "هذا المفتاح مخطط بالفعل ليقوم ب",
 
     // Title text shown in login screen.
-    "Đăng nhập",
+    "تسجيل الدخول",
 
     // Proxy server warning message shown at the top of the login screen.
-    "Chỉ sử dụng các proxy đáng tin cậy",
+    "استخدام فقط الوكلاء أنت على ثقة بهم!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "Bạn có thể lấy mã truy cập (token) từ công cụ phát triển (dev tools) của trình duyệt của bạn (trên mạng sẽ có hướng dẫn). Bạn nên sử dụng tài khoản phụ.",
+    "يمكن العثور على الرمز المميز (Token) من على أدوات تطوير متصفحك (ابحث/ي عن مساعدة عبر الإنترنت). استخدام حساب بديل مستحسن.",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
-    "Sử dụng Wi-Fi",
+    "استخدام Wi-Fi",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
-    "URL API",
-    "URL CDN",
-    "URL Cổng",
-    "Mã truy cập",
+    "عنوان واجهة برمجة التطبيقات",
+    "عنوان شبكة توصيل المحتوى",
+    "عنوان البوابة",
+    "الرمز المميز",
 
     // Softkey label for confirming the login options in the login screen.
-    "Đăng nhập",
-    "Đăng nhập",
+    "دخول",
+    "تسجيل الدخول",
 
     // Softkey command for exiting the application.
-    "Thoát",
-    "Thoát",
+    "خروج",
+    "خروج",
 
     // "Use gateway" option shown in login screen.
-    "Sử dụng cổng",
+    "استخدام بوابة",
 
     // Label for radio button field for token sending options.
-    "Gửi mã truy cập như",
+    "إرسال الرمز على هيئة",
 
     // Token sending options.
-    "Header (mặc định)",
-    null,
-    "Tham số truy vấn",
+    "Header (الافتراضي)",
+    "JSON",
+    "Query parameter",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "Hãy nhập mã truy cập",
-    "Hãy nhập URL API",
+    "الرجاء إدخال رمزك المميز",
+    "الرجاء تحديد عنوان واجهة برمجة تطبيقات",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
-    "Các máy chủ",
-    "Các máy chủ yêu thích",
-    "Tin nhắn trực tiếp",
-    "Cài đặt",
-    "Đăng xuất",
+    "الخوادم",
+    "المفضلة",
+    "الرسائل الخاصة",
+    "الضبط",
+    "تسجيل الخروج",
 
     // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
-    "Đề cập ai đó",
+    "إدخال ذِكر",
 
     // Label shown for username search results in "Insert mention" screen. Shown if more than one user matches the username query.
-    "Các kết quả tìm kiếm",
+    "نتائج البحث",
 
     // Message shown when the username query resulted in no matches in the "Insert mention" screen.
-    "Không có kết quả",
+    "لا نتيجة",
 
     // Error message shown when selecting "Insert" in the "Insert mention" screen and none of the search results (radio buttons) were picked.
-    "Chưa chọn người dùng",
+    "المستخدم غير محدد",
 
     // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
-    "đã thêm ",
-    " vào nhóm",
+    "أضيف ",
+    " إلى المجموعة",
 
     // Status message shown when a user has left a group DM.
-    "đã rời khỏi nhóm",
+    "غادر المجموعة",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
-    "đã loại bỏ ",
-    " khỏi nhóm",
+    "أزيل ",
+    " من المجموعة",
 
     // Status messages.
-    "đã bắt đầu cuộc gọi",
-    "đã đổi tên nhóm",
-    "đã đổi b.tượng nhóm",
-    "đã ghim tin nhắn",
-    "đã tham gia máy chủ",
-    "đã nâng cấp máy chủ",
+    "بدأ مكالمة",
+    "غير اسم المجموعة",
+    "غير أيقونة المجموعة",
+    "ثبت رسالة",
+    "انضم إلى الخادم",
+    "غزز الخادم",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "đã nâng cấp máy chủ lên cấp ",
+    "عزز الخادم إلى المستوى ",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
-    null,
+    "(ملصق: ",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
-    "không rõ",
+    "غير معروف",
 
     // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
     // Note: order of day and month cannot be changed currently
-    null,
-    null,
-    "SA",
-    "CH",
+    ":",
+    "/",
+    "ص",
+    "م",
 
     // Softkey labels for inserting a mention/ping in the "send message" screen.
-    "Đề cập",
-    "Đề cập ai đó",
+    "ذِكر",
+    "إدخال ذِكر",
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
-    "Gửi tin nhắn tới (@",
-    "Gửi tin nhắn trong (#",
+    "إرسال رسالة (@",
+    "إرسال رسالة (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "Yêu cầu kết nối hoạt động đến cổng",
+    "مطلوب اتصال نشط بالبوابة",
 
     // Title text for "copy message content" screen.
-    "Sao chép tin nhắn",
+    "نسخ رسالة",
 
     // Title text for "edit message content" screen.
-    "Chỉnh sửa tin nhắn",
+    "تحرير رسالة",
 
     // Title text for gateway disconnect prompt screen.
-    "Đã ngắt kết nối",
+    "غير متصلة",
 
     // Main body text for gateway disconnect prompt screen.
-    "Lỗi kết nối đến cổng. Bạn có muốn thử kết nối lại không?",
+    "خطأ بالبوابة. هل تريد/ين إعادة الاتصال؟",
 
     // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
-    "Thông tin",
+    "رسالة",
 
     // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
-    "Đang trả lời ",
+    "ردًا على ",
 
     // Top label for the message entry box in the reply form.
-    "Tin nhắn của bạn:",
+    "رسالتك:",
 
     // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
-    "Đề tác giả",
+    "ذكر المؤلف",
 
     // Title text for settings menu.
-    "Cài đặt",
+    "الضبط",
 
     // Settings screen heading for themes section.
-    "Chủ đề",
+    "الموضوع",
 
     // Theme options.
-    "Tối",
-    "Sáng",
-    "Đen",
+    "غامق",
+    "فاتح",
+    "أسود",
 
     // Settings screen heading for miscellaneous user interface related settings.
-    "Giao diện",
+    "واجهة الاستخدام",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
+    // This is no longer used, so keep it as null.
     null,
 
     // Settings option for using 12-hour time format in timestamps.
-    "Định dạng giờ 12 tiếng",
+    "توقيت 12 ساعة",
 
     // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-    "Sử dụng trình chọn tệp của t.bị",
+    "منتقي الملفات الأصلي",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "Tự động kết nối lại với cổng",
+    "إعادة اتصال تلقائي بالبوابة",
 
     // Settings option for enabling icons in server and direct message lists.
-    "B.tượng máy chủ/t.nhắn t.tiếp",
+    "أيقونات الخوادم/الخاص",
 
     // Settings option for enabling nickname role colors.
-    "Bảng tên nhiều màu",
+    "ألوان الأسماء",
 
     // Settings screen heading for message author font size.
-    "P.chữ biểu thị ng. gửi tin nhắn",
+    "خط مؤلفو الرسائل",
 
     // Font size options.
-    "Nhỏ",
-    "Vừa",
-    "Lớn",
+    "صغير",
+    "متوسط",
+    "كبير",
 
     // Settings screen heading for message content font size.
-    "Phông chữ n.dung tin nhắn",
+    "خط محتويات الرسائل",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-    "Số lượng t.nhắn được tải",
+    "عدد تحميل الرسائل",
 
     // Settings screen heading for selecting attachment file format.
-    "Định dạng tệp",
+    "صيغة المرفقات",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "Kích cỡ tệp tối đa",
+    "حجم المرفقات الأقصى (بكسل)",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
-    "Hình dạng avatar",
+    "شكل الآفاتارات",
 
     // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
-    "Vuông",
-    "Tròn",
-    "Tròn (C.lượng cao)",
+    "مربع",
+    "دائري",
+    "دائري مصقول",
 
     // Settings section for profile picture resolution.
-    "Độ phân giải avatar",
+    "دقة الآفتارات",
 
     // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
-    "Chỉ sử dụng h.ảnh giữ chỗ",
+    "عنصر نائب فقط",
 
     // Resolution options. Used for profile picture resolution and menu icon resolution.
-    "Tắt",
-    null,
-    null,
+    "إيقاف",
+    "16 بكسل",
+    "32 بكسل",
 
     // Settings section for menu icon size.
-    "Kích cỡ biểu tượng menu",
+    "حجم أيقونات القائمة (بكسل)",
 
     // Settings section for controlling the display of reply messages.
-    "Hiển thị các trả lời như",
-
+    "عرض الردود على أنها",
+    
     // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
-    "Chỉ người nhận",
+    "متلقاة فقط",
 
     // Settings option to show replies with the whole recipient message.
-    "Tin nhắn đầy đủ",
+    "رسائل كاملة",
 
     // Settings section for hotkey action management.
-    "Các phím tắt",
+    "مفاتيح الاختصار",
 
     // Settings option to use "default" hotkeys. When enabled, the J2ME game actions (ABCD) are used for hotkey actions, instead of user-defined key bindings. I named it "default" due to the lack of a better term for people who aren't familiar with J2ME development.
-    "Các phím tắt mặc định",
+    "مفاتيح الاختصار الافتراضية",
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
-    "Cài đặt phím tắt",
-    "Đặt lại phím tắt",
+    "خريطة المفاتيح",
+    "تخصيص مفاتيح الاختصار",
 
     // Generic softkey labels. Currently used in settings menu.
-    "Lưu",
-    "Lưu",
-    "Hủy",
-    "Hủy",
+    "حفظ",
+    "حفظ",
+    "إلغاء",
+    "إلغاء",
 
     // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
-    "Phải thoát ứng dụng trước khi mở URL.",
+    "يجب إغلاق التطبيق قبل فتح العنوان.",
 
     // Prefix of error message shown when an error occurs when trying to open an URL.
-    "Không thể mở URL (",
+    "تعذر فتح العنوان (",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    ")\n\nBạn có thể thử sao chép URL vào trình duyệt của thiết bị: ",
+    ")\n\nلربما عليك محاولة نسخ العنوان يدويًا إلى متصفح جهازك: ",
 
     // Title text for URL list screen ('Open URL' option in channel view).
-    "Chọn URL",
+    "تحديد عنوان",
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
-    "Thêm",
-    "Thêm vào",
+    "إدخال",
+    "إدخال",
 
     // Title for language selection screen.
-    "Đổi ngôn ngữ",
+    "اللغة",
 
     // Settings section for language options.
-    "Ngôn ngữ",
+    "اللغة",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Ngôn ngữ",
-    "Đổi ngôn ngữ",
+    "اللغة",
+    "تعيين اللغة",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Toàn m.hình",
-    "Bật/tắt toàn m.hình",
+    "ملء الشاشة",
+    "ملء الشاشة",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "bật/tắt toàn m.hình",
+    "ملء الشاشة",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Toàn màn hình",
+    "وضع ملء الشاشة",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Hiển thị thông báo cho",
+    "عرض إشعارات بخصوص",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "Tất cả t.nhắn",
-    "Đề cập",
-    "T.nhắn trực tiếp",
+    "جميع الرسائل",
+    "الذِكر",
+    "الرسائل الخاصة",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " đã gửi một t.nhắn trực tiếp: \"",
-    " đã gửi một t.nhắn trong ",
+    " أرسل لك رسالة: \"",
+    " أرسل رسالة في ",
 
     // Title for notification alert windows
-    "T.nhắn mới",
+    "رسالة جديدة",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Thông báo bằng cách",
+    "إخطاري عن طريق:",
 
     // Options for the kinds of notification methods.
-    "Cửa sổ t.báo",
-    "Âm thanh",
+    "نافذة تنبيه",
+    "صوت",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Tải các kênh trong nền",
+    "إبقاء القنوات محملة",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Không có gì ở đây",
+    "لا شيء لرؤيته هنا",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Không thể kết nối với cổng. Bạn có muốn thử lại không?",
+    "تعذر الاتصال بالبوابة. هل تريد/ين إعادة المحاولة؟",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Trả lời tệp",
-    "Trả lời đính kèm tệp",
+    "تحميل رد",
+    "الرد بملف",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Tệp đính kèm",
+    "الملف المرفق",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " tệp đính kèm)",
-    " tệp đính kèm)",
+    " مرفق)",
+    " من المرفقات)",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
-    "Giao diện",
-    "Các hình ảnh",
-    "Các biểu hiện",
-    "Các thông báo",
+    // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
+    "المظهر",
+    "الصور",
+    "السلوك",
+    "الإشعارات",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Tắt",
-    "Bật",
+    "إيقاف",
+    "تشغيل",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -593,265 +593,264 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Hãy nhập một giá trị đúng từ 1 đến ",
+    "الرجاء إدخال رقم صالح بين 1 و",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "API Pigler",
+    "واجهة برمجة تطبيقات Pigler",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Lỗi API Pigler: ",
-
+    "خطأ بواجهة برمجة التطبيقات Pigler: ",
+    
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Khômg hỗ trợ API thông báo Pigler. Hãy cài đặt API Pigler từ nnp.nnchan.ru/pna hoặc tắt các thông báo Pigler trong Cài đặt.",
+    "واجهة برمجة إشعارات التطبيقات Pigler غير مدعومة. الرجاء تثبيت واجهة برمجة التطبيقات Pigler من على nnp.nnchan.ru/pna أو تعطيل إشعارات Pigler في الضبط.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Thanh kéo",
+    "شريط التمرير",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Ẩn",
-    "Hiện",
+    "مخفي",
+    "مرئي",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "Giới thiệu",
+    "حول",
 
     // Title text for about screen.
-    "Giới thiệu",
+    "حول",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Phiên bản ",
+    "الإصدار ",
 
     // Heading shown in the about screen for developers.
-    "Các nhà phát triển",
+    "المطورون",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Những người phiên dịch",
+    "المترجمون",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Cần trợ giúp?",
+    "الدعم",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Trưởng nhóm phát triển",
-    "Tải tệp đính kèm, tích hợp API Pigler, bộ phân tích JSON",
-    "Hoạt hình tải, các biểu tượng menu, phiên dịch tiếng Ý",
+    "المطور القائد",
+    "تحميل المرفقات وتكامل واجهة برمجة التطبيقات Pigler وتحليل JSON",
+    "فنانة شاشة التحميل وأيقونات القائمة والرموز التعبيرية والترجمة الإيطالية",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Tiếng Việt",
-    "Tiếng Thuỵ Điển",
-    "Tiếng Indonesia",
-    "Tiếng Ba Lan",
-    "Tiếng Tây Ban Nha",
-    "Tiếng Bồ Đào Nha (Brazil)",
-    "Tiếng Thái",
-    "Tiếng Bồ Đào Nha",
-    "Tiếng Trung (Phồn thể) và tiếng Quảng Đông",
-    "Tiếng Ukraina",
-    "Tiếng Rumani",
-    "Tiếng Thổ Nhĩ Kỳ",
-    "Tiếng Nga",
+    "الفيتنامية",
+    "السويدية",
+    "الإندونيسية",
+    "البولندية",
+    "الإسبانية",
+    "البرتغالية (البرازيلية)",
+    "التايلاندية",
+    "البرتغالية",
+    "الصينية (التقليدية) والكانتونية",
+    "الأوكرانية",
+    "الرومانية",
+    "التركية",
+    "الروسية",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "Xem",
-    "Xem",
+    "عرض",
+    "عرض",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Tự động cập nhật",
+    "التحديث التلقائي",
 
     // Title for dialog box shown when an update was found.
-    "Có bản cập nhật mới",
+    "تحديث متاح",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "Discord J2ME đã có một phiên bản mới. Bạn có muốn cập nhật không?\nP. bản hiện tại: ",
-    "\nP. bản mới nhất: ",
+    "إصدارٌ جديد من Discord J2ME متاح. هل تريد/ين التحديث؟\nالحالي: ",
+    "\nالأحدث: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Cập nhật",
-    "Cập nhật",
+    "تحديث",
+    "تحديث",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Chỉ những p.bản ổn định",
-    "Tất cả phiên bản",
+    "المستقرة فقط",
+    "جميع الإصدارات",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Tiếng Đức",
-    "Tiếng Croatia",
+    "الألمانية",
+    "الكرواتية",
 
     // Units for attachment sizes.
-    // Units for attachment sizes.
-    " byte",
-    null,
-    null,
+    " بايت",
+    " ك.ب.",
+    " م.ب.",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Các chủ đề",
-    "Xem các chủ đề",
+    "نقاشات",
+    "عرض النقاشات",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Đặt",
-    "Đặt mã truy cập",
+    "تعيين",
+    "تعيين رمز مميز",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Đổi",
-    "Đổi mã t.cập",
+    "تغيير",
+    "تغيير الرمز المميز",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    null,
+    "واجهة استخدام Nokia",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Các thông báo cho Android",
+    "إشعارات Android",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "MỚI",
+    "جديد",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Đăng ảnh này?",
+    "تحميل هذه الصورة؟",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "Xem trước ảnh",
+    "معاينة منتقي الملفات",
 
     // Header shown at the top of every forwarded message.
-    "T.nhắn chuyển tiếp:",
+    "رسالة محولة:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "Để đặt mã t.cập, hãy ấn phím BlackBerry.",
-    "Để thay đổi mã t.cập, hãy ấn phím BlackBerry.",
+    "الضغط على مفتاح BlackBerry لتعيين رمزك المميز.",
+    "الضغط على مفتاح BlackBerry لتغيير رمزك المميز.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Không đủ RAM để hiển thị ảnh xem trước",
+    "لا توجد ذاكرة كافية لعرض معاينة الصورة.",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Hiển thị các emoji",
+    "عرض الرموز التعبيرية",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Chỉ những emoji m.định",
+    "التلقائية فقط",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "Tất cả emoji",
+    "جميعها",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Nhập từ tệp",
-    "Nhập mã từ tệp",
+    "استيراد",
+    "استيراد رمز مميز",
 
     // Title text for the token import file picker screen.
-    "Chọn tệp chứa mã",
+    "تحديد ملف الرمز المميز",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Đang tải các emoji...",
+    "قيد تنزيل الرموز التعبيرية...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Tiếng Pháp",
-    "Tiếng Bungari",
+    "الفرنسية",
+    "البلغارية",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Chữ được định dạng",
+    "تنسيق النصوص",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "Emoji",
-    "Thêm emoji",
+    "رمز تعبيري",
+    "إدخال رمز تعبيري",
 
     // Title for emoji picker screen.
-    "Chọn emoji",
+    "تحديد رمز تعبيري",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Tải xuống các emoji?",
+    "تنزيل بيانات الرموز التعبيرية؟",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(đã chỉnh sửa)",
+    "(محررة)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Gạch chân",
-    "Thêm dấu gạch chân",
+    "شرطة_سفلية",
+    "إدخال شرطة_سفلية",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Âm thông báo",
+    "صوت الإشعارات",
 
     // Settings option for toggling vibration alert for notifications.
-    "Rung",
+    "الاهتزاز",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Tắt âm",
-    "Bật/tắt tiếng",
+    "كتم",
+    "كتم/إلغاء الكتم",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "cuộn lên đầu",
-    "cuộn xuống dưới",
+    "التمرير إلى أعلى",
+    "التمرير إلى أسفل",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Gửi thông báo nhập",
+    "إرسال مؤشر الكتابة",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Đặt làm",
-    "Đặt làm âm báo",
+    "استخدامه",
+    "استخدامه كصوت الإشعارات",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Đặt âm thanh này làm âm báo?",
+    "تطبيق هذا كصوت الإشعارات؟",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Nghe",
-    "Nghe lại",
+    "تشغيل",
+    "إعادة التشغيل",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Đã đặt làm âm báo!",
+    "تم تطبيق صوت الإشعارات!",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Quản lý dữ liệu ứng dụng",
+    "إدارة البيانات",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Các emoji",
+    "صور الرموز التعبيرية",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Dữ liệu về các tin nhắn đã đọc",
+    "آخر الرسائل المقروءة",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Âm báo",
+    "صوت الإشعارات",
     // Translated string data for a downloaded language translation.
-    "Dữ liệu ngôn ngữngữ",
+    "بيانات اللغة",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Xóa",
+    "حذف",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Xóa dữ liệu này?\n",
+    "حذف هذا العنصر؟\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Mở trình duyệt",
+    "فتح المتصفح",
 
     // Text shown in that dialog box.
-    "Bạn có chắc muốn đóng ứng dụng này để mở trình duyệt khong?",
+    "هل تريد/ين فتح متصفح الويب؟ هذا سيغلق التطبيق.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Cuộn nhanh",
+    "التمرير السريع",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Không thể chơi âm báo. Chắc là loại tệp không được hỗ trợ.",
+    "فشل تشغيل الصوت. قد يكون نوع الملف غير مدعوم.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Tiếng Nhật",
-    "Tiếng Catalan",
-    "Arabic",
+    "اليابانية",
+    "الكاتالونية",
+    "العربية",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "Theo hệ thống",
+    "System",
 
     // Theme option shown in settings for the user-defined theme.
-    "Tùy chỉnh",
+    "Custom",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
-    "Chủ đề",
-    "Bạn muốn đặt chủ đề này không?",
+    "Theme",
+    "Do you want to apply this theme?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Chủ đề",
+    "Theme",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Không đủ RAM để hiển thị trình chọn emoji"
+    "Not enough memory to show emoji picker"
 ]

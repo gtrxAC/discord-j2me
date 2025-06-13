@@ -8,6 +8,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
 
     // Should match the order that is in Locale.langIds
     private static String[] langNames = {
+        "العربية",
         "Български",
         "Català", // ca (Catalan)
         "Deutsch",
@@ -41,7 +42,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         lastScreen = App.disp.getCurrent();
 
         Image[] flags = {
-            App.ic.flagBG, App.ic.flagCA, App.ic.flagDE, App.ic.flagGB, App.ic.flagUS, App.ic.flagES, App.ic.flagFI, App.ic.flagFR, App.ic.flagHR, App.ic.flagID,
+            App.ic.flagAR, App.ic.flagBG, App.ic.flagCA, App.ic.flagDE, App.ic.flagGB, App.ic.flagUS, App.ic.flagES, App.ic.flagFI, App.ic.flagFR, App.ic.flagHR, App.ic.flagID,
             App.ic.flagIT, App.ic.flagJP, App.ic.flagMY, App.ic.flagPL, App.ic.flagPT, App.ic.flagBR, App.ic.flagRO,
             App.ic.flagRU, App.ic.flagSV, App.ic.flagTH, App.ic.flagTR,
             App.ic.flagUK, App.ic.flagVI, App.ic.flagTW, App.ic.flagHK

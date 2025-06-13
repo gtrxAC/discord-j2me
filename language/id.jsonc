@@ -90,7 +90,7 @@
     "Tiada pesan",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
-    "Segarkan utk membaca pesan t'baru",
+    "Segarkan utk membaca pesan terbaru",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
     "Menghubungkan",
@@ -125,7 +125,7 @@
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
     "Mengunggah file tdk didukung oleh proxy yg anda gunakan",
     "Menghapus pesan tdk didukung oleh proxy yg anda gunakan",
-    "Menyunting psn tdk didukung oleh proxy yg anda gunakan",
+    "Menyunting pesan tdk didukung oleh proxy yg anda gunakan",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
     "Tidak dapat menggunakan FileConnection",
@@ -161,7 +161,7 @@
     "(tidak diketahui)",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "(tiada konten)",
+    "(kosong)",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
     "(tidak didukung)",
@@ -176,7 +176,7 @@
     "Masukkan nama pengguna",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "P'guna tdk ditemukan. Coba buat DM dgn p'guna tersebut dg. apl discord resmi.",
+    "Pengguna tdk ditemukan. Coba buat DM dengan pengguna tersebut menggunakan klien Discord lain.",
 
     // Title text for direct message list.
     "Pesan-pesan Saya",
@@ -186,24 +186,24 @@
     "Cari",
 
     // Title text shown for all error message screens.
-    "Galat",
+    "Kesalahan",
 
     // Title text shown for guild (server) selector.
     "Server",
 
     // Title text shown for favorite servers list.
-    "Server yg disukai",
+    "Favorit",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
     "Hapus",
     "Hapus",
 
     // Softkey command for adding a server to the favorites list.
-    "Favorit",
+    "Favoritkan",
     "Tambahkn ke favorit",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "Heartbeat thread error: ",
+    "Kesalahan koneksi: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
     "Periksa lagi token anda",
@@ -214,7 +214,7 @@
     "Kesalahan HTTP ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "URL CDN belum diatur. Lampiran tdk tersedia.",
+    "Alamat CDN belum diatur. Lampiran tdk tersedia.",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
     " (",
@@ -238,8 +238,8 @@
     "Kesalahan saat mengirim: ",
 
     // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
-    "Skip",
-    "Skip",
+    "Lompati",
+    "Lompati",
 
     // Key press prompt shown in hotkey mapper.
     "Tekan tombol yg akan digunakan utk:",
@@ -263,21 +263,21 @@
     "Hanya gunakan proxy yang anda percaya!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "Token dapat ditemukan m'gunakan Dev Tools di peramban PC anda (cari caranya secara daring), Kami merekomendasikan anda untuk menggunakan akun alt/kedua",
+    "Token dapat ditemukan menggunakan Dev Tools di peramban PC anda (cari caranya secara daring), Kami merekomendasikan anda untuk menggunakan akun alt/kedua",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "Gunakan Wi-Fi",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
-    "API URL",
-    "CDN URL",
-    "Gateway URL",
+    "Alamat API",
+    "Alamat CDN",
+    "Alamat Gateway",
     "Token",
 
     // Softkey label for confirming the login options in the login screen.
     "Masuk",
-    "Masuk",
+    "Log Masuk",
 
     // Softkey command for exiting the application.
     "Keluar",
@@ -287,19 +287,19 @@
     "Gunakan gateway",
 
     // Label for radio button field for token sending options.
-    "Kirim token sbg",
+    "Kirim token sebagai",
 
     // Token sending options.
-    "Header (default)",
+    "Header (Bawaan)",
     "JSON",
     "Query parameter",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "Tolong masukkan token anda",
-    "Silahkan atur API URL",
+    "Silahkan masukkan token anda",
+    "Silahkan atur alamat API",
 
     // Main menu items.
-    // "Keluar" brings you back to the login screen where you enter your token and other login settings.
+    // "Exit" brings you back to the login screen where you enter your token and other login settings.
     "Server saya",
     "Favorit",
     "Pesan-pesan",
@@ -326,7 +326,7 @@
     " keluar dari grup",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
-    " telah menghapus ",
+    " telah mengeluarkan ",
     " dari grup",
 
     // Status messages.
@@ -364,7 +364,7 @@
     "Mengirim Pesan (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "Koneksi gateway yg aktif diperlukan",
+    "Koneksi gateway yang aktif diperlukan",
 
     // Title text for "copy message content" screen.
     "Salin pesan",
@@ -469,10 +469,10 @@
     "Tampilkan balasan dengan",
 
     // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
-    "Penerima saja",
+    "Hny Penerima",
 
     // Settings option to show replies with the whole recipient message.
-    "Seluruh isi pesan",
+    "Seluruh pesan",
 
     // Settings section for hotkey action management.
     "Hotkey",
@@ -485,7 +485,7 @@
     "Atur tombol",
 
     // Generic softkey labels. Currently used in settings menu.
-    "Simp.",
+    "Simpan",
     "Simpan",
     "Batal",
     "Batalkan",
@@ -533,7 +533,7 @@
     // Options for the kinds of messages that notifications should be shown for.
     "Semua pesan",
     "Mention",
-    "Pesan DM",
+    "Pesan Pribadi",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
@@ -564,7 +564,7 @@
 
     // Softkey labels for sending an attachment as a reply to the selected message.
     "Balas~File",
-    "Balas dg lampirn",
+    "Balas dengan lampiran",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
     "Berkas terlampir",
@@ -597,13 +597,13 @@
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "Pigler API",
+    "Gunakan Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
     "Kesalahan Pigler API: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "API Pemberitahuan Pigler tidak didukung. Silahkan pasang Pigler API dari nnp.nnchan.ru/pna atau nonaktifkan notif. Pigler di Pengaturan.",
+    "API Pemberitahuan Pigler tidak didukung. Silahkan pasang Pigler API dari nnp.nnchan.ru/pna atau nonaktifkan penggunaan Pigler di Pengaturan.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
     "Bilah gulir",
@@ -637,7 +637,7 @@
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
     "Pengembang utama",
-    "Dukungan lampiran, integrasi Pigler API, pengurai JSON",
+    "Dukungan lampiran, API pemberitahuan Pigler, pengurai JSON",
     "Pembuat animasi dan ikon menu, Penerjemah bahasa Italia, Pembuat gambar emoji",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
@@ -647,10 +647,10 @@
     "Bahasa Indonesia",
     "Bahasa Polandia",
     "Bahasa Spanyol",
-    "Bahasa Portugis Brazil",
+    "Bahasa Portugis (Brasil)",
     "Bahasa Thailand",
     "Bahasa Portugis",
-    "Bahasa Cina Tradisional dan Kanton",
+    "Bahasa Tionghoa Tradisional dan Kanton",
     "Bahasa Ukraina",
     "Bahasa Romania",
     "Bahasa Turki",
@@ -661,7 +661,7 @@
     "Buka",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Pembaruan Otomatis",
+    "Pembaruan otomatis",
 
     // Title for dialog box shown when an update was found.
     "Pembaruan tersedia",
@@ -671,13 +671,13 @@
     "\nVersi terbaru: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "P'barui",
+    "Perbarui",
     "Perbarui",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Hanya releases (Stabil)",
-    "Seluruhnya (Stabil/Beta)",
+    "Hanya pembaruan stabil",
+    "Seluruh pembaruan (Stabil/Beta)",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Bahasa Jerman",
@@ -697,8 +697,8 @@
     "Atur token",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Ubah",
-    "Ubah token",
+    "Sunting",
+    "Sunting token",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
@@ -707,7 +707,7 @@
     "Pemberitahuan Android",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW",
+    "BARU",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
     "Unggah gambar ini?",
@@ -729,7 +729,7 @@
     "Tampilkan emoji",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Hanya default",
+    "Hanya yg bawaan",
 
     // Option for "Show emoji" setting where all emoji are shown.
     "Semua",
@@ -831,9 +831,26 @@
     "Gulir cepat",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Gagal memainkan suara. Berkas tidak didukung.",
+    "Tidak dapat memainkan suara. Berkas tidak didukung.",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Bahasa Jepang",
-    "Bahasa Katalan"
+    "Bahasa Katalan",
+    "Bahasa Arab",
+
+    // Theme option shown in settings for the theme that uses colors from the system's UI.
+    "Sistem",
+
+    // Theme option shown in settings for the user-defined theme.
+    "Disesuaikan",
+
+    // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
+    "Tema",
+    "Gunakan tema ini?",
+
+    // Item shown in the data manager for the saved custom theme data.
+    "Tema",
+
+    // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
+    "Memori tidak cukup untuk menampilkan pemilih emoji"
 ]

@@ -10,7 +10,7 @@ public class ThemeSaveDialog extends Dialog implements Strings {
     private Command cancelCommand;
 
     ThemeSaveDialog() {
-        super("Theme", "Do you want to apply this theme?");
+        super(Locale.get(THEME_SAVE_TITLE), Locale.get(THEME_SAVE_DESCRIPTION));
         setCommandListener(this);
 
         yesCommand = Locale.createCommand(YES, Command.OK, 0);
@@ -31,7 +31,11 @@ public class ThemeSaveDialog extends Dialog implements Strings {
                 // yes -> set theme to custom and save this theme's data
                 RecordStore rms = null;
                 try {
-                    rms = RecordStore.openRecordStore("theme", true);
+                     RecordStore.deleteRecordStore("theme");
+                }
+                catch (Exception e) {}
+                try {
+                    rms = RecordStore.openRecordStore("theme", true, RecordStore.AUTHMODE_ANY, true);
                     Util.setOrAddRecord(rms, 1, Util.stringToBytes(App.channelView.pendingTheme.build()));
                 }
                 catch (Exception e) {

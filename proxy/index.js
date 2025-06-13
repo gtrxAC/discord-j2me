@@ -79,9 +79,28 @@ function getToken(req, res, next) {
         delete req.body.token;
     }
 
+    if (!token) {
+        res.status(400).send({message: "Failed to receive token. Check your token or try changing the \"Send token as\" option in the login screen."});
+        return;
+    }
+
+    // Check that the token is of the correct length (at least 70 characters, could be slightly shorter with some user IDs, not sure)
+    if (!token.startsWith("j2me-") && token.length < 60) {
+        res.status(400).send({message: "Token is written or copied incorrectly (too short)"});
+        return;
+    }
+
     if (req.route.path == `${BASE}/channels/:channel/upload`) {
         res.locals.uploadToken = token;
         token = getTokenFromUploadToken(token);
+    } else {
+        // Remove any characters that should not be in a token (leftover whitespace, quotation marks, control characters, etc)
+        token = token.replace(/[^\w\-\+\/\=\.]/g, "");
+    }
+
+    if (token.length < 60) {
+        res.status(400).send({message: "Token is written or copied incorrectly (invalid characters)"});
+        return;
     }
 
     res.locals.headers = {
@@ -95,6 +114,23 @@ function getToken(req, res, next) {
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin"
     };
+
+    // Get user ID from token (base64 decode the token up to the first period)
+    try {
+        let idPart = token.split('.')[0];
+        try {
+            res.locals.userID = atob(idPart);
+            BigInt(res.locals.userID);  // verify that it is a valid numeric ID
+        } catch (e) {
+            idPart = idPart.replace(/\-/g, "+").replace(/_/g, "/");  // base64url?
+            res.locals.userID = atob(idPart);
+            BigInt(res.locals.userID);
+        }
+    }
+    catch (e) {
+        res.status(400).send({message: "Token is written incorrectly"});
+        return;
+    }
     next();
 }
 
@@ -560,24 +596,20 @@ app.post(`${BASE}/channels/:channel/messages/:message/ack`, getToken, async (req
 // Get user info (only ID is used)
 app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
     try {
-        const response = await axios.get(
-            `${DEST_BASE}/users/@me`,
-            {headers: res.locals.headers}
-        );
         res.send(JSON.stringify({
-            id: response.data.id,
+            id: res.locals.userID,
             _uploadtoken: generateUploadToken(res.locals.headers.Authorization),
             _liteproxy: true,
 
             // Number and display name of latest available release version.
-            _latest: 12,
-            _latestname: "4.1.0",
+            _latest: 19,
+            _latestname: "5.0.0",
 
             // Latest available beta version.
             // If there is no beta version, the version number should be set to 0 (so clients will always download the newer release version).
             // If there is a beta version, the beta version number should be higher than the release one.
-            _latestbeta: 17,
-            _latestbetaname: "5.0.0 beta5",
+            _latestbeta: 0,
+            _latestbetaname: "",
 
             // Version number of emoji JSON data.
             // When the JSON is edited, this number should be increased by one.
@@ -731,12 +763,27 @@ app.get(`${BASE_L}/guilds/:guild/channels`, getToken, async (req, res) => {
             }
         })
 
-        const channels = response.data
-            .filter(ch => ch.type == 0 || ch.type == 5)
-            .sort((a, b) => a.position - b.position)
-            .map(ch => [ch.id, ch.name])
+        let channels = response.data.filter(ch => ch.type == 0 || ch.type == 5);
+        
+        if (req.query?.t) {
+            // Sort by latest first
+            channels.sort((a, b) => {
+                const a_id = BigInt(a.last_message_id ?? 0);
+                const b_id = BigInt(b.last_message_id ?? 0);
+                return (a_id < b_id ? 1 : a_id > b_id ? -1 : 0)
+            });
+            channels = channels.slice(0, 22);
+        } else {
+            channels.sort((a, b) => a.position - b.position)
+        }
 
-        res.send(stringifyUnicode(channels));
+        const output = channels.map(ch => {
+            const result = [ch.id, ch.name];
+            if (req.query?.t) result.push((BigInt(ch.last_message_id ?? 0) >> 22n).toString(36));
+            return result;
+        })
+
+        res.send(stringifyUnicode(output));
     }
     catch (e) { handleError(res, e); }
 });
@@ -759,7 +806,7 @@ app.get(`${BASE_L}/users/@me/channels`, getToken, async (req, res) => {
             return (a_id < b_id ? 1 : a_id > b_id ? -1 : 0)
         });
 
-        const output = channels.slice(0, 30)
+        const output = channels.slice(0, req.query?.t ? 22 : 30)
             // Convert to [id, name] format
             .map(ch => {
                 const result = [ch.id];
@@ -770,6 +817,10 @@ app.get(`${BASE_L}/users/@me/channels`, getToken, async (req, res) => {
                 } else {
                     // Add first recipient's name for normal DM
                     result.push(ch.recipients[0].global_name ?? ch.recipients[0].username);
+                }
+                if (req.query?.t) {
+                    // timestamp of last message
+                    result.push((BigInt(ch.last_message_id ?? 0) >> 22n).toString(36));
                 }
                 return result;
             })
@@ -863,10 +914,26 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
                 content,
                 recipient,
                 msg.type,
-                generateLiteIDHash(msg.author.id)
+                // for old clients, show ID hash.
+                // for new clients, show 1 or 0 (whether message can be edited/deleted by us)
+                (req.query.m == 0 || req.query.m == 1) ?
+                    Number(msg.author.id == res.locals.userID) :
+                    generateLiteIDHash(msg.author.id)
             ];
         })
         res.send(stringifyUnicode(messages));
+
+        // Mark latest message as read if client requested to do so and we are not reading an older page of messages
+        if (req.query.m == 1 && !req.query.before && !req.query.after && response.data?.[0]?.id) {
+            axios.post(
+                `${DEST_BASE}/channels/${req.params.channel}/messages/${response.data[0].id}/ack`,
+                {token: null},
+                {headers: res.locals.headers}
+            )
+            .catch(e => {
+                console.log(e);
+            })
+        }
     }
     catch (e) { handleError(res, e); }
 });
@@ -876,6 +943,7 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
 // Message contents also include a string generated in the same way from the message author's ID.
 // This can be used to compare user IDs (to a reasonable enough accuracy) to check if the message was sent by the logged in user.
 // If a message was sent by the logged in user, the Edit and Delete menu options are shown in the client when that message is highlighted.
+// This route is no longer used by the newest 30KB client (now calculated client-side) but kept here for the sake of compatibility
 app.get(`${BASE_L}/users/@me`, getToken, async (req, res) => {
     try {
         const response = await axios.get(

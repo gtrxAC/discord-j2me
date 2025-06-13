@@ -42,11 +42,15 @@ public class FormattedStringParser {
     private boolean isMonospaceMode = false;
     private boolean isHeadingMode = false;
 
+    private boolean showEmoji;
+    private boolean singleLine;
     public boolean showLargeEmoji = true;
 
-    FormattedStringParser(String src, Font font) {
+    FormattedStringParser(String src, Font font, boolean showEmoji, boolean singleLine) {
         this.src = src;
         this.font = font;
+        this.showEmoji = (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) && showEmoji;
+        this.singleLine = singleLine;
     }
 
     private void addPreviousPart() {
@@ -101,7 +105,7 @@ public class FormattedStringParser {
                 //     pos++;
                 //     continue;
                 // }
-                if (curr == '\n') {
+                if (curr == '\n' && !singleLine) {
                     addPreviousPart();
                     result.addElement(NEWLINE);
                     pos++;
@@ -111,7 +115,7 @@ public class FormattedStringParser {
                     continue;
                 }
                 specialChecks: {
-                    if (curr == ':' && FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF && FormattedStringPartEmoji.emojiTable != null) {
+                    if (curr == ':' && showEmoji && FormattedStringPartEmoji.emojiTable != null) {
                         int colon = src.indexOf(':', pos + 2);
                         if (colon == -1) break specialChecks;
 
@@ -134,7 +138,7 @@ public class FormattedStringParser {
                             continue;
                         }
                     }
-                    else if (curr == '<' && FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
+                    else if (curr == '<' && showEmoji && FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
                         int checkPos = pos + 1;
 
                         // '<' must be followed by 'a:' or ':'

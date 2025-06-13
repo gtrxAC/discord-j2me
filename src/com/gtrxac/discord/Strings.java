@@ -257,7 +257,6 @@ public interface Strings {
     static final int ABOUT_SUPPORT = 251;
     static final int LEAD_DEVELOPER = 252;
     static final int WHAT_SHINOVON_DID = 253;
-    static final int WHAT_SAETTA06_DID = 254;
     static final int TRANSLATOR_VI = 255;
     static final int TRANSLATOR_SV = 256;
     static final int TRANSLATOR_ID = 257;
@@ -360,4 +359,11 @@ public interface Strings {
     // endif
     static final int TRANSLATOR_JA = 339;
     static final int TRANSLATOR_CA = 340;
+    static final int TRANSLATOR_AR = 341;
+    static final int THEME_SYSTEM = 342;
+    static final int THEME_CUSTOM = 343;
+    static final int THEME_SAVE_TITLE = 344;
+    static final int THEME_SAVE_DESCRIPTION = 345;
+    static final int DATA_MANAGER_THEME = 346;
+    static final int EMOJI_PICKER_NO_MEMORY = 347;
 }

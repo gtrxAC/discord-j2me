@@ -432,7 +432,12 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             } else {
                 _removeCommand(openUrlCommand);
                 _removeCommand(copyCommand);
-                _addCommand(selectCommand);
+
+                if (selected.type == ChannelViewItem.UNREAD_INDICATOR) {
+                    _removeCommand(selectCommand);
+                } else {
+                    _addCommand(selectCommand);
+                }
             }
         } else {
             _removeCommand(openUrlCommand);
@@ -853,7 +858,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 if (!App.isLiteProxy) {
                     App.error(Locale.get(DELETE_NOT_SUPPORTED));
                 } else {
+                    // ifdef OVER_100KB
                     App.disp.setCurrent(new DeleteConfirmDialog(selected));
+                    // else
+                    App.disp.setCurrent(new Dialogs100kb(selected));
+                    // endif
                 }
             }
             else if (c == editCommand) {

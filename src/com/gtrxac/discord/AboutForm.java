@@ -61,7 +61,6 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addString(Locale.get(ABOUT_DEVELOPERS), Font.SIZE_MEDIUM, LAYOUT_CENTER);
         addDeveloper("gtrxAC", LEAD_DEVELOPER);
         addDeveloper("Shinovon", WHAT_SHINOVON_DID);
-        addDeveloper("Saetta06", WHAT_SAETTA06_DID);
         // ifdef OVER_100KB
         addDeveloper("AeroPurple", WHAT_AEROPURPLE_DID);
         // endif
@@ -75,6 +74,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("cappuchi", TRANSLATOR_PL);
         addDeveloper("Dragan232", TRANSLATOR_CA);
         addDeveloper("ElHamexd\nAlexisBlade2001", TRANSLATOR_ES);
+        addDeveloper("EyadMahm0ud", TRANSLATOR_AR);
         addDeveloper("Kaiky Alexandre Souza", TRANSLATOR_PTBR);
         addDeveloper("Lennard_105", TRANSLATOR_DE);
         addDeveloper("logoffon", TRANSLATOR_TH);
@@ -93,6 +93,8 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addString("discord.gg/2GKuJjQagp", Font.SIZE_SMALL, LAYOUT_DEFAULT);
         addSpacer();
         addString("t.me/dscforsymbian", Font.SIZE_SMALL, LAYOUT_DEFAULT);
+        addSpacer();
+        addString("gtrxac.fi", Font.SIZE_SMALL, LAYOUT_DEFAULT);
 
         addCommand(Locale.createCommand(BACK, Command.BACK, 0));
     }

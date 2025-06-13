@@ -29,7 +29,7 @@ public class KeyRepeatThread extends Thread {
             while (enabled) {
                 long curr = System.currentTimeMillis();
                 if (curr >= MyCanvas.beginRepeatTime) break;
-                Util.sleep((int) (curr - MyCanvas.beginRepeatTime));
+                Util.sleep((int) (MyCanvas.beginRepeatTime - curr));
             }
 
             Displayable current = App.disp.getCurrent();

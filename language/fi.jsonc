@@ -833,5 +833,22 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "japani",
-    "katalaani"
+    "katalaani",
+    "arabia",
+
+    // Theme option shown in settings for the theme that uses colors from the system's UI.
+    "Järjestelmä",
+
+    // Theme option shown in settings for the user-defined theme.
+    "Mukautettu",
+
+    // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
+    "Teema",
+    "Haluatko asettaa tämän teeman?",
+
+    // Item shown in the data manager for the saved custom theme data.
+    "Teema",
+
+    // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
+    "Muisti ei riitä"
 ]

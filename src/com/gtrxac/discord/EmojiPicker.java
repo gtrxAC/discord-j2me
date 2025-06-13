@@ -30,6 +30,9 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         catch (Exception e) {
             App.disp.setCurrent(new EmojiDownloadDialog());
         }
+        catch (OutOfMemoryError e) {
+            App.error(Locale.get(EMOJI_PICKER_NO_MEMORY));
+        }
     }
 
     EmojiPicker() {

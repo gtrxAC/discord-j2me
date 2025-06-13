@@ -67,7 +67,11 @@ public class GatewayThread extends Thread implements Strings
 			App.gateway = new GatewayThread();
 			App.gateway.start();
 		} else {
+			// ifdef OVER_100KB
 			App.disp.setCurrent(new ReconnectDialog(message));
+			// else
+			App.disp.setCurrent(new Dialogs100kb(message));
+			// endif
 		}
 	}
 
@@ -192,7 +196,11 @@ public class GatewayThread extends Thread implements Strings
 		Notification notif = new Notification(guildID, channelID);
 
 		if (Settings.showNotifAlert) {
+			// ifdef OVER_100KB
 			App.disp.setCurrent(new NotificationDialog(notif, location, msg));
+			// else
+			App.disp.setCurrent(new Dialogs100kb(notif, location, msg));
+			// endif
 		}
 		
 		// ifdef PIGLER_SUPPORT
@@ -217,7 +225,7 @@ public class GatewayThread extends Thread implements Strings
 			try {
 				SoftNotification sn = SoftNotification.newInstance();
 				sn.setText(
-					NotificationDialog.createString(notif, location, msg),
+					Notification.createString(location, msg),
 					(isDM ? author : location) + ": " + content
 				);
 				sn.post();

@@ -8,8 +8,8 @@ import java.util.*;
 import cc.nnproject.json.*;
 
 public class App implements Strings {
-	public static final int VERSION_CODE = 17;
-	public static final String VERSION_NAME = "5.0.0 beta5";
+	public static final int VERSION_CODE = 19;
+	public static final String VERSION_NAME = "5.0.0";
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =
@@ -144,10 +144,14 @@ public class App implements Strings {
 		ListScreen.noItemsString = Locale.get(LIST_EMPTY);
 		Dialog.okLabel = Locale.get(OK);
 		Dialog.okLabelLong = Locale.get(OK_L);
-		ChannelViewItem.createUnreadIndicatorImage();
 		// ifdef OVER_100KB
 		FormattedStringPartEmoji.loadEmoji(messageFont.getHeight());
+        // endif
+
+		// ifdef NOKIA_THEME_BACKGROUND
+        if (Settings.theme != Theme.SYSTEM)
 		// endif
+        ChannelViewItem.drawUnreadIndicatorImage(null, 0, 0);
 	}
 
 	// Required for Wi-Fi support on BlackBerry

@@ -27,7 +27,10 @@ public class FormattedString implements Strings {
         if (isEmpty) {
             tempParts = new Vector();
         } else {
-            FormattedStringParser parser = new FormattedStringParser(src, font);
+            // Emojis are oversized in refmessages if using direct refmessage drawing (see channelviewitem), easiest is just to not show them there at all
+            boolean showEmoji = !singleLine || !ChannelViewItem.shouldUseDirectRefMessage();
+
+            FormattedStringParser parser = new FormattedStringParser(src, font, showEmoji, singleLine);
             tempParts = parser.run();
             showLargeEmoji = parser.showLargeEmoji;
         }
@@ -59,7 +62,7 @@ public class FormattedString implements Strings {
         mergeParts(tempParts);
 
         // Fix vertical alignment of "(edited)" indicator item
-        if (useMarkdown && isEdited) {
+        if (isEdited && useMarkdown && Settings.theme != Theme.SYSTEM) {
             ((FormattedStringPart) tempParts.lastElement()).y += font.getBaselinePosition() - editedFont.getBaselinePosition();
         }
         
@@ -130,7 +133,7 @@ public class FormattedString implements Strings {
             int partWidth = (showLargeEmoji && !partIsText) ? lineHeight : part.getWidth();
 
             // Go to a new display line if not enough space left on the current line
-            if (!singleLine && x + partWidth >= xOffset + width) {
+            if (!singleLine && x + partWidth > xOffset + width) {
                 // If a whitespace part ends up at the beginning of a display line, and it is not at the beginning of a line in the source text, discard it
                 if (partIsText && ((FormattedStringPartText) part).isWhitespace()) {
                     parts.removeElementAt(i);

@@ -1,7 +1,7 @@
 [
   {
     "name": "discord_midp2",
-    "defines": ["MIDP2_GENERIC", "NOKIA_MANIFEST", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT", "NOKIA_UI_ICON", "OVER_100KB", "NOT_BLACKBERRY"],
+    "defines": ["MIDP2_GENERIC", "NOKIA_MANIFEST", "NOKIA_THEME_BACKGROUND", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT", "NOKIA_UI_ICON", "OVER_100KB", "NOT_BLACKBERRY"],
     "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/javapiglerapi.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
     "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png"]
   },

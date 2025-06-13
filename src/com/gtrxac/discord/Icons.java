@@ -89,8 +89,13 @@ public class Icons {
     Image flagHR;
     Image flagBG;
     Image flagMY;
-    Image flagJP;
     Image flagCA;
+    // ifdef OVER_100KB
+    Image fastScroll;
+    Image themeCustom;
+    // endif
+    Image flagJP;
+    Image flagAR;
 
     Icons() {
         if (Settings.menuIconSize == 0) return;
@@ -169,8 +174,10 @@ public class Icons {
         markdown = sh.next();
         typing = sh.next();
         dataManager = sh.next();
+        fastScroll = sh.next();
+        themeCustom = sh.next();
         // else
-        sh.skip(4);
+        sh.skip(6);
         // endif
         flagGB = sh.next();
         flagUS = sh.next();
@@ -197,5 +204,7 @@ public class Icons {
         flagBG = sh.next();
         flagMY = sh.next();
         flagCA = sh.next();
+        flagJP = sh.next();
+        flagAR = sh.next();
     }
 }

@@ -833,5 +833,22 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "Japonca",
-    "Katalanca"
+    "Katalanca",
+    "Arapça",
+
+    // Theme option shown in settings for the theme that uses colors from the system's UI.
+    "Sistem",
+
+    // Theme option shown in settings for the user-defined theme.
+    "Özel",
+
+    // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
+    "Tema",
+    "Bu tema uygulansın mı?",
+
+    // Item shown in the data manager for the saved custom theme data.
+    "Tema",
+
+    // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
+    "Emoji seçici için yeterli hafıza yok."
 ]

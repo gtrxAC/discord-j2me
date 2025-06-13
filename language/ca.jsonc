@@ -835,5 +835,22 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "Japonès",
-    "Català"
+    "Català",
+    "Àrab",
+
+    // Theme option shown in settings for the theme that uses colors from the system's UI.
+    "Sistema",
+
+    // Theme option shown in settings for the user-defined theme.
+    "Personalitzat",
+
+    // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
+    "Tema",
+    "Aplicar aquest tema?",
+
+    // Item shown in the data manager for the saved custom theme data.
+    "Tema",
+
+    // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
+    "No hi ha prou memòria per mostrar selector d'emojis"
 ]

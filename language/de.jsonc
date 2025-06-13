@@ -392,7 +392,7 @@
     "Einstellungen",
 
     // Settings screen heading for themes section.
-    "Skin",
+    "Design",
 
     // Theme options.
     "Dunkel",
@@ -835,5 +835,22 @@
 
     // Related to "Lines shown in the about screen for which language" above.
     "Japanisch",
-    "Katalanisch"
+    "Katalanisch",
+    "Arabisch",
+
+    // Theme option shown in settings for the theme that uses colors from the system's UI.
+    "System",
+
+    // Theme option shown in settings for the user-defined theme.
+    "Eigene",
+
+    // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
+    "Design",
+    "Möchten Sie dieses Design anwenden?",
+
+    // Item shown in the data manager for the saved custom theme data.
+    "Design",
+
+    // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
+    "Nicht genügend RAM um die Emoji-Auswahl anzuzeigen"
 ]

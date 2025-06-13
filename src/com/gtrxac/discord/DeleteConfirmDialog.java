@@ -1,3 +1,4 @@
+// ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -33,3 +34,4 @@ public class DeleteConfirmDialog extends Dialog implements CommandListener, Stri
         }
     }
 }
+// endif

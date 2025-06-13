@@ -99,7 +99,7 @@ public class Theme {
     private static final int[] embedBackgroundColors = {0x2b2d31, 0xEEEEEE, 0x202020};
     private static final int[] embedDescriptionColors =    {0xFFFFFF, 0x111111, 0xEEEEEE};
     private static final int[] selectedEmbedBackgroundColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
-    private static final int[] selectedEmbedDescriptionColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
+    private static final int[] selectedEmbedDescriptionColors =     {0xFFFFFF, 0x111111, 0xEEEEEE};
 
     private static final int[] buttonBackgroundColors = {0x2b2d31, 0xEEEEEE, 0x202020};
     private static final int[] buttonTextColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
@@ -211,6 +211,14 @@ public class Theme {
         int hbg = App.disp.getColor(Display.COLOR_HIGHLIGHTED_BACKGROUND);
         int hfg = App.disp.getColor(Display.COLOR_HIGHLIGHTED_FOREGROUND);
 
+        // fallback color scheme for devices where Display.getColor does not return valid colors (e.g. all black)
+        if (fg == bg || hfg == hbg) {
+            fg = 0x000000;
+            bg = 0xFFFFFF;
+            hfg = 0xFFFFFF;
+            hbg = 0x2211CC;
+        }
+
         // if (Util.contrast(hbg, hfg) < 255) {
         //     hbg = fg;
         //     hfg = bg;
@@ -274,6 +282,13 @@ public class Theme {
         keyMapperTextColor = fg;
         imagePreviewBackgroundColor = bg;
         imagePreviewTextColor = fg;
+
+        // check for bad contrast in dialogs (especially on s40 where bg seems to always be white)
+        // use highlighted colors if it noticeably improves contrast
+        if (Util.contrast(bg, fg) + 100 < Util.contrast(hbg, hfg)) {
+            dialogBackgroundColor = hbg;
+            dialogTextColor = hfg;
+        }
 
         scrollbarColor = bg;
         scrollbarHandleColor = hbg;
