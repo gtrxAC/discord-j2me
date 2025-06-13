@@ -93,6 +93,8 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addString("discord.gg/2GKuJjQagp", Font.SIZE_SMALL, LAYOUT_DEFAULT);
         addSpacer();
         addString("t.me/dscforsymbian", Font.SIZE_SMALL, LAYOUT_DEFAULT);
+        addSpacer();
+        addString("gtrxac.fi", Font.SIZE_SMALL, LAYOUT_DEFAULT);
 
         addCommand(Locale.createCommand(BACK, Command.BACK, 0));
     }
