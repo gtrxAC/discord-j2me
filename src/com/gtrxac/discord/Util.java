@@ -444,7 +444,13 @@ public class Util {
 	// endif
 
 	// ifdef SAMSUNG_FULL
-	public static final boolean isSamsungJet;
+        // List of Samsung phones which have a 480p screen resolution and have the Java runtime used by Bada and the Samsung feature phone OS
+        // These phones have a bug where canvases have a tiny font size until they are reopened (see MainMenu)
+        // This bug is confirmed on the Jet S8000 and Wave S8500
+        private static final String[] SAMSUNG_FONT_BUG_LIST = {
+            "S8000", "S8003", "S8500", "S8530", "S8600", "M210S", "M8910"
+        };
+	public static final boolean hasSamsungFontBug;
 	// endif
 
 	// ifdef PIGLER_SUPPORT
@@ -476,7 +482,7 @@ public class Util {
 		// endif
 
 		// ifdef SAMSUNG_FULL
-		isSamsungJet = platform.startsWith("S8000") || platform.startsWith("S8003");
+                hasSamsungFontBug = indexOfAny(platform, SAMSUNG_FONT_BUG_LIST, 0) != -1;
 		// endif
 
 		// ifdef PIGLER_SUPPORT
@@ -487,7 +493,7 @@ public class Util {
 
 		fontSize = Font.getDefaultFont().getHeight();
 		// ifdef SAMSUNG_FULL
-		if (isSamsungJet) fontSize *= 2;
+		if (hasSamsungFontBug) fontSize *= 2;
 		// endif
 	}
 	

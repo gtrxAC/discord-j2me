@@ -33,7 +33,7 @@ implements Runnable
     static {
         scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
         // ifdef SAMSUNG_FULL
-        if (Util.isSamsungJet) scrollBarSize = scrollBarSize*5/2;
+        if (Util.hasSamsungFontBug) scrollBarSize = scrollBarSize*5/2;
         // endif
     }
 
