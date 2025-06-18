@@ -301,6 +301,109 @@ function generateUploadToken(token) {
     return result;
 }
 
+const versionDownloadLinks = {
+    midp2: `<p>5.0 for Nokia S40 and Symbian <br/> <a href="/discord_midp2.jad">JAD</a> - <a href="/discord_midp2.jar">JAR</a></p>`,
+    nokia_128px: `<p>5.0 for Nokia S40 (128x128, 128x160) <br/> <a href="/discord_nokia_128px.jad">JAD</a> - <a href="/discord_nokia_128px.jar">JAR</a></p>`,
+    midp2_alt: `<p>5.0 for other MIDP2 devices <br/> <a href="/discord_midp2_alt.jad">JAD</a> - <a href="/discord_midp2_alt.jar">JAR</a></p>`,
+    blackberry: `<p>5.0 for BlackBerry <br/> <a href="/discord_blackberry.jad">JAD</a> - <a href="/discord_blackberry.jar">JAR</a></p>`,
+    samsung: `<p>5.0 for Samsung <br/> <a href="/discord_samsung.jad">JAD</a> - <a href="/discord_samsung.jar">JAR</a></p>`,
+    samsung_100kb: `<p>5.0 for Samsung (100 kB version) <br/> <a href="/discord_samsung_100kb.jad">JAD</a> - <a href="/discord_samsung_100kb.jar">JAR</a></p>`,
+    lg: `<p>5.0 for LG <br/> <a href="/discord_lg.jad">JAD</a> - <a href="/discord_lg.jar">JAR</a></p>`,
+    jl: `<p>5.0 for J2ME Loader <br/> <a href="/discord_jl.jar">JAR</a></p>`,
+    _6310i: `<p>3.2 for Nokia 3410/6310i (30 kB) <br/> <a href="/discord_6310i.jad">JAD</a> - <a href="/discord_6310i.jar">JAR</a></p>`,
+    midp1: `<p>3.0 for MIDP1 <br/> <a href="/discord_midp1.jad">JAD</a> - <a href="/discord_midp1.jar">JAR</a></p>`
+}
+
+function getRecommendedVersions(req) {
+    const ua = (req.headers['user-agent'] ?? '').toLowerCase();
+    if (!ua) {
+        return ["midp2_alt", "_6310i", "midp1"];
+    }
+    if (ua.includes('android')) {
+        return ['jl'];
+    }
+
+    const midp2 = /midp\W*2/g.test(ua) || ua.includes('bada');
+    const midp1 = /midp\W*1/g.test(ua);
+
+    if (!midp2 && midp1) {
+        return ["_6310i", "midp1"];
+    }
+    if (ua.includes('blackberry')) {
+        return ['blackberry'];
+    }
+    if (/samsung|gt\-|sgh|sch|sph/g.test(ua)) {
+        if (/c3060|m300/g.test(ua)) return ["samsung_100kb"];
+        if (midp2) return ["samsung", "samsung_100kb"];
+        return ["samsung", "samsung_100kb", "_6310i", "midp1"];
+    }
+    if (/symbian|series60/g.test(ua)) {
+        if (/series60\/2/g.test(ua)) return ["_6310i", "midp1"];  //midp2 currently broken on s60v2
+        if (midp2) return ["midp2", "midp2_alt"];
+        return ["midp2", "midp2_alt", "_6310i", "midp1"];
+    }
+    if (ua.includes('lg')) {
+        if (midp2) return ['lg'];
+        return ["lg", "_6310i", "midp1"];
+    }
+    if (/^nokia(168|2220|23[23]|26|27[26]|28|310|3110|315|322|350|507|514|520|602|6030|60[678]|610|6111|6125|6136|61[567]|623[05]|6255|68|707|72[67]|736|880\d\/|c1|c2-00)/g.test(ua)) {
+        return ["nokia_128px", "midp2_alt"];
+    }
+    if (midp2) {
+        return ["midp2_alt"];
+    }
+    if (/linux|mac|windows/g.test(ua)) {
+        // modern device: show all downloads
+        return Object.keys(versionDownloadLinks);
+    }
+    return ["midp2_alt", "_6310i", "midp1"];
+}
+
+// Homepage
+app.get('/', async (req, res) => {
+    const versions = getRecommendedVersions(req);
+
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
+    <title>Discord J2ME</title>
+</head>
+<body>
+    <h1>Discord J2ME</h1>
+    <p>Recommended version${versions.length != 1 ? 's' : ''} for your device:</p>
+    ${versions.map(ver => versionDownloadLinks[ver] ?? `<p>unknown version: ${ver}</p>`).join('')}
+    <p><a href="/all">See all versions</a></p>
+    <p><a href="/wap">Also try Discord WAP!</a></p>
+    <h1>Benchmarks</h1>
+    <p>JBenchmark <br/> <a href="/JBenchmark.jad">JAD</a> - <a href="/JBenchmark.jar">JAR</a></p>
+    <p>JBenchmark2 <br/> <a href="/JBenchmark2.jad">JAD</a> - <a href="/JBenchmark2.jar">JAR</a></p>
+    <p>JBenchmark3D <br/> <a href="/JBenchmark3D.jad">JAD</a> - <a href="/JBenchmark3D.jar">JAR</a></p>
+    <p>JBenchmarkHD <br/> <a href="/JBenchmarkHD.jad">JAD</a> - <a href="/JBenchmarkHD.jar">JAR</a></p>
+    <p>SPMarkJava06 <br/> <a href="/spmark_java06_benchmark_176x220-132640.jad">JAD</a> - <a href="/spmark_java06_benchmark_176x220-132640.jar">JAR</a></p>
+    <p>Java Specs Test <br/> <a href="/jst.jad">JAD</a> - <a href="/jst.jar">JAR</a></p>
+</body>
+</html>`);
+});
+
+app.get('/all', (req, res) => {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
+    <title>Discord J2ME</title>
+</head>
+<body>
+    <h1>Discord J2ME</h1>
+    ${Object.values(versionDownloadLinks).join('')}
+</body>
+</html>`);
+});
+
 // Get servers
 app.get(`${BASE}/users/@me/guilds`, getToken, async (req, res) => {
     try {
