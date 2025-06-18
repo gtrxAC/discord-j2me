@@ -315,7 +315,7 @@ const versionDownloadLinks = {
 }
 
 function getRecommendedVersions(req) {
-    const ua = (req.headers['user-agent'] ?? '').toLowerCase();
+    const ua = (req.headers['device-stock-ua'] ?? req.headers['x-operamini-phone-ua'] ?? req.headers['user-agent'] ?? '').toLowerCase();
     if (!ua) {
         return ["midp2_alt", "_6310i", "midp1"];
     }
