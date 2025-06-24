@@ -106,8 +106,11 @@ public class Theme {
     private static final int[] selectedButtonBackgroundColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
     private static final int[] selectedButtonTextColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
 
+    // ifdef S40V2
+    // else
     private static final int[] typingBannerBackgroundColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
     private static final int[] typingBannerTextColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
+    // endif
 
 	private static final int[] listBackgroundColors      = {0x2b2d31, 0xffffff, 0x000000};
     private static final int[] listTextColors    = {0xdddddd, 0x222222, 0xdddddd};
@@ -167,8 +170,14 @@ public class Theme {
         selectedButtonBackgroundColor = selectedButtonBackgroundColors[Settings.theme];
         selectedButtonTextColor = selectedButtonTextColors[Settings.theme];
 
+        // ifdef S40V2
+        // White background on banners on S40v2 so it blends into the system's title bar
+        typingBannerBackgroundColor = 0xFFFFFF;
+        typingBannerTextColor = 0x000000;
+        // else
         typingBannerBackgroundColor = typingBannerBackgroundColors[Settings.theme];
         typingBannerTextColor = typingBannerTextColors[Settings.theme];
+        // endif
         unreadIndicatorBackgroundColor = 0xF23F43;
         unreadIndicatorTextColor = 0xFFFFFF;
         recipientMessageConnectorColor = 0x666666;
@@ -392,8 +401,15 @@ public class Theme {
     // endif
 
 	public static void load() {
+        // ifdef S40V2
+        // White background on banners on S40v2 so it blends into the system's title bar
+        bannerBackgroundColor = 0xFFFFFF;
+        bannerTextColor = 0x000000;
+        // else
         bannerBackgroundColor = 0x5865F2;
         bannerTextColor = 0xFFFFFF;
+        // endif
+
         outdatedBannerBackgroundColor = 0xAA1122;
         outdatedBannerTextColor = 0xFFFFFF;
 
