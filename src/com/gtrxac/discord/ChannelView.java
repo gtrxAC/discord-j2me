@@ -51,6 +51,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     JSONObject pendingTheme;
     // endif
 
+    // ifdef TOUCH_SUPPORT
+    boolean showBackButton;
+    int backButtonStringWidth;
+    // endif
+
     public ChannelView() throws Exception {
         super();
         setCommandListener(this);
@@ -93,6 +98,17 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         commands = new Vector();
         // endif
     }
+
+    // ifdef TOUCH_SUPPORT
+    public void setFullScreenMode(boolean mode) {
+        super.setFullScreenMode(mode);
+        showBackButton = (mode && hasPointerEvents());
+
+        if (showBackButton && backButtonStringWidth == 0) {
+            backButtonStringWidth = App.messageFont.stringWidth(Locale.get(BACK));
+        }
+    }
+    // endif
 
     protected void showNotify() {
         if (haveShown) return;
@@ -586,6 +602,33 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
         }
 
+        // ifdef TOUCH_SUPPORT
+        if (showBackButton) {
+            int buttonOffset = fontHeight/2;
+            int buttonMargin = fontHeight/3;
+            int buttonWidth = backButtonStringWidth + buttonMargin*2;
+            int buttonHeight = fontHeight + buttonMargin*2;
+
+            g.setColor(Theme.selectedButtonBackgroundColor);  // 'selected' color so it stands out more
+            g.fillRoundRect(
+                width - buttonWidth - buttonOffset,
+                height - buttonHeight - buttonOffset,
+                buttonWidth,
+                buttonHeight,
+                buttonOffset,
+                buttonOffset
+            );
+            g.setColor(Theme.selectedButtonTextColor);
+            g.setFont(App.messageFont);
+            g.drawString(
+                Locale.get(BACK),
+                width - buttonMargin - buttonOffset,
+                height - buttonMargin - buttonOffset,
+                Graphics.BOTTOM | Graphics.RIGHT
+            );
+        }
+        // endif
+
         // g.setColor(0x00ff0000);
         // g.drawString(
         //     "" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()), width, 0,
@@ -747,8 +790,17 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         repaint();
     }
 
-    // ifdef OVER_100KB
+    // ifdef TOUCH_SUPPORT
     protected void pointerPressed(int x, int y) {
+        int buttonOffset = fontHeight/2;
+        int buttonMargin = fontHeight/3;
+        int buttonWidth = backButtonStringWidth + buttonMargin*2;
+        int buttonHeight = fontHeight + buttonMargin*2;
+
+        if (showBackButton && x >= width - buttonWidth - buttonOffset && y >= height - buttonHeight - buttonOffset) {
+            commandAction(fullScreenCommand, this);
+            return;
+        }
         touchMode = true;
         super.pointerPressed(x, y);
     }

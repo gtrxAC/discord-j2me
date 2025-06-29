@@ -7,7 +7,7 @@ import javax.microedition.lcdui.*;
  * Scrollable content can be drawn using the 'scroll' field as a vertical offset
  */
 public abstract class KineticScrollingCanvas extends MyCanvas
-// ifdef OVER_100KB
+// ifdef TOUCH_SUPPORT
 implements Runnable
 // endif
 {
@@ -71,7 +71,7 @@ implements Runnable
         return totalScrollAbs < fontHeight/2 && Math.abs(totalScroll) < fontHeight/4;
     }
 
-    // ifdef OVER_100KB
+    // ifdef TOUCH_SUPPORT
     protected void pointerPressed(int x, int y) {
         // Use scrollbar if the content is tall enough to be scrollable and the user pressed on the right edge of the screen
         // Note: Scrollbar hitbox is wider than the actual rendered scrollbar

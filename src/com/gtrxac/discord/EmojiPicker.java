@@ -243,9 +243,12 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
             selectorIndex &= 1;
             repaint();
         }
+        // ifdef TOUCH_SUPPORT
+        // for kineticscrollingcanvas scroll thread
         else {
             super.run();
         }
+        // endif
     }
 
     protected void hideNotify() {
@@ -258,6 +261,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         new Thread(this).start();
     }
 
+    // ifdef TOUCH_SUPPORT
     protected void pointerPressed(int x, int y) {
         super.pointerPressed(x, y);
 
@@ -283,5 +287,6 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         }
         commandAction(selectCommand, this);
     }
+    // endif
 }
 // endif

@@ -474,7 +474,7 @@ public class ListScreen extends KineticScrollingCanvas {
         repaint();
     }
 
-    // ifdef OVER_100KB
+    // ifdef TOUCH_SUPPORT
     private boolean pressedOnBlank;
 
     protected void pointerPressed(int x, int y) {
