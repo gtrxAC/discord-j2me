@@ -11,7 +11,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
     private ChoiceGroup pingGroup;
     private Command sendCommand;
     private Command addMentionCommand;
-    // ifdef OVER_100KB
+    // ifdef EMOJI_SUPPORT
     private Command addEmojiCommand;
     // endif
     private Command backCommand;
@@ -62,15 +62,17 @@ public class ReplyForm extends Form implements CommandListener, Strings {
         sendCommand = Locale.createCommand(SEND_MESSAGE, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
         addMentionCommand = Locale.createCommand(INSERT_MENTION, Command.ITEM, 2);
-        // ifdef OVER_100KB
+        // ifdef EMOJI_SUPPORT
         addEmojiCommand = Locale.createCommand(INSERT_EMOJI, Command.ITEM, 3);
         // endif
 
         addCommand(sendCommand);
         addCommand(backCommand);
         if (!App.isDM) addCommand(addMentionCommand);
-        // ifdef OVER_100KB
+        // ifdef EMOJI_SUPPORT
         addCommand(addEmojiCommand);
+        // endif
+        // ifdef OVER_100KB
         App.gatewaySendTyping();
         // endif
     }
@@ -100,7 +102,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             }
             App.disp.setCurrent(new MentionForm());
         }
-        // ifdef OVER_100KB
+        // ifdef EMOJI_SUPPORT
         else {
             // add emoji command
             EmojiPicker.show();

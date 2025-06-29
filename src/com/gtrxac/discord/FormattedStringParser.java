@@ -42,15 +42,19 @@ public class FormattedStringParser {
     private boolean isMonospaceMode = false;
     private boolean isHeadingMode = false;
 
-    private boolean showEmoji;
     private boolean singleLine;
+    // ifdef EMOJI_SUPPORT
+    private boolean showEmoji;
     public boolean showLargeEmoji = true;
+    // endif
 
     FormattedStringParser(String src, Font font, boolean showEmoji, boolean singleLine) {
         this.src = src;
         this.font = font;
-        this.showEmoji = (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) && showEmoji;
         this.singleLine = singleLine;
+        // ifdef EMOJI_SUPPORT
+        this.showEmoji = (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) && showEmoji;
+        // endif
     }
 
     private void addPreviousPart() {
@@ -74,13 +78,17 @@ public class FormattedStringParser {
                 newPart = new FormattedStringPartText(substr, font);
             }
             result.addElement(newPart);
+            // ifdef EMOJI_SUPPORT
             showLargeEmoji = false;
+            // endif
         }
     }
 
     public Vector run() {
 		char[] chars = src.toCharArray();
+        // ifdef EMOJI_SUPPORT
         int emojiCount = 0;
+        // endif
 
         try {
             while (true) {
@@ -115,6 +123,7 @@ public class FormattedStringParser {
                     continue;
                 }
                 specialChecks: {
+                    // ifdef EMOJI_SUPPORT
                     if (curr == ':' && showEmoji && FormattedStringPartEmoji.emojiTable != null) {
                         int colon = src.indexOf(':', pos + 2);
                         if (colon == -1) break specialChecks;
@@ -168,8 +177,9 @@ public class FormattedStringParser {
                         partBeginPos = pos;
                         emojiCount++;
                         continue;
-                    }
-                    else if (FormattedString.useMarkdown) {
+                    } else
+                    // endif
+                    if (FormattedString.useMarkdown) {
                         if (!isMonospaceMode) {
                             if (curr == '*') {
                                 int asteriskCount = 1;
@@ -351,7 +361,9 @@ public class FormattedStringParser {
         addPreviousPart();
 
         // check if we need to zoom in the emojis
+        // ifdef EMOJI_SUPPORT
         if (emojiCount > 10) showLargeEmoji = false;
+        // endif
         
         return result;
     }

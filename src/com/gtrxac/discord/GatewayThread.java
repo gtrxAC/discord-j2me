@@ -365,7 +365,7 @@ public class GatewayThread extends Thread implements Strings
 							App.channelView.bannerText = null;
 							App.channelView.repaint();
 						}
-						// ifdef OVER_100KB
+						// ifdef EMOJI_SUPPORT
 						App.gatewayToggleGuildEmoji();
 						// endif
 					}

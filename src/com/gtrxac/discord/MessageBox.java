@@ -7,7 +7,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     private Displayable lastScreen;
     private Command sendCommand;
     private Command addMentionCommand;
-    // ifdef OVER_100KB
+    // ifdef EMOJI_SUPPORT
     private Command addEmojiCommand;
     // endif
     private Command backCommand;
@@ -28,15 +28,17 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         sendCommand = Locale.createCommand(sendCommandLabel, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
         addMentionCommand = Locale.createCommand(INSERT_MENTION, Command.ITEM, 2);
-        // ifdef OVER_100KB
+        // ifdef EMOJI_SUPPORT
         addEmojiCommand = Locale.createCommand(INSERT_EMOJI, Command.ITEM, 3);
         // endif
 
         addCommand(sendCommand);
         addCommand(backCommand);
         if (!App.isDM) addCommand(addMentionCommand);
-        // ifdef OVER_100KB
+        // ifdef EMOJI_SUPPORT
         addCommand(addEmojiCommand);
+        // endif
+        // ifdef OVER_100KB
         App.gatewaySendTyping();
         // endif
     }
@@ -124,7 +126,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
             }
             App.disp.setCurrent(new MentionForm());
         }
-        // ifdef OVER_100KB
+        // ifdef EMOJI_SUPPORT
         else {
             // add emoji command
             EmojiPicker.show();

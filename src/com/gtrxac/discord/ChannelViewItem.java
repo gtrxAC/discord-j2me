@@ -247,7 +247,9 @@ public class ChannelViewItem implements Strings {
                             if (directRefMessage || shouldRedrawRefMessage(selected)) {
                                 // ifdef OVER_100KB
                                 boolean useFormattedString =
+                                    // ifdef EMOJI_SUPPORT
                                     FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF ||
+                                    // endif
                                     FormattedString.useMarkdown;
                                 // endif
 

@@ -1,10 +1,9 @@
-// ifdef OVER_100KB
+// ifdef EMOJI_SUPPORT
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 import javax.microedition.rms.*;
-
-import cc.nnproject.json.JSONArray;
+import cc.nnproject.json.*;
 
 public class EmojiPicker extends KineticScrollingCanvas implements Strings, CommandListener, Runnable {
     Displayable lastScreen;

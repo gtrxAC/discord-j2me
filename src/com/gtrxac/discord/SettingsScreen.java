@@ -34,7 +34,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         {
             1, 10000, 3, 2, 255, 1,
             // ifdef OVER_100KB    
-            1, 2,
+            1,
+            // ifdef EMOJI_SUPPORT
+            2,
+            // endif
             // endif
         },
         {
@@ -100,7 +103,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(GUILD_ICONS),
                 // ifdef OVER_100KB
                 Locale.get(FILE_PREVIEW),
+                // ifdef EMOJI_SUPPORT
                 Locale.get(SHOW_EMOJI),
+                // endif
                 // endif
             }, {
                 // Behavior
@@ -165,7 +170,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.menuIcons },
                 // ifdef OVER_100KB
                 { App.ic.attachFormat },
+                // ifdef EMOJI_SUPPORT
                 { App.ic.emoji }
+                // endif
                 // endif
             }, {
                 // Behavior
@@ -231,7 +238,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolValues,
                 // ifdef OVER_100KB
                 boolValues,
+                // ifdef EMOJI_SUPPORT
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(SHOW_EMOJI_DEFAULT_ONLY), Locale.get(SHOW_EMOJI_ALL) }
+                // endif
                 // endif
             }, {
                 // Behavior
@@ -286,7 +295,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.showMenuIcons ? 1 : 0,
                 // ifdef OVER_100KB
                 Settings.useFilePreview ? 1 : 0,
+                // ifdef EMOJI_SUPPORT
                 FormattedString.emojiMode
+                // endif
                 // endif
             }, {
                 // Behavior
@@ -546,8 +557,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.showMenuIcons = values[1][5] == 1;
                 // ifdef OVER_100KB
                 Settings.useFilePreview = values[1][6] == 1;
+                // ifdef EMOJI_SUPPORT
                 FormattedString.emojiMode = values[1][7];
                 App.gatewayToggleGuildEmoji();
+                // endif
                 // endif
 
                 Settings.messageLoadCount = values[2][0];

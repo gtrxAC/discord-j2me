@@ -7,12 +7,16 @@ import javax.microedition.lcdui.*;
 public class FormattedString implements Strings {
     private FormattedStringPart[] parts;
     int height;
+
+    // ifdef EMOJI_SUPPORT
     private boolean showLargeEmoji;
 
     public static final int EMOJI_MODE_OFF = 0;
     public static final int EMOJI_MODE_DEFAULT_ONLY = 1;
     public static final int EMOJI_MODE_ALL = 2;
     public static int emojiMode;
+    // endif
+
     public static boolean useMarkdown;
 
     FormattedString(String src, Font font, int width, int xOffset, boolean singleLine, boolean isEdited, boolean isForwarded) {
@@ -28,11 +32,15 @@ public class FormattedString implements Strings {
             tempParts = new Vector();
         } else {
             // Emojis are oversized in refmessages if using direct refmessage drawing (see channelviewitem), easiest is just to not show them there at all
+            // ifdef EMOJI_SUPPORT
             boolean showEmoji = !singleLine || !ChannelViewItem.shouldUseDirectRefMessage();
-
             FormattedStringParser parser = new FormattedStringParser(src, font, showEmoji, singleLine);
             tempParts = parser.run();
             showLargeEmoji = parser.showLargeEmoji;
+            // else
+            FormattedStringParser parser = new FormattedStringParser(src, font, false, singleLine);
+            tempParts = parser.run();
+            // endif
         }
 
         Font editedFont = null;
@@ -56,7 +64,9 @@ public class FormattedString implements Strings {
 
         if (!singleLine) {
             breakParts(tempParts, font, width);
+            // ifdef EMOJI_SUPPORT
             if (showLargeEmoji) upscaleEmoji(tempParts, font);
+            // endif
         }
         height = positionParts(tempParts, font, width, xOffset, singleLine);
         mergeParts(tempParts);
@@ -94,6 +104,7 @@ public class FormattedString implements Strings {
         }
     }
 
+    // ifdef EMOJI_SUPPORT
     private void upscaleEmoji(Vector parts, Font font) {
         int newSize = FormattedStringPartEmoji.largeEmojiSize;
 
@@ -108,12 +119,15 @@ public class FormattedString implements Strings {
             }
         }
     }
+    // endif
 
     private int positionParts(Vector parts, Font font, int width, int xOffset, boolean singleLine) {
         int x = xOffset;
         int y = 0;
         int lineHeight = font.getHeight();
+        // ifdef EMOJI_SUPPORT
         if (showLargeEmoji) lineHeight = FormattedStringPartEmoji.largeEmojiSize;
+        // endif
         int lineCount = 1;
 
         for (int i = 0; i < parts.size(); i++) {
@@ -130,7 +144,11 @@ public class FormattedString implements Strings {
             boolean partIsText = (part instanceof FormattedStringPartText);
             
             // Note: formatted strings with "only emoji" (large emoji rendering) can still have whitespace text parts, so also check for those
+            // ifdef EMOJI_SUPPORT
             int partWidth = (showLargeEmoji && !partIsText) ? lineHeight : part.getWidth();
+            // else
+            int partWidth = part.getWidth();
+            // endif
 
             // Go to a new display line if not enough space left on the current line
             if (!singleLine && x + partWidth > xOffset + width) {
@@ -147,9 +165,11 @@ public class FormattedString implements Strings {
             part.x = x;
             part.y = y;
             // Vertically center align emojis to the text
+            // ifdef EMOJI_SUPPORT
             if (!partIsText && !showLargeEmoji) {
                 part.y += FormattedStringPartEmoji.imageYOffset;
             }
+            // endif
             x += partWidth;
         }
         return lineCount*lineHeight;
