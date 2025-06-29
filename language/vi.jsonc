@@ -632,7 +632,7 @@
     "Những người phiên dịch",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Cần trợ giúp?",
+    "Cần sự trợ giúp?",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
@@ -814,7 +814,7 @@
     // Custom sound file applied as the notification sound via a message attachment.
     "Âm báo",
     // Translated string data for a downloaded language translation.
-    "Dữ liệu ngôn ngữngữ",
+    "Dữ liệu ngôn ngữ",
 
     // Title shown in the prompt when deleting a type of app data.
     "Xóa",
@@ -837,7 +837,7 @@
     // Related to "Lines shown in the about screen for which language" above.
     "Tiếng Nhật",
     "Tiếng Catalan",
-    "Arabic",
+    "Tiếng Ả-rập",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
     "Theo hệ thống",

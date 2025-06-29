@@ -411,7 +411,7 @@
     "12-часовое время",
 
     // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-    "Стандартное средство выбора файлов",
+    "Встроенный выбор файлов",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
     "Автоподключение к шлюзу",
@@ -549,7 +549,7 @@
 
     // Options for the kinds of notification methods.
     "Окна оповещения",
-    "Звука",
+    "Звук",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
     "Оставить каналы загруженными",
@@ -682,173 +682,173 @@
     "Croatian",
 
     // Units for attachment sizes.
-    " bytes",
-    " kB",
-    " MB",
+    " байт",
+    " кБ",
+    " МБ",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "Ветки",
+    "Показать ветки",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Set",
-    "Set token",
+    "Задать",
+    "Задать токен",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "Изменить",
+    "Изменить токен",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "Android уведомления",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW",
+    "НОВОЕ",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "Загрузить это изображение?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "Предпросмотр выбора файла",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "Переслано:",
 
     // Help texts shown in the login screen for how to open the token input text box.
     "To set your token, press the BlackBerry key.",
     "To change your token, press the BlackBerry key.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview",
+    "Недостаточно памяти для предпросмотра",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Show emoji",
+    "Показывать эмодзи",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Default only",
+    "Только стандарт.",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "All",
+    "Все",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
+    "Импорт.",
+    "Импортировать токен",
 
     // Title text for the token import file picker screen.
-    "Select token file",
+    "Выбрать файл с токеном",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Downloading emoji...",
+    "Скачивание эмодзи...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "French",
-    "Bulgarian",
+    "Французский",
+    "Болгарский",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "Форматирование текста",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "Emoji",
-    "Insert emoji",
+    "Эмодзи",
+    "Вставить эмодзи",
 
     // Title for emoji picker screen.
-    "Select emoji",
+    "Выбрать эмодзи",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Download emoji data?",
+    "Скачать эмодзи?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "(изм.)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore",
+    "Подчеркивание",
+    "Вставить подчеркивание",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Notification sound",
+    "Звук уведомления",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "Вибрация",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "Заглушить",
+    "Заглушить",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
     "scrolling to top",
     "scrolling to bottom",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    "Отпр. статус печатания",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "Исп. как",
+    "Исп. как звук увед.",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "Использовать это как звук уведомления?",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "Воспр.",
+    "Воспр. снова",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "Звук уведомления применен!",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "Управление данными",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "Изображения эмодзи",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "Статус прочтения сообщ.",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "Звук уведомления",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "Данные языков",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "Удалить",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "Удалить это?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "Открыть браузер",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "Открыть веб-браузер? Приложение будет закрыто.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "Быстрое прокручивание",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "Не удалось воспроизвести звук. Возможно формат файла не поддерживается.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese",
+    "Японский",
     "Каталанский",
-    "Arabic",
+    "Арабский",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "System",
+    "Системная",
 
     // Theme option shown in settings for the user-defined theme.
-    "Custom",
+    "Пользовательская",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
-    "Theme",
-    "Do you want to apply this theme?",
+    "Тема",
+    "Применить эту тему?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme",
+    "Тема",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Not enough memory to show emoji picker"
+    "Недостаточно памяти для отображения выбора эмодзи"
 ]
