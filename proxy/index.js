@@ -408,19 +408,28 @@ app.get('/all', (req, res) => {
 </html>`);
 });
 
-// Get servers
+// Get user's server list
+// Has cache which can be used with query parameter "c". This param is included by newer clients except when the list is force refreshed
+const userGuilds = new LRUCache({max: 200});
+
 app.get(`${BASE}/users/@me/guilds`, getToken, async (req, res) => {
     try {
-        const response = await axios.get(
-            `${DEST_BASE}/users/@me/guilds`,
-            {headers: res.locals.headers}
-        );
-        const guilds = response.data.map(g => {
-            const result = {id: g.id, name: g.name};
-            if (g.icon != null) result.icon = g.icon;
-            return result;
-        })
-        res.send(stringifyUnicode(guilds));
+        if (req.query.c !== undefined && userGuilds.has(res.locals.userID)) {
+            res.send(userGuilds.get(res.locals.userID));
+        } else {
+            const response = await axios.get(
+                `${DEST_BASE}/users/@me/guilds`,
+                {headers: res.locals.headers}
+            );
+            const guilds = response.data.map(g => {
+                const result = {id: g.id, name: g.name};
+                if (g.icon != null) result.icon = g.icon;
+                return result;
+            })
+            const guildsStr = stringifyUnicode(guilds);
+            userGuilds.set(res.locals.userID, guildsStr);
+            res.send(guildsStr);
+        }
     }
     catch (e) { handleError(res, e); }
 });
@@ -829,15 +838,22 @@ app.get(`${BASE}/channels/:channel/threads/search`, getToken, async (req, res) =
     catch (e) { handleError(res, e); }
 })
 
-// Get servers (lite)
+// Get user's server list (lite) (cached with 5 minute TTL, may later include optional cache like in non-lite)
+const userGuildsLite = new LRUCache({max: 200, ttl: 5*60*1000});
+
 app.get(`${BASE_L}/users/@me/guilds`, getToken, async (req, res) => {
     try {
-        const response = await axios.get(
-            `${DEST_BASE}/users/@me/guilds`,
-            {headers: res.locals.headers}
-        );
-        const guilds = response.data.map(g => [g.id, g.name])
-        res.send(stringifyUnicode(guilds));
+        if (userGuildsLite.has(res.locals.userID)) {
+            res.send(userGuildsLite.get(res.locals.userID));
+        } else {
+            const response = await axios.get(
+                `${DEST_BASE}/users/@me/guilds`,
+                {headers: res.locals.headers}
+            );
+            const guilds = stringifyUnicode(response.data.map(g => [g.id, g.name]));
+            userGuildsLite.set(res.locals.userID, guilds);
+            res.send(guilds);
+        }
     }
     catch (e) { handleError(res, e); }
 });

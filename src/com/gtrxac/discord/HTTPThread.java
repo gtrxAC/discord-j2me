@@ -47,6 +47,9 @@ public class HTTPThread extends Thread implements Strings {
 
     // Parameters for FETCH_GUILDS
     boolean showFavGuilds;
+    // ifdef OVER_100KB
+    boolean forceReload;
+    // endif
 
     // Parameters for FETCH_MESSAGES
     String fetchMsgsBefore;
@@ -268,7 +271,13 @@ public class HTTPThread extends Thread implements Strings {
 
             switch (action) {
                 case FETCH_GUILDS: {
+                    // ifdef OVER_100KB
+                    String url = "/users/@me/guilds";
+                    if (!forceReload && App.isLiteProxy) url += "?c";  // query parameter for using proxy cache
+                    JSONArray guilds = JSON.getArray(HTTP.get(url));
+                    // else
                     JSONArray guilds = JSON.getArray(HTTP.get("/users/@me/guilds"));
+                    // endif
                     App.guilds = new Vector();
 
                     for (int i = 0; i < guilds.size(); i++) {
