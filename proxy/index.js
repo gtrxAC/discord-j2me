@@ -5,6 +5,7 @@ const multer = require('multer')
 const path = require('path');
 const sanitizeHtml = require('sanitize-html');
 const crypto = require('crypto').webcrypto;
+const { LRUCache } = require('lru-cache');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -27,9 +28,8 @@ const DEST_BASE = "https://discord.com/api/v9";
 const uploadTokens = new Map();
 
 // ID -> username mapping cache (used for parsing mentions)
-const userCache = new Map();
-const channelCache = new Map();
-const CACHE_SIZE = 10000;
+const userCache = new LRUCache({max: 10000});
+const channelCache = new LRUCache({max: 10000});
 
 function handleError(res, e) {
     if (e.response) {
@@ -432,11 +432,6 @@ app.get(`${BASE}/guilds/:guild/channels`, getToken, async (req, res) => {
         // Populate channel name cache
         response.data.forEach(ch => {
             channelCache.set(ch.id, ch.name);
-
-            // If max size exceeded, remove the oldest item
-            if (channelCache.size > CACHE_SIZE) {
-                channelCache.delete(channelCache.keys().next().value);
-            }
         })
 
         const channels = response.data
@@ -586,11 +581,6 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         // Populate username cache
         response.data.forEach(msg => {
             userCache.set(msg.author.id, msg.author.username);
-
-            // If max size exceeded, remove the oldest item
-            if (userCache.size > CACHE_SIZE) {
-                userCache.delete(userCache.keys().next().value);
-            }
         })
 
         const messages = response.data.map(msg => {
@@ -859,11 +849,6 @@ app.get(`${BASE_L}/guilds/:guild/channels`, getToken, async (req, res) => {
         // Populate channel name cache
         response.data.forEach(ch => {
             channelCache.set(ch.id, ch.name);
-
-            // If max size exceeded, remove the oldest item
-            if (channelCache.size > CACHE_SIZE) {
-                channelCache.delete(channelCache.keys().next().value);
-            }
         })
 
         let channels = response.data.filter(ch => ch.type == 0 || ch.type == 5);
@@ -948,11 +933,6 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
         // Populate username cache
         response.data.forEach(msg => {
             userCache.set(msg.author.id, msg.author.username);
-
-            // If max size exceeded, remove the oldest item
-            if (userCache.size > CACHE_SIZE) {
-                userCache.delete(userCache.keys().next().value);
-            }
         })
 
         const messages = response.data.map(msg => {
