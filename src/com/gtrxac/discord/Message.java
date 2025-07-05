@@ -289,5 +289,8 @@ public class Message implements Strings {
         embeds = null;
         attachments = null;
         needUpdate = true;
+        // ifdef OVER_100KB
+        isEdited = false;
+        // endif
     }
 }
