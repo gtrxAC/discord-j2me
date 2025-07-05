@@ -772,85 +772,85 @@
     "Zvuk notifikacije",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "Vibracija",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "Utišaj",
+    "Utišaj/Pojačaj",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "scrolling to top",
-    "scrolling to bottom",
+    "listanje do vrha",
+    "listanje do dna",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    "Pošalji indikator tipkanja",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "Koristi",
+    "Koristi kao zvuk notif.",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "Prihvati ovo kao zvuk notifikacije?",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "Pusti",
+    "Pusti ponovno",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "Zvuk notifikacije primjenjen!",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "Upravljaj podatcima",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "Slike emoji-a",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "Zadnje pročitane poruke",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "Zvuk notifikacije",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "Jezici",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "Obriši",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "Obriši ovu stavku?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "Otvori preglednik",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "Želiš li otvoriti web preglednik? Aplikacija će biti zatvorena.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "Brzo listanje",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "Greška pri puštanju zvuka. Tip datoteke možda nije podržan.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese",
+    "Japanski",
     "Katalonski",
-    "Arabic",
+    "Arapski",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "System",
+    "Sistem",
 
     // Theme option shown in settings for the user-defined theme.
-    "Custom",
+    "Korisnički određeno",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
-    "Theme",
-    "Do you want to apply this theme?",
+    "Tema",
+    "Želiš li postaviti ovu temu?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme",
+    "Tema",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Not enough memory to show emoji picker"
+    "Nema dovoljno memorije da se prikaže tipkovnica za emoji-e"
 ]
