@@ -47,6 +47,12 @@ public class HTTP implements Strings {
 			if (respCode == HttpConnection.HTTP_UNAUTHORIZED) {
 				throw new Exception(Locale.get(HTTP_ERROR_TOKEN));
 			}
+			if (respCode == HttpConnection.HTTP_BAD_GATEWAY) {
+				throw new Exception(Locale.get(HTTP_ERROR_PROXY));
+			}
+			if (respCode == HttpConnection.HTTP_MOVED_TEMP) {
+				throw new Exception(Locale.get(HTTP_ERROR_REDIRECT));
+			}
 
 			try {
 				String message = JSON.getObject(response).getString("message");

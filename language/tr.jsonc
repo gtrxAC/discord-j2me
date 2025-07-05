@@ -850,5 +850,11 @@
     "Tema",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Emoji seçici için yeterli hafıza yok."
+    "Emoji seçici için yeterli hafıza yok.",
+
+    // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
+    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+
+    // Error message shown when a HTTP request results in the error 302 (moved temporarily)
+    "HTTP 302: The request was unexpectedly redirected. Please check your connection."
 ]

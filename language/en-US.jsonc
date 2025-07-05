@@ -850,5 +850,11 @@
     null,
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
+    null,
+
+    // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
+    null,
+
+    // Error message shown when a HTTP request results in the error 302 (moved temporarily)
     null
 ]
