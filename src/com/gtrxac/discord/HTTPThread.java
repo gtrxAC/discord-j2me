@@ -155,6 +155,13 @@ public class HTTPThread extends Thread implements Strings {
             App.disp.setCurrent(loadScreen);
         }
 
+        // Fix HTTP error 404 - check that API URL does not end with a "/", which would cause duplicate "/"s in requested URLs
+        // ifdef OVER_100KB
+        while (Settings.api.endsWith("/")) {
+            Settings.api = Settings.api.substring(0, Settings.api.length() - 1);
+        }
+        // endif
+
         try {
             // Fetch user info if needed (upon first API request after starting app)
             // If Discord J2ME-specific proxy server is in use, this also checks for auto updates to app and emoji data
