@@ -422,42 +422,32 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
     private void updateCommands(ChannelViewItem selected) {
-        if (selectionMode && (selected.msg == null || !selected.msg.isStatus)) {
-            if (selected.type == ChannelViewItem.MESSAGE) {
-                _removeCommand(selectCommand);
+        if (selectionMode && selected.type == ChannelViewItem.MESSAGE && !selected.msg.isStatus) {
+            _addCommand(copyCommand);
 
-                if (selected.msg.isStatus) {
-                    _removeCommand(copyCommand);
-                } else {
-                    _addCommand(copyCommand);
-                }
+            if (App.myUserId.equals(selected.msg.author.id)) {
+                _addCommand(editCommand);
+                _addCommand(deleteCommand);
+            } else {
+                _removeCommand(editCommand);
+                _removeCommand(deleteCommand);
+            }
 
-                if (Util.indexOfAny(selected.msg.content, URLList.urlStarts, 0) != -1) {
-                    _addCommand(openUrlCommand);
-                } else {
-                    _removeCommand(openUrlCommand);
-                }
-
-                if (App.myUserId.equals(selected.msg.author.id) && !selected.msg.isStatus) {
-                    _addCommand(editCommand);
-                    _addCommand(deleteCommand);
-                } else {
-                    _removeCommand(editCommand);
-                    _removeCommand(deleteCommand);
-                }
+            if (Util.indexOfAny(selected.msg.content, URLList.urlStarts, 0) != -1) {
+                _addCommand(openUrlCommand);
             } else {
                 _removeCommand(openUrlCommand);
-                _removeCommand(copyCommand);
-
-                if (selected.type == ChannelViewItem.UNREAD_INDICATOR) {
-                    _removeCommand(selectCommand);
-                } else {
-                    _addCommand(selectCommand);
-                }
             }
         } else {
-            _removeCommand(openUrlCommand);
             _removeCommand(copyCommand);
+            _removeCommand(editCommand);
+            _removeCommand(deleteCommand);
+            _removeCommand(openUrlCommand);
+        }
+
+        if (selectionMode && selected.type != ChannelViewItem.MESSAGE && selected.type != ChannelViewItem.UNREAD_INDICATOR) {
+            _addCommand(selectCommand);
+        } else {
             _removeCommand(selectCommand);
         }
 
