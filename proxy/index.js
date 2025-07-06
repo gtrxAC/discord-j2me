@@ -780,29 +780,36 @@ async function deleteMessage(req, res) {
 }
 app.get(`${BASE}/channels/:channel/messages/:message/delete`, getToken, deleteMessage);
 
-// Get role list
+// Get server's role list (cached with 1 day TTL)
+const roleCache = new LRUCache({max: 1000, ttl: 24*60*60*1000, updateAgeOnGet: false});
+
 app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
     try {
-        const response = await axios.get(
-            `${DEST_BASE}/guilds/${req.params.guild}/roles`,
-            {headers: res.locals.headers}
-        );
-        const roles = response.data
-            .sort((a, b) => a.position - b.position)
-            .map(r => {
-                var ret = {
-                    id: r.id,
-                    color: r.color
-                };
-                if (req.query.droidcord) {
-                    ret.name = r.name;
-                    ret.position = r.position;
-                    ret.permissions = r.permissions;
-                }
-                return ret;
-            })
+        let roleData;
+        if (roleCache.has(req.params.guild)) {
+            roleData = roleCache.get(req.params.guild);
+        } else {
+            const response = await axios.get(
+                `${DEST_BASE}/guilds/${req.params.guild}/roles`,
+                {headers: res.locals.headers}
+            );
+            roleData = response.data.sort((a, b) => a.position - b.position);
+            roleCache.set(req.params.guild, roleData);
+        }
         
-        res.send(stringifyUnicode(roles))
+        const roles = roleData.map(r => {
+            var ret = {
+                id: r.id,
+                color: r.color
+            };
+            if (req.query.droidcord) {
+                ret.name = r.name;
+                ret.position = r.position;
+                ret.permissions = r.permissions;
+            }
+            return ret;
+        })
+        res.send(stringifyUnicode(roles));
     }
     catch (e) { handleError(res, e); }
 });
