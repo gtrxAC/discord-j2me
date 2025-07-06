@@ -102,10 +102,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     // ifdef TOUCH_SUPPORT
     public void setFullScreenMode(boolean mode) {
         super.setFullScreenMode(mode);
-        showBackButton = (mode && hasPointerEvents());
+        
+        // ifdef MIDP2_GENERIC
+        if (!Util.isKemulator)
+        // endif
+        {
+            showBackButton = (mode && hasPointerEvents());
 
-        if (showBackButton && backButtonStringWidth == 0) {
-            backButtonStringWidth = App.messageFont.stringWidth(Locale.get(BACK));
+            if (showBackButton && backButtonStringWidth == 0) {
+                backButtonStringWidth = App.messageFont.stringWidth(Locale.get(BACK));
+            }
         }
     }
     // endif
