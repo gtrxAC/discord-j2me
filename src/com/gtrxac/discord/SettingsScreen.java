@@ -538,6 +538,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     Settings.pfpSize != values[1][3] ||
                     Settings.useJpeg != (values[1][0] == 1);
 
+                boolean fontSizeChanged =
+                    Settings.authorFontSize != values[0][1] ||
+                    Settings.messageFontSize != values[0][2];
+
                 Settings.theme = values[0][0];
                 Settings.authorFontSize = values[0][1];
                 Settings.messageFontSize = values[0][2];
@@ -590,14 +594,18 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.showNotifNokiaUI = values[3][index] == 1;
                 // endif
 
-                if (reloadIcons) {
-                    // Unload server and DM lists so the icons get refreshed
-                    IconCache.init();
+                // Unload server and DM lists if needed, so the icons and font-based layout metrics get refreshed
+                if (reloadIcons || fontSizeChanged) {
                     App.guilds = null;
                     App.dmChannels = null;
-                    if (reloadMenuIcons) {
-                        App.ic = null;
-                        App.ic = new Icons();
+
+                    if (reloadIcons) {
+                        IconCache.init();
+                        
+                        if (reloadMenuIcons) {
+                            App.ic = null;
+                            App.ic = new Icons();
+                        }
                     }
                 }
 
