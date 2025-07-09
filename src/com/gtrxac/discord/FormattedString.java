@@ -72,7 +72,7 @@ public class FormattedString implements Strings {
         mergeParts(tempParts);
 
         // Fix vertical alignment of "(edited)" indicator item
-        if (isEdited && useMarkdown && Settings.theme != Theme.SYSTEM) {
+        if (isEdited && useMarkdown) {
             ((FormattedStringPart) tempParts.lastElement()).y += font.getBaselinePosition() - editedFont.getBaselinePosition();
         }
         
@@ -80,10 +80,10 @@ public class FormattedString implements Strings {
         tempParts.copyInto(parts);
     }
 
-    private static FormattedStringPartText createEditedOrForwardedPart(int stringKey, Font font, int color) {
+    private static FormattedStringPartRichText createEditedOrForwardedPart(int stringKey, Font font, int color) {
         return (Settings.theme != Theme.SYSTEM) ?
             new FormattedStringPartRichTextColor(Locale.get(stringKey), font, 0, color) :
-            new FormattedStringPartText(Locale.get(stringKey), font);
+            new FormattedStringPartRichText(Locale.get(stringKey), font, 0);
     }
 
     private static void breakParts(Vector parts, Font font, int width) {
