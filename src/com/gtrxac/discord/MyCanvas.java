@@ -15,6 +15,27 @@ public abstract class MyCanvas extends Canvas {
         paint(g);
     }
 
+    // ifdef SAMSUNG_FULL
+    private static boolean hasDoneSamsungFontFix;
+
+    protected void showNotify() {
+        // On Samsung Jet S8000 (tested with S800MCEIK1 firmware) the first canvas that is shown
+        // in a Java app will have fonts that are way too small (approx 16px on a 480p display).
+        // The solution is to reload the fonts and the main menu.
+        // More about this in Util.java
+        if (Util.hasSamsungFontBug && !hasDoneSamsungFontFix) {
+            App.loadFonts();
+            App.disp.setCurrent(reload());
+            hasDoneSamsungFontFix = true;
+        }
+    }
+
+    // overridden when needed
+    protected MyCanvas reload() {
+        return null;
+    }
+    // endif
+
     // ifdef MIDP2_GENERIC
     public void setTitle(String title) {
         if (Util.isKemulator && !"Discord".equals(title) && title != null) {

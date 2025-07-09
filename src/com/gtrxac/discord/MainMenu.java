@@ -5,10 +5,6 @@ import javax.microedition.lcdui.*;
 public class MainMenu extends ListScreen implements CommandListener, Strings {
     private Command quitCommand;
     private static boolean hasFavorites;
-    // ifdef SAMSUNG_FULL
-    private static boolean hasDoneSamsungFontFix;
-    // endif
-
     private static MainMenu instance;
 
     public static MainMenu get(boolean reload) {
@@ -45,18 +41,9 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
     }
 
     // ifdef SAMSUNG_FULL
-    protected void showNotify() {
-        // On Samsung Jet S8000 (tested with S800MCEIK1 firmware) the first canvas that is shown
-        // in a Java app will have fonts that are way too small (approx 16px on a 480p display).
-        // The solution is to reload the fonts and the main menu.
-        // More about this in Util.java
-        if (Util.hasSamsungFontBug && !hasDoneSamsungFontFix) {
-            App.loadFonts();
-            App.disp.setCurrent(get(true));
-            hasDoneSamsungFontFix = true;
-        } else {
-            super.showNotify();
-        }
+    // recreate this screen for 480p font fix (see MyCanvas and Util)
+    protected MyCanvas reload() {
+        return get(true);
     }
     // endif
 
