@@ -6,7 +6,14 @@ import javax.microedition.lcdui.*;
 /**
  * Canvas-based replacement for LCDUI Alert.
  */
-public class Dialog extends MyCanvas implements CommandListener {
+public class Dialog
+// ifdef OVER_100KB
+extends KineticScrollingCanvas
+// else
+extends MyCanvas
+// endif
+implements CommandListener
+{
     public static String okLabel;
     public static String okLabelLong;
     private static Image overlay;
@@ -16,6 +23,9 @@ public class Dialog extends MyCanvas implements CommandListener {
     public Displayable lastScreen;
     public Displayable nextScreen;
     private int fontHeight;
+    // ifdef OVER_100KB
+    private boolean isScrollable;
+    // endif
 
     public Command DISMISS_COMMAND;
     private int commandCount;
@@ -37,6 +47,9 @@ public class Dialog extends MyCanvas implements CommandListener {
         if (lastScreen == null || lastScreen.getTitle() != null) setTitle(title);
 
         fontHeight = ListScreen.font.getHeight();
+        // ifdef OVER_100KB
+        scrollUnit = fontHeight;
+        // endif
         commandCount = 0;
         DISMISS_COMMAND = new Command(okLabel, okLabelLong, Command.BACK, 0);
         super.addCommand(DISMISS_COMMAND);
@@ -53,8 +66,19 @@ public class Dialog extends MyCanvas implements CommandListener {
         }
     }
 
-    public int getWidth() {
-        return Math.min(super.getWidth(), fontHeight*20);
+    // ifdef OVER_100KB
+    protected int getMinScroll() {
+        return 0;
+    }
+
+    protected int getMaxScroll() {
+        if (!isScrollable) return 0;
+        return (textLines.length + 2)*fontHeight - getHeight();
+    }
+    // endif
+
+    public int getContentWidth() {
+        return Math.min(getWidth(), fontHeight*20);
     }
 
     public void setString(String str) {
@@ -77,12 +101,19 @@ public class Dialog extends MyCanvas implements CommandListener {
     }
 
     protected void sizeChanged(int w, int h) {
-        this.textLines = Util.wordWrap(text, getWidth() - fontHeight*2, ListScreen.font);
+        this.textLines = Util.wordWrap(text, getContentWidth() - fontHeight*2, ListScreen.font);
+        // ifdef OVER_100KB
+        this.isScrollable = (textLines.length*fontHeight > getHeight() - fontHeight/2);
+        // endif
         repaint();
     }
 
     protected void paint(Graphics g) {
-        g.setClip(0, 0, super.getWidth(), getHeight());
+        // ifdef OVER_100KB
+        checkScrollInRange();
+        // endif
+
+        g.setClip(0, 0, getWidth(), getHeight());
         int themeBg = Theme.dialogBackgroundColor;
 
         // Get the screen that should be drawn behind this one
@@ -103,7 +134,7 @@ public class Dialog extends MyCanvas implements CommandListener {
             // endif
             {
                 g.setColor(themeBg);
-                g.fillRect(0, 0, super.getWidth(), getHeight());
+                g.fillRect(0, 0, getWidth(), getHeight());
             }
 
             try {
@@ -111,11 +142,11 @@ public class Dialog extends MyCanvas implements CommandListener {
             }
             catch (Exception e) {}
 
-            g.setClip(0, 0, super.getWidth(), getHeight());
+            g.setClip(0, 0, getWidth(), getHeight());
     
             // Draw overlay (grid of 64×64 black square images with 70% opacity)
             for (int y = 0; y < getHeight(); y += 64) {
-                for (int x = 0; x < super.getWidth(); x += 64) {
+                for (int x = 0; x < getWidth(); x += 64) {
                     g.drawImage(overlay, x, y, Graphics.TOP | Graphics.LEFT);
                 }
             }
@@ -128,18 +159,22 @@ public class Dialog extends MyCanvas implements CommandListener {
                 | (themeBg & 0xFF) >> 2;
 
             g.setColor(background);
-            g.fillRect(0, 0, super.getWidth(), getHeight());
+            g.fillRect(0, 0, getWidth(), getHeight());
         }
 
         // Centered card with actual theme background color
-        int baseX = (super.getWidth() - getWidth())/2;
-        int y = getHeight()/2 - textLines.length*fontHeight/2;
+        int baseX = (getWidth() - getContentWidth())/2;
+        int y =
+            // ifdef OVER_100KB
+            isScrollable ? fontHeight - scroll :
+            // endif
+            getHeight()/2 - textLines.length*fontHeight/2;
         
         g.setColor(themeBg);
         g.fillRoundRect(
             baseX + fontHeight/2,
             y - fontHeight/2,
-            getWidth() - fontHeight,
+            getContentWidth() - fontHeight,
             textLines.length*fontHeight + fontHeight,
             fontHeight/2,
             fontHeight/2
@@ -151,6 +186,10 @@ public class Dialog extends MyCanvas implements CommandListener {
             g.drawString(textLines[i], baseX + fontHeight, y, Graphics.TOP | Graphics.LEFT);
             y += fontHeight;
         }
+
+        // ifdef OVER_100KB
+        drawScrollbar(g);
+        // endif
     }
 
     public void setCommandListener(CommandListener l) {
@@ -164,4 +203,22 @@ public class Dialog extends MyCanvas implements CommandListener {
             listener.commandAction(c, d);
         }
     }
+    
+    // ifdef OVER_100KB
+    protected void keyAction(int keycode) {
+        if (!isScrollable) return;
+
+        switch (getGameAction(keycode)) {
+            case UP: {
+                scroll -= fontHeight*3;
+                break;
+            }
+            case DOWN: {
+                scroll += fontHeight*3;
+                break;
+            }
+        }
+        repaint();
+    }
+    // endif
 }

@@ -5,6 +5,7 @@ import javax.microedition.lcdui.*;
 /**
  * Canvas with vertical scrolling support (kinetic/smooth scrolling when swiping + optional scroll bar)
  * Scrollable content can be drawn using the 'scroll' field as a vertical offset
+ * For kinetic scrolling, make sure to define 'scrollUnit' (as e.g. the font height)
  */
 public abstract class KineticScrollingCanvas extends MyCanvas
 // ifdef TOUCH_SUPPORT
@@ -171,9 +172,9 @@ implements Runnable
         // (because of the display content becoming taller/shorter than the screen height)
         // then the available screen width changes, so notify the sub-class by calling sizeChanged
         if (showScrollbar != prevShowScrollbar) {
+            prevShowScrollbar = showScrollbar;
             sizeChanged(getWidth(), height);
             repaint();
-            prevShowScrollbar = showScrollbar;
         }
         // Draw scroll bar if it is set to always show, or if set to hidden and it's currently being dragged
         // Don't show scrollbar when pointer dragged to the very top/bottom, to avoid the scrollbar getting stuck visible (in hidden mode)
