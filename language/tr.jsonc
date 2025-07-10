@@ -272,7 +272,7 @@
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
     "API URL",
     "CDN URL",
-    "Gateway URL",
+    "Ağ Geçidi URL",
     "Token",
 
     // Softkey label for confirming the login options in the login screen.
@@ -284,10 +284,10 @@
     "Çıkış",
 
     // "Use gateway" option shown in login screen.
-    "Gateway kullan",
+    "Ağ geçidi kullan",
 
     // Label for radio button field for token sending options.
-    "Token'i olarak gönder",
+    "Token olarak gönder",
 
     // Token sending options.
     "Header (varsayılan)",
@@ -364,7 +364,7 @@
     "Mesaj gönder (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "Aktif bir gateway bağlantısı gerekir",
+    "Aktif bir ağ geçidi bağlantısı gerekir",
 
     // Title text for "copy message content" screen.
     "Mesajı kopyala",
@@ -376,7 +376,7 @@
     "Bağlantı koptu",
 
     // Main body text for gateway disconnect prompt screen.
-    "Gateway hatası. Yeniden bağlanmak ister misiniz?",
+    "Ağ geçidi hatası. Yeniden bağlanmak ister misiniz?",
 
     // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
     "Mesaj",
@@ -414,7 +414,7 @@
     "Dahili dosya seçici",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "Gateway oto-bağlantısı",
+    "Ağ geçidi oto-bağlantısı",
 
     // Settings option for enabling icons in server and direct message lists.
     "Server/DM ikonları",
@@ -449,7 +449,7 @@
     // Settings options for profile picture shape. "Çember (HQ)" çember ama grafiksel olarak gelişmiş hali daha çok kaynak tüketir.
     "Kare",
     "Çember",
-    "Çember (HQ)",
+    "Çember (YK)",
 
     // Settings section for profile picture resolution.
     "Avatar çözünürlüğü",
@@ -560,7 +560,7 @@
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Gateway'e bağlanılamıyor. Yeniden bağlanmak ister misiniz?",
+    "Ağ geçidine bağlanılamıyor. Yeniden bağlanmak ister misiniz?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
     "Yeniden yükle",
@@ -853,8 +853,8 @@
     "Emoji seçici için yeterli hafıza yok.",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+    "HTTP 502: Bu proxy sunucusuna bağlanılamıyor. Lütfen daha sonra tekrar deneyin ya da geliştiricilerle iletişime geçin.",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: The request was unexpectedly redirected. Please check your connection."
+    "HTTP 302: İstek birden geri yönlendirildi. Lütfen bağlantınızı kontrol edin."
 ]
