@@ -25,6 +25,9 @@ public class App implements Strings {
 	// ifdef MIDP2_ALT
 	"midp2_alt";
 	// endif
+	// ifdef S60V2
+	"s60v2";
+	// endif
 	// ifdef BLACKBERRY
 	"blackberry";
 	// endif

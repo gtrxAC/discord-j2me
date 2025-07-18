@@ -1,7 +1,11 @@
 // ifdef NOKIA_128PX
 MIDlet-1: Discord, icon_28.png, com.gtrxac.discord.DiscordMIDlet
 // else
-MIDlet-1: Discord, icon.png, com.gtrxac.discord.DiscordMIDlet
+// ifdef S60V2
+MIDlet-1: Discord, icon_42_29.png, com.gtrxac.discord.DiscordMIDlet
+// else
+MIDlet-1: Discord, icon_28.png, com.gtrxac.discord.DiscordMIDlet
+// endif
 // endif
 MIDlet-Name: Discord
 MIDlet-Vendor: gtrxAC
