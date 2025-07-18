@@ -1,10 +1,13 @@
 // ifdef NOKIA_128PX
-MIDlet-1: Discord, icon_28.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-1: Discord, /icon_28.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-Icon: /icon_28.png
 // else
 // ifdef S60V2
-MIDlet-1: Discord, icon_42_29.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-1: Discord, /icon_42_29.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-Icon: /icon_42_29.png
 // else
-MIDlet-1: Discord, icon_28.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-1: Discord, /icon.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-Icon: /icon.png
 // endif
 // endif
 MIDlet-Name: Discord
