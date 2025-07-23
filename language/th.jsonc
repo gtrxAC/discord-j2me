@@ -853,8 +853,8 @@
     "หน่วยความจำไม่เพียงพอที่จะแสดงตัวเลือกอิโมจิ",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+    "HTTP 502: เซิร์ฟเวอร์พร็อกซี่ไม่พร้อมให้บริการ กรุณาลองใหม่อีกครั้งในภายหลัง หรือติดต่อผู้พัฒนา",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: The request was unexpectedly redirected. Please check your connection."
+    "HTTP 302: คำขอถูกเปลี่ยนเส้นทางโดยไม่คาดคิด กรุณาตรวจสอบการเชื่อมต่อของคุณ"
 ]
