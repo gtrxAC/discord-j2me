@@ -25,8 +25,10 @@ public class HTTPThread extends Thread implements Strings {
     static final int VIEW_NOTIFICATION = 11;
     static final int FETCH_LANGUAGE = 12;
     static final int FETCH_THREADS = 13;
-    // ifdef OVER_100KB
+    // ifdef EMOJI_SUPPORT
     static final int FETCH_EMOJIS = 14;
+    // endif
+    // ifdef OVER_100KB
     static final int VIEW_ATTACHMENT_AUDIO = 15;
     static final int SET_THEME = 16;
     // endif
@@ -35,7 +37,7 @@ public class HTTPThread extends Thread implements Strings {
     private static final String LINE_FEED = "\r\n";
 
     private static boolean haveFetchedUserInfo;
-    // ifdef OVER_100KB
+    // ifdef EMOJI_SUPPORT
     private static int newEmojiJsonVersion;
     private static JSONArray newEmojiSheetVersions;
     // endif
@@ -45,6 +47,9 @@ public class HTTPThread extends Thread implements Strings {
 
     // Parameters for FETCH_GUILDS
     boolean showFavGuilds;
+    // ifdef OVER_100KB
+    boolean forceReload;
+    // endif
 
     // Parameters for FETCH_MESSAGES
     String fetchMsgsBefore;
@@ -150,6 +155,13 @@ public class HTTPThread extends Thread implements Strings {
             App.disp.setCurrent(loadScreen);
         }
 
+        // Fix HTTP error 404 - check that API URL does not end with a "/", which would cause duplicate "/"s in requested URLs
+        // ifdef OVER_100KB
+        while (Settings.api.endsWith("/")) {
+            Settings.api = Settings.api.substring(0, Settings.api.length() - 1);
+        }
+        // endif
+
         try {
             // Fetch user info if needed (upon first API request after starting app)
             // If Discord J2ME-specific proxy server is in use, this also checks for auto updates to app and emoji data
@@ -177,20 +189,20 @@ public class HTTPThread extends Thread implements Strings {
                 if (latest > App.VERSION_CODE && Settings.autoUpdate != Settings.AUTO_UPDATE_OFF) {
                     String latestName = resp.getString("_latestname", Locale.get(NAME_UNKNOWN));
                     // ifdef OVER_100KB
-                    App.disp.setCurrent(new UpdateDialog(latestName, true));
+                    App.disp.setCurrent(new UpdateDialog(latestName, false));
                     // else
-                    App.disp.setCurrent(new Dialogs100kb(latestName, true));
+                    App.disp.setCurrent(new Dialogs100kb(latestName, false));
                     // endif
                     return;
                 }
 
-                // ifdef OVER_100KB
+                // ifdef EMOJI_SUPPORT
                 newEmojiJsonVersion = resp.getInt("_emojiversion", 0);
                 newEmojiSheetVersions = resp.getArray("_emojisheets", null);
                 // endif
             }
 
-            // ifdef OVER_100KB
+            // ifdef EMOJI_SUPPORT
             // Check for updates to emoji data and download new json/sheet data if needed
             // (upon first API request after starting app with emojis enabled, or first API request after enabling emojis)
             if (
@@ -266,7 +278,13 @@ public class HTTPThread extends Thread implements Strings {
 
             switch (action) {
                 case FETCH_GUILDS: {
+                    // ifdef OVER_100KB
+                    String url = "/users/@me/guilds";
+                    if (!forceReload && App.isLiteProxy) url += "?c";  // query parameter for using proxy cache
+                    JSONArray guilds = JSON.getArray(HTTP.get(url));
+                    // else
                     JSONArray guilds = JSON.getArray(HTTP.get("/users/@me/guilds"));
+                    // endif
                     App.guilds = new Vector();
 
                     for (int i = 0; i < guilds.size(); i++) {
@@ -399,9 +417,11 @@ public class HTTPThread extends Thread implements Strings {
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
                     // ifdef OVER_100KB
                     if (App.isLiteProxy) {
+                        // ifdef EMOJI_SUPPORT
                         if (FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
                             url.append("&emoji=1");
                         }
+                        // endif
                         if (FormattedString.useMarkdown) {
                             url.append("&edit=1");
                         }
@@ -536,7 +556,7 @@ public class HTTPThread extends Thread implements Strings {
                     String id = iconTarget.getIconID();
                     String hash = iconTarget.getIconHash();
                     // Choose image file format based on user settings. Emojis are always png.
-                    // ifdef OVER_100KB
+                    // ifdef EMOJI_SUPPORT
                     boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
                     String format = ((Settings.useJpeg && notEmoji) ? "jpg" : "png");
                     // else
@@ -545,7 +565,7 @@ public class HTTPThread extends Thread implements Strings {
                     int size = (Settings.pfpSize == Settings.ICON_SIZE_32) ? 32 : 16;
 
                     String urlHashPart
-                    // ifdef OVER_100KB
+                    // ifdef EMOJI_SUPPORT
                     = ""; if (notEmoji) urlHashPart
                     // endif
                     = "/" + hash;
@@ -742,7 +762,7 @@ public class HTTPThread extends Thread implements Strings {
                     break;
                 }
 
-                // ifdef OVER_100KB
+                // ifdef EMOJI_SUPPORT
                 case FETCH_EMOJIS: {
                     // emoji data was already fetched (before the switch statement) so open emoji picker
                     EmojiPicker picker = new EmojiPicker();
@@ -750,7 +770,9 @@ public class HTTPThread extends Thread implements Strings {
                     App.disp.setCurrent(picker);
                     break;
                 }
+                // endif
 
+                // ifdef OVER_100KB
                 case VIEW_ATTACHMENT_AUDIO: {
                     byte[] bytes = HTTP.getBytes(viewAttach.browserUrl);
                     App.disp.setCurrent(new NotificationSoundDialog(viewAttach.name, bytes));

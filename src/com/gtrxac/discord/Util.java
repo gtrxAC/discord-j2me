@@ -21,11 +21,11 @@ public class Util {
 		return sb.toString();
 	}
 
-    /**
-     * Get array of text lines to draw (word wrap)
-     * https://github.com/shinovon/JTube/blob/2.6.1/src/jtube/Util.java
-     */
-    public static String[] wordWrap(String text, int maxWidth, Font font) {
+	/**
+	 * Get array of text lines to draw (word wrap)
+	 * https://github.com/shinovon/JTube/blob/2.6.1/src/jtube/Util.java
+	 */
+	public static String[] wordWrap(String text, int maxWidth, Font font) {
 		if (text == null || text.length() == 0 || text.equals(" ") || maxWidth < font.charWidth('W') + 2) {
 			return new String[0];
 		}
@@ -82,70 +82,75 @@ public class Util {
 		return resizeFit(imgW, imgH, maxW, maxH, false);
 	}
 
-    public static int[] resizeFit(int imgW, int imgH, int maxW, int maxH, boolean mustUpscale) {
-        int imgAspect = imgW*100 / imgH;
-        int maxAspect = maxW*100 / maxH;
-        int width, height;
+	public static int[] resizeFit(int imgW, int imgH, int maxW, int maxH, boolean mustUpscale) {
+		int imgAspect = imgW*100 / imgH;
+		int maxAspect = maxW*100 / maxH;
+		int width, height;
 
-        if (!mustUpscale && imgW <= maxW && imgH <= maxH) {
-            width = imgW;
-            height = imgH;
-        }
-        else if (imgAspect > maxAspect) {
-            width = maxW;
-            height = (maxW*100)/imgAspect;
-        } else {
-            height = maxH;
-            width = (maxH*imgAspect)/100;
-        }
+		if (!mustUpscale && imgW <= maxW && imgH <= maxH) {
+			width = imgW;
+			height = imgH;
+		}
+		else if (imgAspect > maxAspect) {
+			width = maxW;
+			height = (maxW*100)/imgAspect;
+		} else {
+			height = maxH;
+			width = (maxH*imgAspect)/100;
+		}
 
-        return new int[]{width, height};
-    }
+		return new int[]{width, height};
+	}
 
-    public static int indexOfAny(String haystack, String[] needles, int startIndex) {
-        int result = -1;
+	public static int indexOfAny(String haystack, String[] needles, int startIndex) {
+		int result = -1;
 
-        for (int i = 0; i < needles.length; i++) {
-            int current = haystack.indexOf(needles[i], startIndex);
-            if (current != -1 && (current < result || result == -1)) {
-                result = current;
-            }
-        }
-        return result;
-    }
+		for (int i = 0; i < needles.length; i++) {
+			int current = haystack.indexOf(needles[i], startIndex);
+			if (current != -1 && (current < result || result == -1)) {
+				result = current;
+			}
+		}
+		return result;
+	}
 
-    public static Image resizeImage(Image sourceImage, int newWidth, int newHeight) {
-        int sourceWidth = sourceImage.getWidth();
-        int sourceHeight = sourceImage.getHeight();
-        int[] srcBuffer = new int[sourceWidth * sourceHeight];
-        sourceImage.getRGB(srcBuffer, 0, sourceWidth, 0, 0, sourceWidth, sourceHeight);
-        
-        int[] newBuffer = new int[newWidth * newHeight];
-        
-        // Calculate the scaling ratio
-        for (int y = 0; y < newHeight; y++) {
-            for (int x = 0; x < newWidth; x++) {
-                // Find the corresponding pixel in the source image
-                int srcX = x * sourceWidth / newWidth;
-                int srcY = y * sourceHeight / newHeight;
-                newBuffer[y * newWidth + x] = srcBuffer[srcY * sourceWidth + srcX];
-            }
-        }
-        
-        return Image.createRGBImage(newBuffer, newWidth, newHeight, true);
-    }
+	public static Image resizeImage(Image sourceImage, int newWidth, int newHeight) {
+		int sourceWidth = sourceImage.getWidth();
+		int sourceHeight = sourceImage.getHeight();
+		int[] srcBuffer = new int[sourceWidth * sourceHeight];
+		sourceImage.getRGB(srcBuffer, 0, sourceWidth, 0, 0, sourceWidth, sourceHeight);
+		
+		int[] newBuffer = new int[newWidth * newHeight];
+		
+		// Calculate the scaling ratio
+		for (int y = 0; y < newHeight; y++) {
+			for (int x = 0; x < newWidth; x++) {
+				// Find the corresponding pixel in the source image
+				int srcX = x * sourceWidth / newWidth;
+				int srcY = y * sourceHeight / newHeight;
+				newBuffer[y * newWidth + x] = srcBuffer[srcY * sourceWidth + srcX];
+			}
+		}
+		
+		return Image.createRGBImage(newBuffer, newWidth, newHeight, true);
+	}
 
-    // https://github.com/shinovon/JTube/blob/master/src/tube42/lib/imagelib/ImageUtils.java#L87
+	/*
+	 * Part of the TUBE42 imagelib, released under the LGPL license.
+	 *
+	 * Development page: https://github.com/tube42/imagelib
+	 * License:          http://www.gnu.org/copyleft/lesser.html
+	 */
 	public static final Image resizeImageBilinear(Image src_i, int w1, int h1) {
-        int w0 = src_i.getWidth();
-        int h0 = src_i.getHeight();
-        int[] dst = new int[w1*h1];
+		int w0 = src_i.getWidth();
+		int h0 = src_i.getHeight();
+		int[] dst = new int[w1*h1];
 
 		int[] buffer1 = new int[w0];
 		int[] buffer2 = new int[w0];
 
-		// UNOPTIMIZED bilinear filtering:               
-		//         
+		// UNOPTIMIZED bilinear filtering:			   
+		//		 
 		// The pixel position is defined by y_a and y_b,
 		// which are 24.8 fixed point numbers
 		// 
@@ -221,61 +226,61 @@ public class Util {
 						| (c2_RB + ((((c34 & 0x00FF00FF) - c2_RB) * v1) >> 8)) & 0x00FF00FF;
 			}
 		}
-        return Image.createRGBImage(dst, w1, h1, true);
+		return Image.createRGBImage(dst, w1, h1, true);
 	}
 
-    public static int hsvToRgb(int h, int s, int v) {
-        int r, g, b;
+	public static int hsvToRgb(int h, int s, int v) {
+		int r, g, b;
 
-        // Ensure hue is between 0 and 359
-        h = h % 360;
-        if (h < 0) h += 360;
+		// Ensure hue is between 0 and 359
+		h = h % 360;
+		if (h < 0) h += 360;
 
-        // Normalize s and v to be between 0 and 255
-        s = Math.min(Math.max(s, 0), 255);
-        v = Math.min(Math.max(v, 0), 255);
+		// Normalize s and v to be between 0 and 255
+		s = Math.min(Math.max(s, 0), 255);
+		v = Math.min(Math.max(v, 0), 255);
 
-        int region = h / 60;
-        int remainder = (h % 60) * 255 / 60;
+		int region = h / 60;
+		int remainder = (h % 60) * 255 / 60;
 
-        int p = (v * (255 - s)) / 255;
-        int q = (v * (255 - (s * remainder) / 255)) / 255;
-        int t = (v * (255 - (s * (255 - remainder)) / 255)) / 255;
+		int p = (v * (255 - s)) / 255;
+		int q = (v * (255 - (s * remainder) / 255)) / 255;
+		int t = (v * (255 - (s * (255 - remainder)) / 255)) / 255;
 
-        switch (region) {
-            case 0:
-                r = v;
-                g = t;
-                b = p;
-                break;
-            case 1:
-                r = q;
-                g = v;
-                b = p;
-                break;
-            case 2:
-                r = p;
-                g = v;
-                b = t;
-                break;
-            case 3:
-                r = p;
-                g = q;
-                b = v;
-                break;
-            case 4:
-                r = t;
-                g = p;
-                b = v;
-                break;
-            default:
-                r = v;
-                g = p;
-                b = q;
-                break;
-        }
+		switch (region) {
+			case 0:
+				r = v;
+				g = t;
+				b = p;
+				break;
+			case 1:
+				r = q;
+				g = v;
+				b = p;
+				break;
+			case 2:
+				r = p;
+				g = v;
+				b = t;
+				break;
+			case 3:
+				r = p;
+				g = q;
+				b = v;
+				break;
+			case 4:
+				r = t;
+				g = p;
+				b = v;
+				break;
+			default:
+				r = v;
+				g = p;
+				b = q;
+				break;
+		}
 		return (r << 16) | (g << 8) | b;
-    }
+	}
 
 	public static void hashtablePutWithLimit(Hashtable ht, Vector keys, Object key, Object value, int limit) {
 		if (!ht.containsKey(key) && ht.size() >= limit) {
@@ -288,14 +293,14 @@ public class Util {
 	}
 
 	public static String stringToLength(String str, int length) {
-		return (str.length() >= length) ? str.substring(0, length - 3) + "..." : str;
+		return (str.length() >= length && length > 3) ? str.substring(0, length - 3) + "..." : str;
 	}
 
 	public static byte[] stringToBytes(String str) {
 		try {
 			return str.getBytes("UTF-8");
 		}
-		catch (UnsupportedEncodingException e) {
+		catch (Exception e) {
 			return str.getBytes();
 		}
 	}
@@ -304,7 +309,7 @@ public class Util {
 		try {
 			return new String(bytes, "UTF-8");
 		}
-		catch (UnsupportedEncodingException e) {
+		catch (Exception e) {
 			return new String(bytes);
 		}
 	}
@@ -316,49 +321,49 @@ public class Util {
 		catch (Exception e) {}
 	}
 
-    /**
-     * Reads a file's contents from the JAR into a string.
-     * @param name File name
-     * @return String representation of the file's entire contents (UTF-8)
-     * @throws Exception Failed to open file, e.g. it doesn't exist
-     */
-    public static String readFile(String name) throws Exception {
-        InputStream is = new Object().getClass().getResourceAsStream(name);
-        DataInputStream dis = new DataInputStream(is);
-        StringBuffer buf = new StringBuffer();
+	/**
+	 * Reads a file's contents from the JAR into a string.
+	 * @param name File name
+	 * @return String representation of the file's entire contents (UTF-8)
+	 * @throws Exception Failed to open file, e.g. it doesn't exist
+	 */
+	public static String readFile(String name) throws Exception {
+		InputStream is = new Object().getClass().getResourceAsStream(name);
+		DataInputStream dis = new DataInputStream(is);
+		StringBuffer buf = new StringBuffer();
 
-        int ch;
-        while ((ch = dis.read()) != -1) {
-            buf.append((char) ch);
-        }
+		int ch;
+		while ((ch = dis.read()) != -1) {
+			buf.append((char) ch);
+		}
 
-        String result = buf.toString();
-        try {
-            return new String(result.getBytes("ISO-8859-1"), "UTF-8");
-        }
-        catch (UnsupportedEncodingException e) {
-            return result;
-        }
-    }
+		String result = buf.toString();
+		try {
+			return new String(result.getBytes("ISO-8859-1"), "UTF-8");
+		}
+		catch (UnsupportedEncodingException e) {
+			return result;
+		}
+	}
 
-    public static void setOrAddRecord(RecordStore rms, int index, String data) throws Exception {
+	public static void setOrAddRecord(RecordStore rms, int index, String data) throws Exception {
 		setOrAddRecord(rms, index, stringToBytes(data));
-    }
+	}
 
-    public static void setOrAddRecord(RecordStore rms, int index, byte[] data) throws Exception {
-        if (rms.getNumRecords() >= index) {
-            rms.setRecord(index, data, 0, data.length);
-        } else {
-            rms.addRecord(data, 0, data.length);
-        }
-    }
+	public static void setOrAddRecord(RecordStore rms, int index, byte[] data) throws Exception {
+		if (rms.getNumRecords() >= index) {
+			rms.setRecord(index, data, 0, data.length);
+		} else {
+			rms.addRecord(data, 0, data.length);
+		}
+	}
 
-    public static void closeRecordStore(RecordStore rms) {
+	public static void closeRecordStore(RecordStore rms) {
 		try {
 			rms.closeRecordStore();
 		}
 		catch (Exception e) {}
-    }
+	}
 
 	public static byte[] readBytes(InputStream inputStream, int initialSize, int bufferSize, int expandSize) throws IOException {
 		if (initialSize <= 0) initialSize = bufferSize;
@@ -396,7 +401,7 @@ public class Util {
 		};
 	}
 
-    public static int contrast(int color, int compare) {
+	public static int contrast(int color, int compare) {
 		int[] colorSplit = splitRGB(color);
 		int[] compareSplit = splitRGB(compare);
 
@@ -404,15 +409,15 @@ public class Util {
 			Math.abs(colorSplit[0] - compareSplit[0]) +
 			Math.abs(colorSplit[1] - compareSplit[1]) +
 			Math.abs(colorSplit[2] - compareSplit[2]);
-    }
+	}
 
 	/**
 	 * Get which of the colors (A or B) has a higher contrast against the 'compare' color. Alpha is disregarded.
 	 */
-    public static int higherContrast(int a, int b, int compare) {
+	public static int higherContrast(int a, int b, int compare) {
 		if (contrast(b, compare) > contrast(a, compare)) return b;
 		return a;
-    }
+	}
 	
 	/**
 	 * Blend colors A and B. Alpha is disregarded.
@@ -421,17 +426,17 @@ public class Util {
 	 * @param aRatio The ratio of A to B in increments of 10%, for example, with aRatio = 7, the resulting color will be a blend of 70% A and 30% B.
 	 * @return The blended RGB color value
 	 */
-    public static int blend(int a, int b, int aRatio) {
+	public static int blend(int a, int b, int aRatio) {
 		int[] as = splitRGB(a);
 		int[] bs = splitRGB(b);
 
-        int bRatio = 10 - aRatio;
-        int cR = (as[0]*aRatio/10 + bs[0]*bRatio/10) & 0xFF;
-        int cG = (as[1]*aRatio/10 + bs[1]*bRatio/10) & 0xFF;
-        int cB = (as[2]*aRatio/10 + bs[2]*bRatio/10) & 0xFF;
+		int bRatio = 10 - aRatio;
+		int cR = (as[0]*aRatio/10 + bs[0]*bRatio/10) & 0xFF;
+		int cG = (as[1]*aRatio/10 + bs[1]*bRatio/10) & 0xFF;
+		int cB = (as[2]*aRatio/10 + bs[2]*bRatio/10) & 0xFF;
 
-        return (cR << 16) | (cG << 8) | cB;
-    }
+		return (cR << 16) | (cG << 8) | cB;
+	}
 
 	// ifdef MIDP2_GENERIC
 	public static final boolean isKemulator;
@@ -444,7 +449,13 @@ public class Util {
 	// endif
 
 	// ifdef SAMSUNG_FULL
-	public static final boolean isSamsungJet;
+	// List of Samsung phones which have a 480p screen resolution and have the Java runtime used by Bada and the Samsung feature phone OS
+	// These phones have a bug where canvases have a tiny font size until they are reopened (see MainMenu)
+	// This bug is confirmed on the Jet S8000 and Wave S8500
+	private static final String[] SAMSUNG_FONT_BUG_LIST = {
+		"S8000", "S8003", "S8500", "S8530", "S8600", "M210S", "M8910"
+	};
+	public static final boolean hasSamsungFontBug;
 	// endif
 
 	// ifdef PIGLER_SUPPORT
@@ -476,7 +487,7 @@ public class Util {
 		// endif
 
 		// ifdef SAMSUNG_FULL
-		isSamsungJet = platform.startsWith("S8000") || platform.startsWith("S8003");
+		hasSamsungFontBug = indexOfAny(platform, SAMSUNG_FONT_BUG_LIST, 0) != -1;
 		// endif
 
 		// ifdef PIGLER_SUPPORT
@@ -487,7 +498,7 @@ public class Util {
 
 		fontSize = Font.getDefaultFont().getHeight();
 		// ifdef SAMSUNG_FULL
-		if (isSamsungJet) fontSize *= 2;
+		if (hasSamsungFontBug) fontSize *= 2;
 		// endif
 	}
 	

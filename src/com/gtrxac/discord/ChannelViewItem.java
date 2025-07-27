@@ -247,7 +247,9 @@ public class ChannelViewItem implements Strings {
                             if (directRefMessage || shouldRedrawRefMessage(selected)) {
                                 // ifdef OVER_100KB
                                 boolean useFormattedString =
+                                    // ifdef EMOJI_SUPPORT
                                     FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF ||
+                                    // endif
                                     FormattedString.useMarkdown;
                                 // endif
 
@@ -542,21 +544,34 @@ public class ChannelViewItem implements Strings {
                 String caption = (type == OLDER_BUTTON) ?
                     Locale.get(VIEW_OLDER_MESSAGES_L) : Locale.get(VIEW_NEWER_MESSAGES_L);
 
-                // ifdef NOKIA_THEME_BACKGROUND
-                if (selected || Settings.theme != Theme.SYSTEM)
-                // endif
-                {
-                    int textWidth = App.messageFont.stringWidth(caption);
+                int textWidth = App.messageFont.stringWidth(caption);
+                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+
+                // ifdef OVER_100KB
+                int rectX = width/2 - textWidth/2 - messageFontHeight;
+                int rectY = y + messageFontHeight/6;
+                int rectWidth = textWidth + messageFontHeight*2;
+                int rectHeight = messageFontHeight*4/3;
+                int rounding = messageFontHeight/2;
+
+                if (selected || Settings.theme != Theme.SYSTEM) {
                     g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-                    g.fillRoundRect(
-                        width/2 - textWidth/2 - messageFontHeight,
-                        y + messageFontHeight/6,
-                        textWidth + messageFontHeight*2,
-                        messageFontHeight*4/3,
-                        messageFontHeight/2,
-                        messageFontHeight/2
-                    );
+                    g.fillRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
+                } else {
+                    g.setColor(Theme.buttonTextColor);
+                    g.drawRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
                 }
+                // else
+                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+                g.fillRoundRect(
+                    width/2 - textWidth/2 - messageFontHeight,
+                    y + messageFontHeight/6,
+                    textWidth + messageFontHeight*2,
+                    messageFontHeight*4/3,
+                    messageFontHeight/2,
+                    messageFontHeight/2
+                );
+                // endif
 
                 g.setFont(App.messageFont);
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
@@ -578,22 +593,33 @@ public class ChannelViewItem implements Strings {
                     );
 
                 int x = useIcons ? messageFontHeight*2 : 0;
+                int textWidth = App.messageFont.stringWidth(caption);
 
-                // ifdef NOKIA_THEME_BACKGROUND
-                if (selected || Settings.theme != Theme.SYSTEM)
-                // endif
-                {
-                    int textWidth = App.messageFont.stringWidth(caption);
+                // ifdef OVER_100KB
+                int rectX = x + messageFontHeight/2;
+                int rectY = y + messageFontHeight/6;
+                int rectWidth = textWidth + messageFontHeight;
+                int rectHeight = messageFontHeight*4/3;
+                int rounding = messageFontHeight/2;
+
+                if (selected || Settings.theme != Theme.SYSTEM) {
                     g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-                    g.fillRoundRect(
-                        x + messageFontHeight/2,
-                        y + messageFontHeight/6,
-                        textWidth + messageFontHeight,
-                        messageFontHeight*4/3,
-                        messageFontHeight/2,
-                        messageFontHeight/2
-                    );
+                    g.fillRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
+                } else {
+                    g.setColor(Theme.buttonTextColor);
+                    g.drawRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
                 }
+                // else
+                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+                g.fillRoundRect(
+                    x + messageFontHeight/2,
+                    y + messageFontHeight/6,
+                    textWidth + messageFontHeight,
+                    messageFontHeight*4/3,
+                    messageFontHeight/2,
+                    messageFontHeight/2
+                );
+                // endif
 
                 g.setFont(App.messageFont);
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);

@@ -5,9 +5,10 @@ import javax.microedition.lcdui.*;
 /**
  * Canvas with vertical scrolling support (kinetic/smooth scrolling when swiping + optional scroll bar)
  * Scrollable content can be drawn using the 'scroll' field as a vertical offset
+ * For kinetic scrolling, make sure to define 'scrollUnit' (as e.g. the font height)
  */
 public abstract class KineticScrollingCanvas extends MyCanvas
-// ifdef OVER_100KB
+// ifdef TOUCH_SUPPORT
 implements Runnable
 // endif
 {
@@ -27,13 +28,13 @@ implements Runnable
     private int lastPointerY;
 
     public boolean usingScrollBar;
-
+    private int lastScrollBarY;
     private static int scrollBarSize; 
     
     static {
         scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
         // ifdef SAMSUNG_FULL
-        if (Util.isSamsungJet) scrollBarSize = scrollBarSize*5/2;
+        if (Util.hasSamsungFontBug) scrollBarSize = scrollBarSize*5/2;
         // endif
     }
 
@@ -48,18 +49,6 @@ implements Runnable
         return getMaxScroll() - getMinScroll() > 0;
     }
 
-    private void handleScrollBar(int y) {
-        int height = getHeight() - scrollBarSize;
-        y = Math.max(Math.min(y, getHeight() - scrollBarSize/2), scrollBarSize/2);
-        y -= scrollBarSize/2;
-        int ratio = y*1000/height;
-
-        scroll = (getMaxScroll() - getMinScroll())*ratio;
-        // if (scroll%1000 >= 500) scroll += 500;
-        scroll = scroll/1000 + getMinScroll();
-        repaint();
-    }
-
     public int getWidth() {
         if (prevShowScrollbar) {
             return super.getWidth() - scrollBarSize;
@@ -71,7 +60,20 @@ implements Runnable
         return totalScrollAbs < fontHeight/2 && Math.abs(totalScroll) < fontHeight/4;
     }
 
-    // ifdef OVER_100KB
+    // ifdef TOUCH_SUPPORT
+    private void handleScrollBar(int y) {
+        lastScrollBarY = y;
+        int height = getHeight() - scrollBarSize;
+        y = Math.max(Math.min(y, getHeight() - scrollBarSize/2), scrollBarSize/2);
+        y -= scrollBarSize/2;
+        int ratio = y*1000/height;
+
+        scroll = (getMaxScroll() - getMinScroll())*ratio;
+        // if (scroll%1000 >= 500) scroll += 500;
+        scroll = scroll/1000 + getMinScroll();
+        repaint();
+    }
+
     protected void pointerPressed(int x, int y) {
         // Use scrollbar if the content is tall enough to be scrollable and the user pressed on the right edge of the screen
         // Note: Scrollbar hitbox is wider than the actual rendered scrollbar
@@ -161,7 +163,8 @@ implements Runnable
     private boolean prevShowScrollbar = false;
 
     protected void drawScrollbar(Graphics g) {
-        g.setClip(0, 0, super.getWidth(), getHeight());
+        int height = getHeight();
+        g.setClip(0, 0, super.getWidth(), height);
 
         boolean showScrollbar = (scrollBarMode == SCROLL_BAR_VISIBLE && isScrollable());
 
@@ -169,17 +172,18 @@ implements Runnable
         // (because of the display content becoming taller/shorter than the screen height)
         // then the available screen width changes, so notify the sub-class by calling sizeChanged
         if (showScrollbar != prevShowScrollbar) {
-            sizeChanged(getWidth(), getHeight());
-            repaint();
             prevShowScrollbar = showScrollbar;
+            sizeChanged(getWidth(), height);
+            repaint();
         }
         // Draw scroll bar if it is set to always show, or if set to hidden and it's currently being dragged
-        else if (showScrollbar || usingScrollBar) {
+        // Don't show scrollbar when pointer dragged to the very top/bottom, to avoid the scrollbar getting stuck visible (in hidden mode)
+        else if (showScrollbar || (usingScrollBar && lastScrollBarY > height/30 && lastScrollBarY < height*29/30)) {
             int x = super.getWidth() - scrollBarSize;
             int barPos = getYFromScroll();
 
             g.setColor(Theme.scrollbarColor);
-            g.fillRect(x, 0, scrollBarSize, getHeight());
+            g.fillRect(x, 0, scrollBarSize, height);
             g.setColor(Theme.scrollbarHandleColor);
             g.fillRect(x, barPos, scrollBarSize, scrollBarSize);
         }

@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+// ifdef EMOJI_SUPPORT
 package com.gtrxac.discord;
 
 import java.util.*;

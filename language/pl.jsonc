@@ -850,5 +850,11 @@
     "Motyw",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Brak wystarczającego miejsca w pamięci do otwarcia wybieracza emotikon"
+    "Brak wystarczającego miejsca w pamięci do otwarcia wybieracza emotikon",
+
+    // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
+    "HTTP 502: Serwer proxy jest w tej chwili niedostępny. Spróbuj ponownie później lub skontaktuj się z twórcami.",
+
+    // Error message shown when a HTTP request results in the error 302 (moved temporarily)
+    "HTTP 302: To żądanie zostało nieoczekiwanie przekierowane. Sprawdź połączenie."
 ]

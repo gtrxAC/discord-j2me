@@ -316,6 +316,9 @@ public class ListScreen extends KineticScrollingCanvas {
     }
 
     protected void showNotify() {
+        // ifdef SAMSUNG_FULL
+        super.showNotify();
+        // endif
         touchMode = globalTouchMode;
     }
 
@@ -474,7 +477,7 @@ public class ListScreen extends KineticScrollingCanvas {
         repaint();
     }
 
-    // ifdef OVER_100KB
+    // ifdef TOUCH_SUPPORT
     private boolean pressedOnBlank;
 
     protected void pointerPressed(int x, int y) {

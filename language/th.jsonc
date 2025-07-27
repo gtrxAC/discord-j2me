@@ -834,21 +834,27 @@
     // Related to "Lines shown in the about screen for which language" above.
     "ภาษาญี่ปุ่น",
     "ภาษากาตาลา",
-    "Arabic",
+    "ภาษาอารบิก",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "System",
+    "ระบบ",
 
     // Theme option shown in settings for the user-defined theme.
-    "Custom",
+    "กำหนดเอง",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
-    "Theme",
-    "Do you want to apply this theme?",
+    "รูปแบบสี",
+    "ต้องการใช้รูปแบบสีนี้หรือไม่?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme",
+    "รูปแบบสี",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Not enough memory to show emoji picker"
+    "หน่วยความจำไม่เพียงพอที่จะแสดงตัวเลือกอิโมจิ",
+
+    // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
+    "HTTP 502: เซิร์ฟเวอร์พร็อกซี่ไม่พร้อมให้บริการ กรุณาลองใหม่อีกครั้งในภายหลัง หรือติดต่อผู้พัฒนา",
+
+    // Error message shown when a HTTP request results in the error 302 (moved temporarily)
+    "HTTP 302: คำขอถูกเปลี่ยนเส้นทางโดยไม่คาดคิด กรุณาตรวจสอบการเชื่อมต่อของคุณ"
 ]

@@ -59,8 +59,10 @@ public class Icons {
     Image android;
     // endif
     Image vibra;
-    // ifdef OVER_100KB
+    // ifdef EMOJI_SUPPORT
     Image emoji;
+    // endif
+    // ifdef OVER_100KB
     Image markdown;
     Image typing;
     Image dataManager;
@@ -170,7 +172,11 @@ public class Icons {
         // endif
         vibra = sh.next();
         // ifdef OVER_100KB
+        // ifdef EMOJI_SUPPORT
         emoji = sh.next();
+        // else
+        sh.skip();
+        // endif
         markdown = sh.next();
         typing = sh.next();
         dataManager = sh.next();

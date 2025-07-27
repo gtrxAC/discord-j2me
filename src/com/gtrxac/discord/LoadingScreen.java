@@ -7,7 +7,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     private int iconOffset;
 
     volatile String text;
-    // ifdef OVER_100KB
+    // ifdef EMOJI_SUPPORT
     volatile String text2;
     // endif
     int curFrame;
@@ -115,7 +115,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
                 text, getWidth()/2, getHeight()/2 + halfContainerHeight,
                 Graphics.HCENTER | Graphics.BOTTOM
             );
-            // ifdef OVER_100KB
+            // ifdef EMOJI_SUPPORT
             if (text2 != null) {
                 g.drawString(
                     text2, getWidth()/2, getHeight()/2 + halfContainerHeight + messageFontHeight,

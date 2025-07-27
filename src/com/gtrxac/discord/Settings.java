@@ -94,25 +94,21 @@ public class Settings {
         return result;
     }
 
+    // ifdef EMOJI_SUPPORT
     private static boolean shouldShowEmoji() {
         boolean result = (Util.fontSize > 14);
 
         // ifdef NOKIA_128PX
-        // On Nokia 128x128 and 128x160, the default font size (medium) is large enough to somewhat comfortably show emojis.
+        // On Nokia 128x160, the default font size (medium) is large enough to somewhat comfortably show emojis.
         // However, on low-end (DCT4) phones, there may not be enough RAM (usually around 600 kB), so disable emojis there just to stay safe.
         if (Runtime.getRuntime().totalMemory() >= 1000000) {
             result = true;
-        }
-        
-        // On S40v2 (except on 6230i, which is a different resolution anyway) the RMS size is 32 kB, not enough to store emojis.
-        // TODO: We could add an option to only show server emojis (which don't need to be stored in RMS), but for now, don't show any.
-        if (!Util.checkClass("javax.microedition.m2g.ScalableGraphics") && !Util.checkClass("com.nokia.mid.pri.PriAccess")) {
-            return false;
         }
         // endif
 
         return result;
     }
+    // endif
 
     public static void load() {
         // Initial settings (will be used if there are no saved settings)
@@ -264,7 +260,7 @@ public class Settings {
         useFilePreview =
         // endif
         getBoolRecord(isHighRam);
-        // ifdef OVER_100KB
+        // ifdef EMOJI_SUPPORT
         FormattedString.emojiMode = getIntRecord(shouldShowEmoji() ? FormattedString.EMOJI_MODE_ALL : 0);
         // else
         getIntRecord(0);
@@ -375,7 +371,7 @@ public class Settings {
             // endif
         );
         setIntRecord(
-            // ifdef OVER_100KB
+            // ifdef EMOJI_SUPPORT
             FormattedString.emojiMode
             // else
             0

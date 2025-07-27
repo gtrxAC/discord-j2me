@@ -5,6 +5,7 @@ const multer = require('multer')
 const path = require('path');
 const sanitizeHtml = require('sanitize-html');
 const crypto = require('crypto').webcrypto;
+const { LRUCache } = require('lru-cache');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -27,9 +28,8 @@ const DEST_BASE = "https://discord.com/api/v9";
 const uploadTokens = new Map();
 
 // ID -> username mapping cache (used for parsing mentions)
-const userCache = new Map();
-const channelCache = new Map();
-const CACHE_SIZE = 10000;
+const userCache = new LRUCache({max: 10000});
+const channelCache = new LRUCache({max: 10000});
 
 function handleError(res, e) {
     if (e.response) {
@@ -301,19 +301,137 @@ function generateUploadToken(token) {
     return result;
 }
 
-// Get servers
+const versionDownloadLinks = {
+    midp2: `<p>5.0 for Nokia S40 and Symbian <br/> <a href="/discord_midp2.jad">JAD</a> - <a href="/discord_midp2.jar">JAR</a></p>`,
+    nokia_128px: `<p>5.0 for Nokia S40 (128x160) <br/> <a href="/discord_nokia_128px.jad">JAD</a> - <a href="/discord_nokia_128px.jar">JAR</a></p>`,
+    // nokia_128px: `<p>5.0 for Nokia S40v3+ (128x160) <br/> <a href="/discord_nokia_128px.jad">JAD</a> - <a href="/discord_nokia_128px.jar">JAR</a></p>`,
+    // s40v2: `<p>5.0 for Nokia S40v2 <br/> <a href="/discord_s40v2.jad">JAD</a> - <a href="/discord_s40v2.jar">JAR</a></p>`,
+    midp2_alt: `<p>5.0 for other MIDP2 devices <br/> <a href="/discord_midp2_alt.jad">JAD</a> - <a href="/discord_midp2_alt.jar">JAR</a></p>`,
+    blackberry: `<p>5.0 for BlackBerry <br/> <a href="/discord_blackberry.jad">JAD</a> - <a href="/discord_blackberry.jar">JAR</a></p>`,
+    samsung: `<p>5.0 for Samsung <br/> <a href="/discord_samsung.jad">JAD</a> - <a href="/discord_samsung.jar">JAR</a></p>`,
+    samsung_100kb: `<p>5.0 for Samsung (100 kB version) <br/> <a href="/discord_samsung_100kb.jad">JAD</a> - <a href="/discord_samsung_100kb.jar">JAR</a></p>`,
+    lg: `<p>5.0 for LG <br/> <a href="/discord_lg.jad">JAD</a> - <a href="/discord_lg.jar">JAR</a></p>`,
+    jl: `<p>5.0 for J2ME Loader <br/> <a href="/discord_jl.jar">JAR</a></p>`,
+    _6310i: `<p>3.2 for Nokia 3410/6310i (30 kB) <br/> <a href="/discord_6310i.jad">JAD</a> - <a href="/discord_6310i.jar">JAR</a></p>`,
+    midp1: `<p>3.0 for MIDP1 <br/> <a href="/discord_midp1.jad">JAD</a> - <a href="/discord_midp1.jar">JAR</a></p>`
+}
+
+function getRecommendedVersions(req) {
+    const ua = (req.headers['device-stock-ua'] ?? req.headers['x-operamini-phone-ua'] ?? req.headers['user-agent'] ?? '').toLowerCase();
+    if (!ua) {
+        return ["midp2_alt", "_6310i", "midp1"];
+    }
+    if (ua.includes('android')) {
+        return ['jl'];
+    }
+
+    const midp2 = /midp\W*2/g.test(ua) || ua.includes('bada');
+    const midp1 = /midp\W*1/g.test(ua);
+
+    if (!midp2 && midp1) {
+        return ["_6310i", "midp1"];
+    }
+    if (ua.includes('blackberry')) {
+        return ['blackberry'];
+    }
+    if (/samsung|gt\-|sgh|sch|sph/g.test(ua)) {
+        if (/c3060|m300/g.test(ua)) return ["samsung_100kb"];
+        if (midp2) return ["samsung", "samsung_100kb"];
+        return ["samsung", "samsung_100kb", "_6310i", "midp1"];
+    }
+    if (/symbian|series60/g.test(ua)) {
+        if (/series60\/2/g.test(ua)) return ["_6310i", "midp1"];  //midp2 currently broken on s60v2
+        if (midp2) return ["midp2", "midp2_alt"];
+        return ["midp2", "midp2_alt", "_6310i", "midp1"];
+    }
+    if (ua.includes('lg')) {
+        if (midp2) return ['lg'];
+        return ["lg", "_6310i", "midp1"];
+    }
+    if (/^nokia(2855|315|322|507|514|602|6030|60[67]|6085|610|615[25]|6170|623[05]|6255|68|72[67]|736|880\d\/)/g.test(ua)) {
+        // return ["s40v2", "midp2_alt"];
+        return ["nokia_128px", "midp2_alt"];
+    }
+    if (/^nokia(168|2220|23[23]|26|27[26]|2865|310|3110|350|520|608[56]|6111|6125|6136|6151|616|707|c1|c2-00)/g.test(ua)) {
+        return ["nokia_128px", "midp2_alt"];
+    }
+    if (midp2) {
+        return ["midp2_alt"];
+    }
+    if (/linux|mac|windows/g.test(ua)) {
+        // modern device: show all downloads
+        return Object.keys(versionDownloadLinks);
+    }
+    return ["midp2_alt", "_6310i", "midp1"];
+}
+
+// Homepage
+app.get('/', async (req, res) => {
+    const versions = getRecommendedVersions(req);
+
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
+    <title>Discord J2ME</title>
+</head>
+<body>
+    <h1>Discord J2ME</h1>
+    <p>Recommended version${versions.length != 1 ? 's' : ''} for your device:</p>
+    ${versions.map(ver => versionDownloadLinks[ver] ?? `<p>unknown version: ${ver}</p>`).join('')}
+    <p><a href="/all">See all versions</a></p>
+    <p><a href="/wap">Also try Discord WAP!</a></p>
+    <h1>Benchmarks</h1>
+    <p>JBenchmark <br/> <a href="/JBenchmark.jad">JAD</a> - <a href="/JBenchmark.jar">JAR</a></p>
+    <p>JBenchmark2 <br/> <a href="/JBenchmark2.jad">JAD</a> - <a href="/JBenchmark2.jar">JAR</a></p>
+    <p>JBenchmark3D <br/> <a href="/JBenchmark3D.jad">JAD</a> - <a href="/JBenchmark3D.jar">JAR</a></p>
+    <p>JBenchmarkHD <br/> <a href="/JBenchmarkHD.jad">JAD</a> - <a href="/JBenchmarkHD.jar">JAR</a></p>
+    <p>SPMarkJava06 <br/> <a href="/spmark_java06_benchmark_176x220-132640.jad">JAD</a> - <a href="/spmark_java06_benchmark_176x220-132640.jar">JAR</a></p>
+    <p>Java Specs Test <br/> <a href="/jst.jad">JAD</a> - <a href="/jst.jar">JAR</a></p>
+</body>
+</html>`);
+});
+
+app.get('/all', (req, res) => {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
+    <title>Discord J2ME</title>
+</head>
+<body>
+    <h1>Discord J2ME</h1>
+    ${Object.values(versionDownloadLinks).join('')}
+</body>
+</html>`);
+});
+
+// Get user's server list
+// Has cache which can be used with query parameter "c". This param is included by newer clients except when the list is force refreshed
+const userGuilds = new LRUCache({max: 200});
+
 app.get(`${BASE}/users/@me/guilds`, getToken, async (req, res) => {
     try {
-        const response = await axios.get(
-            `${DEST_BASE}/users/@me/guilds`,
-            {headers: res.locals.headers}
-        );
-        const guilds = response.data.map(g => {
-            const result = {id: g.id, name: g.name};
-            if (g.icon != null) result.icon = g.icon;
-            return result;
-        })
-        res.send(stringifyUnicode(guilds));
+        if (req.query.c !== undefined && userGuilds.has(res.locals.userID)) {
+            res.send(userGuilds.get(res.locals.userID));
+        } else {
+            const response = await axios.get(
+                `${DEST_BASE}/users/@me/guilds`,
+                {headers: res.locals.headers}
+            );
+            const guilds = response.data.map(g => {
+                const result = {id: g.id, name: g.name};
+                if (g.icon != null) result.icon = g.icon;
+                return result;
+            })
+            const guildsStr = stringifyUnicode(guilds);
+            userGuilds.set(res.locals.userID, guildsStr);
+            res.send(guildsStr);
+        }
     }
     catch (e) { handleError(res, e); }
 });
@@ -329,11 +447,6 @@ app.get(`${BASE}/guilds/:guild/channels`, getToken, async (req, res) => {
         // Populate channel name cache
         response.data.forEach(ch => {
             channelCache.set(ch.id, ch.name);
-
-            // If max size exceeded, remove the oldest item
-            if (channelCache.size > CACHE_SIZE) {
-                channelCache.delete(channelCache.keys().next().value);
-            }
         })
 
         const channels = response.data
@@ -483,11 +596,6 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         // Populate username cache
         response.data.forEach(msg => {
             userCache.set(msg.author.id, msg.author.username);
-
-            // If max size exceeded, remove the oldest item
-            if (userCache.size > CACHE_SIZE) {
-                userCache.delete(userCache.keys().next().value);
-            }
         })
 
         const messages = response.data.map(msg => {
@@ -674,29 +782,36 @@ async function deleteMessage(req, res) {
 }
 app.get(`${BASE}/channels/:channel/messages/:message/delete`, getToken, deleteMessage);
 
-// Get role list
+// Get server's role list (cached with 1 day TTL)
+const roleCache = new LRUCache({max: 1000, ttl: 24*60*60*1000, updateAgeOnGet: false});
+
 app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
     try {
-        const response = await axios.get(
-            `${DEST_BASE}/guilds/${req.params.guild}/roles`,
-            {headers: res.locals.headers}
-        );
-        const roles = response.data
-            .sort((a, b) => a.position - b.position)
-            .map(r => {
-                var ret = {
-                    id: r.id,
-                    color: r.color
-                };
-                if (req.query.droidcord) {
-                    ret.name = r.name;
-                    ret.position = r.position;
-                    ret.permissions = r.permissions;
-                }
-                return ret;
-            })
+        let roleData;
+        if (roleCache.has(req.params.guild)) {
+            roleData = roleCache.get(req.params.guild);
+        } else {
+            const response = await axios.get(
+                `${DEST_BASE}/guilds/${req.params.guild}/roles`,
+                {headers: res.locals.headers}
+            );
+            roleData = response.data.sort((a, b) => a.position - b.position);
+            roleCache.set(req.params.guild, roleData);
+        }
         
-        res.send(stringifyUnicode(roles))
+        const roles = roleData.map(r => {
+            var ret = {
+                id: r.id,
+                color: r.color
+            };
+            if (req.query.droidcord) {
+                ret.name = r.name;
+                ret.position = r.position;
+                ret.permissions = r.permissions;
+            }
+            return ret;
+        })
+        res.send(stringifyUnicode(roles));
     }
     catch (e) { handleError(res, e); }
 });
@@ -732,15 +847,22 @@ app.get(`${BASE}/channels/:channel/threads/search`, getToken, async (req, res) =
     catch (e) { handleError(res, e); }
 })
 
-// Get servers (lite)
+// Get user's server list (lite) (cached with 5 minute TTL, may later include optional cache like in non-lite)
+const userGuildsLite = new LRUCache({max: 200, ttl: 5*60*1000});
+
 app.get(`${BASE_L}/users/@me/guilds`, getToken, async (req, res) => {
     try {
-        const response = await axios.get(
-            `${DEST_BASE}/users/@me/guilds`,
-            {headers: res.locals.headers}
-        );
-        const guilds = response.data.map(g => [g.id, g.name])
-        res.send(stringifyUnicode(guilds));
+        if (userGuildsLite.has(res.locals.userID)) {
+            res.send(userGuildsLite.get(res.locals.userID));
+        } else {
+            const response = await axios.get(
+                `${DEST_BASE}/users/@me/guilds`,
+                {headers: res.locals.headers}
+            );
+            const guilds = stringifyUnicode(response.data.map(g => [g.id, g.name]));
+            userGuildsLite.set(res.locals.userID, guilds);
+            res.send(guilds);
+        }
     }
     catch (e) { handleError(res, e); }
 });
@@ -756,11 +878,6 @@ app.get(`${BASE_L}/guilds/:guild/channels`, getToken, async (req, res) => {
         // Populate channel name cache
         response.data.forEach(ch => {
             channelCache.set(ch.id, ch.name);
-
-            // If max size exceeded, remove the oldest item
-            if (channelCache.size > CACHE_SIZE) {
-                channelCache.delete(channelCache.keys().next().value);
-            }
         })
 
         let channels = response.data.filter(ch => ch.type == 0 || ch.type == 5);
@@ -845,11 +962,6 @@ app.get(`${BASE_L}/channels/:channel/messages`, getToken, async (req, res) => {
         // Populate username cache
         response.data.forEach(msg => {
             userCache.set(msg.author.id, msg.author.username);
-
-            // If max size exceeded, remove the oldest item
-            if (userCache.size > CACHE_SIZE) {
-                userCache.delete(userCache.keys().next().value);
-            }
         })
 
         const messages = response.data.map(msg => {

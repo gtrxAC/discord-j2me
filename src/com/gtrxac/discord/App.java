@@ -16,11 +16,17 @@ public class App implements Strings {
 	// ifdef MIDP2_GENERIC
 	"midp2";
 	// endif
-	// ifdef NOKIA_128PX
+	// ifdef NOKIA_128PX_VERSION
 	"nokia_128px";
+	// endif
+	// ifdef S40V2
+	"s40v2";
 	// endif
 	// ifdef MIDP2_ALT
 	"midp2_alt";
+	// endif
+	// ifdef S60V2
+	"s60v2";
 	// endif
 	// ifdef BLACKBERRY
 	"blackberry";
@@ -144,7 +150,7 @@ public class App implements Strings {
 		ListScreen.noItemsString = Locale.get(LIST_EMPTY);
 		Dialog.okLabel = Locale.get(OK);
 		Dialog.okLabelLong = Locale.get(OK_L);
-		// ifdef OVER_100KB
+		// ifdef EMOJI_SUPPORT
 		FormattedStringPartEmoji.loadEmoji(messageFont.getHeight());
         // endif
 
@@ -183,7 +189,13 @@ public class App implements Strings {
 		if (Settings.highRamMode) reload = false;
 		
 		if (reload || forceReload || guildSelector == null || guilds == null) {
+			// ifdef OVER_100KB
+			HTTPThread h = new HTTPThread(HTTPThread.FETCH_GUILDS);
+			h.forceReload = forceReload;
+			h.start();
+			// else
 			new HTTPThread(HTTPThread.FETCH_GUILDS).start();
+			// endif
 		} else {
 			try {
 				if (guildSelector.isFavGuilds) {
@@ -314,7 +326,7 @@ public class App implements Strings {
 		}
 	}
 
-	// ifdef OVER_100KB
+	// ifdef EMOJI_SUPPORT
 	public static void gatewayToggleGuildEmoji() {
 		if (gatewayActive()) {
 			JSONObject msg = new JSONObject();
@@ -324,7 +336,9 @@ public class App implements Strings {
 			gateway.send(msg);
 		}
 	}
+	// endif
 
+	// ifdef OVER_100KB
 	public static void gatewaySendTyping() {
 		if (gatewayActive() && Settings.sendTyping) {
 			JSONObject msg = new JSONObject();

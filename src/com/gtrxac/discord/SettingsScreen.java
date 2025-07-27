@@ -34,7 +34,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         {
             1, 10000, 3, 2, 255, 1,
             // ifdef OVER_100KB    
-            1, 2,
+            1,
+            // ifdef EMOJI_SUPPORT
+            2,
+            // endif
             // endif
         },
         {
@@ -100,7 +103,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(GUILD_ICONS),
                 // ifdef OVER_100KB
                 Locale.get(FILE_PREVIEW),
+                // ifdef EMOJI_SUPPORT
                 Locale.get(SHOW_EMOJI),
+                // endif
                 // endif
             }, {
                 // Behavior
@@ -165,7 +170,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.menuIcons },
                 // ifdef OVER_100KB
                 { App.ic.attachFormat },
+                // ifdef EMOJI_SUPPORT
                 { App.ic.emoji }
+                // endif
                 // endif
             }, {
                 // Behavior
@@ -231,7 +238,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolValues,
                 // ifdef OVER_100KB
                 boolValues,
+                // ifdef EMOJI_SUPPORT
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(SHOW_EMOJI_DEFAULT_ONLY), Locale.get(SHOW_EMOJI_ALL) }
+                // endif
                 // endif
             }, {
                 // Behavior
@@ -286,7 +295,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.showMenuIcons ? 1 : 0,
                 // ifdef OVER_100KB
                 Settings.useFilePreview ? 1 : 0,
+                // ifdef EMOJI_SUPPORT
                 FormattedString.emojiMode
+                // endif
                 // endif
             }, {
                 // Behavior
@@ -527,6 +538,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     Settings.pfpSize != values[1][3] ||
                     Settings.useJpeg != (values[1][0] == 1);
 
+                boolean fontSizeChanged =
+                    Settings.authorFontSize != values[0][1] ||
+                    Settings.messageFontSize != values[0][2];
+
                 Settings.theme = values[0][0];
                 Settings.authorFontSize = values[0][1];
                 Settings.messageFontSize = values[0][2];
@@ -546,8 +561,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.showMenuIcons = values[1][5] == 1;
                 // ifdef OVER_100KB
                 Settings.useFilePreview = values[1][6] == 1;
+                // ifdef EMOJI_SUPPORT
                 FormattedString.emojiMode = values[1][7];
                 App.gatewayToggleGuildEmoji();
+                // endif
                 // endif
 
                 Settings.messageLoadCount = values[2][0];
@@ -577,14 +594,18 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.showNotifNokiaUI = values[3][index] == 1;
                 // endif
 
-                if (reloadIcons) {
-                    // Unload server and DM lists so the icons get refreshed
-                    IconCache.init();
+                // Unload server and DM lists if needed, so the icons and font-based layout metrics get refreshed
+                if (reloadIcons || fontSizeChanged) {
                     App.guilds = null;
                     App.dmChannels = null;
-                    if (reloadMenuIcons) {
-                        App.ic = null;
-                        App.ic = new Icons();
+
+                    if (reloadIcons) {
+                        IconCache.init();
+                        
+                        if (reloadMenuIcons) {
+                            App.ic = null;
+                            App.ic = new Icons();
+                        }
                     }
                 }
 
