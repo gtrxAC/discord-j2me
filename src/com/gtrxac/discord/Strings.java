@@ -368,4 +368,10 @@ public interface Strings {
     static final int EMOJI_PICKER_NO_MEMORY = 347;
     static final int HTTP_ERROR_PROXY = 348;
     static final int HTTP_ERROR_REDIRECT = 349;
+    // ifdef OVER_100KB
+    static final int UPLOAD_WARNING_TITLE = 350;
+    static final int UPLOAD_WARNING_DESCRIPTION = 351;
+    static final int HIDE = 352;
+    static final int HIDE_L = 353;
+    // endif
 }

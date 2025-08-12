@@ -90,7 +90,13 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         } else {
             h = new HTTPThread(HTTPThread.SEND_MESSAGE);
         }
+        // ifdef OVER_100KB
+        // Bypass proxy-side upload warning which was previously done by manually adding a # at the start of the message
+        if (attachName != null) h.sendMessage = "#" + msg;
+        else
+        // endif
         h.sendMessage = msg;
+        
         h.sendReference = refID;
         h.sendPing = ping;
         h.start();

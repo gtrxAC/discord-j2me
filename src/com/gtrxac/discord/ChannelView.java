@@ -828,7 +828,17 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
     // endif
 
-    private void uploadFile(Message recipientMsg) {
+    // ifdef OVER_100KB
+    private void uploadFileInitial(Message recipientMsg) {
+        if (!Settings.hasSeenUploadWarning) {
+            App.disp.setCurrent(new UploadWarningDialog(recipientMsg));
+        } else {
+            uploadFile(recipientMsg);
+        }
+    }
+    // endif
+
+    public void uploadFile(Message recipientMsg) {
         try {
             if (!App.isLiteProxy) {
                 App.error(Locale.get(UPLOAD_NOT_SUPPORTED));
@@ -845,7 +855,12 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 App.gatewaySendTyping();
                 // endif
                 String id = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
+                // ifdef OVER_100KB
+                // Go to 'upload2' page to bypass proxy-side upload warning
+                String url = Settings.api + "/upload2?channel=" + id + "&token=" + App.uploadToken;
+                // else
                 String url = Settings.api + "/upload?channel=" + id + "&token=" + App.uploadToken;
+                // endif
                 if (recipientMsg != null) url += "&reply=" + recipientMsg.id;
                 App.platRequest(url);
             }
@@ -881,7 +896,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             executeItemAction();
         }
         else if (c == uploadCommand) {
+            // ifdef OVER_100KB
+            uploadFileInitial(null);
+            // else
             uploadFile(null);
+            // endif
         }
         else if (c == fullScreenCommand) {
             fullscreen = !fullscreen;
@@ -891,7 +910,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             Message selected = ((ChannelViewItem) items.elementAt(selectedItem)).msg;
 
             if (c == replyUploadCommand) {
+                // ifdef OVER_100KB
+                uploadFileInitial(selected);
+                // else
                 uploadFile(selected);
+                // endif
             }
             else if (c == replyCommand) {
                 App.disp.setCurrent(new ReplyForm(selected));

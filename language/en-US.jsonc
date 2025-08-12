@@ -856,5 +856,13 @@
     null,
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
+    null,
+
+    // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
+    null,
+    null,
+
+    // Softkey labels for dismissing the upload warning (above) and never showing it again.
+    null,
     null
 ]

@@ -682,7 +682,7 @@ app.post(`${BASE}/channels/:channel/upload`, upload.single('files'), getToken, a
         )
 
         res.send(
-            `<p>${text}</p><a href="/upload?channel=${req.params.channel}&token=${res.locals.uploadToken ?? res.locals.headers.Authorization}">Send another</a>`
+            `<p>${text}</p><a href="/upload2?channel=${req.params.channel}&token=${res.locals.uploadToken ?? res.locals.headers.Authorization}">Send another</a>`
         );
     }
     catch (e) { handleError(res, e); }

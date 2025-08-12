@@ -61,6 +61,7 @@ public class Settings {
 	// ifdef OVER_100KB
 	static boolean useFilePreview;
 	static boolean sendTyping;
+    static boolean hasSeenUploadWarning;
 	// endif
 
 	static int authorFontSize;
@@ -290,6 +291,10 @@ public class Settings {
         )
         // endif
         ;
+        // ifdef OVER_100KB
+        hasSeenUploadWarning =
+        // endif
+        getBoolRecord(false);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -409,6 +414,13 @@ public class Settings {
         setBoolRecord(
             // ifdef OVER_100KB
             KeyRepeatThread.enabled
+            // else
+            false
+            // endif
+        );
+        setBoolRecord(
+            // ifdef OVER_100KB
+            hasSeenUploadWarning
             // else
             false
             // endif

@@ -857,5 +857,13 @@
     "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: The request was unexpectedly redirected. Please check your connection."
+    "HTTP 302: The request was unexpectedly redirected. Please check your connection.",
+
+    // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
+    "Warning",
+    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+
+    // Softkey labels for dismissing the upload warning (above) and never showing it again.
+    "Hide",
+    "Hide"
 ]
