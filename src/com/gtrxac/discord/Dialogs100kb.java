@@ -96,6 +96,10 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         addCommand(noCommand);
     }
 
+    protected void showNotify() {
+        if (dialogType == NOTIFICATION_DIALOG) App.gateway.playNotificationSound();
+    }
+
     public void commandAction(Command c, Displayable d) {
         switch (dialogType) {
             case DELETE_CONFIRM_DIALOG: {

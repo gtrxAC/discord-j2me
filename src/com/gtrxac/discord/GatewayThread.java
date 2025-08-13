@@ -287,6 +287,38 @@ public class GatewayThread extends Thread implements Strings
 	}
 	// endif
 
+	public void playNotificationSound() {
+		if (Settings.playNotifSound) {
+			// ifdef OVER_100KB
+			RecordStore rms = null;
+			InputStream is = null;
+			String fileName = "/notify.mid";
+			try {
+				rms = RecordStore.openRecordStore("notifsound", false);
+				is = new ByteArrayInputStream(rms.getRecord(2));
+				fileName = Util.bytesToString(rms.getRecord(1));
+			}
+			catch (Exception e) {}
+
+			Util.closeRecordStore(rms);
+
+			if (is == null) is = getClass().getResourceAsStream("/notify.mid");
+			
+			try {
+				NotificationSoundDialog.playSound(fileName, is);
+			}
+			catch (Exception e) {
+				AlertType.ALARM.playSound(App.disp);
+			}
+			// else
+			AlertType.ALARM.playSound(App.disp);
+			// endif
+		}
+		if (Settings.playNotifVibra) {
+			App.disp.vibrate(1000);
+		}
+	}
+
 	public void run() {
 		try {
 			// ifdef PIGLER_SUPPORT
@@ -296,10 +328,12 @@ public class GatewayThread extends Thread implements Strings
 			sc = (SocketConnection) Connector.open(App.getPlatformSpecificUrl(Settings.gatewayUrl));
 
 			// Not supported on JBlend (e.g. some Samsungs)
+			// ifdef OVER_100KB
 			try {
 				sc.setSocketOption(SocketConnection.KEEPALIVE, 1);
 			}
 			catch (Exception e) {}
+			// endif
 
 			is = sc.openInputStream();
 			os = sc.openOutputStream();
@@ -390,35 +424,10 @@ public class GatewayThread extends Thread implements Strings
 							if (authorID.equals(App.myUserId)) continue;
 
 							if (shouldNotify(msgData)) {
-								if (Settings.playNotifSound) {
-									// ifdef OVER_100KB
-									RecordStore rms = null;
-									InputStream is = null;
-									String fileName = "/notify.mid";
-									try {
-										rms = RecordStore.openRecordStore("notifsound", false);
-										is = new ByteArrayInputStream(rms.getRecord(2));
-										fileName = Util.bytesToString(rms.getRecord(1));
-									}
-									catch (Exception e) {}
+								// If alert window is enabled, the sound will instead be played when it is shown on screen
+								// so it does not get cut off due to the current screen changing
+								if (!Settings.showNotifAlert) playNotificationSound();
 
-									Util.closeRecordStore(rms);
-
-									if (is == null) is = getClass().getResourceAsStream("/notify.mid");
-									
-									try {
-										NotificationSoundDialog.playSound(fileName, is);
-									}
-									catch (Exception e) {
-										AlertType.ALARM.playSound(App.disp);
-									}
-									// else
-									AlertType.ALARM.playSound(App.disp);
-									// endif
-								}
-								if (Settings.playNotifVibra) {
-									App.disp.vibrate(1000);
-								}
 								if (
 									Settings.showNotifAlert
 									// ifdef PIGLER_SUPPORT

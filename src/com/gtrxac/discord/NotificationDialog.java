@@ -24,6 +24,10 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
         addCommand(closeCommand);
     }
 
+    protected void showNotify() {
+        App.gateway.playNotificationSound();
+    }
+
     public void commandAction(Command c, Displayable d) {
         if (c == viewCommand) {
             notif.view();
