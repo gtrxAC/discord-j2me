@@ -25,7 +25,11 @@ public class GatewayThread extends Thread implements Strings
 	volatile boolean stop;
 	volatile String stopMessage;
 
+	// ifdef OVER_100KB
 	private HeartbeatThread hbThread;
+	// else
+	private Threads100kb hbThread;
+	// endif
 
 	private SocketConnection sc;
 	private InputStream is;
@@ -581,8 +585,11 @@ public class GatewayThread extends Thread implements Strings
 							App.typingUserIDs.addElement("0");
 
 							// Remove the name from the typing list after 10 seconds
-							StopTypingThread stopThread = new StopTypingThread("0");
-							stopThread.start();
+							// ifdef OVER_100KB
+							new StopTypingThread("0").start();
+							// else
+							new Threads100kb("0").start();
+							// endif
 						} else {
 							if (!channel.equals(App.selectedChannel.id)) continue;
 
@@ -605,8 +612,11 @@ public class GatewayThread extends Thread implements Strings
 								App.typingUsers.addElement(author);
 								App.typingUserIDs.addElement(id);
 
-								StopTypingThread stopThread = new StopTypingThread(id);
-								stopThread.start();
+								// ifdef OVER_100KB
+								new StopTypingThread(id).start();
+								// else
+								new Threads100kb(id).start();
+								// endif
 							}
 							catch (Exception e) {}
 						}
@@ -661,7 +671,11 @@ public class GatewayThread extends Thread implements Strings
 				}
 				else if (message.getInt("op", 0) == 10) {
 					int heartbeatInterval = message.getObject("d").getInt("heartbeat_interval");
-					hbThread = new HeartbeatThread(this, heartbeatInterval);
+					// ifdef OVER_100KB
+					hbThread = new HeartbeatThread(heartbeatInterval);
+					// else
+					hbThread = new Threads100kb(heartbeatInterval);
+					// endif
 					hbThread.start();
 
 					// Identify
