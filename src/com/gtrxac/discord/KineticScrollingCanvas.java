@@ -23,7 +23,7 @@ implements Runnable
 
     public int scrollUnit;
 
-    private int velocity;
+    protected int velocity;
     private long lastPointerTime;
     private int lastPointerY;
 

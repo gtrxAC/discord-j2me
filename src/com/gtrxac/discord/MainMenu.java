@@ -70,7 +70,11 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
                     break;
                 }
                 case 4: {
+                    // ifdef OLD_ABOUT_SCREEN
                     App.disp.setCurrent(new AboutForm());
+                    // else
+                    App.disp.setCurrent(new AboutScreen());
+                    // endif
                     break;
                 }
                 case 5: {

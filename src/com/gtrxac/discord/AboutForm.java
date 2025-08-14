@@ -1,3 +1,4 @@
+// ifdef OLD_ABOUT_SCREEN
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -103,3 +104,4 @@ public class AboutForm extends Form implements CommandListener, Strings {
         App.disp.setCurrent(MainMenu.get(false));
     }
 }
+// endif
