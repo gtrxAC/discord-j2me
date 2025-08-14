@@ -27,11 +27,18 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
     int logoY;
     int easingTimer = 0;  // delay before icon starts moving upwards (also on versions without easing animation)
 
+    // ifdef NOKIA_128PX
+    private static final int PARTICLE_COUNT = 30;
+    // else
     private static final int PARTICLE_COUNT = 40;
+    // endif
+    
     private AboutScreenParticle[] particles;
     private AboutScreenItem[] items;
 
+    // ifdef ABOUT_SCREEN_BOUNCE
     static int bounceTimer = 0;
+    // endif
     
     // ifdef ABOUT_SCREEN_SPARKLES
     private Image[] sparkles;
@@ -187,7 +194,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         // else
         g.setColor(0x888888);
         // endif
-        int particleSize = Math.max(1, (width+height)/300);
+        int particleSize = Math.max(1, (width+height)/240);
 
         for (int i = 0; i < PARTICLE_COUNT; i++) {
             AboutScreenParticle p = particles[i];
@@ -299,8 +306,10 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
             AboutScreenItem.contentColor = Math.min(AboutScreenItem.contentColor + 0x030303, 0xEEEEEE);
         }
 
+        // ifdef ABOUT_SCREEN_BOUNCE
         bounceTimer++;
         if (bounceTimer > 100) bounceTimer = 0;
+        // endif
 
         // ifdef ABOUT_SCREEN_SPARKLES
         sparkleTimer++;

@@ -49,6 +49,8 @@ public class AboutScreenItem {
             
             if (isDeveloper) {
                 g.setColor(color & 0x00FFFF);
+
+                // ifdef ABOUT_SCREEN_BOUNCE
                 int timer = str.length()*AboutScreen.bounceTimer/30;
 
                 if (timer < str.length()) {
@@ -64,7 +66,9 @@ public class AboutScreenItem {
 
                     x += font.charWidth(bouncePart);
                     g.drawString(rightPart, x, 0, Graphics.TOP | Graphics.LEFT);
-                } else {
+                } else
+                // endif
+                {
                     g.drawString(str, width/2, 0, Graphics.TOP | Graphics.HCENTER);
                 }
                 g.translate(0, height);
