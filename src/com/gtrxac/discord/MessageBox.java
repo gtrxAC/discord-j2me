@@ -4,7 +4,6 @@ import javax.microedition.lcdui.*;
 import javax.microedition.io.file.*;
 
 public class MessageBox extends TextBox implements CommandListener, Strings {
-    private Displayable lastScreen;
     private Command sendCommand;
     private Command addMentionCommand;
     // ifdef EMOJI_SUPPORT
@@ -23,7 +22,6 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
 
     private void init(int sendCommandLabel) {
         setCommandListener(this);
-        this.lastScreen = App.disp.getCurrent();
 
         sendCommand = Locale.createCommand(sendCommandLabel, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
@@ -123,7 +121,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
                 catch (Throwable e) {}
             }
             // endif
-            App.disp.setCurrent(lastScreen);
+            App.openChannelView(false);
         }
         else if (c == addMentionCommand) {
             if (!App.gatewayActive()) {

@@ -669,8 +669,12 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
     }
 
-    private void sendHotkeyAction() {
-        App.dontShowLoadScreen = true;
+    private void showMessageBox() {
+        // ifdef OVER_100KB
+        // Show warning if DMing someone for the first time (Discord spam filter)
+        if (App.isDM && items.size() == 0) App.disp.setCurrent(new DMWarningDialog());
+        else
+        // endif
         App.disp.setCurrent(new MessageBox());
     }
 
@@ -743,7 +747,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (Settings.defaultHotkeys) {
             // default hotkey (j2me game actions A/B/C/D)
             switch (action) {
-                case GAME_A: sendHotkeyAction(); break;
+                case GAME_A: showMessageBox(); break;
                 case GAME_B: replyHotkeyAction(); break;
                 case GAME_C: copyHotkeyAction(); break;
                 case GAME_D: commandAction(refreshCommand, this); break;
@@ -752,7 +756,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         } else {
             // user bound key (when 'default hotkeys' option disabled)
             if (keycode == Settings.sendHotkey) {
-                sendHotkeyAction();
+                showMessageBox();
             }
             else if (keycode == Settings.replyHotkey) {
                 replyHotkeyAction();
@@ -886,7 +890,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
         }
         else if (c == sendCommand) {
-            App.disp.setCurrent(new MessageBox());
+            showMessageBox();
         }
         else if (c == refreshCommand) {
             App.dontShowLoadScreen = true;

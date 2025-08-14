@@ -16,7 +16,7 @@ public class UploadWarningDialog extends Dialog implements Strings, CommandListe
         this.recipientMsg = recipientMsg;
 
         okCommand = Locale.createCommand(OK, Command.OK, 0);
-        hideCommand = Locale.createCommand(CANCEL, Command.OK, 1);
+        hideCommand = Locale.createCommand(HIDE, Command.OK, 1);
         addCommand(okCommand);
         addCommand(hideCommand);
     }
@@ -27,7 +27,6 @@ public class UploadWarningDialog extends Dialog implements Strings, CommandListe
             Settings.save();
         }
         if (!Settings.nativeFilePicker) {
-            System.out.println(1);
             App.openChannelView(false);
         }
         App.channelView.uploadFile(recipientMsg);

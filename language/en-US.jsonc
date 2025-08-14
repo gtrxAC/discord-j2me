@@ -864,5 +864,8 @@
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
     null,
+    null,
+
+    // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
     null
 ]

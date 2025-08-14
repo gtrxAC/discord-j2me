@@ -373,5 +373,6 @@ public interface Strings {
     static final int UPLOAD_WARNING_DESCRIPTION = 351;
     static final int HIDE = 352;
     static final int HIDE_L = 353;
+    static final int DM_WARNING_DESCRIPTION = 354;
     // endif
 }

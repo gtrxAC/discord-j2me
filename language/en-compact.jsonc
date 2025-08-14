@@ -866,5 +866,8 @@
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
     "Hide",
-    "Hide"
+    "Hide",
+
+    // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
+    "Discord may flag new DMs from 3rd-party clients as spam. We recommend sending your 1st message from an official client. Do you want to continue?"
 ]
