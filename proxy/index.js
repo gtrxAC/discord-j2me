@@ -301,7 +301,7 @@ function generateUploadToken(token) {
     return result;
 }
 
-const { getRecommendedVersions, mainVersionDownloadLinks } = require('./recommend');
+const { getRecommendedVersions, mainVersionDownloadLinks, arrayDownloadLinkHtml } = require('./recommend');
 
 // Homepage
 app.get('/', async (req, res) => {
@@ -339,7 +339,7 @@ app.get('/all', (req, res) => {
 </head>
 <body>
     <h1>Discord J2ME</h1>
-    ${Object.values(mainVersionDownloadLinks).join('')}
+    ${arrayDownloadLinkHtml(Object.keys(mainVersionDownloadLinks))}
 </body>
 </html>`);
 });
