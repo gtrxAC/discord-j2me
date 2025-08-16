@@ -40,6 +40,7 @@ function downloadLinkHtml(name, beta) {
     if (obj.name) obj = mainVersionDownloadLinks[obj.name];
 
     if (beta && obj.betaVersion == null) return '';
+    if (beta) name += "_beta";
 
     const jad = (obj.showJad || obj.showJad === undefined) ? `<a href="/discord_${name}.jad">JAD</a> - ` : '';
 
