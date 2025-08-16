@@ -47,9 +47,6 @@ implements CommandListener
         if (lastScreen == null || lastScreen.getTitle() != null) setTitle(title);
 
         fontHeight = ListScreen.font.getHeight();
-//#ifdef OVER_100KB
-        scrollUnit = fontHeight;
-//#endif
         commandCount = 0;
         DISMISS_COMMAND = new Command(okLabel, okLabelLong, Command.BACK, 0);
         super.addCommand(DISMISS_COMMAND);

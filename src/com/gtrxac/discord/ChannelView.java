@@ -76,7 +76,6 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
         fontHeight = App.messageFont.getHeight();
         authorFontHeight = App.authorFont.getHeight();
-        scrollUnit = fontHeight;
 
         addCommand(backCommand);
         addCommand(sendCommand);

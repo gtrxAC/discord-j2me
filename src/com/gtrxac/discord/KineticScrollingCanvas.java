@@ -5,7 +5,7 @@ import javax.microedition.lcdui.*;
 /**
  * Canvas with vertical scrolling support (kinetic/smooth scrolling when swiping + optional scroll bar)
  * Scrollable content can be drawn using the 'scroll' field as a vertical offset
- * For kinetic scrolling, make sure to define 'scrollUnit' (as e.g. the font height)
+ * If using this in a different app: For kinetic scrolling, make sure to define 'scrollUnit' (as e.g. the font height)
  */
 public abstract class KineticScrollingCanvas extends MyCanvas
 //#ifdef TOUCH_SUPPORT
@@ -21,20 +21,26 @@ implements Runnable
     private int totalScroll;
     private int totalScrollAbs;
 
-    public int scrollUnit;
-
+//#ifdef TOUCH_SUPPORT
+    public static int scrollUnit;
     protected int velocity;
     private long lastPointerTime;
     private int lastPointerY;
 
     public boolean usingScrollBar;
     private int lastScrollBarY;
+//#endif
+
     private static int scrollBarSize; 
     
     static {
+//#ifdef TOUCH_SUPPORT
         scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
 //#ifdef SAMSUNG_FULL
         if (Util.hasSamsungFontBug) scrollBarSize = scrollBarSize*5/2;
+//#endif
+//#else
+        scrollBarSize = Font.getDefaultFont().stringWidth("a");
 //#endif
     }
 
@@ -130,14 +136,14 @@ implements Runnable
             return;
         }
         // Start kinetic scrolling thread if finger was not held in place for too long
-        if (System.currentTimeMillis() <= lastPointerTime + 110 && Math.abs(velocity) > scrollUnit*4) {
+        if (System.currentTimeMillis() <= lastPointerTime + 110 && Math.abs(velocity) > Util.fontSize*4) {
             new Thread(this).start();
         }
     }
     
     // Kinetic scrolling thread
     public void run() {
-        int maxVel = scrollUnit*30;
+        int maxVel = Util.fontSize*30;
 
         while (Math.abs(velocity) > 1) {
             velocity = Math.min(Math.max(velocity, -maxVel), maxVel);
@@ -178,7 +184,12 @@ implements Runnable
         }
         // Draw scroll bar if it is set to always show, or if set to hidden and it's currently being dragged
         // Don't show scrollbar when pointer dragged to the very top/bottom, to avoid the scrollbar getting stuck visible (in hidden mode)
-        else if (showScrollbar || (usingScrollBar && lastScrollBarY > height/30 && lastScrollBarY < height*29/30)) {
+        else if (
+            showScrollbar
+//#ifdef TOUCH_SUPPORT
+            || (usingScrollBar && lastScrollBarY > height/30 && lastScrollBarY < height*29/30)
+//#endif
+        ) {
             int x = super.getWidth() - scrollBarSize;
             int barPos = getYFromScroll();
 

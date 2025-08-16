@@ -146,6 +146,10 @@ public class App implements Strings {
 		messageFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, fontSizes[Settings.messageFontSize]);
 		titleFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, fontSizes[Settings.messageFontSize]);
 
+//#ifdef TOUCH_SUPPORT
+		KineticScrollingCanvas.scrollUnit = messageFont.getHeight();
+//#endif
+
 		ListScreen.setAppearance(messageFont, Settings.menuIconSize, Locale.get(SELECT), Locale.get(SELECT_L), Locale.get(BACK), Locale.get(BACK_L));
 		ListScreen.noItemsString = Locale.get(LIST_EMPTY);
 		Dialog.okLabel = Locale.get(OK);

@@ -94,7 +94,6 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         Util.closeRecordStore(rms);
 
         scroll = getMinScroll();
-        scrollUnit = App.messageFont.getHeight();
     }
 
     private int getEmojiPerRow() {
@@ -280,7 +279,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
     }
 
     protected void pointerReleased(int x, int y) {
-        if (!pointerWasTapped(scrollUnit)) {
+        if (!pointerWasTapped(Util.fontSize)) {
             super.pointerReleased(x, y);
             return;
         }

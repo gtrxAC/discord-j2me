@@ -122,7 +122,6 @@ public class ListScreen extends KineticScrollingCanvas {
         itemImages = new Vector();
         selected = 0;
         scroll = minScroll;
-        scrollUnit = fontHeight;
 
         SELECT_COMMAND = new Command(selectLabel, selectLabelLong, Command.OK, 1);
         addCommand(SELECT_COMMAND);
@@ -237,6 +236,9 @@ public class ListScreen extends KineticScrollingCanvas {
         if (useRightItems) rightItems = new Vector();
         selected = 0;
         scroll = minScroll;
+//#ifdef TOUCH_SUPPORT
+        velocity = 0;  // stop any kinetic scrolling
+//#endif
         repaint();
     }
 

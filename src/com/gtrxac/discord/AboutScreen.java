@@ -101,7 +101,6 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
 
         logoY = getHeight()/2 - logoSize/2;
 
-        scrollUnit = Util.fontSize;
         AboutScreenItem.titleColor = 0x000000;
         AboutScreenItem.contentColor = 0x000000;
 
@@ -263,7 +262,12 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
 
             while (App.disp.getCurrent() == this) {
                 long time = System.currentTimeMillis();
-                boolean autoScroll = (velocity <= 1 && !usingScrollBar && AboutScreenItem.titleColor == 0xFFFFFF);
+                boolean autoScroll =
+                    AboutScreenItem.titleColor == 0xFFFFFF
+//#ifdef TOUCH_SUPPORT
+                    && velocity <= 1 && !usingScrollBar
+//#endif
+                    ;
 
                 while (updateTimer > 20) {
                     update();
