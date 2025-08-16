@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import java.io.*;
@@ -38,4 +38,4 @@ public class HeartbeatThread extends Thread implements Strings {
         }
     }
 }
-// endif
+//#endif

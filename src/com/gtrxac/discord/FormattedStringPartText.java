@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -32,4 +32,4 @@ public class FormattedStringPartText extends FormattedStringPart {
     //     return "text (" + content + ")";
     // }
 }
-// endif
+//#endif

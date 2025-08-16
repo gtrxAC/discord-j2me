@@ -1,4 +1,4 @@
-// ifdef OLD_ABOUT_SCREEN
+//#ifdef OLD_ABOUT_SCREEN
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -62,9 +62,9 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addString(Locale.get(ABOUT_DEVELOPERS), Font.SIZE_MEDIUM, LAYOUT_CENTER);
         addDeveloper("gtrxAC", LEAD_DEVELOPER);
         addDeveloper("Shinovon", WHAT_SHINOVON_DID);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         addDeveloper("AeroPurple", WHAT_AEROPURPLE_DID);
-        // endif
+//#endif
         addSpacer();
 
         addString(Locale.get(ABOUT_TRANSLATORS), Font.SIZE_MEDIUM, LAYOUT_CENTER);
@@ -104,4 +104,4 @@ public class AboutForm extends Form implements CommandListener, Strings {
         App.disp.setCurrent(MainMenu.get(false));
     }
 }
-// endif
+//#endif

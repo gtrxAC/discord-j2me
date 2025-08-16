@@ -28,10 +28,10 @@ function preprocessFile(inputFile) {
   }
 
   rl.on('line', (line) => {
-    lineTrim = line.trim();
+    lineTrim = line.trimEnd();
 
-    // Check for //ifdef
-    if (/^\/\/\s*ifdef\s+\S+$/.test(lineTrim)) {
+    // Check for //#ifdef
+    if (/^\/\/#ifdef\s+\S+$/.test(lineTrim)) {
       const lineWords = lineTrim.split(/\s+/g);
       const defineName = lineWords[lineWords.length - 1];
       
@@ -47,8 +47,25 @@ function preprocessFile(inputFile) {
       return;
     }
 
-    // Check for //else
-    if (/^\/\/\s*else/.test(lineTrim)) {
+    // Check for //#ifndef (same as ifdef, but inverse condition)
+    if (/^\/\/#ifndef\s+\S+$/.test(lineTrim)) {
+      const lineWords = lineTrim.split(/\s+/g);
+      const defineName = lineWords[lineWords.length - 1];
+      
+      // Determine if we should skip this block based on the define
+      const isActiveBlock = !defineSet.has(defineName) && !shouldSkip;
+      skipStack.push(isActiveBlock);
+
+      // Update shouldSkip based on this block
+      shouldSkip = shouldSkip || !isActiveBlock;
+
+      // Write empty line (so that error messages will have the correct line number)
+      emptyLine();
+      return;
+    }
+
+    // Check for //#else
+    if (/^\/\/#else/.test(lineTrim)) {
       if (skipStack.length > 0) {
         skipStack.push(!skipStack.pop());
         shouldSkip = skipStack.some((skip) => !skip);
@@ -58,10 +75,10 @@ function preprocessFile(inputFile) {
       return;
     }
 
-    // Check for //endif
-    if (/^\/\/\s*endif/.test(lineTrim)) {
+    // Check for //#endif
+    if (/^\/\/#endif/.test(lineTrim)) {
       if (skipStack.length > 0) {
-        skipStack.pop(); // Pop the last //ifdef context
+        skipStack.pop(); // Pop the last //#ifdef context
 
         // Update shouldSkip to reflect the new stack state
         shouldSkip = skipStack.some((skip) => !skip);

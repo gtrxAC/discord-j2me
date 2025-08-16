@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -30,4 +30,4 @@ public class FormattedStringPartMonospace extends FormattedStringPartRichText {
     //     return "monospace (" + content + ")";
     // }
 }
-// endif
+//#endif

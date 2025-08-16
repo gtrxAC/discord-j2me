@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -29,4 +29,4 @@ public class PlatformRequestDialog extends Dialog implements Strings {
         }
     }
 }
-// endif
+//#endif

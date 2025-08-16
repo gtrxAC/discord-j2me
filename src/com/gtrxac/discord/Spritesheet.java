@@ -10,9 +10,9 @@ public class Spritesheet {
     private int y;
 
     public
-    // ifdef SAMSUNG_100KB
+//#ifdef SAMSUNG_100KB
     static final
-    // endif
+//#endif
     int blockSize = 16;
 
     /**

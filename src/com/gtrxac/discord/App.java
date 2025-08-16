@@ -13,36 +13,36 @@ public class App implements Strings {
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =
-	// ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
 	"midp2";
-	// endif
-	// ifdef NOKIA_128PX_VERSION
+//#endif
+//#ifdef NOKIA_128PX_VERSION
 	"nokia_128px";
-	// endif
-	// ifdef S40V2
+//#endif
+//#ifdef S40V2
 	"s40v2";
-	// endif
-	// ifdef MIDP2_ALT
+//#endif
+//#ifdef MIDP2_ALT
 	"midp2_alt";
-	// endif
-	// ifdef S60V2
+//#endif
+//#ifdef S60V2
 	"s60v2";
-	// endif
-	// ifdef BLACKBERRY
+//#endif
+//#ifdef BLACKBERRY
 	"blackberry";
-	// endif
-	// ifdef SAMSUNG_FULL
+//#endif
+//#ifdef SAMSUNG_FULL
 	"samsung";
-	// endif
-	// ifdef SAMSUNG_100KB
+//#endif
+//#ifdef SAMSUNG_100KB
 	"samsung_100kb";
-	// endif
-	// ifdef LG
+//#endif
+//#ifdef LG
 	"lg";
-	// endif
-	// ifdef J2ME_LOADER
+//#endif
+//#ifdef J2ME_LOADER
 	"jl";
-	// endif
+//#endif
 
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
@@ -150,24 +150,24 @@ public class App implements Strings {
 		ListScreen.noItemsString = Locale.get(LIST_EMPTY);
 		Dialog.okLabel = Locale.get(OK);
 		Dialog.okLabelLong = Locale.get(OK_L);
-		// ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
 		FormattedStringPartEmoji.loadEmoji(messageFont.getHeight());
-        // endif
+//#endif
 
-		// ifdef NOKIA_THEME_BACKGROUND
+//#ifdef NOKIA_THEME_BACKGROUND
         if (Settings.theme != Theme.SYSTEM)
-		// endif
+//#endif
         ChannelViewItem.drawUnreadIndicatorImage(null, 0, 0);
 	}
 
 	// Required for Wi-Fi support on BlackBerry
 	// See https://github.com/shinovon/JTube/blob/670ea59a94d6b5be8af53d94d7804b2d35b64e52/src/jtube/Util.java#L521
 	public static String getPlatformSpecificUrl(String url) {
-		// ifdef BLACKBERRY
+//#ifdef BLACKBERRY
 		if (Settings.bbWifi) {
 			return url + ";deviceside=true;interface=wifi";
 		}
-		// endif
+//#endif
 		return url;
 	}
 
@@ -189,13 +189,13 @@ public class App implements Strings {
 		if (Settings.highRamMode) reload = false;
 		
 		if (reload || forceReload || guildSelector == null || guilds == null) {
-			// ifdef OVER_100KB
+//#ifdef OVER_100KB
 			HTTPThread h = new HTTPThread(HTTPThread.FETCH_GUILDS);
 			h.forceReload = forceReload;
 			h.start();
-			// else
+//#else
 			new HTTPThread(HTTPThread.FETCH_GUILDS).start();
-			// endif
+//#endif
 		} else {
 			try {
 				if (guildSelector.isFavGuilds) {
@@ -309,11 +309,11 @@ public class App implements Strings {
 	public static void platRequest(String url) {
 		try {
 			if (DiscordMIDlet.instance.platformRequest(url)) {
-				// ifdef OVER_100KB
+//#ifdef OVER_100KB
 				disp.setCurrent(new PlatformRequestDialog());
-				// else
+//#else
 				error(Locale.get(PLAT_REQUEST_FAILED));
-				// endif
+//#endif
 			}
 		}
 		catch (Exception e) {
@@ -326,7 +326,7 @@ public class App implements Strings {
 		}
 	}
 
-	// ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
 	public static void gatewayToggleGuildEmoji() {
 		if (gatewayActive()) {
 			JSONObject msg = new JSONObject();
@@ -336,9 +336,9 @@ public class App implements Strings {
 			gateway.send(msg);
 		}
 	}
-	// endif
+//#endif
 
-	// ifdef OVER_100KB
+//#ifdef OVER_100KB
 	public static void gatewaySendTyping() {
 		if (gatewayActive() && Settings.sendTyping) {
 			JSONObject msg = new JSONObject();
@@ -348,7 +348,7 @@ public class App implements Strings {
 			gateway.send(msg);
 		}
 	}
-	// endif
+//#endif
 
     public static Displayable createTextEntryScreen(Message recipientMsg, String fileName, FileConnection fc) {
         if (recipientMsg != null) {

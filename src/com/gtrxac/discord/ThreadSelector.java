@@ -7,9 +7,9 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
     private Command refreshCommand;
     private Command markThreadReadCommand;
     private Command markAllReadCommand;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     private Command muteCommand;
-    // endif
+//#endif
 
     public ThreadSelector() throws Exception {
         super("#" + App.selectedChannelForThreads.name, true, true, false);
@@ -23,17 +23,17 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
         markThreadReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 3);
         markAllReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 4);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         muteCommand = Locale.createCommand(MUTE, Command.ITEM, 5);
-        // endif
+//#endif
         addCommand(refreshCommand);
 
         if (App.threads.size() > 0) {
             addCommand(markThreadReadCommand);
             addCommand(markAllReadCommand);
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             addCommand(muteCommand);
-            // endif
+//#endif
         }
     }
 
@@ -78,12 +78,12 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
                 App.selectedChannel = ch;
                 App.openChannelView(true);
             }
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             else if (c == muteCommand) {
                 FavoriteGuilds.toggleMute(ch.id);
                 update(ch.id);
             }
-            // endif
+//#endif
             else {
                 // 'mark as read' command
                 ch.markRead();

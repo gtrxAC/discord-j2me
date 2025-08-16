@@ -6,9 +6,9 @@ import javax.microedition.io.file.*;
 public class MessageBox extends TextBox implements CommandListener, Strings {
     private Command sendCommand;
     private Command addMentionCommand;
-    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
     private Command addEmojiCommand;
-    // endif
+//#endif
     private Command backCommand;
 
     private String attachName;
@@ -16,9 +16,9 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
 
     private Message editMessage;  // message that is being edited, or null if writing a new message
 
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     public boolean showedPreviewScreen = false;
-    // endif
+//#endif
 
     private void init(int sendCommandLabel) {
         setCommandListener(this);
@@ -26,19 +26,19 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         sendCommand = Locale.createCommand(sendCommandLabel, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
         addMentionCommand = Locale.createCommand(INSERT_MENTION, Command.ITEM, 2);
-        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
         addEmojiCommand = Locale.createCommand(INSERT_EMOJI, Command.ITEM, 3);
-        // endif
+//#endif
 
         addCommand(sendCommand);
         addCommand(backCommand);
         if (!App.isDM) addCommand(addMentionCommand);
-        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
         addCommand(addEmojiCommand);
-        // endif
-        // ifdef OVER_100KB
+//#endif
+//#ifdef OVER_100KB
         App.gatewaySendTyping();
-        // endif
+//#endif
     }
 
     public MessageBox() {
@@ -88,11 +88,11 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         } else {
             h = new HTTPThread(HTTPThread.SEND_MESSAGE);
         }
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         // Bypass proxy-side upload warning which was previously done by manually adding a # at the start of the message
         if (attachName != null) h.sendMessage = "#" + msg;
         else
-        // endif
+//#endif
         h.sendMessage = msg;
         
         h.sendReference = refID;
@@ -113,14 +113,14 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
             }
         }
         else if (c == backCommand) {
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             if (!showedPreviewScreen) {
                 try {
                     attachFc.close();
                 }
                 catch (Throwable e) {}
             }
-            // endif
+//#endif
             App.openChannelView(false);
         }
         else if (c == addMentionCommand) {
@@ -130,11 +130,11 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
             }
             App.disp.setCurrent(new MentionForm());
         }
-        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
         else {
             // add emoji command
             EmojiPicker.show();
         }
-        // endif
+//#endif
     }
 }

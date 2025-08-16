@@ -21,39 +21,39 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
     private static final int[][] maxValues = {
         {
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             4,
-            // else
+//#else
             2,
-            // endif            
+//#endif            
             2, 2, 1, 1, 1, 1,
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             1,
-            // endif
+//#endif
         },
         {
             1, 10000, 3, 2, 255, 1,
-            // ifdef OVER_100KB    
+//#ifdef OVER_100KB    
             1,
-            // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
             2,
-            // endif
-            // endif
+//#endif
+//#endif
         },
         {
             100, 1, 1, 1, 1, 1, 2, 2,
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             1, 1,
-            // endif
+//#endif
         },
         {
             1, 1, 1, 1, 1, 1,
-            // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
             1,
-            // endif
-            // ifdef NOKIA_UI_SUPPORT
+//#endif
+//#ifdef NOKIA_UI_SUPPORT
             1,
-            // endif
+//#endif
         },
     };
 
@@ -75,9 +75,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             Locale.get(SETTINGS_SECTION_BEHAVIOR),
             Locale.get(SETTINGS_SECTION_NOTIFICATIONS),
             Locale.get(SETTINGS_SECTION_LANGUAGE),
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             Locale.get(DATA_MANAGER_TITLE),
-            // endif
+//#endif
         };
 
         labels = new String[][] {
@@ -90,9 +90,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(USE_12H_TIME),
                 Locale.get(NAME_COLORS),
                 Locale.get(FULLSCREEN_DEFAULT),
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 Locale.get(TEXT_FORMATTING),
-                // endif
+//#endif
             }, {
                 // Images
                 Locale.get(SETTINGS_SECTION_IMAGE_FORMAT),
@@ -101,12 +101,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(SETTINGS_SECTION_PFP_RESOLUTION),
                 Locale.get(SETTINGS_SECTION_MENU_ICONS),
                 Locale.get(GUILD_ICONS),
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 Locale.get(FILE_PREVIEW),
-                // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                 Locale.get(SHOW_EMOJI),
-                // endif
-                // endif
+//#endif
+//#endif
             }, {
                 // Behavior
                 Locale.get(SETTINGS_SECTION_MESSAGE_COUNT),
@@ -117,10 +117,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(REMAP_HOTKEYS_L),
                 Locale.get(SHOW_SCROLLBAR),
                 Locale.get(AUTO_UPDATE),
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 Locale.get(SEND_TYPING),
                 Locale.get(FAST_SCROLLING),
-                // endif
+//#endif
             }, {
                 // Notifications
                 Locale.get(NOTIFICATIONS_ALL),
@@ -129,16 +129,16 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(NOTIFICATIONS_ALERT),
                 Locale.get(NOTIFICATIONS_SOUND),
                 Locale.get(NOTIFICATIONS_VIBRATE),
-                // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
                 Locale.get(NOTIFICATIONS_PIGLER),
-                // endif
+//#endif
                 // The below two are for the same option, Nokia UI notifications. Only one of these defines is ever defined.
-                // ifdef NOKIA_UI_ICON
+//#ifdef NOKIA_UI_ICON
                 Locale.get(NOTIFICATIONS_NOKIA_UI),
-                // endif
-                // ifdef J2ME_LOADER
+//#endif
+//#ifdef J2ME_LOADER
                 Locale.get(NOTIFICATIONS_ANDROID),
-                // endif
+//#endif
             },
         };
 
@@ -147,9 +147,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // Appearance
                 {
                     App.ic.themeDark, App.ic.themeLight, App.ic.themeBlack,
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     App.ic.settings, App.ic.themeCustom
-                    // endif
+//#endif
                 },
                 { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
                 { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
@@ -157,9 +157,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.use12h },
                 { App.ic.nameColorsOff, App.ic.nameColors },
                 { App.ic.fullscreen },
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 { App.ic.markdown }
-                // endif
+//#endif
             }, {
                 // Images
                 { App.ic.attachFormat },
@@ -168,12 +168,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.pfpPlaceholder, App.ic.pfp16, App.ic.pfp32 },
                 { App.ic.iconSize },
                 { App.ic.menuIcons },
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 { App.ic.attachFormat },
-                // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                 { App.ic.emoji }
-                // endif
-                // endif
+//#endif
+//#endif
             }, {
                 // Behavior
                 { App.ic.msgCount },
@@ -184,10 +184,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.keys },
                 { App.ic.scrollBars },
                 { App.ic.autoUpdate },
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 { App.ic.typing },
                 { App.ic.fastScroll },
-                // endif
+//#endif
             }, {
                 // Notifications
                 { App.ic.msgCount },
@@ -196,16 +196,16 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.notifyAlert },
                 { App.ic.notifySound },
                 { App.ic.vibra },
-                // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
                 { App.ic.pigler },
-                // endif
+//#endif
                 // The below two are for the same option, Nokia UI notifications. Only one of these defines is ever defined.
-                // ifdef NOKIA_UI_ICON
+//#ifdef NOKIA_UI_ICON
                 { App.ic.nokiaUI },
-                // endif
-                // ifdef J2ME_LOADER
+//#endif
+//#ifdef J2ME_LOADER
                 { App.ic.android }
-                // endif
+//#endif
             }
         };
         String[] boolValues = { Locale.get(SETTING_VALUE_OFF), Locale.get(SETTING_VALUE_ON) };
@@ -215,9 +215,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 // Appearance
                 {
                     Locale.get(THEME_DARK), Locale.get(THEME_LIGHT), Locale.get(THEME_BLACK),
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     Locale.get(THEME_SYSTEM), Locale.get(THEME_CUSTOM),
-                    // endif
+//#endif
                 },
                 { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
                 { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
@@ -225,9 +225,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolValues,
                 boolValues,
                 boolValues,
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 boolValues
-                // endif
+//#endif
             }, {
                 // Images
                 { "PNG", "JPEG" },
@@ -236,12 +236,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { Locale.get(PFP_PLACEHOLDER), Locale.get(PFP_16PX), Locale.get(PFP_32PX) },
                 { Locale.get(SETTING_VALUE_OFF) },
                 boolValues,
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 boolValues,
-                // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(SHOW_EMOJI_DEFAULT_ONLY), Locale.get(SHOW_EMOJI_ALL) }
-                // endif
-                // endif
+//#endif
+//#endif
             }, {
                 // Behavior
                 { "0" },
@@ -252,10 +252,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 null,
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(SCROLLBAR_WHEN_NEEDED), Locale.get(SCROLLBAR_PERMANENT) },
                 { Locale.get(SETTING_VALUE_OFF), Locale.get(RELEASES_ONLY), Locale.get(AUTO_UPDATE_ALL_STR) },
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 boolValues,
                 boolValues,
-                // endif
+//#endif
             }, {
                 // Notifications
                 boolValues,
@@ -264,12 +264,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolValues,
                 boolValues,
                 boolValues,
-                // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
                 boolValues,
-                // endif
-                // ifdef NOKIA_UI_SUPPORT
+//#endif
+//#ifdef NOKIA_UI_SUPPORT
                 boolValues,
-                // endif
+//#endif
             }
         };
         values = new int[][] {
@@ -282,9 +282,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.use12hTime ? 1 : 0,
                 Settings.useNameColors ? 1 : 0,
                 Settings.fullscreenDefault ? 1 : 0,
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 FormattedString.useMarkdown ? 1 : 0
-                // endif
+//#endif
             }, {
                 // Images
                 Settings.useJpeg ? 1 : 0,
@@ -293,12 +293,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.pfpSize,
                 Settings.menuIconSize,
                 Settings.showMenuIcons ? 1 : 0,
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 Settings.useFilePreview ? 1 : 0,
-                // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                 FormattedString.emojiMode
-                // endif
-                // endif
+//#endif
+//#endif
             }, {
                 // Behavior
                 Settings.messageLoadCount,
@@ -309,10 +309,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 0,
                 KineticScrollingCanvas.scrollBarMode,
                 Settings.autoUpdate,
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 Settings.sendTyping ? 1 : 0,
                 KeyRepeatThread.enabled ? 1 : 0,
-                // endif
+//#endif
             }, {
                 // Notifications
                 Settings.showNotifsAll ? 1 : 0, 
@@ -321,12 +321,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.showNotifAlert ? 1 : 0,
                 Settings.playNotifSound ? 1 : 0,
                 Settings.playNotifVibra ? 1 : 0,
-                // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
                 Settings.showNotifPigler ? 1 : 0,
-                // endif
-                // ifdef NOKIA_UI_SUPPORT
+//#endif
+//#ifdef NOKIA_UI_SUPPORT
                 Settings.showNotifNokiaUI ? 1 : 0,
-                // endif
+//#endif
             }
         };
         showMainScreen();
@@ -334,14 +334,14 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
     // Gets settings value index that should be changed based on selected menu item index
     private int getItemIndex(int item) {
-        // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
         // Pigler API not supported on device - 6th item in notifs menu corresponds to 7th setting
         if (isInSubmenu && currentSection == 3 && item == 6 && !Util.supportsPigler) return 7;
-        // endif
-        // ifdef MIDP2_GENERIC
+//#endif
+//#ifdef MIDP2_GENERIC
         // KEmu is always fullscreen - 6th item in appearance menu corresponds to 7th setting
         if (isInSubmenu && currentSection == 0 && item == 6 && Util.isKemulator) return 7;
-        // endif
+//#endif
         return item;
     }
 
@@ -408,9 +408,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         append(sectionNames[2], App.ic.uiGroup);
         append(sectionNames[3], App.ic.notify);
         append(sectionNames[4], App.ic.language);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         append(sectionNames[5], App.ic.dataManager);
-        // endif
+//#endif
 
         setSelectedIndex(currentSection, true);
     }
@@ -426,26 +426,26 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
         deleteAll();
         int nokiaUIOptionIndex = 6;
-        // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
         nokiaUIOptionIndex++;
-        // endif
+//#endif
         for (int i = 0; i < labels[index].length; i++) {
             if (index == 3) {
                 // Pigler API option is only shown on devices that support said API
-                // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
                 if (i == 6 && !Util.supportsPigler) continue;
-                // endif
+//#endif
                 // Same for Nokia UI API
-                // ifdef NOKIA_UI_SUPPORT
+//#ifdef NOKIA_UI_SUPPORT
                 if (i == nokiaUIOptionIndex && !Util.supportsNokiaUINotifs) {
                     continue;
                 }
-                // endif
+//#endif
             }
             // Fullscreen option hidden on KEmu
-            // ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
             if (index == 0 && i == 6 && Util.isKemulator) continue;
-            // endif
+//#endif
             
             append(labels[index][i], getValueLabel(index, i), getIcon(index, i), ListScreen.INDICATOR_NONE);
         }
@@ -511,11 +511,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 if (selected == 4) {
                     App.disp.setCurrent(new LanguageSelector());
                 }
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 else if (selected == 5) {
                     App.disp.setCurrent(new DataManagerScreen());
                 }
-                // endif
+//#endif
                 else {
                     showSectionScreen(selected);
                 }
@@ -549,9 +549,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.use12hTime = values[0][4] == 1;
                 Settings.useNameColors = values[0][5] == 1;
                 Settings.fullscreenDefault = values[0][6] == 1;
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 FormattedString.useMarkdown = values[0][7] == 1;
-                // endif
+//#endif
 
                 Settings.useJpeg = values[1][0] == 1;
                 Settings.attachmentSize = values[1][1];
@@ -559,13 +559,13 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.pfpSize = values[1][3];
                 Settings.menuIconSize = values[1][4];
                 Settings.showMenuIcons = values[1][5] == 1;
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 Settings.useFilePreview = values[1][6] == 1;
-                // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                 FormattedString.emojiMode = values[1][7];
                 App.gatewayToggleGuildEmoji();
-                // endif
-                // endif
+//#endif
+//#endif
 
                 Settings.messageLoadCount = values[2][0];
                 Settings.highRamMode = values[2][1] == 1;
@@ -574,10 +574,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.defaultHotkeys = values[2][4] == 1;
                 KineticScrollingCanvas.scrollBarMode = values[2][6];
                 Settings.autoUpdate = values[2][7];
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 Settings.sendTyping = values[2][8] == 1;
                 KeyRepeatThread.toggle(values[2][9] == 1);
-                // endif
+//#endif
 
                 Settings.showNotifsAll = values[3][0] == 1;
                 Settings.showNotifsPings = values[3][1] == 1;
@@ -586,13 +586,13 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.playNotifSound = values[3][4] == 1;
                 Settings.playNotifVibra = values[3][5] == 1;
                 int index = 6;
-                // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
                 Settings.showNotifPigler = values[3][index] == 1;
                 index++;
-                // endif
-                // ifdef NOKIA_UI_SUPPORT
+//#endif
+//#ifdef NOKIA_UI_SUPPORT
                 Settings.showNotifNokiaUI = values[3][index] == 1;
-                // endif
+//#endif
 
                 // Unload server and DM lists if needed, so the icons and font-based layout metrics get refreshed
                 if (reloadIcons || fontSizeChanged) {
@@ -609,9 +609,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     }
                 }
 
-                // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
                 if (App.gatewayActive()) App.gateway.checkInitPigler();
-                // endif
+//#endif
                 Settings.save();
                 Theme.load();
                 App.loadFonts();

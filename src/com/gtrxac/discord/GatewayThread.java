@@ -7,29 +7,29 @@ import javax.microedition.lcdui.*;
 import javax.microedition.media.*;
 import javax.microedition.rms.*;
 
-// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 import org.pigler.tester.*;
-// endif
+//#endif
 
-// ifdef NOKIA_UI_SUPPORT
+//#ifdef NOKIA_UI_SUPPORT
 import com.nokia.mid.ui.*;
-// endif
+//#endif
 
 import cc.nnproject.json.*;
 
 public class GatewayThread extends Thread implements Strings
-// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 , PiglerAPIHandlerLayer
-// endif
+//#endif
 {
 	volatile boolean stop;
 	volatile String stopMessage;
 
-	// ifdef OVER_100KB
+//#ifdef OVER_100KB
 	private HeartbeatThread hbThread;
-	// else
+//#else
 	private Threads100kb hbThread;
-	// endif
+//#endif
 
 	private SocketConnection sc;
 	private InputStream is;
@@ -37,7 +37,7 @@ public class GatewayThread extends Thread implements Strings
 
 	private static int reconnectAttempts;
 
-	// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 	private static Image appIcon;
 	private static PiglerAPILayer pigler;
 	private static boolean piglerInitFailed;
@@ -47,7 +47,7 @@ public class GatewayThread extends Thread implements Strings
 	 * Pigler notification UID -> Notification object
 	 */
 	public static Hashtable piglerNotifs;
-	// endif
+//#endif
 
 	public GatewayThread() {
 		App.subscribedGuilds = new Vector();
@@ -71,11 +71,11 @@ public class GatewayThread extends Thread implements Strings
 			App.gateway = new GatewayThread();
 			App.gateway.start();
 		} else {
-			// ifdef OVER_100KB
+//#ifdef OVER_100KB
 			App.disp.setCurrent(new ReconnectDialog(message));
-			// else
+//#else
 			App.disp.setCurrent(new Dialogs100kb(message));
-			// endif
+//#endif
 		}
 	}
 
@@ -122,12 +122,12 @@ public class GatewayThread extends Thread implements Strings
 		boolean isDM = (guildID == null);
 		boolean isPing = isPing(msgData);
 
-		// ifdef OVER_100KB
+//#ifdef OVER_100KB
 		boolean isMutedGuild = isDM ? false : FavoriteGuilds.isMuted(guildID);
 		boolean isMuted = isMutedGuild || FavoriteGuilds.isMuted(channelID);
-		// else
+//#else
 		final boolean isMuted = false;
-		// endif
+//#endif
 
 		// All notifications enabled - always notify except for muted messages that aren't mentions.
 		if (Settings.showNotifsAll) return !isMuted || isPing;
@@ -200,14 +200,14 @@ public class GatewayThread extends Thread implements Strings
 		Notification notif = new Notification(guildID, channelID);
 
 		if (Settings.showNotifAlert) {
-			// ifdef OVER_100KB
+//#ifdef OVER_100KB
 			App.disp.setCurrent(new NotificationDialog(notif, location, msg));
-			// else
+//#else
 			App.disp.setCurrent(new Dialogs100kb(notif, location, msg));
-			// endif
+//#endif
 		}
 		
-		// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 		synchronized (piglerLock) {
 			if (Settings.showNotifPigler && pigler != null) {
 				try {
@@ -222,9 +222,9 @@ public class GatewayThread extends Thread implements Strings
 				catch (Exception e) {}
 			}
 		}
-		// endif
+//#endif
 
-		// ifdef NOKIA_UI_SUPPORT
+//#ifdef NOKIA_UI_SUPPORT
 		if (Settings.showNotifNokiaUI && Util.supportsNokiaUINotifs) {
 			try {
 				SoftNotification sn = SoftNotification.newInstance();
@@ -236,10 +236,10 @@ public class GatewayThread extends Thread implements Strings
 			}
 			catch (Throwable e) {}
 		}
-		// endif
+//#endif
 	}
 
-	// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 	public void checkInitPigler() {
 		synchronized (piglerLock) {
 			if (Settings.showNotifPigler) {
@@ -289,11 +289,11 @@ public class GatewayThread extends Thread implements Strings
 		piglerNotifs.remove(uidObject);
 		notif.view();
 	}
-	// endif
+//#endif
 
 	public void playNotificationSound() {
 		if (Settings.playNotifSound) {
-			// ifdef OVER_100KB
+//#ifdef OVER_100KB
 			RecordStore rms = null;
 			InputStream is = null;
 			String fileName = "/notify.mid";
@@ -314,9 +314,9 @@ public class GatewayThread extends Thread implements Strings
 			catch (Exception e) {
 				AlertType.ALARM.playSound(App.disp);
 			}
-			// else
+//#else
 			AlertType.ALARM.playSound(App.disp);
-			// endif
+//#endif
 		}
 		if (Settings.playNotifVibra) {
 			App.disp.vibrate(1000);
@@ -325,19 +325,19 @@ public class GatewayThread extends Thread implements Strings
 
 	public void run() {
 		try {
-			// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 			checkInitPigler();
-			// endif
+//#endif
 
 			sc = (SocketConnection) Connector.open(App.getPlatformSpecificUrl(Settings.gatewayUrl));
 
 			// Not supported on JBlend (e.g. some Samsungs)
-			// ifdef OVER_100KB
+//#ifdef OVER_100KB
 			try {
 				sc.setSocketOption(SocketConnection.KEEPALIVE, 1);
 			}
 			catch (Exception e) {}
-			// endif
+//#endif
 
 			is = sc.openInputStream();
 			os = sc.openOutputStream();
@@ -403,9 +403,9 @@ public class GatewayThread extends Thread implements Strings
 							App.channelView.bannerText = null;
 							App.channelView.repaint();
 						}
-						// ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
 						App.gatewayToggleGuildEmoji();
-						// endif
+//#endif
 					}
 					else if (op.equals("GATEWAY_DISCONNECT")) {
 						String reason = message.getObject("d").getString("message");
@@ -434,9 +434,9 @@ public class GatewayThread extends Thread implements Strings
 
 								if (
 									Settings.showNotifAlert
-									// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 									|| Settings.showNotifPigler
-									// endif
+//#endif
 								) handleNotification(msgData);
 							}
 
@@ -554,9 +554,9 @@ public class GatewayThread extends Thread implements Strings
 
 							msg.content = newContent;
 							msg.needUpdate = true;
-							// ifdef OVER_100KB
+//#ifdef OVER_100KB
 							msg.isEdited = true;
-							// endif
+//#endif
 
 							App.channelView.requestUpdate(true, false);
 							App.channelView.repaint();
@@ -585,11 +585,11 @@ public class GatewayThread extends Thread implements Strings
 							App.typingUserIDs.addElement("0");
 
 							// Remove the name from the typing list after 10 seconds
-							// ifdef OVER_100KB
+//#ifdef OVER_100KB
 							new StopTypingThread("0").start();
-							// else
+//#else
 							new Threads100kb("0").start();
-							// endif
+//#endif
 						} else {
 							if (!channel.equals(App.selectedChannel.id)) continue;
 
@@ -612,11 +612,11 @@ public class GatewayThread extends Thread implements Strings
 								App.typingUsers.addElement(author);
 								App.typingUserIDs.addElement(id);
 
-								// ifdef OVER_100KB
+//#ifdef OVER_100KB
 								new StopTypingThread(id).start();
-								// else
+//#else
 								new Threads100kb(id).start();
-								// endif
+//#endif
 							}
 							catch (Exception e) {}
 						}
@@ -671,11 +671,11 @@ public class GatewayThread extends Thread implements Strings
 				}
 				else if (message.getInt("op", 0) == 10) {
 					int heartbeatInterval = message.getObject("d").getInt("heartbeat_interval");
-					// ifdef OVER_100KB
+//#ifdef OVER_100KB
 					hbThread = new HeartbeatThread(heartbeatInterval);
-					// else
+//#else
 					hbThread = new Threads100kb(heartbeatInterval);
-					// endif
+//#endif
 					hbThread.start();
 
 					// Identify

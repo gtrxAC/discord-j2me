@@ -7,11 +7,11 @@ import javax.microedition.lcdui.*;
  * Canvas-based replacement for LCDUI Alert.
  */
 public class Dialog
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 extends KineticScrollingCanvas
-// else
+//#else
 extends MyCanvas
-// endif
+//#endif
 implements CommandListener
 {
     public static String okLabel;
@@ -23,9 +23,9 @@ implements CommandListener
     public Displayable lastScreen;
     public Displayable nextScreen;
     private int fontHeight;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     private boolean isScrollable;
-    // endif
+//#endif
 
     public Command DISMISS_COMMAND;
     private int commandCount;
@@ -47,9 +47,9 @@ implements CommandListener
         if (lastScreen == null || lastScreen.getTitle() != null) setTitle(title);
 
         fontHeight = ListScreen.font.getHeight();
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         scrollUnit = fontHeight;
-        // endif
+//#endif
         commandCount = 0;
         DISMISS_COMMAND = new Command(okLabel, okLabelLong, Command.BACK, 0);
         super.addCommand(DISMISS_COMMAND);
@@ -66,7 +66,7 @@ implements CommandListener
         }
     }
 
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     protected int getMinScroll() {
         return 0;
     }
@@ -75,7 +75,7 @@ implements CommandListener
         if (!isScrollable) return 0;
         return (textLines.length + 2)*fontHeight - getHeight();
     }
-    // endif
+//#endif
 
     public int getContentWidth() {
         return Math.min(getWidth(), fontHeight*20);
@@ -102,16 +102,16 @@ implements CommandListener
 
     protected void sizeChanged(int w, int h) {
         this.textLines = Util.wordWrap(text, getContentWidth() - fontHeight*2, ListScreen.font);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         this.isScrollable = (textLines.length*fontHeight > getHeight() - fontHeight/2);
-        // endif
+//#endif
         repaint();
     }
 
     protected void paint(Graphics g) {
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         checkScrollInRange();
-        // endif
+//#endif
 
         g.setClip(0, 0, getWidth(), getHeight());
         int themeBg = Theme.dialogBackgroundColor;
@@ -129,9 +129,9 @@ implements CommandListener
             // When changing screen size, the _paint() method will keep using the old width/height.
             // There may be a proper fix for this, but for now, we just fill the background with the theme
             // background color (so at least there isn't a white background)
-            // ifdef NOKIA_THEME_BACKGROUND
+//#ifdef NOKIA_THEME_BACKGROUND
             if (Settings.theme != Theme.SYSTEM)
-            // endif
+//#endif
             {
                 g.setColor(themeBg);
                 g.fillRect(0, 0, getWidth(), getHeight());
@@ -165,9 +165,9 @@ implements CommandListener
         // Centered card with actual theme background color
         int baseX = (getWidth() - getContentWidth())/2;
         int y =
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             isScrollable ? fontHeight - scroll :
-            // endif
+//#endif
             getHeight()/2 - textLines.length*fontHeight/2;
         
         g.setColor(themeBg);
@@ -187,9 +187,9 @@ implements CommandListener
             y += fontHeight;
         }
 
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         drawScrollbar(g);
-        // endif
+//#endif
     }
 
     public void setCommandListener(CommandListener l) {
@@ -204,7 +204,7 @@ implements CommandListener
         }
     }
     
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     protected void keyAction(int keycode) {
         if (!isScrollable) return;
 
@@ -220,5 +220,5 @@ implements CommandListener
         }
         repaint();
     }
-    // endif
+//#endif
 }

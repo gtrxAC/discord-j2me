@@ -75,7 +75,7 @@ public class IconResizeThread extends Thread {
             Image resized;
             int width, height;
 
-            // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
             boolean isEmoji = (target instanceof FormattedStringPartGuildEmoji);
 
             if (isEmoji) {
@@ -83,7 +83,7 @@ public class IconResizeThread extends Thread {
                 width = newSize[0];
                 height = newSize[1];
             } else
-            // endif
+//#endif
             {
                 width = size;
                 height = size;
@@ -98,9 +98,9 @@ public class IconResizeThread extends Thread {
             Image result;
             if (
                 (Settings.pfpType == Settings.PFP_TYPE_CIRCLE || Settings.pfpType == Settings.PFP_TYPE_CIRCLE_HQ)
-                // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                 && !isEmoji
-                // endif
+//#endif
             ) {
                 result = circleCutout(resized);
             } else {

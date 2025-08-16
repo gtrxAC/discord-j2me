@@ -8,9 +8,9 @@ public class FavoriteGuilds {
     private static JSONArray guilds;  // array of favorite guild IDs
     private static boolean hasChanged;  // list of fav guilds has changed (items added/removed)?
 
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     private static JSONArray muted;  // array of muted guild/channel IDs, where the user wont receive notifications
-    // endif
+//#endif
 
     static {
         RecordStore rms = null;
@@ -25,14 +25,14 @@ public class FavoriteGuilds {
         catch (Exception e) {
             guilds = new JSONArray();
         }
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         try {
             muted = JSON.getArray(new String(rms.getRecord(2)));
         }
         catch (Exception e) {
             muted = new JSONArray();
         }
-        // endif
+//#endif
 
         Util.closeRecordStore(rms);
     }
@@ -43,10 +43,10 @@ public class FavoriteGuilds {
             rms = RecordStore.openRecordStore("favguild", true);
             byte[] bytes = guilds.build().getBytes();
             Util.setOrAddRecord(rms, 1, bytes);
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             bytes = muted.build().getBytes();
             Util.setOrAddRecord(rms, 2, bytes);
-            // endif
+//#endif
         }
         catch (Exception e) {
             App.error(e);
@@ -78,7 +78,7 @@ public class FavoriteGuilds {
         return false;
     }
 
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     public static void toggleMute(String id) {
         if (isMuted(id)) {
             muted.remove(id);
@@ -91,7 +91,7 @@ public class FavoriteGuilds {
     public static boolean isMuted(String id) {
         return muted.indexOf(id) != -1;
     }
-    // endif
+//#endif
 
     public static void openSelector(boolean refresh, boolean forceRefresh) {
         if (Settings.highRamMode) refresh = false;

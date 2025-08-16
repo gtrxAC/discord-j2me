@@ -37,27 +37,27 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
             App.platRequest(attach.browserUrl);
         }
         else
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         if (prio < 200)
-        // endif 
+//#endif 
         {
             // 'View as text' or 'Set as notification sound' button
             int act =
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 attach.isAudio ? HTTPThread.VIEW_ATTACHMENT_AUDIO :
-                // endif
+//#endif
                 HTTPThread.VIEW_ATTACHMENT_TEXT;
             HTTPThread h = new HTTPThread(act);
             h.viewAttach = attach;
             h.start();
         }
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         else {
             // 'Set as theme' button
             HTTPThread h = new HTTPThread(HTTPThread.SET_THEME);
             h.viewAttach = attach;
             h.start();
         }
-        // endif
+//#endif
     }
 }

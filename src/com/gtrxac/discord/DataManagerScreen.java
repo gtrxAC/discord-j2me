@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import java.util.*;
@@ -45,9 +45,9 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
 
     private void refresh() {
         deleteAll();
-        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
         addItem(DATA_MANAGER_EMOJI, "emoji", false);
-        // endif
+//#endif
         addItem(DATA_MANAGER_LAST_READ, "unread", false);
         addItem(DATA_MANAGER_NOTIF_SOUND, "notifsound", true);
         addItem(DATA_MANAGER_LANGUAGE, "lang", true);
@@ -84,12 +84,12 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
                     else if ("unread".equals(rmsName)) {
                         UnreadManager.init();
                     }
-                    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                     else if ("emoji".equals(rmsName)) {
                         // Make sure the emojis get re-downloaded if they are needed again
                         App.myUserId = null;
                     }
-                    // endif
+//#endif
                 }
                 catch (Exception e) {
                     App.error(e);
@@ -100,4 +100,4 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
         }
     }
 }
-// endif
+//#endif

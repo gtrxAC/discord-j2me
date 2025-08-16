@@ -11,9 +11,9 @@ public class GuildSelector extends ListScreen implements CommandListener, String
     private Command addFavCommand;
     private Command removeFavCommand;
     private Command refreshCommand;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     private Command muteCommand;
-    // endif
+//#endif
 
     public GuildSelector(Vector guilds, boolean isFavGuilds) throws Exception {
         super(Locale.get(GUILD_SELECTOR_TITLE), true, true, false);
@@ -34,10 +34,10 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 3);
         addCommand(refreshCommand);
 
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         muteCommand = Locale.createCommand(MUTE, Command.ITEM, 6);
         addCommand(muteCommand);
-        // endif
+//#endif
 
         if (isFavGuilds) {
             removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 2);
@@ -111,12 +111,12 @@ public class GuildSelector extends ListScreen implements CommandListener, String
                 App.selectedGuild = g;
                 App.openChannelSelector(false, false);
             }
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             else if (c == muteCommand) {
                 FavoriteGuilds.toggleMute(g.id);
                 update(g.id);
             }
-            // endif
+//#endif
             else {
                 // 'add to favorites' command
                 FavoriteGuilds.add(g);

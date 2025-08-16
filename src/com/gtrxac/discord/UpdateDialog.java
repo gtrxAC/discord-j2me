@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -31,12 +31,12 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
         if (c == updateCommand) {
             StringBuffer target = new StringBuffer();
             String format = ".jad";
-            // ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
             if (Util.isKemulator) format = ".jar";
-            // endif
-            // ifdef J2ME_LOADER
+//#endif
+//#ifdef J2ME_LOADER
             format = ".jar";
-            // endif
+//#endif
 
             target.append(Settings.api);
             target.append("/discord_");
@@ -51,4 +51,4 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
         }
     }
 }
-// endif
+//#endif

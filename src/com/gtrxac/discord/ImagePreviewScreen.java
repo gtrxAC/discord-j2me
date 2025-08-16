@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -82,4 +82,4 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
         }
     }
 }
-// endif
+//#endif

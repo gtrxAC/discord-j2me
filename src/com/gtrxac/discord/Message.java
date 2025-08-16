@@ -21,13 +21,13 @@ public class Message implements Strings {
     public String timestamp;
     public String content;
     public String rawContent;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     public FormattedString contentFormatted;
     public boolean isEdited;
     public boolean isForwarded;
-    // else
+//#else
     public String[] contentLines;
-    // endif
+//#endif
 
     // is status message? (user joined/left/boosted) - affects rendering
     public boolean isStatus;
@@ -45,18 +45,18 @@ public class Message implements Strings {
         id = data.getString("id");
         author = new User(data.getObject("author"));
 
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         if (FormattedString.useMarkdown) {
             isEdited = data.getString("edited_timestamp", null) != null;
         }
-        // endif
+//#endif
 
         // JSON object to use for filling out message content and related fields.
         // For forwarded messages, this is an inner object inside the message object.
         JSONObject contentObj = data;
-        // ifdef SAMSUNG_100KB
+//#ifdef SAMSUNG_100KB
         boolean
-        // endif
+//#endif
         isForwarded = false;
         try {
             contentObj = data.getArray("message_snapshots").getObject(0).getObject("message");
@@ -237,9 +237,9 @@ public class Message implements Strings {
 
         if (
             isForwarded
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             && !FormattedString.useMarkdown
-            // endif
+//#endif
         ) {
             String tmpContent = content;
             content = Locale.get(FORWARDED_MESSAGE);
@@ -289,8 +289,8 @@ public class Message implements Strings {
         embeds = null;
         attachments = null;
         needUpdate = true;
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         isEdited = false;
-        // endif
+//#endif
     }
 }

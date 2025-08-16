@@ -241,11 +241,11 @@ public interface Strings {
     static final int SETTING_VALUE_ON = 237;
     static final int SETTINGS_ERROR_INVALID_NUMBER_PREFIX = 238;
     static final int SETTINGS_ERROR_INVALID_NUMBER_SUFFIX = 239;
-    // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
     static final int NOTIFICATIONS_PIGLER = 240;
     static final int PIGLER_ERROR = 241;
     static final int PIGLER_NOT_SUPPORTED = 242;
-    // endif
+//#endif
     static final int SHOW_SCROLLBAR = 243;
     static final int SCROLLBAR_WHEN_NEEDED = 244;
     static final int SCROLLBAR_PERMANENT = 245;
@@ -295,49 +295,49 @@ public interface Strings {
     static final int NOTIFICATIONS_ANDROID = 290;
     static final int NEW_MARKER = 291;
     static final int IMAGE_PREVIEW_PROMPT = 292;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     static final int FILE_PREVIEW = 293;
-    // endif
+//#endif
     static final int FORWARDED_MESSAGE = 294;
-    // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
     static final int LOGIN_FORM_SET_TOKEN_BB_HINT = 295;
     static final int LOGIN_FORM_CHANGE_TOKEN_BB_HINT = 296;
-    // endif
-    // ifdef OVER_100KB
+//#endif
+//#ifdef OVER_100KB
     static final int PREVIEW_NO_MEMORY = 297;
     static final int SHOW_EMOJI = 298;
     static final int SHOW_EMOJI_DEFAULT_ONLY = 299;
     static final int SHOW_EMOJI_ALL = 300;
-    // endif
+//#endif
     static final int IMPORT_TOKEN = 301;
     static final int IMPORT_TOKEN_L = 302;
     static final int TOKEN_PICKER_TITLE = 303;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     static final int DOWNLOADING = 304;
-    // endif
+//#endif
     static final int TRANSLATOR_FR = 305;
     static final int TRANSLATOR_BG = 306;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     static final int TEXT_FORMATTING = 307;
     static final int INSERT_EMOJI = 308;
     static final int INSERT_EMOJI_L = 309;
     static final int EMOJI_PICKER_TITLE = 310;
     static final int EMOJI_DOWNLOAD_PROMPT = 311;
     static final int EDITED_MESSAGE = 312;
-    // endif
+//#endif
     static final int INSERT_UNDERSCORE = 313;
     static final int INSERT_UNDERSCORE_L = 314;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     static final int WHAT_AEROPURPLE_DID = 315;
-    // endif
+//#endif
     static final int NOTIFICATIONS_VIBRATE = 316;
     static final int MUTE = 317;
     static final int MUTE_L = 318;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     static final int HOTKEY_SCROLL_TOP = 319;
     static final int HOTKEY_SCROLL_BOTTOM = 320;
     static final int SEND_TYPING = 321;
-    // endif
+//#endif
     static final int USE_AS_NOTIFY_SOUND = 322;
     static final int USE_AS_NOTIFY_SOUND_L = 323;
     static final int APPLY_NOTIF_SOUND_PROMPT = 324;
@@ -351,12 +351,12 @@ public interface Strings {
     static final int DATA_MANAGER_LANGUAGE = 332;
     static final int DATA_MANAGER_PROMPT_TITLE = 333;
     static final int DATA_MANAGER_PROMPT = 334;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     static final int PLAT_REQUEST_DIALOG_TITLE = 335;
     static final int PLAT_REQUEST_DIALOG_TEXT = 336;
     static final int FAST_SCROLLING = 337;
     static final int PLAY_SOUND_FAILED = 338;
-    // endif
+//#endif
     static final int TRANSLATOR_JA = 339;
     static final int TRANSLATOR_CA = 340;
     static final int TRANSLATOR_AR = 341;
@@ -368,11 +368,11 @@ public interface Strings {
     static final int EMOJI_PICKER_NO_MEMORY = 347;
     static final int HTTP_ERROR_PROXY = 348;
     static final int HTTP_ERROR_REDIRECT = 349;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     static final int UPLOAD_WARNING_TITLE = 350;
     static final int UPLOAD_WARNING_DESCRIPTION = 351;
     static final int HIDE = 352;
     static final int HIDE_L = 353;
     static final int DM_WARNING_DESCRIPTION = 354;
-    // endif
+//#endif
 }

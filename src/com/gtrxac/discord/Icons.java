@@ -47,26 +47,26 @@ public class Icons {
     Image fullscreen;
     Image keepChLoaded;
     Image scrollBars;
-    // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
     Image pigler;
-    // endif
+//#endif
     Image about;
     Image autoUpdate;
-    // ifdef NOKIA_UI_ICON
+//#ifdef NOKIA_UI_ICON
     Image nokiaUI;
-    // endif
-    // ifdef J2ME_LOADER
+//#endif
+//#ifdef J2ME_LOADER
     Image android;
-    // endif
+//#endif
     Image vibra;
-    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
     Image emoji;
-    // endif
-    // ifdef OVER_100KB
+//#endif
+//#ifdef OVER_100KB
     Image markdown;
     Image typing;
     Image dataManager;
-    // endif
+//#endif
     Image flagGB;
     Image flagUS;
     Image flagES;
@@ -92,10 +92,10 @@ public class Icons {
     Image flagBG;
     Image flagMY;
     Image flagCA;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     Image fastScroll;
     Image themeCustom;
-    // endif
+//#endif
     Image flagJP;
     Image flagAR;
 
@@ -153,38 +153,38 @@ public class Icons {
         fullscreen = sh.next();
         keepChLoaded = sh.next();
         scrollBars = sh.next();
-        // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
         pigler = sh.next();
-        // else
+//#else
         sh.skip();
-        // endif
+//#endif
         about = sh.next();
         autoUpdate = sh.next();
-        // ifdef NOKIA_UI_ICON
+//#ifdef NOKIA_UI_ICON
         nokiaUI = sh.next();
-        // else
+//#else
         sh.skip();
-        // endif
-        // ifdef J2ME_LOADER
+//#endif
+//#ifdef J2ME_LOADER
         android = sh.next();
-        // else
+//#else
         sh.skip();
-        // endif
+//#endif
         vibra = sh.next();
-        // ifdef OVER_100KB
-        // ifdef EMOJI_SUPPORT
+//#ifdef OVER_100KB
+//#ifdef EMOJI_SUPPORT
         emoji = sh.next();
-        // else
+//#else
         sh.skip();
-        // endif
+//#endif
         markdown = sh.next();
         typing = sh.next();
         dataManager = sh.next();
         fastScroll = sh.next();
         themeCustom = sh.next();
-        // else
+//#else
         sh.skip(6);
-        // endif
+//#endif
         flagGB = sh.next();
         flagUS = sh.next();
         flagES = sh.next();

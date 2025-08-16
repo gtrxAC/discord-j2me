@@ -1,4 +1,4 @@
-// ifdef SAMSUNG_100KB
+//#ifdef SAMSUNG_100KB
 package com.gtrxac.discord;
 
 import java.io.*;
@@ -72,4 +72,4 @@ public class Threads100kb extends Thread implements Strings {
         }
     }
 }
-// endif
+//#endif

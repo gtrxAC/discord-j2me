@@ -4,11 +4,11 @@ import javax.microedition.lcdui.*;
 
 public class KeyMapper extends MyCanvas implements CommandListener, Strings {
     static final int HOTKEY_COUNT =
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         8;
-        // else
+//#else
         6;
-        // endif
+//#endif
 
     private int fontHeight;
     private int curHotkey;
@@ -41,10 +41,10 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
         hotkeyStrings[3] = Locale.get(HOTKEY_REFRESH);
         hotkeyStrings[4] = Locale.get(HOTKEY_BACK);
         hotkeyStrings[5] = Locale.get(HOTKEY_FULLSCREEN);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         hotkeyStrings[6] = Locale.get(HOTKEY_SCROLL_TOP);
         hotkeyStrings[7] = Locale.get(HOTKEY_SCROLL_BOTTOM);
-        // endif
+//#endif
     }
     
     protected void paint(Graphics g) {
@@ -77,10 +77,10 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
 	        Settings.refreshHotkey = newHotkeys[3];
 	        Settings.backHotkey = newHotkeys[4];
             Settings.fullscreenHotkey = newHotkeys[5];
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             Settings.scrollTopHotkey = newHotkeys[6];
             Settings.scrollBottomHotkey = newHotkeys[7];
-            // endif
+//#endif
 
             Settings.defaultHotkeys = false;
             ((SettingsScreen) lastScreen).values[2][4] = 0;

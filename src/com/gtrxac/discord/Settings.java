@@ -26,9 +26,9 @@ public class Settings {
 	static int theme;  // 0 = dark, 1 = light, 2 = black
 	static boolean use12hTime;
 	static boolean useGateway;
-	// ifdef BLACKBERRY
+//#ifdef BLACKBERRY
 	static boolean bbWifi;
-	// endif
+//#endif
 	static int messageLoadCount;
 	static boolean useJpeg;
 	static int attachmentSize;
@@ -48,21 +48,21 @@ public class Settings {
 	static boolean showNotifsPings;
 	static boolean showNotifsDMs;
 	static boolean showNotifAlert;
-	// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 	static boolean showNotifPigler;
-	// endif
-	// ifdef NOKIA_UI_SUPPORT
+//#endif
+//#ifdef NOKIA_UI_SUPPORT
 	static boolean showNotifNokiaUI;
-	// endif
+//#endif
 	static boolean playNotifSound;
 	static boolean playNotifVibra;
 	static boolean highRamMode;
 	static int autoUpdate;
-	// ifdef OVER_100KB
+//#ifdef OVER_100KB
 	static boolean useFilePreview;
 	static boolean sendTyping;
     static boolean hasSeenUploadWarning;
-	// endif
+//#endif
 
 	static int authorFontSize;
 	static int messageFontSize;
@@ -78,10 +78,10 @@ public class Settings {
 	static int refreshHotkey;
 	static int backHotkey;
 	static int fullscreenHotkey;
-	// ifdef OVER_100KB
+//#ifdef OVER_100KB
 	static int scrollTopHotkey;
 	static int scrollBottomHotkey;
-	// endif
+//#endif
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -95,21 +95,21 @@ public class Settings {
         return result;
     }
 
-    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
     private static boolean shouldShowEmoji() {
         boolean result = (Util.fontSize > 14);
 
-        // ifdef NOKIA_128PX
+//#ifdef NOKIA_128PX
         // On Nokia 128x160, the default font size (medium) is large enough to somewhat comfortably show emojis.
         // However, on low-end (DCT4) phones, there may not be enough RAM (usually around 600 kB), so disable emojis there just to stay safe.
         if (Runtime.getRuntime().totalMemory() >= 1000000) {
             result = true;
         }
-        // endif
+//#endif
 
         return result;
     }
-    // endif
+//#endif
 
     public static void load() {
         // Initial settings (will be used if there are no saved settings)
@@ -175,19 +175,19 @@ public class Settings {
         index = 0;
 
         boolean isHighRam = false;
-        // ifdef J2ME_LOADER
+//#ifdef J2ME_LOADER
         isHighRam = true;
-        // endif
-        // ifdef MIDP2_GENERIC
+//#endif
+//#ifdef MIDP2_GENERIC
         isHighRam = Util.isSymbian || Util.isKemulator;
-        // endif
+//#endif
 
         final int defaultFontSize =
-            // ifdef NOKIA_128PX
+//#ifdef NOKIA_128PX
             1;
-            // else
+//#else
             0;
-            // endif
+//#endif
 
         api = getStringRecord(api);
         token = getStringRecord(token);
@@ -198,9 +198,9 @@ public class Settings {
         use12hTime = getBoolRecord(false);
         messageLoadCount = getIntRecord(20);
         useGateway = getBoolRecord(true);
-        // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
         bbWifi =
-        // endif
+//#endif
         getBoolRecord(true);
         useJpeg = getBoolRecord(true);
         cdn = getStringRecord(cdn);
@@ -229,71 +229,71 @@ public class Settings {
         highRamMode = getBoolRecord(isHighRam);
         showNotifAlert = getBoolRecord(true);
         playNotifSound = getBoolRecord(true);
-        // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
         showNotifPigler =
-        // endif
+//#endif
         getBoolRecord(
-            // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
             Util.supportsPigler
-            // else
+//#else
             false
-            // endif
+//#endif
         );
         KineticScrollingCanvas.scrollBarMode = getIntRecord(
-            // ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
             Util.isKemulator ?
                 KineticScrollingCanvas.SCROLL_BAR_VISIBLE :
-            // endif
+//#endif
             KineticScrollingCanvas.SCROLL_BAR_HIDDEN
         );
         autoUpdate = getIntRecord(Settings.AUTO_UPDATE_RELEASE_ONLY);
-        // ifdef NOKIA_UI_SUPPORT
+//#ifdef NOKIA_UI_SUPPORT
         showNotifNokiaUI =
-        // endif
+//#endif
         getBoolRecord(
-            // ifdef NOKIA_UI_SUPPORT
+//#ifdef NOKIA_UI_SUPPORT
             Util.supportsNokiaUINotifs
-            // else
+//#else
             false
-            // endif
+//#endif
         );
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         useFilePreview =
-        // endif
+//#endif
         getBoolRecord(isHighRam);
-        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
         FormattedString.emojiMode = getIntRecord(shouldShowEmoji() ? FormattedString.EMOJI_MODE_ALL : 0);
-        // else
+//#else
         getIntRecord(0);
-        // endif
-        // ifdef OVER_100KB
+//#endif
+//#ifdef OVER_100KB
         FormattedString.useMarkdown =
-        // endif
+//#endif
         getBoolRecord(true);
         playNotifVibra = getBoolRecord(false);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         scrollTopHotkey =
-        // endif
+//#endif
         getIntRecord(0);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         scrollBottomHotkey =
-        // endif
+//#endif
         getIntRecord(0);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         sendTyping =
-        // endif
+//#endif
         getBoolRecord(true);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         KeyRepeatThread.toggle(
-        // endif
+//#endif
             getBoolRecord(false)
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         )
-        // endif
+//#endif
         ;
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         hasSeenUploadWarning =
-        // endif
+//#endif
         getBoolRecord(false);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
@@ -319,11 +319,11 @@ public class Settings {
         setIntRecord(messageLoadCount);
         setBoolRecord(useGateway);
         setBoolRecord(
-            // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
             bbWifi
-            // else
+//#else
             false
-            // endif
+//#endif
         );
         setBoolRecord(useJpeg);
         setStringRecord(cdn);
@@ -353,77 +353,77 @@ public class Settings {
         setBoolRecord(showNotifAlert);
         setBoolRecord(playNotifSound);
         setBoolRecord(
-            // ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
             showNotifPigler
-            // else
+//#else
             false
-            // endif
+//#endif
         );
         setIntRecord(KineticScrollingCanvas.scrollBarMode);
         setIntRecord(autoUpdate);
         setBoolRecord(
-            // ifdef NOKIA_UI_SUPPORT
+//#ifdef NOKIA_UI_SUPPORT
             showNotifNokiaUI
-            // else
+//#else
             false
-            // endif
+//#endif
         );
         setBoolRecord(
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             useFilePreview
-            // else
+//#else
             false
-            // endif
+//#endif
         );
         setIntRecord(
-            // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
             FormattedString.emojiMode
-            // else
+//#else
             0
-            // endif
+//#endif
         );
         setBoolRecord(
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             FormattedString.useMarkdown
-            // else
+//#else
             false
-            // endif
+//#endif
         );
         setBoolRecord(playNotifVibra);
         setIntRecord(
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             scrollTopHotkey
-            // else
+//#else
             0
-            // endif
+//#endif
         );
         setIntRecord(
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             scrollBottomHotkey
-            // else
+//#else
             0
-            // endif
+//#endif
         );
         setBoolRecord(
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             sendTyping
-            // else
+//#else
             false
-            // endif
+//#endif
         );
         setBoolRecord(
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             KeyRepeatThread.enabled
-            // else
+//#else
             false
-            // endif
+//#endif
         );
         setBoolRecord(
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             hasSeenUploadWarning
-            // else
+//#else
             false
-            // endif
+//#endif
         );
     }
 

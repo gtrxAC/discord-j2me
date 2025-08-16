@@ -1,4 +1,4 @@
-// ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
 package com.gtrxac.discord;
 
 import java.util.*;
@@ -116,4 +116,4 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
     //     return "emoji (" + image.toString() + ")";
     // }
 }
-// endif
+//#endif

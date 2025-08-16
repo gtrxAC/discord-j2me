@@ -9,9 +9,9 @@ public class Attachment implements Strings {
     public String size;
     public boolean supported;
     public boolean isText;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     public boolean isAudio;
-    // endif
+//#endif
 
     public static final String[] nonTextFormats = {
         ".zip", ".rar", ".7z",
@@ -43,9 +43,9 @@ public class Attachment implements Strings {
         if (!data.has("width")) {
             supported = false;
 
-            // ifdef SAMSUNG_100KB
+//#ifdef SAMSUNG_100KB
             boolean
-            // endif
+//#endif
             isAudio = (Util.indexOfAny(name.toLowerCase(), audioFormats, 0) != -1);
 
             // Can be viewed as text if it's not one of the blacklisted file extensions

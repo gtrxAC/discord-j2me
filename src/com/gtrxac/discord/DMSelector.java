@@ -11,9 +11,9 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
     private Command refreshCommand;
     private Command markReadCommand;
     private Command markAllReadCommand;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     private Command muteCommand;
-    // endif
+//#endif
 
     public DMSelector() throws Exception {
         super(Locale.get(DM_SELECTOR_TITLE), true, true, false);
@@ -60,9 +60,9 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
         refreshCommand = Locale.createCommand(REFRESH, Command.SCREEN, 3);
         markReadCommand = Locale.createCommand(MARK_READ, Command.SCREEN, 4);
         markAllReadCommand = Locale.createCommand(MARK_ALL_READ, Command.SCREEN, 5);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         muteCommand = Locale.createCommand(MUTE, Command.ITEM, 6);
-        // endif
+//#endif
 
         addCommand(searchCommand);
         addCommand(refreshCommand);
@@ -70,9 +70,9 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
         if (App.dmChannels.size() > 0) {
             addCommand(markReadCommand);
             addCommand(markAllReadCommand);
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             addCommand(muteCommand);
-            // endif
+//#endif
         }
     }
 
@@ -118,12 +118,12 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
                 App.selectedDmChannel = dmCh;
                 App.openChannelView(true);
             }
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             else if (c == muteCommand) {
                 FavoriteGuilds.toggleMute(dmCh.id);
                 update(dmCh.id);
             }
-            // endif
+//#endif
             else {
                 // 'mark as read' command
                 dmCh.markRead();

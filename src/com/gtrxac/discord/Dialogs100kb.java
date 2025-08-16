@@ -1,4 +1,4 @@
-// ifdef SAMSUNG_100KB
+//#ifdef SAMSUNG_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -151,4 +151,4 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         }
     }
 }
-// endif
+//#endif

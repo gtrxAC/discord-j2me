@@ -1,5 +1,4 @@
-// ifdef OLD_ABOUT_SCREEN
-// else
+//#ifndef OLD_ABOUT_SCREEN
 package com.gtrxac.discord;
 
 import java.util.*;
@@ -9,9 +8,9 @@ public class AboutScreenParticle {
     public int y;
     public int velX;
     public int velY;
-    // ifdef ABOUT_SCREEN_COLOR_PARTICLES
+//#ifdef ABOUT_SCREEN_COLOR_PARTICLES
     public int color;
-    // endif
+//#endif
 
     private static int rand() {
         int result;
@@ -38,13 +37,13 @@ public class AboutScreenParticle {
         }
         while (speed < 50);
 
-        // ifdef ABOUT_SCREEN_COLOR_PARTICLES 
+//#ifdef ABOUT_SCREEN_COLOR_PARTICLES 
         speed = Math.min(Math.max(speed, 80), 224);
         color = speed | (speed << 8) | (speed << 16);
-        // endif
+//#endif
 
         this.x += this.velX*15;
         this.y += this.velY*15;
     }
 }
-// endif
+//#endif

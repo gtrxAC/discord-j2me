@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import java.io.*;
@@ -118,4 +118,4 @@ public class NotificationSoundDialog extends Dialog implements Strings, CommandL
         }
     }
 }
-// endif
+//#endif

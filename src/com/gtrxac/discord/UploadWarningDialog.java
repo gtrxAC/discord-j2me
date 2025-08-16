@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -32,4 +32,4 @@ public class UploadWarningDialog extends Dialog implements Strings, CommandListe
         App.channelView.uploadFile(recipientMsg);
     }
 }
-// endif
+//#endif

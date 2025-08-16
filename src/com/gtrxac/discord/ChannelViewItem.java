@@ -15,12 +15,12 @@ public class ChannelViewItem implements Strings {
     // Ref message (referenced message) = recipient message of a reply
 
     Image refImg;  // cached ref message image for MESSAGE type if it is a reply
-    // ifdef SAMSUNG
+//#ifdef SAMSUNG
     Image refImg2;  // second (right-side) part of ref message image
-    // endif
-    // ifdef OVER_100KB
+//#endif
+//#ifdef OVER_100KB
     FormattedString refImgFormatStr;
-    // endif
+//#endif
     boolean refImgHasPfp;  // cached ref image has profile picture loaded
     boolean refImgHasColor;  // cached ref image has name color loaded
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
@@ -112,11 +112,11 @@ public class ChannelViewItem implements Strings {
             case MESSAGE: {
                 // Each content line + little bit of spacing between messages
                 int result =
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     msg.contentFormatted.height +
-                    // else
+//#else
                     messageFontHeight*msg.contentLines.length +
-                    // endif
+//#endif
                     messageFontHeight/4;
     
                 // One line for message author
@@ -163,11 +163,11 @@ public class ChannelViewItem implements Strings {
     }
 
     public static boolean shouldUseDirectRefMessage() {
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         final boolean result = (
-            // ifdef NOKIA_THEME_BACKGROUND
+//#ifdef NOKIA_THEME_BACKGROUND
             Settings.theme == Theme.SYSTEM ||
-            // endif
+//#endif
             Settings.messageFontSize != 0
         );
 
@@ -176,9 +176,9 @@ public class ChannelViewItem implements Strings {
             smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
         }
         return result;
-        // else
+//#else
         return false;
-        // endif
+//#endif
     }
 
     private int getRefAreaHeight(int messageFontHeight, boolean directRefMessage) {
@@ -245,13 +245,13 @@ public class ChannelViewItem implements Strings {
                             int refAreaHeight = getRefAreaHeight(messageFontHeight, directRefMessage);
 
                             if (directRefMessage || shouldRedrawRefMessage(selected)) {
-                                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                                 boolean useFormattedString =
-                                    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                                     FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF ||
-                                    // endif
+//#endif
                                     FormattedString.useMarkdown;
-                                // endif
+//#endif
 
                                 Graphics refG;
                                 int refX, refY, formatStrWidth;
@@ -280,10 +280,10 @@ public class ChannelViewItem implements Strings {
                                     // This will then be downscaled, giving us a smaller font size than what J2ME normally allows.
                                     refImgFullWidth = (width - refDrawX)*4/3;
                                     // On Samsung (JBlend), the image has to be drawn in two parts due to a bug
-                                    // ifdef SAMSUNG
+//#ifdef SAMSUNG
                                     refImgFull2Width = refImgFullWidth - width;
                                     refImgFullWidth = width;
-                                    // endif
+//#endif
                                     refImgFull = Image.createImage(refImgFullWidth, refFontHeight);
                                     refG = refImgFull.getGraphics();
 
@@ -337,26 +337,26 @@ public class ChannelViewItem implements Strings {
                                     Theme.selectedRecipientMessageContentColor : Theme.recipientMessageContentColor;
                                 refG.setFont(refFont);
                                 refG.setColor(refImgTextColor);
-                                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                                 if (useFormattedString) {
                                     if (refImgFormatStr == null) {
                                         refImgFormatStr = new FormattedString(msg.refContent, refFont, formatStrWidth, refX, true, false, false);
                                     }
                                     refImgFormatStr.draw(refG, refY);
                                 } else
-                                // endif
+//#endif
                                 {
                                     refG.drawString(msg.refContent, refX, refY, Graphics.TOP | Graphics.LEFT);
                                 }
 
                                 if (!directRefMessage) {
                                     int refImgResizeWidth = width - refDrawX;
-                                    // ifdef SAMSUNG
+//#ifdef SAMSUNG
                                     refImgResizeWidth = width*3/4;
-                                    // endif
+//#endif
                                     refImg = Util.resizeImageBilinear(refImgFull, refImgResizeWidth, refFontHeight*3/4);
 
-                                    // ifdef SAMSUNG
+//#ifdef SAMSUNG
                                     Image refImgFull2 = Image.createImage(refImgFull2Width, refFontHeight);
                                     refG = refImgFull2.getGraphics();
 
@@ -365,18 +365,18 @@ public class ChannelViewItem implements Strings {
 
                                     refG.setFont(refFont);
                                     refG.setColor(refImgTextColor);
-                                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                                     if (useFormattedString) {
                                         refG.translate(-refImgFullWidth, 0);
                                         refImgFormatStr.draw(refG, 0);
                                     } else
-                                    // endif
+//#endif
                                     {
                                         refG.drawString(msg.refContent, -refImgFullWidth + refX, 0, Graphics.TOP | Graphics.LEFT);
                                     }
 
                                     refImg2 = Util.resizeImageBilinear(refImgFull2, refImgFull2Width*3/4, refFontHeight*3/4);
-                                    // endif
+//#endif
 
                                     refImgSelected = selected;
                                     refImgLastDrawn = System.currentTimeMillis();
@@ -386,9 +386,9 @@ public class ChannelViewItem implements Strings {
                             if (!directRefMessage) {
                                 // draw downscaled refmessage image on screen
                                 g.drawImage(refImg, refDrawX, y, Graphics.TOP | Graphics.LEFT);
-                                // ifdef SAMSUNG
+//#ifdef SAMSUNG
                                 g.drawImage(refImg2, refDrawX + width*3/4, y, Graphics.TOP | Graphics.LEFT);
-                                // endif
+//#endif
                             }
 
                             // draw connecting line between refmessage and message
@@ -474,15 +474,15 @@ public class ChannelViewItem implements Strings {
                     g.setColor(selected ? Theme.selectedMessageContentColor : Theme.messageContentColor);
                 }
                 g.setFont(App.messageFont);
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 msg.contentFormatted.draw(g, y);
                 y += msg.contentFormatted.height;
-                // else
+//#else
                 for (int i = 0; i < msg.contentLines.length; i++) {
                     g.drawString(msg.contentLines[i], x, y, Graphics.TOP | Graphics.LEFT);
                     y += messageFontHeight;
                 }
-                // endif
+//#endif
 
                 // Draw embeds
                 if (msg.embeds != null && msg.embeds.size() > 0) {
@@ -505,15 +505,15 @@ public class ChannelViewItem implements Strings {
                         if (emb.title != null) {
                             g.setColor(selected ? Theme.selectedEmbedTitleColor : Theme.embedTitleColor);
                             g.setFont(App.titleFont);
-                            // ifdef OVER_100KB
+//#ifdef OVER_100KB
                             emb.titleFormatted.draw(g, y);
                             y += emb.titleFormatted.height;
-                            // else
+//#else
                             for (int l = 0; l < emb.titleLines.length; l++) {
                                 g.drawString(emb.titleLines[l], x, y, Graphics.TOP|Graphics.LEFT);
                                 y += messageFontHeight;
                             }
-                            // endif
+//#endif
                             // Spacing between title and desc
                             if (emb.description != null) y += messageFontHeight/4;
                         }
@@ -521,15 +521,15 @@ public class ChannelViewItem implements Strings {
                         if (emb.description != null) {
                             g.setColor(selected ? Theme.selectedEmbedDescriptionColor : Theme.embedDescriptionColor);
                             g.setFont(App.messageFont);
-                            // ifdef OVER_100KB
+//#ifdef OVER_100KB
                             emb.descFormatted.draw(g, y);
                             y += emb.descFormatted.height;
-                            // else
+//#else
                             for (int l = 0; l < emb.descLines.length; l++) {
                                 g.drawString(emb.descLines[l], x, y, Graphics.TOP|Graphics.LEFT);
                                 y += messageFontHeight;
                             }
-                            // endif
+//#endif
                         }
 
                         x -= messageFontHeight/3;  // Undo left padding
@@ -547,7 +547,7 @@ public class ChannelViewItem implements Strings {
                 int textWidth = App.messageFont.stringWidth(caption);
                 g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
 
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 int rectX = width/2 - textWidth/2 - messageFontHeight;
                 int rectY = y + messageFontHeight/6;
                 int rectWidth = textWidth + messageFontHeight*2;
@@ -561,7 +561,7 @@ public class ChannelViewItem implements Strings {
                     g.setColor(Theme.buttonTextColor);
                     g.drawRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
                 }
-                // else
+//#else
                 g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
                 g.fillRoundRect(
                     width/2 - textWidth/2 - messageFontHeight,
@@ -571,7 +571,7 @@ public class ChannelViewItem implements Strings {
                     messageFontHeight/2,
                     messageFontHeight/2
                 );
-                // endif
+//#endif
 
                 g.setFont(App.messageFont);
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
@@ -595,7 +595,7 @@ public class ChannelViewItem implements Strings {
                 int x = useIcons ? messageFontHeight*2 : 0;
                 int textWidth = App.messageFont.stringWidth(caption);
 
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 int rectX = x + messageFontHeight/2;
                 int rectY = y + messageFontHeight/6;
                 int rectWidth = textWidth + messageFontHeight;
@@ -609,7 +609,7 @@ public class ChannelViewItem implements Strings {
                     g.setColor(Theme.buttonTextColor);
                     g.drawRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
                 }
-                // else
+//#else
                 g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
                 g.fillRoundRect(
                     x + messageFontHeight/2,
@@ -619,7 +619,7 @@ public class ChannelViewItem implements Strings {
                     messageFontHeight/2,
                     messageFontHeight/2
                 );
-                // endif
+//#endif
 
                 g.setFont(App.messageFont);
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
@@ -628,16 +628,16 @@ public class ChannelViewItem implements Strings {
             }
 
             case UNREAD_INDICATOR: {
-                // ifdef NOKIA_THEME_BACKGROUND
+//#ifdef NOKIA_THEME_BACKGROUND
                 final boolean directDraw = (Settings.theme == Theme.SYSTEM);
 
                 if (directDraw && smallFont == null) {
                     smallFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
                     smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
                 }
-                // else
+//#else
                 final boolean directDraw = false;
-                // endif
+//#endif
                 
                 Font font = (directDraw ? smallFont : App.titleFont);
                 int height = (font.getHeight() + 1)/2*2;

@@ -3,15 +3,15 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class LoginForm extends Form implements CommandListener,
-// ifdef NOT_BLACKBERRY
+//#ifndef BLACKBERRY
 ItemCommandListener,
-// endif
+//#endif
 Strings
 {
     private TextField apiField;
-    // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
     private ChoiceGroup wifiGroup;
-    // endif
+//#endif
     private ChoiceGroup gatewayGroup;
     private TextField gatewayField;
     private TextField cdnField;
@@ -30,12 +30,12 @@ Strings
         super(Locale.get(LOGIN_FORM_TITLE));
         setCommandListener(this); 
 
-        // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
         String[] wifiChoices = {Locale.get(USE_WIFI)};
         wifiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, wifiChoices, null);
         wifiGroup.setSelectedIndex(0, Settings.bbWifi);
         append(wifiGroup);
-        // endif
+//#endif
 
         apiField = new TextField(Locale.get(API_URL), Settings.api, 200, 0);
         cdnField = new TextField(Locale.get(CDN_URL), Settings.cdn, 200, 0);
@@ -46,23 +46,23 @@ Strings
         String tokenLabelShort = Locale.get(haveToken ? CHANGE_TOKEN : SET_TOKEN);
 
         changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0);
-        // ifdef NOT_BLACKBERRY
+//#ifndef BLACKBERRY
         StringItem tokenButton = new StringItem(null, tokenLabel, Item.BUTTON);
         tokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         tokenButton.setDefaultCommand(changeTokenCommand);
         tokenButton.setItemCommandListener(this);
         
         StringItem importTokenButton = null;
-        // endif
+//#endif
         
         if (Util.supportsFileConn) {
             importTokenCommand = Locale.createCommand(IMPORT_TOKEN, Command.ITEM, 1);
-            // ifdef NOT_BLACKBERRY
+//#ifndef BLACKBERRY
             importTokenButton = new StringItem(null, Locale.get(IMPORT_TOKEN_L), Item.BUTTON);
             importTokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
             importTokenButton.setDefaultCommand(importTokenCommand);
             importTokenButton.setItemCommandListener(this);
-            // endif
+//#endif
         }
 
         nextCommand = Locale.createCommand(LOG_IN, Command.OK, 1);
@@ -86,16 +86,16 @@ Strings
         append(gatewayGroup);
         append(gatewayField);
         append(new StringItem(null, Locale.get(LOGIN_FORM_TOKEN_HELP)));
-        // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
         append(new Spacer(getWidth(), 1));
         String tokenHint = Locale.get(haveToken ? LOGIN_FORM_CHANGE_TOKEN_BB_HINT : LOGIN_FORM_SET_TOKEN_BB_HINT);
         append(new StringItem(null, tokenHint));
         addCommand(changeTokenCommand);
         if (Util.supportsFileConn) addCommand(importTokenCommand);
-        // else
+//#else
         append(tokenButton);
         if (Util.supportsFileConn) append(importTokenButton);
-        // endif
+//#endif
         append(tokenGroup);
         addCommand(nextCommand);
         addCommand(quitCommand);
@@ -120,10 +120,10 @@ Strings
             gatewayGroup.getSelectedFlags(selected);
             Settings.useGateway = selected[0];
 
-            // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
             wifiGroup.getSelectedFlags(selected);
             Settings.bbWifi = selected[0];
-            // endif
+//#endif
 
             Settings.tokenType = tokenGroup.getSelectedIndex();
             
@@ -133,14 +133,14 @@ Strings
         else if (c == quitCommand) {
             DiscordMIDlet.instance.notifyDestroyed();
         }
-        // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
         else if (c == changeTokenCommand) {
             showTokenEntry();
         }
         else if (c == importTokenCommand) {
             App.disp.setCurrent(new TokenFilePicker());
         }
-        // endif
+//#endif
         else if (c == tokenBoxUnderscoreCommand) {
             int caretPosition = tokenBox.getCaretPosition();
             String currentText = tokenBox.getString();
@@ -153,7 +153,7 @@ Strings
         }
     }
 
-    // ifdef NOT_BLACKBERRY
+//#ifndef BLACKBERRY
     public void commandAction(Command c, Item i) {
         if (c == changeTokenCommand) {
             showTokenEntry();
@@ -162,7 +162,7 @@ Strings
             App.disp.setCurrent(new TokenFilePicker());
         }
     }
-    // endif
+//#endif
 
     private void showTokenEntry() {
         tokenBox = new TextBox("Set token", Settings.token, 200, 0);

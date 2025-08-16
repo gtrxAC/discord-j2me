@@ -1,4 +1,4 @@
-// ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -41,11 +41,11 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
 
         lastScreen = App.disp.getCurrent();
 
-        // ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
         if (Util.isKemulator) {
             emojiSize = FormattedStringPartEmoji.emojiSize*4/3/16*16;
         } else
-        // endif
+//#endif
         {
             int w = getWidth(), h = getHeight();
             if (w < h) emojiSize = w/9;
@@ -242,12 +242,12 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
             selectorIndex &= 1;
             repaint();
         }
-        // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
         // for kineticscrollingcanvas scroll thread
         else {
             super.run();
         }
-        // endif
+//#endif
     }
 
     protected void hideNotify() {
@@ -260,7 +260,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         new Thread(this).start();
     }
 
-    // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
     protected void pointerPressed(int x, int y) {
         super.pointerPressed(x, y);
 
@@ -286,6 +286,6 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         }
         commandAction(selectCommand, this);
     }
-    // endif
+//#endif
 }
-// endif
+//#endif

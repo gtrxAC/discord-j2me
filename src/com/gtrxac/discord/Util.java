@@ -438,17 +438,17 @@ public class Util {
 		return (cR << 16) | (cG << 8) | cB;
 	}
 
-	// ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
 	public static final boolean isKemulator;
 	public static final boolean isSymbian;
 	public static final boolean isSymbian93;
-	// endif
+//#endif
 
-	// ifdef NOKIA_UI_SUPPORT
+//#ifdef NOKIA_UI_SUPPORT
 	public static final boolean supportsNokiaUINotifs;
-	// endif
+//#endif
 
-	// ifdef SAMSUNG_FULL
+//#ifdef SAMSUNG_FULL
 	// List of Samsung phones which have a 480p screen resolution and have the Java runtime used by Bada and the Samsung feature phone OS
 	// These phones have a bug where canvases have a tiny font size until they are reopened (see MainMenu)
 	// This bug is confirmed on the Jet S8000 and Wave S8500
@@ -456,11 +456,11 @@ public class Util {
 		"S8000", "S8003", "S8500", "S8530", "S8600", "M210S", "M8910"
 	};
 	public static final boolean hasSamsungFontBug;
-	// endif
+//#endif
 
-	// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 	public static final boolean supportsPigler;
-	// endif
+//#endif
 
 	public static final boolean supportsFileConn;
 
@@ -470,7 +470,7 @@ public class Util {
 		String platform = System.getProperty("microedition.platform");
 		if (platform == null) platform = "";
 
-		// ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
 		isKemulator = checkClass("emulator.custom.CustomMethod");
 
 		isSymbian = platform.indexOf("platform=S60") != -1 ||
@@ -480,26 +480,26 @@ public class Util {
 				checkClass("com.symbian.lcdjava.io.File");
 
 		isSymbian93 = isSymbian && platform.indexOf("sw_platform_version=3.2") != -1;
-		// endif
+//#endif
 
-		// ifdef NOKIA_UI_SUPPORT
+//#ifdef NOKIA_UI_SUPPORT
 		supportsNokiaUINotifs = (System.getProperty("com.nokia.mid.ui.softnotification") != null);
-		// endif
+//#endif
 
-		// ifdef SAMSUNG_FULL
+//#ifdef SAMSUNG_FULL
 		hasSamsungFontBug = indexOfAny(platform, SAMSUNG_FONT_BUG_LIST, 0) != -1;
-		// endif
+//#endif
 
-		// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 		supportsPigler = System.getProperty("org.pigler.api.version") != null;
-		// endif
+//#endif
 
 		supportsFileConn = System.getProperty("microedition.io.file.FileConnection.version") != null;
 
 		fontSize = Font.getDefaultFont().getHeight();
-		// ifdef SAMSUNG_FULL
+//#ifdef SAMSUNG_FULL
 		if (hasSamsungFontBug) fontSize *= 2;
-		// endif
+//#endif
 	}
 	
 	// https://github.com/shinovon/JTube/blob/master/src/jtube/PlatformUtils.java

@@ -1,5 +1,4 @@
-// ifdef OLD_ABOUT_SCREEN
-// else
+//#ifndef OLD_ABOUT_SCREEN
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -11,7 +10,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
 
     public static final Random rng = new Random();
 
-    // ifdef ABOUT_SCREEN_EASING
+//#ifdef ABOUT_SCREEN_EASING
     private static final int[] easing = {
         17, 33, 50, 66, 83, 99, 115, 132, 123, 115, 105, 96, 87, 89, 92, 94, 96, 98, 101, 103, 105, 104, 103, 102, 101, 100, 99, 98, 98, 99, 99, 100, 100, 101, 101
     };
@@ -21,31 +20,31 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
     };
 
     private Image[] scaledIcons;
-    // endif
+//#endif
 
     int logoSize;
     int logoY;
     int easingTimer = 0;  // delay before icon starts moving upwards (also on versions without easing animation)
 
-    // ifdef NOKIA_128PX
+//#ifdef NOKIA_128PX
     private static final int PARTICLE_COUNT = 30;
-    // else
+//#else
     private static final int PARTICLE_COUNT = 40;
-    // endif
+//#endif
     
     private AboutScreenParticle[] particles;
     private AboutScreenItem[] items;
 
-    // ifdef ABOUT_SCREEN_BOUNCE
+//#ifdef ABOUT_SCREEN_BOUNCE
     static int bounceTimer = 0;
-    // endif
+//#endif
     
-    // ifdef ABOUT_SCREEN_SPARKLES
+//#ifdef ABOUT_SCREEN_SPARKLES
     private Image[] sparkles;
     int sparkleTimer = -10;
     int sparkleX;
     int sparkleY;
-    // endif
+//#endif
 
     public static int maxScroll;
 
@@ -63,7 +62,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         }
         catch (Exception e) {}
 
-        // ifdef ABOUT_SCREEN_EASING
+//#ifdef ABOUT_SCREEN_EASING
         scaledIcons = new Image[easing.length];
 
         for (int i = 0; i < easingSizes.length; i++) {
@@ -76,9 +75,9 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
                 }
             }
         }
-        // endif
+//#endif
 
-        // ifdef ABOUT_SCREEN_SPARKLES
+//#ifdef ABOUT_SCREEN_SPARKLES
         try {
             Spritesheet sparkle = new Spritesheet("/sparkle.png", 15);
             sparkle.blockSize = 15;
@@ -92,7 +91,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         catch (Exception e) {
             e.printStackTrace();
         }
-        // endif
+//#endif
 
         particles = new AboutScreenParticle[PARTICLE_COUNT];
         for (int i = 0; i < PARTICLE_COUNT; i++) {
@@ -183,24 +182,23 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         int height = getHeight();
         checkScrollInRange();
 
-        // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
         g.setClip(0, 0, width, height);
-        // endif
+//#endif
 
         g.setColor(0x000000);
         g.fillRect(0, 0, width, height);
 
-        // ifdef ABOUT_SCREEN_COLOR_PARTICLES 
-        // else
+//#ifndef ABOUT_SCREEN_COLOR_PARTICLES
         g.setColor(0x888888);
-        // endif
+//#endif
         int particleSize = Math.max(1, (width+height)/240);
 
         for (int i = 0; i < PARTICLE_COUNT; i++) {
             AboutScreenParticle p = particles[i];
-            // ifdef ABOUT_SCREEN_COLOR_PARTICLES 
+//#ifdef ABOUT_SCREEN_COLOR_PARTICLES 
             g.setColor(p.color);
-            // endif
+//#endif
             g.fillRect(p.x*width/10000, p.y*height/10000, particleSize, particleSize);
         }
 
@@ -209,9 +207,9 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         if (scroll < logoArea) drawLogo(g, width);
         g.translate(0, logoArea + logoSize/8);
 
-        // ifdef BLACKBERRY
+//#ifdef BLACKBERRY
         height = height*8/7;
-        // endif
+//#endif
 
         for (int i = 0; i < items.length; i++) {
             items[i].draw(g, g.getTranslateY() < height && g.getTranslateY() > -items[i].height);
@@ -222,23 +220,23 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
     }
 
     public void drawLogo(Graphics g, int width) {
-        // ifdef ABOUT_SCREEN_EASING
+//#ifdef ABOUT_SCREEN_EASING
         boolean easingAnimRunning = (easingTimer/2 < easing.length);
-        // else
+//#else
         boolean easingAnimRunning = (easingTimer < 30);
-        // endif
+//#endif
 
         g.drawImage(
-            // ifdef ABOUT_SCREEN_EASING
+//#ifdef ABOUT_SCREEN_EASING
             easingAnimRunning ? scaledIcons[easingTimer/2] :
-            // endif
+//#endif
             logo,
             width/2,
             logoY + logoSize/2,
             Graphics.HCENTER | Graphics.VCENTER
         );
 
-        // ifdef ABOUT_SCREEN_SPARKLES
+//#ifdef ABOUT_SCREEN_SPARKLES
         if (!easingAnimRunning && sparkleTimer >= 0 && sparkleTimer < 18) {
             g.drawImage(
                 sparkles[sparkleTimer/2],
@@ -247,7 +245,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
                 Graphics.HCENTER | Graphics.VCENTER
             );
         }
-        // endif
+//#endif
     }
 
     private boolean threadIsForParticles;
@@ -278,22 +276,22 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
                 updateTimer += System.currentTimeMillis() - time;
             }
         }
-        // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
         // for kineticscrollingcanvas scroll thread
         else {
             super.run();
         }
-        // endif
+//#endif
     }
 
     private void update() {
         updateParticles();
 
-        // ifdef ABOUT_SCREEN_EASING
+//#ifdef ABOUT_SCREEN_EASING
         if (easingTimer/2 < easing.length) {
-        // else
+//#else
         if (easingTimer < 30) {
-        // endif
+//#endif
             easingTimer++;
         }
         else if (logoY > logoSize/3) {
@@ -306,12 +304,12 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
             AboutScreenItem.contentColor = Math.min(AboutScreenItem.contentColor + 0x030303, 0xEEEEEE);
         }
 
-        // ifdef ABOUT_SCREEN_BOUNCE
+//#ifdef ABOUT_SCREEN_BOUNCE
         bounceTimer++;
         if (bounceTimer > 100) bounceTimer = 0;
-        // endif
+//#endif
 
-        // ifdef ABOUT_SCREEN_SPARKLES
+//#ifdef ABOUT_SCREEN_SPARKLES
         sparkleTimer++;
         if (sparkleTimer == 0) {
             sparkleX = logoSize*(rng.nextInt()&127)/128;
@@ -320,7 +318,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         else if (sparkleTimer == 18) {
             sparkleTimer = -(rng.nextInt()&63) - 15;
         }
-        // endif
+//#endif
     }
 
     private void updateParticles() {
@@ -356,4 +354,4 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
     protected int getMinScroll() { return 0; }
     protected int getMaxScroll() { return Math.max(maxScroll - getHeight(), 0); }
 }
-// endif
+//#endif

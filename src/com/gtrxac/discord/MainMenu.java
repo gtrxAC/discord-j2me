@@ -40,12 +40,12 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         append(Locale.get(MAIN_MENU_LOG_OUT), App.ic.logout);
     }
 
-    // ifdef SAMSUNG_FULL
+//#ifdef SAMSUNG_FULL
     // recreate this screen for 480p font fix (see MyCanvas and Util)
     protected MyCanvas reload() {
         return get(true);
     }
-    // endif
+//#endif
 
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
@@ -70,11 +70,11 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
                     break;
                 }
                 case 4: {
-                    // ifdef OLD_ABOUT_SCREEN
+//#ifdef OLD_ABOUT_SCREEN
                     App.disp.setCurrent(new AboutForm());
-                    // else
+//#else
                     App.disp.setCurrent(new AboutScreen());
-                    // endif
+//#endif
                     break;
                 }
                 case 5: {

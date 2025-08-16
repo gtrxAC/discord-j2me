@@ -20,25 +20,25 @@ public class AttachmentPicker extends FilePicker implements Strings {
     }
     
     protected void fileSelected(FileConnection fc, String selected) {
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         try {
             if (!Settings.useFilePreview) throw new Exception();
             // Try to show image preview (fails for non-image files)
             App.disp.setCurrent(new ImagePreviewScreen(recipientMsg, selected, fc));
         }
         catch (Exception e) {
-        // endif
+//#endif
 
             // File is probably not an image, or viewing it is unsupported by the OS, or the user disabled file previews.
             // Attach the file directly without previewing, and show the appropriate message text entry screen (normal message box or reply form).
             App.disp.setCurrent(App.createTextEntryScreen(recipientMsg, selected, fc));
 
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         }
         catch (OutOfMemoryError e) {
             App.error(Locale.get(PREVIEW_NO_MEMORY), App.createTextEntryScreen(recipientMsg, selected, fc));
         }
-        // endif
+//#endif
     }
 
     protected void close() {

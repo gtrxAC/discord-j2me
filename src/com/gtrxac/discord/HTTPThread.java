@@ -25,31 +25,31 @@ public class HTTPThread extends Thread implements Strings {
     static final int VIEW_NOTIFICATION = 11;
     static final int FETCH_LANGUAGE = 12;
     static final int FETCH_THREADS = 13;
-    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
     static final int FETCH_EMOJIS = 14;
-    // endif
-    // ifdef OVER_100KB
+//#endif
+//#ifdef OVER_100KB
     static final int VIEW_ATTACHMENT_AUDIO = 15;
     static final int SET_THEME = 16;
-    // endif
+//#endif
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
     private static final String LINE_FEED = "\r\n";
 
     private static boolean haveFetchedUserInfo;
-    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
     private static int newEmojiJsonVersion;
     private static JSONArray newEmojiSheetVersions;
-    // endif
+//#endif
 
     int action;
     boolean silent;
 
     // Parameters for FETCH_GUILDS
     boolean showFavGuilds;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     boolean forceReload;
-    // endif
+//#endif
 
     // Parameters for FETCH_MESSAGES
     String fetchMsgsBefore;
@@ -156,11 +156,11 @@ public class HTTPThread extends Thread implements Strings {
         }
 
         // Fix HTTP error 404 - check that API URL does not end with a "/", which would cause duplicate "/"s in requested URLs
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         while (Settings.api.endsWith("/")) {
             Settings.api = Settings.api.substring(0, Settings.api.length() - 1);
         }
-        // endif
+//#endif
 
         try {
             // Fetch user info if needed (upon first API request after starting app)
@@ -176,11 +176,11 @@ public class HTTPThread extends Thread implements Strings {
 
                 if (latest > App.VERSION_CODE && Settings.autoUpdate == Settings.AUTO_UPDATE_ALL) {
                     String latestName = resp.getString("_latestbetaname", Locale.get(NAME_UNKNOWN));
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     App.disp.setCurrent(new UpdateDialog(latestName, true));
-                    // else
+//#else
                     App.disp.setCurrent(new Dialogs100kb(latestName, true));
-                    // endif
+//#endif
                     return;
                 }
                 
@@ -188,21 +188,21 @@ public class HTTPThread extends Thread implements Strings {
 
                 if (latest > App.VERSION_CODE && Settings.autoUpdate != Settings.AUTO_UPDATE_OFF) {
                     String latestName = resp.getString("_latestname", Locale.get(NAME_UNKNOWN));
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     App.disp.setCurrent(new UpdateDialog(latestName, false));
-                    // else
+//#else
                     App.disp.setCurrent(new Dialogs100kb(latestName, false));
-                    // endif
+//#endif
                     return;
                 }
 
-                // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                 newEmojiJsonVersion = resp.getInt("_emojiversion", 0);
                 newEmojiSheetVersions = resp.getArray("_emojisheets", null);
-                // endif
+//#endif
             }
 
-            // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
             // Check for updates to emoji data and download new json/sheet data if needed
             // (upon first API request after starting app with emojis enabled, or first API request after enabling emojis)
             if (
@@ -274,17 +274,17 @@ public class HTTPThread extends Thread implements Strings {
                     Util.closeRecordStore(rms);
                 }
             }
-            // endif
+//#endif
 
             switch (action) {
                 case FETCH_GUILDS: {
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     String url = "/users/@me/guilds";
                     if (!forceReload && App.isLiteProxy) url += "?c";  // query parameter for using proxy cache
                     JSONArray guilds = JSON.getArray(HTTP.get(url));
-                    // else
+//#else
                     JSONArray guilds = JSON.getArray(HTTP.get("/users/@me/guilds"));
-                    // endif
+//#endif
                     App.guilds = new Vector();
 
                     for (int i = 0; i < guilds.size(); i++) {
@@ -415,18 +415,18 @@ public class HTTPThread extends Thread implements Strings {
                     );
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     if (App.isLiteProxy) {
-                        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                         if (FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
                             url.append("&emoji=1");
                         }
-                        // endif
+//#endif
                         if (FormattedString.useMarkdown) {
                             url.append("&edit=1");
                         }
                     }
-                    // endif
+//#endif
 
                     JSONArray messages = JSON.getArray(HTTP.get(url.toString()));
                     App.messages = new Vector();
@@ -464,9 +464,9 @@ public class HTTPThread extends Thread implements Strings {
                     int layout = Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
                     // Fix for https://github.com/nikita36078/J2ME-Loader/pull/1046
-                    // ifdef J2ME_LOADER
+//#ifdef J2ME_LOADER
                     Util.sleep(100);
-                    // endif
+//#endif
 
                     for (int i = 0; i < attachments.size(); i++) {
                         Attachment attach = (Attachment) attachments.elementAt(i);
@@ -495,11 +495,11 @@ public class HTTPThread extends Thread implements Strings {
                             }
                         } else {
                             final boolean isAudio =
-                                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                                 attach.isAudio;
-                                // else
+//#else
                                 false;
-                                // endif
+//#endif
 
                             if (attach.isText || isAudio) {
                                 // Unsupported -> show a button to view it as text, or if it's a sound file, option to use it as a notification sound
@@ -515,7 +515,7 @@ public class HTTPThread extends Thread implements Strings {
                                 App.attachmentView.append(showButton);
                             }
 
-                            // ifdef OVER_100KB
+//#ifdef OVER_100KB
                             if (attach.name.endsWith(".json")) {
                                 // Command showCommand = Locale.createCommand(label, Command.ITEM, i + 200);
                                 // showButton = new StringItem(null, Locale.get(label + 1), Item.BUTTON);
@@ -526,7 +526,7 @@ public class HTTPThread extends Thread implements Strings {
                                 themeButton.setItemCommandListener(App.attachmentView);
                                 App.attachmentView.append(themeButton);
                             }
-                            // endif
+//#endif
                         }
 
                         Command openCommand = Locale.createCommand(OPEN_IN_BROWSER, Command.ITEM, i);
@@ -537,11 +537,11 @@ public class HTTPThread extends Thread implements Strings {
                         App.attachmentView.append(openButton);
 
                         // Fix unselectable buttons on early Symbian 9.3 (e.g. N86)
-                        // ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
                         if (Util.isSymbian93 && i == 0) {
                             App.disp.setCurrentItem((showButton != null) ? showButton : openButton);
                         }
-                        // endif
+//#endif
 
                         Spacer sp = new Spacer(App.attachmentView.getWidth(), App.attachmentView.getHeight()/10);
                         App.attachmentView.append(sp);
@@ -556,18 +556,18 @@ public class HTTPThread extends Thread implements Strings {
                     String id = iconTarget.getIconID();
                     String hash = iconTarget.getIconHash();
                     // Choose image file format based on user settings. Emojis are always png.
-                    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                     boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
                     String format = ((Settings.useJpeg && notEmoji) ? "jpg" : "png");
-                    // else
+//#else
                     String format = (Settings.useJpeg ? "jpg" : "png");
-                    // endif
+//#endif
                     int size = (Settings.pfpSize == Settings.ICON_SIZE_32) ? 32 : 16;
 
                     String urlHashPart
-                    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                     = ""; if (notEmoji) urlHashPart
-                    // endif
+//#endif
                     = "/" + hash;
 
                     Image icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
@@ -721,14 +721,14 @@ public class HTTPThread extends Thread implements Strings {
                 case FETCH_LANGUAGE: {
                     byte[] langBytes = null;
 
-                    // ifdef NOKIA_128PX
+//#ifdef NOKIA_128PX
                     try {
                         langBytes = HTTP.getBytes(Settings.api + "/lang/" + langID + "-compact.json");
                     }
                     catch (Exception e) {
                         e.printStackTrace();
                     }
-                    // endif
+//#endif
                     
                     if (langBytes == null) {
                         langBytes = HTTP.getBytes(Settings.api + "/lang/" + langID + ".json");
@@ -762,7 +762,7 @@ public class HTTPThread extends Thread implements Strings {
                     break;
                 }
 
-                // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
                 case FETCH_EMOJIS: {
                     // emoji data was already fetched (before the switch statement) so open emoji picker
                     EmojiPicker picker = new EmojiPicker();
@@ -770,9 +770,9 @@ public class HTTPThread extends Thread implements Strings {
                     App.disp.setCurrent(picker);
                     break;
                 }
-                // endif
+//#endif
 
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 case VIEW_ATTACHMENT_AUDIO: {
                     byte[] bytes = HTTP.getBytes(viewAttach.browserUrl);
                     App.disp.setCurrent(new NotificationSoundDialog(viewAttach.name, bytes));
@@ -787,7 +787,7 @@ public class HTTPThread extends Thread implements Strings {
                     App.disp.setCurrent(App.channelView);
                     break;
                 }
-                // endif
+//#endif
             }
         }
         catch (Exception e) {
@@ -808,12 +808,12 @@ public class HTTPThread extends Thread implements Strings {
                     App.error("Failed to download language data: " + e.toString(), MainMenu.get(false));
                     break;
                 }
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 case VIEW_ATTACHMENT_AUDIO: {
                     App.error(Locale.get(PLAY_SOUND_FAILED), prevScreen);
                     break;
                 }
-                // endif
+//#endif
                 default: {
                     App.error(e, prevScreen);
                     break;

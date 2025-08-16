@@ -8,9 +8,9 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
     private Command refreshCommand;
     private Command markChannelReadCommand;
     private Command markGuildReadCommand;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     private Command muteCommand;
-    // endif
+//#endif
 
     public ChannelSelector() throws Exception {
         super(App.selectedGuild.name, true, true, false);
@@ -27,18 +27,18 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 2);
         markChannelReadCommand = Locale.createCommand(MARK_READ, Command.ITEM, 3);
         markGuildReadCommand = Locale.createCommand(MARK_ALL_READ, Command.ITEM, 4);
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         muteCommand = Locale.createCommand(MUTE, Command.ITEM, 5);
-        // endif
+//#endif
         addCommand(refreshCommand);
 
         if (App.channels.size() > 0) {
             addCommand(viewThreadsCommand);
             addCommand(markChannelReadCommand);
             addCommand(markGuildReadCommand);
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             addCommand(muteCommand);
-            // endif
+//#endif
         }
     }
 
@@ -85,12 +85,12 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
                 update(ch.id);
                 App.guildSelector.update(App.selectedGuild.id);
             }
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             else if (c == muteCommand) {
                 FavoriteGuilds.toggleMute(ch.id);
                 update(ch.id);
             }
-            // endif
+//#endif
             else if (c == SELECT_COMMAND && !ch.isForum) {
                 App.isDM = false;
                 App.selectedChannel = ch;

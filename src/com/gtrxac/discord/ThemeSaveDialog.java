@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -55,4 +55,4 @@ public class ThemeSaveDialog extends Dialog implements Strings {
         }
     }
 }
-// endif
+//#endif

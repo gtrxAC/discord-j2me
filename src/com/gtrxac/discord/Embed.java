@@ -5,13 +5,13 @@ import cc.nnproject.json.*;
 public class Embed {
     public String title;
     public String description;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     public FormattedString titleFormatted;
     public FormattedString descFormatted;
-    // else
+//#else
     public String[] titleLines;
     public String[] descLines;
-    // endif
+//#endif
 
     public Embed(JSONObject data) {
         title = data.getString("title", null);
@@ -23,13 +23,13 @@ public class Embed {
         int result = messageFontHeight*2/3;
 
         // Content lines
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         if (title != null && titleFormatted != null) result += titleFormatted.height;
         if (description != null && descFormatted != null) result += descFormatted.height;
-        // else
+//#else
         if (title != null && titleLines != null) result += messageFontHeight*titleLines.length;
         if (description != null && descLines != null) result += messageFontHeight*descLines.length;
-        // endif
+//#endif
 
         // Spacing between title and description
         if (title != null && description != null) result += messageFontHeight/4;

@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import java.io.*;
@@ -25,4 +25,4 @@ public class StopTypingThread extends Thread {
         }
     }
 }
-// endif
+//#endif

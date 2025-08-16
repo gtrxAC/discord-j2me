@@ -6,11 +6,11 @@ public abstract class HasUnreads {
     public String id;
 
     public Object getMenuIndicator() {
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         if (FavoriteGuilds.isMuted(id)) {
             return ListScreen.INDICATOR_MUTED;
         } else
-        // endif
+//#endif
         if (hasUnreads()) {
             return ListScreen.INDICATOR_UNREAD;
         }

@@ -1,4 +1,4 @@
-// ifdef PIGLER_SUPPORT
+//#ifdef PIGLER_SUPPORT
 package org.pigler.tester;
 
 import javax.microedition.lcdui.Image;
@@ -55,4 +55,4 @@ public class PiglerAPILayer {
 	}
 
 }
-// endif
+//#endif

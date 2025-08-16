@@ -8,9 +8,9 @@ import javax.microedition.lcdui.*;
  * For kinetic scrolling, make sure to define 'scrollUnit' (as e.g. the font height)
  */
 public abstract class KineticScrollingCanvas extends MyCanvas
-// ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
 implements Runnable
-// endif
+//#endif
 {
 	static final int SCROLL_BAR_OFF = 0;
 	static final int SCROLL_BAR_HIDDEN = 1;
@@ -33,9 +33,9 @@ implements Runnable
     
     static {
         scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
-        // ifdef SAMSUNG_FULL
+//#ifdef SAMSUNG_FULL
         if (Util.hasSamsungFontBug) scrollBarSize = scrollBarSize*5/2;
-        // endif
+//#endif
     }
 
     protected abstract int getMinScroll();
@@ -60,7 +60,7 @@ implements Runnable
         return totalScrollAbs < fontHeight/2 && Math.abs(totalScroll) < fontHeight/4;
     }
 
-    // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
     private void handleScrollBar(int y) {
         lastScrollBarY = y;
         int height = getHeight() - scrollBarSize;
@@ -99,9 +99,9 @@ implements Runnable
 
     protected void pointerDragged(int x, int y) {
         // Asha fix
-        // ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
         if (y > 65500) y = 0;
-        // endif
+//#endif
         
         if (usingScrollBar) {
             handleScrollBar(y);
@@ -149,7 +149,7 @@ implements Runnable
             Util.sleep(16);
         }
     }
-    // endif
+//#endif
 
     private int getYFromScroll() {
         int height = getHeight() - scrollBarSize;

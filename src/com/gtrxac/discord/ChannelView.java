@@ -47,14 +47,14 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     boolean reqUpdateGateway;
     boolean reqUpdateGatewayNewMsg;
 
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     JSONObject pendingTheme;
-    // endif
+//#endif
 
-    // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
     boolean showBackButton;
     int backButtonStringWidth;
-    // endif
+//#endif
 
     public ChannelView() throws Exception {
         super();
@@ -83,9 +83,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         addCommand(uploadCommand);
         addCommand(refreshCommand);
 
-        // ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
         if (!Util.isKemulator)
-        // endif
+//#endif
         {
             setFullScreenMode(Settings.fullscreenDefault);
             fullscreen = Settings.fullscreenDefault;
@@ -94,18 +94,18 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             addCommand(fullScreenCommand);
         }
 
-        // ifdef J2ME_LOADER
+//#ifdef J2ME_LOADER
         commands = new Vector();
-        // endif
+//#endif
     }
 
-    // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
     public void setFullScreenMode(boolean mode) {
         super.setFullScreenMode(mode);
         
-        // ifdef MIDP2_GENERIC
+//#ifdef MIDP2_GENERIC
         if (!Util.isKemulator)
-        // endif
+//#endif
         {
             showBackButton = (mode && hasPointerEvents());
 
@@ -114,7 +114,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
         }
     }
-    // endif
+//#endif
 
     protected void showNotify() {
         if (haveShown) return;
@@ -218,17 +218,17 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             Message msg = (Message) App.messages.elementAt(i);
             boolean needUpdate = msg.needUpdate;
 
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             if (msg.contentFormatted == null || wasResized || needUpdate) {
                 msg.contentFormatted = new FormattedString(msg.content, App.messageFont, contentWidth, iconAreaWidth, false, msg.isEdited, msg.isForwarded);
                 msg.needUpdate = false;
             }
-            // else
+//#else
             if (msg.contentLines == null || wasResized || needUpdate) {
                 msg.contentLines = Util.wordWrap(msg.content, contentWidth, App.messageFont);
                 msg.needUpdate = false;
             }
-            // endif
+//#endif
 
             if (msg.attachments != null && msg.attachments.size() > 0) {
                 ChannelViewItem attachItem = new ChannelViewItem(ChannelViewItem.ATTACHMENTS_BUTTON);
@@ -241,7 +241,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 for (int e = 0; e < msg.embeds.size(); e++) {
                     Embed emb = (Embed) msg.embeds.elementAt(e);
 
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     if ((wasResized || emb.titleFormatted == null || needUpdate) && emb.title != null) {
                         emb.titleFormatted = new FormattedString(emb.title, App.titleFont, embedTextWidth, embedTextX, false, false, false);
                         msg.needUpdate = false;
@@ -250,7 +250,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                         emb.descFormatted = new FormattedString(emb.description, App.messageFont, embedTextWidth, embedTextX, false, false, false);
                         msg.needUpdate = false;
                     }
-                    // else
+//#else
                     if ((wasResized || emb.titleLines == null || needUpdate) && emb.title != null) {
                         emb.titleLines = Util.wordWrap(emb.title, embedTextWidth, App.titleFont);
                         msg.needUpdate = false;
@@ -259,17 +259,17 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                         emb.descLines = Util.wordWrap(emb.description, embedTextWidth, App.messageFont);
                         msg.needUpdate = false;
                     }
-                    // endif
+//#endif
                 }
             }
 
             if (
                 msg.showAuthor
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 || msg.contentFormatted.height != 0
-                // else
+//#else
                 || msg.contentLines.length != 0
-                // endif
+//#endif
             ) {
                 ChannelViewItem msgItem = new ChannelViewItem(ChannelViewItem.MESSAGE);
                 msgItem.msg = msg;
@@ -399,32 +399,32 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         repaint();
     }
 
-    // ifdef J2ME_LOADER
+//#ifdef J2ME_LOADER
     Vector commands;
-    // endif
+//#endif
 
     private void _removeCommand(Command c) {
-        // ifdef J2ME_LOADER
+//#ifdef J2ME_LOADER
         if (commands.contains(c)) {
             commands.removeElement(c);
             Util.sleep(20);
-        // endif
+//#endif
             removeCommand(c);
-        // ifdef J2ME_LOADER
+//#ifdef J2ME_LOADER
         }
-        // endif
+//#endif
     }
 
     private void _addCommand(Command c) {
-        // ifdef J2ME_LOADER
+//#ifdef J2ME_LOADER
         if (!commands.contains(c)) {
             commands.addElement(c);
             Util.sleep(20);
-        // endif
+//#endif
             addCommand(c);
-        // ifdef J2ME_LOADER
+//#ifdef J2ME_LOADER
         }
-        // endif
+//#endif
     }
 
     private void updateCommands(ChannelViewItem selected) {
@@ -598,7 +598,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
         }
 
-        // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
         if (showBackButton) {
             int buttonOffset = fontHeight/2;
             int buttonMargin = fontHeight/3;
@@ -623,7 +623,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 Graphics.BOTTOM | Graphics.RIGHT
             );
         }
-        // endif
+//#endif
 
         // g.setColor(0x00ff0000);
         // g.drawString(
@@ -670,11 +670,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
     private void showMessageBox() {
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         // Show warning if DMing someone for the first time (Discord spam filter)
         if (App.isDM && items.size() == 0) App.disp.setCurrent(new DMWarningDialog());
         else
-        // endif
+//#endif
         App.disp.setCurrent(new MessageBox());
     }
 
@@ -773,7 +773,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             else if (keycode == Settings.fullscreenHotkey) {
                 commandAction(fullScreenCommand, this);
             }
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             else if (keycode == Settings.scrollTopHotkey) {
                 selectionMode = true;
                 selectedItem = items.size() - 1;
@@ -782,7 +782,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 selectionMode = true;
                 selectedItem = 0;
             }
-            // endif
+//#endif
             else {
                 navKeyAction(action, thisItemHeight, thisItemPos);
             }
@@ -790,7 +790,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         repaint();
     }
 
-    // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
     protected void pointerPressed(int x, int y) {
         int buttonOffset = fontHeight/2;
         int buttonMargin = fontHeight/3;
@@ -830,9 +830,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
         repaint();
     }
-    // endif
+//#endif
 
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     private void uploadFileInitial(Message recipientMsg) {
         if (!Settings.hasSeenUploadWarning) {
             App.disp.setCurrent(new UploadWarningDialog(recipientMsg));
@@ -840,7 +840,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             uploadFile(recipientMsg);
         }
     }
-    // endif
+//#endif
 
     public void uploadFile(Message recipientMsg) {
         try {
@@ -855,16 +855,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 }
             }
             else {
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 App.gatewaySendTyping();
-                // endif
+//#endif
                 String id = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 // Go to 'upload2' page to bypass proxy-side upload warning
                 String url = Settings.api + "/upload2?channel=" + id + "&token=" + App.uploadToken;
-                // else
+//#else
                 String url = Settings.api + "/upload?channel=" + id + "&token=" + App.uploadToken;
-                // endif
+//#endif
                 if (recipientMsg != null) url += "&reply=" + recipientMsg.id;
                 App.platRequest(url);
             }
@@ -876,11 +876,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     public void commandAction(Command c, Displayable d) {
         if (c == backCommand) {
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             if (pendingTheme != null) {
                 App.disp.setCurrent(new ThemeSaveDialog());
             } else
-            // endif
+//#endif
             {
                 UnreadManager.save();
                 App.channelIsOpen = false;
@@ -900,11 +900,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             executeItemAction();
         }
         else if (c == uploadCommand) {
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             uploadFileInitial(null);
-            // else
+//#else
             uploadFile(null);
-            // endif
+//#endif
         }
         else if (c == fullScreenCommand) {
             fullscreen = !fullscreen;
@@ -914,11 +914,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             Message selected = ((ChannelViewItem) items.elementAt(selectedItem)).msg;
 
             if (c == replyUploadCommand) {
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 uploadFileInitial(selected);
-                // else
+//#else
                 uploadFile(selected);
-                // endif
+//#endif
             }
             else if (c == replyCommand) {
                 App.disp.setCurrent(new ReplyForm(selected));
@@ -933,11 +933,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 if (!App.isLiteProxy) {
                     App.error(Locale.get(DELETE_NOT_SUPPORTED));
                 } else {
-                    // ifdef OVER_100KB
+//#ifdef OVER_100KB
                     App.disp.setCurrent(new DeleteConfirmDialog(selected));
-                    // else
+//#else
                     App.disp.setCurrent(new Dialogs100kb(selected));
-                    // endif
+//#endif
                 }
             }
             else if (c == editCommand) {

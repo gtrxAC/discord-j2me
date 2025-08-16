@@ -58,9 +58,9 @@ public class Guild extends HasUnreads implements HasIcon, Strings {
             Channel ch = (Channel) channels.elementAt(i);
             if (
                 ch.hasUnreads()
-                // ifdef OVER_100KB
+//#ifdef OVER_100KB
                 && !FavoriteGuilds.isMuted(ch.id)
-                // endif
+//#endif
             )
             return true;
         }

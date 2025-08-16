@@ -1,4 +1,4 @@
-// ifdef OVER_100KB
+//#ifdef OVER_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -37,4 +37,4 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
         }
     }
 }
-// endif
+//#endif

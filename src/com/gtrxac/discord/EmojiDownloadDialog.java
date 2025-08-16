@@ -1,4 +1,4 @@
-// ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -28,4 +28,4 @@ public class EmojiDownloadDialog extends Dialog implements Strings, CommandListe
         }
     }
 }
-// endif
+//#endif

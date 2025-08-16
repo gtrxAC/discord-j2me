@@ -11,17 +11,17 @@ public class ReplyForm extends Form implements CommandListener, Strings {
     private ChoiceGroup pingGroup;
     private Command sendCommand;
     private Command addMentionCommand;
-    // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
     private Command addEmojiCommand;
-    // endif
+//#endif
     private Command backCommand;
 
     private String attachName;
     private FileConnection attachFc;
 
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     public boolean showedPreviewScreen = false;
-    // endif
+//#endif
 
     public ReplyForm(Message msg) {
         this(msg, null, null);
@@ -62,19 +62,19 @@ public class ReplyForm extends Form implements CommandListener, Strings {
         sendCommand = Locale.createCommand(SEND_MESSAGE, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
         addMentionCommand = Locale.createCommand(INSERT_MENTION, Command.ITEM, 2);
-        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
         addEmojiCommand = Locale.createCommand(INSERT_EMOJI, Command.ITEM, 3);
-        // endif
+//#endif
 
         addCommand(sendCommand);
         addCommand(backCommand);
         if (!App.isDM) addCommand(addMentionCommand);
-        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
         addCommand(addEmojiCommand);
-        // endif
-        // ifdef OVER_100KB
+//#endif
+//#ifdef OVER_100KB
         App.gatewaySendTyping();
-        // endif
+//#endif
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -85,14 +85,14 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             MessageBox.sendMessage(replyField.getString(), msg.id, attachName, attachFc, selected[0]);
         }
         else if (c == backCommand) {
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             if (!showedPreviewScreen) {
                 try {
                     attachFc.close();
                 }
                 catch (Throwable e) {}
             }
-            // endif
+//#endif
             App.disp.setCurrent(lastScreen);
         }
         else if (c == addMentionCommand) {
@@ -102,11 +102,11 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             }
             App.disp.setCurrent(new MentionForm());
         }
-        // ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
         else {
             // add emoji command
             EmojiPicker.show();
         }
-        // endif
+//#endif
     }
 }

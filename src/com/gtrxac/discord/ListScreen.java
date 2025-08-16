@@ -27,9 +27,9 @@ public class ListScreen extends KineticScrollingCanvas {
 
     public static final Object INDICATOR_NONE = null;
     public static final Object INDICATOR_UNREAD = new Object();
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     public static final Object INDICATOR_MUTED = new Object();
-    // endif
+//#endif
 
     private boolean useRightItems;
     private boolean separateRightItems;
@@ -316,9 +316,9 @@ public class ListScreen extends KineticScrollingCanvas {
     }
 
     protected void showNotify() {
-        // ifdef SAMSUNG_FULL
+//#ifdef SAMSUNG_FULL
         super.showNotify();
-        // endif
+//#endif
         touchMode = globalTouchMode;
     }
 
@@ -389,11 +389,11 @@ public class ListScreen extends KineticScrollingCanvas {
 
             String item = (String) displayedItems.elementAt(i);
 
-            // ifdef OVER_100KB
+//#ifdef OVER_100KB
             if (indicator == INDICATOR_MUTED) {
                 g.setColor(thisSelected ? Theme.listSelectedMutedTextColor : Theme.listMutedTextColor);
             } else
-            // endif
+//#endif
             {
                 g.setColor(thisSelected ? Theme.listSelectedTextColor : Theme.listTextColor);
             }
@@ -477,7 +477,7 @@ public class ListScreen extends KineticScrollingCanvas {
         repaint();
     }
 
-    // ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT
     private boolean pressedOnBlank;
 
     protected void pointerPressed(int x, int y) {
@@ -514,5 +514,5 @@ public class ListScreen extends KineticScrollingCanvas {
         }
         repaint();
     }
-    // endif
+//#endif
 }

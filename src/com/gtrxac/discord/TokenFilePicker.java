@@ -9,14 +9,14 @@ public class TokenFilePicker extends FilePicker {
         this("file:///");
     }
 
-    // ifdef SAMSUNG_FULL
+//#ifdef SAMSUNG_FULL
     // recreate this screen for 480p font fix (see MyCanvas and Util)
     protected MyCanvas reload() {
         TokenFilePicker result = new TokenFilePicker();
         result.lastScreen = lastScreen;
         return result;
     }
-    // endif
+//#endif
 
     protected TokenFilePicker(String currentPath) {
         super(Locale.get(TOKEN_PICKER_TITLE), currentPath);

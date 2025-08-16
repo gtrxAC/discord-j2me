@@ -9,10 +9,10 @@ public class Theme {
     public static final int DARK = 0;
     public static final int LIGHT = 1;
     public static final int BLACK = 2;
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
     public static final int SYSTEM = 3;
     public static final int CUSTOM = 4;
-    // endif
+//#endif
 
     public static int channelViewBackgroundColor;
     public static int channelViewEmptyTextColor;
@@ -106,11 +106,10 @@ public class Theme {
     private static final int[] selectedButtonBackgroundColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
     private static final int[] selectedButtonTextColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
 
-    // ifdef S40V2
-    // else
+//#ifndef S40V2
     private static final int[] typingBannerBackgroundColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
     private static final int[] typingBannerTextColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
-    // endif
+//#endif
 
 	private static final int[] listBackgroundColors      = {0x2b2d31, 0xffffff, 0x000000};
     private static final int[] listTextColors    = {0xdddddd, 0x222222, 0xdddddd};
@@ -170,14 +169,14 @@ public class Theme {
         selectedButtonBackgroundColor = selectedButtonBackgroundColors[Settings.theme];
         selectedButtonTextColor = selectedButtonTextColors[Settings.theme];
 
-        // ifdef S40V2
+//#ifdef S40V2
         // White background on banners on S40v2 so it blends into the system's title bar
         typingBannerBackgroundColor = 0xFFFFFF;
         typingBannerTextColor = 0x000000;
-        // else
+//#else
         typingBannerBackgroundColor = typingBannerBackgroundColors[Settings.theme];
         typingBannerTextColor = typingBannerTextColors[Settings.theme];
-        // endif
+//#endif
         unreadIndicatorBackgroundColor = 0xF23F43;
         unreadIndicatorTextColor = 0xFFFFFF;
         recipientMessageConnectorColor = 0x666666;
@@ -212,7 +211,7 @@ public class Theme {
         scrollbarHandleColor = scrollbarHandleColors[Settings.theme];
 	}
 
-    // ifdef OVER_100KB
+//#ifdef OVER_100KB
 	public static void loadSystemTheme() {
         // int bg = ThemeManager.getCurrentTheme().getColor(Theme.COLOR_BACKGROUND);
         int bg = App.disp.getColor(Display.COLOR_BACKGROUND);
@@ -398,22 +397,22 @@ public class Theme {
             return 0xFF0000;
         }
     }
-    // endif
+//#endif
 
 	public static void load() {
-        // ifdef S40V2
+//#ifdef S40V2
         // White background on banners on S40v2 so it blends into the system's title bar
         bannerBackgroundColor = 0xFFFFFF;
         bannerTextColor = 0x000000;
-        // else
+//#else
         bannerBackgroundColor = 0x5865F2;
         bannerTextColor = 0xFFFFFF;
-        // endif
+//#endif
 
         outdatedBannerBackgroundColor = 0xAA1122;
         outdatedBannerTextColor = 0xFFFFFF;
 
-        // ifdef OVER_100KB
+//#ifdef OVER_100KB
         if (Settings.theme == Theme.SYSTEM) {
             loadSystemTheme();
         }
@@ -421,7 +420,7 @@ public class Theme {
             loadJsonRmsTheme();
         }
         else
-        // endif
+//#endif
         loadPresetTheme();
     }
 }

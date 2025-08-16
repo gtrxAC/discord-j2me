@@ -1,4 +1,4 @@
-// ifdef EMOJI_SUPPORT
+//#ifdef EMOJI_SUPPORT
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -47,4 +47,4 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
     //     return "guildemoji (" + id + ")";
     // }
 }
-// endif
+//#endif
