@@ -859,13 +859,13 @@
     "HTTP 302: İstek birden geri yönlendirildi. Lütfen bağlantınızı kontrol edin.",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
-    "Warning",
-    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+    "Dikkat!",
+    "Discord üçüncü parti istemcilerden yüklenilen içerikleri spam olarak görür. Bu 2 faktörlü kimlik doğrulama ya da doğrulanmış telefon numarası olmayan hesaplarda sıkça görülür.\n Bu mesajı görmek istemiyorsanız, 'Gizle' seçeneğini seçin.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Hide",
-    "Hide",
+    "Gizle",
+    "Gizle",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?"
+    "Discord üçüncü parti istemcilerden gelen ilk direkt mesajları spam olarak görür. İlk direkt mesajınızı o hesaba resmi istemcilerden göndermeniz önerilir. Devam etmek ister misiniz?"
 ]
