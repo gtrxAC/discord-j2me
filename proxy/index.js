@@ -304,7 +304,7 @@ function generateUploadToken(token) {
 const { getRecommendedVersions, mainVersionDownloadLinks, arrayDownloadLinkHtml } = require('./recommend');
 
 // Homepage
-app.get('/', async (req, res) => {
+app.get('/j2me', async (req, res) => {
     res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -312,23 +312,18 @@ app.get('/', async (req, res) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
     <title>Discord J2ME</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Discord J2ME</h1>
-    ${getRecommendedVersions(req)}
-    <p><a href="/wap">Also try Discord WAP!</a></p>
-    <h1>Benchmarks</h1>
-    <p>JBenchmark <br/> <a href="/JBenchmark.jad">JAD</a> - <a href="/JBenchmark.jar">JAR</a></p>
-    <p>JBenchmark2 <br/> <a href="/JBenchmark2.jad">JAD</a> - <a href="/JBenchmark2.jar">JAR</a></p>
-    <p>JBenchmark3D <br/> <a href="/JBenchmark3D.jad">JAD</a> - <a href="/JBenchmark3D.jar">JAR</a></p>
-    <p>JBenchmarkHD <br/> <a href="/JBenchmarkHD.jad">JAD</a> - <a href="/JBenchmarkHD.jar">JAR</a></p>
-    <p>SPMarkJava06 <br/> <a href="/spmark_java06_benchmark_176x220-132640.jad">JAD</a> - <a href="/spmark_java06_benchmark_176x220-132640.jar">JAR</a></p>
-    <p>Java Specs Test <br/> <a href="/jst.jad">JAD</a> - <a href="/jst.jar">JAR</a></p>
+    <div class="main">
+        <h1>Discord J2ME</h1>
+        ${getRecommendedVersions(req)}
+    </div>
 </body>
 </html>`);
 });
 
-app.get('/all', (req, res) => {
+const allVersions = (req, res) => {
     res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -336,13 +331,20 @@ app.get('/all', (req, res) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
     <title>Discord J2ME</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Discord J2ME</h1>
-    ${arrayDownloadLinkHtml(Object.keys(mainVersionDownloadLinks))}
+    <div class="main">
+        <h1>Discord J2ME</h1>
+        ${arrayDownloadLinkHtml(Object.keys(mainVersionDownloadLinks))}
+    </div>
 </body>
-</html>`);
-});
+</html>`
+    );
+}
+
+app.get('/all', allVersions);
+app.get('/j2me/all', allVersions);
 
 // Get user's server list
 // Has cache which can be used with query parameter "c". This param is included by newer clients except when the list is force refreshed

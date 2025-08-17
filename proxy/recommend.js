@@ -5,8 +5,8 @@
 const mainVersionDownloadLinks = {
     "midp2":            { version: "5.0", betaVersion: "5.1", target: "Nokia S40v3+ and Symbian S60v3+" },
     "nokia_128px":      { version: "5.0", betaVersion: "5.1", target: "Nokia S40v3+ (128x160)" },
-    "s40v2":            { version: "5.0", betaVersion: "5.1", target: "Nokia S40v2" },
-    "s60v2":            { version: "5.0", betaVersion: "5.1", target: "Symbian S60v2" },
+    "s40v2":            { version: null, betaVersion: "5.1", target: "Nokia S40v2" },
+    "s60v2":            { version: null, betaVersion: "5.1", target: "Symbian S60v2" },
     "midp2_alt":        { version: "5.0", betaVersion: "5.1", target: "other MIDP2 devices" },
     "blackberry":       { version: "5.0", betaVersion: "5.1", target: "BlackBerry" },
     "samsung":          { version: "5.0", betaVersion: "5.1", target: "Samsung" },
@@ -28,8 +28,8 @@ const otherVersionDownloadLinks = {
 // other html snippets which can be included as part of recommendations (must be before or after actual)
 const otherSnippets = {
     JL_INFO: `<p>You can try Discord J2ME on your Android device by downloading the JAR below. You will need the J2ME Loader app installed.</p>`,
-    JL_INFO_2: `<p>If you want to load Discord J2ME onto an older device, <a href="/all">choose another version here</a>.</p>`,
-    SHOW_ALL: `<p><a href="/all">See all versions</a></p>`
+    JL_INFO_2: `<p>If you want to load Discord J2ME onto an older device, <a href="/j2me/all">choose another version here</a>.</p>`,
+    SHOW_ALL: `<p><a href="/j2me/all">See all versions</a></p>`
 }
 
 function downloadLinkHtml(name, beta) {
@@ -40,6 +40,7 @@ function downloadLinkHtml(name, beta) {
     if (obj.name) obj = mainVersionDownloadLinks[obj.name];
 
     if (beta && obj.betaVersion == null) return '';
+    if (!beta && obj.version == null) return '';
     if (beta) name += "_beta";
 
     const jad = (obj.showJad || obj.showJad === undefined) ? `<a href="/discord_${name}.jad">JAD</a> - ` : '';
@@ -53,7 +54,7 @@ function arrayDownloadLinkHtml(versions) {
         .some(ver => ver != null);
 
     return versions.map(ver => downloadLinkHtml(ver, false) ?? `<p>Unknown version: ${ver}. Please report this to developers.</p>`).join('') +
-        (haveAnyBetas ? `<b>Beta versions:</b>` : '') +
+        (haveAnyBetas ? `<h2>Beta versions</h2>` : '') +
         versions.map(ver => downloadLinkHtml(ver, true)).join('');
 }
 

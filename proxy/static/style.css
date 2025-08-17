@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ddd;
+    color: #111;
+}
+
+* {
+    font-family: "Inter", sans-serif;
+}
+
+.main {
+    background-color: #fff;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0.6em 0.4em;
+    overflow-wrap: break-word;
+}
+
+p {
+    margin: 0.2em 0 0.6em 0;
+}
+
+input, button, select {
+    margin: 0.2em 0 0.1em 0;
+}
+
+input[type="text"], textarea {
+    max-width: 80%;
+}
+
+input[type="submit"], button, select {
+    background-color: #fff;
+    color: #000;
+    border: solid 1px #aaa;
+    border-radius: 2px;
+    padding: 0.2em 0.5em;
+}
+
+input[type="submit"]:hover, button:hover, select:hover {
+    background-color: #eee;
+}
+
+input[type="submit"]:active, button:active, select:active {
+    background-color: #ddd;
+}
+
+a {
+    color: #14c;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0.5em 0 0.5em 0;
+}
