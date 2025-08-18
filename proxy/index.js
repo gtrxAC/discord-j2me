@@ -15,7 +15,7 @@ const emoji = new EmojiConvertor();
 emoji.replace_mode = 'unified';
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, 'static'), {extensions: ['html']}));
 app.use(defaultContentType);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
