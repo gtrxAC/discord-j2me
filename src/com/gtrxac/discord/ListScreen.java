@@ -450,7 +450,9 @@ public class ListScreen extends KineticScrollingCanvas {
             case UP: {
                 if (selected < 0) selected = 0;
                 if (selected == 0) {
+//#ifndef BLACKBERRY
                     selected = items.size() - 1;
+//#endif
                 } else {
                     selected--;
                 }
@@ -460,7 +462,9 @@ public class ListScreen extends KineticScrollingCanvas {
                 int max = items.size() - 1;
                 if (selected > max) selected = max;
                 if (selected == max) {
+//#ifndef BLACKBERRY
                     selected = 0;
+//#endif
                 } else {
                     selected++;
                 }
