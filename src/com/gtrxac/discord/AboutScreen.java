@@ -182,7 +182,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         checkScrollInRange();
 
 //#ifdef BLACKBERRY
-        g.setClip(0, 0, width, height);
+        bbDrawTitle(g);
 //#endif
 
         g.setColor(0x000000);
@@ -214,7 +214,11 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
             items[i].draw(g, g.getTranslateY() < height && g.getTranslateY() > -items[i].height);
         }
 
+//#ifdef BLACKBERRY
+        g.translate(0, -g.getTranslateY() + bbTitleHeight);
+//#else
         g.translate(0, -g.getTranslateY());
+//#endif
         drawScrollbar(g);
     }
 

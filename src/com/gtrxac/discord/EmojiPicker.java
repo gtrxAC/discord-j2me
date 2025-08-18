@@ -260,8 +260,8 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
     }
 
 //#ifdef TOUCH_SUPPORT
-    protected void pointerPressed(int x, int y) {
-        super.pointerPressed(x, y);
+    protected void _pointerPressed(int x, int y) {
+        super._pointerPressed(x, y);
 
         if (!usingScrollBar) {
             int screenWidth = getAvailableWidth();
@@ -278,9 +278,9 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         }
     }
 
-    protected void pointerReleased(int x, int y) {
+    protected void _pointerReleased(int x, int y) {
         if (!pointerWasTapped(Util.fontSize)) {
-            super.pointerReleased(x, y);
+            super._pointerReleased(x, y);
             return;
         }
         commandAction(selectCommand, this);

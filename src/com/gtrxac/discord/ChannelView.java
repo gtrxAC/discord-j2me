@@ -790,7 +790,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
 //#ifdef TOUCH_SUPPORT
-    protected void pointerPressed(int x, int y) {
+    protected void _pointerPressed(int x, int y) {
         int buttonOffset = fontHeight/2;
         int buttonMargin = fontHeight/3;
         int buttonWidth = backButtonStringWidth + buttonMargin*2;
@@ -801,19 +801,19 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             return;
         }
         touchMode = true;
-        super.pointerPressed(x, y);
+        super._pointerPressed(x, y);
     }
 
-    protected void pointerDragged(int x, int y) {
+    protected void _pointerDragged(int x, int y) {
         touchMode = true;
-        super.pointerDragged(x, y);
+        super._pointerDragged(x, y);
     }
 
-    protected void pointerReleased(int x, int y) {
+    protected void _pointerReleased(int x, int y) {
         touchMode = true;
 
         if (!pointerWasTapped(fontHeight)) {
-            super.pointerReleased(x, y);
+            super._pointerReleased(x, y);
             return;
         }
         for (int i = 0; i < items.size(); i++) {

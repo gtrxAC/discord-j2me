@@ -482,8 +482,8 @@ public class ListScreen extends KineticScrollingCanvas {
 //#ifdef TOUCH_SUPPORT
     private boolean pressedOnBlank;
 
-    protected void pointerPressed(int x, int y) {
-        super.pointerPressed(x, y);
+    protected void _pointerPressed(int x, int y) {
+        super._pointerPressed(x, y);
 
         if (y > getItemPosition(items.size())) {
             pressedOnBlank = true;
@@ -500,12 +500,12 @@ public class ListScreen extends KineticScrollingCanvas {
         repaint();
     }
 
-    protected void pointerReleased(int x, int y) {
+    protected void _pointerReleased(int x, int y) {
         if (!pressedOnBlank) {
             if (!pointerWasTapped(fontHeight)) {
                 // Scrolled: start kinetic scrolling if needed
                 touchMode = true;
-                super.pointerReleased(x, y);
+                super._pointerReleased(x, y);
             }
             else {
                 // Not scrolled and not tapped on empty space: select item

@@ -93,10 +93,35 @@ public abstract class MyCanvas extends Canvas {
     }
 //#endif
 
-    protected void clearScreen(Graphics g, int color) {
-        // On BlackBerry, the clip is set by default to (0, -y, width, height+y), where y is the height of the title bar. This means that apps can draw stuff over the title bar. We don't want to do that.
 //#ifdef BLACKBERRY
-        g.setClip(0, 0, getWidth(), getHeight());
+    protected int bbTitleHeight;
+    private static final Font bbTitleFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+
+    protected void bbDrawTitle(Graphics g) {
+        bbTitleHeight = g.getTranslateY();
+
+        if (bbTitleHeight != 0) {
+            String title = getTitle();
+            if (title == null) title = "Discord";
+
+            g.setColor(0xEEEEFF);
+            g.fillRect(0, -bbTitleHeight, getWidth(), bbTitleHeight);
+
+            g.setColor(0x111111);
+            g.setFont(bbTitleFont);
+            g.drawString(title, getWidth()/2, -bbTitleHeight, Graphics.HCENTER | Graphics.TOP);
+            g.drawLine(0, -1, getWidth(), -1);
+
+            g.setClip(0, 0, getWidth(), getHeight());
+        }
+    }
+//#endif
+
+    protected void clearScreen(Graphics g, int color) {
+        // On BlackBerry, the clip is set by default to (0, -y, width, height+y), where y is the height of the title bar. This means that apps can draw stuff over the title bar.
+        // We'll draw a custom title bar over the default one, then set a new clip so nothing else in the app can draw over it.
+//#ifdef BLACKBERRY
+        bbDrawTitle(g);
 //#endif
 
 //#ifdef NOKIA_THEME_BACKGROUND
@@ -107,4 +132,38 @@ public abstract class MyCanvas extends Canvas {
             g.fillRect(0, 0, getWidth(), getHeight());
         }
     }
+
+//#ifdef TOUCH_SUPPORT
+    protected void _pointerPressed(int x, int y) {}
+    protected void _pointerDragged(int x, int y) {}
+    protected void _pointerReleased(int x, int y) {}
+//#endif
+
+//#ifdef BLACKBERRY
+    protected void pointerPressed(int x, int y) {
+        _pointerPressed(x, y - bbTitleHeight);
+    }
+
+    protected void pointerDragged(int x, int y) {
+        _pointerDragged(x, y - bbTitleHeight);
+    }
+
+    protected void pointerReleased(int x, int y) {
+        _pointerReleased(x, y - bbTitleHeight);
+    }
+//#else
+//#ifdef TOUCH_SUPPORT
+    protected void pointerPressed(int x, int y) {
+        _pointerPressed(x, y);
+    }
+
+    protected void pointerDragged(int x, int y) {
+        _pointerDragged(x, y);
+    }
+
+    protected void pointerReleased(int x, int y) {
+        _pointerReleased(x, y);
+    }
+//#endif
+//#endif
 }

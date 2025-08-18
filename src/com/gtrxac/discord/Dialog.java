@@ -110,7 +110,12 @@ implements CommandListener
         checkScrollInRange();
 //#endif
 
+//#ifdef BLACKBERRY
+        bbDrawTitle(g);
+//#else
         g.setClip(0, 0, getWidth(), getHeight());
+//#endif
+
         int themeBg = Theme.dialogBackgroundColor;
 
         // Get the screen that should be drawn behind this one
