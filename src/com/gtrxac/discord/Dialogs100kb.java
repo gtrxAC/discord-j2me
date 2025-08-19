@@ -39,6 +39,7 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
 
     // Notification dialog
     private Notification notif;
+    private boolean hasPlayedSound;
 
     public Dialogs100kb(Notification notif, String location, Message msg) {
         super(Locale.get(NOTIFICATION_TITLE), "");
@@ -97,7 +98,10 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
     }
 
     protected void showNotify() {
-        if (dialogType == NOTIFICATION_DIALOG) App.gateway.playNotificationSound();
+        if (dialogType == NOTIFICATION_DIALOG && !hasPlayedSound) {
+            App.gateway.playNotificationSound();
+            hasPlayedSound = true;
+        }
     }
 
     public void commandAction(Command c, Displayable d) {
