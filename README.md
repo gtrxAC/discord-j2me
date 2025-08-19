@@ -1,12 +1,12 @@
 # Discord for J2ME
-Discord client for Java ME (MIDP 1.0 and 2.0) devices, inspired by [Discord for Symbian](https://github.com/uwmpr/discord-symbian-fixed). Uses proxy servers for the [HTTP](/proxy/) and [gateway](https://github.com/gtrxAC/discord-j2me-server) connection.
+Discord client for Java ME (MIDP 1.0 and 2.0) devices, inspired by [Discord for Symbian](https://web.archive.org/web/20240402175051/https://github.com/uwmpr/discord-symbian-fixed). Uses proxy servers for the [HTTP](/proxy/) and [gateway](https://github.com/gtrxAC/discord-j2me-server) connection.
 
 Also see [Droidcord](https://github.com/leap0x7b/Droidcord), a Discord client for old Android devices, and [Discord WAP](https://github.com/gtrxAC/discord-wap), a client for old mobile browsers.
 
 ![Screenshots](img/screenshots.png)
 
 * [Download](https://github.com/gtrxAC/discord-j2me/releases/latest)
-* [Discord server](https://discord.gg/2GKuJjQagp) (#discord-j2me)
+* [Discord server](https://discord.gg/2GKuJjQagp) (#discord-j2me-wap channel)
 * [Telegram group](https://t.me/dscforsymbian)
 
 ## Status
