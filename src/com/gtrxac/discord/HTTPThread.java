@@ -702,13 +702,13 @@ public class HTTPThread extends Thread implements Strings {
                         }
                         App.selectedDmChannel = DMChannel.getById(channelID);
                     } else {
-                        if (App.guildSelector == null) {
+                        if (App.guilds == null || App.guildSelector == null) {
                             runSilentHTTP(HTTPThread.FETCH_GUILDS);
                         }
                         Guild prevSelectedGuild = App.selectedGuild;
                         App.selectedGuild = Guild.getById(guildID);
 
-                        if (App.channelSelector == null || prevSelectedGuild != App.selectedGuild) {
+                        if (App.channels == null || App.channelSelector == null || prevSelectedGuild != App.selectedGuild) {
                             runSilentHTTP(HTTPThread.FETCH_CHANNELS);
                         }
                         App.selectedChannel = Channel.getByID(channelID);

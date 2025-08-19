@@ -178,6 +178,9 @@ public class Settings {
 //#ifdef J2ME_LOADER
         isHighRam = true;
 //#endif
+//#ifdef BLACKBERRY
+        isHighRam = true;
+//#endif
 //#ifdef MIDP2_GENERIC
         isHighRam = Util.isSymbian || Util.isKemulator;
 //#endif
