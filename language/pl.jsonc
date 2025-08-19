@@ -859,12 +859,12 @@
     "HTTP 302: To żądanie zostało nieoczekiwanie przekierowane. Sprawdź połączenie.",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
-    "Warning",
-    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+    "Uwaga",
+    "Discord jest znany z tego, że oflagowuje przesyłania załączników z klientów trzecich jako spam. Dzieje się to zazwyczaj na nowych kontach bez 2FA lub zweryfikowanego numeru telefonu. Kontynuuj na własne ryzyko.\nWybierz 'Ukryj' jeżeli nie chcesz tego widzieć ponownie.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Hide",
-    "Hide",
+    "Ukryj",
+    "Ukryj",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
     "Discord jest znany z tego, że oflagowuje nowe wiadomości prywatne jako spam. Zalecane jest, żeby wysłać swoją pierwszą wiadomość przez oficjalnego klienta. Czy chcesz kontynuować?"
