@@ -571,6 +571,7 @@ public class GatewayThread extends Thread implements Strings
 							if (!msg.id.equals(messageId)) continue;
 
 							msg.content = newContent;
+							msg.rawContent = newContent;
 							msg.needUpdate = true;
 //#ifdef OVER_100KB
 							msg.isEdited = true;
