@@ -328,8 +328,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         else if (after != null || hasMoreUnreads) {
             // If user selected Show newer messages, or there are more unreads, go to the top of the
             // message list, so it's more intuitive to scroll through
+            // More unreads -> highlight the "show older messages" button for convenience
             scroll = 0;
-            selectedItem = items.size() - 1;
+            selectedItem = items.size() - (hasMoreUnreads ? 2 : 1);
             selectionMode = true;
         }
         // Channel view was updated for the first time - check if there is an unread message indicator, and if so, scroll to it
@@ -691,6 +692,43 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         App.disp.setCurrent(new MessageCopyBox(item.msg.content));
     }
 
+    private void scrollUp() {
+        int max = items.size() - 1;
+        if (selectedItem > max) selectedItem = max;
+        if (selectedItem == max) return;
+        selectedItem++;
+        
+        // If this item was a "NEW" indicator, skip it
+        ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+
+        if (item.type == ChannelViewItem.UNREAD_INDICATOR) {
+            makeSelectedItemVisible();
+            if (selectedItem == max) {
+                scrollDown();
+            } else {
+                scrollUp();
+            }
+        }
+    }
+
+    private void scrollDown() {
+        if (selectedItem < 0) selectedItem = 0;
+        if (selectedItem == 0) return;
+        selectedItem--;
+        
+        // If this item was a "NEW" indicator, skip it
+        ChannelViewItem item = (ChannelViewItem) items.elementAt(selectedItem);
+
+        if (item.type == ChannelViewItem.UNREAD_INDICATOR) {
+            makeSelectedItemVisible();
+            if (selectedItem == 0) {
+                scrollUp();
+            } else {
+                scrollDown();
+            }
+        }
+    }
+
     private void navKeyAction(int action, int thisItemHeight, int thisItemPos) {
         switch (action) {
             case UP: {
@@ -703,12 +741,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                     scroll -= fontHeight*2;
                 }
                 // Else go up by one message
-                else {
-                    int max = items.size() - 1;
-                    if (selectedItem > max) selectedItem = max;
-                    if (selectedItem == max) return;
-                    selectedItem++;
-                }
+                else scrollUp();
                 break;
             }
             case DOWN: {
@@ -721,11 +754,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                     selectionMode = false;
                 }
                 // Else go down by one message
-                else {
-                    if (selectedItem < 0) selectedItem = 0;
-                    if (selectedItem == 0) return;
-                    selectedItem--;
-                }
+                else scrollDown();
                 break;
             }
             case FIRE: {
