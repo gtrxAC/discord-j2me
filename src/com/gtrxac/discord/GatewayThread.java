@@ -153,7 +153,7 @@ public class GatewayThread extends Thread implements Strings
 		String location = null;
 
 		// Message content, limited to 50 characters, with attachments parsed into text, e.g. "Text content (3 attachments)"
-		String content = null;
+		// This is now stored in msg.content
 
 		// true if message sent in a direct message, false if sent in a server or DM group
 		boolean isDM = false;
@@ -195,7 +195,7 @@ public class GatewayThread extends Thread implements Strings
 				c.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX));
 			}
 		}
-		content = c.toString();
+		msg.content = c.toString();
 
 		Notification notif = new Notification(guildID, channelID);
 
@@ -212,7 +212,7 @@ public class GatewayThread extends Thread implements Strings
 			if (Settings.showNotifPigler && pigler != null) {
 				try {
 					int uid;
-					String notificationText = isDM ? content : (author + ": " + content);
+					String notificationText = isDM ? msg.content : (author + ": " + msg.content);
 					uid = pigler.createNotification(location, notificationText, appIcon, true);
 					try {
 						pigler.showGlobalPopup(location, notificationText, 0);
@@ -230,7 +230,7 @@ public class GatewayThread extends Thread implements Strings
 				SoftNotification sn = SoftNotification.newInstance();
 				sn.setText(
 					Notification.createString(location, msg),
-					(isDM ? author : location) + ": " + content
+					(isDM ? author : location) + ": " + msg.content
 				);
 				sn.post();
 			}
