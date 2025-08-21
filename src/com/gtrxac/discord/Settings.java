@@ -119,7 +119,7 @@ public class Settings {
         token = "";
 
         // Check if token is supplied in JAD or manifest. If so, use that as the default.
-        String manifestToken = DiscordMIDlet.instance.getAppProperty("Token");
+        String manifestToken = App.instance.getAppProperty("Token");
         if (manifestToken != null) token = manifestToken;
 
         // Check if save file in old format is available.

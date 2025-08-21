@@ -86,7 +86,7 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
             }
         }
         else if (c == quitCommand) {
-            DiscordMIDlet.instance.notifyDestroyed();
+            App.instance.notifyDestroyed();
         }
     }
 }

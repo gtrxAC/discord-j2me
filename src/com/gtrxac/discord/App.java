@@ -7,7 +7,7 @@ import javax.microedition.io.file.*;
 import java.util.*;
 import cc.nnproject.json.*;
 
-public class App implements Strings {
+public class App extends MIDlet implements Strings {
 	public static final int VERSION_CODE = 21;
 	public static final String VERSION_NAME = "5.1.0 beta2";
 
@@ -95,6 +95,36 @@ public class App implements Strings {
 		NameColorCache.init();
 		UnreadManager.init();
     }
+
+    public static App instance;
+
+    private boolean started = false;
+
+    public App() {
+        instance = this;
+    }
+
+    public void startApp() {
+        if (!started) {
+            disp = Display.getDisplay(this);
+            Settings.load();
+
+            // If token was not found in save file, go to login screen, else login and go to main menu
+            if (Settings.token.trim().length() == 0) {
+                // Theme and fonts need to be loaded so Dialog screens can be shown as part of the LoginForm
+                Theme.load();
+                loadFonts();
+                disp.setCurrent(new LoginForm());
+            } else {
+                login();
+            }
+            started = true;
+        }
+    }
+
+    public void pauseApp() {}
+
+    public void destroyApp(boolean unconditional) {}
 
     public static void login() {
 		ic = null;
@@ -312,7 +342,7 @@ public class App implements Strings {
 
 	public static void platRequest(String url) {
 		try {
-			if (DiscordMIDlet.instance.platformRequest(url)) {
+			if (instance.platformRequest(url)) {
 //#ifdef OVER_100KB
 				disp.setCurrent(new PlatformRequestDialog());
 //#else

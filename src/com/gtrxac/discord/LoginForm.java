@@ -131,7 +131,7 @@ Strings
             App.login();
         }
         else if (c == quitCommand) {
-            DiscordMIDlet.instance.notifyDestroyed();
+            App.instance.notifyDestroyed();
         }
 //#ifdef BLACKBERRY
         else if (c == changeTokenCommand) {

@@ -19,10 +19,10 @@ public class PlatformRequestDialog extends Dialog implements Strings {
 
     public void commandAction(Command c, Displayable d) {
         if (c == yesCommand) {
-            DiscordMIDlet.instance.notifyDestroyed();
+            App.instance.notifyDestroyed();
         } else {
             try {
-                DiscordMIDlet.instance.platformRequest("");  // cancel the request
+                App.instance.platformRequest("");  // cancel the request
             }
             catch (Exception e) {}
             App.disp.setCurrent(lastScreen);

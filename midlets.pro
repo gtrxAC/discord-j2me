@@ -9,9 +9,12 @@
 -microedition
 -target 1.2
 -dontoptimize
+
+# If you uncomment this, also add "DEBUG" define in build.json
+# so the correct main class name gets specified in the manifest
 # -dontobfuscate
 
--keep public class * extends javax.microedition.midlet.MIDlet
+-keep,allowobfuscation public class * extends javax.microedition.midlet.MIDlet
 -applymapping mapping.map
 -dontnote
 -dontusemixedcaseclassnames
