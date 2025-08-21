@@ -25,7 +25,7 @@ const otherVersionDownloadLinks = {
     "midp2_symbian":        { name: "midp2", target: "Symbian S60v3+" },
 }
 
-// other html snippets which can be included as part of recommendations (must be before or after actual)
+// other html snippets which can be included as part of recommendations (must be before or after actual version names, not in between)
 const otherSnippets = {
     JL_INFO: `<p>You can try Discord J2ME on your Android device by downloading the JAR below. You will need the J2ME Loader app installed.</p>`,
     JL_INFO_2: `<p>If you want to load Discord J2ME onto an older device, <a href="/j2me/all">choose another version here</a>.</p>`,
