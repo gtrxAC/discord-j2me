@@ -867,5 +867,13 @@
     "Hide",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?"
+    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Favourite servers",
+    "Saved servers",
+
+    // Title and description of dialog screen shown when the user has saved their server list.
+    "Saved",
+    "Server list saved to cache!"
 ]

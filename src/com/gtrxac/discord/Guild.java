@@ -70,4 +70,14 @@ public class Guild extends HasUnreads implements HasIcon, Strings {
     public void markRead() {
         if (channels != null) UnreadManager.markRead(channels);
     }
+
+//#ifdef OVER_100KB
+    public JSONObject toJSON() {
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("name", name);
+        if (iconHash != null) result.put("icon", iconHash);
+        return result;
+    }
+//#endif
 }

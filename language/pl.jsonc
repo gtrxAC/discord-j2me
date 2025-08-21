@@ -867,5 +867,13 @@
     "Ukryj",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord jest znany z tego, że oflagowuje nowe wiadomości prywatne jako spam. Zalecane jest, żeby wysłać swoją pierwszą wiadomość przez oficjalnego klienta. Czy chcesz kontynuować?"
+    "Discord jest znany z tego, że oflagowuje nowe wiadomości prywatne jako spam. Zalecane jest, żeby wysłać swoją pierwszą wiadomość przez oficjalnego klienta. Czy chcesz kontynuować?",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Favourite servers",
+    "Saved servers",
+
+    // Title and description of dialog screen shown when the user has saved their server list.
+    "Saved",
+    "Server list saved to cache!"
 ]

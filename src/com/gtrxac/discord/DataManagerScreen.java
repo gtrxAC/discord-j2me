@@ -52,6 +52,10 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
         addItem(DATA_MANAGER_NOTIF_SOUND, "notifsound", true);
         addItem(DATA_MANAGER_LANGUAGE, "lang", true);
         addItem(DATA_MANAGER_THEME, "theme", false);
+        addItem(DATA_MANAGER_FAV_GUILDS, "favguild", false);
+//#ifdef OVER_100KB
+        addItem(DATA_MANAGER_SAVED_GUILDS, "guild", true);
+//#endif
     }
 
     public void commandAction(Command c, Displayable d) {

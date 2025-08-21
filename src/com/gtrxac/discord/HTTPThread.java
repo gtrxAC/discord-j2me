@@ -279,9 +279,32 @@ public class HTTPThread extends Thread implements Strings {
             switch (action) {
                 case FETCH_GUILDS: {
 //#ifdef OVER_100KB
-                    String url = "/users/@me/guilds";
-                    if (!forceReload && App.isLiteProxy) url += "?c";  // query parameter for using proxy cache
-                    JSONArray guilds = JSON.getArray(HTTP.get(url));
+                    JSONArray guilds = null;
+                    RecordStore rms = null;
+                    boolean wasFetched = false;
+
+                    try {
+                        rms = RecordStore.openRecordStore("guild", false);
+                    }
+                    catch (Exception e) {}
+
+                    if (!forceReload) {
+                        try {
+                            String savedID = Util.bytesToString(rms.getRecord(2));
+
+                            if (savedID.equals(App.myUserId)) {
+                                guilds = JSON.getArray(Util.bytesToString(rms.getRecord(3)));
+                            }
+                        }
+                        catch (Exception e) {}
+                    }
+
+                    if (guilds == null) {
+                        String url = "/users/@me/guilds";
+                        if (!forceReload && App.isLiteProxy) url += "?c";  // query parameter for using proxy cache
+                        guilds = JSON.getArray(HTTP.get(url));
+                        wasFetched = true;
+                    }
 //#else
                     JSONArray guilds = JSON.getArray(HTTP.get("/users/@me/guilds"));
 //#endif
@@ -290,6 +313,16 @@ public class HTTPThread extends Thread implements Strings {
                     for (int i = 0; i < guilds.size(); i++) {
                         App.guilds.addElement(new Guild(guilds.getObject(i)));
                     }
+
+//#ifdef OVER_100KB
+                    if (wasFetched
+//#ifndef UNLIMITED_RMS
+                        && rms != null
+//#endif
+                    ) GuildSelector.saveGuilds(false);
+
+                    Util.closeRecordStore(rms);
+//#endif
 
                     if (showFavGuilds) {
                         FavoriteGuilds.openSelector(false, false);

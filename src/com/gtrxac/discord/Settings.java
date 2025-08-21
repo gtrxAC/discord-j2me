@@ -134,8 +134,7 @@ public class Settings {
                 foundOldToken = true;
             }
             Util.closeRecordStore(oldRms);
-            // TODO: will later make it actually delete when the new save system is deemed to be stable enough
-            // RecordStore.deleteRecordStore("login");
+            RecordStore.deleteRecordStore("login");
         }
         catch (Exception e) {}
 

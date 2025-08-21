@@ -1,6 +1,7 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 import java.util.*;
 
@@ -13,6 +14,9 @@ public class GuildSelector extends ListScreen implements CommandListener, String
     private Command refreshCommand;
 //#ifdef OVER_100KB
     private Command muteCommand;
+//#ifndef UNLIMITED_RMS
+    private Command saveCommand;
+//#endif
 //#endif
 
     public GuildSelector(Vector guilds, boolean isFavGuilds) throws Exception {
@@ -31,20 +35,25 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         }
         UnreadManager.manualSave();
 
-        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 3);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 5);
         addCommand(refreshCommand);
 
+        if (guilds.size() != 0) {
 //#ifdef OVER_100KB
-        muteCommand = Locale.createCommand(MUTE, Command.ITEM, 6);
-        addCommand(muteCommand);
+            muteCommand = Locale.createCommand(MUTE, Command.ITEM, 3);
+            addCommand(muteCommand);
+//#ifndef UNLIMITED_RMS
+            saveCommand = Locale.createCommand(SAVE, Command.SCREEN, 4);
+            addCommand(saveCommand);
 //#endif
-
-        if (isFavGuilds) {
-            removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 2);
-            addCommand(removeFavCommand);
-        } else {
-            addFavCommand = Locale.createCommand(ADD_FAVORITE, Command.ITEM, 2);
-            addCommand(addFavCommand);
+//#endif
+            if (isFavGuilds) {
+                removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 2);
+                addCommand(removeFavCommand);
+            } else {
+                addFavCommand = Locale.createCommand(ADD_FAVORITE, Command.ITEM, 2);
+                addCommand(addFavCommand);
+            }
         }
     }
 
@@ -64,6 +73,34 @@ public class GuildSelector extends ListScreen implements CommandListener, String
      * Updates the icons and unread indicators for all servers shown in this selector.
      */
     public void update() { update(null); }
+
+//#ifdef OVER_100KB
+    public static void saveGuilds(boolean dialog) {
+        RecordStore rms = null;
+        try {
+            rms = RecordStore.openRecordStore("guild", true);
+            Util.setOrAddRecord(rms, 1, Integer.toString(App.guilds.size()));
+            Util.setOrAddRecord(rms, 2, App.myUserId);
+
+            JSONArray guildsJson = new JSONArray();
+            for (int i = 0; i < App.guilds.size(); i++) {
+                Guild g = (Guild) App.guilds.elementAt(i);
+                guildsJson.add(g.toJSON());
+            }
+            Util.setOrAddRecord(rms, 3, guildsJson.build());
+
+//#ifndef UNLIMITED_RMS
+            if (dialog) {
+                App.disp.setCurrent(new Dialog(Locale.get(GUILD_SAVE_TITLE), Locale.get(GUILD_SAVE_DESCRIPTION)));
+            }
+//#endif
+        }
+        catch (Exception e) {
+            App.error(e);
+        }
+        Util.closeRecordStore(rms);
+    }
+//#endif
 
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
@@ -85,6 +122,13 @@ public class GuildSelector extends ListScreen implements CommandListener, String
             FavoriteGuilds.remove(getSelectedIndex());
             FavoriteGuilds.openSelector(false, false);
         }
+//#ifdef OVER_100KB
+//#ifndef UNLIMITED_RMS
+        else if (c == saveCommand) {
+            saveGuilds(true);
+        }
+//#endif
+//#endif
         else {
             Guild g = (Guild) guilds.elementAt(getSelectedIndex());
 

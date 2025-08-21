@@ -375,4 +375,10 @@ public interface Strings {
     static final int HIDE_L = 353;
     static final int DM_WARNING_DESCRIPTION = 354;
 //#endif
+    static final int DATA_MANAGER_FAV_GUILDS = 355;
+    static final int DATA_MANAGER_SAVED_GUILDS = 356;
+//#ifndef UNLIMITED_RMS
+    static final int GUILD_SAVE_TITLE = 357;
+    static final int GUILD_SAVE_DESCRIPTION = 358;
+//#endif
 }
