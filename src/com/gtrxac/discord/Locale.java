@@ -38,7 +38,10 @@ public class Locale {
         // Fill in any gaps (nulls) in the translation with the default English strings
         for (int i = 0; i < newStrs.size(); i++) {
             if (newStrs.elementAt(i) == JSON.json_null) {
-                newStrs.setElementAt(defaultStrs.elementAt(i), i);
+                try {
+                    newStrs.setElementAt(defaultStrs.elementAt(i), i);
+                }
+                catch (Exception e) {}
             }
         }
         // Fill in missing string indexes with English strings
