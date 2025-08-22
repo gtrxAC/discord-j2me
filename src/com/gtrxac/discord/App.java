@@ -13,7 +13,10 @@ public class App extends MIDlet implements Strings {
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =
-//#ifdef MIDP2_GENERIC
+//#ifdef DEBUG_VERSION
+	"debug";
+//#endif
+//#ifdef MIDP2_VERSION
 	"midp2";
 //#endif
 //#ifdef NOKIA_128PX_VERSION

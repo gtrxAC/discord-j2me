@@ -1,6 +1,6 @@
 //#ifdef NOKIA_128PX
 //#ifdef DEBUG
-MIDlet-1: Discord, /icon_28.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-1: Discord, /icon_28.png, com.gtrxac.discord.App
 //#else
 MIDlet-1: Discord, /icon_28.png, a
 //#endif
@@ -8,14 +8,14 @@ MIDlet-Icon: /icon_28.png
 //#else
 //#ifdef S60V2
 //#ifdef DEBUG
-MIDlet-1: Discord, /icon_42_29.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-1: Discord, /icon_42_29.png, com.gtrxac.discord.App
 //#else
 MIDlet-1: Discord, /icon_42_29.png, a
 //#endif
 MIDlet-Icon: /icon_42_29.png
 //#else
 //#ifdef DEBUG
-MIDlet-1: Discord, /icon.png, com.gtrxac.discord.DiscordMIDlet
+MIDlet-1: Discord, /icon.png, com.gtrxac.discord.App
 //#else
 MIDlet-1: Discord, /icon.png, a
 //#endif

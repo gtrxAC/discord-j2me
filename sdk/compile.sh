@@ -11,7 +11,7 @@ rm -rf classes/*
 
 # Preprocess Java source files
 echo "Preprocessing"
-node sdk/preprocess.js `find src -name '*'.java` manifest.mf ${DEFINES}
+node sdk/preprocess.js `find src -name '*'.java` manifest.mf midlets.pro ${DEFINES}
 
 echo "Copying assets"
 mkdir -p build/res
@@ -34,7 +34,7 @@ ${JAVA_HOME}/bin/jar cvfm bin/in.jar build/manifest.mf -C classes . -C build/res
 # Preverify and obfuscate (ProGuard)
 # Note: ProGuard 6.0.3 is the last version to run under JDK 6, as of writing, the latest version can run under JDK 8
 echo "Verifying"
-${JAVA_HOME}/bin/java -jar sdk/proguard.jar @midlets.pro -printmapping "bin/${JAR_NAME}.map"
+${JAVA_HOME}/bin/java -jar sdk/proguard.jar @build/midlets.pro -printmapping "bin/${JAR_NAME}.map"
 rm bin/in.jar
 mv bin/out.jar "bin/${JAR_NAME}.jar"
 
