@@ -870,10 +870,10 @@
     "Discord jest znany z tego, że oflagowuje nowe wiadomości prywatne jako spam. Zalecane jest, żeby wysłać swoją pierwszą wiadomość przez oficjalnego klienta. Czy chcesz kontynuować?",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "Ulubione serwery",
+    "Zapisane serwery",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!"
+    "Zapisano",
+    "Lista serwerów zapisana do pamięci cache!"
 ]
