@@ -14,9 +14,9 @@ public class GuildSelector extends ListScreen implements CommandListener, String
     private Command refreshCommand;
 //#ifdef OVER_100KB
     private Command muteCommand;
+//#endif
 //#ifndef UNLIMITED_RMS
     private Command saveCommand;
-//#endif
 //#endif
 
     public GuildSelector(Vector guilds, boolean isFavGuilds) throws Exception {
@@ -42,10 +42,10 @@ public class GuildSelector extends ListScreen implements CommandListener, String
 //#ifdef OVER_100KB
             muteCommand = Locale.createCommand(MUTE, Command.ITEM, 3);
             addCommand(muteCommand);
+//#endif
 //#ifndef UNLIMITED_RMS
             saveCommand = Locale.createCommand(SAVE, Command.SCREEN, 4);
             addCommand(saveCommand);
-//#endif
 //#endif
             if (isFavGuilds) {
                 removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 2);
@@ -74,7 +74,6 @@ public class GuildSelector extends ListScreen implements CommandListener, String
      */
     public void update() { update(null); }
 
-//#ifdef OVER_100KB
     public static void saveGuilds(boolean dialog) {
         RecordStore rms = null;
         try {
@@ -100,7 +99,6 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         }
         Util.closeRecordStore(rms);
     }
-//#endif
 
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
@@ -122,12 +120,10 @@ public class GuildSelector extends ListScreen implements CommandListener, String
             FavoriteGuilds.remove(getSelectedIndex());
             FavoriteGuilds.openSelector(false, false);
         }
-//#ifdef OVER_100KB
 //#ifndef UNLIMITED_RMS
         else if (c == saveCommand) {
             saveGuilds(true);
         }
-//#endif
 //#endif
         else {
             Guild g = (Guild) guilds.elementAt(getSelectedIndex());

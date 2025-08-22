@@ -92,8 +92,8 @@ public class Icons {
     Image flagBG;
     Image flagMY;
     Image flagCA;
-//#ifdef OVER_100KB
     Image fastScroll;
+//#ifdef OVER_100KB
     Image themeCustom;
 //#endif
     Image flagJP;
@@ -180,10 +180,14 @@ public class Icons {
         markdown = sh.next();
         typing = sh.next();
         dataManager = sh.next();
+//#else
+        sh.skip(4);
+//#endif
         fastScroll = sh.next();
+//#ifdef OVER_100KB
         themeCustom = sh.next();
 //#else
-        sh.skip(6);
+        sh.skip();
 //#endif
         flagGB = sh.next();
         flagUS = sh.next();

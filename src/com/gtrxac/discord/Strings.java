@@ -354,7 +354,9 @@ public interface Strings {
 //#ifdef OVER_100KB
     static final int PLAT_REQUEST_DIALOG_TITLE = 335;
     static final int PLAT_REQUEST_DIALOG_TEXT = 336;
+//#endif
     static final int FAST_SCROLLING = 337;
+//#ifdef OVER_100KB
     static final int PLAY_SOUND_FAILED = 338;
 //#endif
     static final int TRANSLATOR_JA = 339;

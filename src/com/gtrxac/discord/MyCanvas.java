@@ -48,15 +48,12 @@ public abstract class MyCanvas extends Canvas {
 
     protected void keyAction(int key) {}
 
-//#ifdef OVER_100KB
     private static volatile boolean isKeyPressed = false;
     public static volatile long beginRepeatTime;
-//#endif
 
     protected void keyPressed(int key) {
         keyAction(key);
 
-//#ifdef OVER_100KB
         if (KeyRepeatThread.enabled && !isKeyPressed) {
             isKeyPressed = true;
             beginRepeatTime = System.currentTimeMillis() + 500;
@@ -65,23 +62,17 @@ public abstract class MyCanvas extends Canvas {
                 KeyRepeatThread.instance.notify();
             }
         }
-//#endif
     }
 
-//#ifdef OVER_100KB
     protected void keyReleased(int key) {
         if (KeyRepeatThread.enabled && isKeyPressed) {
             isKeyPressed = false;
             KeyRepeatThread.activeKey = 0;
         }
     }
-//#endif
 
     protected void keyRepeated(int key) {
-//#ifdef OVER_100KB
-        if (!KeyRepeatThread.enabled)
-//#endif
-        keyAction(key);
+        if (!KeyRepeatThread.enabled) keyAction(key);
     }
 
 //#ifdef NOKIA_THEME_BACKGROUND

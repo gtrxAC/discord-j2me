@@ -285,14 +285,7 @@ public class Settings {
         sendTyping =
 //#endif
         getBoolRecord(true);
-//#ifdef OVER_100KB
-        KeyRepeatThread.toggle(
-//#endif
-            getBoolRecord(false)
-//#ifdef OVER_100KB
-        )
-//#endif
-        ;
+        KeyRepeatThread.toggle(getBoolRecord(false));
 //#ifdef OVER_100KB
         hasSeenUploadWarning =
 //#endif
@@ -413,13 +406,7 @@ public class Settings {
             false
 //#endif
         );
-        setBoolRecord(
-//#ifdef OVER_100KB
-            KeyRepeatThread.enabled
-//#else
-            false
-//#endif
-        );
+        setBoolRecord(KeyRepeatThread.enabled);
         setBoolRecord(
 //#ifdef OVER_100KB
             hasSeenUploadWarning

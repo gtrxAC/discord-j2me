@@ -226,13 +226,9 @@ public class App extends MIDlet implements Strings {
 		if (Settings.highRamMode) reload = false;
 		
 		if (reload || forceReload || guildSelector == null || guilds == null) {
-//#ifdef OVER_100KB
 			HTTPThread h = new HTTPThread(HTTPThread.FETCH_GUILDS);
 			h.forceReload = forceReload;
 			h.start();
-//#else
-			new HTTPThread(HTTPThread.FETCH_GUILDS).start();
-//#endif
 		} else {
 			try {
 				if (guildSelector.isFavGuilds) {

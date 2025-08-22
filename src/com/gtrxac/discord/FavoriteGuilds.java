@@ -100,9 +100,7 @@ public class FavoriteGuilds {
         if (App.guilds == null || refresh || forceRefresh) {
             HTTPThread h = new HTTPThread(HTTPThread.FETCH_GUILDS);
             h.showFavGuilds = true;
-//#ifdef OVER_100KB
             h.forceReload = forceRefresh;
-//#endif
             h.start();
             return;
         }
