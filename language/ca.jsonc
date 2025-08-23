@@ -872,10 +872,10 @@
     "Se sap que Discord marca nous missatges directes de clients de tercers com a correu brossa. Es recomana enviar primer missatge des d'un client oficial. Vols continuar?",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "Servidors preferits",
+    "Servidors desats",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!"
+    "Desat",
+    "S'ha desat llista de servidors a memòria cau!"
 ]
