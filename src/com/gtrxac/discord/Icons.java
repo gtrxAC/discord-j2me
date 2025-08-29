@@ -183,6 +183,10 @@ public class Icons {
 //#else
         sh.skip(4);
 //#endif
+//#ifdef MIDP2_GENERIC
+        if (Util.isFullTouch) sh.skip();
+        else
+//#endif
         fastScroll = sh.next();
 //#ifdef OVER_100KB
         themeCustom = sh.next();

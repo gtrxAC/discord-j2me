@@ -60,6 +60,9 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
 
         selectCommand = Locale.createCommand(SELECT, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
+//#ifdef MIDP2_GENERIC
+        if (!Util.isFullTouch)
+//#endif
         addCommand(selectCommand);
         addCommand(backCommand);
 

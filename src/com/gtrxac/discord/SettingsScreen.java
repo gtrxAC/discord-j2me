@@ -341,6 +341,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 //#ifdef MIDP2_GENERIC
         // KEmu is always fullscreen - 6th item in appearance menu corresponds to 7th setting
         if (isInSubmenu && currentSection == 0 && item == 6 && Util.isKemulator) return 7;
+        // Fast scrolling not shown on full-touch Symbian - 8th item in behavior menu corresponds to 9th setting
+        if (isInSubmenu && currentSection == 2 && item == 8 && Util.isFullTouch) return 9;
 //#endif
         return item;
     }
@@ -442,9 +444,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 }
 //#endif
             }
-            // Fullscreen option hidden on KEmu
 //#ifdef MIDP2_GENERIC
+            // Fullscreen option hidden on KEmu
             if (index == 0 && i == 6 && Util.isKemulator) continue;
+            // Fast scrolling option hidden on full-touch Symbian
+            if (index == 2 && i == 8 && Util.isFullTouch) continue;
 //#endif
             
             append(labels[index][i], getValueLabel(index, i), getIcon(index, i), ListScreen.INDICATOR_NONE);
