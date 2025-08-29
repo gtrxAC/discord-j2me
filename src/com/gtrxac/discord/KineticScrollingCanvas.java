@@ -6,6 +6,7 @@ import javax.microedition.lcdui.*;
  * Canvas with vertical scrolling support (kinetic/smooth scrolling when swiping + optional scroll bar)
  * Scrollable content can be drawn using the 'scroll' field as a vertical offset
  * If using this in a different app: For kinetic scrolling, make sure to define 'scrollUnit' (as e.g. the font height)
+ * If subclass implements Runnable, make sure it has a passthrough to be able to run the scroll thread (examples in EmojiPicker, NotificationDialog)
  */
 public abstract class KineticScrollingCanvas extends MyCanvas
 //#ifdef TOUCH_SUPPORT
