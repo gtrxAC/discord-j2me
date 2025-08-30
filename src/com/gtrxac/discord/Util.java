@@ -459,16 +459,22 @@ public class Util {
 //#endif
 
 //#ifdef MIDP2_GENERIC
-	// List of Symbian phones that are full-touch, i.e. no keyboard
+	// List of Symbian phones that have a touchscreen (i.e. no physical softkeys) but have a keyboard
 	// Source: lpcwiki
 	// I don't know the platform strings of non-Nokia phones
-	private static final String[] SYMBIAN_FULLTOUCH_LIST = {
-		// S60v5
-		"Nokia5228", "Nokia523", "Nokia5250", "Nokia5530", "Nokia580", "NokiaC5-03", "NokiaC5-04", "NokiaC5-05", "NokiaC5-06", "NokiaC6", "NokiaN97", "NokiaX6",
-		// Symbian^3
-		"Nokia500", "Nokia600", "Nokia603", "Nokia700", "Nokia701", "Nokia702T", "Nokia801T", "Nokia808", "NokiaC7", "NokiaN8", "NokiaT7", "NokiaX7"
+	private static final String[] SYMBIAN_TOUCH_LIST = {
+		"NokiaC6-00", "NokiaE6-", "NokiaE7-", "Nokia702T", "NokiaN97"
 	};
 
+	// List of Symbian phones that have a touchscreen and lack any keyboard
+	private static final String[] SYMBIAN_FULLTOUCH_LIST = {
+		// S60v5
+		"Nokia5228", "Nokia523", "Nokia5250", "Nokia5530", "Nokia580", "NokiaC5-03", "NokiaC5-04", "NokiaC5-05", "NokiaC5-06", "NokiaX6",
+		// Symbian^3
+		"Nokia500", "Nokia600", "Nokia603", "Nokia700", "Nokia701", "Nokia801T", "Nokia808", "NokiaC6-01", "NokiaC7", "NokiaN8", "NokiaT7", "NokiaX7"
+	};
+
+	public static final boolean isTouch;
 	public static final boolean isFullTouch;
 //#endif
 
@@ -496,6 +502,7 @@ public class Util {
 		isSymbian93 = isSymbian && platform.indexOf("sw_platform_version=3.2") != -1;
 
 		isFullTouch = isSymbian && indexOfAny(platform, SYMBIAN_FULLTOUCH_LIST, 0) != -1;
+		isTouch = isSymbian && (isFullTouch || indexOfAny(platform, SYMBIAN_TOUCH_LIST, 0) != -1);
 //#endif
 
 //#ifdef NOKIA_UI_SUPPORT

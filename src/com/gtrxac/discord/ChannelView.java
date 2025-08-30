@@ -453,7 +453,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
         if (
 //#ifdef MIDP2_GENERIC
-            !Util.isFullTouch &&
+            !Util.isTouch &&
 //#endif
             selectionMode && selected.type != ChannelViewItem.MESSAGE && selected.type != ChannelViewItem.UNREAD_INDICATOR
         ) {
