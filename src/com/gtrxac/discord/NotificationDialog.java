@@ -8,9 +8,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
     private Command viewCommand;
     private Command closeCommand;
     private Displayable lastScreen;
-
     private Notification notif;
-    private Player playerToClose;
     
     public NotificationDialog(Notification notif, String location, Message msg) {
         super(Locale.get(NOTIFICATION_TITLE), "");
@@ -29,14 +27,6 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
         new Thread(this).start();
     }
 
-    public NotificationDialog(Player player) {
-        super("", "");
-        threadIsForSound = true;
-        threadIsForClosingPlayer = true;
-        playerToClose = player;
-        new Thread(this).start();
-    }
-
     public void commandAction(Command c, Displayable d) {
         if (c == viewCommand) {
             notif.view();
@@ -47,30 +37,21 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
     }
 
     private boolean threadIsForSound;
-    private boolean threadIsForClosingPlayer;
 
     public void run() {
 //#ifdef TOUCH_SUPPORT
         if (threadIsForSound) {
             threadIsForSound = false;
 //#endif
-            if (!threadIsForClosingPlayer) {
-                Util.sleep(50);
-                while (true) {
-                    Displayable curr = App.disp.getCurrent();
-                    if (curr == this) {
-                        playerToClose = App.gateway.playNotificationSound();
-                        break;
-                    }
-                    Util.sleep(125);
+            Util.sleep(50);
+            while (true) {
+                Displayable curr = App.disp.getCurrent();
+                if (curr == this) {
+                    App.gateway.playNotificationSound();
+                    break;
                 }
+                Util.sleep(125);
             }
-            threadIsForClosingPlayer = false;
-            Util.sleep(10000);
-            try {
-                playerToClose.close();
-            }
-            catch (Exception e) {}
 //#ifdef TOUCH_SUPPORT
         }
         // for kineticscrollingcanvas scroll thread
