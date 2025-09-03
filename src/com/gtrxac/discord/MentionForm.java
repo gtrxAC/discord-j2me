@@ -92,7 +92,7 @@ public class MentionForm extends Form implements CommandListener, Strings {
 
         // Prevent string index error (seen on some Sony Ericssons)
         if (caretPos < 0) caretPos = 0;
-        else if (caretPos > oldStr.length) caretPos = oldStr.length;
+        else if (caretPos > oldStr.length()) caretPos = oldStr.length();
 
         String beginSpace =
             (caretPos > 0 && " ([{".indexOf(oldStr.charAt(caretPos - 1)) == -1)
