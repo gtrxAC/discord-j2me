@@ -292,10 +292,12 @@ public class GatewayThread extends Thread implements Strings
 //#endif
 
 //#ifdef OVER_100KB
-	public Player playNotificationSound() {
-		Player result = null;
+	private Player player;
+//#endif
 
+	public void playNotificationSound() {
 		if (Settings.playNotifSound) {
+//#ifdef OVER_100KB
 			RecordStore rms = null;
 			InputStream is = null;
 			String fileName = "/notify.mid";
@@ -311,28 +313,24 @@ public class GatewayThread extends Thread implements Strings
 			if (is == null) is = getClass().getResourceAsStream("/notify.mid");
 			
 			try {
-				result = NotificationSoundDialog.playSound(fileName, is);
+				player.close();
+			}
+			catch (Exception e) {}
+
+			try {
+				player = NotificationSoundDialog.playSound(fileName, is);
 			}
 			catch (Exception e) {
 				AlertType.ALARM.playSound(App.disp);
 			}
-		}
-		if (Settings.playNotifVibra) {
-			App.disp.vibrate(1000);
-		}
-		return result;
-	}
 //#else
-	public void playNotificationSound() {
-		if (Settings.playNotifSound) {
 			AlertType.ALARM.playSound(App.disp);
+//#endif
 		}
 		if (Settings.playNotifVibra) {
 			App.disp.vibrate(1000);
 		}
 	}
-//#endif
-
 
 	public void run() {
 		try {
@@ -441,14 +439,7 @@ public class GatewayThread extends Thread implements Strings
 							if (shouldNotify(msgData)) {
 								// If alert window is enabled, the sound will instead be played when it is shown on screen
 								// so it does not get cut off due to the current screen changing
-								if (!Settings.showNotifAlert) {
-//#ifdef OVER_100KB
-									Player player = playNotificationSound();
-									new Thread(new NotificationDialog(player)).start();  // start thread which will close the player later
-//#else
-									playNotificationSound();
-//#endif
-								}
+								if (!Settings.showNotifAlert) playNotificationSound();
 
 								if (
 									Settings.showNotifAlert

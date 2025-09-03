@@ -8,11 +8,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
     private Command viewCommand;
     private Command closeCommand;
     private Displayable lastScreen;
-
     private Notification notif;
-
-    private boolean threadIsForClosingPlayer;
-    private Player playerToClose;
     
     public NotificationDialog(Notification notif, String location, Message msg) {
         super(Locale.get(NOTIFICATION_TITLE), "");
@@ -27,13 +23,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
         addCommand(viewCommand);
         addCommand(closeCommand);
 
-        new Thread(this).start();
-    }
-
-    public NotificationDialog(Player player) {
-        super("", "");
-        threadIsForClosingPlayer = true;
-        playerToClose = player;
+        threadIsForSound = true;
         new Thread(this).start();
     }
 
@@ -46,23 +36,29 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
         }
     }
 
+    private boolean threadIsForSound;
+
     public void run() {
-        if (!threadIsForClosingPlayer) {
+//#ifdef TOUCH_SUPPORT
+        if (threadIsForSound) {
+            threadIsForSound = false;
+//#endif
             Util.sleep(50);
             while (true) {
                 Displayable curr = App.disp.getCurrent();
                 if (curr == this) {
-                    playerToClose = App.gateway.playNotificationSound();
+                    App.gateway.playNotificationSound();
                     break;
                 }
                 Util.sleep(125);
             }
+//#ifdef TOUCH_SUPPORT
         }
-        Util.sleep(10000);
-        try {
-            playerToClose.close();
+        // for kineticscrollingcanvas scroll thread
+        else {
+            super.run();
         }
-        catch (Exception e) {}
+//#endif
     }
 }
 //#endif

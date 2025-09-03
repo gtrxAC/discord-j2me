@@ -37,7 +37,10 @@ function downloadLinkHtml(name, beta) {
     if (!obj) return null;
 
     let target = obj.target;
-    if (obj.name) obj = mainVersionDownloadLinks[obj.name];
+    if (obj.name) {
+        name = obj.name;
+        obj = mainVersionDownloadLinks[obj.name];
+    }
 
     if (beta && obj.betaVersion == null) return '';
     if (!beta && obj.version == null) return '';

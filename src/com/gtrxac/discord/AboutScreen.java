@@ -188,6 +188,11 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         g.setColor(0x000000);
         g.fillRect(0, 0, width, height);
 
+//#ifdef NOKIA_THEME_BACKGROUND
+        // Fix white border rendering bug on Symbian 9.3 - 9.4
+        g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+//#endif
+
 //#ifndef ABOUT_SCREEN_COLOR_PARTICLES
         g.setColor(0x888888);
 //#endif

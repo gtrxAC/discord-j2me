@@ -121,6 +121,13 @@ public abstract class MyCanvas extends Canvas {
         {
             g.setColor(color);
             g.fillRect(0, 0, getWidth(), getHeight());
+
+//#ifdef NOKIA_THEME_BACKGROUND
+            // Fix white border rendering bug on Symbian 9.3 - 9.4
+            if (!fullscreen) {
+                g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+            }
+//#endif
         }
     }
 
