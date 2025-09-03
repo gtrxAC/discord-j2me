@@ -15,7 +15,7 @@ const compileTarget = (target) => {
     console.log(` Compiling: ${target.name}`)
     console.log(`${"_".repeat(80)}\n`)
 
-    const compileProcess = cp.spawn(compileScript, [], { stdio: 'inherit' });
+    const compileProcess = cp.spawn(compileScript, [], { stdio: 'inherit', shell: true });
 
     compileProcess.on('close', (code) => {
       if (code !== 0) {

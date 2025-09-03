@@ -15,7 +15,7 @@ for /r src %%f in (*.java) do (
 
 :: Preprocess Java source files (src -> build/src)
 echo Preprocessing
-node sdk\preprocess.js !JAVA_FILES! manifest.mf %DEFINES%
+node sdk\preprocess.js !JAVA_FILES! manifest.mf midlets.pro %DEFINES%
 
 :: Recursively find java files that need to be compiled (build/src)
 set JAVA_FILES=
@@ -39,7 +39,7 @@ echo Creating JAR
 :: Preverify and obfuscate (ProGuard)
 :: Note: ProGuard 6.0.3 is the last version to run under JDK 6, as of writing, the latest version can run under JDK 8
 echo Verifying
-%JAVA_HOME%\bin\java -jar sdk\proguard.jar @midlets.pro -printmapping "bin/%JAR_NAME%.map"
+%JAVA_HOME%\bin\java -jar sdk\proguard.jar @build/midlets.pro -printmapping "bin/%JAR_NAME%.map"
 del bin\in.jar
 move bin\out.jar "bin\%JAR_NAME%.jar"
 
