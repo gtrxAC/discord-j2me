@@ -8,32 +8,35 @@
     <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
     <link rel="stylesheet" href="/style.css">
     <style>
-        td {
-            vertical-align: top;
-        }
         td img {
             width: 150px;
         }
         i {
             font-family: monospace;
         }
+        table {
+            margin-top: 0.5em;
+        }
     </style>
 </head>
 <body>
     <div class="main">
         <h1>Discord J2ME Setup Guide</h1>
+        <p>This is a guide for setting up the app with your account's token.</p>
+        <small>This tutorial uses the "manifest injection" method. Note that there are other methods too, like importing or copy-pasting your token into the app using a text file, or writing the token manually (not recommended).</small>
         <table>
             <tr>
                 <td>
                     <p>Get your Discord account's token using your browser. There are several guides online, for example <a href="https://github.com/NotNexuss/Get-Discord-Token">this one</a>.</p>
                     <p>You will need a browser with developer tools (most PC browsers, or Kiwi Browser on Android).</p>
+                    <small>This token can also be used with other third-party clients, such as <a href="/wap">Discord WAP</a>. Don't share the token as it can give anyone full access to your account.</small>
                 </td>
                 <td><img src="/j2me/img/guide1.png" alt=""></td>
             </tr>
             <tr>
                 <td>
                     <p>Download a JAR file of <a href="/j2me">Discord J2ME</a> onto your computer. Pick a version that is suitable for your device; for guidance, you can visit gtrxac.fi/j2me on your device's browser.</p>
-                    <p>Extract the contents of the JAR file (JAR files are really just ZIP archives).</p>
+                    <p>Extract the contents of the JAR file (JAR files are really just ZIP archives, and you may need to change the file extension to .zip in order to extract it).</p>
                 </td>
                 <td><img src="/j2me/img/guide2.png" alt=""></td>
             </tr>
@@ -41,11 +44,12 @@
                 <td>
                     <p>Find the META-INF/MANIFEST.MF file in the extracted files. Edit it using a text editor, and add a new line containing:</p>
                     <i>Token: (your token here)</i>
+                    <p>Make sure you copy the token correctly without any extra characters such as quotation marks. The token should contain about 70 characters, including upper and lowercase letters, numbers, underscores, dashes, and periods.</p>
                 </td>
                 <td><img src="/j2me/img/guide3.png" alt=""></td>
             </tr>
             <tr>
-                <td>Package all of the extracted files, including the modified manifest file, into a new ZIP archive, and rename it to have a .jar file extension.</td>
+                <td>Package all of the extracted files, including the modified manifest file, into a new ZIP archive. Make sure the new ZIP has the same folder structure as the original one. Then rename the ZIP to have a .jar file extension.</td>
                 <td><img src="/j2me/img/guide4.png" alt=""></td>
             </tr>
             <tr>

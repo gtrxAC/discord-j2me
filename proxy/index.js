@@ -318,6 +318,7 @@ app.get('/j2me', async (req, res) => {
     <div class="main">
         <h1>Discord J2ME</h1>
         ${getRecommendedVersions(req)}
+        <b>Need help with logging in? Read the <a href="/j2me/guide">setup guide</a></b>
     </div>
 </body>
 </html>`);
