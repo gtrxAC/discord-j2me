@@ -24,7 +24,7 @@ MIDlet-Icon: /icon.png
 //#endif
 MIDlet-Name: Discord
 MIDlet-Vendor: gtrxAC
-MIDlet-Version: 5.0.0
+MIDlet-Version: 5.1.0
 MicroEdition-Configuration: CLDC-1.0
 MicroEdition-Profile: MIDP-2.0
 //#ifdef NOKIA_S60_MANIFEST
