@@ -25,6 +25,10 @@ Strings
     private Command tokenBoxOkCommand;
     private Command tokenBoxCancelCommand;
     private Command tokenBoxUnderscoreCommand;
+//#ifdef MIDP2_GENERIC
+    private Command nnpLinkCommand;
+//#endif
+    private Command guideLinkCommand;
 
     public LoginForm() {
         super(Locale.get(LOGIN_FORM_TITLE));
@@ -46,11 +50,17 @@ Strings
         String tokenLabelShort = Locale.get(haveToken ? CHANGE_TOKEN : SET_TOKEN);
 
         changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0);
+        guideLinkCommand = new Command("Guide", Command.ITEM, 2);
 //#ifndef BLACKBERRY
         StringItem tokenButton = new StringItem(null, tokenLabel, Item.BUTTON);
         tokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         tokenButton.setDefaultCommand(changeTokenCommand);
         tokenButton.setItemCommandListener(this);
+
+        StringItem guideLinkButton = new StringItem(null, "Setup guide", Item.BUTTON);
+        guideLinkButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
+        guideLinkButton.setDefaultCommand(guideLinkCommand);
+        guideLinkButton.setItemCommandListener(this);
         
         StringItem importTokenButton = null;
 //#endif
@@ -68,9 +78,16 @@ Strings
         nextCommand = Locale.createCommand(LOG_IN, Command.OK, 1);
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 2);
 
+//#ifdef PROXYLESS_SUPPORT
+        String[] gatewayChoices = {"Direct connection", Locale.get(USE_GATEWAY)};
+        gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, null);
+        gatewayGroup.setSelectedIndex(0, Settings.proxyless);
+        gatewayGroup.setSelectedIndex(1, Settings.useGateway);
+//#else
         String[] gatewayChoices = {Locale.get(USE_GATEWAY)};
         gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, null);
         gatewayGroup.setSelectedIndex(0, Settings.useGateway);
+//#endif
 
         String[] tokenChoices = {
             Locale.get(SEND_TOKEN_HEADER),
@@ -83,6 +100,27 @@ Strings
         append(new StringItem(null, Locale.get(LOGIN_FORM_WARNING)));
         append(apiField);
         append(cdnField);
+//#ifdef PROXYLESS_SUPPORT
+//#ifdef J2ME_LOADER
+        append(new StringItem(null, "Direct connection reduces the risk of an account restriction."));
+//#else
+//#ifdef MIDP2_GENERIC
+        if (Util.isSymbian) {
+            nnpLinkCommand = new Command("Get TLS", Command.ITEM, 3);
+            StringItem nnpLinkItem = new StringItem(null, "requires TLS 1.2", Item.HYPERLINK);
+            nnpLinkItem.setDefaultCommand(nnpLinkCommand);
+            nnpLinkItem.setItemCommandListener(this);
+
+            append(new StringItem(null, "Direct connection ("));
+            append(nnpLinkItem);
+            append(new StringItem(null, ") reduces the risk of an account restriction."));
+        } else
+//#endif
+        {
+            append(new StringItem(null, "Direct connection (requires TLS 1.2) reduces the risk of an account restriction."));
+        }
+//#endif
+//#endif
         append(gatewayGroup);
         append(gatewayField);
         append(new StringItem(null, Locale.get(LOGIN_FORM_TOKEN_HELP)));
@@ -92,9 +130,11 @@ Strings
         append(new StringItem(null, tokenHint));
         addCommand(changeTokenCommand);
         if (Util.supportsFileConn) addCommand(importTokenCommand);
+        addCommand(guideLinkCommand);
 //#else
         append(tokenButton);
         if (Util.supportsFileConn) append(importTokenButton);
+        append(guideLinkButton);
 //#endif
         append(tokenGroup);
         addCommand(nextCommand);
@@ -116,9 +156,16 @@ Strings
                 return;
             }
 
+//#ifdef PROXYLESS_SUPPORT
+            boolean[] selected = {false, false};
+            gatewayGroup.getSelectedFlags(selected);
+            Settings.proxyless = selected[0];
+            Settings.useGateway = selected[1];
+//#else
             boolean[] selected = {false};
             gatewayGroup.getSelectedFlags(selected);
             Settings.useGateway = selected[0];
+//#endif
 
 //#ifdef BLACKBERRY
             wifiGroup.getSelectedFlags(selected);
@@ -140,6 +187,9 @@ Strings
         else if (c == importTokenCommand) {
             App.disp.setCurrent(new TokenFilePicker());
         }
+        else if (c == guideLinkCommand) {
+            App.platRequest(Settings.api + "/j2me/guide");
+        }
 //#endif
         else if (c == tokenBoxUnderscoreCommand) {
             int caretPosition = tokenBox.getCaretPosition();
@@ -155,9 +205,18 @@ Strings
 
 //#ifndef BLACKBERRY
     public void commandAction(Command c, Item i) {
-        if (c == changeTokenCommand) {
+//#ifdef MIDP2_GENERIC
+        if (c == nnpLinkCommand) {
+            App.platRequest("http://nnproject.cc/tls");
+        } else
+//#endif
+        if (c == guideLinkCommand) {
+            App.platRequest(Settings.api + "/j2me/guide");
+        }
+        else if (c == changeTokenCommand) {
             showTokenEntry();
-        } else {
+        }
+        else {
             // import token command
             App.disp.setCurrent(new TokenFilePicker());
         }

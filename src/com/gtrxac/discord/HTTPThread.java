@@ -164,7 +164,7 @@ public class HTTPThread extends Thread implements Strings {
             // Fetch user info if needed (upon first API request after starting app)
             // If Discord J2ME-specific proxy server is in use, this also checks for auto updates to app and emoji data
             if ((!haveFetchedUserInfo || App.myUserId == null) && action != FETCH_LANGUAGE) {
-                JSONObject resp = JSON.getObject(HTTP.get("/users/@me"));
+                JSONObject resp = JSON.getObject(HTTP.get("/users/@me", true));
                 App.myUserId = resp.getString("id", "");
                 App.isLiteProxy = resp.getBoolean("_liteproxy", false);
                 App.uploadToken = resp.getString("_uploadtoken", Settings.token);
@@ -299,7 +299,7 @@ public class HTTPThread extends Thread implements Strings {
                     if (guilds == null) {
                         String url = "/users/@me/guilds";
                         if (!forceReload && App.isLiteProxy) url += "?c";  // query parameter for using proxy cache
-                        guilds = JSON.getArray(HTTP.get(url));
+                        guilds = JSON.getArray(HTTP.get(url, false));
                         wasFetched = true;
                     }
                     App.guilds = new Vector();
@@ -328,7 +328,7 @@ public class HTTPThread extends Thread implements Strings {
                 case FETCH_CHANNELS: {
                     // Fetch role data (role colors) for this server if needed
                     if (App.gatewayActive() && App.selectedGuild.roles == null && Settings.useNameColors) {
-                        String roleData = HTTP.get("/guilds/" + App.selectedGuild.id + "/roles");
+                        String roleData = HTTP.get("/guilds/" + App.selectedGuild.id + "/roles", false);
                         JSONArray roleArr = JSON.getArray(roleData);
 
                         App.selectedGuild.roles = new Vector();
@@ -358,7 +358,7 @@ public class HTTPThread extends Thread implements Strings {
                     }
 
                     App.selectedGuild.channels = Channel.parseChannels(
-                        JSON.getArray(HTTP.get("/guilds/" + App.selectedGuild.id + "/channels"))
+                        JSON.getArray(HTTP.get("/guilds/" + App.selectedGuild.id + "/channels", false))
                     );
 
                     App.channels = App.selectedGuild.channels;
@@ -368,7 +368,7 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case FETCH_DM_CHANNELS: {
-                    JSONArray channels = JSON.getArray(HTTP.get("/users/@me/channels"));
+                    JSONArray channels = JSON.getArray(HTTP.get("/users/@me/channels", false));
                     App.dmChannels = new Vector();
             
                     for (int i = 0; i < channels.size(); i++) {
@@ -413,7 +413,7 @@ public class HTTPThread extends Thread implements Strings {
                         }
                     }
 
-                    JSONObject message = JSON.getObject(HTTP.post("/channels/" + channelId + "/messages", json));
+                    JSONObject message = JSON.getObject(HTTP.post("/channels/" + channelId + "/messages", json, false));
 
                     // If gateway enabled, don't need to fetch new messages
                     if (App.gatewayActive()) {
@@ -453,7 +453,7 @@ public class HTTPThread extends Thread implements Strings {
                     }
 //#endif
 
-                    JSONArray messages = JSON.getArray(HTTP.get(url.toString()));
+                    JSONArray messages = JSON.getArray(HTTP.get(url.toString(), false));
                     App.messages = new Vector();
 
                     for (int i = 0; i < messages.size(); i++) {
@@ -615,7 +615,7 @@ public class HTTPThread extends Thread implements Strings {
 
                     try {
                         String id = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
-                        httpConn = HTTP.openConnection("/channels/" + id + "/upload");
+                        httpConn = HTTP.openConnection("/channels/" + id + "/upload", true);  // note: forced proxy, different API from standard Discord API
                         httpConn.setRequestMethod(HttpConnection.POST);
                         httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 
@@ -686,7 +686,7 @@ public class HTTPThread extends Thread implements Strings {
 
                     String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
                     String path = "/channels/" + channelId + "/messages/" + editMessage.id + "/edit";
-                    HTTP.post(path, newMessage);
+                    HTTP.post(path, newMessage, true);  // note: forced proxy, different API from standard Discord API
 
                     // Manually update message content if gateway disabled
                     // (if enabled, new message content will come through gateway event)
@@ -706,7 +706,7 @@ public class HTTPThread extends Thread implements Strings {
 
                     String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
 
-                    HTTP.get("/channels/" + channelId + "/messages/" + editMessage.id + "/delete");
+                    HTTP.get("/channels/" + channelId + "/messages/" + editMessage.id + "/delete", true);  // note: forced proxy, different API from standard Discord API
 
                     // Manually update message to be deleted if gateway disabled
                     // (if enabled, deletion event will come through gateway)
@@ -770,7 +770,8 @@ public class HTTPThread extends Thread implements Strings {
                     String threadData = HTTP.get(
                         "/channels/" +
                         App.selectedChannelForThreads.id +
-                        "/threads/search?sort_by=last_message_time&sort_order=desc&limit=25&tag_setting=match_some&offset=0"
+                        "/threads/search?sort_by=last_message_time&sort_order=desc&limit=25&tag_setting=match_some&offset=0",
+                        false
                     );
 
                     JSONArray threads = JSON.getObject(threadData).getArray("threads");

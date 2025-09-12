@@ -63,6 +63,9 @@ public class Settings {
 	static boolean sendTyping;
     static boolean hasSeenUploadWarning;
 //#endif
+//#ifdef PROXYLESS_SUPPORT
+    static boolean proxyless;
+//#endif
 
 	static int authorFontSize;
 	static int messageFontSize;
@@ -290,6 +293,10 @@ public class Settings {
         hasSeenUploadWarning =
 //#endif
         getBoolRecord(false);
+//#ifdef PROXYLESS_SUPPORT
+        proxyless =
+//#endif
+        getBoolRecord(false);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -410,6 +417,13 @@ public class Settings {
         setBoolRecord(
 //#ifdef OVER_100KB
             hasSeenUploadWarning
+//#else
+            false
+//#endif
+        );
+        setBoolRecord(
+//#ifdef PROXYLESS_SUPPORT
+            proxyless
 //#else
             false
 //#endif

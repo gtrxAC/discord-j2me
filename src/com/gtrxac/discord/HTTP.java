@@ -6,10 +6,14 @@ import cc.nnproject.json.*;
 import javax.microedition.lcdui.Image;
 
 public class HTTP implements Strings {
-	public static HttpConnection openConnection(String url) throws IOException {
-		String fullUrl = Settings.api + "/api/v9" + url;
+	public static HttpConnection openConnection(String url, boolean useProxy) throws IOException {
+//#ifdef PROXYLESS_SUPPORT
+		if (!Settings.proxyless) useProxy = true;
+//#endif
 
-		if (Settings.tokenType == Settings.TOKEN_TYPE_QUERY) {
+		String fullUrl = (useProxy ? Settings.api : "https://discord.com") + "/api/v9" + url;
+
+		if (useProxy && Settings.tokenType == Settings.TOKEN_TYPE_QUERY) {
 			if (fullUrl.indexOf("?") != -1) {
 				fullUrl += "&token=" + Settings.token;
 			} else {
@@ -19,7 +23,7 @@ public class HTTP implements Strings {
 
 		HttpConnection c = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(fullUrl));
 
-		if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
+		if (!useProxy || Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
 			c.setRequestProperty("Content-Type", "application/json");
 			c.setRequestProperty("Authorization", Settings.token);
 		}
@@ -66,17 +70,17 @@ public class HTTP implements Strings {
 		}
 	}
 
-	private static String sendData(String method, String url, String data) throws Exception {
+	private static String sendData(String method, String url, String data, boolean useProxy) throws Exception {
 		HttpConnection c = null;
 		OutputStream os = null;
 
 		try {
-			c = openConnection(url);
+			c = openConnection(url, useProxy);
 			c.setRequestMethod(method);
 			
 			byte[] b = Util.stringToBytes(data);
 
-			if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
+			if (!useProxy || Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
 				c.setRequestProperty("Content-Length", String.valueOf(b.length));
 			}
 
@@ -90,22 +94,22 @@ public class HTTP implements Strings {
 		}
 	}
 
-	private static String sendJson(String method, String url, JSONObject data) throws Exception {
+	private static String sendJson(String method, String url, JSONObject data, boolean useProxy) throws Exception {
 		if (Settings.tokenType == Settings.TOKEN_TYPE_JSON) data.put("token", Settings.token);
-		return sendData(method, url, data.build());
+		return sendData(method, url, data.build(), useProxy);
 	}
 
-	public static String get(String url) throws Exception {
+	public static String get(String url, boolean useProxy) throws Exception {
 		if (Settings.tokenType == Settings.TOKEN_TYPE_JSON) {
 			JSONObject tokenJson = new JSONObject();
 			tokenJson.put("token", Settings.token);
-			return get(url, tokenJson);
+			return get(url, tokenJson, useProxy);
 		}
 
 		HttpConnection c = null;
 
 		try {
-			c = openConnection(url);
+			c = openConnection(url, useProxy);
 			c.setRequestMethod(HttpConnection.GET);
 			return sendRequest(c);
 		} finally {
@@ -113,17 +117,17 @@ public class HTTP implements Strings {
 		}
 	}
 
-	public static String post(String url, String data) throws Exception {
-		return sendData(HttpConnection.POST, url, data);
+	public static String post(String url, String data, boolean useProxy) throws Exception {
+		return sendData(HttpConnection.POST, url, data, useProxy);
 	}
-	public static String get(String url, String data) throws Exception {
-		return sendData(HttpConnection.GET, url, data);
+	public static String get(String url, String data, boolean useProxy) throws Exception {
+		return sendData(HttpConnection.GET, url, data, useProxy);
 	}
-	public static String post(String url, JSONObject data) throws Exception {
-		return sendJson(HttpConnection.POST, url, data);
+	public static String post(String url, JSONObject data, boolean useProxy) throws Exception {
+		return sendJson(HttpConnection.POST, url, data, useProxy);
 	}
-	public static String get(String url, JSONObject data) throws Exception {
-		return sendJson(HttpConnection.GET, url, data);
+	public static String get(String url, JSONObject data, boolean useProxy) throws Exception {
+		return sendJson(HttpConnection.GET, url, data, useProxy);
 	}
 
 	// Image loading code by shinovon
