@@ -872,10 +872,10 @@
     "Discord ist dafür bekannt, neue Direktnachrichten von Drittanbieter-Clients als Spam zu kennzeichnen. Es wird empfohlen, Ihre erste Nachricht von einem offiziellen Client zu senden. Möchten Sie fortfahren?",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "Favorisierte Server",
+    "Markierte Server",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!"
+    "Gespeichert",
+    "Serverliste im Cache gespeichert!"
 ]
