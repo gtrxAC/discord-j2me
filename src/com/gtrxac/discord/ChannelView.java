@@ -366,14 +366,12 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             if (!App.selectedChannel.isThread) resultBuf.append("#");
             resultBuf.append(App.selectedChannel.name);
         }
-        if (page > 0) resultBuf.append(Locale.get(CHANNEL_VIEW_TITLE_OLD));
 
 //#ifdef TOUCH_SUPPORT
         title = resultBuf.toString();
-        setTitle(title);
-//#else
-        setTitle(resultBuf.toString());
 //#endif
+        if (page > 0) resultBuf.append(Locale.get(CHANNEL_VIEW_TITLE_OLD));
+        setTitle(resultBuf.toString());
     }
 
     private void update(boolean wasResized, boolean wasGateway, boolean wasGatewayNewMsg) {
