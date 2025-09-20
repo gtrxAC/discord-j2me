@@ -8,8 +8,9 @@ import javax.microedition.lcdui.Image;
 public class HTTP implements Strings {
 	public static HttpConnection openConnection(String url, boolean useProxy) throws IOException {
 //#ifdef PROXYLESS_SUPPORT
-		if (!Settings.proxyless) useProxy = true;
+		if (!Settings.proxyless) 
 //#endif
+		useProxy = true;
 
 		String fullUrl = (useProxy ? Settings.api : "https://discord.com") + "/api/v9" + url;
 

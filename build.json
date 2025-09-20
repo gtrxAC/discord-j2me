@@ -21,19 +21,19 @@
     "name": "discord_s60v2",
     "defines": ["S60V2", "NOKIA_MIDLET_CATEGORY", "OVER_100KB", "EMOJI_SUPPORT", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon.svg"]
+    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon.svg", "bar.png"]
   },
   {
     "name": "discord_nokia_128px",
     "defines": ["NOKIA_128PX_VERSION", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "NOKIA_THEME_BACKGROUND", "OVER_100KB", "EMOJI_SUPPORT"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en.json", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg"]
+    "excludes": ["en.json", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg", "bar.png"]
   },
   {
     "name": "discord_s40v2",
     "defines": ["S40V2", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "OVER_100KB"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en.json", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg"]
+    "excludes": ["en.json", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg", "bar.png"]
   },
   {
     "name": "discord_blackberry",
@@ -51,7 +51,7 @@
     "name": "discord_samsung_100kb",
     "defines": ["SAMSUNG", "SAMSUNG_100KB", "OLD_ABOUT_SCREEN"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "selector.png", "notify.mid", "sparkle.png", "icon.svg"]
+    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "selector.png", "notify.mid", "sparkle.png", "icon.svg", "bar.png"]
   },
   {
     "name": "discord_lg",

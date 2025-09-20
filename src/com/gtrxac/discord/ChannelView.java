@@ -2,6 +2,7 @@ package com.gtrxac.discord;
 
 import java.util.*;
 import javax.microedition.lcdui.*;
+import javax.microedition.lcdui.game.*;
 import cc.nnproject.json.*;
 
 /**
@@ -52,8 +53,20 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 //#endif
 
 //#ifdef TOUCH_SUPPORT
+//#ifndef BLACKBERRY
     boolean showBackButton;
     int backButtonStringWidth;
+//#endif
+    static Image messageBarLeft;
+    static Image messageBarCenter;
+    static Image messageBarRight;
+    static Image messageBarAttachmentIcon;
+    static Image messageBarEmojiIcon;
+    static int messageBarIconHash;
+    int messageBarWidth;
+    static int messageBarHeight;
+    Image messageBar;
+    String title;
 //#endif
 
     public ChannelView() throws Exception {
@@ -78,10 +91,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         authorFontHeight = App.authorFont.getHeight();
 
         addCommand(backCommand);
+        addCommand(refreshCommand);
+//#ifndef TOUCH_SUPPORT
+        // In touch-enabled builds, these are shown as commands only when the bottom message bar is not shown
         addCommand(sendCommand);
         addCommand(uploadCommand);
-        addCommand(refreshCommand);
+//#endif
 
+//#ifdef BLACKBERRY
+        if (shouldShowBottomBar()) setFullScreenMode(true);
+//#else
 //#ifdef MIDP2_GENERIC
         if (!Util.isKemulator)
 //#endif
@@ -92,6 +111,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 10);
             addCommand(fullScreenCommand);
         }
+//#endif
 
 //#ifdef J2ME_LOADER
         commands = new Vector();
@@ -99,6 +119,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
 //#ifdef TOUCH_SUPPORT
+//#ifndef BLACKBERRY
     public void setFullScreenMode(boolean mode) {
         super.setFullScreenMode(mode);
         
@@ -115,6 +136,201 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 //#endif
 
+    private boolean shouldShowBottomBar() {
+        return hasPointerEvents() &&
+//#ifndef BLACKBERRY
+            super.getHeight() > getWidth() &&
+//#endif
+            checkAndLoadMessageBar();
+    }
+
+    // 2x smooth downscaling algorithm specifically for message bar icons
+    // the ones in Util are not smooth enough
+    // makes several assumptions:
+    // - alpha doesnt matter (but shouldn't be difficult to add if you need)
+    // - image is square, same width and height
+    // - width/height is an even number
+    // - you want to downscale exactly to half resolution
+    private static Image downscale(Image img) {
+        int size = img.getWidth();
+        int[] input = new int[size*size];
+        img.getRGB(input, 0, size, 0, 0, size, size);
+
+        size /= 2;
+        int[] result = new int[size*size];
+
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                int tl = input[y*4*size + x*2];
+                int tlr = (tl & 0x00FF0000) >> 16;
+                int tlg = (tl & 0x0000FF00) >> 8;
+                int tlb = (tl & 0x000000FF);
+
+                int tr = input[y*4*size + x*2 + 1];
+                int trr = (tr & 0x00FF0000) >> 16;
+                int trg = (tr & 0x0000FF00) >> 8;
+                int trb = (tr & 0x000000FF);
+
+                int bl = input[(y*4 + 2)*size + x*2];
+                int blr = (bl & 0x00FF0000) >> 16;
+                int blg = (bl & 0x0000FF00) >> 8;
+                int blb = (bl & 0x000000FF);
+
+                int br = input[(y*4 + 2)*size + x*2 + 1];
+                int brr = (br & 0x00FF0000) >> 16;
+                int brg = (br & 0x0000FF00) >> 8;
+                int brb = (br & 0x000000FF);
+
+                result[y*size + x] =
+                    ((tlr + trr + blr + brr)/4) << 16 |
+                    ((tlg + trg + blg + brg)/4) << 8 |
+                    ((tlb + trb + blb + brb)/4);
+            }
+        }
+        return Image.createRGBImage(result, size, size, false);
+    }
+
+    private Image getBarAttachmentIcon(int bg, int fg) {
+        int size = Math.max(fontHeight, 9);
+        int hash = size + bg + fg;
+        if (messageBarAttachmentIcon != null && hash == messageBarIconHash) {
+            return messageBarAttachmentIcon;
+        }
+        messageBarAttachmentIcon = null;
+        messageBarEmojiIcon = null;
+
+        int renderSize = size*2;
+        Image result = Image.createImage(renderSize, renderSize);
+        Graphics g = result.getGraphics();
+
+        // circle
+        g.setColor(bg);
+        g.fillRect(0, 0, renderSize, renderSize);
+        g.setColor(fg);
+        g.fillArc(0, 0, renderSize, renderSize, 0, 360);
+
+        // plus icon inside circle
+        int padding = renderSize/5;
+        int thickness = Math.max(renderSize/9, 1);
+        if (renderSize%2 != thickness%2) thickness++;
+        int offset = renderSize/2 - thickness/2;
+        int length = renderSize - padding*2;
+        g.setColor(bg);
+        g.fillRect(padding, offset, length, thickness);  // - line
+        g.fillRect(offset, padding, thickness, length);  // | line
+
+        result = downscale(result);
+        messageBarAttachmentIcon = result;
+        messageBarIconHash = hash;
+        return result;
+    }
+
+    private Image getBarEmojiIcon(int bg, int fg) {
+        int size = Math.max(fontHeight, 9);
+        int hash = size + bg + fg;
+        if (messageBarEmojiIcon != null && hash == messageBarIconHash) {
+            return messageBarEmojiIcon;
+        }
+        int renderSize = size*2;
+        Image result = Image.createImage(renderSize, renderSize);
+        Graphics g = result.getGraphics();
+
+        // circle
+        g.setColor(bg);
+        g.fillRect(0, 0, renderSize, renderSize);
+        g.setColor(fg);
+        g.fillArc(0, 0, renderSize, renderSize, 0, 360);
+
+        // small circle inside the circle to make it an outline
+        int outline = Math.max(renderSize/11, 1);
+        int innerCircleSize = renderSize - outline*2;
+        g.setColor(bg);
+        g.fillArc(outline, outline, innerCircleSize, innerCircleSize, 0, 360);
+
+        // smile
+        int smileOffset = renderSize/4;
+        int smileWidth = renderSize - smileOffset*2;
+        int smileHeight = smileWidth*3/4;
+        int smileOffsetY = smileOffset - smileHeight + smileWidth;
+        g.setColor(fg);
+        g.fillArc(smileOffset, smileOffsetY, smileWidth, smileHeight, 180, 180);
+
+        // eyes
+        int eyeSize = Math.max(renderSize/7, 1);
+        int eyeOffsetX = smileOffset + Math.max(eyeSize/5, 1);
+        int eyeOffsetY = smileOffsetY + smileHeight/2 - eyeSize*2;
+        g.fillArc(eyeOffsetX, eyeOffsetY, eyeSize, eyeSize, 0, 360);
+        g.fillArc(renderSize - eyeOffsetX - eyeSize, eyeOffsetY, eyeSize, eyeSize, 0, 360);
+
+        result = downscale(result);
+        messageBarEmojiIcon = result;
+        messageBarIconHash = hash;
+        return result;
+    }
+
+    private boolean checkAndLoadMessageBar() {
+        if (messageBarWidth != getWidth()) {
+            final int imgHeight = 32;
+            final int imgPartWidth = 7;
+
+            int barHeight = fontHeight*2;
+            int partWidth = barHeight*imgPartWidth/imgHeight;
+
+            if (messageBarHeight != barHeight) {
+                Image messageBarImg;
+                try {
+                    messageBarImg = Image.createImage("/bar.png");
+                }
+                catch (Exception e) {
+                    return false;
+                }
+                messageBarLeft = Image.createImage(messageBarImg, 0, 0, imgPartWidth, imgHeight, Sprite.TRANS_NONE);
+                messageBarRight = Image.createImage(messageBarImg, imgPartWidth + 1, 0, imgPartWidth, imgHeight, Sprite.TRANS_NONE);
+                messageBarCenter = Image.createImage(messageBarImg, imgPartWidth, 0, 1, imgHeight, Sprite.TRANS_NONE);
+                messageBarLeft = Util.resizeImageBilinear(messageBarLeft, partWidth, barHeight);
+                messageBarRight = Util.resizeImageBilinear(messageBarRight, partWidth, barHeight);
+
+                messageBarHeight = barHeight;
+            }
+
+            if (messageBarWidth != getWidth()) {
+                Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, getWidth() - partWidth*2 + 1, barHeight);
+
+                messageBar = Image.createImage(getWidth(), barHeight);
+                Graphics barG = messageBar.getGraphics();
+
+                barG.setColor(Theme.channelViewBackgroundColor);
+                barG.fillRect(0, 0, getWidth(), barHeight);
+                
+                barG.drawImage(messageBarLeft, 0, 0, Graphics.TOP | Graphics.LEFT);
+                barG.drawImage(messageBarCenterScaled, barHeight*imgPartWidth/imgHeight, 0, Graphics.TOP | Graphics.LEFT);
+                barG.drawImage(messageBarRight, getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
+                barG.drawImage(getBarAttachmentIcon(0xFFFFFF, 0x444444), fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.LEFT);
+                barG.drawImage(getBarEmojiIcon(0xFFFFFF, 0x444444), getWidth() - fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.RIGHT);
+
+                barG.setColor(0x444444);
+                barG.setFont(App.messageFont);
+                barG.drawString(
+//#ifndef BLACKBERRY
+                    (width < fontHeight*15) ? "Message" :
+//#endif
+                    ("Message " + title),
+                    barHeight*19/20, fontHeight/2, Graphics.TOP | Graphics.LEFT
+                );
+
+                messageBarWidth = getWidth();
+            }
+        }
+        return true;
+    }
+    
+    public int getHeight() {
+        if (!shouldShowBottomBar()) return super.getHeight();
+        
+        return super.getHeight() - fontHeight*2;
+    }
+//#endif
+
     protected void showNotify() {
         if (haveShown) return;
         haveShown = true;
@@ -123,6 +339,15 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         requestUpdate(false, false);
         repaint();
     }
+
+//#ifdef TOUCH_SUPPORT
+    protected void hideNotify() {
+        Displayable curr = App.disp.getCurrent();
+        if (curr instanceof MessageBox) {
+            ((MessageBox) curr).showEmojiPicker();
+        }
+    }
+//#endif
 
     public void requestUpdate(boolean wasGateway, boolean wasGatewayNewMsg) {
         requestedUpdate = true;
@@ -143,7 +368,12 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
         if (page > 0) resultBuf.append(Locale.get(CHANNEL_VIEW_TITLE_OLD));
 
+//#ifdef TOUCH_SUPPORT
+        title = resultBuf.toString();
+        setTitle(title);
+//#else
         setTitle(resultBuf.toString());
+//#endif
     }
 
     private void update(boolean wasResized, boolean wasGateway, boolean wasGatewayNewMsg) {
@@ -469,6 +699,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             _removeCommand(replyCommand);
             _removeCommand(replyUploadCommand);
         }
+
+//#ifdef TOUCH_SUPPORT
+        if (shouldShowBottomBar()) {
+            _removeCommand(sendCommand);
+            _removeCommand(uploadCommand);
+        } else {
+            _addCommand(sendCommand);
+            _addCommand(uploadCommand);
+        }
+//#endif
     }
 
     // Also used by old channel view
@@ -604,6 +844,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
 //#ifdef TOUCH_SUPPORT
+//#ifndef BLACKBERRY
         if (showBackButton) {
             int buttonOffset = fontHeight/2;
             int buttonMargin = fontHeight/3;
@@ -629,12 +870,20 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             );
         }
 //#endif
+//#endif
 
         // g.setColor(0x00ff0000);
         // g.drawString(
         //     "" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()), width, 0,
         //     Graphics.TOP | Graphics.RIGHT
         // );
+
+//#ifdef TOUCH_SUPPORT
+        if (shouldShowBottomBar()) {
+            g.setClip(0, 0, getWidth(), super.getHeight());
+            g.drawImage(messageBar, 0, getHeight(), Graphics.TOP | Graphics.LEFT);
+        }
+//#endif
 
         drawScrollbar(g);
         haveDrawn = true;
@@ -674,13 +923,21 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
     }
 
-    private void showMessageBox() {
+    private void showMessageBox(boolean withEmojiPicker) {
 //#ifdef OVER_100KB
         // Show warning if DMing someone for the first time (Discord spam filter)
         if (App.isDM && items.size() == 0) App.disp.setCurrent(new DMWarningDialog());
         else
 //#endif
-        App.disp.setCurrent(new MessageBox());
+        {
+//#ifdef TOUCH_SUPPORT
+            MessageBox box = new MessageBox();
+            box.showEmojiPicker = withEmojiPicker;
+            App.disp.setCurrent(box);
+//#else
+            App.disp.setCurrent(new MessageBox());
+//#endif
+        }
     }
 
     private void replyHotkeyAction() {
@@ -780,7 +1037,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (Settings.defaultHotkeys) {
             // default hotkey (j2me game actions A/B/C/D)
             switch (action) {
-                case GAME_A: showMessageBox(); break;
+                case GAME_A: showMessageBox(false); break;
                 case GAME_B: replyHotkeyAction(); break;
                 case GAME_C: copyHotkeyAction(); break;
                 case GAME_D: commandAction(refreshCommand, this); break;
@@ -789,7 +1046,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         } else {
             // user bound key (when 'default hotkeys' option disabled)
             if (keycode == Settings.sendHotkey) {
-                showMessageBox();
+                showMessageBox(false);
             }
             else if (keycode == Settings.replyHotkey) {
                 replyHotkeyAction();
@@ -824,16 +1081,21 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
 //#ifdef TOUCH_SUPPORT
+    private boolean tappedOnBottom;
+
     protected void _pointerPressed(int x, int y) {
+        tappedOnBottom = (y > getHeight() && shouldShowBottomBar());
+//#ifndef BLACKBERRY
         int buttonOffset = fontHeight/2;
         int buttonMargin = fontHeight/3;
         int buttonWidth = backButtonStringWidth + buttonMargin*2;
         int buttonHeight = fontHeight + buttonMargin*2;
 
-        if (showBackButton && x >= width - buttonWidth - buttonOffset && y >= height - buttonHeight - buttonOffset) {
+        if (showBackButton && !tappedOnBottom && x >= width - buttonWidth - buttonOffset && y >= height - buttonHeight - buttonOffset) {
             commandAction(fullScreenCommand, this);
             return;
         }
+//#endif
         touchMode = true;
         super._pointerPressed(x, y);
     }
@@ -844,6 +1106,24 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
     protected void _pointerReleased(int x, int y) {
+//#ifdef TOUCH_SUPPORT
+        if (tappedOnBottom && y > getHeight() && shouldShowBottomBar()) {
+            // Tapped on the bottom message bar, determine which part was pressed:
+            // Button on left-most edge: upload file
+            if (x < fontHeight*2) {
+                commandAction(uploadCommand, this);
+            }
+            // Button on right-most edge: send emoji (open "send message" box then the emoji picker)
+            else if (x > getWidth() - fontHeight*2) {
+                showMessageBox(true);
+            }
+            // Rest of the bar: send message
+            else {
+                showMessageBox(false);
+            }
+            return;
+        }
+//#endif
         touchMode = true;
 
         if (!pointerWasTapped(fontHeight)) {
@@ -923,7 +1203,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
         }
         else if (c == sendCommand) {
-            showMessageBox();
+            showMessageBox(false);
         }
         else if (c == refreshCommand) {
             App.dontShowLoadScreen = true;

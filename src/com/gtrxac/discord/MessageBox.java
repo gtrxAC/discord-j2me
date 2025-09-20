@@ -20,6 +20,11 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     public boolean showedPreviewScreen = false;
 //#endif
 
+//#ifdef TOUCH_SUPPORT
+    public boolean showEmojiPicker;
+    private boolean shownEmojiPicker;
+//#endif
+
     private void init(int sendCommandLabel) {
         setCommandListener(this);
 
@@ -57,6 +62,15 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         this.attachName = attachName;
         this.attachFc = attachFc;
     }
+
+//#ifdef TOUCH_SUPPORT
+    public void showEmojiPicker() {
+        if (showEmojiPicker && !shownEmojiPicker) {
+            EmojiPicker.show();
+            shownEmojiPicker = true;
+        }
+    }
+//#endif
 
     // Also used by reply form
     public static String getMessageBoxTitle() {
