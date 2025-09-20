@@ -297,9 +297,38 @@ public class HTTPThread extends Thread implements Strings {
                     }
 
                     if (guilds == null) {
+                        // Fetch guilds (which are sorted by ID) 
+                        // then fetch user's guild folders which we can use to sort guilds by user-defined order like in official clients
                         String url = "/users/@me/guilds";
                         if (!forceReload && App.isLiteProxy) url += "?c";  // query parameter for using proxy cache
+//#ifdef OVER_100KB
+                        if (App.unsortedGuilds == null) {
+                            App.unsortedGuilds = JSON.getArray(HTTP.get(url, false));
+                        }
+
+                        JSONArray folders = JSON.getObject(HTTP.get("/users/@me/settings", false)).getArray("guild_folders");
+                        guilds = new JSONArray();
+
+                        for (int i = 0; i < folders.size(); i++) {
+                            JSONArray guildIds = folders.getObject(i).getArray("guild_ids");
+
+                            for (int j = 0; j < guildIds.size(); j++) {
+                                String guildId = guildIds.getString(j);
+
+                                for (int k = 0; k < App.unsortedGuilds.size(); k++) {
+                                    JSONObject guild = App.unsortedGuilds.getObject(k);
+
+                                    if (guild.getString("id").equals(guildId)) {
+                                        guilds.add(guild);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        App.unsortedGuilds = null;
+//#else                
                         guilds = JSON.getArray(HTTP.get(url, false));
+//#endif
                         wasFetched = true;
                     }
                     App.guilds = new Vector();

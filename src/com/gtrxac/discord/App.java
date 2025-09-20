@@ -60,6 +60,9 @@ public class App extends MIDlet implements Strings {
 	static Guild selectedGuild;
 	static GuildSelector guildSelector;
 	static Vector subscribedGuilds;
+//#ifdef OVER_100KB
+	static JSONArray unsortedGuilds;
+//#endif
 
 	static Vector channels;
 	static Channel selectedChannel;
