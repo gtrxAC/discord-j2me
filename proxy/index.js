@@ -753,6 +753,29 @@ app.get(`${BASE}/guilds/:guild/roles`, getToken, async (req, res) => {
     catch (e) { handleError(res, e); }
 });
 
+// Get user's settings (cached with 1 day TTL)
+// Output currently not compressed/reduced in any way
+const settingsCache = new LRUCache({max: 1000, ttl: 24*60*60*1000, updateAgeOnGet: false});
+
+app.get(`${BASE}/users/@me/settings`, getToken, async (req, res) => {
+    try {
+        let settingsData;
+        if (settingsCache.has(res.locals.userID)) {
+            settingsData = settingsCache.get(res.locals.userID);
+        } else {
+            const response = await axios.get(
+                `${DEST_BASE}/users/@me/settings`,
+                {headers: res.locals.headers}
+            );
+            settingsData = response.data;
+            settingsCache.set(res.locals.userID, settingsData);
+        }
+        
+        res.send(stringifyUnicode(settingsData));
+    }
+    catch (e) { handleError(res, e); }
+});
+
 // Get threads for channel
 app.get(`${BASE}/channels/:channel/threads/search`, getToken, async (req, res) => {
     try {
