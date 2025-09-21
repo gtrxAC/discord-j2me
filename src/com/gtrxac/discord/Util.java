@@ -296,6 +296,17 @@ public class Util {
 		return (str.length() >= length && length > 3) ? str.substring(0, length - 3) + "..." : str;
 	}
 
+	public static String stringToWidth(String str, Font font, int area) {
+        if (font.stringWidth(str) < area) return str;
+
+        area -= font.stringWidth("...");
+        // Reduce string length until it fits in the area
+        while (font.stringWidth(str) >= area && str.length() > 0) {
+            str = str.substring(0, str.length() - 1);
+        }
+        return str + "...";
+	}
+
 	public static byte[] stringToBytes(String str) {
 		try {
 			return str.getBytes("UTF-8");

@@ -57,7 +57,11 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
     }
 
     public MessageBox(String attachName, FileConnection attachFc) {
+//#ifdef OVER_100KB
+        super(getMessageBoxTitle(), ChannelView.draftMessage, 2000, 0);
+//#else
         super(getMessageBoxTitle(), "", 2000, 0);
+//#endif
         init(SEND_MESSAGE);
         this.attachName = attachName;
         this.attachFc = attachFc;
@@ -134,6 +138,11 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
                 }
                 catch (Throwable e) {}
             }
+            ChannelView.draftMessage = getString();
+//#ifdef TOUCH_SUPPORT
+            App.channelView.messageBarWidth = 0;  // force redraw the message bar
+            App.channelView.repaint();
+//#endif
 //#endif
             App.openChannelView(false);
         }

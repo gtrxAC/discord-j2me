@@ -47,7 +47,11 @@ public class ReplyForm extends Form implements CommandListener, Strings {
             append(fileItem);
         }
 
+//#ifdef OVER_100KB
+        replyField = new TextField(Locale.get(REPLY_FORM_LABEL), ChannelView.draftMessage, 2000, 0);
+//#else
         replyField = new TextField(Locale.get(REPLY_FORM_LABEL), "", 2000, 0);
+//#endif
         append(replyField);
 
         if (!App.isDM) {
@@ -92,6 +96,11 @@ public class ReplyForm extends Form implements CommandListener, Strings {
                 }
                 catch (Throwable e) {}
             }
+            ChannelView.draftMessage = replyField.getString();
+//#ifdef TOUCH_SUPPORT
+            App.channelView.messageBarWidth = 0;  // force redraw the message bar
+            App.channelView.repaint();
+//#endif
 //#endif
             App.disp.setCurrent(lastScreen);
         }

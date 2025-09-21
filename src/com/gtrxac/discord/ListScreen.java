@@ -282,14 +282,7 @@ public class ListScreen extends KineticScrollingCanvas {
         int area = getWidth() - leftMargin - fontHeight/4;
         if (rightItem != null && !separateRightItems) area -= font.stringWidth(rightItem);
 
-        if (font.stringWidth(item) < area) return item;
-
-        area -= font.stringWidth("...");
-        // Reduce string length until it fits on the screen
-        while (font.stringWidth(item) >= area && item.length() > 0) {
-            item = item.substring(0, item.length() - 1);
-        }
-        return item + "...";
+        return Util.stringToWidth(item, font, area);
     }
 
     private void updateDisplayedItem(int i) {

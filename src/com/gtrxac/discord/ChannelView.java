@@ -50,6 +50,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
 //#ifdef OVER_100KB
     JSONObject pendingTheme;
+    static String draftMessage;
 //#endif
 
 //#ifdef TOUCH_SUPPORT
@@ -115,6 +116,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
 //#ifdef J2ME_LOADER
         commands = new Vector();
+//#endif
+
+//#ifdef OVER_100KB
+        draftMessage = "";
 //#endif
     }
 
@@ -293,33 +298,43 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 messageBarHeight = barHeight;
             }
 
-            if (messageBarWidth != getWidth()) {
-                Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, getWidth() - partWidth*2 + 1, barHeight);
+            Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, getWidth() - partWidth*2 + 1, barHeight);
 
-                messageBar = Image.createImage(getWidth(), barHeight);
-                Graphics barG = messageBar.getGraphics();
+            messageBar = Image.createImage(getWidth(), barHeight);
+            Graphics barG = messageBar.getGraphics();
 
-                barG.setColor(Theme.channelViewBackgroundColor);
-                barG.fillRect(0, 0, getWidth(), barHeight);
-                
-                barG.drawImage(messageBarLeft, 0, 0, Graphics.TOP | Graphics.LEFT);
-                barG.drawImage(messageBarCenterScaled, barHeight*imgPartWidth/imgHeight, 0, Graphics.TOP | Graphics.LEFT);
-                barG.drawImage(messageBarRight, getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
-                barG.drawImage(getBarAttachmentIcon(0xFFFFFF, 0x444444), fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.LEFT);
-                barG.drawImage(getBarEmojiIcon(0xFFFFFF, 0x444444), getWidth() - fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.RIGHT);
+            barG.setColor(Theme.channelViewBackgroundColor);
+            barG.fillRect(0, 0, getWidth(), barHeight);
+            
+            barG.drawImage(messageBarLeft, 0, 0, Graphics.TOP | Graphics.LEFT);
+            barG.drawImage(messageBarCenterScaled, barHeight*imgPartWidth/imgHeight, 0, Graphics.TOP | Graphics.LEFT);
+            barG.drawImage(messageBarRight, getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
+            barG.drawImage(getBarAttachmentIcon(0xFFFFFF, 0x444444), fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.LEFT);
+            barG.drawImage(getBarEmojiIcon(0xFFFFFF, 0x444444), getWidth() - fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.RIGHT);
 
+            String label;
+            if (draftMessage.length() > 0) {
+                barG.setColor(0x111111);
+                label = draftMessage;
+                if (label.indexOf("\n") != -1) {
+                    label = label.substring(0, label.indexOf("\n")) + "...";
+                }
+            }
+            else {
                 barG.setColor(0x444444);
-                barG.setFont(App.messageFont);
-                barG.drawString(
+                label =
 //#ifndef BLACKBERRY
                     (width < fontHeight*15) ? "Message" :
 //#endif
-                    ("Message " + title),
-                    barHeight*19/20, fontHeight/2, Graphics.TOP | Graphics.LEFT
-                );
-
-                messageBarWidth = getWidth();
+                    "Message " + title;
             }
+
+            barG.setFont(App.messageFont);
+            barG.drawString(
+                Util.stringToWidth(label, App.messageFont, getWidth() - fontHeight*4),
+                barHeight*19/20, fontHeight/2, Graphics.TOP | Graphics.LEFT
+            );
+            messageBarWidth = getWidth();
         }
         return true;
     }
