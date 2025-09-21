@@ -447,6 +447,9 @@ public class HTTPThread extends Thread implements Strings {
                     // If gateway enabled, don't need to fetch new messages
                     if (App.gatewayActive()) {
                         setBannerText(null);
+//#ifdef OVER_100KB
+                        App.channelView.setDraftMessage("");
+//#endif
                         break;
                     }
 

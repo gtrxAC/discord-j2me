@@ -96,11 +96,7 @@ public class ReplyForm extends Form implements CommandListener, Strings {
                 }
                 catch (Throwable e) {}
             }
-            ChannelView.draftMessage = replyField.getString();
-//#ifdef TOUCH_SUPPORT
-            App.channelView.messageBarWidth = 0;  // force redraw the message bar
-            App.channelView.repaint();
-//#endif
+            App.channelView.setDraftMessage(replyField.getString());
 //#endif
             App.disp.setCurrent(lastScreen);
         }

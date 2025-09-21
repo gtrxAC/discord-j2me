@@ -138,11 +138,7 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
                 }
                 catch (Throwable e) {}
             }
-            ChannelView.draftMessage = getString();
-//#ifdef TOUCH_SUPPORT
-            App.channelView.messageBarWidth = 0;  // force redraw the message bar
-            App.channelView.repaint();
-//#endif
+            if (editMessage == null) App.channelView.setDraftMessage(getString());
 //#endif
             App.openChannelView(false);
         }

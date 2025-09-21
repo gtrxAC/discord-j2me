@@ -364,6 +364,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 //#endif
 
+//#ifdef OVER_100KB
+    public void setDraftMessage(String msg) {
+        draftMessage = msg;
+//#ifdef TOUCH_SUPPORT
+        messageBarWidth = 0;  // force redraw the message bar
+        repaint();
+//#endif
+    }
+//#endif
+
     public void requestUpdate(boolean wasGateway, boolean wasGatewayNewMsg) {
         requestedUpdate = true;
         reqUpdateGateway = wasGateway;
