@@ -52,6 +52,10 @@ public abstract class MyCanvas extends Canvas {
     public static volatile long beginRepeatTime;
 
     protected void keyPressed(int key) {
+//#ifdef MIDP2_GENERIC
+        // Ignore home button presses which would otherwise deactivate touch mode
+        if (Util.isSymbian && key == -12) return;
+//#endif
         keyAction(key);
 
         if (KeyRepeatThread.enabled && !isKeyPressed) {
@@ -72,6 +76,9 @@ public abstract class MyCanvas extends Canvas {
     }
 
     protected void keyRepeated(int key) {
+//#ifdef MIDP2_GENERIC
+        if (Util.isSymbian && key == -12) return;
+//#endif
         if (!KeyRepeatThread.enabled) keyAction(key);
     }
 
