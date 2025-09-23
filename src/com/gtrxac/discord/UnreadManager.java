@@ -115,7 +115,7 @@ public class UnreadManager {
     public static void markRead(Vector v) {
         autoSave = false;
         for (int i = 0; i < v.size(); i++) {
-            Channel ch = (Channel) v.elementAt(i);
+            HasUnreads ch = (HasUnreads) v.elementAt(i);
             ch.markRead();
         }
         autoSave = true;
