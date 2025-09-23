@@ -214,7 +214,7 @@ public class Settings {
         pfpSize = getIntRecord(Settings.ICON_SIZE_16);
         nativeFilePicker = getBoolRecord(false);
         autoReConnect = getBoolRecord(true);
-        showMenuIcons = getBoolRecord(true);
+        showMenuIcons = getBoolRecord(!Util.isS40);  // server/DM icons dont load well on S40, disable by default
         tokenType = getIntRecord(Settings.TOKEN_TYPE_HEADER);
         useNameColors = getBoolRecord(true);
         sendHotkey = getIntRecord(0);
