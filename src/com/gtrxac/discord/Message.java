@@ -146,7 +146,17 @@ public class Message implements Strings {
     
                     if (Settings.showRefMessage) {
                         refContent = refObj.getString("content", null);
-                        if (refContent == null) refContent = Locale.get(NO_CONTENT);
+                        if (refContent == null) {
+                            refContent = Locale.get(NO_CONTENT);
+                        }
+                        else if (
+                            !App.isLiteProxy
+//#ifdef PROXYLESS_SUPPORT
+                            || Settings.proxyless
+//#endif
+                        ) {
+                            refContent = Util.replace(refContent, "\n", "  ");
+                        }
                     }
                 }
                 catch (Exception e) {}
