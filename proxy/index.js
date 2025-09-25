@@ -659,12 +659,13 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             // Version number of emoji JSON data.
             // When the JSON is edited, this number should be increased by one.
             // If this number increases, the clients re-download the JSON.
-            _emojiversion: 4,
+            _emojiversion: 5,
 
             // Version numbers of each emoji spritesheet png.
             // If any of these numbers increase, or if new sheets are added, the clients re-download the appropriate sheets.
-            //             0  1  2  3  4  5  6  7  8  9  10 11
-            _emojisheets: [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 2]
+            // Seems you might have to use 1 as the initial version number if adding a new sheet
+            //             0  1  2  3  4  5  6  7  8  9  10 11 12
+            _emojisheets: [0, 1, 0, 0, 1, 1, 1, 2, 1, 1, 2, 3, 1]
         }));
     }
     catch (e) { handleError(res, e); }
