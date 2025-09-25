@@ -139,6 +139,28 @@ public class HTTP implements Strings {
 	}
 
 	public static byte[] getBytes(String url) throws IOException {
+//#ifdef MIDP2_GENERIC
+		int attempts = 0;
+
+		while (true) {
+			try {
+				return getBytesWrapped(url);
+			}
+			catch (IOException e) {
+				// Automatic retry if we get IOException -36 which randomly occurs on Symbian
+				if (e.toString().indexOf("-36") != -1) {
+					attempts++;
+					if (attempts == 3) throw e;
+				}
+				else throw e;
+			}
+		}
+//#else
+		return getBytesWrapped(url);
+//#endif
+	}
+
+	private static byte[] getBytesWrapped(String url) throws IOException {
 		HttpConnection hc = null;
 		InputStream in = null;
 		try {
