@@ -524,8 +524,8 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         if (req.query.limit) queryParam.push(`limit=${req.query.limit}`);
         if (req.query.before) queryParam.push(`before=${req.query.before}`);
         if (req.query.after) queryParam.push(`after=${req.query.after}`);
-        if (req.query.emoji) showGuildEmoji = true;
-        if (req.query.edit) showEdited = true;
+        if (req.query.emoji || req.query.em) showGuildEmoji = true;
+        if (req.query.edit || req.query.ed) showEdited = true;
         if (queryParam.length) proxyUrl += '?' + queryParam.join('&');
 
         const response = await axios.get(proxyUrl, {headers: res.locals.headers});
@@ -547,6 +547,18 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
             return result;
         })
         res.send(stringifyUnicode(messages));
+
+        // Mark latest message as read if client requested to do so and we are not reading an older page of messages
+        if (req.query.m == 1 && !req.query.before && !req.query.after && response.data?.[0]?.id) {
+            axios.post(
+                `${DEST_BASE}/channels/${req.params.channel}/messages/${response.data[0].id}/ack`,
+                {token: null},
+                {headers: res.locals.headers}
+            )
+            .catch(e => {
+                console.log(e);
+            })
+        }
     }
     catch (e) { handleError(res, e); }
 });

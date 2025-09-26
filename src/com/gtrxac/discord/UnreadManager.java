@@ -11,6 +11,12 @@ public class UnreadManager {
     public static String lastUnreadTime;  // previously unread message ID for the last channel that markRead() was used on
     public static boolean lastHadUnreads;
 
+//#ifdef OVER_100KB
+    // parameters for ack/"mark as read" API call
+    public static String markReadChannelID;
+    public static long markReadMessageID;
+//#endif
+
     public static void init() {
         channels = new Hashtable();
         autoSave = true;
@@ -42,6 +48,18 @@ public class UnreadManager {
     }
 
     public static void save() {
+//#ifdef OVER_100KB
+        if (
+            (!App.isLiteProxy
+//#ifdef PROXYLESS_SUPPORT
+            || Settings.proxyless
+//#endif
+            ) && UnreadManager.markReadChannelID != null
+        ) {
+            new HTTPThread(HTTPThread.MARK_AS_READ).start();
+        }
+//#endif
+
         JSONArray json = new JSONArray();
         
         // Convert hashtable to JSON array of key/value pairs
@@ -106,6 +124,11 @@ public class UnreadManager {
         if (isUnread) {
             put(channelID, String.valueOf(lastMessageTime));
         }
+
+//#ifdef OVER_100KB
+        markReadChannelID = channelID;
+        markReadMessageID = lastMessageID;
+//#endif
     }
 
     public static void markDMsRead() {

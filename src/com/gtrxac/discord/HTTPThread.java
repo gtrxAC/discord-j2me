@@ -1,8 +1,6 @@
 package com.gtrxac.discord;
 
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.*;
 import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
@@ -31,6 +29,7 @@ public class HTTPThread extends Thread implements Strings {
 //#ifdef OVER_100KB
     static final int VIEW_ATTACHMENT_AUDIO = 15;
     static final int SET_THEME = 16;
+    static final int MARK_AS_READ = 17;
 //#endif
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
@@ -473,14 +472,20 @@ public class HTTPThread extends Thread implements Strings {
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
 //#ifdef OVER_100KB
-                    if (App.isLiteProxy) {
+                    if (
+                        App.isLiteProxy
+//#ifdef PROXYLESS_SUPPORT
+                        && !Settings.proxyless
+//#endif
+                    ) {
+                        url.append("&m=1");  // do ack (mark as read) proxy-side
 //#ifdef EMOJI_SUPPORT
                         if (FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
-                            url.append("&emoji=1");
+                            url.append("&em=1");
                         }
 //#endif
                         if (FormattedString.useMarkdown) {
-                            url.append("&edit=1");
+                            url.append("&ed=1");
                         }
                     }
 //#endif
@@ -574,8 +579,6 @@ public class HTTPThread extends Thread implements Strings {
 
 //#ifdef OVER_100KB
                             if (attach.name.endsWith(".json")) {
-                                // Command showCommand = Locale.createCommand(label, Command.ITEM, i + 200);
-                                // showButton = new StringItem(null, Locale.get(label + 1), Item.BUTTON);
                                 Command themeCommand = new Command("Use", Command.ITEM, i + 200);
                                 StringItem themeButton = new StringItem(null, "Use as theme", Item.BUTTON);
                                 themeButton.setLayout(layout);
@@ -843,6 +846,15 @@ public class HTTPThread extends Thread implements Strings {
                     App.channelView.pendingTheme = JSON.getObject(text);
                     Theme.loadJsonTheme(App.channelView.pendingTheme);
                     App.disp.setCurrent(App.channelView);
+                    break;
+                }
+
+                case MARK_AS_READ: {
+                    HTTP.post(
+                        "/channels/" + UnreadManager.markReadChannelID + "/messages/" + UnreadManager.markReadMessageID + "/ack",
+                        "{\"token\":null}", false
+                    );
+                    UnreadManager.markReadChannelID = null;
                     break;
                 }
 //#endif
