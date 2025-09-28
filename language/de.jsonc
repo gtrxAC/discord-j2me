@@ -877,5 +877,8 @@
 
     // Title and description of dialog screen shown when the user has saved their server list.
     "Gespeichert",
-    "Serverliste im Cache gespeichert!"
+    "Serverliste im Cache gespeichert!",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Emoji names"
 ]

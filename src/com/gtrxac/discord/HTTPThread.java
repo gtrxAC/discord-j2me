@@ -241,6 +241,24 @@ public class HTTPThread extends Thread implements Strings {
                         Util.setOrAddRecord(rms, 2, emojiJson);
                         needRmsWrite = true;
                     }
+
+//#ifdef PROXYLESS_SUPPORT
+                    if (curJsonVersion < newEmojiJsonVersion || !Settings.hasFetchedProxylessEmojis) {
+                        // Download second emoji json that contains unicode emojis for use with proxyless mode
+                        byte[] emoji2Json = HTTP.getBytes(Settings.api + "/emoji/emoji_proxyless.json");
+                        RecordStore emoji2Rms = null;
+                        try {
+                            emoji2Rms = RecordStore.openRecordStore("emoji2", true);
+                            Util.setOrAddRecord(emoji2Rms, 1, emoji2Json);
+                        }
+                        catch (Exception e) {}
+
+                        Util.closeRecordStore(emoji2Rms);
+
+                        Settings.hasFetchedProxylessEmojis = true;
+                        Settings.save();
+                    }
+//#endif
     
                     int sheetCount = newEmojiSheetVersions.size();
     

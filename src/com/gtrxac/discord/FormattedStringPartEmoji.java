@@ -29,12 +29,12 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         }
     }
 
-    public static JSONArray loadEmojiJson() {
+    public static JSONArray loadEmojiJson(String rmsName, int recordID) {
         JSONArray result;
         RecordStore rms = null;
         try {
-            rms = RecordStore.openRecordStore("emoji", false);
-            result = JSON.getArray(Util.bytesToString(rms.getRecord(2)));
+            rms = RecordStore.openRecordStore(rmsName, false);
+            result = JSON.getArray(Util.bytesToString(rms.getRecord(recordID)));
         }
         catch (Exception e) {
             result = null;
@@ -52,9 +52,13 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
         imageYOffset = fontSize/2 - emojiSize/2;
         largeEmojiSize = (emojiSize == 16) ? 32 : getEmojiSize(fontSize*2);
 
-        JSONArray emojiArray = loadEmojiJson();
+        JSONArray emojiArray = loadEmojiJson("emoji", 2);
 
         if (emojiArray == null) return;
+
+//#ifdef PROXYLESS_SUPPORT
+        String[] unicodeEmojiNames = new String[emojiArray.size()];
+//#endif
 
         emojiTable = new Hashtable();
         for (int i = 0; i < emojiArray.size(); i++) {
@@ -63,10 +67,23 @@ public class FormattedStringPartEmoji extends FormattedStringPart {
             for (int j = 0; j < emojiNames.size(); j++) {
                 emojiTable.put(emojiNames.get(j), intObj);
             }
+//#ifdef PROXYLESS_SUPPORT
+            unicodeEmojiNames[i] = ':' + emojiNames.getString(0) + ':';
+//#endif
         }
 
         loadedEmoji = new Hashtable(10);
         loadedEmojiNames = new Vector(10);
+
+//#ifdef PROXYLESS_SUPPORT
+        if (Settings.hasFetchedProxylessEmojis) {
+            JSONArray unicodeEmojisJson = loadEmojiJson("emoji2", 1);
+            FormattedStringParser.unicodeEmojis = new String[unicodeEmojisJson.size()];
+            unicodeEmojisJson.copyInto(FormattedStringParser.unicodeEmojis);
+
+            FormattedStringParser.unicodeEmojiNames = unicodeEmojiNames;
+        }
+//#endif
     }
 
     FormattedStringPartEmoji(String name) {

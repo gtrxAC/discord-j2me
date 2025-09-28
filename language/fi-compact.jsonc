@@ -875,5 +875,8 @@
 
     // Title and description of dialog screen shown when the user has saved their server list.
     "Tallennettu",
-    "Palvelimet tallennettu välimuistiin!"
+    "Palvelimet tallennettu välimuistiin!",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Hymiöiden nimet"
 ]

@@ -56,7 +56,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         }
 
         sheetWidth = emojiSize*45;
-        emojiJson = FormattedStringPartEmoji.loadEmojiJson();
+        emojiJson = FormattedStringPartEmoji.loadEmojiJson("emoji", 2);
 
         selectCommand = Locale.createCommand(SELECT, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);

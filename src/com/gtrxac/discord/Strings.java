@@ -383,4 +383,7 @@ public interface Strings {
     static final int GUILD_SAVE_TITLE = 357;
     static final int GUILD_SAVE_DESCRIPTION = 358;
 //#endif
+//#ifdef PROXYLESS_SUPPORT
+    static final int DATA_MANAGER_EMOJI2 = 359;
+//#endif
 }

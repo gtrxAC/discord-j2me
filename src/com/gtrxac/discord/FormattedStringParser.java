@@ -48,12 +48,26 @@ public class FormattedStringParser {
     public boolean showLargeEmoji = true;
 //#endif
 
+//#ifdef PROXYLESS_SUPPORT
+    public static String[] unicodeEmojis;
+    public static String[] unicodeEmojiNames;
+//#endif
+
     FormattedStringParser(String src, Font font, boolean showEmoji, boolean singleLine) {
         this.src = src;
         this.font = font;
         this.singleLine = singleLine;
 //#ifdef EMOJI_SUPPORT
         this.showEmoji = (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) && showEmoji;
+//#endif
+//#ifdef PROXYLESS_SUPPORT
+        // Replace unicode emojis with colon emoji names so they can be later parsed the same way we do with proxy enabled
+        if (Settings.proxyless && Settings.hasFetchedProxylessEmojis) {
+            // Note: go through emojis in backwards order because flags are at the end and we want to check for those first, otherwise they'd get shown as regional indicator letters
+            for (int i = unicodeEmojis.length - 1; i >= 0; i--) {
+                this.src = Util.replace(this.src, unicodeEmojis[i], unicodeEmojiNames[i]);
+            }
+        }
 //#endif
     }
 

@@ -85,6 +85,9 @@ public class Settings {
 	static int scrollTopHotkey;
 	static int scrollBottomHotkey;
 //#endif
+//#ifdef PROXYLESS_SUPPORT
+    static boolean hasFetchedProxylessEmojis;
+//#endif
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -297,6 +300,10 @@ public class Settings {
         proxyless =
 //#endif
         getBoolRecord(false);
+//#ifdef PROXYLESS_SUPPORT
+        hasFetchedProxylessEmojis =
+//#endif
+        getBoolRecord(false);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -424,6 +431,13 @@ public class Settings {
         setBoolRecord(
 //#ifdef PROXYLESS_SUPPORT
             proxyless
+//#else
+            false
+//#endif
+        );
+        setBoolRecord(
+//#ifdef PROXYLESS_SUPPORT
+            hasFetchedProxylessEmojis
 //#else
             false
 //#endif

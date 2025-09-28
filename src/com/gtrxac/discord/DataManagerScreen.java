@@ -48,6 +48,9 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
 //#ifdef EMOJI_SUPPORT
         addItem(DATA_MANAGER_EMOJI, "emoji", false);
 //#endif
+//#ifdef PROXYLESS_SUPPORT
+        addItem(DATA_MANAGER_EMOJI2, "emoji2", false);
+//#endif
         addItem(DATA_MANAGER_LAST_READ, "unread", false);
         addItem(DATA_MANAGER_NOTIF_SOUND, "notifsound", true);
         addItem(DATA_MANAGER_LANGUAGE, "lang", true);
@@ -90,6 +93,12 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
                     else if ("emoji".equals(rmsName)) {
                         // Make sure the emojis get re-downloaded if they are needed again
                         App.myUserId = null;
+                    }
+//#endif
+//#ifdef PROXYLESS_SUPPORT
+                    else if ("emoji2".equals(rmsName)) {
+                        Settings.hasFetchedProxylessEmojis = false;
+                        Settings.save();
                     }
 //#endif
                 }

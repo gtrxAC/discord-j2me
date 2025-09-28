@@ -877,5 +877,8 @@
 
     // Title and description of dialog screen shown when the user has saved their server list.
     "Desat",
-    "S'ha desat llista de servidors a memòria cau!"
+    "S'ha desat llista de servidors a memòria cau!",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Emoji names"
 ]

@@ -444,5 +444,8 @@
 
     // Title and description of dialog screen shown when the user has saved their server list.
     "Saved",
-    "Server list saved to cache!"
+    "Server list saved to cache!",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Emoji names"
 ]

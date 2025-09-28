@@ -874,6 +874,9 @@
     null,
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!"
+    null,
+    null,
+
+    // Related to "Types of data shown in the data manager" above.
+    null
 ]
