@@ -87,6 +87,7 @@ public class Settings {
 //#endif
 //#ifdef PROXYLESS_SUPPORT
     static boolean hasFetchedProxylessEmojis;
+    static boolean hasSeenEditError;
 //#endif
 
     private static RecordStore loginRms;
@@ -304,6 +305,10 @@ public class Settings {
         hasFetchedProxylessEmojis =
 //#endif
         getBoolRecord(false);
+//#ifdef PROXYLESS_SUPPORT
+        hasSeenEditError =
+//#endif
+        getBoolRecord(false);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -438,6 +443,13 @@ public class Settings {
         setBoolRecord(
 //#ifdef PROXYLESS_SUPPORT
             hasFetchedProxylessEmojis
+//#else
+            false
+//#endif
+        );
+        setBoolRecord(
+//#ifdef PROXYLESS_SUPPORT
+            hasSeenEditError
 //#else
             false
 //#endif

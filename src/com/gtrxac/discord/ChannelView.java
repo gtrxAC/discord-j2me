@@ -99,6 +99,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         addCommand(uploadCommand);
 //#endif
 
+//#ifdef OVER_100KB
+        draftMessage = "";
+//#endif
+
 //#ifdef BLACKBERRY
         if (shouldShowBottomBar()) setFullScreenMode(true);
 //#else
@@ -116,10 +120,6 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
 //#ifdef J2ME_LOADER
         commands = new Vector();
-//#endif
-
-//#ifdef OVER_100KB
-        draftMessage = "";
 //#endif
     }
 
@@ -1266,22 +1266,14 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 App.disp.setCurrent(new URLList(selected.content));
             }
             else if (c == deleteCommand) {
-                if (!App.isLiteProxy) {
-                    App.error(Locale.get(DELETE_NOT_SUPPORTED));
-                } else {
 //#ifdef OVER_100KB
-                    App.disp.setCurrent(new DeleteConfirmDialog(selected));
+                App.disp.setCurrent(new DeleteConfirmDialog(selected));
 //#else
-                    App.disp.setCurrent(new Dialogs100kb(selected));
+                App.disp.setCurrent(new Dialogs100kb(selected));
 //#endif
-                }
             }
             else if (c == editCommand) {
-                if (!App.isLiteProxy) {
-                    App.error(Locale.get(EDIT_NOT_SUPPORTED));
-                } else {
-                    App.disp.setCurrent(new MessageBox(selected));
-                }
+                App.disp.setCurrent(new MessageBox(selected));
             }
         }
     }

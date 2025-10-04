@@ -71,13 +71,20 @@ public class HTTP implements Strings {
 		}
 	}
 
-	private static String sendData(String method, String url, String data, boolean useProxy) throws Exception {
+	public static final Exception requestMethodException = new Exception();
+
+	public static String sendData(String method, String url, String data, boolean useProxy) throws Exception {
 		HttpConnection c = null;
 		OutputStream os = null;
 
 		try {
 			c = openConnection(url, useProxy);
-			c.setRequestMethod(method);
+			try {
+				c.setRequestMethod(method);
+			}
+			catch (Exception e) {
+				throw requestMethodException;
+			}
 			
 			byte[] b = Util.stringToBytes(data);
 
@@ -95,7 +102,7 @@ public class HTTP implements Strings {
 		}
 	}
 
-	private static String sendJson(String method, String url, JSONObject data, boolean useProxy) throws Exception {
+	public static String sendJson(String method, String url, JSONObject data, boolean useProxy) throws Exception {
 		if (Settings.tokenType == Settings.TOKEN_TYPE_JSON) data.put("token", Settings.token);
 		return sendData(method, url, data.build(), useProxy);
 	}

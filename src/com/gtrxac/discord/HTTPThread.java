@@ -70,6 +70,9 @@ public class HTTPThread extends Thread implements Strings {
     // Parameters for EDIT_MESSAGE
     Message editMessage;
     String editContent;
+//#ifdef PROXYLESS_SUPPORT
+    boolean forceProxy;
+//#endif
 
     // Parameters for VIEW_NOTIFICATION
     boolean isDM;
@@ -738,8 +741,35 @@ public class HTTPThread extends Thread implements Strings {
                     newMessage.put("content", editContent);
 
                     String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
-                    String path = "/channels/" + channelId + "/messages/" + editMessage.id + "/edit";
-                    HTTP.post(path, newMessage, true);  // note: forced proxy, different API from standard Discord API
+                    String path = "/channels/" + channelId + "/messages/" + editMessage.id;
+
+                    if (
+//#ifdef PROXYLESS_SUPPORT
+                        (!App.isLiteProxy || Settings.proxyless) && !forceProxy
+//#else
+                        !App.isLiteProxy
+//#endif
+                    ) {
+                        try {
+                            HTTP.sendJson("PATCH", path, newMessage, false);
+                        }
+                        catch (Exception e) {
+                            if (e != HTTP.requestMethodException) throw e;
+//#ifdef PROXYLESS_SUPPORT
+                            if (Settings.hasSeenEditError) {
+                                HTTP.post(path + "/edit", newMessage, true);
+                            } else {
+                                App.disp.setCurrent(new EditErrorDialog(editMessage, editContent));
+                                setBannerText(null);
+                                break;
+                            }
+//#else
+                            App.error(Locale.get(EDIT_NOT_SUPPORTED));
+//#endif
+                        }
+                    } else {
+                        HTTP.post(path + "/edit", newMessage, true);
+                    }
 
                     // Manually update message content if gateway disabled
                     // (if enabled, new message content will come through gateway event)
@@ -758,8 +788,46 @@ public class HTTPThread extends Thread implements Strings {
                     setBannerText(Locale.get(CHANNEL_VIEW_DELETING));
 
                     String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
+                    String path = "/channels/" + channelId + "/messages/" + editMessage.id;
 
-                    HTTP.get("/channels/" + channelId + "/messages/" + editMessage.id + "/delete", true);  // note: forced proxy, different API from standard Discord API
+                    if (
+//#ifdef PROXYLESS_SUPPORT
+                        (!App.isLiteProxy || Settings.proxyless) && !forceProxy
+//#else
+                        !App.isLiteProxy
+//#endif
+                    ) {
+                        HttpConnection c = null;
+                        try {
+                            c = HTTP.openConnection(path, false);
+                            try {
+                                c.setRequestMethod("DELETE");
+                            }
+                            catch (Exception e) {
+                                throw HTTP.requestMethodException;
+                            }
+                            HTTP.sendRequest(c);
+                        }
+                        catch (Exception e) {
+                            if (e != HTTP.requestMethodException) throw e;
+//#ifdef PROXYLESS_SUPPORT
+                            if (Settings.hasSeenEditError) {
+                                HTTP.get(path + "/delete", true);
+                            } else {
+                                App.disp.setCurrent(new EditErrorDialog(editMessage));
+                                setBannerText(null);
+                                break;
+                            }
+//#else
+                            App.error(Locale.get(DELETE_NOT_SUPPORTED));
+//#endif
+                        }
+                        finally {
+                            try { c.close(); } catch (Exception e) {}
+                        }
+                    } else {
+                        HTTP.get(path + "/delete", true);
+                    }
 
                     // Manually update message to be deleted if gateway disabled
                     // (if enabled, deletion event will come through gateway)
