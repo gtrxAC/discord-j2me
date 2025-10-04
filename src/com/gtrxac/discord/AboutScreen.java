@@ -125,7 +125,6 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         addDeveloper(i, "ACPI Fixed Feature Button", TRANSLATOR_VI, 2);
         addDeveloper(i, "AlanHudik", TRANSLATOR_HR, 2);
         addDeveloper(i, "Alex222", TRANSLATOR_SV, 2);
-        addDeveloper(i, "Calsain", TRANSLATOR_ID, 2);
         addDeveloper(i, "cappuchi", TRANSLATOR_PL, 2);
         addDeveloper(i, "Dragan232", TRANSLATOR_CA, 2);
         i.addElement(new AboutScreenItem("ElHamexd", Font.SIZE_SMALL, 0, false, true));
@@ -135,6 +134,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         addDeveloper(i, "Lennard_105", TRANSLATOR_DE, 2);
         addDeveloper(i, "logoffon", TRANSLATOR_TH, 2);
         addDeveloper(i, "mal0gen", TRANSLATOR_PT, 2);
+        addDeveloper(i, "Misu", TRANSLATOR_ID, 2);
         addDeveloper(i, "Motorazr", TRANSLATOR_FR, 2);
         addDeveloper(i, "nativeshades", TRANSLATOR_BG, 2);
         addDeveloper(i, "pdyq", TRANSLATOR_ZHTW_YUE, 2);
