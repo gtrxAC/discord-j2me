@@ -71,7 +71,6 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("ACPI Fixed Feature Button", TRANSLATOR_VI);
         addDeveloper("AlanHudik", TRANSLATOR_HR);
         addDeveloper("Alex222", TRANSLATOR_SV);
-        addDeveloper("Calsain", TRANSLATOR_ID);
         addDeveloper("cappuchi", TRANSLATOR_PL);
         addDeveloper("Dragan232", TRANSLATOR_CA);
         addDeveloper("ElHamexd\nAlexisBlade2001", TRANSLATOR_ES);
@@ -80,6 +79,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("Lennard_105", TRANSLATOR_DE);
         addDeveloper("logoffon", TRANSLATOR_TH);
         addDeveloper("mal0gen", TRANSLATOR_PT);
+        addDeveloper("Misu", TRANSLATOR_ID);
         addDeveloper("Motorazr", TRANSLATOR_FR);
         addDeveloper("nativeshades", TRANSLATOR_BG);
         addDeveloper("pdyq", TRANSLATOR_ZHTW_YUE);
