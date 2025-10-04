@@ -855,30 +855,30 @@
     "Memori tidak cukup untuk menampilkan pemilih emoji",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+    "HTTP 502: Proxy server sedang tidak tersedia. Coba lagi nanti atau hubungi pengembang.",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: The request was unexpectedly redirected. Please check your connection.",
+    "HTTP 302: Permintaan dialihkan secara tidak terduga. Periksa koneksi anda.",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
-    "Warning",
-    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+    "Peringatan",
+    "Discord diketahui menandai unggahan dari klien pihak ketiga sebagai spam. Hal ini sering terjadi pada akun baru tanpa 2FA atau nomor telepon terverifikasi. Lanjutkan dengan risiko ditanggung sendiri.\nPilih 'Sembunyi' apabila Anda memahami risikonya.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Hide",
-    "Hide",
+    "Sembunyi",
+    "Sembunyikan",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?",
+    "Discord diketahui menandai pesan langsung baru dari klien pihak ketiga sebagai spam. Anda disarankan untuk mengirim pesan pertama anda dari klien resmi Discord. Lanjutkan?",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "Server favorit",
+    "Server disimpan",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!",
+    "Disimpan",
+    "Daftar server disimpan dalam tembolok!",
 
     // Related to "Types of data shown in the data manager" above.
-    "Emoji names"
+    "Nama emoji"
 ]
