@@ -85,7 +85,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("pdyq", TRANSLATOR_ZHTW_YUE);
         addDeveloper("proxion", TRANSLATOR_UK);
         addDeveloper("raul0028", TRANSLATOR_RO);
-        addDeveloper("SpazJR61\nviolent body", TRANSLATOR_TR);
+        addDeveloper("Meganium412\nviolent body", TRANSLATOR_TR);
         addDeveloper("SpiroWalkman\nmultiplemegapixels", TRANSLATOR_RU);
         addDeveloper("tsukihimeri6969", TRANSLATOR_JA);
         
