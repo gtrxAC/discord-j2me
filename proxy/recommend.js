@@ -3,16 +3,16 @@
  */
 
 const mainVersionDownloadLinks = {
-    "midp2":            { version: "5.1", betaVersion: null, target: "Nokia S40v3+ and Symbian S60v3+" },
-    "nokia_128px":      { version: "5.1", betaVersion: null, target: "Nokia S40v3+ (128x160)" },
-    "s40v2":            { version: "5.1", betaVersion: null, target: "Nokia S40v2" },
-    "s60v2":            { version: "5.1", betaVersion: null, target: "Symbian S60v2" },
-    "midp2_alt":        { version: "5.1", betaVersion: null, target: "other MIDP2 devices" },
-    "blackberry":       { version: "5.1", betaVersion: null, target: "BlackBerry" },
-    "samsung":          { version: "5.1", betaVersion: null, target: "Samsung" },
-    "samsung_100kb":    { version: "5.1", betaVersion: null, target: "Samsung (100 kB version)" },
-    "lg":               { version: "5.1", betaVersion: null, target: "LG" },
-    "jl":               { version: "5.1", betaVersion: null, target: "J2ME Loader", showJad: false },
+    "midp2":            { version: "5.1", betaVersion: "5.2", target: "Nokia S40v3+ and Symbian S60v3+" },
+    "nokia_128px":      { version: "5.1", betaVersion: "5.2", target: "Nokia S40v3+ (128x160)" },
+    "s40v2":            { version: "5.1", betaVersion: "5.2", target: "Nokia S40v2" },
+    "s60v2":            { version: "5.1", betaVersion: "5.2", target: "Symbian S60v2" },
+    "midp2_alt":        { version: "5.1", betaVersion: "5.2", target: "other MIDP2 devices" },
+    "blackberry":       { version: "5.1", betaVersion: "5.2", target: "BlackBerry" },
+    "samsung":          { version: "5.1", betaVersion: "5.2", target: "Samsung" },
+    "samsung_100kb":    { version: "5.1", betaVersion: "5.2", target: "Samsung (100 kB version)" },
+    "lg":               { version: "5.1", betaVersion: "5.2", target: "LG" },
+    "jl":               { version: "5.1", betaVersion: "5.2", target: "J2ME Loader", showJad: false },
     "6310i":            { version: "3.2", betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
     "midp1":            { version: "3.0", betaVersion: null, target: "MIDP1" },
 }
