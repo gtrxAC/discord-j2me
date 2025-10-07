@@ -114,6 +114,9 @@ public class HTTPThread extends Thread implements Strings {
     private boolean shouldShowLoadScreen() {
         return !App.dontShowLoadScreen
             && action != FETCH_ICON
+//#ifdef OVER_100KB
+            && action != MARK_AS_READ
+//#endif
             && action != FETCH_ATTACHMENTS
             && action != SEND_MESSAGE
             && action != EDIT_MESSAGE

@@ -45,6 +45,13 @@ public class UnreadManager {
         }
         catch (RecordStoreNotFoundException e) {}
         catch (Exception e) { App.error(e); }
+
+//#ifdef OVER_100KB
+        // Default last read time for channels is the timestamp of when the manager was first initialized
+        if (!channels.containsKey("0")) {
+            channels.put("0", String.valueOf(System.currentTimeMillis()));
+        }
+//#endif
     }
 
     public static void save() {
@@ -54,7 +61,7 @@ public class UnreadManager {
 //#ifdef PROXYLESS_SUPPORT
             || Settings.proxyless
 //#endif
-            ) && UnreadManager.markReadChannelID != null
+            ) && markReadChannelID != null
         ) {
             new HTTPThread(HTTPThread.MARK_AS_READ).start();
         }
@@ -105,8 +112,12 @@ public class UnreadManager {
 
         String lastReadTime = (String) channels.get(channelID);
         if (lastReadTime == null) {
+//#ifdef OVER_100KB
+            lastReadTime = (String) channels.get("0");
+//#else
             put(channelID, String.valueOf(lastMessageTime));
             return false;
+//#endif
         }
 
         return Long.parseLong(lastReadTime) < lastMessageTime;
