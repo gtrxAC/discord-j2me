@@ -751,7 +751,7 @@
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Hymiöt",
-    "Lisää hymiö",
+    "Lisää emoji",  // Using the word "emoji" here because Nokia S40 already has a "Lisää hymiö" command for its built-in text emoticons
 
     // Title for emoji picker screen.
     "Valitse hymiö",

@@ -789,7 +789,7 @@
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
     "Use as",
-    "Use as notif. sound",
+    "Use as alert",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
     "Apply this as the notification sound?",
