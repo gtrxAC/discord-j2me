@@ -46,12 +46,11 @@ public class UnreadManager {
         catch (RecordStoreNotFoundException e) {}
         catch (Exception e) { App.error(e); }
 
-//#ifdef OVER_100KB
-        // Default last read time for channels is the timestamp of when the manager was first initialized
+        // Default last read time for channels is the timestamp of when the RMS was first initialized
         if (!channels.containsKey("0")) {
-            channels.put("0", String.valueOf(System.currentTimeMillis()));
+            channels.put("0", String.valueOf(System.currentTimeMillis() - App.DISCORD_EPOCH));
+            save();
         }
-//#endif
     }
 
     public static void save() {
@@ -84,8 +83,7 @@ public class UnreadManager {
         // Write stringified JSON to RMS
         try {
             RecordStore rms = RecordStore.openRecordStore("unread", true);
-            byte[] data = json.build().getBytes();
-            Util.setOrAddRecord(rms, 1, data);
+            Util.setOrAddRecord(rms, 1, json.build());
             Util.closeRecordStore(rms);
         }
         catch (Exception e) { App.error(e); }
@@ -112,12 +110,7 @@ public class UnreadManager {
 
         String lastReadTime = (String) channels.get(channelID);
         if (lastReadTime == null) {
-//#ifdef OVER_100KB
             lastReadTime = (String) channels.get("0");
-//#else
-            put(channelID, String.valueOf(lastMessageTime));
-            return false;
-//#endif
         }
 
         return Long.parseLong(lastReadTime) < lastMessageTime;
@@ -125,8 +118,12 @@ public class UnreadManager {
 
     public static void markRead(String channelID, long lastMessageID) {
         long lastMessageTime = lastMessageID >> 22;
+        
         String lastReadTime = (String) channels.get(channelID);
-        boolean isUnread = lastReadTime == null || Long.parseLong(lastReadTime) < lastMessageTime;
+        if (lastReadTime == null) {
+            lastReadTime = (String) channels.get("0");
+        }
+        boolean isUnread = (Long.parseLong(lastReadTime) < lastMessageTime);
 
         if (autoSave) {
             lastUnreadTime = lastReadTime;
