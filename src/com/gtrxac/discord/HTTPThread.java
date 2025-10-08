@@ -674,7 +674,10 @@ public class HTTPThread extends Thread implements Strings {
 
                     try {
                         String id = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
-                        httpConn = HTTP.openConnection("/channels/" + id + "/upload", true);  // note: forced proxy, different API from standard Discord API
+
+                        // note: forced proxy, different API from standard Discord API
+                        httpConn = (HttpConnection) Connector.open(HTTP.getFullUrl("/channels/" + id + "/upload", true));
+
                         httpConn.setRequestMethod(HttpConnection.POST);
                         httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 
@@ -754,7 +757,7 @@ public class HTTPThread extends Thread implements Strings {
 //#endif
                     ) {
                         try {
-                            HTTP.sendJson("PATCH", path, newMessage, false);
+                            HTTP.apiRequest("PATCH", path, newMessage.build(), false);
                         }
                         catch (Exception e) {
                             if (e != HTTP.requestMethodException) throw e;
@@ -800,16 +803,8 @@ public class HTTPThread extends Thread implements Strings {
                         !App.isLiteProxy
 //#endif
                     ) {
-                        HttpConnection c = null;
                         try {
-                            c = HTTP.openConnection(path, false);
-                            try {
-                                c.setRequestMethod("DELETE");
-                            }
-                            catch (Exception e) {
-                                throw HTTP.requestMethodException;
-                            }
-                            HTTP.sendRequest(c);
+                            HTTP.apiRequest("DELETE", path, null, false);
                         }
                         catch (Exception e) {
                             if (e != HTTP.requestMethodException) throw e;
@@ -824,9 +819,6 @@ public class HTTPThread extends Thread implements Strings {
 //#else
                             App.error(Locale.get(DELETE_NOT_SUPPORTED));
 //#endif
-                        }
-                        finally {
-                            try { c.close(); } catch (Exception e) {}
                         }
                     } else {
                         HTTP.get(path + "/delete", true);

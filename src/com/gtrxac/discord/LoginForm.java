@@ -91,7 +91,6 @@ Strings
 
         String[] tokenChoices = {
             Locale.get(SEND_TOKEN_HEADER),
-            Locale.get(SEND_TOKEN_JSON),
             Locale.get(SEND_TOKEN_QUERY)
         };
         tokenGroup = new ChoiceGroup(Locale.get(SEND_TOKEN_AS), ChoiceGroup.EXCLUSIVE, tokenChoices, null);

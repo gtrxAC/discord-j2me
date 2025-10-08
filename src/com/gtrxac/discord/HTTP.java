@@ -6,7 +6,103 @@ import cc.nnproject.json.*;
 import javax.microedition.lcdui.Image;
 
 public class HTTP implements Strings {
-	public static HttpConnection openConnection(String url, boolean useProxy) throws IOException {
+	public static final Exception requestMethodException = new Exception();
+
+	private static byte[] requestWrapped(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
+		HttpConnection hc = null;
+		OutputStream os = null;
+
+		try {
+			hc = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(url));
+			try {
+				hc.setRequestMethod(method);
+			}
+			catch (Exception e) {
+				throw requestMethodException;
+			}
+
+			if (!App.isLiteProxy) {
+				hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:143.0) Gecko/20100101 Firefox/143.0");
+			}
+			if (authorize) {
+				hc.setRequestProperty("Authorization", Settings.token);
+			}
+			
+			if (data != null) {
+				if (contentType == null) contentType = "application/json";
+				hc.setRequestProperty("Content-Type", contentType);
+					
+				byte[] dataBytes = (data instanceof String) ? Util.stringToBytes((String) data) : (byte[]) data;
+				hc.setRequestProperty("Content-Length", String.valueOf(dataBytes.length));
+
+				os = hc.openOutputStream();
+				os.write(dataBytes);
+			}
+
+			return sendRequest(hc);
+		}
+		finally {
+			try { os.close(); } catch (Exception e) {}
+			try { hc.close(); } catch (Exception e) {}
+		}
+	}
+
+	public static byte[] sendRequest(HttpConnection hc) throws Exception {
+		InputStream is = null;
+		try {
+			int respCode = hc.getResponseCode();
+			is = hc.openInputStream();
+			byte[] result = Util.readBytes(is, (int) hc.getLength(), 1024, 2048);
+
+			if (respCode == HttpConnection.HTTP_OK) {
+				return result;
+			}
+			if (respCode == HttpConnection.HTTP_UNAUTHORIZED) {
+				throw new Exception(Locale.get(HTTP_ERROR_TOKEN));
+			}
+			if (respCode == HttpConnection.HTTP_BAD_GATEWAY) {
+				throw new Exception(Locale.get(HTTP_ERROR_PROXY));
+			}
+			if (respCode == HttpConnection.HTTP_MOVED_TEMP) {
+				throw new Exception(Locale.get(HTTP_ERROR_REDIRECT));
+			}
+
+			try {
+				String message = JSON.getObject(Util.bytesToString(result)).getString("message");
+				throw new Exception(message);
+			}
+			catch (JSONException e) {
+				throw new Exception(Locale.get(HTTP_ERROR_CODE) + respCode);
+			}
+		}
+		finally {
+			try { is.close(); } catch (Exception e) {}
+		}
+	}
+
+	public static byte[] request(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
+//#ifdef MIDP2_GENERIC
+		int attempts = 0;
+
+		while (true) {
+			try {
+				return requestWrapped(method, url, data, contentType, authorize);
+			}
+			catch (IOException e) {
+				// Automatic retry if we get IOException -36 which randomly occurs on Symbian
+				if (e.toString().indexOf("-36") != -1) {
+					attempts++;
+					if (attempts == 3) throw e;
+				}
+				else throw e;
+			}
+		}
+//#else
+		return requestWrapped(method, url, data, contentType, authorize);
+//#endif
+	}
+
+	public static String getFullUrl(String url, boolean useProxy) {
 //#ifdef PROXYLESS_SUPPORT
 		if (!Settings.proxyless) 
 //#endif
@@ -21,170 +117,29 @@ public class HTTP implements Strings {
 				fullUrl += "?token=" + Settings.token;
 			}
 		}
-
-		HttpConnection c = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(fullUrl));
-
-		if (!useProxy || Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
-			c.setRequestProperty("Content-Type", "application/json");
-			c.setRequestProperty("Authorization", Settings.token);
-		}
-
-		return c;
+		return fullUrl;
 	}
 
-	public static String sendRequest(HttpConnection c) throws Exception {
-		InputStream is = null;
-		try {
-			int respCode = c.getResponseCode();
-			is = c.openDataInputStream();
-			
-			// Read response
-			StringBuffer stringBuffer = new StringBuffer();
-			int ch;
-			while ((ch = is.read()) != -1) {
-				stringBuffer.append((char) ch);
-			}
-			String response = stringBuffer.toString().trim();
-
-			if (respCode == HttpConnection.HTTP_OK) {
-				return response;
-			}
-			if (respCode == HttpConnection.HTTP_UNAUTHORIZED) {
-				throw new Exception(Locale.get(HTTP_ERROR_TOKEN));
-			}
-			if (respCode == HttpConnection.HTTP_BAD_GATEWAY) {
-				throw new Exception(Locale.get(HTTP_ERROR_PROXY));
-			}
-			if (respCode == HttpConnection.HTTP_MOVED_TEMP) {
-				throw new Exception(Locale.get(HTTP_ERROR_REDIRECT));
-			}
-
-			try {
-				String message = JSON.getObject(response).getString("message");
-				throw new Exception(message);
-			}
-			catch (JSONException e) {
-				throw new Exception(Locale.get(HTTP_ERROR_CODE) + respCode);
-			}
-		} finally {
-			try { is.close(); } catch (Exception e) {}
-		}
+	public static String apiRequest(String method, String url, Object data, boolean useProxy) throws Exception {
+		String fullUrl = getFullUrl(url, useProxy);
+		return Util.bytesToString(request(method, fullUrl, data, null, true));
 	}
 
-	public static final Exception requestMethodException = new Exception();
-
-	public static String sendData(String method, String url, String data, boolean useProxy) throws Exception {
-		HttpConnection c = null;
-		OutputStream os = null;
-
-		try {
-			c = openConnection(url, useProxy);
-			try {
-				c.setRequestMethod(method);
-			}
-			catch (Exception e) {
-				throw requestMethodException;
-			}
-			
-			byte[] b = Util.stringToBytes(data);
-
-			if (!useProxy || Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
-				c.setRequestProperty("Content-Length", String.valueOf(b.length));
-			}
-
-			os = c.openOutputStream();
-			os.write(b);
-
-			return sendRequest(c);
-		} finally {
-			try { os.close(); } catch (Exception e) {}
-			try { c.close(); } catch (Exception e) {}
-		}
+	public static byte[] getBytes(String url) throws Exception {
+		return request("GET", url, null, null, false);
 	}
-
-	public static String sendJson(String method, String url, JSONObject data, boolean useProxy) throws Exception {
-		if (Settings.tokenType == Settings.TOKEN_TYPE_JSON) data.put("token", Settings.token);
-		return sendData(method, url, data.build(), useProxy);
-	}
-
 	public static String get(String url, boolean useProxy) throws Exception {
-		if (Settings.tokenType == Settings.TOKEN_TYPE_JSON) {
-			JSONObject tokenJson = new JSONObject();
-			tokenJson.put("token", Settings.token);
-			return get(url, tokenJson, useProxy);
-		}
-
-		HttpConnection c = null;
-
-		try {
-			c = openConnection(url, useProxy);
-			c.setRequestMethod(HttpConnection.GET);
-			return sendRequest(c);
-		} finally {
-			try { c.close(); } catch (Exception e) {}
-		}
+		return apiRequest("GET", url, null, useProxy);
 	}
-
 	public static String post(String url, String data, boolean useProxy) throws Exception {
-		return sendData(HttpConnection.POST, url, data, useProxy);
-	}
-	public static String get(String url, String data, boolean useProxy) throws Exception {
-		return sendData(HttpConnection.GET, url, data, useProxy);
+		return apiRequest("POST", url, data, useProxy);
 	}
 	public static String post(String url, JSONObject data, boolean useProxy) throws Exception {
-		return sendJson(HttpConnection.POST, url, data, useProxy);
+		return post(url, data.build(), useProxy);
 	}
-	public static String get(String url, JSONObject data, boolean useProxy) throws Exception {
-		return sendJson(HttpConnection.GET, url, data, useProxy);
-	}
-
-	// Image loading code by shinovon
-	// https://github.com/gtrxAC/discord-j2me/pull/5/commits/193c63f6a00b8e24da7a3582e9d1a92522f9940e
-	public static Image getImage(String url) throws IOException {
+	
+	public static Image getImage(String url) throws Exception {
 		byte[] b = getBytes(url);
 		return Image.createImage(b, 0, b.length);
-	}
-
-	public static byte[] getBytes(String url) throws IOException {
-//#ifdef MIDP2_GENERIC
-		int attempts = 0;
-
-		while (true) {
-			try {
-				return getBytesWrapped(url);
-			}
-			catch (IOException e) {
-				// Automatic retry if we get IOException -36 which randomly occurs on Symbian
-				if (e.toString().indexOf("-36") != -1) {
-					attempts++;
-					if (attempts == 3) throw e;
-				}
-				else throw e;
-			}
-		}
-//#else
-		return getBytesWrapped(url);
-//#endif
-	}
-
-	private static byte[] getBytesWrapped(String url) throws IOException {
-		HttpConnection hc = null;
-		InputStream in = null;
-		try {
-			hc = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(url));
-			hc.setRequestMethod("GET");
-			if (Settings.tokenType == Settings.TOKEN_TYPE_HEADER) {
-				hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0");
-			}
-			int r;
-			if((r = hc.getResponseCode()) >= 400) {
-				throw new IOException(Locale.get(HTTP_ERROR_CODE) + r);
-			}
-			in = hc.openInputStream();
-			return Util.readBytes(in, (int) hc.getLength(), 1024, 2048);
-		} finally {
-			try { in.close(); } catch (Exception e) {}
-			try { hc.close(); } catch (Exception e) {}
-		}
 	}
 }

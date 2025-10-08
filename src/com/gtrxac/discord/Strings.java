@@ -115,7 +115,7 @@ public interface Strings {
     static final int USE_GATEWAY = 111;
     static final int SEND_TOKEN_AS = 112;
     static final int SEND_TOKEN_HEADER = 113;
-    static final int SEND_TOKEN_JSON = 114;
+    // static final int SEND_TOKEN_JSON = 114;
     static final int SEND_TOKEN_QUERY = 115;
     static final int LOGIN_ERROR_TOKEN = 116;
     static final int LOGIN_ERROR_API = 117;

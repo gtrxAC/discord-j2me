@@ -11,8 +11,7 @@ public class Settings {
 	static final int PFP_TYPE_CIRCLE_HQ = 3;
 
 	static final int TOKEN_TYPE_HEADER = 0;
-	static final int TOKEN_TYPE_JSON = 1;
-	static final int TOKEN_TYPE_QUERY = 2;
+	static final int TOKEN_TYPE_QUERY = 1;
 
 	static final int PFP_SIZE_PLACEHOLDER = 0;
 	static final int ICON_SIZE_OFF = 0;
@@ -312,6 +311,9 @@ public class Settings {
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
+
+        // discontinued "send token as JSON" option, use query parameter instead
+        if (tokenType == 2) tokenType = TOKEN_TYPE_QUERY;
 
         Locale.setLanguage();
     }

@@ -376,6 +376,7 @@ public class Util {
 		catch (Exception e) {}
 	}
 
+	// https://github.com/gtrxAC/discord-j2me/pull/5/commits/193c63f6a00b8e24da7a3582e9d1a92522f9940e
 	public static byte[] readBytes(InputStream inputStream, int initialSize, int bufferSize, int expandSize) throws IOException {
 		if (initialSize <= 0) initialSize = bufferSize;
 		byte[] buf = new byte[initialSize];
