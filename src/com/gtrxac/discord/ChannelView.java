@@ -324,9 +324,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 barG.setColor(0x444444);
                 label =
 //#ifndef BLACKBERRY
-                    (width < fontHeight*15) ? "Message" :
+                    (width < fontHeight*15) ? Locale.get(MESSAGE) :
 //#endif
-                    "Message " + title;
+                    Locale.get(MESSAGE_WITH_CHANNEL) + title;
             }
 
             barG.setFont(App.messageFont);

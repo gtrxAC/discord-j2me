@@ -878,5 +878,38 @@
     "Palvelimet tallennettu välimuistiin!",
 
     // Related to "Types of data shown in the data manager" above.
-    "Hymiöiden nimet"
+    "Hymiöiden nimet",
+
+    // Softkey command in login screen for opening the Discord J2ME setup guide web page.
+    // The long version of the label is used as the button label.
+    "Ohje",
+    "Ohjeet",
+
+    // Option in login screen to use direct connection (proxyless) mode.
+    "Suora yhteys",
+
+    // Information text shown in login screen related to proxyless mode:
+    // This version of the text is shown if the device is known to support TLS 1.2.
+    "Suora yhteys parantaa tilisi turvallisuutta.",
+
+    // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
+    "Suora yhteys (",
+    "vaatii TLS 1.2 -tuen",
+    ") parantaa tilisi turvallisuutta.",
+
+    // Softkey command for opening the nnproject TLS 1.2 page.
+    "Avaa",
+    "Avaa",
+
+    // Text shown in bottom message bar.
+    "Viesti",
+
+    // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
+    "Viesti: ",
+
+    // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
+    // You should use the same term for "Direct connection" that you used above.
+    "Laitteesi ei tue viestien muokkausta Suora yhteys -tilassa. Haluatko käyttää välityspalvelinta?\nValitse 'Piilota' jos haluat aina käyttää välityspalvelinta.",
+
+    "Laitteesi ei tue viestien poistoa Suora yhteys -tilassa. Haluatko käyttää välityspalvelinta?\nValitse 'Piilota' jos haluat aina käyttää välityspalvelinta."
 ]

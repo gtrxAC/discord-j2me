@@ -386,4 +386,17 @@ public interface Strings {
 //#ifdef PROXYLESS_SUPPORT
     static final int DATA_MANAGER_EMOJI2 = 359;
 //#endif
+    static final int SETUP_GUIDE = 360;
+    static final int SETUP_GUIDE_L = 361;
+    static final int PROXYLESS = 362;
+    static final int PROXYLESS_INFO = 363;
+    static final int PROXYLESS_INFO_TLS_PREFIX = 364;
+    static final int PROXYLESS_INFO_TLS = 365;
+    static final int PROXYLESS_INFO_TLS_SUFFIX = 366;
+    static final int GET_TLS = 367;
+    static final int GET_TLS_L = 368;
+    static final int MESSAGE = 369;
+    static final int MESSAGE_WITH_CHANNEL = 370;
+    static final int PROXYLESS_EDIT_ERROR = 371;
+    static final int PROXYLESS_DELETE_ERROR = 372;
 }

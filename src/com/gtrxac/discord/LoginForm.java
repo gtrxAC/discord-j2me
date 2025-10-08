@@ -50,14 +50,14 @@ Strings
         String tokenLabelShort = Locale.get(haveToken ? CHANGE_TOKEN : SET_TOKEN);
 
         changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0);
-        guideLinkCommand = new Command("Guide", Command.ITEM, 2);
+        guideLinkCommand = Locale.createCommand(SETUP_GUIDE, Command.ITEM, 2);
 //#ifndef BLACKBERRY
         StringItem tokenButton = new StringItem(null, tokenLabel, Item.BUTTON);
         tokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         tokenButton.setDefaultCommand(changeTokenCommand);
         tokenButton.setItemCommandListener(this);
 
-        StringItem guideLinkButton = new StringItem(null, "Setup guide", Item.BUTTON);
+        StringItem guideLinkButton = new StringItem(null, Locale.get(SETUP_GUIDE_L), Item.BUTTON);
         guideLinkButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         guideLinkButton.setDefaultCommand(guideLinkCommand);
         guideLinkButton.setItemCommandListener(this);
@@ -79,7 +79,7 @@ Strings
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 2);
 
 //#ifdef PROXYLESS_SUPPORT
-        String[] gatewayChoices = {"Direct connection", Locale.get(USE_GATEWAY)};
+        String[] gatewayChoices = {Locale.get(PROXYLESS), Locale.get(USE_GATEWAY)};
         gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, null);
         gatewayGroup.setSelectedIndex(0, Settings.proxyless);
         gatewayGroup.setSelectedIndex(1, Settings.useGateway);
@@ -102,22 +102,22 @@ Strings
         append(cdnField);
 //#ifdef PROXYLESS_SUPPORT
 //#ifdef J2ME_LOADER
-        append(new StringItem(null, "Direct connection reduces the risk of an account restriction."));
+        append(new StringItem(null, Locale.get(PROXYLESS_INFO)));
 //#else
 //#ifdef MIDP2_GENERIC
         if (Util.isSymbian) {
-            nnpLinkCommand = new Command("Get TLS", Command.ITEM, 3);
-            StringItem nnpLinkItem = new StringItem(null, "requires TLS 1.2", Item.HYPERLINK);
+            nnpLinkCommand = Locale.createCommand(GET_TLS, Command.ITEM, 3);
+            StringItem nnpLinkItem = new StringItem(null, Locale.get(PROXYLESS_INFO_TLS), Item.HYPERLINK);
             nnpLinkItem.setDefaultCommand(nnpLinkCommand);
             nnpLinkItem.setItemCommandListener(this);
 
-            append(new StringItem(null, "Direct connection ("));
+            append(new StringItem(null, Locale.get(PROXYLESS_INFO_TLS_PREFIX)));
             append(nnpLinkItem);
-            append(new StringItem(null, ") reduces the risk of an account restriction."));
+            append(new StringItem(null, Locale.get(PROXYLESS_INFO_TLS_SUFFIX)));
         } else
 //#endif
         {
-            append(new StringItem(null, "Direct connection (requires TLS 1.2) reduces the risk of an account restriction."));
+            append(new StringItem(null, Locale.get(PROXYLESS_INFO_TLS_PREFIX) + Locale.get(PROXYLESS_INFO_TLS) + Locale.get(PROXYLESS_INFO_TLS_SUFFIX)));
         }
 //#endif
 //#endif
@@ -224,7 +224,7 @@ Strings
 //#endif
 
     private void showTokenEntry() {
-        tokenBox = new TextBox("Set token", Settings.token, 200, 0);
+        tokenBox = new TextBox(Locale.get(SET_TOKEN), Settings.token, 200, 0);
         tokenBoxOkCommand = Locale.createCommand(OK, Command.OK, 0);
         tokenBoxCancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
         tokenBoxUnderscoreCommand = Locale.createCommand(INSERT_UNDERSCORE, Command.ITEM, 2);

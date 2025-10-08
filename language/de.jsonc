@@ -880,5 +880,38 @@
     "Serverliste im Cache gespeichert!",
 
     // Related to "Types of data shown in the data manager" above.
-    "Emoji-Namen"
+    "Emoji-Namen",
+
+    // Softkey command in login screen for opening the Discord J2ME setup guide web page.
+    // The long version of the label is used as the button label.
+    "Guide",
+    "Setup guide",
+
+    // Option in login screen to use direct connection (proxyless) mode.
+    "Direct connection",
+
+    // Information text shown in login screen related to proxyless mode:
+    // This version of the text is shown if the device is known to support TLS 1.2.
+    "Direct connection reduces the risk of an account restriction.",
+
+    // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
+    "Direct connection (",
+    "requires TLS 1.2",
+    ") reduces the risk of an account restriction.",
+
+    // Softkey command for opening the nnproject TLS 1.2 page.
+    "Get TLS",
+    "Get TLS",
+
+    // Text shown in bottom message bar.
+    "Message",
+
+    // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
+    "Message ",
+
+    // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
+    // You should use the same term for "Direct connection" that you used above.
+    "Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+
+    "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy."
 ]

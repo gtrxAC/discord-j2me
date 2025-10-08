@@ -15,13 +15,13 @@ public class EditErrorDialog extends Dialog implements Strings, CommandListener 
     // for editing message (with editcontent)
     EditErrorDialog(Message editMessage, String editContent) {
         this(editMessage);
-        setString("Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.");
+        setString(Locale.get(PROXYLESS_EDIT_ERROR));
         this.editContent = editContent;
     }
 
     // for deleting message (no editcontent)
     EditErrorDialog(Message editMessage) {
-        super(Locale.get(ERROR_TITLE), "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy.");
+        super(Locale.get(ERROR_TITLE), Locale.get(PROXYLESS_DELETE_ERROR));
         setCommandListener(this);
         lastScreen = App.disp.getCurrent();
         this.editMessage = editMessage;
