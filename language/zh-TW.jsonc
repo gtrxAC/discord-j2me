@@ -84,7 +84,7 @@
     "打開網址",
 
     // Channel view title suffix when reading older messages.
-    " （舊）",
+    " (舊) ",
 
     // Text shown at the center of the channel view when it is empty (no messages).
     "此地無銀三百兩",
@@ -128,7 +128,7 @@
     "此代理伺服器不支援編輯訊息",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
-    "不支援FileConnection",
+    "不支援 FileConnection",
 
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
@@ -158,16 +158,16 @@
     "完成",
 
     // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
-    "（未知）",
+    " (未知) ",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "（無內容）",
+    " (無內容) ",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    "（訊息未被支援）",
+    " (訊息未被支援) ",
 
     // Message content shown for a message that has been deleted.
-    "（訊息已被刪除）",
+    " (訊息已被刪除) ",
 
     // Title text for direct message search screen.
     "搜索私人訊息",
@@ -214,11 +214,11 @@
     "HTTP 錯誤 ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "內容傳遞網路(CDN)網址未定義。附件未可載入。",
+    "內容傳遞網路 (CDN) 網址未定義。附件未可載入。",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
-    "（",
-    "）",
+    " (",
+    ") ",
 
     // Softkey labels for showing a text attachment's contents within the app.
     "顯示",
@@ -263,17 +263,17 @@
     "請只用你信任的代理服務器！",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "此令牌可以瀏覽器的開發者工具獲取（可上網尋求協助）。建議使用副帳號。",
+    "此令牌可以瀏覽器的開發者工具獲取 (可上網尋求協助) 。建議使用副帳號。",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "使用 Wi-Fi",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
-    "應用程式介面(API)網址",
-    "內容傳遞網路(CDN)網址",
-    "閘道器(Gateway)網址",
-    "令牌(Token)",
+    "應用程式介面 (API) 網址",
+    "內容傳遞網路 (CDN) 網址",
+    "閘道器 (Gateway) 網址",
+    "令牌 (Token) ",
 
     // Softkey label for confirming the login options in the login screen.
     "登入",
@@ -287,16 +287,16 @@
     "使用閘道器",
 
     // Label for radio button field for token sending options.
-    "傳送令牌(Token)為",
+    "傳送令牌 (Token) 為",
 
     // Token sending options.
-    "標頭(Header)（預設）",
+    "標頭 (Header) (預設) ",
     "JSON",
     "查詢字符串",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "請輸入你的令牌(Token)",
-    "請指定應用程式介面(API)網址",
+    "請輸入你的令牌 (Token) ",
+    "請指定應用程式介面 (API) 網址",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
@@ -342,7 +342,7 @@
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
-    "（貼紙：",
+    " (貼紙：",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
     "未知",
@@ -350,7 +350,7 @@
     // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
     // Note: order of day and month cannot be changed currently
     "：",
-    "／",
+    "/",
     "上午",
     "下午",
 
@@ -360,8 +360,8 @@
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
-    "傳送訊息（@",
-    "傳送訊息（#",
+    "傳送訊息 (@",
+    "傳送訊息 (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
     "需要在線閘道器連接",
@@ -449,7 +449,7 @@
     // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
     "正方形",
     "圓形",
-    "圓形（高清）",
+    "圓形 (高清) ",
 
     // Settings section for profile picture resolution.
     "頭像解析度",
@@ -571,9 +571,9 @@
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
-    "（",
-    "個附件）",
-    "個附件）",
+    " (",
+    "個附件) ",
+    "個附件) ",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
@@ -647,7 +647,7 @@
     "印尼語",
     "波蘭語",
     "西班牙語",
-    "葡萄牙語（巴西）",
+    "葡萄牙語 (巴西) ",
     "泰語",
     "葡萄牙語",
     "繁體中文和粵語",
@@ -694,11 +694,11 @@
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
     "設定",
-    "設定權杖",
+    "設定令牌",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
     "變更",
-    "變更權杖",
+    "變更令牌",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
@@ -719,8 +719,8 @@
     "轉寄訊息：",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "若要設定權杖，請按下 BlackBerry 鍵。",
-    "若要變更權杖，請按下 BlackBerry 鍵。",
+    "若要設定令牌，請按下 BlackBerry 鍵。",
+    "若要變更令牌，請按下 BlackBerry 鍵。",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
     "記憶體不足，無法顯示圖片預覽",
@@ -736,10 +736,10 @@
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
     "匯入",
-    "匯入權杖",
+    "匯入令牌",
 
     // Title text for the token import file picker screen.
-    "選擇權杖檔案",
+    "選擇令牌檔案",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
     "正在下載表情符號...",
@@ -762,7 +762,7 @@
     "下載表情符號資料？",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "（已編輯）",
+    " (已編輯) ",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
     "底線",
@@ -895,9 +895,9 @@
     "直接連線可降低帳戶受限的風險。",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "直接連線（",
+    "直接連線 (",
     "需要 TLS 1.2",
-    "）可降低帳戶受限的風險。",
+    ") 可降低帳戶受限的風險。",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
     "取得 TLS",

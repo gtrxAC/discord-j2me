@@ -84,7 +84,7 @@
     "打開網址",
 
     // Channel view title suffix when reading older messages.
-    " （舊）",
+    "  (舊) ",
 
     // Text shown at the center of the channel view when it is empty (no messages).
     "得個桔",
@@ -158,16 +158,16 @@
     "得",
 
     // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
-    "（未知）",
+    " (未知) ",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "（空）",
+    " (空) ",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    "（未睇到嘅訊息）",
+    " (未睇到嘅訊息) ",
 
     // Message content shown for a message that has been deleted.
-    "（訊息整走咗）",
+    " (訊息整走咗) ",
 
     // Title text for direct message search screen.
     "耖私人訊息",
@@ -206,7 +206,7 @@
     "連接錯誤：",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "睇下你個令牌（Token）",
+    "睇下你個令牌 (Token) ",
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
@@ -217,8 +217,8 @@
     "CDN網址未定，加唔到嚿附件。",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
-    "（",
-    "）",
+    " (",
+    ") ",
 
     // Softkey labels for showing a text attachment's contents within the app.
     "顯示",
@@ -263,7 +263,7 @@
     "代理伺服器，信得過先好用！",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "嗰令牌（Token）可以喺瀏覽器嘅開發人員工具入面揾到（自行上網求救）。建議用第二個帳號入。",
+    "嗰令牌 (Token) 可以喺瀏覽器嘅開發人員工具入面揾到 (自行上網求救) 。建議用第二個帳號入。",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "用 Wi-Fi",
@@ -273,7 +273,7 @@
     "API網址",
     "CDN網址",
     "Gateway網址",
-    "令牌（Token）",
+    "令牌 (Token) ",
 
     // Softkey label for confirming the login options in the login screen.
     "登入",
@@ -284,18 +284,18 @@
     "走",
 
     // "Use gateway" option shown in login screen.
-    "用Gateway",
+    "用 Gateway",
 
     // Label for radio button field for token sending options.
-    "用下面啲方法處理令牌（Token）",
+    "用下面啲方法處理令牌 (Token) ",
 
     // Token sending options.
-    "Header（預設嘅）",
+    "Header (預設嘅) ",
     "JSON",
     "查詢參數",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "請填返你個令牌（Token）",
+    "請填返你個令牌 (Token) ",
     "請指明一個API網址",
 
     // Main menu items.
@@ -342,7 +342,7 @@
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
-    "（貼圖：",
+    " (貼圖：",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
     "未知",
@@ -360,8 +360,8 @@
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
-    "發送訊息（@",
-    "發送訊息（#",
+    "發送訊息 (@",
+    "發送訊息 (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
     "要個Gateway連接一直喺度",
@@ -441,7 +441,7 @@
     "附件格式",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "最大附件大細（px）",
+    "最大附件大細 (px) ",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
@@ -450,7 +450,7 @@
     // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
     "方",
     "圓",
-    "圓（高清）",
+    "圓 (高清) ",
 
     // Settings section for profile picture resolution.
     "頭嘅解像度",
@@ -464,7 +464,7 @@
     "32 px",
 
     // Settings section for menu icon size.
-    "版面圖案大細（px）",
+    "版面圖案大細 (px) ",
 
     // Settings section for controlling the display of reply messages.
     "覆嘅訊息點顯示",
@@ -495,10 +495,10 @@
     "呢個應用程式要閂咗先可以開網址",
 
     // Prefix of error message shown when an error occurs when trying to open an URL.
-    "網址開唔到（",
+    "網址開唔到 (",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    "）\n\n可以將個網址手動抄入手機嘅瀏覽器入面：",
+    ") \n\n可以將個網址手動抄入手機嘅瀏覽器入面：",
 
     // Title text for URL list screen ('Open URL' option in channel view).
     "揀條網址",
@@ -572,9 +572,9 @@
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
-    "（",
-    "嚿附件）",
-    "嚿附件）",
+    " (",
+    "嚿附件) ",
+    "嚿附件) ",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
@@ -648,10 +648,10 @@
     "印尼文",
     "波蘭文",
     "西班牙文",
-    "葡萄牙文（巴西）",
+    "葡萄牙文 (巴西) ",
     "泰文",
     "葡萄牙文",
-    "中文（繁體）及粵語",
+    "中文 (繁體) 及粵語",
     "烏克蘭文",
     "羅馬尼亞文",
     "土耳其文",
@@ -764,7 +764,7 @@
     "下載表情符號資料？",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "（已編輯）",
+    " (已編輯) ",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
     "底線",
@@ -897,9 +897,9 @@
     "直接連線可減低帳號被限制嘅風險。",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "直接連線（",
+    "直接連線 (",
     "需要 TLS 1.2",
-    "）可減低帳號被限制嘅風險。",
+    ") 可減低帳號被限制嘅風險。",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
     "取得 TLS",
@@ -918,5 +918,5 @@
     "你部機唔支援喺直接連線模式下刪除訊息。\n要透過代理刪除呢條訊息嗎？\n揀「隱藏」就會永遠用代理。",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "中文（簡體）"
+    "中文 (簡體) "
 ]
