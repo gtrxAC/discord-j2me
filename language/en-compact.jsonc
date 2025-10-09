@@ -913,5 +913,8 @@
     // You should use the same term for "Direct connection" that you used above.
     "Your device doesn't support editing messages in Direct connection mode. Use proxy?\nSelect 'Hide' to always use proxy.",
 
-    "Your device doesn't support deleting messages in Direct connection mode. Use proxy?\nSelect 'Hide' to always use proxy."
+    "Your device doesn't support deleting messages in Direct connection mode. Use proxy?\nSelect 'Hide' to always use proxy.",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Chinese (Simplified)"
 ]

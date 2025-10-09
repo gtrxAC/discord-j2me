@@ -913,5 +913,8 @@
     // You should use the same term for "Direct connection" that you used above.
     "Teu dispositiu no admet edició de missatges en mode de connexió directa.\nVols editar aquest missatge via proxy?\nSelecciona \"Amaga\" per utilitzar sempre proxy.",
 
-    "Teu dispositiu no admet supressió de missatges en mode de connexió directa.\nVols editar aquest missatge via proxy?\nSelecciona \"Amaga\" per utilitzar sempre proxy."
+    "Teu dispositiu no admet supressió de missatges en mode de connexió directa.\nVols editar aquest missatge via proxy?\nSelecciona \"Amaga\" per utilitzar sempre proxy.",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Chinese (Simplified)"
 ]

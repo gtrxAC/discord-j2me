@@ -911,5 +911,8 @@
     // You should use the same term for "Direct connection" that you used above.
     "Laitteesi ei tue viestien muokkausta Suora yhteys -tilassa. Haluatko käyttää välityspalvelinta?\nValitse 'Piilota' jos haluat aina käyttää välityspalvelinta.",
 
-    "Laitteesi ei tue viestien poistoa Suora yhteys -tilassa. Haluatko käyttää välityspalvelinta?\nValitse 'Piilota' jos haluat aina käyttää välityspalvelinta."
+    "Laitteesi ei tue viestien poistoa Suora yhteys -tilassa. Haluatko käyttää välityspalvelinta?\nValitse 'Piilota' jos haluat aina käyttää välityspalvelinta.",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "kiina (yksinkertaistettu)"
 ]
