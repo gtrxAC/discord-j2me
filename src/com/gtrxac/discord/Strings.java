@@ -265,7 +265,7 @@ public interface Strings {
     static final int TRANSLATOR_PTBR = 260;
     static final int TRANSLATOR_TH = 261;
     static final int TRANSLATOR_PT = 262;
-    static final int TRANSLATOR_ZHTW_YUE = 263;
+    static final int TRANSLATOR_ZHTW_ZHHK = 263;
     static final int TRANSLATOR_UK = 264;
     static final int TRANSLATOR_RO = 265;
     static final int TRANSLATOR_TR = 266;
@@ -399,4 +399,5 @@ public interface Strings {
     static final int MESSAGE_WITH_CHANNEL = 370;
     static final int PROXYLESS_EDIT_ERROR = 371;
     static final int PROXYLESS_DELETE_ERROR = 372;
+    static final int TRANSLATOR_ZHCN = 373;
 }

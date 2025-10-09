@@ -31,14 +31,14 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
 //#else
     private static final int PARTICLE_COUNT = 40;
 //#endif
-    
+
     private AboutScreenParticle[] particles;
     private AboutScreenItem[] items;
 
 //#ifdef ABOUT_SCREEN_BOUNCE
     static int bounceTimer = 0;
 //#endif
-    
+
 //#ifdef ABOUT_SCREEN_SPARKLES
     private Image[] sparkles;
     int sparkleTimer = -10;
@@ -115,7 +115,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
 
         i.addElement(new AboutScreenItem("Discord J2ME", Font.SIZE_MEDIUM, 0, true, false));
         i.addElement(new AboutScreenItem(versionStr, Font.SIZE_SMALL, Util.fontSize, true, false));
-        
+
         i.addElement(new AboutScreenItem(Locale.get(ABOUT_DEVELOPERS), Font.SIZE_MEDIUM, Util.fontSize/2, false, false));
         addDeveloper(i, "gtrxAC", LEAD_DEVELOPER, 2);
         addDeveloper(i, "Shinovon", WHAT_SHINOVON_DID, 2);
@@ -137,7 +137,8 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         addDeveloper(i, "Misu", TRANSLATOR_ID, 2);
         addDeveloper(i, "Motorazr", TRANSLATOR_FR, 2);
         addDeveloper(i, "nativeshades", TRANSLATOR_BG, 2);
-        addDeveloper(i, "pdyq", TRANSLATOR_ZHTW_YUE, 2);
+        i.addElement(new AboutScreenItem("MC-Nirvana", Font.SIZE_SMALL, 0, false, true));
+        addDeveloper(i, "pdyq", TRANSLATOR_ZHTW_ZHHK, 2);
         addDeveloper(i, "proxion", TRANSLATOR_UK, 2);
         addDeveloper(i, "raul0028", TRANSLATOR_RO, 2);
         i.addElement(new AboutScreenItem("Meganium412", Font.SIZE_SMALL, 0, false, true));
@@ -145,7 +146,8 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         i.addElement(new AboutScreenItem("SpiroWalkman", Font.SIZE_SMALL, 0, false, true));
         addDeveloper(i, "multiplemegapixels", TRANSLATOR_RU, 2);
         addDeveloper(i, "tsukihimeri6969", TRANSLATOR_JA, 1);
-        
+        addDeveloper(i, "MC-Nirvana", TRANSLATOR_ZHCN, 2);
+
         i.addElement(new AboutScreenItem(Locale.get(ABOUT_SUPPORT), Font.SIZE_MEDIUM, Util.fontSize/2, false, false));
         i.addElement(new AboutScreenItem("discord.gg/2GKuJjQagp", Font.SIZE_SMALL, Util.fontSize/2, false, false));
         i.addElement(new AboutScreenItem("t.me/dscforsymbian", Font.SIZE_SMALL, Util.fontSize/2, false, false));
@@ -200,7 +202,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
 
         for (int i = 0; i < PARTICLE_COUNT; i++) {
             AboutScreenParticle p = particles[i];
-//#ifdef ABOUT_SCREEN_COLOR_PARTICLES 
+//#ifdef ABOUT_SCREEN_COLOR_PARTICLES
             g.setColor(p.color);
 //#endif
             g.fillRect(p.x*width/10000, p.y*height/10000, particleSize, particleSize);
@@ -345,7 +347,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
             }
         }
     }
-    
+
     public void commandAction(Command c, Displayable d) {
         App.disp.setCurrent(MainMenu.get(false));
     }

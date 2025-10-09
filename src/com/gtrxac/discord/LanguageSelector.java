@@ -32,8 +32,9 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         "Türkçe",       // tr (Turkish)
         "Українська",   // uk (Ukrainian)
         "Tiếng Việt",    // vi (Vietnamese)
-        "繁體中文", // zh_TW (Mandarin - Taiwan)
-        "廣東話" // yue (Cantonese)
+        "繁體中文 (台灣)", // zh_TW (Mandarin - Taiwan)
+        "繁體中文（香港）", // zh_HK (Mandarin - Hong Kong)
+        "简体中文"        // zh_CN (Mandarin - China)
     };
 
     public LanguageSelector() {
@@ -45,7 +46,7 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
             App.ic.flagAR, App.ic.flagBG, App.ic.flagCA, App.ic.flagDE, App.ic.flagGB, App.ic.flagUS, App.ic.flagES, App.ic.flagFI, App.ic.flagFR, App.ic.flagHR, App.ic.flagID,
             App.ic.flagIT, App.ic.flagJP, App.ic.flagMY, App.ic.flagPL, App.ic.flagPT, App.ic.flagBR, App.ic.flagRO,
             App.ic.flagRU, App.ic.flagSV, App.ic.flagTH, App.ic.flagTR,
-            App.ic.flagUK, App.ic.flagVI, App.ic.flagTW, App.ic.flagHK
+            App.ic.flagUK, App.ic.flagVI, App.ic.flagTW, App.ic.flagHK, App.ic.flagCN
         };
 
         for (int i = 0; i < Locale.langIds.length; i++) {

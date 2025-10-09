@@ -8,7 +8,7 @@ import cc.nnproject.json.*;
 
 public class Locale {
     public static final String[] langIds = {
-        "ar", "bg", "ca", "de", "en", "en-US", "es", "fi", "fr", "hr", "id", "it", "ja", "ms", "pl", "pt", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW", "yue"
+        "ar", "bg", "ca", "de", "en", "en-US", "es", "fi", "fr", "hr", "id", "it", "ja", "ms", "pl", "pt", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW", "zh-HK", "zh-CN"
     };
 
     private static Vector strs;
@@ -70,7 +70,7 @@ public class Locale {
 
         RecordStore langRms = null;
         Vector result = null;
-        
+
         try {
             langRms = RecordStore.openRecordStore("lang", true);
 
@@ -111,7 +111,7 @@ public class Locale {
             Util.setOrAddRecord(langRms, 2, jsonData);
         }
         catch (Exception e) {}
-        
+
         Util.closeRecordStore(langRms);
 
         setStrings(JSON.getArray(jsonData).toVector());
