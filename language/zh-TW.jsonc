@@ -246,7 +246,7 @@
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
-    // "going back" only applies to the chat view, 
+    // "going back" only applies to the chat view,
     "傳送訊息",
     "回覆訊息",
     "複製訊息內容",
@@ -511,7 +511,7 @@
 
     // Settings section for language options.
     "語言",
-    
+
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
     "語言",
     "選擇語言",
@@ -577,15 +577,15 @@
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
-    "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "外觀",
+    "圖片",
+    "行為",
+    "通知",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "關閉",
+    "開啟",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -593,325 +593,328 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Please enter a valid number between 1 and ",
-    "",
+    "請輸入 1 到 ",
+    " 之間的有效數字",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "Pigler API 錯誤：",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+    "不支援 Pigler 通知 API。請從 nnp.nnchan.ru/pna 安裝 Pigler API，或在設定中停用 Pigler 通知。",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "捲軸",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "隱藏",
+    "顯示",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "關於",
 
     // Title text for about screen.
-    "About",
+    "關於",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "版本 ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "開發人員",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "翻譯者",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "支援",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, Italian translation",
+    "主要開發人員",
+    "附件載入、Pigler API 整合、JSON 解析器",
+    "載入動畫、選單圖示、義大利語翻譯",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "越南語",
+    "瑞典語",
+    "印尼語",
+    "波蘭語",
+    "西班牙語",
+    "葡萄牙語（巴西）",
+    "泰語",
+    "葡萄牙語",
+    "繁體中文和粵語",
+    "烏克蘭語",
+    "羅馬尼亞語",
+    "土耳其語",
+    "俄語",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "檢視",
+    "檢視",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "自動更新",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "有可用更新",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "有新版本的 Discord J2ME 可供使用。是否要更新？\n目前版本：",
+    "\n最新版本：",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "更新",
+    "更新",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "僅正式版",
+    "所有版本",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German",
-    "Croatian",
+    "德語",
+    "克羅埃西亞語",
 
     // Units for attachment sizes.
-    " bytes",
+    " 位元組",
     " kB",
     " MB",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "討論串",
+    "檢視討論串",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Set",
-    "Set token",
+    "設定",
+    "設定權杖",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "變更",
+    "變更權杖",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "Android 通知",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW",
+    "新",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "上傳這張圖片？",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "檔案選擇器預覽",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "轉寄訊息：",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key.",
+    "若要設定權杖，請按下 BlackBerry 鍵。",
+    "若要變更權杖，請按下 BlackBerry 鍵。",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview",
+    "記憶體不足，無法顯示圖片預覽",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Show emoji",
+    "顯示表情符號",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Default only",
+    "僅預設",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "All",
+    "全部",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
+    "匯入",
+    "匯入權杖",
 
     // Title text for the token import file picker screen.
-    "Select token file",
+    "選擇權杖檔案",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Downloading emoji...",
+    "正在下載表情符號...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "French",
-    "Bulgarian",
+    "法語",
+    "加泰隆語",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "文字格式",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "Emoji",
-    "Insert emoji",
+    "表情符號",
+    "插入表情符號",
 
     // Title for emoji picker screen.
-    "Select emoji",
+    "選擇表情符號",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Download emoji data?",
+    "下載表情符號資料？",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "（已編輯）",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore",
+    "底線",
+    "插入底線",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Notification sound",
+    "通知音效",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "震動",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "靜音",
+    "靜音/取消靜音",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "scrolling to top",
-    "scrolling to bottom",
+    "捲動至頂部",
+    "捲動至底部",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    "傳送輸入狀態",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "設為",
+    "設為通知音效",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "將此設為通知音效？",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "播放",
+    "重新播放",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "通知音效已套用！",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "管理資料",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "表情符號圖片",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "最後閱讀訊息",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "通知音效",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "語言資料",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "刪除",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "刪除此項目？\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "開啟瀏覽器",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "是否要開啟網頁瀏覽器？應用程式將會關閉。",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "快速捲動",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "播放音效失敗。可能不支援該檔案類型。",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese",
-    "加泰蘭文",
-    "Arabic",
+    "日語",
+    "加泰隆語",
+    "阿拉伯語",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "System",
+    "系統",
 
     // Theme option shown in settings for the user-defined theme.
-    "Custom",
+    "自訂",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
-    "Theme",
-    "Do you want to apply this theme?",
+    "佈景主題",
+    "是否要套用此佈景主題？",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme",
+    "佈景主題",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Not enough memory to show emoji picker",
+    "記憶體不足，無法顯示表情符號選擇器",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+    "HTTP 502：代理伺服器目前無法使用。請稍後再試或聯絡開發人員。",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: The request was unexpectedly redirected. Please check your connection.",
+    "HTTP 302：請求被意外重新導向。請檢查您的連線。",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
-    "Warning",
-    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+    "警告",
+    "據知 Discord 會將第三方客戶端的上傳標記為垃圾郵件。這通常發生在沒有啟用雙重驗證或未驗證手機號碼的新帳戶上。繼續操作風險自负。\n如果您不想再看到此訊息，請選擇「隱藏」。",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Hide",
-    "Hide",
+    "隱藏",
+    "隱藏",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?",
+    "據知 Discord 會將來自第三方客戶端的新私訊標記為垃圾郵件。建議您從官方客戶端傳送第一則訊息。是否要繼續？",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "收藏的伺服器",
+    "已儲存的伺服器",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!",
+    "已儲存",
+    "伺服器清單已儲存至快取！",
 
     // Related to "Types of data shown in the data manager" above.
-    "Emoji names",
+    "表情符號名稱",
 
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.
-    "Guide",
-    "Setup guide",
+    "指南",
+    "設定指南",
 
     // Option in login screen to use direct connection (proxyless) mode.
-    "Direct connection",
+    "直接連線",
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "Direct connection reduces the risk of an account restriction.",
+    "直接連線可降低帳戶受限的風險。",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "Direct connection (",
-    "requires TLS 1.2",
-    ") reduces the risk of an account restriction.",
+    "直接連線（",
+    "需要 TLS 1.2",
+    "）可降低帳戶受限的風險。",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
-    "Get TLS",
-    "Get TLS",
+    "取得 TLS",
+    "取得 TLS",
 
     // Text shown in bottom message bar.
-    "Message",
+    "訊息",
 
     // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
-    "Message ",
+    "訊息 ",
 
     // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
     // You should use the same term for "Direct connection" that you used above.
-    "Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "您的裝置不支援在直接連線模式下編輯訊息。\n是否要透過代理編輯此訊息？\n選擇「隱藏」以一律使用代理。",
 
-    "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy."
+    "您的裝置不支援在直接連線模式下刪除訊息。\n是否要透過代理刪除此訊息？\n選擇「隱藏」以一律使用代理。",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "簡體中文"
 ]

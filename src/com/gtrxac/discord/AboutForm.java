@@ -51,7 +51,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
             append(new ImageItem(null, appIcon, LAYOUT_CENTER, null));
         }
         catch (Exception e) {}
-        
+
         addString("Discord J2ME", Font.SIZE_MEDIUM, LAYOUT_CENTER);
         append(new Spacer(getWidth(), 1));
 
@@ -82,13 +82,14 @@ public class AboutForm extends Form implements CommandListener, Strings {
         addDeveloper("Misu", TRANSLATOR_ID);
         addDeveloper("Motorazr", TRANSLATOR_FR);
         addDeveloper("nativeshades", TRANSLATOR_BG);
-        addDeveloper("pdyq", TRANSLATOR_ZHTW_YUE);
+        addDeveloper("MC-Nirvana\npdyq", TRANSLATOR_ZHTW_ZHHK);
         addDeveloper("proxion", TRANSLATOR_UK);
         addDeveloper("raul0028", TRANSLATOR_RO);
         addDeveloper("Meganium412\nviolent body", TRANSLATOR_TR);
         addDeveloper("SpiroWalkman\nmultiplemegapixels", TRANSLATOR_RU);
         addDeveloper("tsukihimeri6969", TRANSLATOR_JA);
-        
+        addDeveloper("MC-Nirvana", TRANSLATOR_ZHCN);
+
         addString(Locale.get(ABOUT_SUPPORT), Font.SIZE_MEDIUM, LAYOUT_CENTER);
         addSpacer();
         addString("discord.gg/2GKuJjQagp", Font.SIZE_SMALL, LAYOUT_DEFAULT);
@@ -99,7 +100,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
 
         addCommand(Locale.createCommand(BACK, Command.BACK, 0));
     }
-    
+
     public void commandAction(Command c, Displayable d) {
         App.disp.setCurrent(MainMenu.get(false));
     }

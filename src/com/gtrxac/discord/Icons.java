@@ -98,6 +98,7 @@ public class Icons {
 //#endif
     Image flagJP;
     Image flagAR;
+    Image flagCN;
 
     Icons() {
         if (Settings.menuIconSize == 0) return;
@@ -220,5 +221,6 @@ public class Icons {
         flagCA = sh.next();
         flagJP = sh.next();
         flagAR = sh.next();
+        flagCN = sh.next();
     }
 }
