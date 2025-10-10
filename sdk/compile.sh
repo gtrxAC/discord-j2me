@@ -28,8 +28,16 @@ ${JAVA_HOME}/bin/javac `find build/src -name '*'.java` -d classes \
     -bootclasspath ${BOOTCLASSPATH} \
     > sdk/log.txt
 
+if [[ ! -e lib/ModernConnector ]]; then
+    echo "Extracting libraries"
+    mkdir lib/ModernConnector
+    cd lib/ModernConnector
+    ${JAVA_HOME}/bin/jar xf ../ModernConnector.jar
+    cd ../..
+fi
+
 echo "Creating JAR"
-${JAVA_HOME}/bin/jar cvfm bin/in.jar build/manifest.mf -C classes . -C build/res . >> sdk/log.txt
+${JAVA_HOME}/bin/jar cvfm bin/in.jar build/manifest.mf -C classes . -C build/res . -C lib/ModernConnector . >> sdk/log.txt
 
 # Preverify and obfuscate (ProGuard)
 # Note: ProGuard 6.0.3 is the last version to run under JDK 6, as of writing, the latest version can run under JDK 8

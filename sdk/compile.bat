@@ -33,6 +33,8 @@ if errorlevel 1 (
     exit /b !EXIT_CODE!
 )
 
+echo TODO: extract modernconnector jar - not sure, this script might be broken anyway
+
 echo Creating JAR
 %JAVA_HOME%\bin\jar cvfm bin\in.jar build\manifest.mf -C classes . -C res . >> sdk\log.txt
 
