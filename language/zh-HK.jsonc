@@ -639,7 +639,7 @@
     // The name of the person in question is shown above each line.
     "主開發者",
     "附件載入、Pigler API 整合、JSON 解析器",
-    "載入動畫、選單圖示、意大利文翻譯",
+    "載入動畫、選單圖示、表情符號、意大利文翻譯",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
@@ -882,7 +882,7 @@
     "伺服器清單已儲存到快取！",
 
     // Related to "Types of data shown in the data manager" above.
-    "表情名稱",
+    "表情符號名稱",
 
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.

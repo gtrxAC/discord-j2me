@@ -638,7 +638,7 @@
     // The name of the person in question is shown above each line.
     "首席开发者",
     "附件加载、Pigler API 集成、JSON 解析器",
-    "加载动画、菜单图标、emoji表情符号、意大利语翻译",
+    "加载动画、菜单图标、表情符号、意大利语翻译",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
@@ -726,7 +726,7 @@
     "内存不足，无法显示图片预览",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "显示emoji表情符号",
+    "显示表情符号",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
     "仅默认",
@@ -742,7 +742,7 @@
     "选择令牌文件",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "正在下载emoji表情符号...",
+    "正在下载表情符号...",
 
     // Related to "Lines shown in the about screen for which language" above.
     "法语",
@@ -752,14 +752,14 @@
     "文本格式化",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "Emoji表情符号",
-    "插入emoji表情符号",
+    "表情符号",
+    "插入表情符号",
 
     // Title for emoji picker screen.
-    "选择emoji表情符号",
+    "选择表情符号",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "下载emoji表情符号数据？",
+    "下载表情符号数据？",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
     "(已编辑)",
@@ -807,7 +807,7 @@
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "表情图片",
+    "表情符号图片",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
     "最后阅读消息",
     // Custom sound file applied as the notification sound via a message attachment.
@@ -852,7 +852,7 @@
     "主题",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "内存不足，无法显示emoji表情符号选择器",
+    "内存不足，无法显示表情符号选择器",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
     "HTTP 502: 代理服务器当前不可用。请稍后再试或联系开发者。",
@@ -880,7 +880,7 @@
     "服务器列表已保存到缓存！",
 
     // Related to "Types of data shown in the data manager" above.
-    "emoji表情符号名称",
+    "表情符号名称",
 
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.
