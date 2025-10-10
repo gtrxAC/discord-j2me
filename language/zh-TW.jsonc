@@ -638,7 +638,7 @@
     // The name of the person in question is shown above each line.
     "主要開發人員",
     "附件載入、Pigler API 整合、JSON 解析器",
-    "載入動畫、選單圖示、義大利語翻譯",
+    "載入動畫、選單圖示、表情符號、義大利語翻譯",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
