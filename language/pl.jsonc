@@ -883,7 +883,7 @@
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.
     "Przewodnik",
-    "Przew. konfiguracji",
+    "Przew. po konf.",
 
     // Option in login screen to use direct connection (proxyless) mode.
     "Połączenie bezpośrednie",
