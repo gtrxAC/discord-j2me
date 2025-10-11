@@ -57,3 +57,5 @@ LGE-MIDlet-TargetLCD-Width: 480
 MIDletX-Big-Icon: /icon_32.png
 MIDletX-Medium-Icon: /icon_38_18.png
 //#endif
+MIDlet-Permissions: javax.microedition.io.Connector.http
+MIDlet-Permissions-Opt: javax.microedition.io.Connector.socket

@@ -50,6 +50,10 @@ mv bin/out.jar "bin/${JAR_NAME}.jar"
 if command -v jadmaker > /dev/null; then
     echo "Creating JAD"
     jadmaker --force "bin/${JAR_NAME}.jar"
+
+    echo "Creating signed JAD"
+    ${JAVA_HOME}/bin/java -jar sdk/JadTool.jar -addcert -alias exp -storepass 14111989 -keystore sdk/keystore.ks -inputjad "bin/${JAR_NAME}.jad" -outputjad "bin/${JAR_NAME}_signed.jad"
+    ${JAVA_HOME}/bin/java -jar sdk/JadTool.jar -addjarsig -alias exp -storepass 14111989 -keystore sdk/keystore.ks -inputjad "bin/${JAR_NAME}_signed.jad" -outputjad "bin/${JAR_NAME}_signed.jad" -jarfile "bin/${JAR_NAME}.jar" -keypass 14111989
 fi
 
 # Show output JAR file size
