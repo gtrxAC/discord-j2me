@@ -387,7 +387,7 @@ app.get(`${BASE}/guilds/:guild/channels`, getToken, async (req, res) => {
         })
 
         const channels = response.data
-            .filter(ch => [0, 5, 15, 16].includes(ch.type))
+            .filter(ch => [0, 2, 5, 15, 16].includes(ch.type))
             .map(ch => {
                 return {
                     id: ch.id,

@@ -67,6 +67,19 @@ public class Channel extends HasUnreads {
                 result.addElement(new Channel(ch));
             }
         }
+        // Add text chats of voice channels at the end
+        // (could add them at their correct locations but it's more complicated, we'd have to parse the structure of the channel categories)
+        int vcCount = arr.size() - result.size();
+
+        for (int i = 0; i < vcCount; i++) {
+            for (int a = 0; a < arr.size(); a++) {
+                JSONObject ch = arr.getObject(a);
+                if (ch.getInt("position", i) != i) continue;
+                if (ch.getInt("type", 0) != 2) continue;
+
+                result.addElement(new Channel(ch));
+            }
+        }
         return result;
     }
 
