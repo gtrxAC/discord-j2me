@@ -916,5 +916,18 @@
     "您的设备不支持在直连模式下删除消息。\n是否要通过代理删除此消息？\n选择'隐藏'始终使用代理。",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "简体中文"
+    "简体中文",
+
+    // Item in settings menu for opening the time format configuration screen.
+    "Time format",
+
+    // Title for time preview shown in the time format screen.
+    "Preview",
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    "Time offset (hours)",
+    "Time offset (minutes)",
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
+    "Negative offset"
 ]

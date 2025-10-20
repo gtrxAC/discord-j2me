@@ -87,7 +87,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(SETTINGS_SECTION_AUTHOR_FONT),
                 Locale.get(SETTINGS_SECTION_CONTENT_FONT),
                 Locale.get(SETTINGS_SECTION_REPLIES),
-                "Time format",
+                Locale.get(TIME_FORMAT),
                 Locale.get(NAME_COLORS),
                 Locale.get(FULLSCREEN_DEFAULT),
 //#ifdef OVER_100KB

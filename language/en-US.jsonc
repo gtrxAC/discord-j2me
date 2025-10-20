@@ -914,5 +914,18 @@
     null,
 
     // Related to "Lines shown in the about screen for which language" above.
+    null,
+
+    // Item in settings menu for opening the time format configuration screen.
+    null,
+
+    // Title for time preview shown in the time format screen.
+    null,
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    null,
+    null,
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
     null
 ]

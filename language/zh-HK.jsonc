@@ -918,5 +918,18 @@
     "你部機唔支援喺直接連線模式下刪除訊息。\n要透過代理刪除呢條訊息嗎？\n揀「隱藏」就會永遠用代理。",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "中文 (簡體) "
+    "中文 (簡體) ",
+
+    // Item in settings menu for opening the time format configuration screen.
+    "Time format",
+
+    // Title for time preview shown in the time format screen.
+    "Preview",
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    "Time offset (hours)",
+    "Time offset (minutes)",
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
+    "Negative offset"
 ]

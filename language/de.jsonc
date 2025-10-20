@@ -916,5 +916,18 @@
     "Ihr Gerät unterstützt das Löschen von Nachrichten im Direktverbindungsmodus nicht.\nMöchten Sie diese Nachricht über den Proxy löschen?\nSelect 'Ausblenden' um immer den Proxy zu verwenden.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Chinesisch (vereinfacht)"
+    "Chinesisch (vereinfacht)",
+
+    // Item in settings menu for opening the time format configuration screen.
+    "Time format",
+
+    // Title for time preview shown in the time format screen.
+    "Preview",
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    "Time offset (hours)",
+    "Time offset (minutes)",
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
+    "Negative offset"
 ]

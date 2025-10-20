@@ -916,5 +916,18 @@
     "Your device doesn't support deleting messages in Direct connection mode. Use proxy?\nSelect 'Hide' to always use proxy.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Chinese (Simplified)"
+    "Chinese (Simplified)",
+
+    // Item in settings menu for opening the time format configuration screen.
+    "Time format",
+
+    // Title for time preview shown in the time format screen.
+    "Preview",
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    "Offset (h)",
+    "Offset (min)",
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
+    "Negative offset"
 ]

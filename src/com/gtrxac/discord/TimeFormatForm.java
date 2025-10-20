@@ -14,24 +14,24 @@ public class TimeFormatForm extends Form implements Strings, CommandListener, It
     private boolean oldUse12hTime;
 
     public TimeFormatForm() {
-        super("Time format");
+        super(Locale.get(TIME_FORMAT));
         setCommandListener(this);
         setItemStateListener(this);
         lastScreen = App.disp.getCurrent();
 
-        previewItem = new StringItem("Preview", "");
+        previewItem = new StringItem(Locale.get(TIME_FORMAT_PREVIEW), "");
         previewItem.setFont(Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_LARGE));
         previewItem.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_CENTER);
 
-        hourOffsetGauge = new Gauge("Offset (hours)", true, 14, 0);
-        minOffsetGauge = new Gauge("Offset (minutes)", true, 60, 0);
+        hourOffsetGauge = new Gauge(Locale.get(TIME_OFFSET_H), true, 14, 0);
+        minOffsetGauge = new Gauge(Locale.get(TIME_OFFSET_MIN), true, 60, 0);
 
         int absOffsetMins = Math.abs(Settings.timeOffset)/(60*1000);
         hourOffsetGauge.setValue(absOffsetMins/60);
         minOffsetGauge.setValue(absOffsetMins%60);
         
         String[] choices = {
-            "Negative offset",
+            Locale.get(NEGATIVE_OFFSET),
             Locale.get(USE_12H_TIME)
         };
         optionsGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, choices, null);
