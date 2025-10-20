@@ -87,7 +87,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(SETTINGS_SECTION_AUTHOR_FONT),
                 Locale.get(SETTINGS_SECTION_CONTENT_FONT),
                 Locale.get(SETTINGS_SECTION_REPLIES),
-                Locale.get(USE_12H_TIME),
+                "Time format",
                 Locale.get(NAME_COLORS),
                 Locale.get(FULLSCREEN_DEFAULT),
 //#ifdef OVER_100KB
@@ -222,7 +222,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
                 { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
                 { Locale.get(REPLIES_ONLY_RECIPIENT), Locale.get(REPLIES_FULL_MESSAGE) },
-                boolValues,
+                null,
                 boolValues,
                 boolValues,
 //#ifdef OVER_100KB
@@ -279,7 +279,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.authorFontSize, 
                 Settings.messageFontSize,
                 Settings.showRefMessage ? 1 : 0,
-                Settings.use12hTime ? 1 : 0,
+                0,
                 Settings.useNameColors ? 1 : 0,
                 Settings.fullscreenDefault ? 1 : 0,
 //#ifdef OVER_100KB
@@ -498,7 +498,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 if (currentSection == 2 && itemIndex == 5) {
                     // Special case for "remap hotkeys" option - open separate menu
                     App.disp.setCurrent(new KeyMapper());
-                } else {
+                }
+                else if (currentSection == 0 && itemIndex == 4) {
+                    // and for "time format"
+                    App.disp.setCurrent(new TimeFormatForm());
+                }
+                else {
                     int max = maxValues[currentSection][itemIndex];
                     
                     if (max == 0 || max >= 5) {
@@ -550,7 +555,6 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.authorFontSize = values[0][1];
                 Settings.messageFontSize = values[0][2];
                 Settings.showRefMessage = values[0][3] == 1;
-                Settings.use12hTime = values[0][4] == 1;
                 Settings.useNameColors = values[0][5] == 1;
                 Settings.fullscreenDefault = values[0][6] == 1;
 //#ifdef OVER_100KB

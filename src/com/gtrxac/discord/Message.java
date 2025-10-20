@@ -202,48 +202,7 @@ public class Message implements Strings {
             catch (Exception e) {}
         }
 
-        Date messageDate = new Date((Long.parseLong(id) >> 22) + App.DISCORD_EPOCH);
-        String messageDay = messageDate.toString().substring(0, 10);
-        String currentDay = new Date().toString().substring(0, 10);
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(messageDate);
-        StringBuffer time = new StringBuffer();
-
-        if (currentDay.equals(messageDay)) {
-            int hour = cal.get(Calendar.HOUR_OF_DAY);
-            int minute = cal.get(Calendar.MINUTE);
-
-            if (Settings.use12hTime) {
-                String period = hour < 12 ? Locale.get(TIMESTAMP_AM) : Locale.get(TIMESTAMP_PM);
-
-                // Convert hours to 12-hour format
-                hour = hour % 12;
-                if (hour == 0) {
-                    hour = 12; // 12 AM or 12 PM
-                }
-
-                time.append(hour);
-                time.append(Locale.get(TIME_SEPARATOR));
-                if (minute < 10) time.append("0");
-                time.append(minute);
-                time.append(period);
-            } else {
-                time.append(hour);
-                time.append(Locale.get(TIME_SEPARATOR));
-                if (minute < 10) time.append("0");
-                time.append(minute);
-            }
-        } else {
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-            if (day < 10) time.append("0");
-            time.append(day);
-            time.append(Locale.get(DATE_SEPARATOR));
-            int month = cal.get(Calendar.MONTH) + 1;
-            if (month < 10) time.append("0");
-            time.append(month);
-        }
-        timestamp = time.toString();
+        timestamp = formatTimestamp((Long.parseLong(id) >> 22) + App.DISCORD_EPOCH);
 
         if (
             isForwarded
@@ -302,5 +261,51 @@ public class Message implements Strings {
 //#ifdef OVER_100KB
         isEdited = false;
 //#endif
+    }
+
+    public static String formatTimestamp(long timestamp) {
+        Date messageDate = new Date(timestamp + Settings.timeOffset);
+        Date currentDate = new Date(System.currentTimeMillis() + Settings.timeOffset);
+        String messageDay = messageDate.toString().substring(0, 10);
+        String currentDay = currentDate.toString().substring(0, 10);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(messageDate);
+        StringBuffer time = new StringBuffer();
+
+        if (currentDay.equals(messageDay)) {
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            int minute = cal.get(Calendar.MINUTE);
+
+            if (Settings.use12hTime) {
+                String period = hour < 12 ? Locale.get(TIMESTAMP_AM) : Locale.get(TIMESTAMP_PM);
+
+                // Convert hours to 12-hour format
+                hour = hour % 12;
+                if (hour == 0) {
+                    hour = 12; // 12 AM or 12 PM
+                }
+
+                time.append(hour);
+                time.append(Locale.get(TIME_SEPARATOR));
+                if (minute < 10) time.append("0");
+                time.append(minute);
+                time.append(period);
+            } else {
+                time.append(hour);
+                time.append(Locale.get(TIME_SEPARATOR));
+                if (minute < 10) time.append("0");
+                time.append(minute);
+            }
+        } else {
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            if (day < 10) time.append("0");
+            time.append(day);
+            time.append(Locale.get(DATE_SEPARATOR));
+            int month = cal.get(Calendar.MONTH) + 1;
+            if (month < 10) time.append("0");
+            time.append(month);
+        }
+        return time.toString();
     }
 }
