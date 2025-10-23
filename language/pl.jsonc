@@ -917,15 +917,15 @@
     "Chiński (Uproszczony)",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Time format",
+    "Format czasu",
 
     // Title for time preview shown in the time format screen.
-    "Preview",
+    "Podgląd",
 
     // Titles for sliders in the time format screen for changing the time offset.
-    "Time offset (hours)",
-    "Time offset (minutes)",
+    "Przesunięcie czasu (godz.)",
+    "Przesunięcie czasu (minuty)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negative offset"
+    "Ujemne przesunięcie"
 ]
