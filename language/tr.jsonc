@@ -917,10 +917,10 @@
     "Basitleştirilmiş Çince",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Time format",
+    "Saat türü",
 
     // Title for time preview shown in the time format screen.
-    "Preview",
+    "Önizleme",
 
     // Titles for sliders in the time format screen for changing the time offset.
     "Time offset (hours)",
