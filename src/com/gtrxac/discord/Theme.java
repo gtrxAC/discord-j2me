@@ -81,6 +81,12 @@ public class Theme {
     public static int scrollbarColor;
     public static int scrollbarHandleColor;
 
+//#ifdef TOUCH_SUPPORT
+    public static int messageBarBackgroundColor;
+    public static int messageBarColor;
+    public static int messageBarDraftColor;
+//#endif
+
     //                                     Dark      Light     Black
     private static final int[] channelViewBackgroundColors = {0x313338, 0xFFFFFF, 0x000000};
     private static final int[] channelViewEmptyTextColors =  {0xAAAAAA, 0x666666, 0x999999};
@@ -139,9 +145,14 @@ public class Theme {
 
     private static final int[] scrollbarColors = {0xDDDDDD, 0xDDDDDD, 0xDDDDDD};
     private static final int[] scrollbarHandleColors = {0x888888, 0x888888, 0x888888};
+
+//#ifdef TOUCH_SUPPORT
+    private static final int[] messageBarBackgroundColors = {0x4d5055, 0xFFFFFF, 0x181818};
+    private static final int[] messageBarColors = {0xDDDDDD, 0x444444, 0xAAAAAA};
+    private static final int[] messageBarDraftColors = {0xFFFFFF, 0x111111, 0xEEEEEE};
+//#endif
     
 	public static void loadPresetTheme() {
-        //§ fmtstr empicker fmtstrpartser loadscr keymap forspmonospace imagepreviewscreen
         channelViewBackgroundColor = channelViewBackgroundColors[Settings.theme];
         channelViewEmptyTextColor = channelViewEmptyTextColors[Settings.theme];
         timestampColor = timestampColors[Settings.theme];
@@ -209,6 +220,12 @@ public class Theme {
 
         scrollbarColor = scrollbarColors[Settings.theme];
         scrollbarHandleColor = scrollbarHandleColors[Settings.theme];
+
+//#ifdef TOUCH_SUPPORT
+        messageBarBackgroundColor = messageBarBackgroundColors[Settings.theme];
+        messageBarColor = messageBarColors[Settings.theme];
+        messageBarDraftColor = messageBarDraftColors[Settings.theme];
+//#endif
 	}
 
 //#ifdef OVER_100KB
@@ -300,6 +317,12 @@ public class Theme {
 
         scrollbarColor = bg;
         scrollbarHandleColor = hbg;
+
+//#ifdef TOUCH_SUPPORT
+        messageBarBackgroundColor = bg;
+        messageBarColor = fg;
+        messageBarDraftColor = fg;
+//#endif
     }
 
     public static void loadJsonRmsTheme() {
@@ -382,6 +405,11 @@ public class Theme {
         editedTextColor = jsonGetHex(data, "editedText", editedTextColor);
         scrollbarColor = jsonGetHex(data, "scrollbar", scrollbarColor);
         scrollbarHandleColor = jsonGetHex(data, "scrollbarHandle", scrollbarHandleColor);
+//#ifdef TOUCH_SUPPORT
+        messageBarBackgroundColor = jsonGetHex(data, "messageBarBackground", messageBarBackgroundColor);
+        messageBarColor = jsonGetHex(data, "messageBarText", messageBarColor);
+        messageBarDraftColor = jsonGetHex(data, "messageBarDraft", messageBarDraftColor);
+//#endif
     }
 
     private static int jsonGetHex(JSONObject data, String key, int def) {
