@@ -343,10 +343,16 @@ public class HTTPThread extends Thread implements Strings {
 
                                     if (guild.getString("id").equals(guildId)) {
                                         guilds.add(guild);
+                                        App.unsortedGuilds.remove(k);
                                         break;
                                     }
                                 }
                             }
+                        }
+                        // If the user doesn't have guild folders, some or all of the guilds may have been missed by the above sort
+                        // so add them at the end of the list
+                        for (int i = 0; i < App.unsortedGuilds.size(); i++) {
+                            guilds.add(App.unsortedGuilds.getObject(i));
                         }
                         App.unsortedGuilds = null;
 //#else                
