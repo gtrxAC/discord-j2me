@@ -36,7 +36,7 @@ public class FormattedString implements Strings {
             boolean showEmoji = !singleLine || !ChannelViewItem.shouldUseDirectRefMessage();
             FormattedStringParser parser = new FormattedStringParser(src, font, showEmoji, singleLine);
             tempParts = parser.run();
-            showLargeEmoji = parser.showLargeEmoji;
+            showLargeEmoji = !singleLine && parser.showLargeEmoji;
 //#else
             FormattedStringParser parser = new FormattedStringParser(src, font, false, singleLine);
             tempParts = parser.run();
