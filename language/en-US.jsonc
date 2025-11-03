@@ -927,5 +927,9 @@
     null,
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
+    null,
+
+    // Related to "Lines shown in the about screen for which language" above.
     null
+
 ]

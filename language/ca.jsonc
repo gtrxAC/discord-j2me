@@ -929,5 +929,9 @@
     "Desplaçament de temps (minuts)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Desplaçament negatiu"
+    "Desplaçament negatiu",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Hungarian"
+
 ]
