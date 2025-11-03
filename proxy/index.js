@@ -301,9 +301,16 @@ function generateUploadToken(token) {
     return result;
 }
 
+// Home page
+app.get('/', async (req, res) => {
+    const ua = (req.headers['user-agent'] ?? '').toLowerCase();
+    const isModern = ua.includes('webkit') || ua.includes('gecko');
+    res.sendFile(path.join(__dirname, isModern ? "static/index_new.html" : "static/index_old.html"));
+})
+
 const { getRecommendedVersions, mainVersionDownloadLinks, arrayDownloadLinkHtml } = require('./recommend');
 
-// Homepage
+// Download page
 app.get('/j2me', async (req, res) => {
     res.send(`<!DOCTYPE html>
 <html lang="en">
