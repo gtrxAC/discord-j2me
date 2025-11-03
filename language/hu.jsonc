@@ -931,5 +931,9 @@
     "Időeltolás (percek)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negatív Időeltolás"
+    "Negatív Időeltolás",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Magyar"
+
 ]
