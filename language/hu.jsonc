@@ -543,51 +543,51 @@
     " sent a message in ",
 
     // Title for notification alert windows
-    "New message",
+    "Új üzenet",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "Üzenet jelenjen meg:",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "Ablakban",
+    "Hanggal",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "Csatornák megtartása",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "Nincs it semmi",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "Nem sikerült kapcsolódni a gatewayhez. Megpróbálod újra?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "Válasz fájllal",
+    "Válasz fájllal",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "Csatolt fájl",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)",
+    " csatolmány)",
+    " csatolmány)",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
     // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
-    "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "Kinézet",
+    "Képek",
+    "Viselkedés",
+    "Üzenetek",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "Ki",
+    "Be",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -595,130 +595,130 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Please enter a valid number between 1 and ",
-    "",
+    "Kérlek írj be egy helyes számot 1 és ",
+    " között.",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "Pigler API hiba: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+    "A Pigler Üzenet API nem támogatott. Kérlek telepítsd innen: nnp.nnchan.ru/pna vagy kapcsolt ki a Pigler üzeneteket a beállításokban.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Görgősáv",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "Elrejtve",
+    "Mindig látható",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Az appról",
 
     // Title text for about screen.
-    "About",
+    "Az appról",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Verzió: ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Programozók",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Fordítók",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Támogatás",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, emoji art, Italian translation",
+    "Fő programozó",
+    "Csatolmány töltés, Pigler API beépítés, JSON feldolgozó",
+    "Töltés animáció, menü ikonok, emojik, Olasz fordítás",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
-    "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "Vietnám",
+    "Svéd",
+    "Indonéz",
+    "Lengyel",
+    "Spanyol",
+    "Portugál (Brazil)",
+    "Táj",
+    "Portugál",
+    "Kínai (Hagyományos) és Kantoni",
+    "Ukrán",
+    "Román",
+    "Török",
+    "Orosz",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Megnéz",
+    "Megnéz",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Automatikus frissítés",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Frissítés elérhető",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Egy új verzió elérhető. Szeretnél frissíteni? Jelenlegi: ",
+    "\nLegújabb: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Frissítés",
+    "Frissítés",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "Csak stabil verziók",
+    "Összes verzió",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German",
-    "Croatian",
+    "Német",
+    "Horvát",
 
     // Units for attachment sizes.
-    " bytes",
+    " bit(ek)",
     " kB",
     " MB",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "Szálak",
+    "Szálak megnyitása",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Set",
-    "Set token",
+    "Beállít",
+    "Token beállítása",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "Változtat",
+    "Token változtatása",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "Android üzenetek",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW",
+    "ÚJ",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "Feltöltöd ezt a képet?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "Fájl választó előnézet",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "Továbbított üzenet:",
 
     // Help texts shown in the login screen for how to open the token input text box.
     "To set your token, press the BlackBerry key.",
