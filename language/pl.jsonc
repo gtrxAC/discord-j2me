@@ -914,5 +914,22 @@
     "Twoje urządzenie nie wspiera usuwania wiadomości za pośrednictwem trybu połączenia bezpośredniego.\nCzy chcesz usunąć wiadomość za pośrednictwem serwera proxy?\nWybierz 'Ukryj', aby zawsze używać serwera proxy.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Chiński (Uproszczony)"
+    "Chiński (Uproszczony)",
+
+    // Item in settings menu for opening the time format configuration screen.
+    "Format czasu",
+
+    // Title for time preview shown in the time format screen.
+    "Podgląd",
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    "Przesunięcie czasu (godz.)",
+    "Przesunięcie czasu (minuty)",
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
+    "Ujemne przesunięcie",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Hungarian"
+
 ]

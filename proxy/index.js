@@ -301,9 +301,16 @@ function generateUploadToken(token) {
     return result;
 }
 
+// Home page
+app.get('/', async (req, res) => {
+    const ua = (req.headers['user-agent'] ?? '').toLowerCase();
+    const isModern = ua.includes('webkit') || ua.includes('gecko');
+    res.sendFile(path.join(__dirname, isModern ? "static/index_new.html" : "static/index_old.html"));
+})
+
 const { getRecommendedVersions, mainVersionDownloadLinks, arrayDownloadLinkHtml } = require('./recommend');
 
-// Homepage
+// Download page
 app.get('/j2me', async (req, res) => {
     res.send(`<!DOCTYPE html>
 <html lang="en">
@@ -387,7 +394,7 @@ app.get(`${BASE}/guilds/:guild/channels`, getToken, async (req, res) => {
         })
 
         const channels = response.data
-            .filter(ch => [0, 5, 15, 16].includes(ch.type))
+            .filter(ch => [0, 2, 5, 15, 16].includes(ch.type))
             .map(ch => {
                 return {
                     id: ch.id,

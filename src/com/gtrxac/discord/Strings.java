@@ -400,4 +400,10 @@ public interface Strings {
     static final int PROXYLESS_EDIT_ERROR = 371;
     static final int PROXYLESS_DELETE_ERROR = 372;
     static final int TRANSLATOR_ZHCN = 373;
+    static final int TIME_FORMAT = 374;
+    static final int TIME_FORMAT_PREVIEW = 375;
+    static final int TIME_OFFSET_H = 376;
+    static final int TIME_OFFSET_MIN = 377;
+    static final int NEGATIVE_OFFSET = 378;
+    static final int TRANSLATOR_HU = 379;
 }

@@ -65,7 +65,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     static Image messageBarEmojiIcon;
     static int messageBarIconHash;
     int messageBarWidth;
-    static int messageBarHeight;
+    static int messageBarHash;
     Image messageBar;
     String title;
 //#endif
@@ -156,6 +156,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     // - image is square, same width and height
     // - width/height is an even number
     // - you want to downscale exactly to half resolution
+    // TODO: we are currently calling this twice per image to do a 4x downscale, so we could optimize this to do 4x directly
     private static Image downscale(Image img) {
         int size = img.getWidth();
         int[] input = new int[size*size];
@@ -195,23 +196,23 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         return Image.createRGBImage(result, size, size, false);
     }
 
-    private Image getBarAttachmentIcon(int bg, int fg) {
+    private Image getBarAttachmentIcon() {
         int size = Math.max(fontHeight, 9);
-        int hash = size + bg + fg;
+        int hash = size + Theme.messageBarBackgroundColor + Theme.messageBarColor;
         if (messageBarAttachmentIcon != null && hash == messageBarIconHash) {
             return messageBarAttachmentIcon;
         }
         messageBarAttachmentIcon = null;
         messageBarEmojiIcon = null;
 
-        int renderSize = size*2;
+        int renderSize = size*4;
         Image result = Image.createImage(renderSize, renderSize);
         Graphics g = result.getGraphics();
 
         // circle
-        g.setColor(bg);
+        g.setColor(Theme.messageBarBackgroundColor);
         g.fillRect(0, 0, renderSize, renderSize);
-        g.setColor(fg);
+        g.setColor(Theme.messageBarColor);
         g.fillArc(0, 0, renderSize, renderSize, 0, 360);
 
         // plus icon inside circle
@@ -220,36 +221,37 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         if (renderSize%2 != thickness%2) thickness++;
         int offset = renderSize/2 - thickness/2;
         int length = renderSize - padding*2;
-        g.setColor(bg);
+        g.setColor(Theme.messageBarBackgroundColor);
         g.fillRect(padding, offset, length, thickness);  // - line
         g.fillRect(offset, padding, thickness, length);  // | line
 
+        result = downscale(result);
         result = downscale(result);
         messageBarAttachmentIcon = result;
         messageBarIconHash = hash;
         return result;
     }
 
-    private Image getBarEmojiIcon(int bg, int fg) {
+    private Image getBarEmojiIcon() {
         int size = Math.max(fontHeight, 9);
-        int hash = size + bg + fg;
+        int hash = size + Theme.messageBarBackgroundColor + Theme.messageBarColor;
         if (messageBarEmojiIcon != null && hash == messageBarIconHash) {
             return messageBarEmojiIcon;
         }
-        int renderSize = size*2;
+        int renderSize = size*4;
         Image result = Image.createImage(renderSize, renderSize);
         Graphics g = result.getGraphics();
 
         // circle
-        g.setColor(bg);
+        g.setColor(Theme.messageBarBackgroundColor);
         g.fillRect(0, 0, renderSize, renderSize);
-        g.setColor(fg);
+        g.setColor(Theme.messageBarColor);
         g.fillArc(0, 0, renderSize, renderSize, 0, 360);
 
         // small circle inside the circle to make it an outline
         int outline = Math.max(renderSize/11, 1);
         int innerCircleSize = renderSize - outline*2;
-        g.setColor(bg);
+        g.setColor(Theme.messageBarBackgroundColor);
         g.fillArc(outline, outline, innerCircleSize, innerCircleSize, 0, 360);
 
         // smile
@@ -257,7 +259,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         int smileWidth = renderSize - smileOffset*2;
         int smileHeight = smileWidth*3/4;
         int smileOffsetY = smileOffset - smileHeight + smileWidth;
-        g.setColor(fg);
+        g.setColor(Theme.messageBarColor);
         g.fillArc(smileOffset, smileOffsetY, smileWidth, smileHeight, 180, 180);
 
         // eyes
@@ -268,6 +270,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         g.fillArc(renderSize - eyeOffsetX - eyeSize, eyeOffsetY, eyeSize, eyeSize, 0, 360);
 
         result = downscale(result);
+        result = downscale(result);
         messageBarEmojiIcon = result;
         messageBarIconHash = hash;
         return result;
@@ -275,18 +278,34 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     private boolean checkAndLoadMessageBar() {
         if (messageBarWidth != getWidth()) {
+            final int imgWidth = 15;
             final int imgHeight = 32;
             final int imgPartWidth = 7;
 
             int barHeight = fontHeight*2;
+            int newBarHash = barHeight + Theme.messageBarBackgroundColor + Theme.messageBarColor;
             int partWidth = barHeight*imgPartWidth/imgHeight;
 
-            if (messageBarHeight != barHeight) {
+            if (messageBarHash != newBarHash) {
                 Image messageBarImg;
                 try {
                     messageBarImg = Image.createImage("/bar.png");
+
+                    // recolor the image (pixels which have non-zero alpha and are close to white)
+                    int[] input = new int[imgWidth*imgHeight];
+                    messageBarImg.getRGB(input, 0, imgWidth, 0, 0, imgWidth, imgHeight);
+
+                    for (int i = 0; i < imgWidth*imgHeight; i++) {
+                        int alpha = input[i] & 0xFF000000;
+
+                        if (alpha != 0 && (input[i] & 0xFF) > 127) {
+                            input[i] = alpha | Theme.messageBarBackgroundColor;
+                        }
+                    }
+                    messageBarImg = Image.createRGBImage(input, imgWidth, imgHeight, true);
                 }
-                catch (Exception e) {
+                catch (java.io.IOException e) {
+                    e.printStackTrace();
                     return false;
                 }
                 messageBarLeft = Image.createImage(messageBarImg, 0, 0, imgPartWidth, imgHeight, Sprite.TRANS_NONE);
@@ -295,7 +314,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 messageBarLeft = Util.resizeImageBilinear(messageBarLeft, partWidth, barHeight);
                 messageBarRight = Util.resizeImageBilinear(messageBarRight, partWidth, barHeight);
 
-                messageBarHeight = barHeight;
+                messageBarHash = newBarHash;
             }
 
             Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, getWidth() - partWidth*2 + 1, barHeight);
@@ -309,19 +328,19 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             barG.drawImage(messageBarLeft, 0, 0, Graphics.TOP | Graphics.LEFT);
             barG.drawImage(messageBarCenterScaled, barHeight*imgPartWidth/imgHeight, 0, Graphics.TOP | Graphics.LEFT);
             barG.drawImage(messageBarRight, getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
-            barG.drawImage(getBarAttachmentIcon(0xFFFFFF, 0x444444), fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.LEFT);
-            barG.drawImage(getBarEmojiIcon(0xFFFFFF, 0x444444), getWidth() - fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.RIGHT);
+            barG.drawImage(getBarAttachmentIcon(), fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.LEFT);
+            barG.drawImage(getBarEmojiIcon(), getWidth() - fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.RIGHT);
 
             String label;
             if (draftMessage.length() > 0) {
-                barG.setColor(0x111111);
+                barG.setColor(Theme.messageBarDraftColor);
                 label = draftMessage;
                 if (label.indexOf("\n") != -1) {
                     label = label.substring(0, label.indexOf("\n")) + "...";
                 }
             }
             else {
-                barG.setColor(0x444444);
+                barG.setColor(Theme.messageBarColor);
                 label =
 //#ifndef BLACKBERRY
                     (width < fontHeight*15) ? Locale.get(MESSAGE) :

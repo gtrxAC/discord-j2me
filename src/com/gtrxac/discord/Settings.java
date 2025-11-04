@@ -5,89 +5,90 @@ import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 
 public class Settings {
-	static final int PFP_TYPE_NONE = 0;
-	static final int PFP_TYPE_SQUARE = 1;
-	static final int PFP_TYPE_CIRCLE = 2;
-	static final int PFP_TYPE_CIRCLE_HQ = 3;
+    static final int PFP_TYPE_NONE = 0;
+    static final int PFP_TYPE_SQUARE = 1;
+    static final int PFP_TYPE_CIRCLE = 2;
+    static final int PFP_TYPE_CIRCLE_HQ = 3;
 
-	static final int TOKEN_TYPE_HEADER = 0;
-	static final int TOKEN_TYPE_QUERY = 1;
+    static final int TOKEN_TYPE_HEADER = 0;
+    static final int TOKEN_TYPE_QUERY = 1;
 
-	static final int PFP_SIZE_PLACEHOLDER = 0;
-	static final int ICON_SIZE_OFF = 0;
-	static final int ICON_SIZE_16 = 1;
-	static final int ICON_SIZE_32 = 2;
+    static final int PFP_SIZE_PLACEHOLDER = 0;
+    static final int ICON_SIZE_OFF = 0;
+    static final int ICON_SIZE_16 = 1;
+    static final int ICON_SIZE_32 = 2;
 
-	static final int AUTO_UPDATE_OFF = 0;
-	static final int AUTO_UPDATE_RELEASE_ONLY = 1;
-	static final int AUTO_UPDATE_ALL = 2;
-    
-	static int theme;  // 0 = dark, 1 = light, 2 = black
-	static boolean use12hTime;
-	static boolean useGateway;
+    static final int AUTO_UPDATE_OFF = 0;
+    static final int AUTO_UPDATE_RELEASE_ONLY = 1;
+    static final int AUTO_UPDATE_ALL = 2;
+
+    static int theme;  // 0 = dark, 1 = light, 2 = black
+    static boolean use12hTime;
+    static boolean useGateway;
 //#ifdef BLACKBERRY
-	static boolean bbWifi;
+    static boolean bbWifi;
 //#endif
-	static int messageLoadCount;
-	static boolean useJpeg;
-	static int attachmentSize;
-	static int pfpType;
-	static int pfpSize;
-	static int menuIconSize;
-	static boolean nativeFilePicker;
-	static boolean autoReConnect;
-	static boolean showMenuIcons;
-	static int tokenType;
-	static boolean useNameColors;
-	static boolean showRefMessage;
-	static boolean defaultHotkeys;
-	static String language;
-	static boolean fullscreenDefault;
-	static boolean showNotifsAll;
-	static boolean showNotifsPings;
-	static boolean showNotifsDMs;
-	static boolean showNotifAlert;
+    static int messageLoadCount;
+    static boolean useJpeg;
+    static int attachmentSize;
+    static int pfpType;
+    static int pfpSize;
+    static int menuIconSize;
+    static boolean nativeFilePicker;
+    static boolean autoReConnect;
+    static boolean showMenuIcons;
+    static int tokenType;
+    static boolean useNameColors;
+    static boolean showRefMessage;
+    static boolean defaultHotkeys;
+    static String language;
+    static boolean fullscreenDefault;
+    static boolean showNotifsAll;
+    static boolean showNotifsPings;
+    static boolean showNotifsDMs;
+    static boolean showNotifAlert;
 //#ifdef PIGLER_SUPPORT
-	static boolean showNotifPigler;
+    static boolean showNotifPigler;
 //#endif
 //#ifdef NOKIA_UI_SUPPORT
-	static boolean showNotifNokiaUI;
+    static boolean showNotifNokiaUI;
 //#endif
-	static boolean playNotifSound;
-	static boolean playNotifVibra;
-	static boolean highRamMode;
-	static int autoUpdate;
+    static boolean playNotifSound;
+    static boolean playNotifVibra;
+    static boolean highRamMode;
+    static int autoUpdate;
 //#ifdef OVER_100KB
-	static boolean useFilePreview;
-	static boolean sendTyping;
+    static boolean useFilePreview;
+    static boolean sendTyping;
     static boolean hasSeenUploadWarning;
 //#endif
 //#ifdef PROXYLESS_SUPPORT
     static boolean proxyless;
 //#endif
 
-	static int authorFontSize;
-	static int messageFontSize;
+    static int authorFontSize;
+    static int messageFontSize;
 
-	static String api;
-	static String gatewayUrl;
-	static String cdn;
-	static String token;
+    static String api;
+    static String gatewayUrl;
+    static String cdn;
+    static String token;
 
-	static int sendHotkey;
-	static int replyHotkey;
-	static int copyHotkey;
-	static int refreshHotkey;
-	static int backHotkey;
-	static int fullscreenHotkey;
+    static int sendHotkey;
+    static int replyHotkey;
+    static int copyHotkey;
+    static int refreshHotkey;
+    static int backHotkey;
+    static int fullscreenHotkey;
 //#ifdef OVER_100KB
-	static int scrollTopHotkey;
-	static int scrollBottomHotkey;
+    static int scrollTopHotkey;
+    static int scrollBottomHotkey;
 //#endif
 //#ifdef PROXYLESS_SUPPORT
     static boolean hasFetchedProxylessEmojis;
     static boolean hasSeenEditError;
 //#endif
+    static int timeOffset;
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -308,6 +309,7 @@ public class Settings {
         hasSeenEditError =
 //#endif
         getBoolRecord(false);
+        timeOffset = getIntRecord(0);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -456,6 +458,7 @@ public class Settings {
             false
 //#endif
         );
+        setIntRecord(timeOffset);
     }
 
     private static void write() throws Exception {

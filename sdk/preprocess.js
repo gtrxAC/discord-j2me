@@ -105,7 +105,9 @@ const files = [];
 
 process.argv.slice(2).forEach(arg => {
   if (arg.startsWith("-D")) {
-    defines.push(arg.slice(2).trim());
+    arg.split(/\s+/g).forEach(splitArg => {
+      defines.push(splitArg.slice(2).trim());
+    });
   } else {
     files.push(arg);
   }

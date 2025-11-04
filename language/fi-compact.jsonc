@@ -914,5 +914,22 @@
     "Laitteesi ei tue viestien poistoa Suora yhteys -tilassa. Haluatko käyttää välityspalvelinta?\nValitse 'Piilota' jos haluat aina käyttää välityspalvelinta.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "kiina (yksinkertaistettu)"
+    "kiina (yksinkertaistettu)",
+
+    // Item in settings menu for opening the time format configuration screen.
+    "Ajan muoto",
+
+    // Title for time preview shown in the time format screen.
+    "Esikatselu",
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    "Aikaero (h)",
+    "Aikaero (min)",
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
+    "Negatiivinen aikaero",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Hungarian"
+
 ]

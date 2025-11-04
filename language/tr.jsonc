@@ -914,5 +914,22 @@
     "Bu cihaz doğrudan bağlantı ile mesaj silmeyi desktlemyior.\nBu mesajı proxy bağlantısı ile düzenlemek ister misiniz?\nBu mesajı gizlemek ve her zaman proxy bağlantısı kullanmak istiyorsanız 'Gizle' seçeğini seçin.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Basitleştirilmiş Çince"
+    "Basitleştirilmiş Çince",
+
+    // Item in settings menu for opening the time format configuration screen.
+    "Saat türü",
+
+    // Title for time preview shown in the time format screen.
+    "Önizleme",
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    "Time offset (hours)",
+    "Time offset (minutes)",
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
+    "Negative offset",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Hungarian"
+
 ]
