@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord J2ME</title>
+    <% if (isModern) { %>
+        <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
+    <% } %>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="main">
+        <% if (isModern) { %>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h1>Discord J2ME</h1>
+                <a href="https://librecounter.org/referer/show" target="_blank">
+                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
+                </a>
+            </div>
+        <% } else { %>
+            <h1>Discord J2ME</h1>
+        <% } %>
+
+        <%- versions %>
+        <b>Need help with logging in? Read the <a href="/j2me/guide">setup guide</a></b>
+    </div>
+</body>
+</html>
