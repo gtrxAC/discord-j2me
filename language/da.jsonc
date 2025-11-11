@@ -1,0 +1,937 @@
+[
+    // Translation notes:
+    // - Any line that begins with a "//" is a comment and is ignored.
+    //   In this file, comments are used for explaining each string.
+    // - Write your translated string inside the two quotation marks.
+    // - If you need to use a quotation mark inside any of your translated
+    //   strings, write it as \" instead.
+    // - If the original string has any special formatting
+    //   (e.g. space at the beginning or end), keep the formatting the same.
+    // - For any Discord-specific terminology (e.g. servers), use the same
+    //   translated term that Discord officially uses for your language.
+
+    // Notes about softkey command labels:
+    // - Each softkey label has two variations, a short and a long one.
+    // - In this translation file, the short labels are listed above the long ones.
+    // - Short labels are used in places where there is limited screen space.
+    // - Keep short labels as short as possible, ideally below 10 characters.
+    //   If needed, you may use abbreviations.
+    // - If a long label is short enough to where it could be used as a
+    //   short label, use the same string for both labels.
+
+    // Placeholder file name shown when the name of an attachment in the attachment view screen could not be loaded.
+    "Unnamed file",
+
+    // Title text for the attachment picker (native file picker) screen.
+    "Select attachment",
+
+    // Softkey labels for going back to the previous screen.
+    "Back",
+    "Back",
+
+    // Softkey label for closing a menu.
+    // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
+    "Close",
+    "Close",
+
+    // Title text for attachment view screen.
+    "Attachments",
+
+    // Softkey labels for refetching contents of channel view or attachment view.
+    "Refresh",
+    "Refresh",
+
+    // Softkey labels used in channel or DM list for marking the selected channel or DM as read.
+    "Mark as read",
+    "Mark as read",
+
+    // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
+    "Mark all as read",
+    "Mark all as read",
+
+    // Generic "Select" softkey labels.
+    "Select",
+    "Select",
+
+    // Softkey labels for sending a message in the currently open channel.
+    "Send",
+    "Send message",
+
+    // Softkey labels for sending a reply to the selected message.
+    "Reply",
+    "Reply",
+
+    // Softkey labels for sending an attachment in the currently open channel.
+    "Upload",
+    "Upload file",
+
+    // Softkey labels for copying the text content of the selected message.
+    "Copy",
+    "Copy content",
+
+    // Softkey labels for editing the selected message.
+    "Edit",
+    "Edit",
+
+    // Softkey labels for deleting the selected message.
+    "Delete",
+    "Delete",
+
+    // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
+    "Open URL",
+    "Open URL",
+
+    // Channel view title suffix when reading older messages.
+    " (old)",
+
+    // Text shown at the center of the channel view when it is empty (no messages).
+    "Nothing to see here",
+
+    // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
+    "Refresh to read new messages",
+
+    // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
+    "Reconnecting",
+
+    // Channel view banner shown when a message is being sent by the client.
+    "Sending message",
+
+    // Channel view banner shown when a message is being edited by the client.
+    "Editing message",
+
+    // Channel view banner shown when a message is being deleted by the client.
+    "Deleting message",
+
+    // Channel view banner shown when messages are being loaded, e.g. during a refresh or after a message was sent by the client.
+    "Loading messages",
+
+    // Suffix for channel view banner text when one person is typing.
+    // Example: "aa is typing"
+    " is typing",
+
+    // Suffix for channel view banner text when two or three people are typing.
+    // Example: "aa, bb, cc are typing"
+    " are typing",
+
+    // Suffix for channel view banner text when more than three people are typing.
+    // Example: "4 people are typing"
+    " people are typing",
+
+    // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
+    ", ",
+
+    // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
+    "This proxy does not support file uploading",
+    "This proxy does not support deleting messages",
+    "This proxy does not support editing messages",
+
+    // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
+    "FileConnection not supported",
+
+    // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
+    // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
+    "Older",
+    "View older messages",
+    "Newer",
+    "View newer messages",
+    
+    // Parts of the button label for viewing attachments of a message.
+    // Examples: "View 1 attachment", "View 2 attachments"
+    "View ",
+    " attachment",
+    " attachments",
+
+    // Title for confirmation screen shown when deleting a message.
+    "Delete",
+
+    // Body text for confirmation screen shown when deleting a message.
+    "Delete this message?",
+
+    // Generic softkey labels.
+    "Yes",
+    "Yes",
+    "No",
+    "No",
+    "OK",
+    "OK",
+
+    // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
+    "(unknown)",
+
+    // Placeholder shown when the recipient message of a reply does not have any text content.
+    "(no content)",
+
+    // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
+    "(unsupported message)",
+
+    // Message content shown for a message that has been deleted.
+    "(message deleted)",
+
+    // Title text for direct message search screen.
+    "Search DMs",
+
+    // Guide text for text field in direct message search and "insert mention" screens.
+    "Enter username",
+
+    // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
+    "User not found. Try creating the DM from another client.",
+
+    // Title text for direct message list.
+    "Direct message",
+
+    // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
+    "Search",
+    "Search",
+
+    // Title text shown for all error message screens.
+    "Error",
+
+    // Title text shown for guild (server) selector.
+    "Servers",
+
+    // Title text shown for favorite servers list.
+    "Favourites",
+
+    // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
+    "Remove",
+    "Remove",
+
+    // Softkey command for adding a server to the favorites list.
+    "Favourite",
+    "Add to favourites",
+
+    // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
+    "Heartbeat thread error: ",
+
+    // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
+    "Check your token",
+
+    // Prefix of error message shown when the HTTP response has an error code.
+    // The full message consists of this string and the code itself,
+    // e.g. HTTP error 500
+    "HTTP error ",
+
+    // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
+    "CDN URL has not been defined. Attachments are not available.",
+
+    // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
+    " (",
+    ")",
+
+    // Softkey labels for showing a text attachment's contents within the app.
+    "Show",
+    "Show as text",
+
+    // Softkey labels for showing an attachment in the device's built-in web browser.
+    "Open",
+    "Open in browser",
+
+    // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
+    "Loading...",
+
+    // Loading screen text shown when an attachment is being sent.
+    "Sending...",
+
+    // Error message prefix shown when an error occurs while uploading an attachment.
+    "Error while sending file: ",
+    
+    // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
+    "Skip",
+    "Skip",
+
+    // Key press prompt shown in hotkey mapper.
+    "Press the key to use for:",
+
+    // Names of hotkey actions shown in the key mapper.
+    // These are shown after the "Press the key to use for:" string.
+    // "going back" only applies to the chat view. 
+    "sending a message",
+    "replying to message",
+    "copying message content",
+    "refreshing messages",
+    "going back",
+
+    // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
+    "This key is already mapped to ",
+
+    // Title text shown in login screen.
+    "Log in",
+
+    // Proxy server warning message shown at the top of the login screen.
+    "Only use proxies that you trust!",
+
+    // Help message for finding your token. Shown in login screen above the token field.
+    "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended.",
+
+    // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
+    "Use Wi-Fi",
+
+    // Labels of text fields shown in the login screen.
+    // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
+    "API URL",
+    "CDN URL",
+    "Gateway URL",
+    "Token",
+
+    // Softkey label for confirming the login options in the login screen.
+    "Log in",
+    "Log in",
+
+    // Softkey command for exiting the application.
+    "Quit",
+    "Quit",
+
+    // "Use gateway" option shown in login screen.
+    "Use gateway",
+
+    // Label for radio button field for token sending options.
+    "Send token as",
+
+    // Token sending options.
+    "Header (default)",
+    "JSON",
+    "Query parameter",
+
+    // Error messages shown when trying to login and the token or API URL fields are empty.
+    "Please enter your token",
+    "Please specify an API URL",
+
+    // Main menu items.
+    // "Log out" brings you back to the login screen where you enter your token and other login settings.
+    "Servers",
+    "Favourites",
+    "Direct messages",
+    "Settings",
+    "Log out",
+
+    // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
+    "Insert mention",
+
+    // Label shown for username search results in "Insert mention" screen. Shown if more than one user matches the username query.
+    "Search results",
+
+    // Message shown when the username query resulted in no matches in the "Insert mention" screen.
+    "No results found",
+
+    // Error message shown when selecting "Insert" in the "Insert mention" screen and none of the search results (radio buttons) were picked.
+    "User not selected",
+
+    // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
+    "added ",
+    " to the group",
+
+    // Status message shown when a user has left a group DM.
+    "left the group",
+
+    // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
+    "removed ",
+    " from the group",
+
+    // Status messages.
+    "started a call",
+    "changed the group name",
+    "changed the group icon",
+    "pinned a message",
+    "joined the server",
+    "boosted the server",
+
+    // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
+    "boosted the server to level ",
+
+    // Prefix of message content when the message is a sticker.
+    // The whole message is in the form of "(sticker: Name)"
+    "(sticker: ",
+
+    // Placeholder name for a sticker when the sticker's name could not be fetched.
+    "unknown",
+
+    // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
+    // Note: order of day and month cannot be changed currently
+    ":",
+    "/",
+    "A",
+    "P",
+
+    // Softkey labels for inserting a mention/ping in the "send message" screen.
+    "Mention",
+    "Insert mention",
+
+    // Prefixes of title text for "send message" screen.
+    // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
+    "Send message (@",
+    "Send message (#",
+
+    // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
+    "Requires active gateway connection",
+
+    // Title text for "copy message content" screen.
+    "Copy message",
+
+    // Title text for "edit message content" screen.
+    "Edit message",
+
+    // Title text for gateway disconnect prompt screen.
+    "Disconnected",
+
+    // Main body text for gateway disconnect prompt screen.
+    "Gateway error. Do you want to reconnect?",
+
+    // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
+    "Message",
+
+    // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
+    "Replying to ",
+
+    // Top label for the message entry box in the reply form.
+    "Your message:",
+
+    // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
+    "Mention author",
+
+    // Title text for settings menu.
+    "Settings",
+
+    // Settings screen heading for themes section.
+    "Theme",
+
+    // Theme options.
+    "Dark",
+    "Light",
+    "Black",
+
+    // Settings screen heading for miscellaneous user interface related settings.
+    "User interface",
+
+    // Settings option for enabling the old channel view user interface (from version 1.1 and below).
+    // This is no longer used, so keep it as null.
+    null,
+
+    // Settings option for using 12-hour time format in timestamps.
+    "12-hour time",
+
+    // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
+    "Native file picker",
+
+    // Settings option for automatically reconnecting to the gateway if the connection closes.
+    "Gateway auto reconnect",
+
+    // Settings option for enabling icons in server and direct message lists.
+    "Server/DM icons",
+
+    // Settings option for enabling nickname role colors.
+    "Name colours",
+
+    // Settings screen heading for message author font size.
+    "Message author font",
+
+    // Font size options.
+    "Small",
+    "Medium",
+    "Large",
+
+    // Settings screen heading for message content font size.
+    "Message content font",
+
+    // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
+    "Message load count",
+
+    // Settings screen heading for selecting attachment file format.
+    "Attachment format",
+
+    // Settings screen heading for maximum attachment size in pixels.
+    "Max. attachment size (px)",
+
+    // Settings screen heading for profile picture shape.
+    // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
+    "Avatar shape",
+
+    // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
+    "Square",
+    "Circle",
+    "Circle (HQ)",
+
+    // Settings section for profile picture resolution.
+    "Avatar resolution",
+
+    // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
+    "Placeholder only",
+
+    // Resolution options. Used for profile picture resolution and menu icon resolution.
+    "Off",
+    "16 px",
+    "32 px",
+
+    // Settings section for menu icon size.
+    "Menu icon size (px)",
+
+    // Settings section for controlling the display of reply messages.
+    "Show replies as",
+    
+    // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
+    "Only recipient",
+
+    // Settings option to show replies with the whole recipient message.
+    "Full message",
+
+    // Settings section for hotkey action management.
+    "Hotkeys",
+
+    // Settings option to use "default" hotkeys. When enabled, the J2ME game actions (ABCD) are used for hotkey actions, instead of user-defined key bindings. I named it "default" due to the lack of a better term for people who aren't familiar with J2ME development.
+    "Default hotkeys",
+
+    // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
+    "Map keys",
+    "Remap hotkeys",
+
+    // Generic softkey labels. Currently used in settings menu.
+    "Save",
+    "Save",
+    "Cancel",
+    "Cancel",
+
+    // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
+    "The app must be closed before the URL can be opened.",
+
+    // Prefix of error message shown when an error occurs when trying to open an URL.
+    "The URL could not be opened (",
+
+    // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
+    ")\n\nYou may try manually copying the URL into your device's browser: ",
+
+    // Title text for URL list screen ('Open URL' option in channel view).
+    "Select URL",
+
+    // Softkey labels for inserting a mention in the "Insert mention" screen.
+    "Insert",
+    "Insert",
+
+    // Title for language selection screen.
+    "Language",
+
+    // Settings section for language options.
+    "Language",
+    
+    // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
+    "Language",
+    "Set language",
+
+    // Softkey commands for toggling fullscreen mode in the chat view.
+    "Fullscreen",
+    "Toggle fullscreen",
+
+    // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
+    // Related to "Names of hotkey actions shown in the key mapper" above.
+    "toggling fullscreen",
+
+    // Settings option for enabling fullscreen mode by default in the chat view.
+    "Fullscreen mode",
+
+    // Settings section for selecting which kinds of messages notifications should be shown for.
+    "Show notifications for",
+
+    // Options for the kinds of messages that notifications should be shown for.
+    "All messages",
+    "Mentions",
+    "Direct messages",
+
+    // Text shown in notification alert windows. This is in the form of:
+    // User sent you a direct message: "message content"
+    // User sent a message in Server Name #channel: "message content"
+    " sent you a direct message: \"",
+    " sent a message in ",
+
+    // Title for notification alert windows
+    "New message",
+
+    // Settings section for selecting which kinds of notification methods should be used for incoming messages.
+    "Notify me with:",
+
+    // Options for the kinds of notification methods.
+    "Alert window",
+    "Sound",
+
+    // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
+    "Keep channels loaded",
+
+    // Text shown at the center of list screens when they are empty (no items).
+    // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
+    "Nothing to see here",
+
+    // Main body text for gateway disconnect prompt screen.
+    // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
+    "Cannot connect to gateway. Do you want to retry?",
+
+    // Softkey labels for sending an attachment as a reply to the selected message.
+    "Reply upload",
+    "Reply with file",
+
+    // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
+    "Attached file",
+
+    // Prefix and suffix for text shown in the notification alert window when the message has attachments.
+    // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
+    "(",
+    " attachment)",
+    " attachments)",
+
+    // Settings section names/titles.
+    // "Language" title is defined above (see "Settings section for language options")
+    // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
+    "Appearance",
+    "Images",
+    "Behaviour",
+    "Notifications",
+
+    // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
+    // On large screens, these are instead shown on the right side of the options.
+    "Off",
+    "On",
+
+    // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
+    // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
+    // The whole message is in the form of "Please enter a valid number between 1 and X"
+    // where X is the maximum value for that setting.
+    // In English, the suffix is not needed, so it's an empty string, "".
+    // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
+    "Please enter a valid number between 1 and ",
+    "",
+
+    // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
+    "Pigler API",
+
+    // Prefix for error messages related to Pigler Notifications API.
+    "Pigler API error: ",
+
+    // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
+    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+
+    // Settings option for showing the scrollbar on the right side of the screen.
+    "Scroll bar",
+
+    // Options for the "Show scroll bar" setting.
+    // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
+    // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
+    // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
+    "Hidden",
+    "Visible",
+
+    // Main menu option for about/credits screen.
+    // Related to "Main menu items" above.
+    "About",
+
+    // Title text for about screen.
+    "About",
+
+    // Prefix for version line shown in the about screen. The app's version number is shown after this.
+    "Version ",
+
+    // Heading shown in the about screen for developers.
+    "Developers",
+
+    // Heading shown in the about screen for language translation authors. Shown below developers.
+    "Translators",
+
+    // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
+    "Support",
+
+    // Lines shown in the about (credits) screen for what each developer (major contributor) did.
+    // The name of the person in question is shown above each line.
+    "Lead developer",
+    "Attachment loading, Pigler API integration, JSON parser",
+    "Loading animation, menu icons, emoji art, Italian translation",
+
+    // Lines shown in the about screen for which language(s) each person wrote translations for.
+    // Note: These are ordered alphabetically based on the person's name, not the language's name
+    "Vietnamese",
+    "Swedish",
+    "Indonesian",
+    "Polish",
+    "Spanish",
+    "Portuguese (Brazil)",
+    "Thai",
+    "Portuguese",
+    "Chinese (Traditional) and Cantonese",
+    "Ukrainian",
+    "Romanian",
+    "Turkish",
+    "Russian",
+
+    // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
+    "View",
+    "View",
+
+    // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
+    "Auto update",
+
+    // Title for dialog box shown when an update was found.
+    "Update available",
+
+    // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
+    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
+    "\nLatest: ",
+
+    // Softkey labels for confirming an update in the update dialog box.
+    "Update",
+    "Update",
+
+    // Options for the "Auto update" setting.
+    // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
+    "Releases only",
+    "All versions",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "German",
+    "Croatian",
+
+    // Units for attachment sizes.
+    " bytes",
+    " kB",
+    " MB",
+
+    // Softkey labels for opening the thread list of a channel in the channel list.
+    "Threads",
+    "View threads",
+
+    // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
+    "Set",
+    "Set token",
+
+    // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
+    "Change",
+    "Change token",
+
+    // Option in notification settings for using Nokia UI API for notifications.
+    "Nokia UI",
+
+    // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
+    "Android notifications",
+
+    // Text shown in the red bar used for marking the last unread messages in the chat view.
+    "NEW",
+
+    // Prompt shown at the top of the image preview screen when selecting an attachment.
+    "Upload this image?",
+
+    // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
+    "File picker preview",
+
+    // Header shown at the top of every forwarded message.
+    "Forwarded message:",
+
+    // Help texts shown in the login screen for how to open the token input text box.
+    "To set your token, press the BlackBerry key.",
+    "To change your token, press the BlackBerry key.",
+
+    // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
+    "Not enough memory to show image preview",
+
+    // Settings option for enabling or disabling emoji display in chats.
+    "Show emoji",
+
+    // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
+    "Default only",
+
+    // Option for "Show emoji" setting where all emoji are shown.
+    "All",
+
+    // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
+    "Import",
+    "Import token",
+
+    // Title text for the token import file picker screen.
+    "Select token file",
+
+    // Text shown in loading screen when emoji data is being downloaded or updated.
+    "Downloading emoji...",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "French",
+    "Bulgarian",
+
+    // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
+    "Text formatting",
+
+    // Softkey labels for inserting an emoji in the "send message" screen.
+    "Emoji",
+    "Insert emoji",
+
+    // Title for emoji picker screen.
+    "Select emoji",
+
+    // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
+    "Download emoji data?",
+
+    // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
+    "(edited)",
+
+    // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
+    "Underscore",
+    "Insert underscore",
+
+    // Related to "Lines shown in the about (credits) screen for what each developer" above.
+    "Notification sound",
+
+    // Settings option for toggling vibration alert for notifications.
+    "Vibration",
+
+    // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
+    // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
+    // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
+    "Mute",
+    "Mute/Unmute",
+
+    // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
+    "scrolling to top",
+    "scrolling to bottom",
+
+    // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
+    "Send typing indicator",
+
+    // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
+    "Use as",
+    "Use as notif. sound",
+
+    // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
+    "Apply this as the notification sound?",
+
+    // Softkey command for playing the notification sound again in the aforementioned prompt.
+    "Play",
+    "Play again",
+
+    // Confirmation message shown when a new notification sound has been set.
+    "Notification sound applied!",
+
+    // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
+    "Manage data",
+
+    // Types of data shown in the data manager:
+
+    // Downloaded image data of default emojis (not custom server emojis)
+    "Emoji images",
+    // Timestamps of last read messages for each channel, used for handling unread message indicators.
+    "Last read messages",
+    // Custom sound file applied as the notification sound via a message attachment.
+    "Notification sound",
+    // Translated string data for a downloaded language translation.
+    "Language data",
+
+    // Title shown in the prompt when deleting a type of app data.
+    "Delete",
+
+    // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
+    "Delete this item?\n",
+
+    // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
+    "Open browser",
+
+    // Text shown in that dialog box.
+    "Do you want to open the web browser? The app will be closed.",
+
+    // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
+    "Fast scrolling",
+
+    // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
+    "Failed to play sound. The file type may be unsupported.",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Japanese",
+    "Catalan",
+    "Arabic",
+
+    // Theme option shown in settings for the theme that uses colors from the system's UI.
+    "System",
+
+    // Theme option shown in settings for the user-defined theme.
+    "Custom",
+
+    // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
+    "Theme",
+    "Do you want to apply this theme?",
+
+    // Item shown in the data manager for the saved custom theme data.
+    "Theme",
+
+    // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
+    "Not enough memory to show emoji picker",
+
+    // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
+    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+
+    // Error message shown when a HTTP request results in the error 302 (moved temporarily)
+    "HTTP 302: The request was unexpectedly redirected. Please check your connection.",
+
+    // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
+    "Warning",
+    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+
+    // Softkey labels for dismissing the upload warning (above) and never showing it again.
+    "Hide",
+    "Hide",
+
+    // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
+    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Favourite servers",
+    "Saved servers",
+
+    // Title and description of dialog screen shown when the user has saved their server list.
+    "Saved",
+    "Server list saved to cache!",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Emoji names",
+
+    // Softkey command in login screen for opening the Discord J2ME setup guide web page.
+    // The long version of the label is used as the button label.
+    "Guide",
+    "Setup guide",
+
+    // Option in login screen to use direct connection (proxyless) mode.
+    "Direct connection",
+
+    // Information text shown in login screen related to proxyless mode:
+    // This version of the text is shown if the device is known to support TLS 1.2.
+    "Direct connection reduces the risk of an account restriction.",
+
+    // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
+    "Direct connection (",
+    "requires TLS 1.2",
+    ") reduces the risk of an account restriction.",
+
+    // Softkey command for opening the nnproject TLS 1.2 page.
+    "Get TLS",
+    "Get TLS",
+
+    // Text shown in bottom message bar.
+    "Message",
+
+    // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
+    "Message ",
+
+    // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
+    // You should use the same term for "Direct connection" that you used above.
+    "Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+
+    "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Chinese (Simplified)",
+
+    // Item in settings menu for opening the time format configuration screen.
+    "Time format",
+
+    // Title for time preview shown in the time format screen.
+    "Preview",
+
+    // Titles for sliders in the time format screen for changing the time offset.
+    "Time offset (hours)",
+    "Time offset (minutes)",
+
+    // Option in the time format screen for changing the time offset between negative and positive numbers.
+    "Negative offset",
+
+    // Related to "Lines shown in the about screen for which language" above.
+    "Hungarian"
+
+]
