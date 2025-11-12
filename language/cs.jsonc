@@ -1,4 +1,9 @@
 [
+    // If you're reading this and are a native Czech speaker,
+    // please proofread and/or improve this file!
+    // Pokud čtete tento text a jste rodilým mluvčím češtiny,
+    // prosím zkontrolujte a/nebo vylepšete tento soubor!
+
     // Translation notes:
     // - Any line that begins with a "//" is a comment and is ignored.
     //   In this file, comments are used for explaining each string.
@@ -20,277 +25,277 @@
     //   short label, use the same string for both labels.
 
     // Placeholder file name shown when the name of an attachment in the attachment view screen could not be loaded.
-    "Unnamed file",
+    "Soubor bez názvu",
 
     // Title text for the attachment picker (native file picker) screen.
-    "Select attachment",
+    "Vybrat přílohu",
 
     // Softkey labels for going back to the previous screen.
-    "Back",
-    "Back",
+    "Zpět",
+    "Zpět",
 
     // Softkey label for closing a menu.
     // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
-    "Close",
-    "Close",
+    "Zavřít",
+    "Zavřít",
 
     // Title text for attachment view screen.
-    "Attachments",
+    "Přílohy",
 
     // Softkey labels for refetching contents of channel view or attachment view.
-    "Refresh",
-    "Refresh",
+    "Obnovit",
+    "Obnovit",
 
     // Softkey labels used in channel or DM list for marking the selected channel or DM as read.
-    "Mark as read",
-    "Mark as read",
+    "Ozn. přečt.",
+    "Označit jako přečtené",
 
     // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
-    "Mark all as read",
-    "Mark all as read",
+    "Ozn. vše př.",
+    "Označit vše jako přečtené",
 
     // Generic "Select" softkey labels.
-    "Select",
-    "Select",
+    "Vybrat",
+    "Vybrat",
 
     // Softkey labels for sending a message in the currently open channel.
-    "Send",
-    "Send message",
+    "Odeslat",
+    "Odeslat zprávu",
 
     // Softkey labels for sending a reply to the selected message.
-    "Reply",
-    "Reply",
+    "Odpovědět",
+    "Odpovědět",
 
     // Softkey labels for sending an attachment in the currently open channel.
-    "Upload",
-    "Upload file",
+    "Nahrát",
+    "Nahrát soubor",
 
     // Softkey labels for copying the text content of the selected message.
-    "Copy",
-    "Copy content",
+    "Kopírovat",
+    "Kopírovat obsah",
 
     // Softkey labels for editing the selected message.
-    "Edit",
-    "Edit",
+    "Upravit",
+    "Upravit",
 
     // Softkey labels for deleting the selected message.
     "Delete",
     "Delete",
 
     // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
-    "Open URL",
-    "Open URL",
+    "Smazat",
+    "Smazat",
 
     // Channel view title suffix when reading older messages.
-    " (old)",
+    " (starý)",
 
     // Text shown at the center of the channel view when it is empty (no messages).
-    "Nothing to see here",
+    "Tady není nic k vidění",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
-    "Refresh to read new messages",
+    "Obnovit pro přečtení nových zpráv",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
-    "Reconnecting",
+    "Opětovné připojení",
 
     // Channel view banner shown when a message is being sent by the client.
-    "Sending message",
+    "Odesílání zprávy",
 
     // Channel view banner shown when a message is being edited by the client.
-    "Editing message",
+    "Upravování zprávy",
 
     // Channel view banner shown when a message is being deleted by the client.
-    "Deleting message",
+    "Smazání zprávy",
 
     // Channel view banner shown when messages are being loaded, e.g. during a refresh or after a message was sent by the client.
-    "Loading messages",
+    "Načítání zpráv",
 
     // Suffix for channel view banner text when one person is typing.
     // Example: "aa is typing"
-    " is typing",
+    " píše",
 
     // Suffix for channel view banner text when two or three people are typing.
     // Example: "aa, bb, cc are typing"
-    " are typing",
+    " píšou",
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing"
-    " people are typing",
+    " lidé píší",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
     ", ",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
-    "This proxy does not support file uploading",
-    "This proxy does not support deleting messages",
-    "This proxy does not support editing messages",
+    "Tento proxy server nepodporuje nahrávání souborů",
+    "Tento proxy server nepodporuje smazání zpráv",
+    "Tento proxy server nepodporuje upravování zpráv",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
-    "FileConnection not supported",
+    "FileConnection není podporováno",
 
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
-    "Older",
-    "View older messages",
-    "Newer",
-    "View newer messages",
+    "Starší",
+    "Zobrazit starší zprávy",
+    "Novější",
+    "Zobrazit novější zprávy",
     
     // Parts of the button label for viewing attachments of a message.
     // Examples: "View 1 attachment", "View 2 attachments"
-    "View ",
-    " attachment",
-    " attachments",
+    "Zobrazit ",
+    " přílohu",
+    " příholy",
 
     // Title for confirmation screen shown when deleting a message.
-    "Delete",
+    "Smazat",
 
     // Body text for confirmation screen shown when deleting a message.
-    "Delete this message?",
+    "Smazat tuto zprávu?",
 
     // Generic softkey labels.
-    "Yes",
-    "Yes",
-    "No",
-    "No",
+    "Ano",
+    "Ano",
+    "Ne",
+    "Ne",
     "OK",
     "OK",
 
     // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
-    "(unknown)",
+    "(neznámý)",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "(no content)",
+    "(žádný obsah)",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    "(unsupported message)",
+    "(nepodporovaná zpráva)",
 
     // Message content shown for a message that has been deleted.
-    "(message deleted)",
+    "(zpráva smazána)",
 
     // Title text for direct message search screen.
-    "Search DMs",
+    "Hledat DM",
 
     // Guide text for text field in direct message search and "insert mention" screens.
-    "Enter username",
+    "Zadejte uživatelské jméno",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "User not found. Try creating the DM from another client.",
+    "Uživatel nebyl nalezen. Zkuste vytvořit DM z jiného klienta.",
 
     // Title text for direct message list.
-    "Direct message",
+    "Přímá zpráva",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
-    "Search",
-    "Search",
+    "Hledat",
+    "Hledat",
 
     // Title text shown for all error message screens.
-    "Error",
+    "Chyba",
 
     // Title text shown for guild (server) selector.
-    "Servers",
+    "Servery",
 
     // Title text shown for favorite servers list.
-    "Favourites",
+    "Oblíbené",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
-    "Remove",
-    "Remove",
+    "Odebrat",
+    "Odebrat",
 
     // Softkey command for adding a server to the favorites list.
-    "Favourite",
-    "Add to favourites",
+    "K oblíbeným",
+    "Přídat k oblíbeným",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "Heartbeat thread error: ",
+    "Chyba vlákna Heartbeat: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "Check your token",
+    "Zkontrolujte svůj token",
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
     // e.g. HTTP error 500
-    "HTTP error ",
+    "Chyba HTTP ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "CDN URL has not been defined. Attachments are not available.",
+    "URL adresa CDN nebyla definována. Přílohy nejsou k dispozici.",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
     " (",
     ")",
 
     // Softkey labels for showing a text attachment's contents within the app.
-    "Show",
-    "Show as text",
+    "Zobrazit",
+    "Zobrazit jako text",
 
     // Softkey labels for showing an attachment in the device's built-in web browser.
-    "Open",
-    "Open in browser",
+    "Otevřít",
+    "Otevřít v prohlížeči",
 
     // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
-    "Loading...",
+    "Načítání...",
 
     // Loading screen text shown when an attachment is being sent.
-    "Sending...",
+    "Odesílání...",
 
     // Error message prefix shown when an error occurs while uploading an attachment.
-    "Error while sending file: ",
+    "Chyba při odesílání souboru: ",
     
     // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
-    "Skip",
-    "Skip",
+    "Přeskočit",
+    "Přeskočit",
 
     // Key press prompt shown in hotkey mapper.
-    "Press the key to use for:",
+    "Stiskněte klávesu, kterou chcete použít pro:",
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
     // "going back" only applies to the chat view. 
-    "sending a message",
-    "replying to message",
-    "copying message content",
-    "refreshing messages",
-    "going back",
+    "odeslání zprávy",
+    "odpověď na zprávu",
+    "kopírování obsahu zprávy",
+    "obnovení zpráv",
+    "návrat zpět",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-    "This key is already mapped to ",
+    "Tento klíč je již namapován na ",
 
     // Title text shown in login screen.
-    "Log in",
+    "Přihlásit se",
 
     // Proxy server warning message shown at the top of the login screen.
-    "Only use proxies that you trust!",
+    "Používejte pouze proxy servery, kterým důvěřujete!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended.",
+    "Token najdete v nástrojích pro vývojáře svého prohlížeče (pomoc najdete online). Doporučujeme použít alternativní účet.",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
-    "Use Wi-Fi",
+    "Použít Wi-Fi",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
-    "API URL",
-    "CDN URL",
-    "Gateway URL",
+    "URL adresa API",
+    "URL adresa CDN",
+    "URL adresa brány",
     "Token",
 
     // Softkey label for confirming the login options in the login screen.
-    "Log in",
-    "Log in",
+    "Přihlás. se",
+    "Přihlásit se",
 
     // Softkey command for exiting the application.
-    "Quit",
-    "Quit",
+    "Konec",
+    "Konec",
 
     // "Use gateway" option shown in login screen.
-    "Use gateway",
+    "Použít bránu",
 
     // Label for radio button field for token sending options.
-    "Send token as",
+    "Odeslat token jako",
 
     // Token sending options.
-    "Header (default)",
+    "Záhlaví (výchozí)",
     "JSON",
-    "Query parameter",
+    "Parametr dotazu",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
     "Please enter your token",
