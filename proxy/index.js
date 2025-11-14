@@ -14,16 +14,18 @@ const EmojiConvertor = require('emoji-js');
 const emoji = new EmojiConvertor();
 emoji.replace_mode = 'unified';
 
-const app = express();
-app.use(express.static(path.join(__dirname, 'static'), {extensions: ['html']}));
-app.use(defaultContentType);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 const PORT = 8080;
 const BASE = "/api/v9";
 const BASE_L = "/api/l";
 const DEST_BASE = "https://discord.com/api/v9";
+
+const app = express();
+app.set('view engine', 'ejs');
+app.set('views', './views');
+app.use(express.static(path.join(__dirname, 'static'), {extensions: ['html']}));
+app.use(defaultContentType);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const uploadTokens = new Map();
 
@@ -301,58 +303,44 @@ function generateUploadToken(token) {
     return result;
 }
 
-// Home page
-app.get('/', async (req, res) => {
+function checkIsModern(req, res, next) {
     const ua = (req.headers['user-agent'] ?? '').toLowerCase();
-    const isModern = ua.includes('webkit') || ua.includes('gecko');
-    res.sendFile(path.join(__dirname, isModern ? "static/index_new.html" : "static/index_old.html"));
+    res.locals.isModern = ua.includes('webkit') || ua.includes('gecko') || ua.includes('opera');
+    next();
+}
+
+// Home page
+app.get('/', checkIsModern, async (req, res) => {
+    res.render("index", {isModern: res.locals.isModern});
 })
 
 const { getRecommendedVersions, mainVersionDownloadLinks, arrayDownloadLinkHtml } = require('./recommend');
 
 // Download page
-app.get('/j2me', async (req, res) => {
-    res.send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
-    <title>Discord J2ME</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-    <div class="main">
-        <h1>Discord J2ME</h1>
-        ${getRecommendedVersions(req)}
-        <b>Need help with logging in? Read the <a href="/j2me/guide">setup guide</a></b>
-    </div>
-</body>
-</html>`);
+app.get('/j2me', checkIsModern, async (req, res) => {
+    res.render("download", {
+        versions: getRecommendedVersions(req),
+        isModern: res.locals.isModern
+    })
 });
 
 const allVersions = (req, res) => {
-    res.send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
-    <title>Discord J2ME</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-    <div class="main">
-        <h1>Discord J2ME</h1>
-        ${arrayDownloadLinkHtml(Object.keys(mainVersionDownloadLinks))}
-    </div>
-</body>
-</html>`
-    );
+    res.render("download", {
+        versions: arrayDownloadLinkHtml(Object.keys(mainVersionDownloadLinks)),
+        isModern: res.locals.isModern
+    })
 }
 
-app.get('/all', allVersions);
-app.get('/j2me/all', allVersions);
+app.get('/all', checkIsModern, allVersions);
+app.get('/j2me/all', checkIsModern, allVersions);
+
+app.get('/bench', checkIsModern, async (req, res) => {
+    res.render("bench", {isModern: res.locals.isModern})
+});
+
+app.get('/j2me/guide', checkIsModern, async (req, res) => {
+    res.render("guide", {isModern: res.locals.isModern})
+});
 
 // Get user's server list
 // Has cache which can be used with query parameter "c". This param is included by newer clients except when the list is force refreshed

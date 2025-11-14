@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord J2ME Guide</title>
+    <% if (isModern) { %>
+        <meta name="description" content="A step-by-step tutorial on how to set up and install Discord J2ME with your account's token.">
+    <% } %>
+    <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        td img {
+            width: 150px;
+        }
+        i {
+            font-family: monospace;
+        }
+        table {
+            margin-top: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <% if (isModern) { %>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h1>Discord J2ME Setup Guide</h1>
+                <a href="https://librecounter.org/referer/show" target="_blank">
+                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
+                </a>
+            </div>
+        <% } else { %>
+            <h1>Discord J2ME Guide</h1>
+        <% } %>
+
+        <p>This is a guide for setting up the app with your account's token.</p>
+        <small>This tutorial covers the "manifest injection" method. Another method is to write your token into a text file, transfer the file to your device, and import or copy-paste it in the app. You can also write your token manually, though this is not recommended, as it's slow and prone to errors.</small>
+        <table>
+            <tr>
+                <td>
+                    <p><strong>1.</strong> Get your Discord account's token using your browser. There are several guides online for this.</p>
+                    <p>You will need a browser with developer tools (most PC browsers, or Kiwi Browser on Android).</p>
+                    <small>This token can also be used with other third-party clients, such as <a href="/wap">Discord WAP</a>. Don't share the token as it can give anyone full access to your account.</small>
+                </td>
+                <% if (isModern) { %>
+                    <td><img src="/j2me/img/guide1.png" alt=""></td>
+                <% } %>
+            </tr>
+            <tr>
+                <td>
+                    <p><strong>2.</strong> Download a JAR file of <a href="/j2me">Discord J2ME</a> onto your computer. Pick a version that is suitable for your device; for guidance, you can visit gtrxac.fi/j2me on your device's browser.</p>
+                    <p><strong>3.</strong> Extract the contents of the JAR file (JAR files are really just ZIP archives, and you may need to change the file extension to .zip in order to extract it).</p>
+                </td>
+                <% if (isModern) { %>
+                    <td><img src="/j2me/img/guide2.png" alt=""></td>
+                <% } %>
+            </tr>
+            <tr>
+                <td>
+                    <p><strong>4.</strong> Find the META-INF/MANIFEST.MF file in the extracted files. Edit it using a text editor, and add a new line containing:</p>
+                    <i>Token: (your token here)</i>
+                    <p>Make sure you copy the token correctly without any extra characters such as quotation marks. The token should contain about 70 characters, including upper and lowercase letters, numbers, underscores, dashes, and periods.</p>
+                </td>
+                <% if (isModern) { %>
+                    <td><img src="/j2me/img/guide3.png" alt=""></td>
+                <% } %>
+            </tr>
+            <tr>
+                <td>
+                    <p><strong>5.</strong> Package all of the extracted files, including the modified manifest file, into a new ZIP archive. Make sure the new ZIP has the same folder structure as the original one.</p>
+                    <p><strong>6.</strong> Rename the ZIP to have a .jar file extension.</p>
+                </td>
+                <% if (isModern) { %>
+                    <td><img src="/j2me/img/guide4.png" alt=""></td>
+                <% } %>
+            </tr>
+            <tr>
+                <td>
+                    <p><strong>7.</strong> Transfer the JAR file to your device and install it.</p>
+                    <p>Depending on your device model, there may be several methods to do this, such as Bluetooth, USB, or memory card.</p>
+                    <p>If those methods don't work, you can also upload the JAR to <a href="/fh">DP File Host</a> and download it using your device's browser.</p>
+                </td>
+                <% if (isModern) { %>
+                    <td><img src="/j2me/img/guide5.png" alt=""></td>
+                <% } %>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

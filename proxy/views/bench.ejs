@@ -9,7 +9,17 @@
 </head>
 <body>
     <div class="main">
-        <h1>Benchmarks</h1>
+        <% if (isModern) { %>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h1>Benchmarks</h1>
+                <a href="https://librecounter.org/referer/show" target="_blank">
+                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
+                </a>
+            </div>
+        <% } else { %>
+            <h1>Benchmarks</h1>
+        <% } %>
+
         <p>JBenchmark <br/> <a href="/JBenchmark.jad">JAD</a> - <a href="/JBenchmark.jar">JAR</a></p>
         <p>JBenchmark2 <br/> <a href="/JBenchmark2.jad">JAD</a> - <a href="/JBenchmark2.jar">JAR</a></p>
         <p>JBenchmark3D <br/> <a href="/JBenchmark3D.jad">JAD</a> - <a href="/JBenchmark3D.jar">JAR</a></p>
