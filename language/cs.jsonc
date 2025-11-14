@@ -702,241 +702,241 @@
     "Set token",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "Nastavit",
+    "Nastavit token",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "Nokia UI",
+    "UI Nokia",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "Oznámení Android",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW",
+    "NOVÝ",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "Nahrát tento obrázek?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "Náhled výběru souborů",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "Přeposlaná zpráva:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key.",
+    "Chcete-li nastavit token, stiskněte klávesu BlackBerry.",
+    "Chcete-li změnit token, stiskněte klávesu BlackBerry.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview",
+    "Nedostatek paměti pro zobrazení náhledu obrázku",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Show emoji",
+    "Zobrazit emoji",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Default only",
+    "Pouze výchozí",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "All",
+    "Všechny",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
+    "Importovat",
+    "Importovat token",
 
     // Title text for the token import file picker screen.
-    "Select token file",
+    "Vyberte soubor tokenu",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Downloading emoji...",
+    "Stahování emoji...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "French",
-    "Bulgarian",
+    "Francouzština",
+    "Bulharština",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "Formátování textu",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Emoji",
-    "Insert emoji",
+    "Vložit emoji",
 
     // Title for emoji picker screen.
-    "Select emoji",
+    "Vyberte emoji",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Download emoji data?",
+    "Stáhnout data emoji?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "(upraveno)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore",
+    "Podtržítko",
+    "Vložit podtržítko",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Notification sound",
+    "Zvuk oznámení",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "Vibrace",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "Ztlumit",
+    "Ztlumit",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "scrolling to top",
-    "scrolling to bottom",
+    "pro posun na začátek stránky",
+    "pro posun na konec stránky",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    "Odeslat indikátor psaní",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "Použít jako",
+    "Použít jako zvuk oznámení",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "Použít jako zvuk oznámení?",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "Hrát",
+    "Hrát znovu",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "Zvuk oznámení nastaven!",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "Správa dat",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "Obrázky emoji",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "Naposledy přečtené zprávy",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "Zvuk oznámení",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "Jazykové údaje",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "Smazat",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "Smazat tuto položku?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "Otevřít prohlížeč",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "Chcete otevřít webový prohlížeč? Aplikace bude uzavřena.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "Rychlé posouvání",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "Přehrání zvuku se nezdařilo. Typ souboru nemusí být podporován.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese",
-    "Catalan",
-    "Arabic",
+    "Japonština",
+    "Katalánština",
+    "Arabština",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "System",
+    "Systémové",
 
     // Theme option shown in settings for the user-defined theme.
-    "Custom",
+    "Vlastní",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
-    "Theme",
-    "Do you want to apply this theme?",
+    "Téma",
+    "Chcete použít toto téma?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme",
+    "Téma",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Not enough memory to show emoji picker",
+    "Nedostatek paměti pro zobrazení výběru emoji",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+    "HTTP 502: Proxy server je momentálně nedostupný. Zkuste to prosím znovu později nebo kontaktujte vývojáře.",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: The request was unexpectedly redirected. Please check your connection.",
+    "HTTP 302: Žádost byla neočekávaně přesměrována. Zkontrolujte prosím své připojení.",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
-    "Warning",
-    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+    "Varování",
+    "Discord je známý tím, že označuje soubory nahrané z klientů třetích stran jako spam. K tomu často dochází u nových účtů bez 2FA nebo ověřeného telefonního čísla. Pokračujte na vlastní riziko.\nVyberte možnost 'Skrýt', pokud se vám toto okno již nechce zobrazovat.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Hide",
-    "Hide",
+    "Skrýt",
+    "Skrýt",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?",
+    "Discord je známý tím, že nové přímé zprávy od klientů třetích stran označuje jako spam. Doporučujeme odeslat první zprávu z oficiálního klienta. Chcete pokračovat?",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "Oblíbené servery",
+    "Uložené servery",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!",
+    "Uložené",
+    "Seznam serverů uložen do mezipaměti!",
 
     // Related to "Types of data shown in the data manager" above.
-    "Emoji names",
+    "Názvy emoji",
 
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.
-    "Guide",
-    "Setup guide",
+    "Průvodce",
+    "Průvodce nastavením",
 
     // Option in login screen to use direct connection (proxyless) mode.
-    "Direct connection",
+    "Přímé připojení",
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "Direct connection reduces the risk of an account restriction.",
+    "Přímé připojení snižuje riziko omezení účtu.",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "Direct connection (",
-    "requires TLS 1.2",
-    ") reduces the risk of an account restriction.",
+    "Přímé připojení (",
+    "vyžaduje TLS 1.2",
+    ") snižuje riziko omezení účtu.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
-    "Get TLS",
-    "Get TLS",
+    "Získat TLS",
+    "Získat TLS",
 
     // Text shown in bottom message bar.
-    "Message",
+    "Zpráva",
 
     // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
-    "Message ",
+    "Zpráva ",
 
     // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
     // You should use the same term for "Direct connection" that you used above.
-    "Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "Vaše zařízení nepodporuje úpravy zpráv v režimu přímého připojení.\nChcete tuto zprávu upravit prostřednictvím proxy server?\nVyberte možnost 'Skrýt', chcete-li vždy používat proxy server.",
 
-    "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "Vaše zařízení nepodporuje mazání zpráv v režimu přímého připojení.\nChcete tuto zprávu smazat prostřednictvím proxy server?\nVyberte možnost 'Skrýt', chcete-li vždy používat proxy server.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Chinese (Simplified)",
+    "Čínština (zjednodušená)",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Time format",
+    "Formát času",
 
     // Title for time preview shown in the time format screen.
-    "Preview",
+    "Náhled",
 
     // Titles for sliders in the time format screen for changing the time offset.
-    "Time offset (hours)",
-    "Time offset (minutes)",
+    "Časový posun (hodiny)",
+    "Časový posun (minuty)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negative offset",
+    "Záporný posun",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Hungarian"
+    "Maďarština"
 
 ]
