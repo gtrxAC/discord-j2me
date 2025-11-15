@@ -174,104 +174,7 @@ public class HTTPThread extends Thread implements Strings {
                 App.isLiteProxy = resp.getBoolean("_liteproxy", false);
                 App.uploadToken = resp.getString("_uploadtoken", Settings.token);
                 haveFetchedUserInfo = true;
-
-//#ifdef EMOJI_SUPPORT
-                newEmojiJsonVersion = resp.getInt("_emojiversion", 0);
-                newEmojiSheetVersions = resp.getArray("_emojisheets", null);
-//#endif
             }
-
-//#ifdef EMOJI_SUPPORT
-            // Check for updates to emoji data and download new json/sheet data if needed
-            // (upon first API request after starting app with emojis enabled, or first API request after enabling emojis)
-            if (
-                showLoad && haveFetchedUserInfo && newEmojiSheetVersions != null &&
-                (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF || action == FETCH_EMOJIS)
-            ) {
-                // Emoji RMS layout:
-                // - 1st record is a json array of version numbers (the first number is for the json, the rest are for the sheets)
-                // - 2nd record is emoji.json data
-                // - the rest are the sheet pngs
-                
-                RecordStore rms = null;
-                JSONArray curVersionsArray = null;
-                boolean needRmsWrite = false;
-                
-                try {
-                    // Check if emoji JSON needs to be updated (if saved ver is outdated)
-                    rms = RecordStore.openRecordStore("emoji", true);
-                    int numRecs = rms.getNumRecords();
-                    int curJsonVersion;
-
-                    if (numRecs >= 1) {
-                        curVersionsArray = JSON.getArray(Util.bytesToString(rms.getRecord(1)));
-                        curJsonVersion = curVersionsArray.getInt(0, -1);
-                    } else {
-                        curVersionsArray = new JSONArray();
-                        curJsonVersion = -1;
-                        byte[] empty = "[]".getBytes();
-                        rms.addRecord(empty, 0, empty.length);
-                        needRmsWrite = true;
-                    }
-    
-                    // Emoji JSON is outdated or not downloaded - download the latest one
-                    if (curJsonVersion < newEmojiJsonVersion || numRecs < 2) {
-                        loadScreen.text = Locale.get(DOWNLOADING);
-                        String emojiJson = Util.bytesToString(HTTP.getBytes(Settings.api + "/emoji/emoji.json"));
-    
-                        curVersionsArray.put(0, newEmojiJsonVersion);
-                        Util.setOrAddRecord(rms, 2, emojiJson);
-                        needRmsWrite = true;
-                    }
-
-//#ifdef PROXYLESS_SUPPORT
-                    if (curJsonVersion < newEmojiJsonVersion || !Settings.hasFetchedProxylessEmojis) {
-                        // Download second emoji json that contains unicode emojis for use with proxyless mode
-                        byte[] emoji2Json = HTTP.getBytes(Settings.api + "/emoji/emoji_proxyless.json");
-                        RecordStore emoji2Rms = null;
-                        try {
-                            emoji2Rms = RecordStore.openRecordStore("emoji2", true);
-                            Util.setOrAddRecord(emoji2Rms, 1, emoji2Json);
-                        }
-                        catch (Exception e) {}
-
-                        Util.closeRecordStore(emoji2Rms);
-
-                        Settings.hasFetchedProxylessEmojis = true;
-                        Settings.save();
-                    }
-//#endif
-    
-                    int sheetCount = newEmojiSheetVersions.size();
-    
-                    // Download the required new emoji sheets. If an emoji sheet is already downloaded and isn't outdated, we don't download it again.
-                    for (int i = 0; i < sheetCount; i++) {
-                        int newVersion = newEmojiSheetVersions.getInt(i);
-                        int currentVersion = curVersionsArray.getInt(i + 1, -1);
-                        
-                        if (currentVersion < newVersion) {
-                            loadScreen.text = Locale.get(DOWNLOADING);
-                            loadScreen.text2 = Locale.get(LEFT_PAREN) + i + "/" + sheetCount + Locale.get(RIGHT_PAREN);
-                            byte[] img = HTTP.getBytes(Settings.api + "/emoji/emoji" + i + ".png");
-                            Util.setOrAddRecord(rms, 3 + i, img);
-                            curVersionsArray.put(i + 1, newVersion);
-                            needRmsWrite = true;
-                        }
-                    }
-    
-                    newEmojiSheetVersions = null;
-                    loadScreen.text = Locale.get(LOADING);
-                    loadScreen.text2 = "";
-                    FormattedStringPartEmoji.loadEmoji(App.messageFont.getHeight());
-                } finally {
-                    try {
-                        if (needRmsWrite) Util.setOrAddRecord(rms, 1, Util.stringToBytes(curVersionsArray.build()));
-                    }
-                    catch (Exception e) {}
-                    Util.closeRecordStore(rms);
-                }
-            }
-//#endif
 
             switch (action) {
                 case FETCH_GUILDS: {
@@ -319,10 +222,16 @@ public class HTTPThread extends Thread implements Strings {
 
                                     if (guild.getString("id").equals(guildId)) {
                                         guilds.add(guild);
+                                        App.unsortedGuilds.remove(k);
                                         break;
                                     }
                                 }
                             }
+                        }
+                        // If the user doesn't have guild folders, some or all of the guilds may have been missed by the above sort
+                        // so add them at the end of the list
+                        for (int i = 0; i < App.unsortedGuilds.size(); i++) {
+                            guilds.add(App.unsortedGuilds.getObject(i));
                         }
                         App.unsortedGuilds = null;
 //#else                
