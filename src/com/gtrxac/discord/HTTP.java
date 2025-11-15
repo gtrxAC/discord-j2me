@@ -5,6 +5,10 @@ import javax.microedition.io.*;
 import cc.nnproject.json.*;
 import javax.microedition.lcdui.Image;
 
+//#ifdef MODERNCONNECTOR
+import tech.alicesworld.ModernConnector.*;
+//#endif
+
 public class HTTP implements Strings {
 	public static final Exception requestMethodException = new Exception();
 
@@ -13,7 +17,14 @@ public class HTTP implements Strings {
 		OutputStream os = null;
 
 		try {
-			hc = (HttpConnection) Connector.open(App.getPlatformSpecificUrl(url));
+			hc = (HttpConnection) 
+//#ifdef MODERNCONNECTOR
+				ModernConnector
+//#else
+				Connector
+//#endif	
+				.open(App.getPlatformSpecificUrl(url));
+				
 			try {
 				hc.setRequestMethod(method);
 			}

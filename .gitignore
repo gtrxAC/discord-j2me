@@ -1,12 +1,14 @@
 .vscode/
 build/
 classes/
-lib/
 node_modules/
 sdk/jdk*/
 log.txt
 res/*.json
 *.jar
+!sdk/JadTool.jar
+!lib/*.jar
+lib/*/
 *.jad
 *.map
 !mapping.map

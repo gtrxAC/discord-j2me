@@ -28,8 +28,18 @@ ${JAVA_HOME}/bin/javac `find build/src -name '*'.java` -d classes \
     -bootclasspath ${BOOTCLASSPATH} \
     > sdk/log.txt
 
+if [[ ! -e lib/ModernConnector ]]; then
+    echo "Extracting libraries"
+    mkdir lib/ModernConnector
+    cd lib/ModernConnector
+    ${JAVA_HOME}/bin/jar xf ../ModernConnector.jar
+    cd ../..
+fi
+
 echo "Creating JAR"
-${JAVA_HOME}/bin/jar cvfm bin/in.jar build/manifest.mf -C classes . -C build/res . >> sdk/log.txt
+${JAVA_HOME}/bin/jar cvf bin/in.jar -C classes . -C build/res . >> sdk/log.txt
+[[ ${MODCON} == 1 ]] && ${JAVA_HOME}/bin/jar uvf bin/in.jar -C lib/ModernConnector . >> sdk/log.txt
+${JAVA_HOME}/bin/jar uvfm bin/in.jar build/manifest.mf >> sdk/log.txt
 
 # Preverify and obfuscate (ProGuard)
 # Note: ProGuard 6.0.3 is the last version to run under JDK 6, as of writing, the latest version can run under JDK 8
@@ -37,12 +47,6 @@ echo "Verifying"
 ${JAVA_HOME}/bin/java -jar sdk/proguard.jar @build/midlets.pro -printmapping "bin/${JAR_NAME}.map"
 rm bin/in.jar
 mv bin/out.jar "bin/${JAR_NAME}.jar"
-
-# Create JAD file if jadmaker is available
-if command -v jadmaker > /dev/null; then
-    echo "Creating JAD"
-    jadmaker --force "bin/${JAR_NAME}.jar"
-fi
 
 # Show output JAR file size
 wc -c "bin/${JAR_NAME}.jar"
