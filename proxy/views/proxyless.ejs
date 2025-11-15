@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct connection</title>
+    <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        td img {
+            width: 150px;
+        }
+        i {
+            font-family: monospace;
+        }
+        table {
+            margin-top: 0.5em;
+            border-collapse: collapse;
+        }
+        td, th {
+            padding: 0.3em;
+            border: solid thin #333;
+        }
+        .yes {
+            color: #070;
+            font-weight: bold;
+        }
+        .no {
+            color: #700;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <% if (isModern) { %>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h1>Direct connection</h1>
+                <a href="https://librecounter.org/referer/show" target="_blank">
+                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
+                </a>
+            </div>
+        <% } else { %>
+            <h1>Direct connection</h1>
+        <% } %>
+
+        <h2>What is Direct connection?</h2>
+        <p>Previously, <a href="/j2me">Discord J2ME</a> connected to Discord's servers using a proxy server, as TLS 1.2 (modern HTTPS) connections were generally not supported on older devices. The proxy proved to be unsafe, as Discord started to temporarily restrict accounts that connected via the proxy, so an effort was made to allow TLS 1.2 connections on J2ME.</p>
+        <p><strong>Direct connection</strong> is an option available since Discord J2ME 5.2 on certain devices that connects directly to Discord using TLS 1.2.</p>
+        
+        <h2>Which devices support Direct connection?</h2>
+        <p>To support Direct connection, a device must have the ability to <strong>install custom code-signing certificates</strong> for Java apps. On Symbian 9.1 and up, TLS 1.2 can be installed on the system level, so a certificate is not required. The device must also be able to <strong>handle JAR files up to 1 MB</strong> in size.</p>
+        <p>The below table lists device platforms known to be supported, along with explanations. You can check your device's <i>software platform</i> and other specs on sites like <a href="https://lpcwiki.miraheze.org/wiki/Main_Page">LPCwiki</a>.</p>
+
+        <table>
+            <tr>
+                <th>Platform</th>
+                <th>Supported?</th>
+                <th>Explanation</th>
+            </tr>
+            <tr>
+                <td>Nokia Series 40, 2nd Edition<br></td>
+                <td><div class="no">No</div></td>
+                <td>Not supported by aNokiCert, and the JAR size limit on 2nd Edition devices is too low.</td>
+            </tr>
+            <tr>
+                <td>Nokia Series 40, 3rd Edition and up<br><i>on devices with at least 1 MB max JAR size</i></td>
+                <td><div class="yes">Yes</div></td>
+                <td>Code-signing certificates can be installed via software like aNokiCert.</td>
+            </tr>
+            <tr>
+                <td>Nokia Series 40<br><i>some phone models released around 2012-2013</i></td>
+                <td><div class="no">No</div></td>
+                <td>aNokiCert fails to connect on the Nokia 301 and similar devices.</td>
+            </tr>
+            <tr>
+                <td>Symbian below 9.1 (S60v2, S80)</td>
+                <td><div class="no">No</div></td>
+                <td>TLS 1.2 patch is unsupported. Certificate can be installed, but signed app installation still fails for some reason.</td>
+            </tr>
+            <tr>
+                <td>Symbian 9.1 and up (S60v3 and up, UIQ3)<br><i>on devices with more than 64 MB RAM</i></td>
+                <td><div class="yes">Yes</div></td>
+                <td>TLS 1.2 can be installed on a system level; certificate is not required. If the device's RAM is too low, the app runs out of memory and the chat does not render.</td>
+            </tr>
+            <tr>
+                <td>Sony Ericsson</td>
+                <td><div class="no">No</div></td>
+                <td>Certificate can be installed via file system modification. HTTPS connection fails for some reason.</td>
+            </tr>
+            <tr>
+                <td>J2ME Loader, KEmulator, likely other emulators</td>
+                <td><div class="yes">Yes</div></td>
+                <td>The J2ME security model is not enforced on most emulators, so a certificate is not required.</td>
+            </tr>
+            <tr>
+                <td>Any other platform not mentioned</td>
+                <td><div class="no">No</div></td>
+                <td>Methods for installing code-signing certificates are not known yet.</td>
+            </tr>
+        </table>
+
+        <h2>How to use Direct connection on Nokia S40?</h2>
+        <p>This guide covers certificate installation using an Android device. There may also be other methods to install the certificate using a PC.</p>
+        <ol>
+            <li>Download the <a href="/fh/exp.cer">code-signing certificate</a> onto your Android device.</li>
+            <li>Install <a href="/j2me/anokicert.apk">aNokiCert</a> on your Android device. Newer Android devices may restrict the installation of older apps. In such cases, you can try bypassing the restriction via ADB or by using an older device.</li>
+            <li>Make sure Bluetooth on the Nokia phone is enabled and set to visible.</li>
+            <li>Open aNokiCert and press the search icon on the top right. This will connect the Android device to your Nokia phone using Bluetooth.</li>
+            <li>Select <i>Choose certificate</i> and find the downloaded certificate file.</li>
+            <li>Press <i>Install</i>.</li>
+            <li>Download Discord J2ME onto the Nokia phone. The installation <i>must</i> be done by downloading a JAD file via the phone's browser.</li>
+        </ol>
+
+        <h2>How to use Direct connection on Symbian S60 or Symbian^3?</h2>
+        <ol>
+            <li>Make sure your device is jailbroken. To jailbreak the device, you can follow any online guide, such as <a href="https://lpcwiki.miraheze.org/wiki/Jailbreaking_S60_devices">this one</a>.</li>
+            <li>Install the <a href="https://nnproject.cc/tls/">nnproject TLS 1.2 patch</a> onto your device.</li>
+            <li>Download Discord J2ME onto your device.</li>
+        </ol>
+
+        <h2>How to use Direct connection on Symbian UIQ?</h2>
+        <ol>
+            <li>Install the TLS 1.2 patch onto your device using <a href="https://www.avalibeyaz.com/uiq3/">UIQ3 Hack Tool</a>.</li>
+            <li>Download Discord J2ME onto your device.</li>
+        </ol>
+
+        <h2>How to use Direct connection on Sony Ericsson?</h2>
+        <p>Sony Ericsson devices are not supported yet, but certificate installation is possible on them, so support may be added in the future.</p>
+        <p>A full guide has not been written yet, but to install the certificate, connect your SE device to SEFP2, go to /tpa/preset/custom, and replace Utiroot.cer with <a href="/fh/exp.cer">the custom certificate</a> (make sure to keep the original file name Utiroot.cer). Finally, do a full reset on your phone.</p>
+
+        <h2>What if my device is unsupported?</h2>
+        <p>It is highly recommended to host your own proxy server if possible. If you're using the public proxy server, disabling the <i>Use gateway</i> option in the login screen reduces the chances of getting your account restricted.</p>
+    </div>
+</body>
+</html>

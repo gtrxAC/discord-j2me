@@ -342,6 +342,10 @@ app.get('/j2me/guide', checkIsModern, async (req, res) => {
     res.render("guide", {isModern: res.locals.isModern})
 });
 
+app.get('/j2me/proxyless', checkIsModern, async (req, res) => {
+    res.render("proxyless", {isModern: res.locals.isModern})
+});
+
 // Get user's server list
 // Has cache which can be used with query parameter "c". This param is included by newer clients except when the list is force refreshed
 const userGuilds = new LRUCache({max: 200});

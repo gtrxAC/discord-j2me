@@ -12,3 +12,4 @@ lib/*/
 *.jad
 *.map
 !mapping.map
+*.apk
