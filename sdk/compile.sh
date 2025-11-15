@@ -37,7 +37,9 @@ if [[ ! -e lib/ModernConnector ]]; then
 fi
 
 echo "Creating JAR"
-${JAVA_HOME}/bin/jar cvfm bin/in.jar build/manifest.mf -C classes . -C build/res . -C lib/ModernConnector . >> sdk/log.txt
+${JAVA_HOME}/bin/jar cvf bin/in.jar -C classes . -C build/res . >> sdk/log.txt
+[[ ${MODCON} == 1 ]] && ${JAVA_HOME}/bin/jar uvf bin/in.jar -C lib/ModernConnector . >> sdk/log.txt
+${JAVA_HOME}/bin/jar uvfm bin/in.jar build/manifest.mf >> sdk/log.txt
 
 # Preverify and obfuscate (ProGuard)
 # Note: ProGuard 6.0.3 is the last version to run under JDK 6, as of writing, the latest version can run under JDK 8
@@ -45,16 +47,6 @@ echo "Verifying"
 ${JAVA_HOME}/bin/java -jar sdk/proguard.jar @build/midlets.pro -printmapping "bin/${JAR_NAME}.map"
 rm bin/in.jar
 mv bin/out.jar "bin/${JAR_NAME}.jar"
-
-# Create JAD file if jadmaker is available
-if command -v jadmaker > /dev/null; then
-    echo "Creating JAD"
-    jadmaker --force "bin/${JAR_NAME}.jar"
-
-    echo "Creating signed JAD"
-    ${JAVA_HOME}/bin/java -jar sdk/JadTool.jar -addcert -alias exp -storepass 14111989 -keystore sdk/keystore.ks -inputjad "bin/${JAR_NAME}.jad" -outputjad "bin/${JAR_NAME}_signed.jad"
-    ${JAVA_HOME}/bin/java -jar sdk/JadTool.jar -addjarsig -alias exp -storepass 14111989 -keystore sdk/keystore.ks -inputjad "bin/${JAR_NAME}_signed.jad" -outputjad "bin/${JAR_NAME}_signed.jad" -jarfile "bin/${JAR_NAME}.jar" -keypass 14111989
-fi
 
 # Show output JAR file size
 wc -c "bin/${JAR_NAME}.jar"

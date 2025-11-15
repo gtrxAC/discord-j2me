@@ -15,4 +15,9 @@ cd language
 node convert.js
 cd ..
 
+if [[ ! -e sdk/node_modules ]]; then
+  cd sdk
+  npm i
+  cd ..
+fi
 node sdk/compile_all.js

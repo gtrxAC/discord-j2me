@@ -22,11 +22,17 @@ public class App extends MIDlet implements Strings {
 //#ifdef NOKIA_128PX_VERSION
 	"nokia_128px";
 //#endif
+//#ifdef NOKIA_128PX_TLS_VERSION
+	"nokia_128px_tls";
+//#endif
 //#ifdef S40V2
 	"s40v2";
 //#endif
 //#ifdef MIDP2_ALT
 	"midp2_alt";
+//#endif
+//#ifdef MIDP2_ALT_TLS
+	"midp2_alt_tls";
 //#endif
 //#ifdef S60V2
 	"s60v2";

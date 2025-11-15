@@ -54,19 +54,17 @@ $javaFilesToCompile = Get-ChildItem -Recurse -Path build\src -Filter *.java | Fo
 
 Write-Host "Creating JAR"
 $jar = Join-Path $env:JAVA_HOME "bin\jar"
-& $jar cvfm bin/in.jar build/manifest.mf -C classes . -C build/res . >> sdk/log.txt
+& $jar cvf bin/in.jar -C classes . -C build/res . >> sdk/log.txt
+if ($env:MODCON -eq 1) {
+    & $jar uvf bin/in.jar -C lib/ModernConnector . >> sdk/log.txt
+}
+& $jar uvfm bin/in.jar build/manifest.mf >> sdk/log.txt
 
 Write-Host "Verifying"
 $java = Join-Path $env:JAVA_HOME "bin\java"
 & $java -jar sdk/proguard.jar @build/midlets.pro -printmapping "bin/$($env:JAR_NAME).map"
 Remove-Item bin/in.jar
 Move-Item bin/out.jar "bin/$($env:JAR_NAME).jar" -Force
-
-# Create JAD file if jadmaker is available
-if (Get-Command jadmaker -ErrorAction SilentlyContinue) {
-    Write-Host "Creating JAD"
-    jadmaker --force "bin/$($env:JAR_NAME).jar"
-}
 
 # Show output JAR file size
 $jarPath = "bin/$($env:JAR_NAME).jar"

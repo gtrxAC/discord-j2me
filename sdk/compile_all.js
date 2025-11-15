@@ -1,4 +1,5 @@
 const cp = require('child_process');
+const jadmaker2 = require('./jadmaker2');
 const targets = require('../build.json');
 
 const win = (process.platform == 'win32');
@@ -7,6 +8,7 @@ const compileScriptArgs = win ? ["sdk\\compile.ps1"] : [];
 const classpathJoiner = win ? ";" : ":";
 
 if (win) {
+  // Allow compile.ps1 script to run
   cp.execSync("powershell Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass");
 }
 
@@ -16,6 +18,8 @@ const compileTarget = (target) => {
     process.env.DEFINES = "-D" + target.defines.join(" -D");
     process.env.BOOTCLASSPATH = target.bootclasspath.join(classpathJoiner);
     process.env.EXCLUDES = (target.excludes || []).join(" ");
+
+    process.env.MODCON = Number(target.bootclasspath.some(jar => jar.includes('ModernConnector')));
 
     console.log(`${"_".repeat(80)}\n`)
     console.log(` Compiling: ${target.name}`)
@@ -28,6 +32,13 @@ const compileTarget = (target) => {
         console.log("Compilation failed");
         reject(new Error("Compilation failed"));
       } else {
+        jadmaker2.createJadFromJar(
+          `bin/${target.name}.jar`,
+          `bin/${target.name}.jad`,
+          `http://gtrxac.fi/${target.name}.jar`,
+          "http://gtrxac.fi",
+          target.sign
+        );
         resolve();
       }
     });
