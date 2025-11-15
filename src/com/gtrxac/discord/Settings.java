@@ -125,9 +125,33 @@ public class Settings {
         cdn = "http://146.59.80.3:8080";
         token = "";
 
+//#ifdef PROXYLESS_DEFAULT
+        useGateway = false;
+        proxyless = true;
+//#else
+        useGateway = true;
+//#ifdef PROXYLESS_SUPPORT
+        proxyless = false;
+//#endif
+//#endif
+
         // Check if token is supplied in JAD or manifest. If so, use that as the default.
-        String manifestToken = App.instance.getAppProperty("Token");
-        if (manifestToken != null) token = manifestToken;
+        String manifestValue = App.instance.getAppProperty("Token");
+        if (manifestValue != null) token = manifestValue;
+
+        // Same for other connection settings.
+        manifestValue = App.instance.getAppProperty("API-URL");
+        if (manifestValue != null) api = manifestValue;
+        manifestValue = App.instance.getAppProperty("Gateway-URL");
+        if (manifestValue != null) gatewayUrl = manifestValue;
+        manifestValue = App.instance.getAppProperty("CDN-URL");
+        if (manifestValue != null) cdn = manifestValue;
+        manifestValue = App.instance.getAppProperty("Use-gateway");
+        if (manifestValue != null) useGateway = manifestValue.startsWith("Y") || manifestValue.startsWith("1");
+//#ifdef PROXYLESS_SUPPORT
+        manifestValue = App.instance.getAppProperty("Direct-connection");
+        if (manifestValue != null) proxyless = manifestValue.startsWith("Y") || manifestValue.startsWith("1");
+//#endif
 
         // Check if save file in old format is available.
         // If so, load token from there and delete the old file.
@@ -206,7 +230,8 @@ public class Settings {
         messageFontSize = getIntRecord(defaultFontSize);
         use12hTime = getBoolRecord(false);
         messageLoadCount = getIntRecord(20);
-        useGateway = getBoolRecord(true);
+
+        useGateway = getBoolRecord(useGateway);
 //#ifdef BLACKBERRY
         bbWifi =
 //#endif
@@ -298,9 +323,10 @@ public class Settings {
 //#endif
         getBoolRecord(false);
 //#ifdef PROXYLESS_SUPPORT
-        proxyless =
-//#endif
+        proxyless = getBoolRecord(proxyless);
+//#else
         getBoolRecord(false);
+//#endif
 //#ifdef PROXYLESS_SUPPORT
         hasFetchedProxylessEmojis =
 //#endif

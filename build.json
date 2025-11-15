@@ -19,7 +19,7 @@
   },
   {
     "name": "discord_midp2_alt_tls",
-    "defines": ["MIDP2_ALT_TLS", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "PROXYLESS_SUPPORT", "MODERNCONNECTOR"],
+    "defines": ["MIDP2_ALT_TLS", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "PROXYLESS_SUPPORT", "MODERNCONNECTOR", "PROXYLESS_DEFAULT"],
     "bootclasspath": ["lib/ModernConnector.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
     "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg"],
     "sign": true
@@ -32,7 +32,7 @@
   },
   {
     "name": "discord_nokia_128px_tls",
-    "defines": ["NOKIA_128PX_TLS_VERSION", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "NOKIA_THEME_BACKGROUND", "OVER_100KB", "EMOJI_SUPPORT", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT", "MODERNCONNECTOR"],
+    "defines": ["NOKIA_128PX_TLS_VERSION", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "NOKIA_THEME_BACKGROUND", "OVER_100KB", "EMOJI_SUPPORT", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT", "MODERNCONNECTOR", "PROXYLESS_DEFAULT"],
     "bootclasspath": ["lib/ModernConnector.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
     "excludes": ["en.json", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "icon.svg", "bar.png"],
     "sign": true
@@ -69,7 +69,7 @@
   },
   {
     "name": "discord_jl",
-    "defines": ["J2ME_LOADER", "NOKIA_UI_SUPPORT", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_COLOR_PARTICLES", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT", "NOT_S40"],
+    "defines": ["J2ME_LOADER", "NOKIA_UI_SUPPORT", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_COLOR_PARTICLES", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT", "NOT_S40", "PROXYLESS_DEFAULT"],
     "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
     "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "icon.svg"]
   }
