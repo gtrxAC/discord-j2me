@@ -305,7 +305,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.defaultHotkeys ? 1 : 0,
                 0,
                 KineticScrollingCanvas.scrollBarMode,
-                KeyRepeatThread.enabled ? 1 : 0,
+                Threads100kb.enabled ? 1 : 0,
 //#ifdef OVER_100KB
                 Settings.sendTyping ? 1 : 0,
 //#endif
@@ -573,7 +573,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.autoReConnect = values[2][3] == 1;
                 Settings.defaultHotkeys = values[2][4] == 1;
                 KineticScrollingCanvas.scrollBarMode = values[2][6];
-                KeyRepeatThread.toggle(values[2][7] == 1);
+                Threads100kb.toggle(values[2][7] == 1);
 
                 Settings.showNotifsAll = values[3][0] == 1;
                 Settings.showNotifsPings = values[3][1] == 1;

@@ -58,20 +58,20 @@ public abstract class MyCanvas extends Canvas {
 //#endif
         keyAction(key);
 
-        if (KeyRepeatThread.enabled && !isKeyPressed) {
+        if (Threads100kb.enabled && !isKeyPressed) {
             isKeyPressed = true;
             beginRepeatTime = System.currentTimeMillis() + 500;
-            synchronized (KeyRepeatThread.instance) {
-                KeyRepeatThread.activeKey = key;
-                KeyRepeatThread.instance.notify();
+            synchronized (Threads100kb.instance) {
+                Threads100kb.activeKey = key;
+                Threads100kb.instance.notify();
             }
         }
     }
 
     protected void keyReleased(int key) {
-        if (KeyRepeatThread.enabled && isKeyPressed) {
+        if (Threads100kb.enabled && isKeyPressed) {
             isKeyPressed = false;
-            KeyRepeatThread.activeKey = 0;
+            Threads100kb.activeKey = 0;
         }
     }
 
@@ -79,7 +79,7 @@ public abstract class MyCanvas extends Canvas {
 //#ifdef MIDP2_GENERIC
         if (Util.isSymbian && key == -12) return;
 //#endif
-        if (!KeyRepeatThread.enabled) keyAction(key);
+        if (!Threads100kb.enabled) keyAction(key);
     }
 
 //#ifdef NOKIA_THEME_BACKGROUND

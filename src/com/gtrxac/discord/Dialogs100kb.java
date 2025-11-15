@@ -3,6 +3,7 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
+// Multiple types of dialogs combined into one class to save space
 public class Dialogs100kb extends Dialog implements Strings, CommandListener {
     public static final int DELETE_CONFIRM_DIALOG = 0;
     public static final int NOTIFICATION_DIALOG = 1;
@@ -13,7 +14,11 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
     private Command noCommand;
     private Displayable lastScreen;
 
+    // ______________________________
+    //
     // Delete confirm dialog
+    // ______________________________
+    //
     Message msg;
 
     public Dialogs100kb(Message msg) {
@@ -32,7 +37,11 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         addCommand(noCommand);
     }
 
+    // ______________________________
+    //
     // Notification dialog
+    // ______________________________
+    //
     private Notification notif;
     private boolean hasPlayedSound;
 
@@ -51,7 +60,11 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         addCommand(noCommand);
     }
 
+    // ______________________________
+    //
     // Reconnect dialog
+    // ______________________________
+    //
     public Dialogs100kb(String message) {
         super(Locale.get(RECONNECT_FORM_TITLE), "");
         setCommandListener(this);
@@ -73,6 +86,9 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         addCommand(noCommand);
     }
 
+    // ______________________________
+    //
+    
     protected void showNotify() {
         if (dialogType == NOTIFICATION_DIALOG && !hasPlayedSound) {
             App.gateway.playNotificationSound();

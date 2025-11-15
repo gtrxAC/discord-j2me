@@ -67,7 +67,7 @@ public class IconCache {
 
         if (origIcon != null && !activeResizes.contains(resizedHash)) {
             activeResizes.addElement(resizedHash);
-            new IconResizeThread(target, origIcon, size).start();
+            new Threads100kb(target, origIcon, size).start();
         }
         return null;
     }

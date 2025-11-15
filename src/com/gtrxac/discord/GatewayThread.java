@@ -7,21 +7,9 @@ import javax.microedition.lcdui.*;
 import javax.microedition.media.*;
 import javax.microedition.rms.*;
 
-//#ifdef PIGLER_SUPPORT
-import org.pigler.tester.*;
-//#endif
-
-//#ifdef NOKIA_UI_SUPPORT
-import com.nokia.mid.ui.*;
-//#endif
-
 import cc.nnproject.json.*;
 
-public class GatewayThread extends Thread implements Strings
-//#ifdef PIGLER_SUPPORT
-, PiglerAPIHandlerLayer
-//#endif
-{
+public class GatewayThread extends Thread implements Strings {
 	volatile boolean stop;
 	volatile String stopMessage;
 
@@ -36,18 +24,6 @@ public class GatewayThread extends Thread implements Strings
 	private OutputStream os;
 
 	private static int reconnectAttempts;
-
-//#ifdef PIGLER_SUPPORT
-	private static Image appIcon;
-	private static PiglerAPILayer pigler;
-	private static boolean piglerInitFailed;
-	private static final Object piglerLock = new Object();
-
-	/**
-	 * Pigler notification UID -> Notification object
-	 */
-	public static Hashtable piglerNotifs;
-//#endif
 
 	public GatewayThread() {
 		App.subscribedGuilds = new Vector();
@@ -206,37 +182,6 @@ public class GatewayThread extends Thread implements Strings
 			App.disp.setCurrent(new Dialogs100kb(notif, location, msg));
 //#endif
 		}
-		
-//#ifdef PIGLER_SUPPORT
-		synchronized (piglerLock) {
-			if (Settings.showNotifPigler && pigler != null) {
-				try {
-					int uid;
-					String notificationText = isDM ? msg.content : (author + ": " + msg.content);
-					uid = pigler.createNotification(location, notificationText, appIcon, true);
-					try {
-						pigler.showGlobalPopup(location, notificationText, 0);
-					} catch (Throwable ignored) {}
-					piglerNotifs.put(new Integer(uid), notif);
-				}
-				catch (Exception e) {}
-			}
-		}
-//#endif
-
-//#ifdef NOKIA_UI_SUPPORT
-		if (Settings.showNotifNokiaUI && Util.supportsNokiaUINotifs) {
-			try {
-				SoftNotification sn = SoftNotification.newInstance();
-				sn.setText(
-					Notification.createString(location, msg),
-					(isDM ? author : location) + ": " + msg.content
-				);
-				sn.post();
-			}
-			catch (Throwable e) {}
-		}
-//#endif
 	}
 
 //#ifdef PIGLER_SUPPORT
