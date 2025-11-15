@@ -44,7 +44,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
         frames = new Image[8];
 
         try {
-            sheet = Image.createImage("/loading.png");
+            sheet = Image.createImage("/l.png");
         }
         catch (Exception e) {
             return;

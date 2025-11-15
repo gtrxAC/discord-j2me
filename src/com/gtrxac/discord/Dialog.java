@@ -57,7 +57,7 @@ implements CommandListener
     private static void checkInitOverlay() {
         if (overlay == null && App.disp.numAlphaLevels() > 2) {
             try {
-                overlay = Image.createImage("/overlay.png");
+                overlay = Image.createImage("/o.png");
             }
             catch (Exception e) {}
         }

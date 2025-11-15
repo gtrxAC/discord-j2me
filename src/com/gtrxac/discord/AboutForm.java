@@ -45,7 +45,7 @@ public class AboutForm extends Form implements CommandListener, Strings {
         setCommandListener(this);
 
         try {
-            appIcon = Image.createImage("/icon.png");
+            appIcon = Image.createImage("/i.png");
             int size = Settings.getBestMenuIconSize()*3;
             appIcon = Util.resizeImage(appIcon, size, size);
             append(new ImageItem(null, appIcon, LAYOUT_CENTER, null));

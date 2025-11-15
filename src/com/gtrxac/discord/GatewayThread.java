@@ -183,59 +183,7 @@ public class GatewayThread extends Thread implements Strings {
 //#endif
 		}
 	}
-
-//#ifdef PIGLER_SUPPORT
-	public void checkInitPigler() {
-		synchronized (piglerLock) {
-			if (Settings.showNotifPigler) {
-				if (pigler == null && !piglerInitFailed) {
-					initPigler();
-				}
-			} else {
-				appIcon = null;
-				pigler = null;
-				piglerInitFailed = false;
-				piglerNotifs = null;
-			}
-		}
-	}
-
-	private void initPigler() {
-		if (!Util.supportsPigler) {
-			App.error(Locale.get(PIGLER_NOT_SUPPORTED));
-			piglerInitFailed = true;
-			return;
-		}
-
-		try {
-			appIcon = Image.createImage("/icon.png");
-		}
-		catch (Exception e) {}
-		
-		try {
-			synchronized (piglerLock) {
-				piglerNotifs = new Hashtable();
-				pigler = new PiglerAPILayer();
-				pigler.setListener(this);
-				int missedUid = pigler.init("Discord");
-				if (missedUid != 0) handleNotificationTap(missedUid);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			App.error(Locale.get(PIGLER_ERROR) + e.toString());
-		}
-	}
 	
-	public void handleNotificationTap(int uid) {
-		Integer uidObject = new Integer(uid);
-		Notification notif = (Notification) piglerNotifs.get(uidObject);
-		if (notif == null) return;
-
-		piglerNotifs.remove(uidObject);
-		notif.view();
-	}
-//#endif
-
 //#ifdef OVER_100KB
 	private Player player;
 //#endif

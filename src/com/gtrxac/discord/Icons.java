@@ -104,7 +104,7 @@ public class Icons {
 
         Spritesheet sh;
         try {
-            sh = new Spritesheet("/icons.png", Settings.menuIconSize);
+            sh = new Spritesheet("/j.png", Settings.menuIconSize);
         }
         catch (Exception e) {
             return;

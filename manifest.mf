@@ -15,11 +15,11 @@ MIDlet-1: Discord, /icon_42_29.png, a
 MIDlet-Icon: /icon_42_29.png
 //#else
 //#ifdef DEBUG
-MIDlet-1: Discord, /icon.png, com.gtrxac.discord.App
+MIDlet-1: Discord, /i.png, com.gtrxac.discord.App
 //#else
-MIDlet-1: Discord, /icon.png, a
+MIDlet-1: Discord, /i.png, a
 //#endif
-MIDlet-Icon: /icon.png
+MIDlet-Icon: /i.png
 //#endif
 //#endif
 MIDlet-Name: Discord
