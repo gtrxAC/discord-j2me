@@ -1,4 +1,9 @@
 [
+    // If you're reading this and are a native Danish speaker,
+    // please proofread and/or improve this file!
+    // Hvis du læser dette og er dansk modersmålstalende,
+    // bedes du korrekurlæse og/eller forbedre denne fil!
+
     // Translation notes:
     // - Any line that begins with a "//" is a comment and is ignored.
     //   In this file, comments are used for explaining each string.
@@ -20,277 +25,277 @@
     //   short label, use the same string for both labels.
 
     // Placeholder file name shown when the name of an attachment in the attachment view screen could not be loaded.
-    "Unnamed file",
+    "Uden navn fil",
 
     // Title text for the attachment picker (native file picker) screen.
-    "Select attachment",
+    "Vælg vedhæftet fil",
 
     // Softkey labels for going back to the previous screen.
-    "Back",
-    "Back",
+    "Tilbage",
+    "Tilbage",
 
     // Softkey label for closing a menu.
     // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
-    "Close",
-    "Close",
+    "Luk",
+    "Luk",
 
     // Title text for attachment view screen.
-    "Attachments",
+    "Vedhæftede filer",
 
     // Softkey labels for refetching contents of channel view or attachment view.
-    "Refresh",
-    "Refresh",
+    "Opdater",
+    "Opdater",
 
     // Softkey labels used in channel or DM list for marking the selected channel or DM as read.
-    "Mark as read",
-    "Mark as read",
+    "M. som læst",
+    "Marker som læst",
 
     // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
-    "Mark all as read",
-    "Mark all as read",
+    "Alle læst",
+    "Marker alle som læst",
 
     // Generic "Select" softkey labels.
-    "Select",
-    "Select",
+    "Vælg",
+    "Vælg",
 
     // Softkey labels for sending a message in the currently open channel.
     "Send",
-    "Send message",
+    "Send besked",
 
     // Softkey labels for sending a reply to the selected message.
-    "Reply",
-    "Reply",
+    "Svar",
+    "Svar",
 
     // Softkey labels for sending an attachment in the currently open channel.
-    "Upload",
-    "Upload file",
+    "Overfør",
+    "Overfør fil",
 
     // Softkey labels for copying the text content of the selected message.
-    "Copy",
-    "Copy content",
+    "Kopier",
+    "Kopier indhold",
 
     // Softkey labels for editing the selected message.
-    "Edit",
-    "Edit",
+    "Rediger",
+    "Rediger",
 
     // Softkey labels for deleting the selected message.
-    "Delete",
-    "Delete",
+    "Slet",
+    "Slet",
 
     // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
-    "Open URL",
-    "Open URL",
+    "Åbn URL",
+    "Åbn URL",
 
     // Channel view title suffix when reading older messages.
-    " (old)",
+    " (gammel)",
 
     // Text shown at the center of the channel view when it is empty (no messages).
-    "Nothing to see here",
+    "Intet at se her",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
-    "Refresh to read new messages",
+    "Opdater for at læse nye beskeder",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
-    "Reconnecting",
+    "Genopretter forbindelse",
 
     // Channel view banner shown when a message is being sent by the client.
-    "Sending message",
+    "Sender besked",
 
     // Channel view banner shown when a message is being edited by the client.
-    "Editing message",
+    "Redigerer besked",
 
     // Channel view banner shown when a message is being deleted by the client.
-    "Deleting message",
+    "Sletter besked",
 
     // Channel view banner shown when messages are being loaded, e.g. during a refresh or after a message was sent by the client.
-    "Loading messages",
+    "Indlæser beskeder",
 
     // Suffix for channel view banner text when one person is typing.
     // Example: "aa is typing"
-    " is typing",
+    " skriver",
 
     // Suffix for channel view banner text when two or three people are typing.
     // Example: "aa, bb, cc are typing"
-    " are typing",
+    " skriver",
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing"
-    " people are typing",
+    " personer skriver",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
     ", ",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
-    "This proxy does not support file uploading",
-    "This proxy does not support deleting messages",
-    "This proxy does not support editing messages",
+    "Denne proxyserver understøtter ikke filoverførsel",
+    "Denne proxyserver understøtter ikke sletning af beskeder",
+    "Denne proxyserver understøtter ikke redigering af beskeder",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
-    "FileConnection not supported",
+    "FileConnection understøttes ikke",
 
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
-    "Older",
-    "View older messages",
-    "Newer",
-    "View newer messages",
+    "Ældre",
+    "Se ældre beskeder",
+    "Nyere",
+    "Se nyere beskeder",
     
     // Parts of the button label for viewing attachments of a message.
     // Examples: "View 1 attachment", "View 2 attachments"
-    "View ",
-    " attachment",
-    " attachments",
+    "Se ",
+    " vedhæftet fil",
+    " vedhæftede filer",
 
     // Title for confirmation screen shown when deleting a message.
-    "Delete",
+    "Slet",
 
     // Body text for confirmation screen shown when deleting a message.
-    "Delete this message?",
+    "Slet denne besked?",
 
     // Generic softkey labels.
-    "Yes",
-    "Yes",
-    "No",
-    "No",
+    "Ja",
+    "Ja",
+    "Nej",
+    "Nej",
     "OK",
     "OK",
 
     // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
-    "(unknown)",
+    "(ukendt)",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "(no content)",
+    "(intet indhold)",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    "(unsupported message)",
+    "(ikke understøttet besked)",
 
     // Message content shown for a message that has been deleted.
-    "(message deleted)",
+    "(besked slettet)",
 
     // Title text for direct message search screen.
-    "Search DMs",
+    "Søg i DM'er",
 
     // Guide text for text field in direct message search and "insert mention" screens.
-    "Enter username",
+    "Indtast brugernavn",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "User not found. Try creating the DM from another client.",
+    "Bruger ikke fundet. Prøv at oprette DM fra en anden klient.",
 
     // Title text for direct message list.
-    "Direct message",
+    "Direkte besked",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
-    "Search",
-    "Search",
+    "Søg",
+    "Søg",
 
     // Title text shown for all error message screens.
-    "Error",
+    "Fejl",
 
     // Title text shown for guild (server) selector.
-    "Servers",
+    "Servere",
 
     // Title text shown for favorite servers list.
-    "Favourites",
+    "Favoritter",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
-    "Remove",
-    "Remove",
+    "Fjern",
+    "Fjern",
 
     // Softkey command for adding a server to the favorites list.
-    "Favourite",
-    "Add to favourites",
+    "Favoritter",
+    "Føj til favoritter",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "Heartbeat thread error: ",
+    "Heartbeat-trådsfejl: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "Check your token",
+    "Kontroller din token",
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
     // e.g. HTTP error 500
-    "HTTP error ",
+    "HTTP-fejl ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "CDN URL has not been defined. Attachments are not available.",
+    "CDN-URL er ikke defineret. Vedhæftede filer er ikke tilgængelige.",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
     " (",
     ")",
 
     // Softkey labels for showing a text attachment's contents within the app.
-    "Show",
-    "Show as text",
+    "Vis",
+    "Vis som tekst",
 
     // Softkey labels for showing an attachment in the device's built-in web browser.
-    "Open",
-    "Open in browser",
+    "Åbn",
+    "Åbn i browser",
 
     // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
-    "Loading...",
+    "Indlæser...",
 
     // Loading screen text shown when an attachment is being sent.
-    "Sending...",
+    "Sender...",
 
     // Error message prefix shown when an error occurs while uploading an attachment.
-    "Error while sending file: ",
+    "Fejl under afsendelse af fil: ",
     
     // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
-    "Skip",
-    "Skip",
+    "Spring over",
+    "Spring over",
 
     // Key press prompt shown in hotkey mapper.
-    "Press the key to use for:",
+    "Tryk på den tast, der skal bruges til:",
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
     // "going back" only applies to the chat view. 
-    "sending a message",
-    "replying to message",
-    "copying message content",
-    "refreshing messages",
-    "going back",
+    "sende en besked",
+    "svar på besked",
+    "kopiering af beskedsindhold",
+    "opdatering af beskeder",
+    "vende tilbage",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-    "This key is already mapped to ",
+    "Denne tast er allerede knyttet til ",
 
     // Title text shown in login screen.
-    "Log in",
+    "Log ind",
 
     // Proxy server warning message shown at the top of the login screen.
-    "Only use proxies that you trust!",
+    "Brug kun proxyservere, som du stoler på!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended.",
+    "Tokenet kan findes i din browsers udviklerværktøjer (søg online for hjælp). Det anbefales at bruge en alternativ konto.",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
-    "Use Wi-Fi",
+    "Brug Wi-Fi",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
-    "API URL",
-    "CDN URL",
-    "Gateway URL",
+    "API-URL",
+    "CDN-URL",
+    "Gateway-URL",
     "Token",
 
     // Softkey label for confirming the login options in the login screen.
-    "Log in",
-    "Log in",
+    "Log ind",
+    "Log ind",
 
     // Softkey command for exiting the application.
-    "Quit",
-    "Quit",
+    "Afslut",
+    "Afslut",
 
     // "Use gateway" option shown in login screen.
-    "Use gateway",
+    "Brug gateway",
 
     // Label for radio button field for token sending options.
-    "Send token as",
+    "Send token som",
 
     // Token sending options.
-    "Header (default)",
+    "Overskrift (standard)",
     "JSON",
-    "Query parameter",
+    "Forespørgselsparameter",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
     "Please enter your token",
