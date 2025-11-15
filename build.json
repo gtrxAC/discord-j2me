@@ -1,68 +1,8 @@
 [
   {
-    "name": "discord_debug",
-    "defines": ["DEBUG_VERSION", "DEBUG", "MIDP2_GENERIC", "NOKIA_MIDLET_CATEGORY", "NOKIA_S60_MANIFEST", "NOKIA_THEME_BACKGROUND", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT", "NOKIA_UI_ICON", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT"],
-    "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/javapiglerapi.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png"]
-  },
-  {
-    "name": "discord_midp2",
-    "defines": ["MIDP2_VERSION", "MIDP2_GENERIC", "NOKIA_MIDLET_CATEGORY", "NOKIA_S60_MANIFEST", "NOKIA_THEME_BACKGROUND", "PIGLER_SUPPORT", "NOKIA_UI_SUPPORT", "NOKIA_UI_ICON", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT"],
-    "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/javapiglerapi.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png"]
-  },
-  {
-    "name": "discord_midp2_alt",
-    "defines": ["MIDP2_ALT", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "PROXYLESS_SUPPORT"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg"]
-  },
-  {
-    "name": "discord_s60v2",
-    "defines": ["S60V2", "NOKIA_MIDLET_CATEGORY", "OVER_100KB", "EMOJI_SUPPORT", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "NOT_S40"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon.svg", "bar.png"]
-  },
-  {
-    "name": "discord_nokia_128px",
-    "defines": ["NOKIA_128PX_VERSION", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "NOKIA_THEME_BACKGROUND", "OVER_100KB", "EMOJI_SUPPORT"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en.json", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg", "bar.png"]
-  },
-  {
-    "name": "discord_s40v2",
-    "defines": ["S40V2", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "OVER_100KB"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en.json", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg", "bar.png"]
-  },
-  {
-    "name": "discord_blackberry",
-    "defines": ["BLACKBERRY", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_COLOR_PARTICLES", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "NOT_S40"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "icon.svg"]
-  },
-  {
-    "name": "discord_samsung",
-    "defines": ["SAMSUNG", "SAMSUNG_FULL", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "NOT_S40"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "icon.svg"]
-  },
-  {
     "name": "discord_samsung_100kb",
     "defines": ["SAMSUNG", "SAMSUNG_100KB", "OLD_ABOUT_SCREEN", "NOT_S40"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
     "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "selector.png", "notify.mid", "sparkle.png", "icon.svg", "bar.png"]
-  },
-  {
-    "name": "discord_lg",
-    "defines": ["LG", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "NOT_S40"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_42_29.png", "sparkle.png", "icon.svg"]
-  },
-  {
-    "name": "discord_jl",
-    "defines": ["J2ME_LOADER", "NOKIA_UI_SUPPORT", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_COLOR_PARTICLES", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT", "NOT_S40"],
-    "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "icon.svg"]
   }
 ]

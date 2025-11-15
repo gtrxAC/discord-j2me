@@ -17,10 +17,6 @@ public class Settings {
 	static final int ICON_SIZE_OFF = 0;
 	static final int ICON_SIZE_16 = 1;
 	static final int ICON_SIZE_32 = 2;
-
-	static final int AUTO_UPDATE_OFF = 0;
-	static final int AUTO_UPDATE_RELEASE_ONLY = 1;
-	static final int AUTO_UPDATE_ALL = 2;
     
 	static int theme;  // 0 = dark, 1 = light, 2 = black
 	static boolean use12hTime;
@@ -56,7 +52,6 @@ public class Settings {
 	static boolean playNotifSound;
 	static boolean playNotifVibra;
 	static boolean highRamMode;
-	static int autoUpdate;
 //#ifdef OVER_100KB
 	static boolean useFilePreview;
 	static boolean sendTyping;
@@ -254,7 +249,7 @@ public class Settings {
 //#endif
             KineticScrollingCanvas.SCROLL_BAR_HIDDEN
         );
-        autoUpdate = getIntRecord(Settings.AUTO_UPDATE_RELEASE_ONLY);
+        getIntRecord(0);
 //#ifdef NOKIA_UI_SUPPORT
         showNotifNokiaUI =
 //#endif
@@ -376,7 +371,7 @@ public class Settings {
 //#endif
         );
         setIntRecord(KineticScrollingCanvas.scrollBarMode);
-        setIntRecord(autoUpdate);
+        setIntRecord(0);
         setBoolRecord(
 //#ifdef NOKIA_UI_SUPPORT
             showNotifNokiaUI

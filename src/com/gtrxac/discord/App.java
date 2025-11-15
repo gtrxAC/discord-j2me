@@ -8,45 +8,6 @@ import java.util.*;
 import cc.nnproject.json.*;
 
 public class App extends MIDlet implements Strings {
-	public static final int VERSION_CODE = 25;
-	public static final String VERSION_NAME = "5.2.0 beta1";
-
-	// Should match the app's jar file name (used by auto update system)
-	public static final String VERSION_VARIANT =
-//#ifdef DEBUG_VERSION
-	"debug";
-//#endif
-//#ifdef MIDP2_VERSION
-	"midp2";
-//#endif
-//#ifdef NOKIA_128PX_VERSION
-	"nokia_128px";
-//#endif
-//#ifdef S40V2
-	"s40v2";
-//#endif
-//#ifdef MIDP2_ALT
-	"midp2_alt";
-//#endif
-//#ifdef S60V2
-	"s60v2";
-//#endif
-//#ifdef BLACKBERRY
-	"blackberry";
-//#endif
-//#ifdef SAMSUNG_FULL
-	"samsung";
-//#endif
-//#ifdef SAMSUNG_100KB
-	"samsung_100kb";
-//#endif
-//#ifdef LG
-	"lg";
-//#endif
-//#ifdef J2ME_LOADER
-	"jl";
-//#endif
-
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
 	static Display disp;

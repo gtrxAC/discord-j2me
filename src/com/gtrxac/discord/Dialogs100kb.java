@@ -7,16 +7,11 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
     public static final int DELETE_CONFIRM_DIALOG = 0;
     public static final int NOTIFICATION_DIALOG = 1;
     public static final int RECONNECT_DIALOG = 2;
-    public static final int UPDATE_DIALOG = 3;
 
     public int dialogType;
     private Command yesCommand;
     private Command noCommand;
     private Displayable lastScreen;
-    
-    // public Dialogs100kb() {
-    //     super();
-    // }
 
     // Delete confirm dialog
     Message msg;
@@ -78,25 +73,6 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         addCommand(noCommand);
     }
 
-    // Update dialog
-    private boolean isBeta;
-
-    public Dialogs100kb(String latestVersion, boolean isBeta) {
-        super(
-            Locale.get(UPDATE_AVAILABLE_TITLE),
-            Locale.get(UPDATE_AVAILABLE) + App.VERSION_NAME + Locale.get(UPDATE_AVAILABLE_LATEST) + latestVersion
-        );
-
-        setCommandListener(this);
-        this.isBeta = isBeta;
-        dialogType = UPDATE_DIALOG;
-
-        yesCommand = Locale.createCommand(UPDATE, Command.OK, 1);
-        noCommand = Locale.createCommand(CLOSE, Command.BACK, 0);
-        addCommand(yesCommand);
-        addCommand(noCommand);
-    }
-
     protected void showNotify() {
         if (dialogType == NOTIFICATION_DIALOG && !hasPlayedSound) {
             App.gateway.playNotificationSound();
@@ -132,24 +108,6 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
                     App.gateway.start();
                 }
                 App.disp.setCurrent(lastScreen);
-                break;
-            }
-
-            case UPDATE_DIALOG: {
-                if (c == yesCommand) {
-                    StringBuffer target = new StringBuffer();
-        
-                    target.append(Settings.api);
-                    target.append("/discord_");
-                    target.append(App.VERSION_VARIANT);
-                    if (isBeta) target.append("_beta");
-                    target.append(".jad");
-        
-                    App.platRequest(target.toString());
-                }
-                else {
-                    App.disp.setCurrent(MainMenu.get(false));
-                }
                 break;
             }
         }

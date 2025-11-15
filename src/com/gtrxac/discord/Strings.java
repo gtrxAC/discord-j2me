@@ -272,14 +272,6 @@ public interface Strings {
     static final int TRANSLATOR_RU = 267;
     static final int VIEW = 268;
     static final int VIEW_L = 269;
-    static final int AUTO_UPDATE = 270;
-    static final int UPDATE_AVAILABLE_TITLE = 271;
-    static final int UPDATE_AVAILABLE = 272;
-    static final int UPDATE_AVAILABLE_LATEST = 273;
-    static final int UPDATE = 274;
-    static final int UPDATE_L = 275;
-    static final int RELEASES_ONLY = 276;
-    static final int AUTO_UPDATE_ALL_STR = 277;
     static final int TRANSLATOR_DE = 278;
     static final int TRANSLATOR_HR = 279;
     static final int SIZE_BYTES = 280;

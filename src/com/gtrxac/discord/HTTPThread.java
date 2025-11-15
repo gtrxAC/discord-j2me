@@ -175,30 +175,6 @@ public class HTTPThread extends Thread implements Strings {
                 App.uploadToken = resp.getString("_uploadtoken", Settings.token);
                 haveFetchedUserInfo = true;
 
-                int latest = resp.getInt("_latestbeta", 0);
-
-                if (latest > App.VERSION_CODE && Settings.autoUpdate == Settings.AUTO_UPDATE_ALL) {
-                    String latestName = resp.getString("_latestbetaname", Locale.get(NAME_UNKNOWN));
-//#ifdef OVER_100KB
-                    App.disp.setCurrent(new UpdateDialog(latestName, true));
-//#else
-                    App.disp.setCurrent(new Dialogs100kb(latestName, true));
-//#endif
-                    return;
-                }
-                
-                latest = resp.getInt("_latest", 0);
-
-                if (latest > App.VERSION_CODE && Settings.autoUpdate != Settings.AUTO_UPDATE_OFF) {
-                    String latestName = resp.getString("_latestname", Locale.get(NAME_UNKNOWN));
-//#ifdef OVER_100KB
-                    App.disp.setCurrent(new UpdateDialog(latestName, false));
-//#else
-                    App.disp.setCurrent(new Dialogs100kb(latestName, false));
-//#endif
-                    return;
-                }
-
 //#ifdef EMOJI_SUPPORT
                 newEmojiJsonVersion = resp.getInt("_emojiversion", 0);
                 newEmojiSheetVersions = resp.getArray("_emojisheets", null);

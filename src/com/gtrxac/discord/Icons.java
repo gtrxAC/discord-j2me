@@ -51,7 +51,6 @@ public class Icons {
     Image pigler;
 //#endif
     Image about;
-    Image autoUpdate;
 //#ifdef NOKIA_UI_ICON
     Image nokiaUI;
 //#endif
@@ -154,46 +153,13 @@ public class Icons {
         fullscreen = sh.next();
         keepChLoaded = sh.next();
         scrollBars = sh.next();
-//#ifdef PIGLER_SUPPORT
-        pigler = sh.next();
-//#else
         sh.skip();
-//#endif
         about = sh.next();
-        autoUpdate = sh.next();
-//#ifdef NOKIA_UI_ICON
-        nokiaUI = sh.next();
-//#else
-        sh.skip();
-//#endif
-//#ifdef J2ME_LOADER
-        android = sh.next();
-//#else
-        sh.skip();
-//#endif
+        sh.skip(3);
         vibra = sh.next();
-//#ifdef OVER_100KB
-//#ifdef EMOJI_SUPPORT
-        emoji = sh.next();
-//#else
-        sh.skip();
-//#endif
-        markdown = sh.next();
-        typing = sh.next();
-        dataManager = sh.next();
-//#else
         sh.skip(4);
-//#endif
-//#ifdef MIDP2_GENERIC
-        if (Util.isFullTouch) sh.skip();
-        else
-//#endif
         fastScroll = sh.next();
-//#ifdef OVER_100KB
-        themeCustom = sh.next();
-//#else
         sh.skip();
-//#endif
         flagGB = sh.next();
         flagUS = sh.next();
         flagES = sh.next();
