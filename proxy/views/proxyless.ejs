@@ -29,6 +29,10 @@
             color: #700;
             font-weight: bold;
         }
+        .maybe {
+            color: #750;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -74,8 +78,13 @@
                 <td>aNokiCert fails to connect on the Nokia 301 and similar devices.</td>
             </tr>
             <tr>
-                <td>Symbian below 9.1 (S60v2, S80)</td>
+                <td>Symbian S60v2 FP1 and below</td>
                 <td><div class="no">No</div></td>
+                <td>TLS 1.2 patch is unsupported. Does not support CLDC 1.1, which is required for Java-based TLS 1.2.</td>
+            </tr>
+            <tr>
+                <td>Symbian S60v2 FP2, FP3, and Series 80</td>
+                <td><div class="maybe">No?</div></td>
                 <td>TLS 1.2 patch is unsupported. Certificate can be installed, but signed app installation still fails for some reason.</td>
             </tr>
             <tr>
@@ -85,7 +94,7 @@
             </tr>
             <tr>
                 <td>Sony Ericsson</td>
-                <td><div class="no">No</div></td>
+                <td><div class="maybe">No?</div></td>
                 <td>Certificate can be installed via file system modification. HTTPS connection fails for some reason.</td>
             </tr>
             <tr>
