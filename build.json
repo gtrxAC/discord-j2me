@@ -56,12 +56,6 @@
     "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "icon.svg"]
   },
   {
-    "name": "discord_samsung_100kb",
-    "defines": ["SAMSUNG", "SAMSUNG_100KB", "OLD_ABOUT_SCREEN", "NOT_S40"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
-    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "selector.png", "notify.mid", "sparkle.png", "icon.svg", "bar.png"]
-  },
-  {
     "name": "discord_lg",
     "defines": ["LG", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "NOT_S40"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
