@@ -7,6 +7,7 @@ public class UploadWarningDialog extends Dialog implements Strings, CommandListe
     Displayable lastScreen;
     private Command okCommand;
     private Command hideCommand;
+    private Command cancelCommand;
     Message recipientMsg;
 
     UploadWarningDialog(Message recipientMsg) {
@@ -17,19 +18,25 @@ public class UploadWarningDialog extends Dialog implements Strings, CommandListe
 
         okCommand = Locale.createCommand(OK, Command.OK, 0);
         hideCommand = Locale.createCommand(HIDE, Command.OK, 1);
+        cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 0);
         addCommand(okCommand);
         addCommand(hideCommand);
+        addCommand(cancelCommand);
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == hideCommand) {
-            Settings.hasSeenUploadWarning = true;
-            Settings.save();
+        if (c == cancelCommand) {
+            App.disp.setCurrent(lastScreen);
+        } else {
+            if (c == hideCommand) {
+                Settings.hasSeenUploadWarning = true;
+                Settings.save();
+            }
+            if (!Settings.nativeFilePicker) {
+                App.openChannelView(false);
+            }
+            App.channelView.uploadFile(recipientMsg);
         }
-        if (!Settings.nativeFilePicker) {
-            App.openChannelView(false);
-        }
-        App.channelView.uploadFile(recipientMsg);
     }
 }
 //#endif

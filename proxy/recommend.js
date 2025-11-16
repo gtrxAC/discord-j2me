@@ -5,9 +5,11 @@
 const mainVersionDownloadLinks = {
     "midp2":            { version: "5.1", betaVersion: "5.2", target: "Nokia S40v3+ and Symbian S60v3+" },
     "nokia_128px":      { version: "5.1", betaVersion: "5.2", target: "Nokia S40v3+ (128x160)" },
+    "nokia_128px_tls":  { version: null, betaVersion: "5.2", target: "Nokia S40v3+ (128x160) with TLS", tls: true },
     "s40v2":            { version: "5.1", betaVersion: "5.2", target: "Nokia S40v2" },
     "s60v2":            { version: "5.1", betaVersion: "5.2", target: "Symbian S60v2" },
     "midp2_alt":        { version: "5.1", betaVersion: "5.2", target: "other MIDP2 devices" },
+    "midp2_alt_tls":    { version: null, betaVersion: "5.2", target: "Nokia S40v3+ with TLS", tls: true },
     "blackberry":       { version: "5.1", betaVersion: "5.2", target: "BlackBerry" },
     "samsung":          { version: "5.1", betaVersion: "5.2", target: "Samsung" },
     "samsung_100kb":    { version: "5.1", betaVersion: "5.2", target: "Samsung (100 kB version)" },
@@ -47,8 +49,9 @@ function downloadLinkHtml(name, beta) {
     if (beta) name += "_beta";
 
     const jad = (obj.showJad || obj.showJad === undefined) ? `<a href="/discord_${name}.jad">JAD</a> - ` : '';
+    const tlsGuide = (obj.tls) ? ` - <a href="/j2me/proxyless">Guide</a>` : '';
 
-    return `<p>${beta ? (obj.betaVersion + ' beta') : obj.version} for ${target} <br/> ${jad}<a href="/discord_${name}.jar">JAR</a></p>`;
+    return `<p>${beta ? (obj.betaVersion + ' beta') : obj.version} for ${target} <br/> ${jad}<a href="/discord_${name}.jar">JAR</a>${tlsGuide}</p>`;
 }
 
 function arrayDownloadLinkHtml(versions) {
@@ -99,11 +102,14 @@ function getRecommendedVersionsArray(req) {
     if (/^nokia(2855|315|322|507|514|602|6030|60[67]|6085|610|615[25]|6170|623[05]|6255|68|72[67]|736|880\d\/)/g.test(ua)) {
         return ["RECOMMENDED", "s40v2", "SHOW_ALL"];
     }
-    if (/^nokia(168|2220|23[23]|26|27[26]|2865|310|3110|350|520|608[56]|6111|6125|6136|6151|616|707|c1|c2-00)/g.test(ua)) {
+    if (/^nokia(2690|3109|3110|350|520|608[56]|6125|6136|6151|c1|c2-00)/g.test(ua)) {  // 128x with 1mb jar size
+        return ["RECOMMENDED", "nokia_128px_tls", "nokia_128px", "SHOW_ALL"];
+    }
+    if (/^nokia(168|2220|23[23]|26|27[26]|2865|310|6111|616|707)/g.test(ua)) {  // 128x with lower jar size
         return ["RECOMMENDED", "nokia_128px", "SHOW_ALL"];
     }
     if (midp2) {
-        if (ua.includes('nokia')) return ["RECOMMENDED", "midp2_s40", "SHOW_ALL"];
+        if (ua.includes('nokia')) return ["RECOMMENDED", "midp2_alt_tls", "midp2_s40", "SHOW_ALL"];
         return ["RECOMMENDED", "midp2_alt", "SHOW_ALL"];
     }
     if (/linux|mac|windows/g.test(ua) && !/windows (ce|mobile)/g.test(ua)) {

@@ -100,7 +100,7 @@ Strings
         append(apiField);
         append(cdnField);
 //#ifdef PROXYLESS_SUPPORT
-//#ifdef J2ME_LOADER
+//#ifdef PROXYLESS_DEFAULT
         append(new StringItem(null, Locale.get(PROXYLESS_INFO)));
 //#else
 //#ifdef MIDP2_GENERIC

@@ -24,8 +24,12 @@ MIDlet-Icon: /icon.png
 //#endif
 MIDlet-Name: Discord
 MIDlet-Vendor: gtrxAC
-MIDlet-Version: 5.1.0
+MIDlet-Version: 5.2.0
+//#ifdef MODERNCONNECTOR
+MicroEdition-Configuration: CLDC-1.1
+//#else
 MicroEdition-Configuration: CLDC-1.0
+//#endif
 MicroEdition-Profile: MIDP-2.0
 //#ifdef NOKIA_S60_MANIFEST
 Nokia-Scalable-Icon: /icon.svg
@@ -53,3 +57,4 @@ LGE-MIDlet-TargetLCD-Width: 480
 MIDletX-Big-Icon: /icon_32.png
 MIDletX-Medium-Icon: /icon_38_18.png
 //#endif
+MIDlet-Permissions-Opt: javax.microedition.io.Connector.http, javax.microedition.io.Connector.socket, javax.microedition.io.Connector.file.read

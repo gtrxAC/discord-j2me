@@ -342,6 +342,10 @@ app.get('/j2me/guide', checkIsModern, async (req, res) => {
     res.render("guide", {isModern: res.locals.isModern})
 });
 
+app.get('/j2me/proxyless', checkIsModern, async (req, res) => {
+    res.render("proxyless", {isModern: res.locals.isModern})
+});
+
 // Get user's server list
 // Has cache which can be used with query parameter "c". This param is included by newer clients except when the list is force refreshed
 const userGuilds = new LRUCache({max: 200});
@@ -660,8 +664,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             // Latest available beta version.
             // If there is no beta version, the version number should be set to 0 (so clients will always download the newer release version).
             // If there is a beta version, the beta version number should be higher than the release one.
-            _latestbeta: 25,
-            _latestbetaname: "5.2.0 beta1",
+            _latestbeta: 26,
+            _latestbetaname: "5.2.0 beta2",
 
             // Version number of emoji JSON data.
             // When the JSON is edited, this number should be increased by one.
