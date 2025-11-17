@@ -74,8 +74,8 @@
             </tr>
             <tr>
                 <td>Nokia Series 40<br><i>some phone models released around 2012-2013</i></td>
-                <td><div class="no">No</div></td>
-                <td>aNokiCert fails to connect on the Nokia 301 and similar devices.</td>
+                <td><div class="maybe">Maybe</div></td>
+                <td>aNokiCert fails to connect on the Nokia 301 and similar devices. MobiMB 3.6.5 has been reported to work on such devices.</td>
             </tr>
             <tr>
                 <td>Symbian S60v2 FP1 and below</td>
@@ -88,9 +88,9 @@
                 <td>TLS 1.2 patch is unsupported. Certificate can be installed, but signed app installation still fails for some reason.</td>
             </tr>
             <tr>
-                <td>Symbian 9.1 and up (S60v3 and up, UIQ3)<br><i>on devices with more than 64 MB RAM</i></td>
+                <td>Symbian 9.1 and up (S60v3 and up, UIQ3)</td>
                 <td><div class="yes">Yes</div></td>
-                <td>TLS 1.2 can be installed on a system level; certificate is not required. If the device's RAM is too low, the app runs out of memory and the chat does not render.</td>
+                <td>TLS 1.2 can be installed on a system level; certificate is not required.</td>
             </tr>
             <tr>
                 <td>Sony Ericsson</td>
@@ -139,7 +139,8 @@
         <p>A full guide has not been written yet, but to install the certificate, connect your SE device to SEFP2, go to /tpa/preset/custom, and replace Utiroot.cer with <a href="/fh/exp.cer">the custom certificate</a> (make sure to keep the original file name Utiroot.cer). Finally, do a full reset on your phone.</p>
 
         <h2>What if my device is unsupported?</h2>
-        <p>It is highly recommended to host your own proxy server if possible. If you're using the public proxy server, disabling the <i>Use gateway</i> option in the login screen reduces the chances of getting your account restricted.</p>
+        <p>It is highly recommended to host your own proxy server if possible. This can be done on your own PC via services like ngrok, or by renting a VPS.</p>
+        <p>If you're using the public proxy server, disabling the <i>Use gateway</i> option in the login screen reduces the chances of getting your account restricted.</p>
     </div>
 </body>
 </html>
