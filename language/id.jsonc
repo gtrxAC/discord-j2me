@@ -650,7 +650,7 @@
     "Bahasa Portugis (Brasil)",
     "Bahasa Thailand",
     "Bahasa Portugis",
-    "Bahasa Tionghoa Tradisional dan Kanton",
+    "Bahasa Tionghoa (Tradisional) dan Kanton",
     "Bahasa Ukraina",
     "Bahasa Romania",
     "Bahasa Turki",
@@ -884,54 +884,54 @@
 
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.
-    "Guide",
-    "Setup guide",
+    "Panduan",
+    "Panduan",
 
     // Option in login screen to use direct connection (proxyless) mode.
-    "Direct connection",
+    "Sambungan langsung",
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "Direct connection reduces the risk of an account restriction.",
+    "Sambungan langsung dapat mengurangi risiko pembatasan akun anda.",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "Direct connection (",
-    "requires TLS 1.2",
-    ") reduces the risk of an account restriction.",
+    "Sambungan langsung (",
+    "memerlukan TLS 1.2",
+    ") dapag mengurangi risiko pembatasan akun.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
-    "Get TLS",
-    "Get TLS",
+    "Dapatkan TLS",
+    "Dapatkan TLS",
 
     // Text shown in bottom message bar.
-    "Message",
+    "Pesan",
 
     // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
-    "Message ",
+    "Pesan ",
 
     // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
     // You should use the same term for "Direct connection" that you used above.
-    "Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "Gawai anda tidak mendukung penyuntingan pesan dalam mode sambungan langsung.\nApakah Anda ingin menyunting pesan ini melalui proxy?\nTekan 'Sembunyikan' untuk menggunakan proxy seterusnya.",
 
-    "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "Gawai anda tidak mendukung penghapusan pesan dalam mode sambungan langsung.\nApakah Anda ingin menghapus pesan ini melalui proxy?\nTekan 'Sembunyikan' untuk menggunakan proxy seterusnya.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Chinese (Simplified)",
+    "Bahasa Tionghoa (Sederhana)",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Time format",
+    "Format waktu",
 
     // Title for time preview shown in the time format screen.
-    "Preview",
+    "Pratinjau",
 
     // Titles for sliders in the time format screen for changing the time offset.
-    "Time offset (hours)",
-    "Time offset (minutes)",
+    "Selisih waktu (jam)",
+    "Selisih waktu (menit)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negative offset",
+    "Selisih negatif",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Hungarian"
+    "Bahasa Hungaria"
 
 ]
