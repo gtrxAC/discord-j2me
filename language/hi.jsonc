@@ -1,4 +1,9 @@
 [
+    // If you're reading this and are a native Hindi speaker,
+    // please proofread and/or improve this file!
+    // यदि आप इसे पढ़ रहे हैं और मूल रूप से हिंदी बोलने वाले हैं,
+    // तो कृपया इस फ़ाइल का प्रूफ़रीड करें और/या इसे सुधारें!
+
     // Translation notes:
     // - Any line that begins with a "//" is a comment and is ignored.
     //   In this file, comments are used for explaining each string.
@@ -20,277 +25,277 @@
     //   short label, use the same string for both labels.
 
     // Placeholder file name shown when the name of an attachment in the attachment view screen could not be loaded.
-    "Unnamed file",
+    "अनाम फ़ाइल",
 
     // Title text for the attachment picker (native file picker) screen.
-    "Select attachment",
+    "संलग्नक चुनें",
 
     // Softkey labels for going back to the previous screen.
-    "Back",
-    "Back",
+    "वापस",
+    "वापस",
 
     // Softkey label for closing a menu.
     // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
-    "Close",
-    "Close",
+    "बंद करें",
+    "बंद करें",
 
     // Title text for attachment view screen.
-    "Attachments",
+    "संलग्नक",
 
     // Softkey labels for refetching contents of channel view or attachment view.
-    "Refresh",
-    "Refresh",
+    "ताज़ा करें",
+    "ताज़ा करें",
 
     // Softkey labels used in channel or DM list for marking the selected channel or DM as read.
-    "Mark as read",
-    "Mark as read",
+    "पढ़ा हुआ",
+    "पढ़ा हुआ चिह्नित करें",
 
     // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
-    "Mark all as read",
-    "Mark all as read",
+    "सभी को पढ़ा",
+    "सभी को पढ़ा हुआ चिह्नित करें",
 
     // Generic "Select" softkey labels.
-    "Select",
-    "Select",
+    "चुनें",
+    "चुनें",
 
     // Softkey labels for sending a message in the currently open channel.
-    "Send",
-    "Send message",
+    "भेजें",
+    "संदेश भेजें",
 
     // Softkey labels for sending a reply to the selected message.
-    "Reply",
-    "Reply",
+    "उत्तर दें",
+    "उत्तर दें",
 
     // Softkey labels for sending an attachment in the currently open channel.
-    "Upload",
-    "Upload file",
+    "अपलोड करें",
+    "फ़ाइल अपलोड करें",
 
     // Softkey labels for copying the text content of the selected message.
-    "Copy",
-    "Copy content",
+    "प्रतिलिपि",
+    "सामग्री की प्रतिलिपि",
 
     // Softkey labels for editing the selected message.
-    "Edit",
-    "Edit",
+    "संपादित",
+    "संपादित करें",
 
     // Softkey labels for deleting the selected message.
-    "Delete",
-    "Delete",
+    "मिटायें",
+    "मिटायें",
 
     // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
-    "Open URL",
-    "Open URL",
+    "URL खोलें",
+    "URL खोलें",
 
     // Channel view title suffix when reading older messages.
-    " (old)",
+    " (पुराना)",
 
     // Text shown at the center of the channel view when it is empty (no messages).
-    "Nothing to see here",
+    "यहाँ देखने के लिए कुछ भी नहीं है",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
-    "Refresh to read new messages",
+    "नए संदेश पढ़ने के लिए रिफ्रेश करें",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
-    "Reconnecting",
+    "पुनः जुड़ना",
 
     // Channel view banner shown when a message is being sent by the client.
-    "Sending message",
+    "संदेश भेज रहा है",
 
     // Channel view banner shown when a message is being edited by the client.
-    "Editing message",
+    "संदेश संपादित करें",
 
     // Channel view banner shown when a message is being deleted by the client.
-    "Deleting message",
+    "संदेश हटाना",
 
     // Channel view banner shown when messages are being loaded, e.g. during a refresh or after a message was sent by the client.
-    "Loading messages",
+    "संदेश लोड हो रहे हैं",
 
     // Suffix for channel view banner text when one person is typing.
     // Example: "aa is typing"
-    " is typing",
+    " टाइप कर रहा है",
 
     // Suffix for channel view banner text when two or three people are typing.
     // Example: "aa, bb, cc are typing"
-    " are typing",
+    " टाइप कर रहे हैं",
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing"
-    " people are typing",
+    " लोग टाइप कर रहे हैं",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
     ", ",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
-    "This proxy does not support file uploading",
-    "This proxy does not support deleting messages",
-    "This proxy does not support editing messages",
+    "यह प्रॉक्सी फ़ाइल अपलोडिंग का समर्थन नहीं करता है",
+    "यह प्रॉक्सी संदेशों को हटाने का समर्थन नहीं करता है",
+    "यह प्रॉक्सी संदेशों को संपादित करने का समर्थन नहीं करता है",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
-    "FileConnection not supported",
+    "FileConnection समर्थित नहीं है",
 
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
-    "Older",
-    "View older messages",
-    "Newer",
-    "View newer messages",
+    "पुराने",
+    "पुराने संदेश देखें",
+    "नए",
+    "नए संदेश देखें",
     
     // Parts of the button label for viewing attachments of a message.
     // Examples: "View 1 attachment", "View 2 attachments"
-    "View ",
-    " attachment",
-    " attachments",
+    "संलग्नक ",
+    " देखें",
+    " देखें",
 
     // Title for confirmation screen shown when deleting a message.
-    "Delete",
+    "हटाएँ",
 
     // Body text for confirmation screen shown when deleting a message.
-    "Delete this message?",
+    "इस संदेश को हटाएँ?",
 
     // Generic softkey labels.
-    "Yes",
-    "Yes",
-    "No",
-    "No",
-    "OK",
-    "OK",
+    "हाँ",
+    "हाँ",
+    "नहीं",
+    "नहीं",
+    "ठीक है",
+    "ठीक है",
 
     // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
-    "(unknown)",
+    "(अज्ञात)",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    "(no content)",
+    "(कोई सामग्री नहीं)",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    "(unsupported message)",
+    "(असमर्थित संदेश)",
 
     // Message content shown for a message that has been deleted.
-    "(message deleted)",
+    "(संदेश हटा दिया गया)",
 
     // Title text for direct message search screen.
-    "Search DMs",
+    "DM खोजें",
 
     // Guide text for text field in direct message search and "insert mention" screens.
-    "Enter username",
+    "उपयोगकर्ता नाम दर्ज करें",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "User not found. Try creating the DM from another client.",
+    "उपयोगकर्ता नहीं मिला। किसी अन्य क्लाइंट से DM बनाने का प्रयास करें।",
 
     // Title text for direct message list.
-    "Direct message",
+    "सीधा संदेश",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
-    "Search",
-    "Search",
+    "खोजें",
+    "खोजें",
 
     // Title text shown for all error message screens.
-    "Error",
+    "त्रुटि",
 
     // Title text shown for guild (server) selector.
-    "Servers",
+    "सर्वर",
 
     // Title text shown for favorite servers list.
-    "Favourites",
+    "पसंदीदा",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
-    "Remove",
-    "Remove",
+    "हटाएँ",
+    "हटाएँ",
 
     // Softkey command for adding a server to the favorites list.
-    "Favourite",
-    "Add to favourites",
+    "पसंदीदा",
+    "पसंदीदा में जोड़ें",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "Heartbeat thread error: ",
+    "Heartbeat थ्रेड त्रुटि: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "Check your token",
+    "अपना टोकन जांचें",
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
     // e.g. HTTP error 500
-    "HTTP error ",
+    "HTTP त्रुटि ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "CDN URL has not been defined. Attachments are not available.",
+    "CDN URL परिभाषित नहीं किया गया है। संलग्नक उपलब्ध नहीं हैं।",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
     " (",
     ")",
 
     // Softkey labels for showing a text attachment's contents within the app.
-    "Show",
-    "Show as text",
+    "दिखाएँ",
+    "टेक्स्ट के रूप में दिखाएँ",
 
     // Softkey labels for showing an attachment in the device's built-in web browser.
-    "Open",
-    "Open in browser",
+    "खोलें",
+    "ब्राउज़र में खोलें",
 
     // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
-    "Loading...",
+    "लोड हो रहा है...",
 
     // Loading screen text shown when an attachment is being sent.
-    "Sending...",
+    "भेज रहा है...",
 
     // Error message prefix shown when an error occurs while uploading an attachment.
-    "Error while sending file: ",
+    "फ़ाइल भेजते समय त्रुटि: ",
     
     // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
-    "Skip",
-    "Skip",
+    "छोड़ें",
+    "छोड़ें",
 
     // Key press prompt shown in hotkey mapper.
-    "Press the key to use for:",
+    "उपयोग करने के लिए कुंजी दबाएँ:",
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
     // "going back" only applies to the chat view. 
-    "sending a message",
-    "replying to message",
-    "copying message content",
-    "refreshing messages",
-    "going back",
+    "संदेश भेजना",
+    "संदेश का जवाब",
+    "संदेश की सामग्री की प्रतिलिपि बना रहा है",
+    "ताज़गी भरे संदेश",
+    "वापस जाना",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-    "This key is already mapped to ",
+    "यह कुंजी पहले से ही मैप की जा चुकी है ",
 
     // Title text shown in login screen.
-    "Log in",
+    "लॉग इन करें",
 
     // Proxy server warning message shown at the top of the login screen.
-    "Only use proxies that you trust!",
+    "केवल उन्हीं प्रॉक्सी का उपयोग करें जिन पर आप भरोसा करते हैं!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended.",
+    "टोकन आपके ब्राउज़र के डेवलपर टूल्स में मिल सकता है (मदद के लिए ऑनलाइन देखें)। एक वैकल्पिक खाते का उपयोग करने की सलाह दी जाती है।",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
-    "Use Wi-Fi",
+    "Wi-Fi का उपयोग करें",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
     "API URL",
     "CDN URL",
-    "Gateway URL",
-    "Token",
+    "गेटवे URL",
+    "टोकन",
 
     // Softkey label for confirming the login options in the login screen.
-    "Log in",
-    "Log in",
+    "लॉग इन करें",
+    "लॉग इन करें",
 
     // Softkey command for exiting the application.
-    "Quit",
-    "Quit",
+    "छोड़ो",
+    "छोड़ो",
 
     // "Use gateway" option shown in login screen.
-    "Use gateway",
+    "गेटवे का उपयोग करें",
 
     // Label for radio button field for token sending options.
-    "Send token as",
+    "टोकन को इस रूप में भेजें",
 
     // Token sending options.
-    "Header (default)",
+    "शीर्षक (डिफ़ॉल्ट)",
     "JSON",
-    "Query parameter",
+    "क्वेरी पैरामीटर",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
     "Please enter your token",
