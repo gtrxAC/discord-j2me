@@ -897,7 +897,7 @@
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
     "Sambungan langsung (",
     "memerlukan TLS 1.2",
-    ") dapag mengurangi risiko pembatasan akun.",
+    ") dapat mengurangi risiko pembatasan akun anda.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
     "Dapatkan TLS",
