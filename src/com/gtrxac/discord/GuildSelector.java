@@ -53,6 +53,8 @@ public class GuildSelector extends ListScreen implements CommandListener, String
                 moveUpCommand = Locale.createCommand(MOVE_UP, Command.ITEM, 2);
                 moveDownCommand = Locale.createCommand(MOVE_DOWN, Command.ITEM, 3);
                 removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 4);
+                addCommand(moveUpCommand);
+                addCommand(moveDownCommand);
                 addCommand(removeFavCommand);
             } else {
                 addFavCommand = Locale.createCommand(ADD_FAVORITE, Command.ITEM, 4);

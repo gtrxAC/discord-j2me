@@ -128,8 +128,8 @@ public class FavoriteGuilds {
 
     public static void swap(int indexA, int indexB) {
         if (indexB >= guilds.size()) return;
-        JSONObject temp = guilds.getObject(indexA);
-        guilds.set(indexA, guilds.getObject(indexB));
+        String temp = guilds.getString(indexA);
+        guilds.set(indexA, guilds.getString(indexB));
         guilds.set(indexB, temp);
         hasChanged = true;
         openSelector(false, false);
