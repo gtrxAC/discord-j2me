@@ -698,245 +698,245 @@
     "스레드 보기",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Set",
-    "Set token",
+    "설정",
+    "토큰 설정",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Change",
-    "Change token",
+    "변경",
+    "토큰 변경",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
-    "Android notifications",
+    "안드로이드 알림",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "NEW",
+    "새로",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Upload this image?",
+    "이 이미지를 업로드하시겠습니까?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
-    "File picker preview",
+    "파일 선택기 미리보기",
 
     // Header shown at the top of every forwarded message.
-    "Forwarded message:",
+    "전달된 메시지:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "To set your token, press the BlackBerry key.",
-    "To change your token, press the BlackBerry key.",
+    "토큰을 설정하려면 BlackBerry 키를 누르십시오.",
+    "토큰을 변경하려면 BlackBerry 키를 누르십시오.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Not enough memory to show image preview",
+    "이미지 미리보기를 표시할 메모리가 부족합니다",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Show emoji",
+    "이모티콘 표시",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
-    "Default only",
+    "기본값만",
 
     // Option for "Show emoji" setting where all emoji are shown.
-    "All",
+    "모두",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Import",
-    "Import token",
+    "가져오기",
+    "토큰 가져오기",
 
     // Title text for the token import file picker screen.
-    "Select token file",
+    "토큰 파일 선택",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
-    "Downloading emoji...",
+    "이모티콘을 다운로드 중...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "French",
-    "Bulgarian",
+    "프랑스어",
+    "불가리아어",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
-    "Text formatting",
+    "텍스트 서식 지정",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "Emoji",
-    "Insert emoji",
+    "이모티콘",
+    "이모티콘 삽입",
 
     // Title for emoji picker screen.
-    "Select emoji",
+    "이모티콘 선택",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Download emoji data?",
+    "이모티콘 데이터를 다운로드하시겠습니까?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    "(edited)",
+    "(편집됨)",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
-    "Underscore",
-    "Insert underscore",
+    "밑줄",
+    "밑줄 삽입",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Notification sound",
+    "알림 소리",
 
     // Settings option for toggling vibration alert for notifications.
-    "Vibration",
+    "진동",
 
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Mute",
-    "Mute/Unmute",
+    "음소거",
+    "음소거",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
-    "scrolling to top",
-    "scrolling to bottom",
+    "위로 스크롤에",
+    "아래로 스크롤에",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Send typing indicator",
+    "입력 중 표시",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Use as",
-    "Use as notif. sound",
+    "사용",
+    "알림 소리로 사용",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
-    "Apply this as the notification sound?",
+    "이것을 알림 소리로 설정하시겠습니까?",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Play",
-    "Play again",
+    "재생",
+    "다시 재생",
 
     // Confirmation message shown when a new notification sound has been set.
-    "Notification sound applied!",
+    "알림 송리 적용됨!",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Manage data",
+    "데이터 관리",
 
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Emoji images",
+    "이모티콘 이미지",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
-    "Last read messages",
+    "마지막으로 읽은 메시지",
     // Custom sound file applied as the notification sound via a message attachment.
-    "Notification sound",
+    "알림 소리",
     // Translated string data for a downloaded language translation.
-    "Language data",
+    "언어 데이터",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Delete",
+    "삭제",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Delete this item?\n",
+    "이 항목을 삭제하시겠습니까?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Open browser",
+    "브라우저 열기",
 
     // Text shown in that dialog box.
-    "Do you want to open the web browser? The app will be closed.",
+    "웹 브라우저를 열겠습니까? 앱이 종료됩니다.",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
-    "Fast scrolling",
+    "빠른 스크롤",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Failed to play sound. The file type may be unsupported.",
+    "사운드 재생에 실패했습니다. 파일 형식이 지원되지 않을 수 있습니다.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japanese",
-    "Catalan",
-    "Arabic",
+    "일본어",
+    "카탈로니아어",
+    "아랍어",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
     "System",
 
     // Theme option shown in settings for the user-defined theme.
-    "Custom",
+    "맞춤형",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
-    "Theme",
-    "Do you want to apply this theme?",
+    "테마",
+    "이 테마를 적용하시겠습니까?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Theme",
+    "테마",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Not enough memory to show emoji picker",
+    "이모티콘 선택기를 표시할 메모리가 부족합니다",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+    "HTTP 502: 프록시 서버를 현재 사용할 수 없습니다. 나중에 다시 시도하거나 개발자에게 문의하십시오.",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: The request was unexpectedly redirected. Please check your connection.",
+    "HTTP 302: 요청이 예기치 않게 리디렉션되었습니다. 연결 상태를 확인해 주세요.",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
-    "Warning",
-    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+    "경고",
+    "Discord 타사 클라이언트에서 업로드된 파일을 스팸으로 표시하는 것으로 알려져 있습니다. 이는 2단계 인증이나 인증된 전화번호가 없는 신규 계정에서 자주 발생합니다. 계속 진행할 경우 책임은 본인에게 있습니다.\n다시 표시하지 않으려면 '숨김'를 선택하세요.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Hide",
-    "Hide",
+    "숨기",
+    "숨기",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?",
+    "Discord 타사 클라이언트에서 보내는 새로운 다이렉트 메시지를 스팸으로 표시하는 것으로 알려져 있습니다. 첫 메시지는 공식 클라이언트에서 보내는 것이 좋습니다. 계속하시겠습니까?",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "선호하는 서버",
+    "저장된 서버",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!",
+    "저장된",
+    "서버 목록이 캐시에 저장되었습니다!",
 
     // Related to "Types of data shown in the data manager" above.
-    "Emoji names",
+    "이모티콘 이름",
 
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.
-    "Guide",
-    "Setup guide",
+    "가이드",
+    "설정 가이드",
 
     // Option in login screen to use direct connection (proxyless) mode.
-    "Direct connection",
+    "직접 연결",
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "Direct connection reduces the risk of an account restriction.",
+    "직접 연결은 계정 제한 위험을 줄입니다.",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "Direct connection (",
-    "requires TLS 1.2",
-    ") reduces the risk of an account restriction.",
+    "직접 연결(",
+    "TLS 1.2 필요",
+    ")은 계정 제한 위험을 줄입니다.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
-    "Get TLS",
-    "Get TLS",
+    "TLS를 사용",
+    "TLS를 사용",
 
     // Text shown in bottom message bar.
-    "Message",
+    "메시지",
 
     // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
-    "Message ",
+    "메시지 ",
 
     // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
     // You should use the same term for "Direct connection" that you used above.
-    "Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "귀하의 기기는 직접 연결 모드에서 메시지 편집을 지원하지 않습니다.\n이 메시지를 프록시를 통해 편집하시겠습니까?\n'숨김'을 선택하면 항상 프록시를 사용합니다.",
 
-    "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "귀하의 기기는 직접 연결 모드에서 메시지 삭제을 지원하지 않습니다.\n이 메시지를 프록시를 통해 삭제하시겠습니까?\n'숨김'을 선택하면 항상 프록시를 사용합니다.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Chinese (Simplified)",
+    "중국어(간체)",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Time format",
+    "시간 형식",
 
     // Title for time preview shown in the time format screen.
-    "Preview",
+    "미리보기",
 
     // Titles for sliders in the time format screen for changing the time offset.
-    "Time offset (hours)",
-    "Time offset (minutes)",
+    "시간 오프셋 (시간)",
+    "시간 오프셋 (분)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negative offset",
+    "음의 오프셋",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Hungarian"
+    "헝가리어"
 
 ]
