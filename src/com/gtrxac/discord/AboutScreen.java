@@ -275,7 +275,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
             while (App.disp.getCurrent() == this) {
                 long time = System.currentTimeMillis();
                 boolean autoScroll =
-                    AboutScreenItem.titleColor == 0xFFFFFF
+                    AboutScreenItem.contentColor > 0xAAAAAA
 //#ifdef TOUCH_SUPPORT
                     && velocity <= 1 && !usingScrollBar
 //#endif
@@ -353,7 +353,13 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         App.disp.setCurrent(MainMenu.get(false));
     }
 
+    // make the app name and version number immediately visible
+    private void skipAnimation() {
+        while (AboutScreenItem.titleColor < 0xFFFFFF) update();
+    }
+
     protected void keyAction(int keycode) {
+        skipAnimation();
         switch (getGameAction(keycode)) {
             case UP: {
                 scroll -= Util.fontSize*3;
@@ -366,6 +372,13 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         }
         repaint();
     }
+
+//#ifdef TOUCH_SUPPORT
+    protected void pointerReleased(int x, int y) {
+        skipAnimation();
+        super.pointerReleased(x, y);
+    }
+//#endif
 
     protected int getMinScroll() { return 0; }
     protected int getMaxScroll() { return Math.max(maxScroll - getHeight(), 0); }
