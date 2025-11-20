@@ -988,6 +988,10 @@ public class HTTPThread extends Thread implements Strings {
                     break;
                 }
 //#endif
+                case MARK_AS_READ: {
+                    e.printStackTrace();
+                    break;
+                }
                 default: {
                     App.error(e, prevScreen);
                     break;
