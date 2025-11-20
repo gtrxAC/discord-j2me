@@ -406,4 +406,8 @@ public interface Strings {
     static final int TIME_OFFSET_MIN = 377;
     static final int NEGATIVE_OFFSET = 378;
     static final int TRANSLATOR_HU = 379;
+    static final int MOVE_UP = 380;
+    static final int MOVE_UP_L = 381;
+    static final int MOVE_DOWN = 382;
+    static final int MOVE_DOWN_L = 383;
 }

@@ -125,4 +125,13 @@ public class FavoriteGuilds {
 
         hasChanged = false;
     }
+
+    public static void swap(int indexA, int indexB) {
+        if (indexB >= guilds.size()) return;
+        JSONObject temp = guilds.getObject(indexA);
+        guilds.set(indexA, guilds.getObject(indexB));
+        guilds.set(indexB, temp);
+        hasChanged = true;
+        openSelector(false, false);
+    }
 }
