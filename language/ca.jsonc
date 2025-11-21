@@ -935,9 +935,9 @@
     "Hongarès",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "Up",
-    "Move up",
-    "Down",
-    "Move down"
+    "Amunt",
+    "Mou amunt",
+    "Avall",
+    "Mou avall"
 
 ]
