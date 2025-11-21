@@ -937,6 +937,12 @@
     "음의 오프셋",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "헝가리어"
+    "헝가리어",
+
+    // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
+    "위로",
+    "위로 이동",
+    "아래로",
+    "아래로 이동"
 
 ]
