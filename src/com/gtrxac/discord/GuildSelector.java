@@ -11,6 +11,8 @@ public class GuildSelector extends ListScreen implements CommandListener, String
     private Vector guilds;
     private Command addFavCommand;
     private Command removeFavCommand;
+    private Command moveUpCommand;
+    private Command moveDownCommand;
     private Command refreshCommand;
 //#ifdef OVER_100KB
     private Command muteCommand;
@@ -35,23 +37,27 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         }
         UnreadManager.manualSave();
 
-        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 5);
+        refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 7);
         addCommand(refreshCommand);
 
         if (guilds.size() != 0) {
 //#ifdef OVER_100KB
-            muteCommand = Locale.createCommand(MUTE, Command.ITEM, 3);
+            muteCommand = Locale.createCommand(MUTE, Command.ITEM, 5);
             addCommand(muteCommand);
 //#endif
 //#ifndef UNLIMITED_RMS
-            saveCommand = Locale.createCommand(SAVE, Command.SCREEN, 4);
+            saveCommand = Locale.createCommand(SAVE, Command.SCREEN, 6);
             addCommand(saveCommand);
 //#endif
             if (isFavGuilds) {
-                removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 2);
+                moveUpCommand = Locale.createCommand(MOVE_UP, Command.ITEM, 2);
+                moveDownCommand = Locale.createCommand(MOVE_DOWN, Command.ITEM, 3);
+                removeFavCommand = Locale.createCommand(REMOVE, Command.ITEM, 4);
+                addCommand(moveUpCommand);
+                addCommand(moveDownCommand);
                 addCommand(removeFavCommand);
             } else {
-                addFavCommand = Locale.createCommand(ADD_FAVORITE, Command.ITEM, 2);
+                addFavCommand = Locale.createCommand(ADD_FAVORITE, Command.ITEM, 4);
                 addCommand(addFavCommand);
             }
         }
@@ -125,6 +131,14 @@ public class GuildSelector extends ListScreen implements CommandListener, String
             saveGuilds(true);
         }
 //#endif
+        else if (c == moveUpCommand) {
+            int sel = getSelectedIndex();
+            if (sel > 0) FavoriteGuilds.swap(sel, sel - 1);
+        }
+        else if (c == moveDownCommand) {
+            int sel = getSelectedIndex();
+            FavoriteGuilds.swap(sel, sel + 1);
+        }
         else {
             Guild g = (Guild) guilds.elementAt(getSelectedIndex());
 

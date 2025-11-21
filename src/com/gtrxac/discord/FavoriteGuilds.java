@@ -125,4 +125,13 @@ public class FavoriteGuilds {
 
         hasChanged = false;
     }
+
+    public static void swap(int indexA, int indexB) {
+        if (indexB >= guilds.size()) return;
+        String temp = guilds.getString(indexA);
+        guilds.set(indexA, guilds.getString(indexB));
+        guilds.set(indexB, temp);
+        hasChanged = true;
+        openSelector(false, false);
+    }
 }

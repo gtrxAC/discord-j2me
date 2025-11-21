@@ -932,6 +932,12 @@
     "Negative Verschiebung",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Ungarisch"
+    "Ungarisch",
+
+    // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
+    "Up",
+    "Move up",
+    "Down",
+    "Move down"
 
 ]

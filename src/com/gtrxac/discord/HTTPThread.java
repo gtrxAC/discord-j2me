@@ -168,8 +168,25 @@ public class HTTPThread extends Thread implements Strings {
         try {
             // Fetch user info if needed (upon first API request after starting app)
             // If Discord J2ME-specific proxy server is in use, this also checks for auto updates to app and emoji data
+            // Note: this request uses proxy even in proxyless mode, because it contains the auto-update check
             if ((!haveFetchedUserInfo || App.myUserId == null) && action != FETCH_LANGUAGE) {
+//#ifdef PROXYLESS_SUPPORT
+                JSONObject resp = null;
+                try {
+                    resp = JSON.getObject(HTTP.get("/users/@me", true));
+                }
+                catch (Exception e) {
+                    // In proxyless mode, if this request fails specifically because of the proxy being down (http 502), then get user ID via Discord directly.
+                    // TODO: user ID could also be calculated client-side in that case
+                    if (Settings.proxyless && e.toString().indexOf(Locale.get(HTTP_ERROR_PROXY)) != -1) {
+                        resp = JSON.getObject(HTTP.get("/users/@me", false));
+                    } else {
+                        throw e;
+                    }
+                }
+//#else
                 JSONObject resp = JSON.getObject(HTTP.get("/users/@me", true));
+//#endif
                 App.myUserId = resp.getString("id", "");
                 App.isLiteProxy = resp.getBoolean("_liteproxy", false);
                 App.uploadToken = resp.getString("_uploadtoken", Settings.token);
@@ -971,6 +988,10 @@ public class HTTPThread extends Thread implements Strings {
                     break;
                 }
 //#endif
+                case MARK_AS_READ: {
+                    e.printStackTrace();
+                    break;
+                }
                 default: {
                     App.error(e, prevScreen);
                     break;
