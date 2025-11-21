@@ -937,6 +937,12 @@
     "नकारात्मक विस्थापन",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "हंगेरियाई"
+    "हंगेरियाई",
+
+    // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
+    "ऊपर",
+    "ऊपर जाएँ",
+    "नीचे",
+    "नीचे जाएँ"
 
 ]
