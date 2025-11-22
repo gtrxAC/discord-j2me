@@ -19,7 +19,7 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
         rmsNames = new Vector();
         refresh();
 
-        promptYesCommand = Locale.createCommand(YES, Command.ITEM, 0);
+        promptYesCommand = Locale.createCommand(YES, Command.OK, 0);
         promptNoCommand = Locale.createCommand(NO, Command.BACK, 1);
     }
 

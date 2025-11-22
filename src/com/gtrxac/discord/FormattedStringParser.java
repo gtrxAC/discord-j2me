@@ -162,7 +162,9 @@ public class FormattedStringParser {
                         }
                     }
                     else if (curr == '<' && showEmoji && FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
+                        // '<' must not be the last char of the message
                         int checkPos = pos + 1;
+                        if (checkPos == chars.length) break specialChecks;
 
                         // '<' must be followed by 'a:' or ':'
                         if (chars[checkPos] == 'a') checkPos++;
