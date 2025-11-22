@@ -70,7 +70,7 @@
             <tr>
                 <td>Nokia Series 40, 3rd Edition and up<br><i>on devices with at least 1 MB max JAR size</i></td>
                 <td><div class="yes">Yes</div></td>
-                <td>Code-signing certificates can be installed via software like aNokiCert.</td>
+                <td>Code-signing certificates can be installed via software like aNokiCert.<br/>Early 3rd Edition devices (e.g. Nokia 6270) are not supported yet as the certs seem to be stored in a different location in the phone's file system.</td>
             </tr>
             <tr>
                 <td>Nokia Series 40<br><i>some phone models released around 2012-2013</i></td>
@@ -80,7 +80,7 @@
             <tr>
                 <td>Symbian S60v2 FP1 and below</td>
                 <td><div class="no">No</div></td>
-                <td>TLS 1.2 patch is unsupported. Does not support CLDC 1.1, which is required for Java-based TLS 1.2.</td>
+                <td>TLS 1.2 patch is unsupported. Java-based TLS could be used without needing to sign the app, but error messages are shown when using HTTPS, likely due to low memory.</td>
             </tr>
             <tr>
                 <td>Symbian S60v2 FP2, FP3, and Series 80</td>
@@ -110,7 +110,8 @@
         </table>
 
         <h2>How to use Direct connection on Nokia S40?</h2>
-        <p>This guide covers certificate installation using an Android device. There may also be other methods to install the certificate using a PC.</p>
+        <p>The code-signing certificate can be installed in two different ways, with steps for both methods listed below. After the certificate has been installed, download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</p>
+        <h3>aNokiCert method (Android)</h3>
         <ol>
             <li>Download the <a href="/fh/exp.cer">code-signing certificate</a> onto your Android device.</li>
             <li>Install <a href="/j2me/anokicert.apk">aNokiCert</a> on your Android device. Newer Android devices may restrict the installation of older apps. In such cases, you can try bypassing the restriction via ADB or by using an older device.</li>
@@ -118,7 +119,11 @@
             <li>Open aNokiCert and press the search icon on the top right. This will connect the Android device to your Nokia phone using Bluetooth.</li>
             <li>Select <i>Choose certificate</i> and find the downloaded certificate file.</li>
             <li>Press <i>Install</i>.</li>
-            <li>Download Discord J2ME onto the Nokia phone. The installation <i>must</i> be done by downloading a JAD file via the phone's browser.</li>
+        </ol>
+        <h3>MobiMB method (PC)</h3>
+        <ol>
+            <li>Download the <a href="/fh/exp.cer">exp.cer</a> and <a href="/fh/ext_info.sys">ext_info.sys</a> files onto your PC.</li>
+            <li>Using a program that can manage the file system of Nokia phones (we recommend MobiMB for Windows and Gammu for Linux), copy both downloaded files to the <i>C:/predefhiddenfolder/certificates/user</i> folder on the phone.</li>
         </ol>
 
         <h2>How to use Direct connection on Symbian S60 or Symbian^3?</h2>
