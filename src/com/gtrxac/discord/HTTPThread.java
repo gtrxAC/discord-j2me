@@ -555,12 +555,12 @@ public class HTTPThread extends Thread implements Strings {
 
                     // Show the channel view screen (hide the loading screen)
                     App.channelView.bannerText = null;
+                    App.typingUsers = new Vector();
+                    App.typingUserIDs = new Vector();
+
                     App.channelView.updateTitle();
                     App.disp.setCurrent(App.channelView);
                     App.channelView.repaint();
-
-                    App.typingUsers = new Vector();
-                    App.typingUserIDs = new Vector();
                     break;
                 }
 
