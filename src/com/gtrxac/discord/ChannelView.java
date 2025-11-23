@@ -277,7 +277,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
     private boolean checkAndLoadMessageBar() {
-        if (messageBarWidth != getWidth()) {
+        int fullWidth = getFullWidth();
+        
+        if (messageBarWidth != fullWidth) {
             final int imgWidth = 15;
             final int imgHeight = 32;
             final int imgPartWidth = 7;
@@ -317,19 +319,19 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 messageBarHash = newBarHash;
             }
 
-            Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, getWidth() - partWidth*2 + 1, barHeight);
+            Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, fullWidth - partWidth*2 + 1, barHeight);
 
-            messageBar = Image.createImage(getWidth(), barHeight);
+            messageBar = Image.createImage(fullWidth, barHeight);
             Graphics barG = messageBar.getGraphics();
 
             barG.setColor(Theme.channelViewBackgroundColor);
-            barG.fillRect(0, 0, getWidth(), barHeight);
+            barG.fillRect(0, 0, fullWidth, barHeight);
             
             barG.drawImage(messageBarLeft, 0, 0, Graphics.TOP | Graphics.LEFT);
             barG.drawImage(messageBarCenterScaled, barHeight*imgPartWidth/imgHeight, 0, Graphics.TOP | Graphics.LEFT);
-            barG.drawImage(messageBarRight, getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
+            barG.drawImage(messageBarRight, fullWidth, 0, Graphics.TOP | Graphics.RIGHT);
             barG.drawImage(getBarAttachmentIcon(), fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.LEFT);
-            barG.drawImage(getBarEmojiIcon(), getWidth() - fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.RIGHT);
+            barG.drawImage(getBarEmojiIcon(), fullWidth - fontHeight/2, fontHeight/2, Graphics.TOP | Graphics.RIGHT);
 
             String label;
             if (draftMessage.length() > 0) {
@@ -350,10 +352,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
             barG.setFont(App.messageFont);
             barG.drawString(
-                Util.stringToWidth(label, App.messageFont, getWidth() - fontHeight*4),
+                Util.stringToWidth(label, App.messageFont, fullWidth - fontHeight*4),
                 barHeight*19/20, fontHeight/2, Graphics.TOP | Graphics.LEFT
             );
-            messageBarWidth = getWidth();
+            messageBarWidth = fullWidth;
         }
         return true;
     }
@@ -922,7 +924,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
 //#ifdef TOUCH_SUPPORT
         if (shouldShowBottomBar()) {
-            g.setClip(0, 0, getWidth(), super.getHeight());
+            g.setClip(0, 0, getFullWidth(), super.getHeight());
             g.drawImage(messageBar, 0, getHeight(), Graphics.TOP | Graphics.LEFT);
         }
 //#endif

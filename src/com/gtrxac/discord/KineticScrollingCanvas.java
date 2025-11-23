@@ -63,6 +63,10 @@ implements Runnable
         return super.getWidth();
     }
 
+    public int getFullWidth() {
+        return super.getWidth();
+    }
+
     protected boolean pointerWasTapped(int fontHeight) {
         return totalScrollAbs < fontHeight/2 && Math.abs(totalScroll) < fontHeight/4;
     }
