@@ -144,6 +144,17 @@ public class ListScreen extends KineticScrollingCanvas {
         setItemHeight(getWidth());
     }
 
+    private Command backButtonCommand;
+
+    public void addCommand(Command c) {
+        super.addCommand(c);
+
+        // This command will get run when pressing the back hotkey
+        if (c.getPriority() == 0 && c.getCommandType() == Command.BACK) {
+            backButtonCommand = c;
+        }
+    }
+
     private void setItemHeight(int screenWidth) {
         separateRightItems = screenWidth < font.stringWidth("A")*30;
 
@@ -436,6 +447,11 @@ public class ListScreen extends KineticScrollingCanvas {
     public void customKeyEvent(int keycode) {}
     
     protected void keyAction(int keycode) {
+        if (keycode == Settings.backHotkey && !Settings.defaultHotkeys && backButtonCommand != null) {
+            listener.commandAction(backButtonCommand, this);
+            return;
+        }
+
         touchMode = false;
         globalTouchMode = false;
         int action = getGameAction(keycode);
