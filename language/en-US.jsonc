@@ -936,6 +936,9 @@
     null,
     null,
     null,
+    null,
+
+    // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
     null
 
 ]

@@ -936,6 +936,9 @@
     "Ylös",
     "Siirrä ylöspäin",
     "Alas",
-    "Siirrä alaspäin"
+    "Siirrä alaspäin",
+
+    // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
+    "Suora yhteys -tila on päällä, mutta socket-yhteys vaatii välityspalvelimen, jonka käyttö voi olla epäturvallista. Haluatko silti yhdistää?\nValitse 'Piilota' jos haluat aina yhdistää."
 
 ]

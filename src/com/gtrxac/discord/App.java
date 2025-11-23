@@ -138,6 +138,20 @@ public class App extends MIDlet implements Strings {
 
     public void destroyApp(boolean unconditional) {}
 
+	public static boolean hasSeenGatewayWarningTemp;
+
+	public static void startGateway() {
+//#ifdef PROXYLESS_SUPPORT
+		if (Settings.proxyless && !hasSeenGatewayWarningTemp && !Settings.hasSeenGatewayWarning) {
+			new Thread(new GatewayWarningDialog()).start();
+		} else
+//#endif
+		{
+			gateway = new GatewayThread();
+			gateway.start();
+		}
+	}
+
     public static void login() {
 		ic = null;
 		ic = new Icons();
@@ -149,10 +163,7 @@ public class App extends MIDlet implements Strings {
         loadFonts();
         disp.setCurrent(MainMenu.get(true));
 
-        if (Settings.useGateway) {
-            gateway = new GatewayThread();
-            gateway.start();
-        }
+        if (Settings.useGateway) startGateway();
     }
 
 	public static void error(String message, Displayable next) {

@@ -68,8 +68,7 @@ public class GatewayThread extends Thread implements Strings
 				App.channelView.bannerText = Locale.get(CHANNEL_VIEW_RECONNECTING);
 				App.channelView.repaint();
 			}
-			App.gateway = new GatewayThread();
-			App.gateway.start();
+            App.startGateway();
 		} else {
 //#ifdef OVER_100KB
 			App.disp.setCurrent(new ReconnectDialog(message));

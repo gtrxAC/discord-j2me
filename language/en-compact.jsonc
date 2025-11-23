@@ -938,6 +938,9 @@
     "Up",
     "Move up",
     "Down",
-    "Move down"
+    "Move down",
+
+    // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
+    "Direct connection is enabled, but connecting to gateway requires using proxy, which may be unsafe. Connect anyway?\nSelect 'Hide' to always connect."
 
 ]

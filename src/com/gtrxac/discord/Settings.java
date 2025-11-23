@@ -89,6 +89,9 @@ public class Settings {
     static boolean hasSeenEditError;
 //#endif
     static int timeOffset;
+//#ifdef PROXYLESS_SUPPORT
+    static boolean hasSeenGatewayWarning;
+//#endif
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -336,6 +339,10 @@ public class Settings {
 //#endif
         getBoolRecord(false);
         timeOffset = getIntRecord(0);
+//#ifdef PROXYLESS_SUPPORT
+        hasSeenGatewayWarning =
+//#endif
+        getBoolRecord(false);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -485,6 +492,13 @@ public class Settings {
 //#endif
         );
         setIntRecord(timeOffset);
+        setBoolRecord(
+//#ifdef PROXYLESS_SUPPORT
+            hasSeenGatewayWarning
+//#else
+            false
+//#endif
+        );
     }
 
     private static void write() throws Exception {

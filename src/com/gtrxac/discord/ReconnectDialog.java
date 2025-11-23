@@ -33,10 +33,7 @@ public class ReconnectDialog extends Dialog implements CommandListener, Strings 
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == yesCommand) {
-            App.gateway = new GatewayThread();
-            App.gateway.start();
-        }
+        if (c == yesCommand) App.startGateway();
         App.disp.setCurrent(lastScreen);
     }
 }
