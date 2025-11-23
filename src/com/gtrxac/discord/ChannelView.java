@@ -741,16 +741,6 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             _removeCommand(replyCommand);
             _removeCommand(replyUploadCommand);
         }
-
-//#ifdef TOUCH_SUPPORT
-        if (shouldShowBottomBar()) {
-            _removeCommand(sendCommand);
-            _removeCommand(uploadCommand);
-        } else {
-            _addCommand(sendCommand);
-            _addCommand(uploadCommand);
-        }
-//#endif
     }
 
     // Also used by old channel view
@@ -810,6 +800,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
             updateCommands(selected);
         }
+
+//#ifdef TOUCH_SUPPORT
+        if (shouldShowBottomBar()) {
+            _removeCommand(sendCommand);
+            _removeCommand(uploadCommand);
+        } else {
+            _addCommand(sendCommand);
+            _addCommand(uploadCommand);
+        }
+//#endif
 
         g.setFont(App.messageFont);
         clearScreen(g, Theme.channelViewBackgroundColor);

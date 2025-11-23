@@ -51,10 +51,23 @@ public abstract class MyCanvas extends Canvas {
     private static volatile boolean isKeyPressed = false;
     public static volatile long beginRepeatTime;
 
+//#ifdef MIDP2_GENERIC
+    private static long uiq3BackButtonTimer;
+//#endif
+
     protected void keyPressed(int key) {
 //#ifdef MIDP2_GENERIC
-        // Ignore home button presses which would otherwise deactivate touch mode
-        if (Util.isSymbian && key == -12) return;
+        if (Util.isSymbian) {
+            // Symbian^3: Ignore home button presses which would otherwise deactivate touch mode
+            if (key == -12) return;
+
+            // UIQ3: Back button has duplicated key events, use a timer to suppress the latter event
+            if (key == -11) {
+                long curr = System.currentTimeMillis();
+                if (curr < uiq3BackButtonTimer + 500) return;
+                uiq3BackButtonTimer = curr;
+            }
+        }
 //#endif
         keyAction(key);
 

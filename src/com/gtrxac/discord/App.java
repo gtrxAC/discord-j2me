@@ -318,7 +318,7 @@ public class App extends MIDlet implements Strings {
 
 	public static void markCurrentChannelRead() {
 		// Ensure that the channel gets marked as read even when gateway is disabled, by updating the channel's last message ID
-		if (!gatewayActive() && messages != null) {
+		if (!gatewayActive() && messages != null && messages.size() > 0) {
 			Message lastMessage = (Message) messages.elementAt(0);
 			long newLastMessageID = Long.parseLong(lastMessage.id);
 			if (isDM) {
