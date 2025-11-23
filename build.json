@@ -38,6 +38,12 @@
     "sign": true
   },
   {
+    "name": "discord_s60v2",
+    "defines": ["S60V2", "NOKIA_MIDLET_CATEGORY", "OVER_100KB", "EMOJI_SUPPORT", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "NOT_S40"],
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
+    "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon.svg", "bar.png"]
+  },
+  {
     "name": "discord_s40v2",
     "defines": ["S40V2", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "OVER_100KB"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
