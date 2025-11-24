@@ -8,8 +8,8 @@ import java.util.*;
 import cc.nnproject.json.*;
 
 public class App extends MIDlet implements Strings {
-	public static final int VERSION_CODE = 26;
-	public static final String VERSION_NAME = "5.2.0 beta2";
+	public static final int VERSION_CODE = 27;
+	public static final String VERSION_NAME = "5.2.0 beta3";
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =
@@ -138,6 +138,20 @@ public class App extends MIDlet implements Strings {
 
     public void destroyApp(boolean unconditional) {}
 
+	public static boolean hasSeenGatewayWarningTemp;
+
+	public static void startGateway() {
+//#ifdef PROXYLESS_SUPPORT
+		if (Settings.proxyless && !hasSeenGatewayWarningTemp && !Settings.hasSeenGatewayWarning) {
+			new Thread(new GatewayWarningDialog()).start();
+		} else
+//#endif
+		{
+			gateway = new GatewayThread();
+			gateway.start();
+		}
+	}
+
     public static void login() {
 		ic = null;
 		ic = new Icons();
@@ -149,10 +163,7 @@ public class App extends MIDlet implements Strings {
         loadFonts();
         disp.setCurrent(MainMenu.get(true));
 
-        if (Settings.useGateway) {
-            gateway = new GatewayThread();
-            gateway.start();
-        }
+        if (Settings.useGateway) startGateway();
     }
 
 	public static void error(String message, Displayable next) {

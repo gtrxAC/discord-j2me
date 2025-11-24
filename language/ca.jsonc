@@ -862,7 +862,7 @@
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
     "Avís",
-    "Se sap que Discord marca càrregues de clients de tercers com a correu brossa. Això passa sovint en comptes nous sense 2FA ni un número de telèfon verificat. Continua sota teva responsabilitat.\nSelecciona 'Amaga' si no vola tornar a veure això.",
+    "Se sap que Discord marca càrregues de clients de tercers com a correu brossa. Això passa sovint en comptes nous sense 2FA ni un número de telèfon verificat. Continua sota teva responsabilitat.\nSelecciona \"Amaga\" si no vola tornar a veure això.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
     "Amaga",
@@ -938,6 +938,9 @@
     "Amunt",
     "Mou amunt",
     "Avall",
-    "Mou avall"
+    "Mou avall",
+
+    // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
+    "Connexió directa està activada, però connectar-se a passareŀla requereix ús de proxy, cosa que pot ser insegura. Vols connectar-te a passareŀla?\nSelecciona \"Amaga\" per connectar-te sempre."
 
 ]
