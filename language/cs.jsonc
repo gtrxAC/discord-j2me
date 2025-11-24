@@ -943,6 +943,9 @@
     "Nahoru",
     "Pohyb nahoru",
     "Dolů",
-    "Pohyb dolů"
+    "Pohyb dolů",
+
+    // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
+    "Přímé připojení je povoleno, ale připojení k bráně vyžaduje použití proxy serveru, což může být nebezpečné. Chcete se připojit k bráně?\nVyberte možnost 'Skrýt', aby se připojení provádělo vždy."
 
 ]
