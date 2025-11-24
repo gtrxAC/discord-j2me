@@ -34,6 +34,11 @@ public abstract class MyCanvas extends Canvas {
     protected MyCanvas reload() {
         return null;
     }
+
+    // Samsung S7350i does not have a touchscreen but hasPointerEvents on it still returns true. Good job, Samsung!
+    public boolean hasPointerEvents() {
+        return super.hasPointerEvents() && Util.noPointerEventsBug;
+    }
 //#endif
 
 //#ifdef MIDP2_GENERIC

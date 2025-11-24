@@ -468,6 +468,7 @@ public class Util {
 		"S8000", "S8003", "S8500", "S8530", "S8600", "M210S", "M8910"
 	};
 	public static final boolean hasSamsungFontBug;
+	public static final boolean noPointerEventsBug;
 //#endif
 
 //#ifdef MIDP2_GENERIC
@@ -525,6 +526,7 @@ public class Util {
 
 //#ifdef SAMSUNG_FULL
 		hasSamsungFontBug = indexOfAny(platform, SAMSUNG_FONT_BUG_LIST, 0) != -1;
+		noPointerEventsBug = platform.indexOf("S7350") == -1;
 //#endif
 
 //#ifdef PIGLER_SUPPORT
