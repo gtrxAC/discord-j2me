@@ -943,6 +943,9 @@
     "Op",
     "Flyt op",
     "Ned",
-    "Flyt ned"
+    "Flyt ned",
+
+    // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
+    "Direkte forbindelse er aktiveret, men forbindelse til gatewayen kræver brug af proxy, hvilket kan være usikkert. Vil du oprette forbindelse til gatewayen?\nVælg 'Skjul' for altid at oprette forbindelse."
 
 ]
