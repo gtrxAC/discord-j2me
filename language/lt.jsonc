@@ -943,6 +943,9 @@
     "Aukštyn",
     "Pereiti aukštyn",
     "Žemyn",
-    "Pereiti žemyn"
+    "Pereiti žemyn",
+
+    // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
+    "Tiesioginis ryšys įjungtas, tačiau norint prisijungti prie vartų reikia naudoti tarpinį serverį, kuris gali būti nesaugus. Ar norite prisijungti prie vartų?\nPasirinkite „Paslėpti“, kad visada prisijungtumėte."
 
 ]
