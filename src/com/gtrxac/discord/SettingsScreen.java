@@ -30,6 +30,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 //#ifdef OVER_100KB
             1,
 //#endif
+//#ifdef TOUCH_SUPPORT
+            2,
+//#endif
         },
         {
             1, 10000, 3, 2, 255, 1,
@@ -92,6 +95,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Locale.get(FULLSCREEN_DEFAULT),
 //#ifdef OVER_100KB
                 Locale.get(TEXT_FORMATTING),
+//#endif
+//#ifdef TOUCH_SUPPORT
+                Locale.get(SHOW_MESSAGE_BAR),
 //#endif
             }, {
                 // Images
@@ -158,7 +164,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.nameColorsOff, App.ic.nameColors },
                 { App.ic.fullscreen },
 //#ifdef OVER_100KB
-                { App.ic.markdown }
+                { App.ic.markdown },
+//#endif
+//#ifdef TOUCH_SUPPORT
+                { null },
 //#endif
             }, {
                 // Images
@@ -226,7 +235,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolValues,
                 boolValues,
 //#ifdef OVER_100KB
-                boolValues
+                boolValues,
+//#endif
+//#ifdef TOUCH_SUPPORT
+                { Locale.get(SETTING_VALUE_OFF), Locale.get(SETTING_VALUE_AUTO), Locale.get(SETTING_VALUE_ON) }
 //#endif
             }, {
                 // Images
@@ -283,7 +295,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.useNameColors ? 1 : 0,
                 Settings.fullscreenDefault ? 1 : 0,
 //#ifdef OVER_100KB
-                FormattedString.useMarkdown ? 1 : 0
+                FormattedString.useMarkdown ? 1 : 0,
+//#endif
+//#ifdef TOUCH_SUPPORT
+                Settings.messageBarMode
 //#endif
             }, {
                 // Images
@@ -339,18 +354,17 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         if (isInSubmenu && currentSection == 3 && item == 6 && !Util.supportsPigler) return 7;
 //#endif
 //#ifdef MIDP2_GENERIC
-        // KEmu is always fullscreen - 6th item in appearance menu corresponds to 7th setting
-        if (isInSubmenu && currentSection == 0 && item == 6 && Util.isKemulator) return 7;
+        // KEmu is always fullscreen - 6th and 7th items in appearance menu correspond to 7th-8th setting
+        if (isInSubmenu && currentSection == 0 && item >= 6 && Util.isKemulator) return item + 1;
         // Fast scrolling not shown on full-touch Symbian - 8th item in behavior menu corresponds to 9th setting
         if (isInSubmenu && currentSection == 2 && item == 8 && Util.isFullTouch) return 9;
 //#endif
         return item;
     }
 
-    private String getValueLabel(int section, int item) {
-        int itemIndex = getItemIndex(item);
-        String[] itemValueLabels = valueLabels[section][itemIndex];
-        int value = values[section][itemIndex];
+    private String getValueLabel(int item) {
+        String[] itemValueLabels = valueLabels[currentSection][item];
+        int value = values[currentSection][item];
 
         if (itemValueLabels == null) {
             return null;
@@ -361,10 +375,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         }
     }
 
-    private Image getIcon(int section, int item) {
-        int itemIndex = getItemIndex(item);
-        Image[] itemIcons = icons[section][itemIndex];
-        int value = values[section][itemIndex];
+    private Image getIcon(int item) {
+        Image[] itemIcons = icons[currentSection][item];
+        int value = values[currentSection][item];
         return (itemIcons.length > value) ? itemIcons[value] : itemIcons[0];
     }
 
@@ -373,8 +386,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         set(
             index,
             labels[currentSection][itemIndex],
-            getValueLabel(currentSection, index),
-            getIcon(currentSection, index),
+            getValueLabel(itemIndex),
+            getIcon(itemIndex),
             ListScreen.INDICATOR_NONE
         );
     }
@@ -451,7 +464,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             if (index == 2 && i == 8 && Util.isFullTouch) continue;
 //#endif
             
-            append(labels[index][i], getValueLabel(index, i), getIcon(index, i), ListScreen.INDICATOR_NONE);
+            append(labels[index][i], getValueLabel(i), getIcon(i), ListScreen.INDICATOR_NONE);
         }
     }
 
@@ -559,6 +572,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Settings.fullscreenDefault = values[0][6] == 1;
 //#ifdef OVER_100KB
                 FormattedString.useMarkdown = values[0][7] == 1;
+//#endif
+//#ifdef TOUCH_SUPPORT
+                Settings.messageBarMode = values[0][8];
 //#endif
 
                 Settings.useJpeg = values[1][0] == 1;

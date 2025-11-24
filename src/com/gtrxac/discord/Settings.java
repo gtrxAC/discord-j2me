@@ -22,6 +22,10 @@ public class Settings {
     static final int AUTO_UPDATE_RELEASE_ONLY = 1;
     static final int AUTO_UPDATE_ALL = 2;
 
+    static final int MESSAGE_BAR_OFF = 0;
+    static final int MESSAGE_BAR_AUTO = 1;
+    static final int MESSAGE_BAR_ON = 2;
+
     static int theme;  // 0 = dark, 1 = light, 2 = black
     static boolean use12hTime;
     static boolean useGateway;
@@ -91,6 +95,9 @@ public class Settings {
     static int timeOffset;
 //#ifdef PROXYLESS_SUPPORT
     static boolean hasSeenGatewayWarning;
+//#endif
+//#ifdef TOUCH_SUPPORT
+    static int messageBarMode;
 //#endif
 
     private static RecordStore loginRms;
@@ -343,6 +350,16 @@ public class Settings {
         hasSeenGatewayWarning =
 //#endif
         getBoolRecord(false);
+//#ifdef TOUCH_SUPPORT
+        messageBarMode =
+//#endif
+        getIntRecord(
+//#ifdef BLACKBERRY
+            MESSAGE_BAR_ON
+//#else
+            MESSAGE_BAR_AUTO
+//#endif
+        );
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -497,6 +514,13 @@ public class Settings {
             hasSeenGatewayWarning
 //#else
             false
+//#endif
+        );
+        setIntRecord(
+//#ifdef TOUCH_SUPPORT
+            messageBarMode
+//#else
+            0
 //#endif
         );
     }

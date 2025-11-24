@@ -411,4 +411,6 @@ public interface Strings {
     static final int MOVE_DOWN = 382;
     static final int MOVE_DOWN_L = 383;
     static final int GATEWAY_WARNING_DESCRIPTION = 384;
+    static final int SHOW_MESSAGE_BAR = 385;
+    static final int SETTING_VALUE_AUTO = 386;
 }
