@@ -942,6 +942,9 @@
     "Subir",
     "Subir",
     "Bajar",
-    "Bajar"
+    "Bajar",
+
+    // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
+    "La conexión directa está habilitada, pero para conectarse a la puerta de enlace es necesario utilizar el proxy, lo que puede no ser seguro. ¿Desea conectarse a la puerta de enlace?\nSeleccione 'Ocultar' para conectarse siempre."
 
 ]
