@@ -117,7 +117,7 @@
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing",
-    " osoby/ób piszą/e",
+    " osoby/ób pisze",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
     null,
@@ -817,7 +817,7 @@
     "Usuń",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
-    "Usunąć ten rodzaj danych?\n",
+    "Usunąć ten typ danych?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
     "Otwórz przeglądarkę",
@@ -829,7 +829,7 @@
     "Szybkie przewijanie",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "Nie udało się odtworzyć dźwięku. Ten typ pliku może być nieobsługiwany.",
+    "Nie udało się odtworzyć dźwięku. Ten typ pliku może nie być obsługiwany.",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Japoński",
@@ -860,14 +860,14 @@
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
     "Uwaga",
-    "Discord jest znany z tego, że oflagowuje przesyłania załączników z klientów trzecich jako spam. Dzieje się to zazwyczaj na nowych kontach bez 2FA lub zweryfikowanego numeru telefonu. Kontynuuj na własne ryzyko.\nWybierz 'Ukryj' jeżeli nie chcesz tego widzieć ponownie.",
+    "Discord jest znany z oflagowywania przesyłanych załączników z klientów trzecich jako spam. Dzieje się to zazwyczaj na nowych kontach bez 2FA lub zweryfikowanego numeru telefonu. Kontynuujesz na własne ryzyko.\nWybierz 'Ukryj', jeżeli nie chcesz tego widzieć ponownie.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
     "Ukryj",
     "Ukryj",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord jest znany z tego, że oflagowuje nowe wiadomości prywatne jako spam. Zalecane jest, żeby wysłać swoją pierwszą wiadomość przez oficjalnego klienta. Czy chcesz kontynuować?",
+    "Discord jest znany z oflagowywania nowych wiadomości prywatnych jako spam. Zalecane jest, aby wysłać swoją pierwszą wiadomość przez oficjalnego klienta. Czy chcesz kontynuować?",
 
     // Related to "Types of data shown in the data manager" above.
     "Ulubione serwery",
@@ -933,18 +933,18 @@
     "Węgierski",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "Up",
-    "Move up",
-    "Down",
-    "Move down",
+    "W gorę",
+    "Przenieś w górę",
+    "Na dół",
+    "Przenieś na dół",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect.",
+    "Tryb połączenia bezpośredniego jest włączony, natomiast połączenie się z bramą wymaga użycia serwera proxy, co może nie być bezpieczne. Czy chcesz się połączyć z bramą?\nWybierz 'Ukryj', aby zawsze się połączyć.", 
 
     // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
-    "Show message bar",
+    "Pokaż pasek wiadomości",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
-    "Auto"
+    "Automatycznie"
 
 ]
