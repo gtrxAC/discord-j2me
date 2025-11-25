@@ -117,7 +117,7 @@
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing",
-    " osoby/ób pisze",
+    " osoby/ób piszą/e",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
     null,
