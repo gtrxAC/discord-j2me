@@ -143,9 +143,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     private boolean shouldShowBottomBar() {
         return hasPointerEvents() &&
-//#ifndef BLACKBERRY
-            super.getHeight() > getWidth() &&
-//#endif
+            (Settings.messageBarMode == Settings.MESSAGE_BAR_ON || (Settings.messageBarMode == Settings.MESSAGE_BAR_AUTO && super.getHeight() > getWidth())) &&
             checkAndLoadMessageBar();
     }
 

@@ -939,6 +939,12 @@
     "Move down",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect."
+    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect.",
+
+    // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
+    "Show message bar",
+
+    // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
+    "Auto"
 
 ]

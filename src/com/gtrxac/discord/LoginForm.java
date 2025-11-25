@@ -223,7 +223,7 @@ Strings
 //#endif
 
     private void showTokenEntry() {
-        tokenBox = new TextBox(Locale.get(SET_TOKEN), Settings.token, 200, 0);
+        tokenBox = new TextBox(Locale.get(SET_TOKEN_L), Settings.token, 200, 0);
         tokenBoxOkCommand = Locale.createCommand(OK, Command.OK, 0);
         tokenBoxCancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
         tokenBoxUnderscoreCommand = Locale.createCommand(INSERT_UNDERSCORE, Command.ITEM, 2);
