@@ -946,6 +946,12 @@
     "Μετακίνηση κάτω",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Η άμεση σύνδεση είναι ενεργοποιημένη, αλλά η σύνδεση με την πύλη απαιτεί τη χρήση του διακομιστή μεσολάβησης, ο οποίος ενδέχεται να μην είναι ασφαλής. Θέλετε να συνδεθείτε με την πύλη;\nΕπιλέξτε 'Απόκρυψη' για να συνδέεστε πάντα."
+    "Η άμεση σύνδεση είναι ενεργοποιημένη, αλλά η σύνδεση με την πύλη απαιτεί τη χρήση του διακομιστή μεσολάβησης, ο οποίος ενδέχεται να μην είναι ασφαλής. Θέλετε να συνδεθείτε με την πύλη;\nΕπιλέξτε 'Απόκρυψη' για να συνδέεστε πάντα.",
+
+    // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
+    "Εμφάνιση γραμμής μηνυμάτων",
+
+    // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
+    "Αυτόματο"
 
 ]
