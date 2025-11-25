@@ -946,6 +946,12 @@
     "아래로 이동",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "직접 연결이 활성화되었지만, 게이트웨이에 연결하려면 프록시를 사용해야 하며 이는 안전하지 않을 수 있습니다. 게이트웨이에 연결하시겠습니까?\n항상 연결하려면 '숨김'을 선택하세요."
+    "직접 연결이 활성화되었지만, 게이트웨이에 연결하려면 프록시를 사용해야 하며 이는 안전하지 않을 수 있습니다. 게이트웨이에 연결하시겠습니까?\n항상 연결하려면 '숨김'을 선택하세요.",
+
+    // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
+    "메시지 막대 표시",
+
+    // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
+    "자동"
 
 ]
