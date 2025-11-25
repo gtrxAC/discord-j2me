@@ -946,6 +946,12 @@
     "Flyt ned",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direkte forbindelse er aktiveret, men forbindelse til gatewayen kræver brug af proxy, hvilket kan være usikkert. Vil du oprette forbindelse til gatewayen?\nVælg 'Skjul' for altid at oprette forbindelse."
+    "Direkte forbindelse er aktiveret, men forbindelse til gatewayen kræver brug af proxy, hvilket kan være usikkert. Vil du oprette forbindelse til gatewayen?\nVælg 'Skjul' for altid at oprette forbindelse.",
+
+    // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
+    "Vis meddelelsesbjælke",
+
+    // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
+    "Auto"
 
 ]
