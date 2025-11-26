@@ -298,50 +298,50 @@
     "Spørringsparameter",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "Please enter your token",
-    "Please specify an API URL",
+    "Skriv inn tokenet ditt",
+    "Angi en API-URL",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
-    "Servers",
-    "Favourites",
-    "Direct messages",
-    "Settings",
-    "Log out",
+    "Servere",
+    "Favoritter",
+    "Direkte meldinger",
+    "Innstillinger",
+    "Logg ut",
 
     // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
-    "Insert mention",
+    "Sett inn omtale",
 
     // Label shown for username search results in "Insert mention" screen. Shown if more than one user matches the username query.
-    "Search results",
+    "Søkeresultater",
 
     // Message shown when the username query resulted in no matches in the "Insert mention" screen.
-    "No results found",
+    "Ingen resultater funnet",
 
     // Error message shown when selecting "Insert" in the "Insert mention" screen and none of the search results (radio buttons) were picked.
-    "User not selected",
+    "Bruker ikke valgt",
 
     // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
-    "added ",
-    " to the group",
+    "la ",
+    " til gruppen",
 
     // Status message shown when a user has left a group DM.
-    "left the group",
+    "forlot gruppen",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
-    "removed ",
-    " from the group",
+    "fjernet ",
+    " fra gruppen",
 
     // Status messages.
-    "started a call",
-    "changed the group name",
-    "changed the group icon",
-    "pinned a message",
-    "joined the server",
-    "boosted the server",
+    "startet en samtale",
+    "endret gruppenavnet",
+    "endret gruppeikonet",
+    "festet en melding",
+    "ble med på serveren",
+    "oppgraderte serveren",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "boosted the server to level ",
+    "oppgraderte serveren til nivå ",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
@@ -353,244 +353,244 @@
     // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
     // Note: order of day and month cannot be changed currently
     ":",
-    "/",
-    "A",
-    "P",
+    ".",
+    "a",
+    "p",
 
     // Softkey labels for inserting a mention/ping in the "send message" screen.
-    "Mention",
-    "Insert mention",
+    "Omtale",
+    "Sett inn omtale",
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
-    "Send message (@",
-    "Send message (#",
+    "Send melding (@",
+    "Send melding (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "Requires active gateway connection",
+    "Krever aktiv gateway-tilkobling",
 
     // Title text for "copy message content" screen.
-    "Copy message",
+    "Kopier melding",
 
     // Title text for "edit message content" screen.
-    "Edit message",
+    "Rediger melding",
 
     // Title text for gateway disconnect prompt screen.
-    "Disconnected",
+    "Frakoblet",
 
     // Main body text for gateway disconnect prompt screen.
-    "Gateway error. Do you want to reconnect?",
+    "Gateway-feil. Vil du koble til på nytt?",
 
     // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
-    "Message",
+    "Melding",
 
     // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
-    "Replying to ",
+    "Svar til ",
 
     // Top label for the message entry box in the reply form.
-    "Your message:",
+    "Din melding:",
 
     // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
-    "Mention author",
+    "Omtale av forfatter",
 
     // Title text for settings menu.
-    "Settings",
+    "Innstillinger",
 
     // Settings screen heading for themes section.
-    "Theme",
+    "Tema",
 
     // Theme options.
-    "Dark",
-    "Light",
-    "Black",
+    "Mørkt",
+    "Lyst",
+    "Svart",
 
     // Settings screen heading for miscellaneous user interface related settings.
-    "User interface",
+    "Brukergrensesnitt",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
     // This is no longer used, so keep it as null.
     null,
 
     // Settings option for using 12-hour time format in timestamps.
-    "12-hour time",
+    "12-timers tid",
 
     // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-    "Native file picker",
+    "Innebygd filvelger",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "Gateway auto reconnect",
+    "Gateway autogjenkobling",
 
     // Settings option for enabling icons in server and direct message lists.
-    "Server/DM icons",
+    "Server/DM-ikoner",
 
     // Settings option for enabling nickname role colors.
-    "Name colours",
+    "Navnfarger",
 
     // Settings screen heading for message author font size.
-    "Message author font",
+    "Forfatterens skrift",
 
     // Font size options.
-    "Small",
-    "Medium",
-    "Large",
+    "Liten",
+    "Middels",
+    "Stor",
 
     // Settings screen heading for message content font size.
-    "Message content font",
+    "Meldingsinnholds skrift",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-    "Message load count",
+    "Antall lastede meldinger",
 
     // Settings screen heading for selecting attachment file format.
-    "Attachment format",
+    "Vedleggsformat",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "Max. attachment size (px)",
+    "Maks. vedleggsstørrelse (px)",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
-    "Avatar shape",
+    "Avatarform",
 
     // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
-    "Square",
-    "Circle",
-    "Circle (HQ)",
+    "Firkant",
+    "Sirkel",
+    "Sirkel (HQ)",
 
     // Settings section for profile picture resolution.
-    "Avatar resolution",
+    "Avataroppløsning",
 
     // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
-    "Placeholder only",
+    "Bare plassholder",
 
     // Resolution options. Used for profile picture resolution and menu icon resolution.
-    "Off",
+    "Av",
     "16 px",
     "32 px",
 
     // Settings section for menu icon size.
-    "Menu icon size (px)",
+    "Menyikonstørrelse (px)",
 
     // Settings section for controlling the display of reply messages.
-    "Show replies as",
+    "Vis svar som",
     
     // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
-    "Only recipient",
+    "Kun mottaker",
 
     // Settings option to show replies with the whole recipient message.
-    "Full message",
+    "Hele meldingen",
 
     // Settings section for hotkey action management.
-    "Hotkeys",
+    "Hurtigtaster",
 
     // Settings option to use "default" hotkeys. When enabled, the J2ME game actions (ABCD) are used for hotkey actions, instead of user-defined key bindings. I named it "default" due to the lack of a better term for people who aren't familiar with J2ME development.
-    "Default hotkeys",
+    "Standard hurtigtaster",
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
-    "Map keys",
-    "Remap hotkeys",
+    "Konf. taster",
+    "Omkonfigurer hurtigtaster",
 
     // Generic softkey labels. Currently used in settings menu.
-    "Save",
-    "Save",
-    "Cancel",
-    "Cancel",
+    "Lagre",
+    "Lagre",
+    "Avbryt",
+    "Avbryt",
 
     // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
-    "The app must be closed before the URL can be opened.",
+    "Appen må lukkes før URL-adressen kan åpnes.",
 
     // Prefix of error message shown when an error occurs when trying to open an URL.
-    "The URL could not be opened (",
+    "URL-adressen kunne ikke åpnes (",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    ")\n\nYou may try manually copying the URL into your device's browser: ",
+    ")\n\nDu kan prøve å kopiere URL-adressen manuelt til nettleseren på enheten din: ",
 
     // Title text for URL list screen ('Open URL' option in channel view).
-    "Select URL",
+    "Velg URL",
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
-    "Insert",
-    "Insert",
+    "Sett inn",
+    "Sett inn",
 
     // Title for language selection screen.
-    "Language",
+    "Språk",
 
     // Settings section for language options.
-    "Language",
+    "Språk",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "Språk",
+    "Angi språk",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "Fullskjerm",
+    "Veksle fullskjerm",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "veksle fullskjerm",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "Fullskjermmodus",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "Vis varsler for",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "Alle meldinger",
+    "Omtaler",
+    "Direkte meldinger",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " sendte deg en direkte melding: \"",
+    " sendte en melding i ",
 
     // Title for notification alert windows
-    "New message",
+    "Ny melding",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "Gi meg beskjed med:",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "Varslingsvindu",
+    "Lyd",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "Hold kanalene lastet",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "Ingenting å se her",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "Kan ikke koble til gateway. Vil du prøve på nytt?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "Svar oppl.",
+    "Svar med fil",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "Vedlagt fil",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)",
+    " vedlegg)",
+    " vedlegg)",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
     // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
-    "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "Utseende",
+    "Bilder",
+    "Atferd",
+    "Varsler",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "Av",
+    "På",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -598,104 +598,104 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Please enter a valid number between 1 and ",
+    "Oppgi et gyldig tall mellom 1 og ",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "Pigler API-feil: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+    "Pigler Notifications API støttes ikke. Installer Pigler API fra nnp.nnchan.ru/pna eller deaktiver Pigler-varslinger i Innstillinger.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Rullefelt",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "Skjult",
+    "Synlig",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Om",
 
     // Title text for about screen.
-    "About",
+    "Om",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Versjon ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Utviklere",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Oversettere (ditt navn kan stå her!)",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Støtte",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, emoji art, Italian translation",
+    "Hovedutvikler",
+    "Vedleggsinnlasting, Pigler API-integrasjon, JSON-parser",
+    "Lasteranimasjon, menyikoner, emoji-kunst, oversettelse: italiensk",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
+    "Vietnamesisk",
+    "Svensk",
+    "Indonesisk",
+    "Polsk",
+    "Spansk",
+    "Portugisisk (Brasil)",
     "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "Portugisisk",
+    "Tradisjonell kinesisk og kantonesisk",
+    "Ukrainsk",
+    "Rumensk",
+    "Tyrkisk",
+    "Russisk",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Vis",
+    "Vis",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
-    "Auto update",
+    "Auto oppdatering",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Oppdatering tilgjengelig",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "En ny versjon av Discord J2ME er tilgjengelig. Vil du oppdatere?\Nåværende: ",
+    "\nSiste: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Oppdater",
+    "Oppdater",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "Kun utgivelser",
+    "Alle versjoner",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German",
-    "Croatian",
+    "Tysk",
+    "Kroatisk",
 
     // Units for attachment sizes.
-    " bytes",
+    " byte",
     " kB",
     " MB",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "Tråder",
+    "Vis tråder",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
     "Set",
