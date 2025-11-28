@@ -84,10 +84,10 @@
     "打開網址",
 
     // Channel view title suffix when reading older messages.
-    " (舊) ",
+    "（舊）",
 
     // Text shown at the center of the channel view when it is empty (no messages).
-    "此地無銀三百兩",
+    "這裏什麽都沒有",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
     "刷新以閱讀最新訊息",
@@ -117,10 +117,10 @@
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing"
-    "個人正在打字",
+    " 個人正在打字",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
-    "、 ",
+    "、",
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
     "此代理伺服器不支援上傳檔案",
@@ -140,34 +140,34 @@
     // Parts of the button label for viewing attachments of a message.
     // Examples: "View 1 attachment", "View 2 attachments"
     "查看 ",
-    "個附件",
-    "個附件",
+    " 個附件",
+    " 個附件",
 
     // Title for confirmation screen shown when deleting a message.
     "刪除",
 
     // Body text for confirmation screen shown when deleting a message.
-    "要刪除這個訊息嗎?",
+    "要刪除這個訊息嗎？",
 
     // Generic softkey labels.
     "是",
     "是",
     "否",
     "否",
-    "完成",
-    "完成",
+    "確定",
+    "確定",
 
     // Placeholder name shown when fetching the name of an item (e.g. message author or DM) failed.
-    " (未知) ",
+    "（未知）",
 
     // Placeholder shown when the recipient message of a reply does not have any text content.
-    " (無內容) ",
+    "（無內容）",
 
     // Placeholder message content shown when a message does not have any content that is supported by Discord J2ME.
-    " (訊息未被支援) ",
+    "（訊息未被支援）",
 
     // Message content shown for a message that has been deleted.
-    " (訊息已被刪除) ",
+    "（訊息已被刪除）",
 
     // Title text for direct message search screen.
     "搜索私人訊息",
@@ -203,10 +203,10 @@
     "加入「我的最愛」",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "連接錯誤: ",
+    "心跳綫程錯誤：",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "檢查你的令牌 (token)",
+    "檢查你的 Token 是否正確",
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
@@ -214,11 +214,11 @@
     "HTTP 錯誤 ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
-    "內容傳遞網路 (CDN) 網址未定義。附件未可載入。",
+    "CDN 網址尚未定義。附件未可載入。",
 
     // Parentheses. Don't change these unless your language uses a different writing system where a different type of parentheses is normally used.
-    " (",
-    ") ",
+    "（",
+    "）",
 
     // Softkey labels for showing a text attachment's contents within the app.
     "顯示",
@@ -229,10 +229,10 @@
     "在瀏覽器打開",
 
     // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
-    "載入中......",
+    "載入中...",
 
     // Loading screen text shown when an attachment is being sent.
-    "傳送中......",
+    "傳送中...",
 
     // Error message prefix shown when an error occurs while uploading an attachment.
     "傳送檔案時發生錯誤：",
@@ -254,7 +254,7 @@
     "返回",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
-    "此鍵已用於",
+    "此鍵已用於：",
 
     // Title text shown in login screen.
     "登入",
@@ -263,17 +263,17 @@
     "請只用你信任的代理服務器！",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "此令牌可以瀏覽器的開發者工具獲取 (可上網尋求協助) 。建議使用副帳號。",
+    "此令牌可以瀏覽器的開發者工具獲取（可上網尋求協助）。建議使用副帳號。",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "使用 Wi-Fi",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
-    "應用程式介面 (API) 網址",
-    "內容傳遞網路 (CDN) 網址",
-    "閘道器 (Gateway) 網址",
-    "令牌 (Token) ",
+    "API 網址",
+    "CDN 網址",
+    "閘道器網址",
+    "Token",
 
     // Softkey label for confirming the login options in the login screen.
     "登入",
@@ -287,16 +287,16 @@
     "使用閘道器",
 
     // Label for radio button field for token sending options.
-    "傳送令牌 (Token) 為",
+    "傳送 Token 為",
 
     // Token sending options.
-    "標頭 (Header) (預設) ",
+    "標頭（預設）",
     "JSON",
     "查詢字符串",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "請輸入你的令牌 (Token) ",
-    "請指定應用程式介面 (API) 網址",
+    "請輸入你的令牌",
+    "請指定 API 網址",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
@@ -319,37 +319,37 @@
     "未選擇用戶",
 
     // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
-    "加了 ",
-    " 到群組",
+    "已將 ",
+    " 添加到群組",
 
     // Status message shown when a user has left a group DM.
     "離開了群組",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
-    "從群組移除了 ",
-    " ",
+    "已將 ",
+    " 從群組中移除",
 
     // Status messages.
     "開始了通話",
     "更改了群組名稱",
     "更改了群組圖案",
-    "置頂了一條訊號",
+    "置頂了一條訊息",
     "加入了伺服器",
-    "加成了伺服器",
+    "已加成伺服器",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "加成了伺服器至等級",
+    "已加成伺服器至等級 ",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
-    " (貼紙：",
+    "（貼紙：",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
     "未知",
 
     // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
     // Note: order of day and month cannot be changed currently
-    "：",
+    ":",
     "/",
     "上午",
     "下午",
@@ -360,8 +360,8 @@
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
-    "傳送訊息 (@",
-    "傳送訊息 (#",
+    "傳送訊息（@",
+    "傳送訊息（#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
     "需要在線閘道器連接",
@@ -370,7 +370,7 @@
     "複製訊息",
 
     // Title text for "edit message content" screen.
-    "更改訊息",
+    "編輯訊息",
 
     // Title text for gateway disconnect prompt screen.
     "已斷連",
@@ -405,7 +405,8 @@
     "用戶介面",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
-    "使用傳統用戶介面",
+    // This is no longer used, so keep it as null.
+    null,
 
     // Settings option for using 12-hour time format in timestamps.
     "以十二小時制顯示",
@@ -440,7 +441,7 @@
     "附件格式",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "最大附件大小",
+    "最大附件大小（像素）",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
@@ -449,7 +450,7 @@
     // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
     "正方形",
     "圓形",
-    "圓形 (高清) ",
+    "圓形（高清）",
 
     // Settings section for profile picture resolution.
     "頭像解析度",
@@ -463,7 +464,7 @@
     "32 px",
 
     // Settings section for menu icon size.
-    "介面圖案大小",
+    "介面圖案大小（像素）",
 
     // Settings section for controlling the display of reply messages.
     "顯示回覆方式",
@@ -494,10 +495,10 @@
     "在打開網址前，此應用程式必須被關閉。",
 
     // Prefix of error message shown when an error occurs when trying to open an URL.
-    "網址無法被打開 (",
+    "網址無法被打開（",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    ")\n\n可複製手動複製網址，以在裝置網頁瀏覽器打開: ",
+    "）\n\n可複製手動複製網址，以在裝置網頁瀏覽器打開：",
 
     // Title text for URL list screen ('Open URL' option in channel view).
     "選擇網址",
@@ -528,7 +529,7 @@
     "全螢幕模式",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "為以下訊息顯示通知：",
+    "為以下訊息顯示通知",
 
     // Options for the kinds of messages that notifications should be shown for.
     "全部訊息",
@@ -538,14 +539,14 @@
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " 向你傳送了一條訊息: \"",
+    " 向你傳送了一條訊息：\"",
     " 傳送了一條訊息在 ",
 
     // Title for notification alert windows
     "新訊息",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "用以下方式通知新訊息",
+    "用以下方式通知新訊息：",
 
     // Options for the kinds of notification methods.
     "警告窗",
@@ -556,7 +557,7 @@
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "此地無銀三百兩",
+    "這裏什麽都沒有",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
@@ -571,9 +572,9 @@
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
-    " (",
-    "個附件) ",
-    "個附件) ",
+    " （",
+    "個附件）",
+    "個附件）",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
@@ -647,10 +648,10 @@
     "印尼語",
     "波蘭語",
     "西班牙語",
-    "葡萄牙語 (巴西) ",
+    "葡萄牙語（巴西）",
     "泰語",
     "葡萄牙語",
-    "繁體中文和粵語",
+    "繁體中文（台灣）和繁體中文（香港）",
     "烏克蘭語",
     "羅馬尼亞語",
     "土耳其語",
@@ -762,7 +763,7 @@
     "下載表情符號資料？",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
-    " (已編輯) ",
+    "（已編輯）",
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
     "底線",
@@ -785,7 +786,7 @@
     "捲動至底部",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "傳送輸入狀態",
+    "顯示輸入狀態",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
     "設為",
@@ -895,9 +896,9 @@
     "直接連線可降低帳戶受限的風險。",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "直接連線 (",
+    "直接連線（",
     "需要 TLS 1.2",
-    ") 可降低帳戶受限的風險。",
+    "）可降低帳戶受限的風險。",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
     "取得 TLS",
@@ -919,34 +920,33 @@
     "簡體中文",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Time format",
+    "時間格式",
 
     // Title for time preview shown in the time format screen.
-    "Preview",
+    "預覽",
 
     // Titles for sliders in the time format screen for changing the time offset.
-    "Time offset (hours)",
-    "Time offset (minutes)",
+    "時間偏移（小時）",
+    "時間偏移（分鐘）",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negative offset",
+    "負偏移",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Hungarian",
+    "匈牙利語",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "Up",
-    "Move up",
-    "Down",
-    "Move down",
+    "上移",
+    "上移",
+    "下移",
+    "下移",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect.",
+    "已啟用直接連線，但連接到閘道需要使用代理，這可能不安全。您想連接到閘道嗎？\n選擇「隱藏」以始終連接。",
 
     // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
-    "Show message bar",
+    "顯示訊息列",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
-    "Auto"
-
+    "自動"
 ]
