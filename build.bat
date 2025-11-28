@@ -21,4 +21,9 @@ if not exist node_modules (
 node convert.js
 cd ..
 
+if not exist sdk/node_modules (
+    cd sdk
+    npm i
+    cd ..
+)
 node sdk/compile_all.js

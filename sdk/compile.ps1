@@ -52,8 +52,16 @@ $javaFilesToCompile = Get-ChildItem -Recurse -Path build\src -Filter *.java | Fo
     *> sdk/log.txt
 # Note: use -nowarn to suppress all warnings, because deprecation warning is somehow treated as an error
 
+$jar = Join-Path $env:JAVA_HOME "bin\jar.exe" -resolve
+if (-Not (Test-Path "lib\ModernConnector")) {
+    Write-Host "Extracting libraries"
+    New-Item -ItemType Directory -Path "lib\ModernConnector" -Force | Out-Null
+    Set-Location "lib\ModernConnector"
+    & $jar xf ../ModernConnector.jar
+    Set-Location "..\.."
+}
+
 Write-Host "Creating JAR"
-$jar = Join-Path $env:JAVA_HOME "bin\jar"
 & $jar cvf bin/in.jar -C classes . -C build/res . >> sdk/log.txt
 if ($env:MODCON -eq 1) {
     & $jar uvf bin/in.jar -C lib/ModernConnector . >> sdk/log.txt
