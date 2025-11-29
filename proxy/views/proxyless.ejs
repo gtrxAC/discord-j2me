@@ -83,9 +83,14 @@
                 <td>TLS 1.2 patch is unsupported. Java-based TLS could be used without needing to sign the app, but error messages are shown when using HTTPS, likely due to low memory.</td>
             </tr>
             <tr>
-                <td>Symbian S60v2 FP2, FP3, and Series 80</td>
+                <td>Symbian S60v2 FP2 and FP3</td>
                 <td><div class="maybe">No?</div></td>
                 <td>TLS 1.2 patch is unsupported. Certificate can be installed, but signed app installation still fails for some reason.</td>
+            </tr>
+            <tr>
+                <td>Symbian Series 80</td>
+                <td><div class="maybe">No?</div></td>
+                <td>TLS 1.2 patch is unsupported. Certificate can be installed from settings. HTTPS connection fails for some reason.</td>
             </tr>
             <tr>
                 <td>Symbian 9.1 and up (S60v3 and up, UIQ3)</td>
@@ -105,12 +110,12 @@
             <tr>
                 <td>Any other platform not mentioned</td>
                 <td><div class="no">No</div></td>
-                <td>Methods for installing code-signing certificates are not known yet.</td>
+                <td>Methods for installing code-signing certificates are not known yet. If you find a way to install certificates on any platform not listed here, let us know!</td>
             </tr>
         </table>
 
         <h2>How to use Direct connection on Nokia S40?</h2>
-        <p>The code-signing certificate can be installed in two different ways, with steps for both methods listed below. After the certificate has been installed, download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</p>
+        <p>The code-signing certificate can be installed in two different ways, with steps for both methods listed below. After the certificate has been installed, make sure the device's date and time are correct, and then download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</p>
         <h3>aNokiCert method (Android)</h3>
         <ol>
             <li>Download the <a href="/fh/exp.cer">code-signing certificate</a> onto your Android device.</li>
@@ -133,6 +138,18 @@
             <li>Download Discord J2ME onto your device.</li>
         </ol>
 
+        <h2>How to use Direct connection on Symbian Series 80 (Nokia 9300/9500)?</h2>
+        <p>From my testing, Direct connection does not work on Series 80 for the same reason that is described in the Sony Ericsson section.</p>
+        <ol>
+            <li>Download or transfer <a href="/fh/exp.cer">exp.cer</a> onto the device.</li>
+            <li>Find the certificate installation option in the security section of the control panel.</li>
+            <li>Add a new certificate and select the exp.cer file.</li>
+            <li>In the settings of the installed certificate, allow installation of Java apps.</li>
+            <li>Make sure the phone side (cover screen) of the device is turned on, and that a SIM card is inserted. The SIM card does not need to be active.</li>
+            <li>Make sure the device's date and time are set correctly.</li>
+            <li>Download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</li>
+        </ol>
+
         <h2>How to use Direct connection on Symbian UIQ?</h2>
         <ol>
             <li>Install the TLS 1.2 patch onto your device using <a href="https://www.avalibeyaz.com/uiq3/">UIQ3 Hack Tool</a>.</li>
@@ -146,6 +163,7 @@
             <li>Connect your SE device to a PC program that can manage the internal file system of SE phones (e.g. SEFP2).</li>
             <li>Navigate to <i>/tpa/preset/custom</i> and replace Utiroot.cer with <a href="/fh/exp.cer">the custom certificate</a> (make sure to keep the original file name Utiroot.cer).</li>
             <li>Do a full reset on your phone from the settings - the default lock code should be 0000.</li>
+            <li>Make sure the device's date and time are set correctly.</li>
             <li>Download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</li>
         </ol>
 
