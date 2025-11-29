@@ -945,6 +945,43 @@
     null,
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
+    null,
+
+    // Title for login screen (new version).
+    null,
+    
+    // Softkey commands for opening a link in the login screen.
+    null,
+    null,
+
+    // Text for the link shown in the login screen for reading more about Direct connection.
+    null,
+
+    // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
+    null,
+
+    // Safety recommendation in the login screen, shown after the above string.
+    null,
+
+    // Hint text shown after the above string on BlackBerry devices.
+    null,
+
+    // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
+    null,
+
+    // Explanation strings for the "Use gateway" option.
+    // This version of the string is shown on versions that support Direct connection.
+    null,
+    // This string is shown on versions that don't support Direct connection.
+    null,
+
+    // Explanation string for the token settings.
+    null,
+
+    // Explanation strings for other token entry methods.
+    // This version of the string is shown on devices that support FileConnection (file system access in Java).
+    null,
+    // This string is shown on devices that don't support FileConnection.
     null
 
 ]

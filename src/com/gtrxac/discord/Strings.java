@@ -413,4 +413,17 @@ public interface Strings {
     static final int GATEWAY_WARNING_DESCRIPTION = 384;
     static final int SHOW_MESSAGE_BAR = 385;
     static final int SETTING_VALUE_AUTO = 386;
+    static final int LOGIN_FORM_TITLE_V2 = 387;
+    static final int OPEN = 388;
+    static final int OPEN_L = 389;
+    static final int PROXYLESS_LINK = 390;
+    static final int PROXY_INFO = 391;
+    static final int PROXY_INFO_RECOMMEND = 392;
+    static final int EDIT_URLS_BB_HINT = 393;
+    static final int CONNECTION_URLS = 394;
+    static final int GATEWAY_INFO_WITH_PROXYLESS = 395;
+    static final int GATEWAY_INFO = 396;
+    static final int LOGIN_FORM_TOKEN_HELP_V2 = 397;
+    static final int TOKEN_IMPORT_HELP_WITH_FC = 398;
+    static final int TOKEN_IMPORT_HELP = 399;
 }

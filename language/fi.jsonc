@@ -890,12 +890,12 @@
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "Suora yhteys parantaa tilisi turvallisuutta.",
+    "Suora yhteys mahdollistaa yhteyden ilman välityspalvelinta, mikä parantaa tilisi turvallisuutta.",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
     "Suora yhteys (",
     "vaatii TLS 1.2 -tuen",
-    ") parantaa tilisi turvallisuutta.",
+    ") mahdollistaa yhteyden ilman välityspalvelinta, mikä parantaa tilisi turvallisuutta.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
     "Avaa",
@@ -945,6 +945,42 @@
     "Näytä viestipalkki",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
-    "Autom."
+    "Autom.",
 
+    // Title for login screen (new version).
+    "Tervetuloa",
+    
+    // Softkey commands for opening a link in the login screen.
+    "Avaa",
+    "Avaa",
+
+    // Text for the link shown in the login screen for reading more about Direct connection.
+    "Lue lisää",
+
+    // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
+    "Voit myös käyttää sovellusta välityspalvelimen kanssa. ",
+
+    // Safety recommendation in the login screen, shown after the above string.
+    "Oman välityspalvelimen hostaaminen on suositeltavaa. ",
+
+    // Hint text shown after the above string on BlackBerry devices.
+    "Muokkaa yhteysosoitteita painamalla BlackBerry-näppäintä.",
+
+    // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
+    "Yhteysosoitteet",
+
+    // Explanation strings for the "Use gateway" option.
+    // This version of the string is shown on versions that support Direct connection.
+    "Socket-yhteys (live-chat) vaatii välityspalvelimen.",
+    // This string is shown on versions that don't support Direct connection.
+    "Socket-yhteys mahdollistaa esim. viestien live-päivitykset.",
+
+    // Explanation string for the token settings.
+    "Kirjautumiseen tarvitset tilisi tunnuslausekkeen (token). ",
+
+    // Explanation strings for other token entry methods.
+    // This version of the string is shown on devices that support FileConnection (file system access in Java).
+    "Voit välttää kirjoitusvirheet tuomalla tokenisi tekstitiedostosta tai kopioimalla sen sovelluksen JAR-tiedostoon.",
+    // This string is shown on devices that don't support FileConnection.
+    "Voit välttää kirjoitusvirheet kopioimalla tokenisi sovelluksen JAR-tiedostoon."
 ]

@@ -945,6 +945,55 @@
     "Pokaż pasek wiadomości",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
-    "Automatycznie"
+    "Automatycznie",
+
+    // Title for login screen (new version).
+    "Welcome",
+    
+    // Softkey commands for opening a link in the login screen.
+    "Open",
+    "Open",
+
+    // Text for the link shown in the login screen for reading more about Direct connection.
+    "Learn more",
+
+    // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
+    "The app can also be used with a proxy server. ",
+
+    // Safety recommendation in the login screen, shown after the above string.
+    "It is recommended to host your own proxy. ",
+
+    // Hint text shown after the above string on BlackBerry devices.
+    "To edit your connection URLs, press the BlackBerry key.",
+
+    // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
+    "Connection URLs",
+
+    // Explanation strings for the "Use gateway" option.
+    // This version of the string is shown on versions that support Direct connection.
+    "Gateway (real-time chat) requires the use of a proxy server.",
+    // This string is shown on versions that don't support Direct connection.
+    "The gateway is used for real-time chat and certain other features.",
+
+    // Explanation string for the token settings.
+    "The app requires a token for logging in. ",
+
+    // Explanation strings for other token entry methods.
+    // This version of the string is shown on devices that support FileConnection (file system access in Java).
+    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    // This string is shown on devices that don't support FileConnection.
+    "To avoid typing errors, you can insert the token into the JAR file."
+
+    // NOTE for translators:
+    // The string with the comment "Information text shown in login screen related to proxyless mode"
+    // and the one below it, with the comment "This version of the text is shown otherwise"
+    // have been updated.
+    // These are somewhere around line 895 and 900.
+    // Previously they said:
+    // Direct connection "reduces the risk of an account restriction"
+    // Now they say:
+    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
+    // These texts should be updated accordingly in other languages too.
+    // You can remove this note when you've updated those strings for your language.
 
 ]
