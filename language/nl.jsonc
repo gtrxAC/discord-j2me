@@ -298,299 +298,299 @@
     "Vraagparameter",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "Please enter your token",
-    "Please specify an API URL",
+    "Uw token invoeren",
+    "Een API-URL opgeefen",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
     "Servers",
-    "Favourites",
-    "Direct messages",
-    "Settings",
-    "Log out",
+    "Favorieten",
+    "Directe berichten",
+    "Instellingen",
+    "Uitloggen",
 
     // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
-    "Insert mention",
+    "Vermelding invoegen",
 
     // Label shown for username search results in "Insert mention" screen. Shown if more than one user matches the username query.
-    "Search results",
+    "Zoekresultaten",
 
     // Message shown when the username query resulted in no matches in the "Insert mention" screen.
-    "No results found",
+    "Geen resultaten gevonden",
 
     // Error message shown when selecting "Insert" in the "Insert mention" screen and none of the search results (radio buttons) were picked.
-    "User not selected",
+    "Gebruiker niet geselecteerd",
 
     // Prefix and suffix of status message shown when a user has been added to a group DM. The whole message is in the form "added X to the group"
-    "added ",
-    " to the group",
+    "heeft ",
+    " aan de groep toegevoegd",
 
     // Status message shown when a user has left a group DM.
-    "left the group",
+    "heeft de groep verlaten",
 
     // Prefix and suffix of status message shown when a user has removed another user from a group DM. The whole message is in the form "removed X from the group".
-    "removed ",
-    " from the group",
+    "heeft ",
+    " uit de groep verwĳderd",
 
     // Status messages.
-    "started a call",
-    "changed the group name",
-    "changed the group icon",
-    "pinned a message",
-    "joined the server",
-    "boosted the server",
+    "heeft een gesprek gestart",
+    "heeft de groepsnaam gewĳzigd",
+    "heeft het groepsicoon gewĳzigd",
+    "heeft een bericht vastgezet",
+    "heeft zich bĳ de server aangesloten",
+    "heeft de server een boost gegeven",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "boosted the server to level ",
+    "heeft de server een boost gegeven - niveau ",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
     "(sticker: ",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
-    "unknown",
+    "onbekend",
 
     // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
     // Note: order of day and month cannot be changed currently
     ":",
-    "/",
+    "-",
     "A",
     "P",
 
     // Softkey labels for inserting a mention/ping in the "send message" screen.
-    "Mention",
-    "Insert mention",
+    "Vermelding",
+    "Vermelding invoegen",
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
-    "Send message (@",
-    "Send message (#",
+    "Bericht verzenden (@",
+    "Bericht verzendenBericht verzenden (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "Requires active gateway connection",
+    "Vereist actieve gatewayverbinding",
 
     // Title text for "copy message content" screen.
-    "Copy message",
+    "Bericht kopiëren",
 
     // Title text for "edit message content" screen.
-    "Edit message",
+    "Bericht bewerken",
 
     // Title text for gateway disconnect prompt screen.
-    "Disconnected",
+    "Verbinding verbroken",
 
     // Main body text for gateway disconnect prompt screen.
-    "Gateway error. Do you want to reconnect?",
+    "Gateway-fout. Wilt u opnieuw verbinding maken?",
 
     // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
-    "Message",
+    "Bericht",
 
     // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
-    "Replying to ",
+    "Beantwoorden aan ",
 
     // Top label for the message entry box in the reply form.
-    "Your message:",
+    "Uw bericht:",
 
     // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
-    "Mention author",
+    "Vermeld auteur",
 
     // Title text for settings menu.
-    "Settings",
+    "Instellingen",
 
     // Settings screen heading for themes section.
-    "Theme",
+    "Thema",
 
     // Theme options.
-    "Dark",
-    "Light",
-    "Black",
+    "Donker",
+    "Licht",
+    "Zwart",
 
     // Settings screen heading for miscellaneous user interface related settings.
-    "User interface",
+    "Gebruikersinterface",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
     // This is no longer used, so keep it as null.
     null,
 
     // Settings option for using 12-hour time format in timestamps.
-    "12-hour time",
+    "12-uurs tĳd",
 
     // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-    "Native file picker",
+    "Native bestandskeuzer",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "Gateway auto reconnect",
+    "Gateway auto opnieuw verbinden",
 
     // Settings option for enabling icons in server and direct message lists.
-    "Server/DM icons",
+    "Server/DM-icoonen",
 
     // Settings option for enabling nickname role colors.
-    "Name colours",
+    "Naamkleuren",
 
     // Settings screen heading for message author font size.
-    "Message author font",
+    "Berichtauteur lettertype",
 
     // Font size options.
-    "Small",
+    "Klein",
     "Medium",
-    "Large",
+    "Groot",
 
     // Settings screen heading for message content font size.
-    "Message content font",
+    "Berichtinhoud lettertype",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-    "Message load count",
+    "Aantal berichten",
 
     // Settings screen heading for selecting attachment file format.
-    "Attachment format",
+    "Bĳlageformaat",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "Max. attachment size (px)",
+    "Max. grootte van bĳlagen (px)",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
-    "Avatar shape",
+    "Avatarvorm",
 
     // Settings options for profile picture shape. "Circle (HQ)" is circle but with anti-aliasing and smoothing enabled.
-    "Square",
-    "Circle",
-    "Circle (HQ)",
+    "Vierkant",
+    "Cirkel",
+    "Cirkel (HQ)",
 
     // Settings section for profile picture resolution.
-    "Avatar resolution",
+    "Avatar-resolutie",
 
     // Settings options for profile picture resolution. Placeholder means the PFPs won't get downloaded, but instead a placeholder (username's initials) is shown.
-    "Placeholder only",
+    "Alleen plaatshouder",
 
     // Resolution options. Used for profile picture resolution and menu icon resolution.
-    "Off",
+    "Uit",
     "16 px",
     "32 px",
 
     // Settings section for menu icon size.
-    "Menu icon size (px)",
+    "Menuicoongrootte (px)",
 
     // Settings section for controlling the display of reply messages.
-    "Show replies as",
+    "Antwoorden weergeven als",
     
     // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
-    "Only recipient",
+    "Alleen ontvanger",
 
     // Settings option to show replies with the whole recipient message.
-    "Full message",
+    "Volledig bericht",
 
     // Settings section for hotkey action management.
-    "Hotkeys",
+    "Sneltoetsen",
 
     // Settings option to use "default" hotkeys. When enabled, the J2ME game actions (ABCD) are used for hotkey actions, instead of user-defined key bindings. I named it "default" due to the lack of a better term for people who aren't familiar with J2ME development.
-    "Default hotkeys",
+    "Standaard sneltoetsen",
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
-    "Map keys",
-    "Remap hotkeys",
+    "Snelt. toew.",
+    "Sneltoetsen opnieuw toewĳzen",
 
     // Generic softkey labels. Currently used in settings menu.
-    "Save",
-    "Save",
-    "Cancel",
-    "Cancel",
+    "Opslaan",
+    "Opslaan",
+    "Annuleren",
+    "Annuleren",
 
     // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
-    "The app must be closed before the URL can be opened.",
+    "De app moet worden gesloten voordat de URL kan worden geopend.",
 
     // Prefix of error message shown when an error occurs when trying to open an URL.
-    "The URL could not be opened (",
+    "De URL kon niet worden geopend (",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    ")\n\nYou may try manually copying the URL into your device's browser: ",
+    ")\n\nU kunt proberen de URL handmatig naar de browser van uw apparaat te kopiëren: ",
 
     // Title text for URL list screen ('Open URL' option in channel view).
-    "Select URL",
+    "URL selecteren",
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
-    "Insert",
-    "Insert",
+    "Invoegen",
+    "Invoegen",
 
     // Title for language selection screen.
-    "Language",
+    "Taal",
 
     // Settings section for language options.
-    "Language",
+    "Taal",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
-    "Language",
-    "Set language",
+    "Taal",
+    "Taal instellen",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
-    "Fullscreen",
-    "Toggle fullscreen",
+    "Voll. scherm",
+    "Volledig scherm schakelen",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
-    "toggling fullscreen",
+    "volledig scherm schakelen",
 
     // Settings option for enabling fullscreen mode by default in the chat view.
-    "Fullscreen mode",
+    "Volledig schermmodus",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Show notifications for",
+    "Meldingen weergeven voor",
 
     // Options for the kinds of messages that notifications should be shown for.
-    "All messages",
-    "Mentions",
-    "Direct messages",
+    "Alle berichten",
+    "Vermeldingen",
+    "Directe berichten",
 
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " heeft je een directe bericht gestuurd: \"",
+    " heeft een bericht gestuurd in ",
 
     // Title for notification alert windows
-    "New message",
+    "Nieuw bericht",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Notify me with:",
+    "Houd mĳ op de hoogte via:",
 
     // Options for the kinds of notification methods.
-    "Alert window",
-    "Sound",
+    "Waarschuwingsvenster",
+    "Geluid",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Keep channels loaded",
+    "Houd kanalen geladen",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nothing to see here",
+    "Hier is niets te zien",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Cannot connect to gateway. Do you want to retry?",
+    "Kan geen verbinding maken met gateway. Wilt u het opnieuw proberen?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Reply upload",
-    "Reply with file",
+    "Antw. upload",
+    "Beantwoord met bestand",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
-    "Attached file",
+    "Bĳgevoegd bestand",
 
     // Prefix and suffix for text shown in the notification alert window when the message has attachments.
     // The whole text is shown as part of the message content and is in the form "(1 attachment)" or "(X attachments)"
     "(",
-    " attachment)",
-    " attachments)",
+    " bĳlage)",
+    " bĳlagen)",
 
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
     // "Behaviour" section is for miscellaneous options that don't fit anywhere else (e.g. message load count, auto gateway reconnect)
-    "Appearance",
-    "Images",
-    "Behaviour",
-    "Notifications",
+    "Uiterlĳk",
+    "Afbeeldingen",
+    "Gedrag",
+    "Meldingen",
 
     // Settings option values shown below boolean (on/off, true/false) options in the settings menu.
     // On large screens, these are instead shown on the right side of the options.
-    "Off",
-    "On",
+    "Uit",
+    "Aan",
 
     // Prefix and suffix for error message shown when an invalid value was entered into a textbox in the settings menu.
     // This can occur if the given value is not a valid number, is less than 1, or is above the maximum value for that setting.
@@ -598,95 +598,95 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Please enter a valid number between 1 and ",
-    "",
+    "Een geldig getal tussen 1 en ",
+    "invoeren",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
     "Pigler API",
 
     // Prefix for error messages related to Pigler Notifications API.
-    "Pigler API error: ",
+    "Pigler API-fout: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notifications API not supported. Please install Pigler API from nnp.nnchan.ru/pna or disable Pigler notifications in Settings.",
+    "Pigler Notifications API wordt niet ondersteund. Pigler API vanaf nnp.nnchan.ru/pna installeeren of Pigler-meldingen in Instellingen uitschakelen.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
-    "Scroll bar",
+    "Schuifbalk",
 
     // Options for the "Show scroll bar" setting.
     // "Off" (see "Settings option values shown below boolean") means the scroll bar is disabled, but content can still be scrolled by swiping anywhere on the screen.
     // "Hidden" means the scroll bar is not shown until the user taps on the right edge of the screen. This is the default on most platforms.
     // "Visible" means the scroll bar is always shown (decreasing the available horizontal screen space). This is the default on KEmulator.
-    "Hidden",
-    "Visible",
+    "Verborgen",
+    "Zichtbaar",
 
     // Main menu option for about/credits screen.
     // Related to "Main menu items" above.
-    "About",
+    "Over",
 
     // Title text for about screen.
-    "About",
+    "Over",
 
     // Prefix for version line shown in the about screen. The app's version number is shown after this.
-    "Version ",
+    "Versie ",
 
     // Heading shown in the about screen for developers.
-    "Developers",
+    "Ontwikkelaars",
 
     // Heading shown in the about screen for language translation authors. Shown below developers.
-    "Translators",
+    "Vertalers",
 
     // Heading shown in the about screen for links to support groups (Discord server and Telegram group).
-    "Support",
+    "Ondersteuning",
 
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
-    "Lead developer",
-    "Attachment loading, Pigler API integration, JSON parser",
-    "Loading animation, menu icons, emoji art, Italian translation",
+    "Hoofdontwikkelaar",
+    "Bĳlage laden, Pigler API-integratie, JSON-parser",
+    "Animatie laden, menupictogrammen, emoji-kunst, vertaling: Italiaans",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnamese",
-    "Swedish",
-    "Indonesian",
-    "Polish",
-    "Spanish",
-    "Portuguese (Brazil)",
+    "Vietnamees",
+    "Zweeds",
+    "Indonesisch",
+    "Pools",
+    "Spaans",
+    "Portugees (Brazilië)",
     "Thai",
-    "Portuguese",
-    "Chinese (Traditional) and Cantonese",
-    "Ukrainian",
-    "Romanian",
-    "Turkish",
-    "Russian",
+    "Portugees",
+    "Chinees (traditioneel) en Kantonees",
+    "Oekraïens",
+    "Roemeens",
+    "Turks",
+    "Russisch",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "View",
-    "View",
+    "Bekĳken",
+    "Bekĳken",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
     "Auto update",
 
     // Title for dialog box shown when an update was found.
-    "Update available",
+    "Update beschikbaar",
 
     // Parts of the body text shown in the update dialog box. The appropriate version numbers are inserted after "Current: " and "Latest: ".
-    "A new version of Discord J2ME is available. Do you want to update?\nCurrent: ",
-    "\nLatest: ",
+    "Er is een nieuwe versie van Discord J2ME beschikbaar. Wilt u updaten?\nHuidige: ",
+    "\nLaatste: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Update",
-    "Update",
+    "Updaten",
+    "Updaten",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
-    "Releases only",
-    "All versions",
+    "Alleen releases",
+    "Alle versies",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "German",
-    "Croatian",
+    "Duits",
+    "Kroatisch",
 
     // Units for attachment sizes.
     " bytes",
@@ -694,8 +694,8 @@
     " MB",
 
     // Softkey labels for opening the thread list of a channel in the channel list.
-    "Threads",
-    "View threads",
+    "Discussies",
+    "Discussies bekĳken",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
     "Set",
