@@ -11,18 +11,27 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         "العربية",
         "Български",
         "Català", // ca (Catalan)
+        "Čeština (beta)",
+        "Dansk (beta)",
         "Deutsch",
+        "Ελληνικά (beta)",
         "English (UK)",      // en
         "English (US)",
         "Castellano",
+        "Español, LATAM (beta)",
         "Suomi",        // fi (Finnish)
         "Français",
+        "हिंदी (beta)",
         "Hrvatski",
         "Magyar",
         "Bahasa Indonesia", // id
         "Italiano",     // it (Italian)
         "日本語",  // ja (Japanese)
+        "한국어 (beta)",
+        "Lietuviškai (beta)",
         "Bahasa Melayu",
+        "Nederlands (beta)",
+        "Norsk bokmål (beta)",
         "Polski",       // pl (Polish)
         "Português",
         "Português (Brasil)", // pt_BR (Portuguese - Brazil)
@@ -44,8 +53,8 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         lastScreen = App.disp.getCurrent();
 
         Image[] flags = {
-            App.ic.flagAR, App.ic.flagBG, App.ic.flagCA, App.ic.flagDE, App.ic.flagGB, App.ic.flagUS, App.ic.flagES, App.ic.flagFI, App.ic.flagFR, App.ic.flagHR, null, App.ic.flagID,
-            App.ic.flagIT, App.ic.flagJP, App.ic.flagMY, App.ic.flagPL, App.ic.flagPT, App.ic.flagBR, App.ic.flagRO,
+            App.ic.flagAR, App.ic.flagBG, App.ic.flagCA, null, null, App.ic.flagDE, null, App.ic.flagGB, App.ic.flagUS, App.ic.flagES, null, App.ic.flagFI, App.ic.flagFR, null, App.ic.flagHR, null, App.ic.flagID,
+            App.ic.flagIT, App.ic.flagJP, null, null, App.ic.flagMY, null, null, App.ic.flagPL, App.ic.flagPT, App.ic.flagBR, App.ic.flagRO,
             App.ic.flagRU, App.ic.flagSV, App.ic.flagTH, App.ic.flagTR,
             App.ic.flagUK, App.ic.flagVI, App.ic.flagTW, App.ic.flagHK, App.ic.flagCN
         };
