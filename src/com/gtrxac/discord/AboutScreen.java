@@ -146,8 +146,8 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         addDeveloper(i, "violent body", TRANSLATOR_TR, 2);
         i.addElement(new AboutScreenItem("SpiroWalkman", Font.SIZE_SMALL, 0, false, true));
         addDeveloper(i, "multiplemegapixels", TRANSLATOR_RU, 2);
-        addDeveloper(i, "tsukihimeri6969", TRANSLATOR_JA, 1);
-        addDeveloper(i, "MC-Nirvana", TRANSLATOR_ZHCN, 2);
+        addDeveloper(i, "tsukihimeri6969", TRANSLATOR_JA, 2);
+        addDeveloper(i, "MC-Nirvana", TRANSLATOR_ZHCN, 1);
 
         i.addElement(new AboutScreenItem(Locale.get(ABOUT_SUPPORT), Font.SIZE_MEDIUM, Util.fontSize/2, false, false));
         i.addElement(new AboutScreenItem("discord.gg/2GKuJjQagp", Font.SIZE_SMALL, Util.fontSize/2, false, false));
