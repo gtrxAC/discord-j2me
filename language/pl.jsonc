@@ -895,7 +895,7 @@
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
     "Połączenie bezpośrednie (",
     "wymaga TLS 1.2",
-    ") zmniejsza ryzyko nałożenia ograniczeń na konto.",
+    ") pozwala na połączenie się bez potrzeby użycia serwera proxy zmniejszając ryzyko nałożenia ograniczeń na konto.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
     "Zdobądź TLS",
@@ -948,52 +948,39 @@
     "Automatycznie",
 
     // Title for login screen (new version).
-    "Welcome",
+    "Witamy",
     
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "Otwórz",
+    "Otwórz",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "Dowiedz się więcej",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "Aplikacja może być również używana łącząc się z serwerem proxy. ",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "Zalecane jest, żeby zahostować u siebie serwer proxy. ",
 
     // Hint text shown after the above string on BlackBerry devices.
-    "To edit your connection URLs, press the BlackBerry key.",
+    "Aby zedytować adresy URL połączeń, naciśnij klawisz BlackBerry.",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
+    "Adresy URL połączeń",
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "Brama (czat w czasie rzeczwyistym) wymaga użycia serwera proxy.",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "Brama jest używana do wyświetlania czatu w czasie rzeczywistym oraz niektórych funkcji.",
 
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
+    "Aplikacja wymaga tokenu, aby się zalogować. ",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "Aby zapowiec błędnemu przepisywaniu, możesz zaimportować token z pliku tekstowego lub wsadzić go do pliku JAR.",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file."
-
-    // NOTE for translators:
-    // The string with the comment "Information text shown in login screen related to proxyless mode"
-    // and the one below it, with the comment "This version of the text is shown otherwise"
-    // have been updated.
-    // These are somewhere around line 895 and 900.
-    // Previously they said:
-    // Direct connection "reduces the risk of an account restriction"
-    // Now they say:
-    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
-    // These texts should be updated accordingly in other languages too.
-    // You can remove this note when you've updated those strings for your language.
-
+    "Aby zapobiec błędnemu przepisywaniu, możesz wsadzić token do pliku JAR."
 ]
