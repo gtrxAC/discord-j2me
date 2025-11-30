@@ -980,7 +980,7 @@
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "Aby zapowiec błędnemu przepisywaniu, możesz zaimportować token z pliku tekstowego lub wsadzić go do pliku JAR.",
+    "Aby zapobiec błędnemu przepisywaniu, możesz zaimportować token z pliku tekstowego lub wsadzić go do pliku JAR.",
     // This string is shown on devices that don't support FileConnection.
     "Aby zapobiec błędnemu przepisywaniu, możesz wsadzić token do pliku JAR."
 ]
