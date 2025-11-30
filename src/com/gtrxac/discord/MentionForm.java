@@ -55,12 +55,12 @@ public class MentionForm extends Form implements CommandListener, Strings {
         append(searchField);
 
         if (loading) {
-            append(new StringItem(null, Locale.get(LOADING)));
+            append(Locale.get(LOADING));
             removeCommand(insertCommand);
         }
         else if (searchResults != null) {
             if (searchResults.size() == 0) {
-                append(new StringItem(null, Locale.get(NO_RESULTS)));
+                append(Locale.get(NO_RESULTS));
                 removeCommand(insertCommand);
             } else {
                 append(resultsGroup);

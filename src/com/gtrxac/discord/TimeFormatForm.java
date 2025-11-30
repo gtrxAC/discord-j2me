@@ -19,7 +19,11 @@ public class TimeFormatForm extends Form implements Strings, CommandListener, It
         setItemStateListener(this);
         lastScreen = App.disp.getCurrent();
 
-        previewItem = new StringItem(Locale.get(TIME_FORMAT_PREVIEW), "");
+        StringItem previewTitleItem = new StringItem(null, Locale.get(TIME_FORMAT_PREVIEW));
+        previewTitleItem.setFont(Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL));
+        previewTitleItem.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_CENTER);
+
+        previewItem = new StringItem(null, "");
         previewItem.setFont(Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_LARGE));
         previewItem.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_CENTER);
 
@@ -39,6 +43,8 @@ public class TimeFormatForm extends Form implements Strings, CommandListener, It
         optionsGroup.setSelectedIndex(1, Settings.use12hTime);
         
         append(new Spacer(getWidth(), getHeight()/20));
+        append(previewTitleItem);
+        append(new Spacer(getWidth(), 1));
         append(previewItem);
         append(new Spacer(getWidth(), getHeight()/20));
         append(hourOffsetGauge);

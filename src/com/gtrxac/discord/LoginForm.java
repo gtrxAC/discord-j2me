@@ -49,7 +49,7 @@ Strings
 
 //#ifdef PROXYLESS_SUPPORT
 //#ifdef PROXYLESS_DEFAULT
-        append(new StringItem(null, Locale.get(PROXYLESS_INFO)));
+        append(Locale.get(PROXYLESS_INFO));
 //#else
 //#ifdef MIDP2_GENERIC
         if (Util.isSymbian) {
@@ -58,13 +58,13 @@ Strings
             nnpLinkItem.setDefaultCommand(nnpLinkCommand);
             nnpLinkItem.setItemCommandListener(this);
 
-            append(new StringItem(null, Locale.get(PROXYLESS_INFO_TLS_PREFIX)));
+            append(Locale.get(PROXYLESS_INFO_TLS_PREFIX));
             append(nnpLinkItem);
-            append(new StringItem(null, Locale.get(PROXYLESS_INFO_TLS_SUFFIX)));
+            append(Locale.get(PROXYLESS_INFO_TLS_SUFFIX));
         } else
 //#endif
         {
-            append(new StringItem(null, Locale.get(PROXYLESS_INFO_TLS_PREFIX) + Locale.get(PROXYLESS_INFO_TLS) + Locale.get(PROXYLESS_INFO_TLS_SUFFIX)));
+            append(Locale.get(PROXYLESS_INFO_TLS_PREFIX) + Locale.get(PROXYLESS_INFO_TLS) + Locale.get(PROXYLESS_INFO_TLS_SUFFIX));
         }
 
         proxylessInfoCommand = Locale.createCommand(OPEN, Command.ITEM, 1);
@@ -84,15 +84,15 @@ Strings
 
         addSpacer(4);
 
-        append(new StringItem(null, Locale.get(PROXY_INFO) + Locale.get(PROXY_INFO_RECOMMEND)));
+        append(Locale.get(PROXY_INFO) + Locale.get(PROXY_INFO_RECOMMEND));
 //#else
-        append(new StringItem(null, Locale.get(PROXY_INFO_RECOMMEND) + Locale.get(LOGIN_FORM_WARNING)));
+        append(Locale.get(PROXY_INFO_RECOMMEND) + Locale.get(LOGIN_FORM_WARNING));
 //#endif
 
         editUrlsCommand = Locale.createCommand(OPEN, Command.ITEM, 2);
 //#ifdef BLACKBERRY
         append(new Spacer(getWidth(), 1));
-        append(new StringItem(null, Locale.get(EDIT_URLS_BB_HINT)));
+        append(Locale.get(EDIT_URLS_BB_HINT));
         addCommand(editUrlsCommand);
 //#else
         StringItem urlsButton = new StringItem(null, Locale.get(CONNECTION_URLS), Item.BUTTON);
@@ -105,9 +105,9 @@ Strings
         addSpacer(4);
 
 //#ifdef PROXYLESS_SUPPORT
-        append(new StringItem(null, Locale.get(GATEWAY_INFO_WITH_PROXYLESS)));
+        append(Locale.get(GATEWAY_INFO_WITH_PROXYLESS));
 //#else
-        append(new StringItem(null, Locale.get(GATEWAY_INFO)));
+        append(Locale.get(GATEWAY_INFO));
 //#endif
 
         addSpacer(2);
@@ -119,7 +119,7 @@ Strings
         
         addSpacer(4);
 
-        append(new StringItem(null, Locale.get(LOGIN_FORM_TOKEN_HELP_V2) + Locale.get(LOGIN_FORM_TOKEN_HELP)));
+        append(Locale.get(LOGIN_FORM_TOKEN_HELP_V2) + Locale.get(LOGIN_FORM_TOKEN_HELP));
         
         boolean haveToken = (Settings.token != null && Settings.token.length() != 0);
         String tokenLabel = Locale.get(haveToken ? CHANGE_TOKEN_L : SET_TOKEN_L);
@@ -154,23 +154,23 @@ Strings
 //#ifdef BLACKBERRY
         append(new Spacer(getWidth(), 1));
         if (Util.supportsFileConn) {
-            append(new StringItem(null, Locale.get(TOKEN_IMPORT_HELP_WITH_FC)));
+            append(Locale.get(TOKEN_IMPORT_HELP_WITH_FC));
         } else {
-            append(new StringItem(null, Locale.get(TOKEN_IMPORT_HELP)));
+            append(Locale.get(TOKEN_IMPORT_HELP));
         }
         append(new Spacer(getWidth(), 1));
         String tokenHint = Locale.get(haveToken ? LOGIN_FORM_CHANGE_TOKEN_BB_HINT : LOGIN_FORM_SET_TOKEN_BB_HINT);
-        append(new StringItem(null, tokenHint));
+        append(tokenHint);
         addCommand(changeTokenCommand);
         if (Util.supportsFileConn) addCommand(importTokenCommand);
         addCommand(guideLinkCommand);
 //#else
         append(tokenButton);
         if (Util.supportsFileConn) {
-            append(new StringItem(null, Locale.get(TOKEN_IMPORT_HELP_WITH_FC)));
+            append(Locale.get(TOKEN_IMPORT_HELP_WITH_FC));
             append(importTokenButton);
         } else {
-            append(new StringItem(null, Locale.get(TOKEN_IMPORT_HELP)));
+            append(Locale.get(TOKEN_IMPORT_HELP));
         }
         append(guideLinkButton);
 //#endif
