@@ -51,8 +51,9 @@
         <h2>What is Direct connection?</h2>
         <p>Previously, <a href="/j2me">Discord J2ME</a> connected to Discord's servers using a proxy server, as TLS 1.2 (modern HTTPS) connections were generally not supported on older devices. The proxy proved to be unsafe, as Discord started to temporarily restrict accounts that connected via the proxy, so an effort was made to allow TLS 1.2 connections on J2ME.</p>
         <p><strong>Direct connection</strong> is an option available since Discord J2ME 5.2 on certain devices that connects directly to Discord using TLS 1.2.</p>
+        <p>To stay safe, we also suggest enabling two-factor authentication on your account.</p>
         
-        <h2>Which devices support Direct connection?</h2>
+        <h2 id="which">Which devices support Direct connection?</h2>
         <p>To support Direct connection, a device must have the ability to <strong>install custom code-signing certificates</strong> for Java apps. On Symbian 9.1 and up, TLS 1.2 can be installed on the system level, so a certificate is not required. The device must also be able to <strong>handle JAR files up to 1 MB</strong> in size.</p>
         <p>The below table lists device platforms known to be supported, along with explanations. You can check your device's <i>software platform</i> and other specs on sites like <a href="https://lpcwiki.miraheze.org/wiki/Main_Page">LPCwiki</a>.</p>
 
@@ -114,9 +115,9 @@
             </tr>
         </table>
 
-        <h2>How to use Direct connection on Nokia S40?</h2>
+        <h2 id="s40">How to use Direct connection on Nokia S40?</h2>
         <p>The code-signing certificate can be installed in two different ways, with steps for both methods listed below. After the certificate has been installed, make sure the device's date and time are correct, and then download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</p>
-        <h3>aNokiCert method (Android)</h3>
+        <h3 id="anokicert">aNokiCert method (Android)</h3>
         <ol>
             <li>Download the <a href="/fh/exp.cer">code-signing certificate</a> onto your Android device.</li>
             <li>Install <a href="/j2me/anokicert.apk">aNokiCert</a> on your Android device. Newer Android devices may restrict the installation of older apps. In such cases, you can try bypassing the restriction via ADB or by using an older device.</li>
@@ -125,20 +126,20 @@
             <li>Select <i>Choose certificate</i> and find the downloaded certificate file.</li>
             <li>Press <i>Install</i>.</li>
         </ol>
-        <h3>MobiMB method (PC)</h3>
+        <h3 id="mobimb">MobiMB method (PC)</h3>
         <ol>
             <li>Download the <a href="/fh/exp.cer">exp.cer</a> and <a href="/fh/ext_info.sys">ext_info.sys</a> files onto your PC.</li>
             <li>Using a program that can manage the file system of Nokia phones (we recommend MobiMB for Windows and Gammu for Linux), copy both downloaded files to the <i>C:/predefhiddenfolder/certificates/user</i> folder on the phone.</li>
         </ol>
 
-        <h2>How to use Direct connection on Symbian S60 or Symbian^3?</h2>
+        <h2 id="s60">How to use Direct connection on Symbian S60 or Symbian^3?</h2>
         <ol>
             <li>Make sure your device is jailbroken. To jailbreak the device, you can follow any online guide, such as <a href="https://lpcwiki.miraheze.org/wiki/Jailbreaking_S60_devices">this one</a>.</li>
             <li>Install the <a href="https://nnproject.cc/tls/">nnproject TLS 1.2 patch</a> onto your device.</li>
             <li>Download Discord J2ME onto your device.</li>
         </ol>
 
-        <h2>How to use Direct connection on Symbian Series 80 (Nokia 9300/9500)?</h2>
+        <h2 id="s80">How to use Direct connection on Symbian Series 80 (Nokia 9300/9500)?</h2>
         <p>From my testing, Direct connection does not work on Series 80 for the same reason that is described in the Sony Ericsson section.</p>
         <ol>
             <li>Download or transfer <a href="/fh/exp.cer">exp.cer</a> onto the device.</li>
@@ -150,13 +151,13 @@
             <li>Download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</li>
         </ol>
 
-        <h2>How to use Direct connection on Symbian UIQ?</h2>
+        <h2 id="uiq">How to use Direct connection on Symbian UIQ?</h2>
         <ol>
             <li>Install the TLS 1.2 patch onto your device using <a href="https://www.avalibeyaz.com/uiq3/">UIQ3 Hack Tool</a>.</li>
             <li>Download Discord J2ME onto your device.</li>
         </ol>
 
-        <h2>How to use Direct connection on Sony Ericsson?</h2>
+        <h2 id="se">How to use Direct connection on Sony Ericsson?</h2>
         <p>Sony Ericsson devices are not supported yet, but certificate installation is possible on them, so support may be added in the future.</p>
         <p>From my testing, Direct connection does not work on Sony Ericsson (likely a bug in the <a href="https://github.com/ProgrammerIn-wonderland/ModernConnector">ModernConnector</a> library), but you can test using the "5.2 beta for Nokia S40v3+ with TLS" version of the app.</p>
         <ol>
@@ -167,7 +168,7 @@
             <li>Download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</li>
         </ol>
 
-        <h2>What if my device is unsupported?</h2>
+        <h2 id="unsupported">What if my device is unsupported?</h2>
         <p>It is highly recommended to host your own proxy server if possible. This can be done on your own PC via services like ngrok, or by renting a VPS.</p>
         <p>If you're using the public proxy server, disabling the <i>Use gateway</i> option in the login screen reduces the chances of getting your account restricted.</p>
     </div>
