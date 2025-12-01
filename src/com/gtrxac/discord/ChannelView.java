@@ -317,7 +317,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 messageBarHash = newBarHash;
             }
 
-            Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, fullWidth - partWidth*2 + 1, barHeight);
+            Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, fullWidth - partWidth*2, barHeight);
 
             messageBar = Image.createImage(fullWidth, barHeight);
             Graphics barG = messageBar.getGraphics();
