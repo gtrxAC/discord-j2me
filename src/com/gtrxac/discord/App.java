@@ -19,6 +19,9 @@ public class App extends MIDlet implements Strings {
 //#ifdef MIDP2_VERSION
 	"midp2";
 //#endif
+//#ifdef S40V3_VERSION
+	"s40v3";
+//#endif
 //#ifdef NOKIA_128PX_VERSION
 	"nokia_128px";
 //#endif
