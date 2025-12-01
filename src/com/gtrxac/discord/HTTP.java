@@ -120,7 +120,8 @@ public class HTTP implements Strings {
 		}
 		catch (Exception e) {
 			if (Settings.proxyless && e instanceof SecurityException) {
-				throw new Exception(Locale.get(PROXYLESS_ERROR_UNSIGNED));
+				// More descriptive error message for when port 443 socket connection cannot be opened because the app is not signed
+				throw new SecurityException(Locale.get(PROXYLESS_ERROR_UNSIGNED));
 			} else {
 				throw e;
 			}
