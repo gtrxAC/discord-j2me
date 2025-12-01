@@ -982,5 +982,9 @@
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
     "Voit välttää kirjoitusvirheet tuomalla tokenisi tekstitiedostosta tai kopioimalla sen JAR-tiedostoon.",
     // This string is shown on devices that don't support FileConnection.
-    "Voit välttää kirjoitusvirheet kopioimalla tokenisi JAR-tiedostoon."
+    "Voit välttää kirjoitusvirheet kopioimalla tokenisi JAR-tiedostoon.",
+
+    // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
+    // More user-friendly form of "java.lang.SecurityException"
+    "Laitteesi vaatii allekirjoitetun sovelluksen Suora yhteys -tilan käyttämiseen. Lataa laitteellesi sopiva sovelluksen allekirjoitettu JAD-tiedosto tai poista Suora yhteys käytöstä.\nLue lisää: gtrxac.fi/j2me/proxyless"
 ]

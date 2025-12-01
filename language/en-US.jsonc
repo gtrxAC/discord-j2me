@@ -982,6 +982,10 @@
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
     null,
     // This string is shown on devices that don't support FileConnection.
+    null,
+
+    // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
+    // More user-friendly form of "java.lang.SecurityException"
     null
 
 ]

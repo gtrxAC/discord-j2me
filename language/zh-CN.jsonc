@@ -986,7 +986,11 @@
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
     "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file."
+    "To avoid typing errors, you can insert the token into the JAR file.",
+
+    // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
+    // More user-friendly form of "java.lang.SecurityException"
+    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless"
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"

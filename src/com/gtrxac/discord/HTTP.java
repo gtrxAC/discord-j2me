@@ -92,24 +92,39 @@ public class HTTP implements Strings {
 	}
 
 	public static byte[] request(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
-//#ifdef MIDP2_GENERIC
-		int attempts = 0;
+//#ifdef MODERNCONNECTOR
+		try {
+//#endif
 
-		while (true) {
-			try {
-				return requestWrapped(method, url, data, contentType, authorize);
-			}
-			catch (IOException e) {
-				// Automatic retry if we get IOException -36 which randomly occurs on Symbian
-				if (e.toString().indexOf("-36") != -1) {
-					attempts++;
-					if (attempts == 3) throw e;
+//#ifdef MIDP2_GENERIC
+			int attempts = 0;
+
+			while (true) {
+				try {
+					return requestWrapped(method, url, data, contentType, authorize);
 				}
-				else throw e;
+				catch (IOException e) {
+					// Automatic retry if we get IOException -36 which randomly occurs on Symbian
+					if (e.toString().indexOf("-36") != -1) {
+						attempts++;
+						if (attempts == 3) throw e;
+					}
+					else throw e;
+				}
 			}
-		}
 //#else
-		return requestWrapped(method, url, data, contentType, authorize);
+			return requestWrapped(method, url, data, contentType, authorize);
+//#endif
+
+//#ifdef MODERNCONNECTOR
+		}
+		catch (Exception e) {
+			if (Settings.proxyless && e instanceof SecurityException) {
+				throw new Exception(Locale.get(PROXYLESS_ERROR_UNSIGNED));
+			} else {
+				throw e;
+			}
+		} 
 //#endif
 	}
 

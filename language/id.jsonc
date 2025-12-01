@@ -984,17 +984,9 @@
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
     "Untuk mencegah salah ketik, anda dapat mengimpor token dari sebuah file teks atau memasukkannya langsung ke dalam file JAR ini.",
     // This string is shown on devices that don't support FileConnection.
-    "Untuk mencegah salah ketik, anda juga bisa memasukkan tokennya ke dalam file JAR ini."
+    "Untuk mencegah salah ketik, anda juga bisa memasukkan tokennya ke dalam file JAR ini.",
 
-    // NOTE for translators:
-    // The string with the comment "Information text shown in login screen related to proxyless mode"
-    // and the one below it, with the comment "This version of the text is shown otherwise"
-    // have been updated.
-    // These are somewhere around line 895 and 900.
-    // Previously they said:
-    // Direct connection "reduces the risk of an account restriction"
-    // Now they say:
-    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
-    // These texts should be updated accordingly in other languages too.
-    // You can remove this note when you've updated those strings for your language.
+    // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
+    // More user-friendly form of "java.lang.SecurityException"
+    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless"
 ]

@@ -982,5 +982,9 @@
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
     "Aby zapobiec błędnemu przepisywaniu, możesz zaimportować token z pliku tekstowego lub wsadzić go do pliku JAR.",
     // This string is shown on devices that don't support FileConnection.
-    "Aby zapobiec błędnemu przepisywaniu, możesz wsadzić token do pliku JAR."
+    "Aby zapobiec błędnemu przepisywaniu, możesz wsadzić token do pliku JAR.",
+
+    // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
+    // More user-friendly form of "java.lang.SecurityException"
+    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless"
 ]

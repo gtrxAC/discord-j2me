@@ -426,4 +426,5 @@ public interface Strings {
     static final int LOGIN_FORM_TOKEN_HELP_V2 = 397;
     static final int TOKEN_IMPORT_HELP_WITH_FC = 398;
     static final int TOKEN_IMPORT_HELP = 399;
+    static final int PROXYLESS_ERROR_UNSIGNED = 400;
 }

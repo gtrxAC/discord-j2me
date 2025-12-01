@@ -984,6 +984,10 @@
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
     "Per evitar errors d'escriptura, pots importar token des d'un fitxer de text o inserir-lo a fitxer JAR.",
     // This string is shown on devices that don't support FileConnection.
-    "Per evitar errors d'escriptura, pots inserir token a fitxer JAR."
+    "Per evitar errors d'escriptura, pots inserir token a fitxer JAR.",
+
+    // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
+    // More user-friendly form of "java.lang.SecurityException"
+    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless"
 
 ]
