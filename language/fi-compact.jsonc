@@ -986,5 +986,8 @@
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Laitteesi vaatii allekirjoitetun sovelluksen Suora yhteys -tilan käyttämiseen. Lataa laitteellesi sopiva sovelluksen allekirjoitettu JAD-tiedosto tai poista Suora yhteys käytöstä.\nLue lisää: gtrxac.fi/j2me/proxyless"
+    "Laitteesi vaatii allekirjoitetun sovelluksen Suora yhteys -tilan käyttämiseen. Lataa laitteellesi sopiva sovelluksen allekirjoitettu JAD-tiedosto tai poista Suora yhteys käytöstä.\nLue lisää: gtrxac.fi/j2me/proxyless",
+
+    // Related to "Lines shown in the about (credits) screen for what each developer" above.
+    "Suora yhteys -tuki"
 ]

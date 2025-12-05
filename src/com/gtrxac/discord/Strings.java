@@ -427,4 +427,5 @@ public interface Strings {
     static final int TOKEN_IMPORT_HELP_WITH_FC = 398;
     static final int TOKEN_IMPORT_HELP = 399;
     static final int PROXYLESS_ERROR_UNSIGNED = 400;
+    static final int WHAT_ALICEINDISARRAY_DID = 401;
 }

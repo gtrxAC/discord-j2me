@@ -119,7 +119,12 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         i.addElement(new AboutScreenItem(Locale.get(ABOUT_DEVELOPERS), Font.SIZE_MEDIUM, Util.fontSize/2, false, false));
         addDeveloper(i, "gtrxAC", LEAD_DEVELOPER, 2);
         addDeveloper(i, "Shinovon", WHAT_SHINOVON_DID, 2);
+//#ifdef PROXYLESS_SUPPORT
+        addDeveloper(i, "AeroPurple", WHAT_AEROPURPLE_DID, 2);
+        addDeveloper(i, "aliceindisarray", WHAT_ALICEINDISARRAY_DID, 1);
+//#else
         addDeveloper(i, "AeroPurple", WHAT_AEROPURPLE_DID, 1);
+//#endif
 
         i.addElement(new AboutScreenItem(Locale.get(ABOUT_TRANSLATORS), Font.SIZE_MEDIUM, Util.fontSize/2, false, false));
         addDeveloper(i, "ACPI Fixed Feature Button", TRANSLATOR_VI, 2);
