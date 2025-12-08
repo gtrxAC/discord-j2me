@@ -166,6 +166,7 @@ Strings
         addCommand(guideLinkCommand);
 //#else
         append(tokenButton);
+        append(new Spacer(getWidth(), 1));
         if (Util.supportsFileConn) {
             append(Locale.get(TOKEN_IMPORT_HELP_WITH_FC));
             append(importTokenButton);
