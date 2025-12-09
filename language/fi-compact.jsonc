@@ -388,7 +388,7 @@
     "Kirjoita viesti",
 
     // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
-    "Mainitse vastaanottaja",
+    "Mainitse vast.ott.",
 
     // Title text for settings menu.
     "Asetukset",
@@ -437,10 +437,10 @@
     "Viestien määrä",
 
     // Settings screen heading for selecting attachment file format.
-    "Kuvien tied.muoto",
+    "Kuvien muoto",
 
     // Settings screen heading for maximum attachment size in pixels.
-    "Kuvien maks.koko",
+    "Maks. koko (px)",
 
     // Settings screen heading for profile picture shape.
     // Note: The word "avatar" was used here because "profile picture shape" is too long to fit on one row on some phones, and I didn't want to shorten it as "PFP".
@@ -463,7 +463,7 @@
     null,
 
     // Settings section for menu icon size.
-    "Valikoiden kuvakoko (px)",
+    "Valikon kuvakoko",
 
     // Settings section for controlling the display of reply messages.
     "Näytä vastaukset",
@@ -734,7 +734,7 @@
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
     "Tuo",
-    "Tuo token tiedostosta",
+    "Tuo token-tiedosto",
 
     // Title text for the token import file picker screen.
     "Valitse token-tiedosto",
