@@ -658,14 +658,14 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             _liteproxy: true,
 
             // Number and display name of latest available release version.
-            _latest: 24,
-            _latestname: "5.1.0",
+            _latest: 29,
+            _latestname: "5.2.0",
 
             // Latest available beta version.
             // If there is no beta version, the version number should be set to 0 (so clients will always download the newer release version).
             // If there is a beta version, the beta version number should be higher than the release one.
-            _latestbeta: 28,
-            _latestbetaname: "5.2.0 pre1",
+            _latestbeta: 0,
+            _latestbetaname: "",
 
             // Version number of emoji JSON data.
             // When the JSON is edited, this number should be increased by one.
