@@ -49,7 +49,7 @@
 
     // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
     "Kaikki luettu",
-    "Merkitse kaikki luetuksi",
+    "Kaikki luettu",
 
     // Generic "Select" softkey labels.
     "Valitse",
