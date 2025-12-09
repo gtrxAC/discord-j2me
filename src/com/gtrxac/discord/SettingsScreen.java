@@ -167,7 +167,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 { App.ic.markdown },
 //#endif
 //#ifdef TOUCH_SUPPORT
-                { null },
+                { App.ic.msgBar },
 //#endif
             }, {
                 // Images

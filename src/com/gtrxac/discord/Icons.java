@@ -99,6 +99,10 @@ public class Icons {
     Image flagJP;
     Image flagAR;
     Image flagCN;
+    Image flagHU;
+//#ifdef TOUCH_SUPPORT
+    Image msgBar;
+//#endif
 
     Icons() {
         if (Settings.menuIconSize == 0) return;
@@ -194,6 +198,11 @@ public class Icons {
 //#else
         sh.skip();
 //#endif
+//#ifdef TOUCH_SUPPORT
+        msgBar = sh.next();
+//#else
+        sh.skip();
+//#endif
         flagGB = sh.next();
         flagUS = sh.next();
         flagES = sh.next();
@@ -221,6 +230,7 @@ public class Icons {
         flagCA = sh.next();
         flagJP = sh.next();
         flagAR = sh.next();
+        flagHU = sh.next();
         flagCN = sh.next();
     }
 }
