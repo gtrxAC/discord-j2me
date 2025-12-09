@@ -989,5 +989,5 @@
     "Twoje urządzenie wymaga tego, aby aplikacja była podpisana, żeby użyć trybu połączenia bezpośredniego. Zainstaluj odpowiedni dla twojego urządzenia podpisany plik JAD aplikacji lub wyłącz tryb połączenia bezpośredniego.\nDowiedz się więcej na stronie gtrxac.fi/j2me/proxyless\n(strona dostępna wyłącznie w języku angielskim)",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
+    "Obsługa połączenia bezpośredniego"
 ]
