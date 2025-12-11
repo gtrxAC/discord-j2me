@@ -31,11 +31,22 @@ public class ThemeSaveDialog extends Dialog implements Strings {
                 // yes -> set theme to custom and save this theme's data
                 RecordStore rms = null;
                 try {
-                     RecordStore.deleteRecordStore("theme");
+                    RecordStore.deleteRecordStore("theme");
                 }
                 catch (Exception e) {}
                 try {
-                    rms = RecordStore.openRecordStore("theme", true, RecordStore.AUTHMODE_ANY, true);
+//#ifdef S60V2
+                    try {
+//#endif
+                        rms = RecordStore.openRecordStore("theme", true, RecordStore.AUTHMODE_ANY, true);
+//#ifdef S60V2
+                    }
+                    // Apparently S60v2 has a bug with public RMSes, though I didn't encounter this with my 6630 (V 2.39.15) or 3230 (V 5.0604.0)
+                    // https://web.archive.org/web/20130706182721/http://www.developer.nokia.com/Community/Wiki/Archived:RecordStore.AUTHMODE_ANY_throws_NullPointerException_on_S60_2nd_Edition_(Known_Issue)
+                    catch (NullPointerException e) {
+                        rms = RecordStore.openRecordStore("theme", true);
+                    }
+//#endif
                     Util.setOrAddRecord(rms, 1, Util.stringToBytes(App.channelView.pendingTheme.build()));
                 }
                 catch (Exception e) {
