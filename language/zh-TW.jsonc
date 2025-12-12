@@ -263,7 +263,7 @@
     "請只用你信任的代理服務器！",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "此令牌可以瀏覽器的開發者工具獲取（可上網尋求協助）。建議使用副帳號。",
+    "此 Token 可以瀏覽器的開發者工具獲取（可上網尋求協助）。建議使用副帳號。",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "使用 Wi-Fi",
@@ -295,7 +295,7 @@
     "查詢字符串",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "請輸入你的令牌",
+    "請輸入你的 Token",
     "請指定 API 網址",
 
     // Main menu items.
@@ -695,11 +695,11 @@
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
     "設定",
-    "設定令牌",
+    "設定 Token",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
     "變更",
-    "變更令牌",
+    "變更 Token",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
@@ -720,8 +720,8 @@
     "轉寄訊息：",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "若要設定令牌，請按下 BlackBerry 鍵。",
-    "若要變更令牌，請按下 BlackBerry 鍵。",
+    "若要設定 Token，請按下 BlackBerry 鍵。",
+    "若要變更 Token，請按下 BlackBerry 鍵。",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
     "記憶體不足，無法顯示圖片預覽",
@@ -737,10 +737,10 @@
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
     "匯入",
-    "匯入令牌",
+    "匯入 Token",
 
     // Title text for the token import file picker screen.
-    "選擇令牌檔案",
+    "選擇 Token 檔案",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
     "正在下載表情符號...",
@@ -893,7 +893,7 @@
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "直接連線可降低帳戶受限的風險。",
+    "可不需代理直接連線，降低帳號受限風險",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
     "直接連線（",
@@ -951,58 +951,46 @@
     "自動",
 
     // Title for login screen (new version).
-    "Welcome",
-    
+    "歡迎",
+
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "打開",
+    "打開",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "了解更多",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "此應用程式也可與代理伺服器一起使用。",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "建議您架設自己的代理伺服器。",
 
     // Hint text shown after the above string on BlackBerry devices.
-    "To edit your connection URLs, press the BlackBerry key.",
+    "若要編輯您的連線網址，請按下 BlackBerry 鍵。",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
+    "連線 URL",
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "閘道器（即時聊天）需要使用代理伺服器。",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "閘道器用於即時聊天和某些其他功能。",
 
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
+    "此應用程式需要令牌才能登入。",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "為避免輸入錯誤，您可以從文字檔案匯入令牌或將其插入 JAR 檔案中。",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file.",
+    "為避免輸入錯誤，您可以將令牌插入 JAR 檔案中。",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "您的裝置要求應用程式必須經過簽章才能使用直接連線。請下載適合您裝置的已簽章 JAD 檔案，或停用直接連線。\n更多資訊請見：gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
-
-    // NOTE for translators:
-    // The string with the comment "Information text shown in login screen related to proxyless mode"
-    // and the one below it, with the comment "This version of the text is shown otherwise"
-    // have been updated.
-    // These are somewhere around line 895 and 900.
-    // Previously they said:
-    // Direct connection "reduces the risk of an account restriction"
-    // Now they say:
-    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
-    // These texts should be updated accordingly in other languages too.
-    // You can remove this note when you've updated those strings for your language.
+    "直接連線支援"
 ]

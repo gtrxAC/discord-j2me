@@ -721,8 +721,8 @@
     "轉傳訊息：",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "要設定你嘅令牌，請撳 BlackBerry 鍵。",
-    "要更改你嘅令牌，請撳 BlackBerry 鍵。",
+    "要設定你嘅 Token，請撳 BlackBerry 鍵。",
+    "要更改你嘅 Token，請撳 BlackBerry 鍵。",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
     "記憶體唔夠，睇唔到相片預覽",
@@ -894,7 +894,7 @@
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "直接連線可減低帳號被限制嘅風險。",
+    "可以唔使用代理直接連接，減低帳號被限制嘅風險。",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
     "直接連線（",
@@ -952,58 +952,46 @@
     "自動",
 
     // Title for login screen (new version).
-    "Welcome",
-    
+    "歡迎",
+
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "打開",
+    "打開",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "睇下更多",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "呢個應用程式都可以透過代理伺服器使用。",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "建議你自己搞個代理伺服器。",
 
     // Hint text shown after the above string on BlackBerry devices.
-    "To edit your connection URLs, press the BlackBerry key.",
+    "想改你嘅连接网址就揿 BlackBerry 键。",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
+    "連接 URL",
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "網關（即時通訊）要用代理伺服器先得。",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "呢個網關用於即時傾偈同其他特定功能。",
 
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
+    "呢個應用程式需要令牌先可以登入。",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "為咗避免打錯字，你可以從文字檔入面匯入令牌，或者將令牌插入JAR檔入面。",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file.",
+    "為咗避免輸入錯誤，你可以將令牌放入JAR檔案度。",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "你部機需要應用程式簽咗名先可以用直接連線功能。請下載適合你部機嘅簽名版 JAD 檔案，或者停用直接連線功能。\n睇更多詳情：gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
-
-    // NOTE for translators:
-    // The string with the comment "Information text shown in login screen related to proxyless mode"
-    // and the one below it, with the comment "This version of the text is shown otherwise"
-    // have been updated.
-    // These are somewhere around line 895 and 900.
-    // Previously they said:
-    // Direct connection "reduces the risk of an account restriction"
-    // Now they say:
-    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
-    // These texts should be updated accordingly in other languages too.
-    // You can remove this note when you've updated those strings for your language.
+    "直連支持"
 ]
