@@ -7,20 +7,14 @@
     <% if (isModern) { %>
         <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
     <% } %>
+    <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="main">
-        <% if (isModern) { %>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <h1>Discord J2ME</h1>
-                <a href="https://librecounter.org/referer/show" target="_blank">
-                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
-                </a>
-            </div>
-        <% } else { %>
-            <h1>Discord J2ME</h1>
-        <% } %>
+        <% title = "Discord J2ME" %>
+        <%- include('include/title'); %>
+
         <p>To avoid account restrictions, use a version of the app that supports <strong>Direct connection</strong>, if available for your device. Read the <a href="/j2me/proxyless">guide</a> before installing a version with Direct connection.</p>
 
         <%- versions %>

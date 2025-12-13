@@ -3,22 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gtrxac.fi</title>
+    <title>Benchmarks</title>
     <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="main">
-        <% if (isModern) { %>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <h1>Benchmarks</h1>
-                <a href="https://librecounter.org/referer/show" target="_blank">
-                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
-                </a>
-            </div>
-        <% } else { %>
-            <h1>Benchmarks</h1>
-        <% } %>
+        <% title = "Benchmarks" %>
+        <%- include('include/title'); %>
 
         <p>JBenchmark <br/> <a href="/JBenchmark.jad">JAD</a> - <a href="/JBenchmark.jar">JAR</a></p>
         <p>JBenchmark2 <br/> <a href="/JBenchmark2.jad">JAD</a> - <a href="/JBenchmark2.jar">JAR</a></p>

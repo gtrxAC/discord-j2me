@@ -64,10 +64,11 @@ function downloadLinkHtml(name, beta) {
 
 function arrayDownloadLinkHtml(versions) {
     const haveAnyBetas = versions
-        .map(ver => mainVersionDownloadLinks[ver]?.betaVersion || mainVersionDownloadLinks[otherVersionDownloadLinks[ver]?.name])
+        .map(ver => mainVersionDownloadLinks[ver]?.betaVersion || mainVersionDownloadLinks[otherVersionDownloadLinks[ver]?.name]?.betaVersion)
         .some(ver => ver != null);
 
-    return versions.map(ver => downloadLinkHtml(ver, false) ?? `<p>Unknown version: ${ver}. Please report this to developers.</p>`).join('') +
+    return (haveAnyBetas ? `<h2>Stable versions</h2>` : '') +
+        versions.map(ver => downloadLinkHtml(ver, false) ?? `<p>Unknown version: ${ver}. Please report this to developers.</p>`).join('') +
         (haveAnyBetas ? `<h2>Beta versions</h2>` : '') +
         versions.map(ver => downloadLinkHtml(ver, true)).join('');
 }
@@ -79,7 +80,8 @@ function getRecommendedVersionsArray(req) {
         return ["DONT_KNOW_PROXYLESS", "midp2_alt", "6310i", "midp1", "SHOW_ALL"];
     }
     if (ua.includes('android')) {
-        return ["JL_INFO", 'jl', "JL_INFO_2"];
+        // return ["JL_INFO", 'jl', "JL_INFO_2"];  // won't use this for now cuz j2me loader-specific info would be shown in the google search result's description
+        return ["RECOMMENDED", "jl", "SHOW_ALL"]
     }
 
     const midp2 = /midp\W*2/g.test(ua) || ua.includes('bada');
@@ -115,6 +117,9 @@ function getRecommendedVersionsArray(req) {
     }
     if (/^nokia(168|2220|23[23]|26|27[26]|2865|310|6111|616|707)/g.test(ua)) {  // 128x with lower jar size
         return ["NO_PROXYLESS", "RECOMMENDED", "nokia_128px", "SHOW_ALL"];
+    }
+    if (/^nokia(5000|7100)/g.test(ua)) {  // 240p with lower jar size
+        return ["NO_PROXYLESS", "RECOMMENDED", "s40v3", "SHOW_ALL"];
     }
     if (midp2) {
         if (ua.includes('nokia')) return ["RECOMMENDED", "midp2_alt_tls", "s40v3", "SHOW_ALL"];

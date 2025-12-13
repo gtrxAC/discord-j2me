@@ -12,20 +12,11 @@
 </head>
 <body>
     <div class="main">
-        <% if (isModern) { %>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <h1>gtrxac.fi</h1>
-                <a href="https://librecounter.org/referer/show" target="_blank">
-                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
-                </a>
-            </div>
-        <% } else { %>
-            <h1>gtrxac.fi</h1>
-        <% } %>
+        <% title = "gtrxac.fi" %>
+        <%- include('include/title'); %>
         
         <p><a href="/j2me">Discord J2ME</a><br/>Discord client for Java ME (MIDP) devices</p>
         <p><a href="/wap">Discord WAP</a><br/>Discord client for Wireless Application Protocol and HTML browsers</p>
-        <p><a href="http://mp.gtrxac.fi">MPGram Web</a><br/>Instance of <a href="http://nnproject.cc">nnproject</a>'s Telegram web client (may have to use <a href="http://mp.gtrxac.fi/qrlogin.php">QR login</a>)</p>
         <p><a href="/fh">DP File Host</a><br/>Temporary file hosting service</p>
         <p><a href="/bench">Benchmarks</a><br/>J2ME performance testing apps; not developed by me</p>
 

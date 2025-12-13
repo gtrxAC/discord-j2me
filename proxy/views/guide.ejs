@@ -23,16 +23,8 @@
 </head>
 <body>
     <div class="main">
-        <% if (isModern) { %>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <h1>Discord J2ME Setup Guide</h1>
-                <a href="https://librecounter.org/referer/show" target="_blank">
-                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
-                </a>
-            </div>
-        <% } else { %>
-            <h1>Discord J2ME Guide</h1>
-        <% } %>
+        <% title = "Discord J2ME Setup Guide" %>
+        <%- include('include/title'); %>
 
         <p>This is a guide for setting up the app with your account's token.</p>
         <small>This tutorial covers the "manifest injection" method. Another method is to write your token into a text file, transfer the file to your device, and import or copy-paste it in the app. You can also write your token manually, though this is not recommended, as it's slow and prone to errors.</small>

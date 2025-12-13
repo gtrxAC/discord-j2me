@@ -1,0 +1,10 @@
+<% if (isModern) { %>
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+        <h1><%= title %></h1>
+        <a href="https://librecounter.org/referer/show" target="_blank">
+            <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
+        </a>
+    </div>
+<% } else { %>
+    <h1><%= title %> <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" width="0"/></h1>
+<% } %>

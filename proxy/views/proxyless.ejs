@@ -40,16 +40,8 @@
 </head>
 <body>
     <div class="main">
-        <% if (isModern) { %>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <h1>Direct connection</h1>
-                <a href="https://librecounter.org/referer/show" target="_blank">
-                    <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
-                </a>
-            </div>
-        <% } else { %>
-            <h1>Direct connection</h1>
-        <% } %>
+        <% title = "Direct connection" %>
+        <%- include('include/title'); %>
 
         <h2>What is Direct connection?</h2>
         <p>Previously, <a href="/j2me">Discord J2ME</a> connected to Discord's servers using a proxy server, as TLS 1.2 (modern HTTPS) connections were generally not supported on older devices. The proxy proved to be unsafe, as Discord started to temporarily restrict accounts that connected via the proxy, so an effort was made to allow TLS 1.2 connections on J2ME.</p>
@@ -79,7 +71,7 @@
             <tr>
                 <td>Nokia Series 40<br><i>some phone models released around 2012-2013</i></td>
                 <td><div class="maybe">Maybe</div></td>
-                <td>aNokiCert fails to connect on the Nokia 301 and similar devices. MobiMB 3.6.5 has been reported to work on such devices.</td>
+                <td>aNokiCert fails to connect on the Nokia 301 and similar devices. MobiMB 3.6.5 and <a href="https://t.me/x726564/72">modified Gammu</a> have been reported to work on such devices.</td>
             </tr>
             <tr>
                 <td>Symbian S60v2 FP1 and below</td>

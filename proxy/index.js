@@ -305,7 +305,9 @@ function generateUploadToken(token) {
 
 function checkIsModern(req, res, next) {
     const ua = (req.headers['user-agent'] ?? '').toLowerCase();
-    res.locals.isModern = ua.includes('webkit') || ua.includes('gecko') || ua.includes('opera');
+    res.locals.isModern =
+        (/linux|mac|windows|android/g.test(ua) && !/windows (ce|mobile)/g.test(ua))
+        || ua.includes("opera");
     next();
 }
 
