@@ -1050,6 +1050,7 @@ app.get(`${BASE_L}/channels/:channel/messages/:message/delete`, getToken, delete
 
 // for my personal server
 if (process.env.DPFILEHOST) {
+    app.use(express.static(path.join(__dirname, 'DPFileHost/static')));
     app.use("/", require('./DPFileHost/filehost'));
 }
 
