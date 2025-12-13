@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const FormData = require('form-data');
@@ -14,7 +15,7 @@ const EmojiConvertor = require('emoji-js');
 const emoji = new EmojiConvertor();
 emoji.replace_mode = 'unified';
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const BASE = "/api/v9";
 const BASE_L = "/api/l";
 const DEST_BASE = "https://discord.com/api/v9";
@@ -1046,6 +1047,11 @@ app.get(`${BASE_L}/users/@me`, getToken, async (req, res) => {
 app.post(`${BASE_L}/channels/:channel/messages`, getToken, sendMessage);
 app.post(`${BASE_L}/channels/:channel/messages/:message/edit`, getToken, editMessage);
 app.get(`${BASE_L}/channels/:channel/messages/:message/delete`, getToken, deleteMessage);
+
+// for my personal server
+if (process.env.DPFILEHOST) {
+    app.use("/", require('./DPFileHost/filehost'));
+}
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
