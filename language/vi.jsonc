@@ -898,11 +898,11 @@
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
     "Kết nối trực tiếp (",
     "yêu cầu có TLS 1.2",
-    ") giúp giảm nguy cơ bị hạn chế tài khoản.",
+    ") cho phép bạn kết nối mà không dùng một máy chủ ủy nhiệm, giúp giảm nguy cơ bị hạn chế tài khoản.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
-    "Lấy TLS",
-    "Lấy TLS",
+    "Cài TLS",
+    "Cài TLS",
 
     // Text shown in bottom message bar.
     "Tin nhắn",
@@ -951,59 +951,47 @@
     "Tự động",
 
     // Title for login screen (new version).
-    "Welcome",
+    "Chào mừng",
     
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "Mở",
+    "Mở",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "Tìm hiểu thêm",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "Ứng dụng này cũng có thể được sử dụng với một máy chủ ủy nhiệm. ",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "Bạn nên dùng máy chủ ủy nhiệm của riêng bạn. ",
 
     // Hint text shown after the above string on BlackBerry devices.
-    "To edit your connection URLs, press the BlackBerry key.",
+    "Để chỉnh sửa các URL kết nối, ấn nút BlackBerry.",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
-
-    // Explanation strings for the "Use gateway" option.
-    // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "Các URL kết nối",
+    
+    //Explanation strings for the "Use gateway" option.
+    // This version of the string is shown on versions that support Direct connection.   
+    "Cổng (nhắn tin trong thời gian thực) cần một máy chủ ủy nhiệm.",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
-
+    "Cổng được sử dụng cho việc nhắn tin trong thời gian thực và một số tính năng khác.",
+    
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
-
+    "Ứng dụng này cần mã truy cập của bạn để đăng nhập. ", 
+    
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "Để tránh các lỗi chính tả, bạn có thể nhập mã từ một tệp văn bản hoặc thêm nó vào tệp JAR của ứng dụng.",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file.",
+    "Để tránh các lỗi chính tả, bạn có thể thêm mã vào tệp JAR của ứng dụng.",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "Thiết bị của bạn yêu cầu ứng dụng phải được kí để kết nối trực tiếp. Tải một tệp JAD đã được kí phù hợp với thiết bị của bạn, hoặc tắt Kết nối trực tiếp.\nTìm hiểm thêm tại gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
-
-    // NOTE for translators:
-    // The string with the comment "Information text shown in login screen related to proxyless mode"
-    // and the one below it, with the comment "This version of the text is shown otherwise"
-    // have been updated.
-    // These are somewhere around line 895 and 900.
-    // Previously they said:
-    // Direct connection "reduces the risk of an account restriction"
-    // Now they say:
-    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
-    // These texts should be updated accordingly in other languages too.
-    // You can remove this note when you've updated those strings for your language.
+    "Hỗ trợ kết nối trực tiếp"
 
 ]
