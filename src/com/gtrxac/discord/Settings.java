@@ -99,6 +99,9 @@ public class Settings {
 //#ifdef TOUCH_SUPPORT
     static int messageBarMode;
 //#endif
+//#ifdef J2ME_LOADER
+    static boolean useModcon;
+//#endif
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -360,6 +363,10 @@ public class Settings {
             MESSAGE_BAR_AUTO
 //#endif
         );
+//#ifdef J2ME_LOADER
+        useModcon =
+//#endif
+        getBoolRecord(false);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -521,6 +528,13 @@ public class Settings {
             messageBarMode
 //#else
             0
+//#endif
+        );
+        setBoolRecord(
+//#ifdef J2ME_LOADER
+            useModcon
+//#else
+            false
 //#endif
         );
     }

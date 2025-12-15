@@ -75,8 +75,8 @@
   },
   {
     "name": "discord_jl",
-    "defines": ["J2ME_LOADER", "NOKIA_UI_SUPPORT", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_COLOR_PARTICLES", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT", "NOT_S40", "PROXYLESS_DEFAULT"],
-    "bootclasspath": ["sdk/lib/nokiaui.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
+    "defines": ["J2ME_LOADER", "NOKIA_UI_SUPPORT", "OVER_100KB", "TOUCH_SUPPORT", "EMOJI_SUPPORT", "ABOUT_SCREEN_COLOR_PARTICLES", "ABOUT_SCREEN_EASING", "ABOUT_SCREEN_SPARKLES", "ABOUT_SCREEN_BOUNCE", "UNLIMITED_RMS", "PROXYLESS_SUPPORT", "NOT_S40", "MODERNCONNECTOR", "PROXYLESS_DEFAULT"],
+    "bootclasspath": ["lib/ModernConnector.jar", "sdk/lib/nokiaui.jar", "sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
     "excludes": ["en-compact.json", "icon_28.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "icon.svg"]
   }
 ]

@@ -15,15 +15,20 @@ public class HTTP implements Strings {
 	private static byte[] requestWrapped(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
 		HttpConnection hc = null;
 		OutputStream os = null;
+		url = App.getPlatformSpecificUrl(url);
 
 		try {
-			hc = (HttpConnection) 
+			hc = (HttpConnection)
+//#ifdef J2ME_LOADER
+				(Settings.useModcon ? ModernConnector.open(url) : Connector.open(url));
+//#else
 //#ifdef MODERNCONNECTOR
 				ModernConnector
 //#else
 				Connector
-//#endif	
-				.open(App.getPlatformSpecificUrl(url));
+//#endif
+				.open(url);
+//#endif
 				
 			try {
 				hc.setRequestMethod(method);
@@ -93,7 +98,9 @@ public class HTTP implements Strings {
 
 	public static byte[] request(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
 //#ifdef MODERNCONNECTOR
+//#ifndef J2ME_LOADER
 		try {
+//#endif
 //#endif
 
 //#ifdef MIDP2_GENERIC
@@ -113,10 +120,27 @@ public class HTTP implements Strings {
 				}
 			}
 //#else
+//#ifdef J2ME_LOADER
+			// J2ME Loader: if proxyless enabled, and HTTPS request (using system TLS) fails, start using java-based TLS instead
+			// Android below 5 does not have TLS 1.2 by default
+			try {
+				return requestWrapped(method, url, data, contentType, authorize);
+			}
+			catch (IOException e) {
+				if (e.toString().indexOf("Failure in SSL library") != -1 || e.toString().indexOf("unsupported protocol") != -1) {
+					Settings.useModcon = true;
+					Settings.save();
+					return requestWrapped(method, url, data, contentType, authorize);
+				}
+				else throw e;
+			}
+//#else
 			return requestWrapped(method, url, data, contentType, authorize);
+//#endif
 //#endif
 
 //#ifdef MODERNCONNECTOR
+//#ifndef J2ME_LOADER
 		}
 		catch (Exception e) {
 			if (Settings.proxyless && e instanceof SecurityException) {
@@ -125,7 +149,8 @@ public class HTTP implements Strings {
 			} else {
 				throw e;
 			}
-		} 
+		}
+//#endif
 //#endif
 	}
 
