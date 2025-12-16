@@ -113,6 +113,7 @@ public class Settings {
     static boolean useModcon;
 //#endif
     static int soundModes[] = new int[3];
+    static boolean useBackgroundImage;
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -385,6 +386,7 @@ public class Settings {
         soundModes[SoundSettingsScreen.NOTIFICATION_SOUND] = getIntRecord(SOUND_DEFAULT);
         soundModes[SoundSettingsScreen.INCOMING_SOUND] = getIntRecord(SOUND_OFF);
         soundModes[SoundSettingsScreen.OUTGOING_SOUND] = getIntRecord(SOUND_OFF);
+        useBackgroundImage = getBoolRecord(false);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -558,6 +560,7 @@ public class Settings {
         setIntRecord(soundModes[SoundSettingsScreen.NOTIFICATION_SOUND]);
         setIntRecord(soundModes[SoundSettingsScreen.INCOMING_SOUND]);
         setIntRecord(soundModes[SoundSettingsScreen.OUTGOING_SOUND]);
+        setBoolRecord(useBackgroundImage);
     }
 
     private static void write() throws Exception {
