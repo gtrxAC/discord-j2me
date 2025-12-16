@@ -295,38 +295,55 @@ public class GatewayThread extends Thread implements Strings
 //#endif
 
 	public void playNotificationSound() {
-		if (Settings.playNotifSound) {
-//#ifdef OVER_100KB
-			RecordStore rms = null;
-			InputStream is = null;
-			String fileName = "/notify.mid";
-			try {
-				rms = RecordStore.openRecordStore("notifsound", false);
-				is = new ByteArrayInputStream(rms.getRecord(2));
-				fileName = Util.bytesToString(rms.getRecord(1));
-			}
-			catch (Exception e) {}
+		playNotificationSound(SoundSettingsScreen.NOTIFICATION_SOUND);
+	}
 
-			Util.closeRecordStore(rms);
+	public void playNotificationSound(int type) {
+		InputStream is = null;
+		String fileName = "/notify.mid";
 
-			if (is == null) is = getClass().getResourceAsStream("/notify.mid");
-			
-			try {
-				player.close();
-			}
-			catch (Exception e) {}
+		switch (Settings.soundModes[type]) {
+			case Settings.SOUND_OFF: return;
 
-			try {
-				player = NotificationSoundDialog.playSound(fileName, is);
+			case Settings.SOUND_BEEP: {
+				AlertType.ALARM.playSound(App.disp);
+				return;
 			}
-			catch (Exception e) {
-				AlertType.ALARM.playSound(App.disp.disp);
+
+			case Settings.SOUND_CUSTOM: {
+				RecordStore rms = null;
+				try {
+					rms = RecordStore.openRecordStore(SoundSettingsScreen.rmsNames[type], false);
+					is = new ByteArrayInputStream(rms.getRecord(2));
+					fileName = Util.bytesToString(rms.getRecord(1));
+				}
+				catch (Exception e) {}
+
+				Util.closeRecordStore(rms);
+
+				if (is != null) break;
+				// else fall through
 			}
-//#else
-			AlertType.ALARM.playSound(App.disp);
-//#endif
+
+			case Settings.SOUND_DEFAULT: {
+				is = getClass().getResourceAsStream("/notify.mid");
+				break;
+			}
 		}
-		if (Settings.playNotifVibra) {
+
+		try {
+			player.close();
+		}
+		catch (Exception e) {}
+
+		try {
+			player = NotificationSoundDialog.playSound(fileName, is);
+		}
+		catch (Exception e) {
+			AlertType.ALARM.playSound(App.disp);
+		}
+
+		if (type == SoundSettingsScreen.NOTIFICATION_SOUND && Settings.playNotifVibra) {
 			App.disp.vibrate(1000);
 		}
 	}
@@ -475,6 +492,9 @@ public class GatewayThread extends Thread implements Strings
 							}
 						}
 						if (skip) continue;
+
+						// Play incoming message sound for messages that aren't ours
+						if (!authorID.equals(App.myUserId)) playNotificationSound(SoundSettingsScreen.INCOMING_SOUND);
 
 						// If we're on the newest page, make the new message visible
 						if (App.channelView.page == 0 && !App.channelView.outdated) {

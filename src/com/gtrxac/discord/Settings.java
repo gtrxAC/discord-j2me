@@ -31,6 +31,11 @@ public class Settings {
     static final int MESSAGE_BAR_AUTO = 1;
     static final int MESSAGE_BAR_ON = 2;
 
+    static final int SOUND_OFF = 0;
+    static final int SOUND_BEEP = 1;
+    static final int SOUND_DEFAULT = 2;
+    static final int SOUND_CUSTOM = 3;
+
     static int theme;  // 0 = dark, 1 = light, 2 = black
     static boolean use12hTime;
     static boolean useGateway;
@@ -62,7 +67,7 @@ public class Settings {
 //#ifdef NOKIA_UI_SUPPORT
     static boolean showNotifNokiaUI;
 //#endif
-    static boolean playNotifSound;
+    // static boolean playNotifSound;
     static boolean playNotifVibra;
     static boolean highRamMode;
     static int autoUpdate;
@@ -107,6 +112,7 @@ public class Settings {
 //#ifdef J2ME_LOADER
     static boolean useModcon;
 //#endif
+    static int soundModes[] = new int[3];
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -283,7 +289,8 @@ public class Settings {
         showNotifsDMs = getBoolRecord(true);
         highRamMode = getBoolRecord(isHighRam);
         showNotifAlert = getBoolRecord(true);
-        playNotifSound = getBoolRecord(true);
+        // playNotifSound = getBoolRecord(true);
+        getBoolRecord(true);
 //#ifdef PIGLER_SUPPORT
         showNotifPigler =
 //#endif
@@ -375,6 +382,9 @@ public class Settings {
         useModcon =
 //#endif
         getBoolRecord(false);
+        soundModes[SoundSettingsScreen.NOTIFICATION_SOUND] = getIntRecord(SOUND_DEFAULT);
+        soundModes[SoundSettingsScreen.INCOMING_SOUND] = getIntRecord(SOUND_OFF);
+        soundModes[SoundSettingsScreen.OUTGOING_SOUND] = getIntRecord(SOUND_OFF);
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -434,7 +444,7 @@ public class Settings {
         setBoolRecord(showNotifsDMs);
         setBoolRecord(highRamMode);
         setBoolRecord(showNotifAlert);
-        setBoolRecord(playNotifSound);
+        setBoolRecord(true);//playNotifSound);
         setBoolRecord(
 //#ifdef PIGLER_SUPPORT
             showNotifPigler
@@ -545,6 +555,9 @@ public class Settings {
             false
 //#endif
         );
+        setIntRecord(soundModes[SoundSettingsScreen.NOTIFICATION_SOUND]);
+        setIntRecord(soundModes[SoundSettingsScreen.INCOMING_SOUND]);
+        setIntRecord(soundModes[SoundSettingsScreen.OUTGOING_SOUND]);
     }
 
     private static void write() throws Exception {
