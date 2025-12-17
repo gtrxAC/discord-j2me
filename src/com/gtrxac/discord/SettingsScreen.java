@@ -3,74 +3,26 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class SettingsScreen extends ListScreen implements CommandListener, Strings {
-    private static SettingsScreen instance;
+    // Rough(?) guide on how to add a new option for changing a setting:
+    // - make sure you have created the setting itself (Settings.java)
+    // - see if there is a suitable icon for that setting in Icons.java or icons.png
+    //   - reusing icons is fine but don't overdo it or make it too obvious (ideally not e.g. next to each other on the same screen)
+    //   - if no suitable icon, create a new icon or ask for a new icon to be created, then put an entry for it in Icons.java
+    // - add a new entry to the array initialization in loadSettings: "settings = new Setting[][]"
+    //   - you may have to create new arrays for valuelabels or icons used by the new setting, those are listed right above that initialization
+    // - if it makes sense from an UI perspective, generally best to add new settings to the END of a section
+    //   - if you're adding IN BETWEEN existing items of a section, find all comments in SettingsSectionScreen that are "// SPECIAL CASE" and make sure the indexes used in those special cases are still correct for the settings in question
+    //   - also make sure the correct index is used in KeyMapper (search "SettingsSectionScreen.settings" there)
+    // - commandAction method: add code to save that setting's value into the Settings field
 
     private Command saveCommand;
-    private Command textBoxOkCommand;
     private Command cancelCommand;
 
-    // Settings menu items/structure.
-    // First array dimension is settings submenu (e.g. Behavior, Appearance)
-    // Second dimension is item position in that submenu
-    // For icons and value labels, third dimension is that setting's current numeric value
-    private String[] sectionNames;
-    private Image[][][] icons;
-    private String[][] labels;
-    private String[][][] valueLabels;
-    public int[][] values;
-
-    private static final int[][] maxValues = {
-        {
-//#ifdef OVER_100KB
-            4,
-//#else
-            2,
-//#endif            
-            2, 2, 1, 1, 1, 1,
-//#ifdef OVER_100KB
-            1,
-//#endif
-//#ifdef TOUCH_SUPPORT
-            2,
-//#endif
-        },
-        {
-            1, 10000, 3, 2, 255, 1,
-//#ifdef OVER_100KB    
-            1,
-//#ifdef EMOJI_SUPPORT
-            2,
-//#endif
-//#endif
-        },
-        {
-            100, 1, 1, 1, 1, 1, 2, 2, 1,
-//#ifdef OVER_100KB
-            1,
-//#endif
-        },
-        {
-            1, 1, 1, 1, 1, 1,
-//#ifdef PIGLER_SUPPORT
-            1,
-//#endif
-//#ifdef NOKIA_UI_SUPPORT
-            1,
-//#endif
-        },
-    };
-
-    private boolean isInSubmenu;
-    private int currentSection;
+    public static String[] sectionNames;
 
     SettingsScreen() {
-        super(Locale.get(SETTINGS_FORM_TITLE), false, false, true);
+        super(Locale.get(SETTINGS_FORM_TITLE), false, false, false);
         setCommandListener(this);
-
-        BACK_COMMAND = Locale.createCommand(BACK, Command.BACK, 0);
-        saveCommand = Locale.createCommand(SAVE, Command.BACK, 0);
-        textBoxOkCommand = Locale.createCommand(OK, Command.OK, 0);
-        cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
 
         sectionNames = new String[] {
             Locale.get(SETTINGS_SECTION_APPEARANCE),
@@ -78,544 +30,233 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             Locale.get(SETTINGS_SECTION_BEHAVIOR),
             Locale.get(SETTINGS_SECTION_NOTIFICATIONS),
             Locale.get(SETTINGS_SECTION_LANGUAGE),
-//#ifdef OVER_100KB
             Locale.get(DATA_MANAGER_TITLE),
-//#endif
         };
 
-        labels = new String[][] {
-            {
-                // Appearance
-                Locale.get(SETTINGS_SECTION_THEMES),
-                Locale.get(SETTINGS_SECTION_AUTHOR_FONT),
-                Locale.get(SETTINGS_SECTION_CONTENT_FONT),
-                Locale.get(SETTINGS_SECTION_REPLIES),
-                Locale.get(TIME_FORMAT),
-                Locale.get(NAME_COLORS),
-                Locale.get(FULLSCREEN_DEFAULT),
-//#ifdef OVER_100KB
-                Locale.get(TEXT_FORMATTING),
-//#endif
-//#ifdef TOUCH_SUPPORT
-                Locale.get(SHOW_MESSAGE_BAR),
-//#endif
-            }, {
-                // Images
-                Locale.get(SETTINGS_SECTION_IMAGE_FORMAT),
-                Locale.get(SETTINGS_SECTION_IMAGE_SIZE),
-                Locale.get(SETTINGS_SECTION_PFP_SHAPE),
-                Locale.get(SETTINGS_SECTION_PFP_RESOLUTION),
-                Locale.get(SETTINGS_SECTION_MENU_ICONS),
-                Locale.get(GUILD_ICONS),
-//#ifdef OVER_100KB
-                Locale.get(FILE_PREVIEW),
-//#ifdef EMOJI_SUPPORT
-                Locale.get(SHOW_EMOJI),
-//#endif
-//#endif
-            }, {
-                // Behavior
-                Locale.get(SETTINGS_SECTION_MESSAGE_COUNT),
-                Locale.get(HIGH_RAM_MODE),
-                Locale.get(NATIVE_FILE_PICKER),
-                Locale.get(AUTO_RECONNECT),
-                Locale.get(DEFAULT_HOTKEYS),
-                Locale.get(REMAP_HOTKEYS_L),
-                Locale.get(SHOW_SCROLLBAR),
-                Locale.get(AUTO_UPDATE),
-                Locale.get(FAST_SCROLLING),
-//#ifdef OVER_100KB
-                Locale.get(SEND_TYPING),
-//#endif
-            }, {
-                // Notifications
-                Locale.get(NOTIFICATIONS_ALL),
-                Locale.get(NOTIFICATIONS_MENTIONS),
-                Locale.get(NOTIFICATIONS_DMS),
-                Locale.get(NOTIFICATIONS_ALERT),
-                Locale.get(NOTIFICATIONS_SOUND),
-                Locale.get(NOTIFICATIONS_VIBRATE),
-//#ifdef PIGLER_SUPPORT
-                Locale.get(NOTIFICATIONS_PIGLER),
-//#endif
-                // The below two are for the same option, Nokia UI notifications. Only one of these defines is ever defined.
-//#ifdef NOKIA_UI_ICON
-                Locale.get(NOTIFICATIONS_NOKIA_UI),
-//#endif
-//#ifdef J2ME_LOADER
-                Locale.get(NOTIFICATIONS_ANDROID),
-//#endif
-            },
-        };
-
-        icons = new Image[][][] {
-            {
-                // Appearance
-                {
-                    App.ic.themeDark, App.ic.themeLight, App.ic.themeBlack,
-//#ifdef OVER_100KB
-                    App.ic.settings, App.ic.themeCustom
-//#endif
-                },
-                { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
-                { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge },
-                { App.ic.repliesName, App.ic.repliesFull },
-                { App.ic.use12h },
-                { App.ic.nameColorsOff, App.ic.nameColors },
-                { App.ic.fullscreen },
-//#ifdef OVER_100KB
-                { App.ic.markdown },
-//#endif
-//#ifdef TOUCH_SUPPORT
-                { App.ic.msgBar },
-//#endif
-            }, {
-                // Images
-                { App.ic.attachFormat },
-                { App.ic.attachSize },
-                { App.ic.pfpNone, App.ic.pfpSquare, App.ic.pfpCircle, App.ic.pfpCircleHq },
-                { App.ic.pfpPlaceholder, App.ic.pfp16, App.ic.pfp32 },
-                { App.ic.iconSize },
-                { App.ic.menuIcons },
-//#ifdef OVER_100KB
-                { App.ic.attachFormat },
-//#ifdef EMOJI_SUPPORT
-                { App.ic.emoji }
-//#endif
-//#endif
-            }, {
-                // Behavior
-                { App.ic.msgCount },
-                { App.ic.keepChLoaded },
-                { App.ic.nativePicker },
-                { App.ic.autoReconnect },
-                { App.ic.keysDefault },
-                { App.ic.keys },
-                { App.ic.scrollBars },
-                { App.ic.autoUpdate },
-                { App.ic.fastScroll },
-//#ifdef OVER_100KB
-                { App.ic.typing },
-//#endif
-            }, {
-                // Notifications
-                { App.ic.msgCount },
-                { App.ic.notifyPing },
-                { App.ic.notifyDM },
-                { App.ic.notifyAlert },
-                { App.ic.notifySound },
-                { App.ic.vibra },
-//#ifdef PIGLER_SUPPORT
-                { App.ic.pigler },
-//#endif
-                // The below two are for the same option, Nokia UI notifications. Only one of these defines is ever defined.
-//#ifdef NOKIA_UI_ICON
-                { App.ic.nokiaUI },
-//#endif
-//#ifdef J2ME_LOADER
-                { App.ic.android }
-//#endif
-            }
-        };
-        String[] boolValues = { Locale.get(SETTING_VALUE_OFF), Locale.get(SETTING_VALUE_ON) };
-        
-        valueLabels = new String[][][] {
-            {
-                // Appearance
-                {
-                    Locale.get(THEME_DARK), Locale.get(THEME_LIGHT), Locale.get(THEME_BLACK),
-//#ifdef OVER_100KB
-                    Locale.get(THEME_SYSTEM), Locale.get(THEME_CUSTOM),
-//#endif
-                },
-                { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
-                { Locale.get(FONT_SMALL), Locale.get(FONT_MEDIUM), Locale.get(FONT_LARGE) },
-                { Locale.get(REPLIES_ONLY_RECIPIENT), Locale.get(REPLIES_FULL_MESSAGE) },
-                null,
-                boolValues,
-                boolValues,
-//#ifdef OVER_100KB
-                boolValues,
-//#endif
-//#ifdef TOUCH_SUPPORT
-                { Locale.get(SETTING_VALUE_OFF), Locale.get(SETTING_VALUE_AUTO), Locale.get(SETTING_VALUE_ON) }
-//#endif
-            }, {
-                // Images
-                { "PNG", "JPEG" },
-                { "0" },
-                { Locale.get(PFP_OFF), Locale.get(PFP_SQUARE), Locale.get(PFP_CIRCLE), Locale.get(PFP_CIRCLE_HQ) },
-                { Locale.get(PFP_PLACEHOLDER), Locale.get(PFP_16PX), Locale.get(PFP_32PX) },
-                { Locale.get(SETTING_VALUE_OFF) },
-                boolValues,
-//#ifdef OVER_100KB
-                boolValues,
-//#ifdef EMOJI_SUPPORT
-                { Locale.get(SETTING_VALUE_OFF), Locale.get(SHOW_EMOJI_DEFAULT_ONLY), Locale.get(SHOW_EMOJI_ALL) }
-//#endif
-//#endif
-            }, {
-                // Behavior
-                { "0" },
-                boolValues,
-                boolValues,
-                boolValues,
-                boolValues,
-                null,
-                { Locale.get(SETTING_VALUE_OFF), Locale.get(SCROLLBAR_WHEN_NEEDED), Locale.get(SCROLLBAR_PERMANENT) },
-                { Locale.get(SETTING_VALUE_OFF), Locale.get(RELEASES_ONLY), Locale.get(AUTO_UPDATE_ALL_STR) },
-                boolValues,
-//#ifdef OVER_100KB
-                boolValues,
-//#endif
-            }, {
-                // Notifications
-                boolValues,
-                boolValues,
-                boolValues,
-                boolValues,
-                boolValues,
-                boolValues,
-//#ifdef PIGLER_SUPPORT
-                boolValues,
-//#endif
-//#ifdef NOKIA_UI_SUPPORT
-                boolValues,
-//#endif
-            }
-        };
-        values = new int[][] {
-            {
-                // Appearance
-                Settings.theme,
-                Settings.authorFontSize, 
-                Settings.messageFontSize,
-                Settings.showRefMessage ? 1 : 0,
-                0,
-                Settings.useNameColors ? 1 : 0,
-                Settings.fullscreenDefault ? 1 : 0,
-//#ifdef OVER_100KB
-                FormattedString.useMarkdown ? 1 : 0,
-//#endif
-//#ifdef TOUCH_SUPPORT
-                Settings.messageBarMode
-//#endif
-            }, {
-                // Images
-                Settings.useJpeg ? 1 : 0,
-                Settings.attachmentSize,
-                Settings.pfpType,
-                Settings.pfpSize,
-                Settings.menuIconSize,
-                Settings.showMenuIcons ? 1 : 0,
-//#ifdef OVER_100KB
-                Settings.useFilePreview ? 1 : 0,
-//#ifdef EMOJI_SUPPORT
-                FormattedString.emojiMode
-//#endif
-//#endif
-            }, {
-                // Behavior
-                Settings.messageLoadCount,
-                Settings.highRamMode ? 1 : 0,
-                Settings.nativeFilePicker ? 1 : 0,
-                Settings.autoReConnect ? 1 : 0,
-                Settings.defaultHotkeys ? 1 : 0,
-                0,
-                KineticScrollingCanvas.scrollBarMode,
-                Settings.autoUpdate,
-                KeyRepeatThread.enabled ? 1 : 0,
-//#ifdef OVER_100KB
-                Settings.sendTyping ? 1 : 0,
-//#endif
-            }, {
-                // Notifications
-                Settings.showNotifsAll ? 1 : 0, 
-                Settings.showNotifsPings ? 1 : 0,
-                Settings.showNotifsDMs ? 1 : 0,
-                Settings.showNotifAlert ? 1 : 0,
-                Settings.playNotifSound ? 1 : 0,
-                Settings.playNotifVibra ? 1 : 0,
-//#ifdef PIGLER_SUPPORT
-                Settings.showNotifPigler ? 1 : 0,
-//#endif
-//#ifdef NOKIA_UI_SUPPORT
-                Settings.showNotifNokiaUI ? 1 : 0,
-//#endif
-            }
-        };
-        showMainScreen();
-    }
-
-    // Gets settings value index that should be changed based on selected menu item index
-    private int getItemIndex(int item) {
-//#ifdef PIGLER_SUPPORT
-        // Pigler API not supported on device - 6th item in notifs menu corresponds to 7th setting
-        if (isInSubmenu && currentSection == 3 && item == 6 && !Util.supportsPigler) return 7;
-//#endif
-//#ifdef MIDP2_GENERIC
-        // KEmu is always fullscreen - 6th and 7th items in appearance menu correspond to 7th-8th setting
-        if (isInSubmenu && currentSection == 0 && item >= 6 && Util.isKemulator) return item + 1;
-        // Fast scrolling not shown on full-touch Symbian - 8th item in behavior menu corresponds to 9th setting
-        if (isInSubmenu && currentSection == 2 && item == 8 && Util.isFullTouch) return 9;
-//#endif
-        return item;
-    }
-
-    private String getValueLabel(int item) {
-        String[] itemValueLabels = valueLabels[currentSection][item];
-        int value = values[currentSection][item];
-
-        if (itemValueLabels == null) {
-            return null;
-        } else {
-            return (itemValueLabels.length > value) ?
-                itemValueLabels[value] :
-                Integer.toString(value);
-        }
-    }
-
-    private Image getIcon(int item) {
-        Image[] itemIcons = icons[currentSection][item];
-        int value = values[currentSection][item];
-        return (itemIcons.length > value) ? itemIcons[value] : itemIcons[0];
-    }
-
-    public void updateMenuItem(int index) {
-        int itemIndex = getItemIndex(index);
-        set(
-            index,
-            labels[currentSection][itemIndex],
-            getValueLabel(itemIndex),
-            getIcon(itemIndex),
-            ListScreen.INDICATOR_NONE
-        );
-    }
-
-    private void cycleValue(int direction) {
-        int selected = getSelectedIndex();
-        int itemIndex = getItemIndex(selected);
-
-        values[currentSection][itemIndex] += direction;
-        
-        int max = maxValues[currentSection][itemIndex];
-        
-        if (values[currentSection][itemIndex] < 0) {
-            values[currentSection][itemIndex] = max;
-        }
-        else if (values[currentSection][itemIndex] > max) {
-            values[currentSection][itemIndex] = 0;
-        }
-        updateMenuItem(selected);
-    }
-
-    private void showMainScreen() {
-        setTitle(Locale.get(SETTINGS_FORM_TITLE));
-        removeCommand(BACK_COMMAND);
-        addCommand(saveCommand);
-        addCommand(cancelCommand);
-
-        isInSubmenu = false;
-
-        deleteAll();
         append(sectionNames[0], App.ic.themesGroup);
         append(sectionNames[1], App.ic.attachFormat);
         append(sectionNames[2], App.ic.uiGroup);
         append(sectionNames[3], App.ic.notify);
         append(sectionNames[4], App.ic.language);
-//#ifdef OVER_100KB
         append(sectionNames[5], App.ic.dataManager);
-//#endif
 
-        setSelectedIndex(currentSection, true);
+        saveCommand = Locale.createCommand(SAVE, Command.BACK, 0);
+        cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
+        addCommand(saveCommand);
+        addCommand(cancelCommand);
+
+        loadSettings();
     }
 
-    private void showSectionScreen(int index) {
-        setTitle(sectionNames[index]);
-        addCommand(BACK_COMMAND);
-        removeCommand(saveCommand);
-        removeCommand(cancelCommand);
+    private static final String[] zeroValueLabels = { "0" };
 
-        isInSubmenu = true;
-        currentSection = index;
+    private void loadSettings() {
+        if (SettingsSectionScreen.settings != null) return;
 
-        deleteAll();
-        int nokiaUIOptionIndex = 6;
-//#ifdef PIGLER_SUPPORT
-        nokiaUIOptionIndex++;
-//#endif
-        for (int i = 0; i < labels[index].length; i++) {
-            if (index == 3) {
-                // Pigler API option is only shown on devices that support said API
-//#ifdef PIGLER_SUPPORT
-                if (i == 6 && !Util.supportsPigler) continue;
-//#endif
-                // Same for Nokia UI API
-//#ifdef NOKIA_UI_SUPPORT
-                if (i == nokiaUIOptionIndex && !Util.supportsNokiaUINotifs) {
-                    continue;
-                }
-//#endif
-            }
+        int[] themeValueLabels = { THEME_DARK, THEME_LIGHT, THEME_BLACK, THEME_SYSTEM, THEME_CUSTOM };
+        int[] fontValueLabels = { FONT_SMALL, FONT_MEDIUM, FONT_LARGE };
+        int[] replyValueLabels = { REPLIES_ONLY_RECIPIENT, REPLIES_FULL_MESSAGE };
+        int[] messageBarValueLabels = { SETTING_VALUE_OFF, SETTING_VALUE_AUTO, SETTING_VALUE_ON };
+        String[] imageFormatValueLabels = { "PNG", "JPEG" };
+        int[] pfpShapeValueLabels = { PFP_OFF, PFP_SQUARE, PFP_CIRCLE, PFP_CIRCLE_HQ };
+        int[] pfpSizeValueLabels = { PFP_PLACEHOLDER, PFP_16PX, PFP_32PX };
+        int[] menuIconValueLabels = { SETTING_VALUE_OFF };
+        int[] emojiValueLabels = { SETTING_VALUE_OFF, SHOW_EMOJI_DEFAULT_ONLY, SHOW_EMOJI_ALL };
+        int[] scrollBarValueLabels = { SETTING_VALUE_OFF, SCROLLBAR_WHEN_NEEDED, SCROLLBAR_PERMANENT };
+        int[] autoUpdateValueLabels = { SETTING_VALUE_OFF, RELEASES_ONLY, AUTO_UPDATE_ALL_STR };
+
+        Image[] themeIcons = { App.ic.themeDark, App.ic.themeLight, App.ic.themeBlack, App.ic.settings, App.ic.themeCustom };
+        Image[] fontIcons = { App.ic.fontSmall, App.ic.fontMedium, App.ic.fontLarge };
+        Image[] replyIcons = { App.ic.repliesName, App.ic.repliesFull };
+        Image[] nameColorIcons = { App.ic.nameColorsOff, App.ic.nameColors };
+        Image[] pfpShapeIcons = { App.ic.pfpNone, App.ic.pfpSquare, App.ic.pfpCircle, App.ic.pfpCircleHq };
+        Image[] pfpSizeIcons = { App.ic.pfpPlaceholder, App.ic.pfp16, App.ic.pfp32 };
+
+        // Some settings are hidden or shown only on platforms with certain system properties, checked both compile-time (for different builds of the app) and run-time
+
+        // Settings that are hidden on certain platforms (only on certain builds and if a runtime check passes):
+
+        Setting fullscreenSetting =
 //#ifdef MIDP2_GENERIC
-            // Fullscreen option hidden on KEmu
-            if (index == 0 && i == 6 && Util.isKemulator) continue;
-            // Fast scrolling option hidden on full-touch Symbian
-            if (index == 2 && i == 8 && Util.isFullTouch) continue;
+            Util.isKemulator ? new Setting(Settings.fullscreenDefault ? 1 : 0) :
 //#endif
-            
-            append(labels[index][i], getValueLabel(i), getIcon(i), ListScreen.INDICATOR_NONE);
-        }
-    }
+            new Setting(FULLSCREEN_DEFAULT, 1, Settings.fullscreenDefault ? 1 : 0, App.ic.fullscreen);
 
-    private void showTextBox(int index) {
-        SettingsScreen.instance = this;
+        Setting fastScrollSetting =
+//#ifdef MIDP2_GENERIC
+            Util.isFullTouch ? new Setting(KeyRepeatThread.enabled ? 1 : 0) :
+//#endif
+            new Setting(FAST_SCROLLING, 1, KeyRepeatThread.enabled ? 1 : 0, null, App.ic.fastScroll);
 
-        int itemIndex = getItemIndex(index);
-        int max = maxValues[currentSection][itemIndex];
-        int maxLength = (max == 0) ? 10 : Integer.toString(max).length();
+        // Settings that only exist on certain builds and are only shown if a runtime check passes:
 
-        TextBox tb = new TextBox(
-            labels[currentSection][itemIndex],
-            Integer.toString(values[currentSection][itemIndex]),
-            maxLength,
-            TextField.NUMERIC
-        );
-        tb.addCommand(textBoxOkCommand);
-        tb.addCommand(cancelCommand);
-        tb.setCommandListener(this);
-        App.disp.setCurrent(tb);
-    }
+        Setting piglerSetting =
+//#ifdef PIGLER_SUPPORT
+            Util.supportsPigler ?
+                new Setting(NOTIFICATIONS_PIGLER, 1, Settings.showNotifPigler ? 1 : 0, App.ic.pigler) :
+                new Setting(Settings.showNotifPigler ? 1 : 0);
+//#else
+            null;
+//#endif
 
-    public void customKeyEvent(int keycode) {
-        if (!isInSubmenu) return;
-        
-        switch (getGameAction(keycode)) {
-            case LEFT: {
-                cycleValue(-1);
-                break;
+        Setting nokiaUISetting =
+//#ifdef NOKIA_UI_ICON
+            Util.supportsNokiaUINotifs ?
+                new Setting(NOTIFICATIONS_NOKIA_UI, 1, Settings.showNotifNokiaUI ? 1 : 0, App.ic.nokiaUI) :
+                new Setting(Settings.showNotifNokiaUI ? 1 : 0);
+//#else
+//#ifdef J2ME_LOADER
+            // Different label and icon on J2ME Loader
+            Util.supportsNokiaUINotifs ?
+                new Setting(NOTIFICATIONS_ANDROID, 1, Settings.showNotifNokiaUI ? 1 : 0, App.ic.android) :
+                new Setting(Settings.showNotifNokiaUI ? 1 : 0);
+//#else
+            null;
+//#endif
+//#endif
+
+        SettingsSectionScreen.settings = new Setting[][] {
+            {
+                // Appearance section
+                new Setting(SETTINGS_SECTION_THEMES, 4, Settings.theme, themeValueLabels, themeIcons),
+                new Setting(SETTINGS_SECTION_AUTHOR_FONT, 2, Settings.authorFontSize, fontValueLabels, fontIcons),
+                new Setting(SETTINGS_SECTION_CONTENT_FONT, 2, Settings.messageFontSize, fontValueLabels, fontIcons),
+                new Setting(SETTINGS_SECTION_REPLIES, 1, Settings.showRefMessage ? 1 : 0, replyValueLabels, replyIcons),
+                new Setting(TIME_FORMAT, 1, 0, App.ic.use12h),
+                new Setting(NAME_COLORS, 1, Settings.useNameColors ? 1 : 0, nameColorIcons),
+                fullscreenSetting,
+                new Setting(TEXT_FORMATTING, 1, FormattedString.useMarkdown ? 1 : 0, App.ic.markdown),
+//#ifdef TOUCH_SUPPORT
+                new Setting(SHOW_MESSAGE_BAR, 2, Settings.messageBarMode, messageBarValueLabels, App.ic.msgBar),
+//#else
+                null,
+//#endif
+            }, {
+                // Images section
+                new Setting(SETTINGS_SECTION_IMAGE_FORMAT, 1, Settings.useJpeg ? 1 : 0, imageFormatValueLabels, App.ic.attachFormat),
+                new Setting(SETTINGS_SECTION_IMAGE_SIZE, 10000, Settings.attachmentSize, zeroValueLabels, App.ic.attachSize),
+                new Setting(SETTINGS_SECTION_PFP_SHAPE, 3, Settings.pfpType, pfpShapeValueLabels, pfpShapeIcons),
+                new Setting(SETTINGS_SECTION_PFP_RESOLUTION, 2, Settings.pfpSize, pfpSizeValueLabels, pfpSizeIcons),
+                new Setting(SETTINGS_SECTION_MENU_ICONS, 255, Settings.menuIconSize, menuIconValueLabels, App.ic.iconSize),
+                new Setting(GUILD_ICONS, 1, Settings.showMenuIcons ? 1 : 0, App.ic.menuIcons),
+                new Setting(FILE_PREVIEW, 1, Settings.useFilePreview ? 1 : 0, App.ic.attachFormat),
+//#ifdef EMOJI_SUPPORT
+                new Setting(SHOW_EMOJI, 2, FormattedString.emojiMode, emojiValueLabels, App.ic.emoji),
+//#else
+                null,
+//#endif
+            }, {
+                // Behaviour section
+                new Setting(SETTINGS_SECTION_MESSAGE_COUNT, 100, Settings.messageLoadCount, zeroValueLabels, App.ic.msgCount),
+                new Setting(HIGH_RAM_MODE, 1, Settings.highRamMode ? 1 : 0, App.ic.keepChLoaded),
+                new Setting(NATIVE_FILE_PICKER, 1, Settings.nativeFilePicker ? 1 : 0, App.ic.nativePicker),
+                new Setting(AUTO_RECONNECT, 1, Settings.autoReConnect ? 1 : 0, App.ic.autoReconnect),
+                new Setting(DEFAULT_HOTKEYS, 1, Settings.defaultHotkeys ? 1 : 0, App.ic.keysDefault),
+                new Setting(REMAP_HOTKEYS_L, 1, 0, App.ic.keys),
+                new Setting(SHOW_SCROLLBAR, 2, KineticScrollingCanvas.scrollBarMode, scrollBarValueLabels, App.ic.scrollBars),
+                new Setting(AUTO_UPDATE, 2, Settings.autoUpdate, autoUpdateValueLabels, App.ic.autoUpdate),
+                fastScrollSetting,
+                new Setting(SEND_TYPING, 1, Settings.sendTyping ? 1 : 0, App.ic.typing),
+            }, {
+                // Notifications section
+                new Setting(NOTIFICATIONS_ALL, 1, Settings.showNotifsAll ? 1 : 0, App.ic.msgCount),
+                new Setting(NOTIFICATIONS_MENTIONS, 1, Settings.showNotifsPings ? 1 : 0, App.ic.notifyPing),
+                new Setting(NOTIFICATIONS_DMS, 1, Settings.showNotifsDMs ? 1 : 0, App.ic.notifyDM),
+                new Setting(NOTIFICATIONS_ALERT, 1, Settings.showNotifAlert ? 1 : 0, App.ic.notifyAlert),
+                new Setting(NOTIFICATIONS_SOUND, 1, Settings.playNotifSound ? 1 : 0, App.ic.notifySound),
+                new Setting(NOTIFICATIONS_VIBRATE, 1, Settings.playNotifVibra ? 1 : 0, App.ic.vibra),
+                piglerSetting,
+                nokiaUISetting,
             }
-            case RIGHT: {
-                cycleValue(1);
-                break;
-            }
-        }
+        };
     }
 
     public void commandAction(Command c, Displayable d) {
         if (c == SELECT_COMMAND) {
             int selected = getSelectedIndex();
-            int itemIndex = getItemIndex(selected);
-            if (isInSubmenu) {
-                // In submenu: select item
-                if (currentSection == 2 && itemIndex == 5) {
-                    // Special case for "remap hotkeys" option - open separate menu
-                    App.disp.setCurrent(new KeyMapper());
-                }
-                else if (currentSection == 0 && itemIndex == 4) {
-                    // and for "time format"
-                    App.disp.setCurrent(new TimeFormatForm());
-                }
-                else {
-                    int max = maxValues[currentSection][itemIndex];
-                    
-                    if (max == 0 || max >= 5) {
-                        // Max value is 0 (any value allowed) or >= 5, show text entry
-                        showTextBox(selected);
-                    } else {
-                        // Max value is a small number: cycle between values
-                        cycleValue(1);
-                    }
-                }
-            } else {
-                // In top-level settings menu: select submenu (settings section)
-                // Language selection and data manager screens are separate menus, other screens are part of this menu
-                if (selected == 4) {
+
+            // select submenu (settings section)
+            // Some screens are separate menus, other screens are part of this menu
+            switch (selected) {
+                case 4: {
                     App.disp.setCurrent(new LanguageSelector());
+                    break;
                 }
-//#ifdef OVER_100KB
-                else if (selected == 5) {
+                case 5: {
                     App.disp.setCurrent(new DataManagerScreen());
+                    break;
                 }
-//#endif
-                else {
-                    showSectionScreen(selected);
+                default: {
+                    App.disp.setCurrent(new SettingsSectionScreen(selected));
+                    break;
                 }
             }
         }
-        else if (c == BACK_COMMAND) {
-            showMainScreen();
-        }
-        // else if (d == this) {
-            // Save or cancel command in main settings screen: (if save, write changes to state and save them persistently), then return to main menu
+        else {
+            // Save or cancel command: (if save, write changes to state and save them persistently), then return to main menu
             if (c == saveCommand) {
+                Setting[][] settings = SettingsSectionScreen.settings;
+
                 // Check if icons need to be reloaded (if any icon-related settings have changed)
                 boolean reloadMenuIcons =
-                    Settings.menuIconSize != values[1][4] ||
-                    Settings.showMenuIcons != (values[1][5] == 1);
+                    Settings.menuIconSize != settings[1][4].value ||
+                    Settings.showMenuIcons != (settings[1][5].value == 1);
 
                 boolean reloadIcons =
                     reloadMenuIcons ||
-                    Settings.pfpType != values[1][2] ||
-                    Settings.pfpSize != values[1][3] ||
-                    Settings.useJpeg != (values[1][0] == 1);
+                    Settings.pfpType != settings[1][2].value ||
+                    Settings.pfpSize != settings[1][3].value ||
+                    Settings.useJpeg != (settings[1][0].value == 1);
 
                 boolean fontSizeChanged =
-                    Settings.authorFontSize != values[0][1] ||
-                    Settings.messageFontSize != values[0][2];
+                    Settings.authorFontSize != settings[0][1].value ||
+                    Settings.messageFontSize != settings[0][2].value;
 
-                Settings.theme = values[0][0];
-                Settings.authorFontSize = values[0][1];
-                Settings.messageFontSize = values[0][2];
-                Settings.showRefMessage = values[0][3] == 1;
-                Settings.useNameColors = values[0][5] == 1;
-                Settings.fullscreenDefault = values[0][6] == 1;
-//#ifdef OVER_100KB
-                FormattedString.useMarkdown = values[0][7] == 1;
-//#endif
+                Settings.theme = settings[0][0].value;
+                Settings.authorFontSize = settings[0][1].value;
+                Settings.messageFontSize = settings[0][2].value;
+                Settings.showRefMessage = settings[0][3].value == 1;
+                Settings.useNameColors = settings[0][5].value == 1;
+//#ifdef 
+                Settings.fullscreenDefault = settings[0][6].value == 1;
+                FormattedString.useMarkdown = settings[0][7].value == 1;
 //#ifdef TOUCH_SUPPORT
-                Settings.messageBarMode = values[0][8];
+                Settings.messageBarMode = settings[0][8].value;
 //#endif
 
-                Settings.useJpeg = values[1][0] == 1;
-                Settings.attachmentSize = values[1][1];
-                Settings.pfpType = values[1][2];
-                Settings.pfpSize = values[1][3];
-                Settings.menuIconSize = values[1][4];
-                Settings.showMenuIcons = values[1][5] == 1;
-//#ifdef OVER_100KB
-                Settings.useFilePreview = values[1][6] == 1;
+                Settings.useJpeg = settings[1][0].value == 1;
+                Settings.attachmentSize = settings[1][1].value;
+                Settings.pfpType = settings[1][2].value;
+                Settings.pfpSize = settings[1][3].value;
+                Settings.menuIconSize = settings[1][4].value;
+                Settings.showMenuIcons = settings[1][5].value == 1;
+                Settings.useFilePreview = settings[1][6].value == 1;
 //#ifdef EMOJI_SUPPORT
-                FormattedString.emojiMode = values[1][7];
+                FormattedString.emojiMode = settings[1][7].value;
                 App.gatewayToggleGuildEmoji();
 //#endif
-//#endif
 
-                Settings.messageLoadCount = values[2][0];
-                Settings.highRamMode = values[2][1] == 1;
-                Settings.nativeFilePicker = values[2][2] == 1;
-                Settings.autoReConnect = values[2][3] == 1;
-                Settings.defaultHotkeys = values[2][4] == 1;
-                KineticScrollingCanvas.scrollBarMode = values[2][6];
-                Settings.autoUpdate = values[2][7];
-                KeyRepeatThread.toggle(values[2][8] == 1);
-//#ifdef OVER_100KB
-                Settings.sendTyping = values[2][9] == 1;
-//#endif
+                Settings.messageLoadCount = settings[2][0].value;
+                Settings.highRamMode = settings[2][1].value == 1;
+                Settings.nativeFilePicker = settings[2][2].value == 1;
+                Settings.autoReConnect = settings[2][3].value == 1;
+                Settings.defaultHotkeys = settings[2][4].value == 1;
+                KineticScrollingCanvas.scrollBarMode = settings[2][6].value;
+                Settings.autoUpdate = settings[2][7].value;
+                KeyRepeatThread.toggle(settings[2][8].value == 1);
+                Settings.sendTyping = settings[2][9].value == 1;
 
-                Settings.showNotifsAll = values[3][0] == 1;
-                Settings.showNotifsPings = values[3][1] == 1;
-                Settings.showNotifsDMs = values[3][2] == 1;
-                Settings.showNotifAlert = values[3][3] == 1;
-                Settings.playNotifSound = values[3][4] == 1;
-                Settings.playNotifVibra = values[3][5] == 1;
-                int index = 6;
+                Settings.showNotifsAll = settings[3][0].value == 1;
+                Settings.showNotifsPings = settings[3][1].value == 1;
+                Settings.showNotifsDMs = settings[3][2].value == 1;
+                Settings.showNotifAlert = settings[3][3].value == 1;
+                Settings.playNotifSound = settings[3][4].value == 1;
+                Settings.playNotifVibra = settings[3][5].value == 1;
 //#ifdef PIGLER_SUPPORT
-                Settings.showNotifPigler = values[3][index] == 1;
-                index++;
+                Settings.showNotifPigler = settings[3][6].value == 1;
 //#endif
 //#ifdef NOKIA_UI_SUPPORT
-                Settings.showNotifNokiaUI = values[3][index] == 1;
+                Settings.showNotifNokiaUI = settings[3][7].value == 1;
 //#endif
 
                 // Unload server and DM lists if needed, so the icons and font-based layout metrics get refreshed
@@ -640,37 +281,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Theme.load();
                 App.loadFonts();
             }
-            else if (c == cancelCommand) 
+            SettingsSectionScreen.settings = null;
             App.disp.setCurrent(MainMenu.get(true));
-        // }
-        else {
-            // OK or cancel command in textbox screen: (if OK, write entered value into values array), then return to where we left off in the settings screen
-            if (c == textBoxOkCommand) {
-                int selected = getSelectedIndex();
-                int itemIndex = getItemIndex(selected);
-                int max = maxValues[currentSection][itemIndex];
-                try {
-                    int value = Integer.parseInt(((TextBox) d).getString());
-                    // Menu icon size has a minimum of 0 (off), other options have a min of 1
-                    int min = (currentSection == 1 && itemIndex == 4) ? 0 : 1;
-                    if (value < min || value > max) throw new Exception();
-
-                    // Special case for menu icon size:
-                    // 1 and 2 are reserved values that older versions used for 16 and 32 px
-                    if (currentSection == 1 && itemIndex == 4 && (value == 1 || value == 2)) {
-                        value = 3;
-                    }
-
-                    values[currentSection][itemIndex] = value;
-                    updateMenuItem(selected);
-                }
-                catch (Exception e) {
-                    App.error(Locale.get(SETTINGS_ERROR_INVALID_NUMBER_PREFIX) + max + Locale.get(SETTINGS_ERROR_INVALID_NUMBER_SUFFIX));
-                    return;
-                }
-            }
-            App.disp.setCurrent(SettingsScreen.instance);
-            SettingsScreen.instance = null;
         }
     }
 }

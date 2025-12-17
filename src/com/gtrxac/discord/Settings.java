@@ -5,6 +5,11 @@ import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 
 public class Settings {
+    // How to add a new setting:
+    // - create new field here
+    // - add load/save commands to jsonToState/stateToJson methods (make sure they are the LAST get*Record() and set*Record() method uses in jsonToState/stateToJson, the order of loading/saving must be preserved)
+    // - add an option to change that setting, see SettingsSectionScreen
+
     static final int PFP_TYPE_NONE = 0;
     static final int PFP_TYPE_SQUARE = 1;
     static final int PFP_TYPE_CIRCLE = 2;
