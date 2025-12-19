@@ -15,6 +15,8 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
     //   - also make sure the correct index is used in KeyMapper (search "SettingsSectionScreen.settings" there)
     // - commandAction method: add code to save that setting's value into the Settings field
 
+    // If you're adding a new section in between existing sections, edit the indexes in commandAction appropriately
+
     private Command saveCommand;
     private Command cancelCommand;
 
@@ -25,6 +27,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         setCommandListener(this);
 
         sectionNames = new String[] {
+            Locale.get(SETTINGS_SECTION_THEMES),
             Locale.get(SETTINGS_SECTION_APPEARANCE),
             Locale.get(SETTINGS_SECTION_IMAGES),
             Locale.get(SETTINGS_SECTION_BEHAVIOR),
@@ -33,12 +36,14 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             Locale.get(DATA_MANAGER_TITLE),
         };
 
-        append(sectionNames[0], App.ic.themesGroup);
-        append(sectionNames[1], App.ic.attachFormat);
-        append(sectionNames[2], App.ic.uiGroup);
-        append(sectionNames[3], App.ic.notify);
-        append(sectionNames[4], App.ic.language);
-        append(sectionNames[5], App.ic.dataManager);
+        append(sectionNames[0], App.ic.themeCustom);
+        append(sectionNames[1], App.ic.themesGroup);
+        append(sectionNames[2], App.ic.attachFormat);
+        append(sectionNames[3], App.ic.uiGroup);
+        append(sectionNames[4], App.ic.notify);
+        append(sectionNames[5], App.ic.notifySound);
+        append(sectionNames[6], App.ic.language);
+        append(sectionNames[7], App.ic.dataManager);
 
         saveCommand = Locale.createCommand(SAVE, Command.BACK, 0);
         cancelCommand = Locale.createCommand(CANCEL, Command.BACK, 1);
@@ -73,6 +78,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         Image[] pfpSizeIcons = { App.ic.pfpPlaceholder, App.ic.pfp16, App.ic.pfp32 };
 
         // Some settings are hidden or shown only on platforms with certain system properties, checked both compile-time (for different builds of the app) and run-time
+
+        // new Setting(...many arguments...) = setting that is shown
+        // new Setting(...one argument...) = setting that is hidden, its slot is only used to hold a value which is then saved back to the same field in Settings
+        // null = blank slot that is not shown or used at all
 
         // Settings that are hidden on certain platforms (only on certain builds and if a runtime check passes):
 
@@ -118,8 +127,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
         SettingsSectionScreen.settings = new Setting[][] {
             {
-                // Appearance section
+                // Theme section
                 new Setting(SETTINGS_SECTION_THEMES, 4, Settings.theme, themeValueLabels, themeIcons),
+                new Setting(BACKGROUND_IMAGE, 1, Settings.useBackgroundImage ? 1 : 0, App.ic.attachFormat),
+                new Setting(IMPORT_BACKGROUND, 1, 0, null, App.ic.nativePicker),
+            }, {
+                // Appearance section
                 new Setting(SETTINGS_SECTION_AUTHOR_FONT, 2, Settings.authorFontSize, fontValueLabels, fontIcons),
                 new Setting(SETTINGS_SECTION_CONTENT_FONT, 2, Settings.messageFontSize, fontValueLabels, fontIcons),
                 new Setting(SETTINGS_SECTION_REPLIES, 1, Settings.showRefMessage ? 1 : 0, replyValueLabels, replyIcons),
@@ -164,7 +177,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 new Setting(NOTIFICATIONS_MENTIONS, 1, Settings.showNotifsPings ? 1 : 0, App.ic.notifyPing),
                 new Setting(NOTIFICATIONS_DMS, 1, Settings.showNotifsDMs ? 1 : 0, App.ic.notifyDM),
                 new Setting(NOTIFICATIONS_ALERT, 1, Settings.showNotifAlert ? 1 : 0, App.ic.notifyAlert),
-                new Setting(NOTIFICATIONS_SOUND, 1, Settings.playNotifSound ? 1 : 0, App.ic.notifySound),
+                // new Setting(NOTIFICATIONS_SOUND, 1, Settings.playNotifSound ? 1 : 0, App.ic.notifySound),
                 new Setting(NOTIFICATIONS_VIBRATE, 1, Settings.playNotifVibra ? 1 : 0, App.ic.vibra),
                 piglerSetting,
                 nokiaUISetting,
@@ -179,11 +192,15 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             // select submenu (settings section)
             // Some screens are separate menus, other screens are part of this menu
             switch (selected) {
-                case 4: {
+                case 5: {
+                    App.disp.setCurrent(new SoundSettingsScreen());
+                    break;
+                }
+                case 6: {
                     App.disp.setCurrent(new LanguageSelector());
                     break;
                 }
-                case 5: {
+                case 7: {
                     App.disp.setCurrent(new DataManagerScreen());
                     break;
                 }
@@ -200,64 +217,66 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 
                 // Check if icons need to be reloaded (if any icon-related settings have changed)
                 boolean reloadMenuIcons =
-                    Settings.menuIconSize != settings[1][4].value ||
-                    Settings.showMenuIcons != (settings[1][5].value == 1);
+                    Settings.menuIconSize != settings[2][4].value ||
+                    Settings.showMenuIcons != (settings[2][5].value == 1);
 
                 boolean reloadIcons =
                     reloadMenuIcons ||
-                    Settings.pfpType != settings[1][2].value ||
-                    Settings.pfpSize != settings[1][3].value ||
-                    Settings.useJpeg != (settings[1][0].value == 1);
+                    Settings.pfpType != settings[2][2].value ||
+                    Settings.pfpSize != settings[2][3].value ||
+                    Settings.useJpeg != (settings[2][0].value == 1);
 
                 boolean fontSizeChanged =
-                    Settings.authorFontSize != settings[0][1].value ||
-                    Settings.messageFontSize != settings[0][2].value;
+                    Settings.authorFontSize != settings[1][1].value ||
+                    Settings.messageFontSize != settings[1][2].value;
 
                 Settings.theme = settings[0][0].value;
-                Settings.authorFontSize = settings[0][1].value;
-                Settings.messageFontSize = settings[0][2].value;
-                Settings.showRefMessage = settings[0][3].value == 1;
-                Settings.useNameColors = settings[0][5].value == 1;
+                Settings.useBackgroundImage = settings[0][1].value == 1;
+
+                Settings.authorFontSize = settings[1][0].value;
+                Settings.messageFontSize = settings[1][1].value;
+                Settings.showRefMessage = settings[1][2].value == 1;
+                Settings.useNameColors = settings[1][4].value == 1;
 //#ifdef 
-                Settings.fullscreenDefault = settings[0][6].value == 1;
-                FormattedString.useMarkdown = settings[0][7].value == 1;
+                Settings.fullscreenDefault = settings[1][5].value == 1;
+                FormattedString.useMarkdown = settings[1][6].value == 1;
 //#ifdef TOUCH_SUPPORT
-                Settings.messageBarMode = settings[0][8].value;
+                Settings.messageBarMode = settings[1][7].value;
 //#endif
 
-                Settings.useJpeg = settings[1][0].value == 1;
-                Settings.attachmentSize = settings[1][1].value;
-                Settings.pfpType = settings[1][2].value;
-                Settings.pfpSize = settings[1][3].value;
-                Settings.menuIconSize = settings[1][4].value;
-                Settings.showMenuIcons = settings[1][5].value == 1;
-                Settings.useFilePreview = settings[1][6].value == 1;
+                Settings.useJpeg = settings[2][0].value == 1;
+                Settings.attachmentSize = settings[2][1].value;
+                Settings.pfpType = settings[2][2].value;
+                Settings.pfpSize = settings[2][3].value;
+                Settings.menuIconSize = settings[2][4].value;
+                Settings.showMenuIcons = settings[2][5].value == 1;
+                Settings.useFilePreview = settings[2][6].value == 1;
 //#ifdef EMOJI_SUPPORT
-                FormattedString.emojiMode = settings[1][7].value;
+                FormattedString.emojiMode = settings[2][7].value;
                 App.gatewayToggleGuildEmoji();
 //#endif
 
-                Settings.messageLoadCount = settings[2][0].value;
-                Settings.highRamMode = settings[2][1].value == 1;
-                Settings.nativeFilePicker = settings[2][2].value == 1;
-                Settings.autoReConnect = settings[2][3].value == 1;
-                Settings.defaultHotkeys = settings[2][4].value == 1;
-                KineticScrollingCanvas.scrollBarMode = settings[2][6].value;
-                Settings.autoUpdate = settings[2][7].value;
-                KeyRepeatThread.toggle(settings[2][8].value == 1);
-                Settings.sendTyping = settings[2][9].value == 1;
+                Settings.messageLoadCount = settings[3][0].value;
+                Settings.highRamMode = settings[3][1].value == 1;
+                Settings.nativeFilePicker = settings[3][2].value == 1;
+                Settings.autoReConnect = settings[3][3].value == 1;
+                Settings.defaultHotkeys = settings[3][4].value == 1;
+                KineticScrollingCanvas.scrollBarMode = settings[3][6].value;
+                Settings.autoUpdate = settings[3][7].value;
+                KeyRepeatThread.toggle(settings[3][8].value == 1);
+                Settings.sendTyping = settings[3][9].value == 1;
 
-                Settings.showNotifsAll = settings[3][0].value == 1;
-                Settings.showNotifsPings = settings[3][1].value == 1;
-                Settings.showNotifsDMs = settings[3][2].value == 1;
-                Settings.showNotifAlert = settings[3][3].value == 1;
-                Settings.playNotifSound = settings[3][4].value == 1;
-                Settings.playNotifVibra = settings[3][5].value == 1;
+                Settings.showNotifsAll = settings[4][0].value == 1;
+                Settings.showNotifsPings = settings[4][1].value == 1;
+                Settings.showNotifsDMs = settings[4][2].value == 1;
+                Settings.showNotifAlert = settings[4][3].value == 1;
+                // Settings.playNotifSound = settings[4][4].value == 1;
+                Settings.playNotifVibra = settings[4][4].value == 1;
 //#ifdef PIGLER_SUPPORT
-                Settings.showNotifPigler = settings[3][6].value == 1;
+                Settings.showNotifPigler = settings[4][5].value == 1;
 //#endif
 //#ifdef NOKIA_UI_SUPPORT
-                Settings.showNotifNokiaUI = settings[3][7].value == 1;
+                Settings.showNotifNokiaUI = settings[4][6].value == 1;
 //#endif
 
                 // Unload server and DM lists if needed, so the icons and font-based layout metrics get refreshed
