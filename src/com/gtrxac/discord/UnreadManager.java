@@ -139,6 +139,21 @@ public class UnreadManager {
 //#endif
     }
 
+    // used for gateway read states
+    public static void forceMarkRead(String channelID, long lastMessageID) {
+        long lastMessageTime = lastMessageID >> 22;
+        
+        String lastReadTime = (String) channels.get(channelID);
+        boolean isUnread = true;
+
+        if (lastReadTime != null) {
+            isUnread = (Long.parseLong(lastReadTime) < lastMessageTime);
+        }
+        if (isUnread) {
+            put(channelID, String.valueOf(lastMessageTime));
+        }
+    }
+
     public static void markDMsRead() {
         if (App.dmSelector != null) markRead(App.dmSelector.lastDMs);
     }

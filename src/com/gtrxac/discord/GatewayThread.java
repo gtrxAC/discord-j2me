@@ -395,6 +395,7 @@ public class GatewayThread extends Thread implements Strings
 						events.add("TYPING_START");
 						events.add("GUILD_MEMBERS_CHUNK");
 						events.add("J2ME_READY");
+						events.add("J2ME_READ_STATES");
 
 						JSONObject connData = new JSONObject();
 						connData.put("supported_events", events);
@@ -676,6 +677,19 @@ public class GatewayThread extends Thread implements Strings
 							App.myUserId = message.getObject("d").getString("id");
 						}
 						reconnectAttempts = 0;
+					}
+					else if (op.equals("J2ME_READ_STATES")) {
+						JSONArray entries = message.getArray("d");
+
+						UnreadManager.autoSave = false;
+
+						for (int i = 0; i < entries.size(); i += 2) {
+							String channelID = entries.getString(i);
+							long readMessageID = Long.parseLong(entries.getString(i + 1));
+							UnreadManager.forceMarkRead(channelID, readMessageID);
+						}
+
+						UnreadManager.manualSave();
 					}
 				}
 				else if (message.getInt("op", 0) == 10) {
