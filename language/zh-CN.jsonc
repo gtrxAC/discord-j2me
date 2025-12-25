@@ -295,6 +295,7 @@
     "查询参数",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
+    "请输入您的 Token",
     "请指定 API 地址",
 
     // Main menu items.
