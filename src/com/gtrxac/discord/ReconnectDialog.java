@@ -6,7 +6,7 @@ import javax.microedition.lcdui.*;
 public class ReconnectDialog extends Dialog implements CommandListener, Strings {
     private Command yesCommand;
     private Command noCommand;
-    private Displayable lastScreen;
+    private Object lastScreen;
     
     public ReconnectDialog(String message) {
         super(Locale.get(RECONNECT_FORM_TITLE), "");

@@ -20,8 +20,8 @@ implements CommandListener
 
     public String text;
     private String[] textLines;
-    public Displayable lastScreen;
-    public Displayable nextScreen;
+    public Object lastScreen;
+    public Object nextScreen;
     private int fontHeight;
 //#ifdef OVER_100KB
     private boolean isScrollable;
@@ -35,7 +35,7 @@ implements CommandListener
         this(title, text, null);
     }
 
-    Dialog(String title, String text, Displayable nextScreen) {
+    Dialog(String title, String text, Object nextScreen) {
         super();
         checkInitOverlay();
         super.setCommandListener(this);
@@ -44,7 +44,9 @@ implements CommandListener
         this.nextScreen = (nextScreen != null) ? nextScreen : lastScreen;
 
         // Don't show title bar if the previous screen didn't have a title bar
-        if (lastScreen == null || lastScreen.getTitle() != null) setTitle(title);
+        if (lastScreen == null || !(lastScreen instanceof MyCanvas) || ((MyCanvas) lastScreen).getTitle() != null) {
+            setTitle(title);
+        }
 
         fontHeight = ListScreen.font.getHeight();
         commandCount = 0;
@@ -97,7 +99,7 @@ implements CommandListener
         }
     }
 
-    protected void sizeChanged(int w, int h) {
+    public void sizeChanged(int w, int h) {
         this.textLines = Util.wordWrap(text, getContentWidth() - fontHeight*2, ListScreen.font);
 //#ifdef OVER_100KB
         this.isScrollable = (textLines.length*fontHeight > getHeight() - fontHeight/2);
@@ -105,7 +107,7 @@ implements CommandListener
         repaint();
     }
 
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
 //#ifdef OVER_100KB
         checkScrollInRange();
 //#endif
@@ -120,13 +122,12 @@ implements CommandListener
 
         // Get the screen that should be drawn behind this one
         // If this Dialog is stacked above another Dialog, get the last non-Dialog screen
-        Displayable behindScreen = lastScreen;
+        Object behindScreen = lastScreen;
         while (behindScreen instanceof Dialog) {
             behindScreen = ((Dialog) behindScreen).lastScreen;
         }
 
         // If possible, draw last screen behind a darkened overlay
-        // MyCanvas has a _paint() proxy method for protected paint() that lets us do this
         if (overlay != null && behindScreen instanceof MyCanvas) {
             // When changing screen size, the _paint() method will keep using the old width/height.
             // There may be a proper fix for this, but for now, we just fill the background with the theme
@@ -140,7 +141,7 @@ implements CommandListener
             }
 
             try {
-                ((MyCanvas) behindScreen)._paint(g);
+                ((MyCanvas) behindScreen).paint(g);
             }
             catch (Exception e) {}
 
@@ -207,7 +208,7 @@ implements CommandListener
     }
     
 //#ifdef OVER_100KB
-    protected void keyAction(int keycode) {
+    public void keyAction(int keycode) {
         if (!isScrollable) return;
 
         switch (getGameAction(keycode)) {

@@ -7,7 +7,7 @@ import javax.microedition.media.*;
 public class NotificationDialog extends Dialog implements CommandListener, Strings, Runnable {
     private Command viewCommand;
     private Command closeCommand;
-    private Displayable lastScreen;
+    private Object lastScreen;
     private Notification notif;
     
     public NotificationDialog(Notification notif, String location, Message msg) {
@@ -45,7 +45,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
 //#endif
             Util.sleep(50);
             while (true) {
-                Displayable curr = App.disp.getCurrent();
+                Object curr = App.disp.getCurrent();
                 if (curr == this) {
                     App.gateway.playNotificationSound();
                     break;

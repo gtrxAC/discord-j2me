@@ -4,7 +4,7 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class LanguageSelector extends ListScreen implements CommandListener, Strings {
-    private Displayable lastScreen;
+    private Object lastScreen;
 
     // Should match the order that is in Locale.langIds
     private static String[] langNames = {

@@ -12,7 +12,7 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
     public int dialogType;
     private Command yesCommand;
     private Command noCommand;
-    private Displayable lastScreen;
+    private Object lastScreen;
     
     // public Dialogs100kb() {
     //     super();
@@ -97,7 +97,7 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         addCommand(noCommand);
     }
 
-    protected void showNotify() {
+    public void showNotify() {
         if (dialogType == NOTIFICATION_DIALOG && !hasPlayedSound) {
             App.gateway.playNotificationSound();
             hasPlayedSound = true;

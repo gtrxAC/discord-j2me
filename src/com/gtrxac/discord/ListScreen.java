@@ -324,7 +324,7 @@ public class ListScreen extends KineticScrollingCanvas {
         return Math.max(items.size()*itemHeight - getHeight(), minScroll);
     }
 
-    protected void showNotify() {
+    public void showNotify() {
 //#ifdef SAMSUNG_FULL
         super.showNotify();
 //#endif
@@ -333,7 +333,7 @@ public class ListScreen extends KineticScrollingCanvas {
 
     private int lastWidth;
 
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
         if (lastWidth != getWidth()) {
             setItemHeight(getWidth());
             updateDisplayedItems();
@@ -446,9 +446,9 @@ public class ListScreen extends KineticScrollingCanvas {
 
     public void customKeyEvent(int keycode) {}
     
-    protected void keyAction(int keycode) {
+    public void keyAction(int keycode) {
         if (keycode == Settings.backHotkey && !Settings.defaultHotkeys && backButtonCommand != null) {
-            listener.commandAction(backButtonCommand, this);
+            listener.commandAction(backButtonCommand, null);
             return;
         }
 
@@ -483,7 +483,7 @@ public class ListScreen extends KineticScrollingCanvas {
                 break;
             }
             case FIRE: {
-                listener.commandAction(SELECT_COMMAND, this);
+                listener.commandAction(SELECT_COMMAND, null);
                 return;
             }
             default: {
@@ -498,8 +498,8 @@ public class ListScreen extends KineticScrollingCanvas {
 //#ifdef TOUCH_SUPPORT
     private boolean pressedOnBlank;
 
-    protected void _pointerPressed(int x, int y) {
-        super._pointerPressed(x, y);
+    public void pointerPressed(int x, int y) {
+        super.pointerPressed(x, y);
 
         if (y > getItemPosition(items.size())) {
             pressedOnBlank = true;
@@ -516,18 +516,18 @@ public class ListScreen extends KineticScrollingCanvas {
         repaint();
     }
 
-    protected void _pointerReleased(int x, int y) {
+    public void pointerReleased(int x, int y) {
         if (!pressedOnBlank) {
             if (!pointerWasTapped(fontHeight)) {
                 // Scrolled: start kinetic scrolling if needed
                 touchMode = true;
-                super._pointerReleased(x, y);
+                super.pointerReleased(x, y);
             }
             else {
                 // Not scrolled and not tapped on empty space: select item
                 globalTouchMode = true;
                 touchMode = false;
-                listener.commandAction(SELECT_COMMAND, this);
+                listener.commandAction(SELECT_COMMAND, null);
             }
         }
         repaint();

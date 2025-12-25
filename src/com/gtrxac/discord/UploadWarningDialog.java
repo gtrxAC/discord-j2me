@@ -4,7 +4,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class UploadWarningDialog extends Dialog implements Strings, CommandListener {
-    Displayable lastScreen;
+    Object lastScreen;
     private Command okCommand;
     private Command hideCommand;
     private Command cancelCommand;

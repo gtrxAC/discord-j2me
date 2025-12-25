@@ -173,7 +173,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         i.addElement(new AboutScreenItem(Locale.get(descKey), Font.SIZE_SMALL, Util.fontSize/marginDiv, false, false));
     }
 
-    protected void sizeChanged(int w, int h) {
+    public void sizeChanged(int w, int h) {
         int width = getWidth();
         maxScroll = logoSize + logoSize/3 + logoSize/8;
 
@@ -363,7 +363,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         while (AboutScreenItem.titleColor < 0xFFFFFF) update();
     }
 
-    protected void keyAction(int keycode) {
+    public void keyAction(int keycode) {
         skipAnimation();
         switch (getGameAction(keycode)) {
             case UP: {
@@ -379,7 +379,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
     }
 
 //#ifdef TOUCH_SUPPORT
-    protected void pointerReleased(int x, int y) {
+    public void pointerReleased(int x, int y) {
         skipAnimation();
         super.pointerReleased(x, y);
     }

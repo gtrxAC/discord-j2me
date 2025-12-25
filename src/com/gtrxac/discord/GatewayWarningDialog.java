@@ -4,7 +4,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class GatewayWarningDialog extends Dialog implements Strings, CommandListener, Runnable {
-    Displayable lastScreen;
+    Object lastScreen;
     private Command yesCommand;
     private Command hideCommand;
     private Command noCommand;

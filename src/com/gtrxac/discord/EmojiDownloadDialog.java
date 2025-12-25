@@ -4,7 +4,7 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class EmojiDownloadDialog extends Dialog implements Strings, CommandListener {
-    Displayable lastScreen;
+    Object lastScreen;
     private Command yesCommand;
     private Command noCommand;
 

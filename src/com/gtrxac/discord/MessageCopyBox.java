@@ -4,7 +4,7 @@ import javax.microedition.lcdui.*;
 
 public class MessageCopyBox extends TextBox implements CommandListener, Strings {
     private Command backCommand;
-    public Displayable lastScreen;
+    public Object lastScreen;
 
     public MessageCopyBox(String content) {
         this(Locale.get(MESSAGE_COPY_BOX_TITLE), content);

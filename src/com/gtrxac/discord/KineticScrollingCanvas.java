@@ -85,7 +85,7 @@ implements Runnable
         repaint();
     }
 
-    protected void _pointerPressed(int x, int y) {
+    public void pointerPressed(int x, int y) {
         // Use scrollbar if the content is tall enough to be scrollable and the user pressed on the right edge of the screen
         // Note: Scrollbar hitbox is wider than the actual rendered scrollbar
         usingScrollBar =
@@ -108,7 +108,7 @@ implements Runnable
         repaint();
     }
 
-    protected void _pointerDragged(int x, int y) {
+    public void pointerDragged(int x, int y) {
         // Asha fix
 //#ifdef MIDP2_GENERIC
         if (y > 65500) y = 0;
@@ -134,7 +134,7 @@ implements Runnable
         repaint();
     }
     
-    protected void _pointerReleased(int x, int y) {
+    public void pointerReleased(int x, int y) {
         if (usingScrollBar) {
             usingScrollBar = false;
             repaint();

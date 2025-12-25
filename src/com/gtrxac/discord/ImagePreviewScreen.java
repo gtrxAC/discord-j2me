@@ -13,7 +13,7 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
     private Message recipientMsg;
     private Command yesCommand;
     private Command noCommand;
-    private Displayable prevScreen;
+    private Object prevScreen;
     private int width;
     private int height;
     private int fontHeight;
@@ -48,13 +48,13 @@ public class ImagePreviewScreen extends MyCanvas implements CommandListener, Str
         addCommand(noCommand);
     }
 
-    protected void sizeChanged(int w, int h) {
+    public void sizeChanged(int w, int h) {
         width = w;
         height = h;
         repaint();
     }
 
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
         clearScreen(g, Theme.imagePreviewBackgroundColor);
 
         g.setFont(App.messageFont);

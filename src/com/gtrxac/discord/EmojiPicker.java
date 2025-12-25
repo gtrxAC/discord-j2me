@@ -6,7 +6,7 @@ import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 
 public class EmojiPicker extends KineticScrollingCanvas implements Strings, CommandListener, Runnable {
-    Displayable lastScreen;
+    Object lastScreen;
     private Command selectCommand;
     private Command backCommand;
     private Image[] sheets;
@@ -120,7 +120,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         return getEmojiAreaHeight() - getHeight();
     }
 
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
         checkScrollInRange();
 
         clearScreen(g, Theme.emojiPickerBackgroundColor);
@@ -184,7 +184,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         }
     }
 
-    protected void keyAction(int keyCode) {
+    public void keyAction(int keyCode) {
         switch (getGameAction(keyCode)) {
             case UP: {
                 selected = Math.max(selected - getEmojiPerRow(), 0);
@@ -203,7 +203,7 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
                 break;
             }
             case FIRE: {
-                commandAction(selectCommand, this);
+                commandAction(selectCommand, null);
                 return;
             }
         }
@@ -252,19 +252,19 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
 //#endif
     }
 
-    protected void hideNotify() {
+    public void hideNotify() {
         running = false;
     }
 
-    protected void showNotify() {
+    public void showNotify() {
         running = true;
         threadIsForSelectorAnim = true;
         new Thread(this).start();
     }
 
 //#ifdef TOUCH_SUPPORT
-    protected void _pointerPressed(int x, int y) {
-        super._pointerPressed(x, y);
+    public void pointerPressed(int x, int y) {
+        super.pointerPressed(x, y);
 
         if (!usingScrollBar) {
             int screenWidth = getAvailableWidth();
@@ -281,12 +281,12 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
         }
     }
 
-    protected void _pointerReleased(int x, int y) {
+    public void pointerReleased(int x, int y) {
         if (!pointerWasTapped(Util.fontSize)) {
-            super._pointerReleased(x, y);
+            super.pointerReleased(x, y);
             return;
         }
-        commandAction(selectCommand, this);
+        commandAction(selectCommand, null);
     }
 //#endif
 }

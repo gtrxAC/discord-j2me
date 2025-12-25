@@ -1,116 +1,140 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import java.util.*;
 
-public abstract class MyCanvas extends Canvas {
+public abstract class MyCanvas {
+    public static final int UP = 1;
+    public static final int DOWN = 6;
+    public static final int LEFT = 2;
+    public static final int RIGHT = 5;
+    public static final int FIRE = 8;
+    public static final int GAME_A = 9;
+    public static final int GAME_B = 10;
+    public static final int GAME_C = 11;
+    public static final int GAME_D = 12;
+
+    String title;
+    boolean isFullscreen;
+    Vector commands;
+    int width;
+    int height;
+    CommandListener commandListener;
+
+    public MyCanvas(String title) {
+        this.title = title;
+        commands = new Vector();
+
 //#ifdef MIDP2_GENERIC
-    MyCanvas() {
-        if (Util.isKemulator) setFullScreenMode(true);
-    }
-
-    protected void paint(Graphics g) {}
+        this.isFullscreen = Util.isKemulator;
+//#else
+        this.isFullscreen = false;
 //#endif
 
-    public void _paint(Graphics g) {
-        paint(g);
+        width = WrapperCanvas.instance.getWidth();
+        height = WrapperCanvas.instance.getHeight();
     }
+
+    public MyCanvas() {
+        this(null);
+    }
+
+    int getGameAction(int keyCode) {
+        return WrapperCanvas.instance.getGameAction(keyCode);
+    }
+
+    // int getKeyCode(int gameAction)  not used
+
+    // String getKeyName(int keyCode)  not used
+
+    public boolean hasPointerEvents() {
+//#ifdef SAMSUNG_FULL
+        // Samsung S7350i does not have a touchscreen but hasPointerEvents on it still returns true. Good job, Samsung!
+        return WrapperCanvas.instance.hasPointerEvents() && Util.noPointerEventsBug;
+//#else
+        return WrapperCanvas.instance.hasPointerEvents();
+//#endif
+    }
+
+    // public boolean hasPointerMotionEvents()  not used
+
+    // public boolean hasRepeatEvents()  not used
+
+    public void hideNotify() { }
+
+    // public boolean isDoubleBuffered()  not used
+
+    public void keyPressed(int key) {
+        keyAction(key);
+    }
+
+    public void keyReleased(int key) { }
+
+    public void keyRepeated(int key) {
+        keyAction(key);
+    }
+
+    public void pointerDragged(int x, int y) { }
+
+    public void pointerPressed(int x, int y) { }
+
+    public void pointerReleased(int x, int y) { }
+
+    public void showNotify() { }
+
+    public void sizeChanged(int width, int height) { }
+
+    public void keyAction(int key) { }  // nonstandard
+
+    // nonstandard, called when dragging back
+    // argument indicates if transition should be shown, when called by transitionscreen, it's false
+    public void backAction(boolean transition) { }
+
+    public void paint(Graphics g) { }
 
 //#ifdef SAMSUNG_FULL
-    private static boolean hasDoneSamsungFontFix;
-
-    protected void showNotify() {
-        // On Samsung Jet S8000 (tested with S800MCEIK1 firmware) the first canvas that is shown
-        // in a Java app will have fonts that are way too small (approx 16px on a 480p display).
-        // The solution is to reload the fonts and the main menu.
-        // More about this in Util.java
-        if (Util.hasSamsungFontBug && !hasDoneSamsungFontFix) {
-            App.loadFonts();
-            App.disp.setCurrent(reload());
-            hasDoneSamsungFontFix = true;
-        }
-    }
-
+    // see WrapperCanvas
     // overridden when needed
     protected MyCanvas reload() {
         return null;
     }
-
-    // Samsung S7350i does not have a touchscreen but hasPointerEvents on it still returns true. Good job, Samsung!
-    public boolean hasPointerEvents() {
-        return super.hasPointerEvents() && Util.noPointerEventsBug;
-    }
 //#endif
 
-//#ifdef MIDP2_GENERIC
     public void setTitle(String title) {
-        if (Util.isKemulator && !"Discord".equals(title) && title != null) {
-            super.setTitle("Discord - " + title);
-        } else {
-            super.setTitle(title);
-        }
+        this.title = title;
+        WrapperCanvas.instance.updateTitle();
     }
-//#endif
-
-    protected void keyAction(int key) {}
-
-    private static volatile boolean isKeyPressed = false;
-    public static volatile long beginRepeatTime;
-
-//#ifdef MIDP2_GENERIC
-    private static long uiq3BackButtonTimer;
-//#endif
-
-    protected void keyPressed(int key) {
-//#ifdef MIDP2_GENERIC
-        if (Util.isSymbian) {
-            // Symbian^3: Ignore home button presses which would otherwise deactivate touch mode
-            if (key == -12) return;
-
-            // UIQ3: Back button has duplicated key events, use a timer to suppress the latter event
-            if (key == -11) {
-                long curr = System.currentTimeMillis();
-                if (curr < uiq3BackButtonTimer + 500) return;
-                uiq3BackButtonTimer = curr;
-            }
-        }
-//#endif
-        keyAction(key);
-
-        if (KeyRepeatThread.enabled && !isKeyPressed) {
-            isKeyPressed = true;
-            beginRepeatTime = System.currentTimeMillis() + 500;
-            synchronized (KeyRepeatThread.instance) {
-                KeyRepeatThread.activeKey = key;
-                KeyRepeatThread.instance.notify();
-            }
-        }
-    }
-
-    protected void keyReleased(int key) {
-        if (KeyRepeatThread.enabled && isKeyPressed) {
-            isKeyPressed = false;
-            KeyRepeatThread.activeKey = 0;
-        }
-    }
-
-    protected void keyRepeated(int key) {
-//#ifdef MIDP2_GENERIC
-        if (Util.isSymbian && key == -12) return;
-//#endif
-        if (!KeyRepeatThread.enabled) keyAction(key);
-    }
-
-//#ifdef NOKIA_THEME_BACKGROUND
-    private boolean fullscreen = false;
 
     public void setFullScreenMode(boolean mode) {
-        fullscreen = mode;
-        super.setFullScreenMode(mode);
+        isFullscreen = mode;
+        WrapperCanvas.instance.updateFullscreen();
     }
+
+    protected void clearScreen(Graphics g, int color) {
+        // On BlackBerry, the clip is set by default to (0, -y, width, height+y), where y is the height of the title bar. This means that apps can draw stuff over the title bar.
+        // We'll draw a custom title bar over the default one, then set a new clip so nothing else in the app can draw over it.
+//#ifdef BLACKBERRY
+        bbDrawTitle(g);
 //#endif
 
+//#ifdef NOKIA_THEME_BACKGROUND
+        if (Settings.theme != Theme.SYSTEM || isFullscreen)
+//#endif
+        {
+            g.setColor(color);
+            g.fillRect(0, 0, getWidth(), getHeight());
+
+//#ifdef NOKIA_THEME_BACKGROUND
+            // Fix white border rendering bug on Symbian 9.3 - 9.4
+            if (!isFullscreen) {
+                g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+            }
+//#endif
+        }
+    }
+
 //#ifdef BLACKBERRY
-    protected int bbTitleHeight;
+    public int bbTitleHeight;
     private static final Font bbTitleFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 
     protected void bbDrawTitle(Graphics g) {
@@ -133,60 +157,43 @@ public abstract class MyCanvas extends Canvas {
     }
 //#endif
 
-    protected void clearScreen(Graphics g, int color) {
-        // On BlackBerry, the clip is set by default to (0, -y, width, height+y), where y is the height of the title bar. This means that apps can draw stuff over the title bar.
-        // We'll draw a custom title bar over the default one, then set a new clip so nothing else in the app can draw over it.
-//#ifdef BLACKBERRY
-        bbDrawTitle(g);
-//#endif
+    public int getWidth() {
+        return width;
+    }
 
-//#ifdef NOKIA_THEME_BACKGROUND
-        if (Settings.theme != Theme.SYSTEM || fullscreen)
-//#endif
-        {
-            g.setColor(color);
-            g.fillRect(0, 0, getWidth(), getHeight());
+    public int getHeight() {
+        return height;
+    }
 
-//#ifdef NOKIA_THEME_BACKGROUND
-            // Fix white border rendering bug on Symbian 9.3 - 9.4
-            if (!fullscreen) {
-                g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-            }
-//#endif
+    public void repaint() {
+        WrapperCanvas.instance.repaint();
+    }
+
+    public void serviceRepaints() {
+        WrapperCanvas.instance.serviceRepaints();
+    }
+
+    public void setCommandListener(CommandListener l) {
+        commandListener = l;
+        WrapperCanvas.instance.updateCommandListener();
+    }
+
+    public void addCommand(Command c) {
+        if (!commands.contains(c)) {
+            commands.addElement(c);
+            WrapperCanvas.instance.needUpdateCommands = true;  //§
+            WrapperCanvas.instance.repaint();
         }
     }
 
-//#ifdef TOUCH_SUPPORT
-    protected void _pointerPressed(int x, int y) {}
-    protected void _pointerDragged(int x, int y) {}
-    protected void _pointerReleased(int x, int y) {}
-//#endif
-
-//#ifdef BLACKBERRY
-    protected void pointerPressed(int x, int y) {
-        _pointerPressed(x, y - bbTitleHeight);
+    public void removeCommand(Command c) {
+        if (commands.removeElement(c)) {
+            WrapperCanvas.instance.needUpdateCommands = true;
+            WrapperCanvas.instance.repaint();
+        }
     }
 
-    protected void pointerDragged(int x, int y) {
-        _pointerDragged(x, y - bbTitleHeight);
+    public String getTitle() {
+        return title;
     }
-
-    protected void pointerReleased(int x, int y) {
-        _pointerReleased(x, y - bbTitleHeight);
-    }
-//#else
-//#ifdef TOUCH_SUPPORT
-    protected void pointerPressed(int x, int y) {
-        _pointerPressed(x, y);
-    }
-
-    protected void pointerDragged(int x, int y) {
-        _pointerDragged(x, y);
-    }
-
-    protected void pointerReleased(int x, int y) {
-        _pointerReleased(x, y);
-    }
-//#endif
-//#endif
 }

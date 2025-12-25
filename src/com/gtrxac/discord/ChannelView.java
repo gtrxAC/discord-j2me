@@ -365,7 +365,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 //#endif
 
-    protected void showNotify() {
+    public void showNotify() {
         if (haveShown) return;
         haveShown = true;
         width = getWidth();
@@ -375,8 +375,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
 //#ifdef TOUCH_SUPPORT
-    protected void hideNotify() {
-        Displayable curr = App.disp.getCurrent();
+    public void hideNotify() {
+        Object curr = App.disp.getCurrent();
         if (curr instanceof MessageBox) {
             ((MessageBox) curr).showEmojiPicker();
         }
@@ -667,7 +667,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
     }
 
-    protected void sizeChanged(int w, int h) {
+    public void sizeChanged(int w, int h) {
         repaint();
     }
 
@@ -781,7 +781,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         return maxScroll;
     }
 
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
         checkScrollInRange();
 
         if (width != getWidth() || height != getHeight()) {
@@ -1068,7 +1068,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
     }
     
-    protected void keyAction(int keycode) {
+    public void keyAction(int keycode) {
         touchMode = false;
         int thisItemHeight = ((ChannelViewItem) items.elementAt(selectedItem)).getHeight();
         int thisItemPos = getItemPosition(selectedItem);
@@ -1082,7 +1082,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 case GAME_A: showMessageBox(false); break;
                 case GAME_B: replyHotkeyAction(); break;
                 case GAME_C: copyHotkeyAction(); break;
-                case GAME_D: commandAction(refreshCommand, this); break;
+                case GAME_D: commandAction(refreshCommand, null); break;
                 default: navKeyAction(action, thisItemHeight, thisItemPos); break;
             }
         } else {
@@ -1097,13 +1097,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 copyHotkeyAction();
             }
             else if (keycode == Settings.refreshHotkey) {
-                commandAction(refreshCommand, this);
+                commandAction(refreshCommand, null);
             }
             else if (keycode == Settings.backHotkey) {
-                commandAction(backCommand, this);
+                commandAction(backCommand, null);
             }
             else if (keycode == Settings.fullscreenHotkey) {
-                commandAction(fullScreenCommand, this);
+                commandAction(fullScreenCommand, null);
             }
 //#ifdef OVER_100KB
             else if (keycode == Settings.scrollTopHotkey) {
@@ -1125,7 +1125,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 //#ifdef TOUCH_SUPPORT
     private boolean tappedOnBottom;
 
-    protected void _pointerPressed(int x, int y) {
+    public void pointerPressed(int x, int y) {
         tappedOnBottom = (y > getHeight() && shouldShowBottomBar());
 //#ifndef BLACKBERRY
         int buttonOffset = fontHeight/2;
@@ -1134,26 +1134,26 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         int buttonHeight = fontHeight + buttonMargin*2;
 
         if (showBackButton && !tappedOnBottom && x >= width - buttonWidth - buttonOffset && y >= height - buttonHeight - buttonOffset) {
-            commandAction(fullScreenCommand, this);
+            commandAction(fullScreenCommand, null);
             return;
         }
 //#endif
         touchMode = true;
-        super._pointerPressed(x, y);
+        super.pointerPressed(x, y);
     }
 
-    protected void _pointerDragged(int x, int y) {
+    public void pointerDragged(int x, int y) {
         touchMode = true;
-        super._pointerDragged(x, y);
+        super.pointerDragged(x, y);
     }
 
-    protected void _pointerReleased(int x, int y) {
+    public void pointerReleased(int x, int y) {
 //#ifdef TOUCH_SUPPORT
         if (tappedOnBottom && y > getHeight() && shouldShowBottomBar()) {
             // Tapped on the bottom message bar, determine which part was pressed:
             // Button on left-most edge: upload file
             if (x < fontHeight*2) {
-                commandAction(uploadCommand, this);
+                commandAction(uploadCommand, null);
             }
             // Button on right-most edge: send emoji (open "send message" box then the emoji picker)
             else if (x > getWidth() - fontHeight*2) {
@@ -1169,7 +1169,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         touchMode = true;
 
         if (!pointerWasTapped(fontHeight)) {
-            super._pointerReleased(x, y);
+            super.pointerReleased(x, y);
             return;
         }
         for (int i = 0; i < items.size(); i++) {

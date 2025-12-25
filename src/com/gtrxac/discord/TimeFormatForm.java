@@ -9,7 +9,7 @@ public class TimeFormatForm extends Form implements Strings, CommandListener, It
     private ChoiceGroup optionsGroup;
     private Command saveCommand;
     private Command cancelCommand;
-    private Displayable lastScreen;
+    private Object lastScreen;
     private int oldOffset;
     private boolean oldUse12hTime;
 

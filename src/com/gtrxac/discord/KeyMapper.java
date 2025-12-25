@@ -13,7 +13,7 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
     private int fontHeight;
     private int curHotkey;
 
-    private Displayable lastScreen;
+    private Object lastScreen;
 
     private Command cancelCommand;
     private Command skipCommand;
@@ -47,7 +47,7 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
 //#endif
     }
     
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
         clearScreen(g, Theme.keyMapperBackgroundColor);
 
         String prompt = Locale.get(KEY_MAPPER_PROMPT) + "\n" + hotkeyStrings[curHotkey];
@@ -93,7 +93,7 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
         }
     }
     
-    protected void keyPressed(int keycode) {
+    public void keyPressed(int keycode) {
         // Check if key already mapped to another action
         for (int i = 0; i < curHotkey; i++) {
             if (newHotkeys[i] == keycode) {

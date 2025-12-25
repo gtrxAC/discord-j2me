@@ -9,7 +9,7 @@ import java.io.*;
 public abstract class FilePicker extends ListScreen implements CommandListener, Strings {
     private Command closeCommand;
     private String currentPath;
-    public Displayable lastScreen;
+    public Object lastScreen;
 
     public FilePicker(String title) {
         this(title, "file:///");
@@ -37,7 +37,7 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
     protected abstract void fileSelected(FileConnection fc, String selected);
 
     protected void close() {
-        Displayable last = lastScreen;
+        Object last = lastScreen;
         while (last instanceof FilePicker) {
             last = ((FilePicker) last).lastScreen;
         }

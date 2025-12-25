@@ -62,7 +62,7 @@ public class ThemeSaveDialog extends Dialog implements Strings {
             }
             // yes or no -> close the channel view
             App.channelView.pendingTheme = null;
-            App.channelView.commandAction(App.channelView.backCommand, App.channelView);
+            App.channelView.commandAction(App.channelView.backCommand, null);
         }
     }
 }

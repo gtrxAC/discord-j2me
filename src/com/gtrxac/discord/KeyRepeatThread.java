@@ -27,11 +27,11 @@ public class KeyRepeatThread extends Thread {
 
             while (enabled) {
                 long curr = System.currentTimeMillis();
-                if (curr >= MyCanvas.beginRepeatTime) break;
-                Util.sleep((int) (MyCanvas.beginRepeatTime - curr));
+                if (curr >= WrapperCanvas.beginRepeatTime) break;
+                Util.sleep((int) (WrapperCanvas.beginRepeatTime - curr));
             }
 
-            Displayable current = App.disp.getCurrent();
+            Object current = App.disp.getCurrent();
             if (!(current instanceof MyCanvas)) continue;
 
             while (enabled && activeKey != 0) {

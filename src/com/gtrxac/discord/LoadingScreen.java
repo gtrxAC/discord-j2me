@@ -92,11 +92,11 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
         }
     }
 
-    protected void sizeChanged(int w, int h) {
+    public void sizeChanged(int w, int h) {
         checkLoadFrames();
     }
 
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
         clearScreen(g, Theme.loadingScreenBackgroundColor);
 
         // Draw current animation frame

@@ -58,7 +58,7 @@ public class App extends MIDlet implements Strings {
 
 	public static final long DISCORD_EPOCH = 1420070400000L;
 
-	static Display disp;
+	static MyDisplay disp;
 
 	static GatewayThread gateway;
 	static String uploadToken;
@@ -121,7 +121,7 @@ public class App extends MIDlet implements Strings {
 
     public void startApp() {
         if (!started) {
-            disp = Display.getDisplay(this);
+            disp = new MyDisplay(Display.getDisplay(this));
             Settings.load();
 
             // If token was not found in save file, go to login screen, else login and go to main menu
@@ -169,14 +169,14 @@ public class App extends MIDlet implements Strings {
         if (Settings.useGateway) startGateway();
     }
 
-	public static void error(String message, Displayable next) {
+	public static void error(String message, Object next) {
 		disp.setCurrent(new Dialog(Locale.get(ERROR_TITLE), message, next));
 
 		// clear banner text (e.g. hide "sending message" text if message sending fails)
 		if (channelView != null) channelView.bannerText = null;
 	}
 	
-	public static void error(Exception e, Displayable next) {
+	public static void error(Exception e, Object next) {
 		e.printStackTrace();
 		error(e.toString(), next);
 	}

@@ -142,7 +142,7 @@ public class HTTPThread extends Thread implements Strings {
         catch (Exception e) {}
     }
 
-    private void setScreen(Displayable d) {
+    private void setScreen(Object d) {
         if (!silent) App.disp.setCurrent(d);
     }
 
@@ -150,7 +150,7 @@ public class HTTPThread extends Thread implements Strings {
         showLoad = shouldShowLoadScreen();
         App.dontShowLoadScreen = false;
 
-        Displayable prevScreen = App.disp.getCurrent();
+        Object prevScreen = App.disp.getCurrent();
         LoadingScreen loadScreen = null;
 
         if (showLoad) {

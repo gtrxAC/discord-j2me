@@ -5,7 +5,7 @@ import java.util.*;
 import cc.nnproject.json.*;
 
 public class MentionForm extends Form implements CommandListener, Strings {
-    private Displayable lastScreen;
+    private Object lastScreen;
     private Vector searchResults;
     private boolean loading;
 
@@ -75,7 +75,7 @@ public class MentionForm extends Form implements CommandListener, Strings {
     }
 
     // also used by emoji picker
-    public static int insertTextToMessageBox(Displayable lastScreen, String text, int caretPos) {
+    public static int insertTextToMessageBox(Object lastScreen, String text, int caretPos) {
         MessageBox msgBox = null;
         TextField field = null;
         String oldStr = null;

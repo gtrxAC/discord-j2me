@@ -320,7 +320,7 @@ public class GatewayThread extends Thread implements Strings
 				player = NotificationSoundDialog.playSound(fileName, is);
 			}
 			catch (Exception e) {
-				AlertType.ALARM.playSound(App.disp);
+				AlertType.ALARM.playSound(App.disp.disp);
 			}
 //#else
 			AlertType.ALARM.playSound(App.disp);

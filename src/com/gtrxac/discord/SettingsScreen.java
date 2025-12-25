@@ -546,7 +546,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         else if (c == BACK_COMMAND) {
             showMainScreen();
         }
-        else if (d == this) {
+        // else if (d == this) {
             // Save or cancel command in main settings screen: (if save, write changes to state and save them persistently), then return to main menu
             if (c == saveCommand) {
                 // Check if icons need to be reloaded (if any icon-related settings have changed)
@@ -640,8 +640,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Theme.load();
                 App.loadFonts();
             }
+            else if (c == cancelCommand) 
             App.disp.setCurrent(MainMenu.get(true));
-        }
+        // }
         else {
             // OK or cancel command in textbox screen: (if OK, write entered value into values array), then return to where we left off in the settings screen
             if (c == textBoxOkCommand) {

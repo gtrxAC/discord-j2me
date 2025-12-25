@@ -9,7 +9,7 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
     private Command promptYesCommand;
     private Command promptNoCommand;
 
-    private Displayable lastScreen;
+    private Object lastScreen;
     private Vector rmsNames;
 
     DataManagerScreen() {

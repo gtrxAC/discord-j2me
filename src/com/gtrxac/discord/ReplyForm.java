@@ -4,7 +4,7 @@ import javax.microedition.lcdui.*;
 import javax.microedition.io.file.*;
 
 public class ReplyForm extends Form implements CommandListener, Strings {
-    private Displayable lastScreen;
+    private Object lastScreen;
     Message msg;
 
     public TextField replyField;
