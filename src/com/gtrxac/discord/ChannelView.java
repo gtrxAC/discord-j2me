@@ -621,11 +621,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
     }
 
-    public void getMessages() throws Exception {
-        HTTPThread h = new HTTPThread(HTTPThread.FETCH_MESSAGES);
-        h.fetchMsgsBefore = before;
-        h.fetchMsgsAfter = after;
-        h.start();
+    public void getMessages() {
+        try {
+            HTTPThread h = new HTTPThread(HTTPThread.FETCH_MESSAGES);
+            h.fetchMsgsBefore = before;
+            h.fetchMsgsAfter = after;
+            h.start();
+        }
+        catch (Exception e) {
+            App.error(e);
+        }
     }
 
     // Get the screen Y position that an item will be drawn at
@@ -938,24 +943,14 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 page--;
                 before = null;
                 after = ((Message) App.messages.elementAt(0)).id;
-                try {
-                    getMessages();
-                }
-                catch (Exception e) {
-                    App.error(e);
-                }
+                getMessages();
                 break;
             }
             case ChannelViewItem.OLDER_BUTTON: {
                 page++;
                 after = null;
                 before = ((Message) App.messages.elementAt(App.messages.size() - 1)).id;
-                try {
-                    getMessages();
-                }
-                catch (Exception e) {
-                    App.error(e);
-                }
+                getMessages();
                 break;
             }
             case ChannelViewItem.ATTACHMENTS_BUTTON: {
