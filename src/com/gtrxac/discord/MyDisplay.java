@@ -67,6 +67,14 @@ public class MyDisplay {
         disp.setCurrent(d);
     }
 
+    private boolean allowTransition(Object prev, MyCanvas next) {
+        return !TransitionScreen.tempDisabled &&
+            prev instanceof MyCanvas &&
+            !(prev instanceof LoadingScreen) &&
+            !(next instanceof Dialog) &&
+            !(prev instanceof ChannelView && next instanceof LoadingScreen);
+    }
+
     public synchronized void setCurrent(MyCanvas d, boolean transition) {
         Object curr = getActualCurrent();
 
@@ -74,7 +82,7 @@ public class MyDisplay {
         // for (int i = 0;i <  history.size(); i++) System.out.println(history.elementAt(i));
         // System.out.println("---");
 
-        if (transition && !TransitionScreen.tempDisabled && curr instanceof MyCanvas && !(curr instanceof LoadingScreen) && !(d instanceof Dialog)) {
+        if (transition && allowTransition(curr, d)) {
             if (d instanceof MainMenu) {
                 direction = -1;
             }
