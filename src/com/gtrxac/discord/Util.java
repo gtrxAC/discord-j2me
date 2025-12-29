@@ -517,7 +517,7 @@ public class Util {
 		supportsFileConn = System.getProperty("microedition.io.file.FileConnection.version") != null;
 
 		isS40 =
-//#ifdef NOKIA_128PX
+//#ifdef S40
 			true;
 //#else
 //#ifdef NOT_S40
