@@ -59,6 +59,7 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
             // Unload this channel's thread list if needed, and go back to channel list
             if (!Settings.highRamMode && !App.gatewayActive()) {
                 App.threads = null;
+                App.threadSelector = null;
                 App.selectedChannelForThreads.threads = null;
             }
             App.disp.setCurrent(App.channelSelector);

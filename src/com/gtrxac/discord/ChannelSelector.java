@@ -64,6 +64,7 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
             // Unload this server's channel list if needed, and go back to server list
             if (!Settings.highRamMode && !App.gatewayActive()) {
                 App.channels = null;
+                App.channelSelector = null;
                 App.selectedGuild.channels = null;
             }
             App.guildSelector.update(App.selectedGuild.id);
