@@ -102,47 +102,36 @@ public class WrapperCanvas extends Canvas {
         }
         return false;
     }
-//#endif
 
     protected void pointerPressed(int x, int y) {
 //#ifdef BLACKBERRY
         if (!checkBackGesture(x)) current.pointerPressed(x, y - current.bbTitleHeight);
 //#else
-//#ifdef TOUCH_SUPPORT
         if (!checkBackGesture(x)) current.pointerPressed(x, y);
 //#endif
-//#endif
+        repaint();
     }
 
     protected void pointerDragged(int x, int y) {
+        if (isDraggingBack) TransitionScreen.touchOffset = x;
 //#ifdef BLACKBERRY
-        if (isDraggingBack) {
-            TransitionScreen.touchOffset = x;
-            repaint();
-        }
         else current.pointerDragged(x, y - current.bbTitleHeight);
 //#else
-//#ifdef TOUCH_SUPPORT
-        if (isDraggingBack) {
-            TransitionScreen.touchOffset = x;
-            repaint();
-        }
         else current.pointerDragged(x, y);
 //#endif
-//#endif
+        repaint();
     }
 
     protected void pointerReleased(int x, int y) {
-//#ifdef BLACKBERRY
         isDraggingBack = false;
+//#ifdef BLACKBERRY
         current.pointerReleased(x, y - current.bbTitleHeight);
 //#else
-//#ifdef TOUCH_SUPPORT
-        isDraggingBack = false;
         current.pointerReleased(x, y);
 //#endif
-//#endif
+        repaint();
     }
+//#endif
 
 //#ifdef SAMSUNG_FULL
     private static boolean hasDoneSamsungFontFix;
@@ -190,24 +179,26 @@ public class WrapperCanvas extends Canvas {
         setTitle(current.title);
     }
 
-    public void updateCommands_() {  // cant use updateCommands name because kemulator would bug out
-        // delete old ones that don't belong to current screen
+    private void updateCommands_() {  // cant use updateCommands name because kemulator would bug out
         if (current instanceof TransitionScreen) return;
 
-        for (int i = 0; i < commands.size(); i++) {
+        // delete old ones that don't belong to current screen
+        for (int i = 0; i < commands.size(); ) {
             Command c = (Command) commands.elementAt(i);
-            // if (!current.commands.contains(c)) {
-            removeCommand(c);
-            // }
+            if (!current.commands.contains(c)) {
+                removeCommand(c);
+                commands.removeElement(c);
+            }
+            else i++;
         }
-        commands = new Vector();
+        // commands = new Vector();
         // Add new ones
         for (int i = 0; i < current.commands.size(); i++) {
             Command c = (Command) current.commands.elementAt(i);
-            // if (!commands.contains(c)) {
-            commands.addElement(c);
-            addCommand(c);
-            // }
+            if (!commands.contains(c)) {
+                addCommand(c);
+                commands.addElement(c);
+            }
         }
     }
 

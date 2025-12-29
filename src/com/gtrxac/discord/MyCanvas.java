@@ -181,15 +181,15 @@ public abstract class MyCanvas {
     public void addCommand(Command c) {
         if (!commands.contains(c)) {
             commands.addElement(c);
-            WrapperCanvas.instance.needUpdateCommands = true;  //§
-            WrapperCanvas.instance.repaint();
+            WrapperCanvas.instance.needUpdateCommands = true;
+            repaint();
         }
     }
 
     public void removeCommand(Command c) {
         if (commands.removeElement(c)) {
             WrapperCanvas.instance.needUpdateCommands = true;
-            WrapperCanvas.instance.repaint();
+            repaint();
         }
     }
 
