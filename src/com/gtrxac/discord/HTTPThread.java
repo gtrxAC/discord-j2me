@@ -459,11 +459,8 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case SEND_MESSAGE: {
-                    if (!showLoad && App.channelView != null) {
-                        App.disp.setCurrent(App.channelView);
-                        App.channelView.bannerText = Locale.get(CHANNEL_VIEW_SENDING);
-                        App.channelView.repaint();
-                    }
+                    App.disp.setCurrent(App.channelView);
+                    setBannerText(Locale.get(CHANNEL_VIEW_SENDING));
 
                     String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
 
