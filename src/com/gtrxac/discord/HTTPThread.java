@@ -551,6 +551,7 @@ public class HTTPThread extends Thread implements Strings {
                     } else {
                         // If user scrolled a page back or forward, keep reusing the same channel view
                         App.channelView.requestUpdate(false, false);
+                        App.channelView.updateTitle();
                     }
 
                     // Show the channel view screen (hide the loading screen)
@@ -558,7 +559,6 @@ public class HTTPThread extends Thread implements Strings {
                     App.typingUsers = new Vector();
                     App.typingUserIDs = new Vector();
 
-                    App.channelView.updateTitle();
                     App.disp.setCurrent(App.channelView);
                     App.channelView.repaint();
                     break;
