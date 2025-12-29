@@ -109,8 +109,8 @@ implements Runnable
     }
 
     public void pointerDragged(int x, int y) {
-        // Asha fix
-//#ifdef MIDP2_GENERIC
+//#ifdef S40_SCROLL_FIX
+        // Scroll position fix on S40 touch (e.g. Asha 300)
         if (y > 65500) y = 0;
 //#endif
         

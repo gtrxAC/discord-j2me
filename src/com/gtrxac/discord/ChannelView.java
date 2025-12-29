@@ -106,16 +106,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 //#ifdef BLACKBERRY
         if (shouldShowBottomBar()) setFullScreenMode(true);
 //#else
-//#ifdef MIDP2_GENERIC
-        if (!Util.isKemulator)
-//#endif
-        {
-            setFullScreenMode(Settings.fullscreenDefault);
-            fullscreen = Settings.fullscreenDefault;
+//#ifndef KEMULATOR
+        setFullScreenMode(Settings.fullscreenDefault);
+        fullscreen = Settings.fullscreenDefault;
 
-            fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 10);
-            addCommand(fullScreenCommand);
-        }
+        fullScreenCommand = Locale.createCommand(TOGGLE_FULLSCREEN, Command.ITEM, 10);
+        addCommand(fullScreenCommand);
+//#endif
 //#endif
 
 //#ifdef J2ME_LOADER
@@ -128,16 +125,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     public void setFullScreenMode(boolean mode) {
         super.setFullScreenMode(mode);
         
-//#ifdef MIDP2_GENERIC
-        if (!Util.isKemulator)
-//#endif
-        {
-            showBackButton = (mode && hasPointerEvents());
+//#ifndef KEMULATOR
+        showBackButton = (mode && hasPointerEvents());
 
-            if (showBackButton && backButtonStringWidth == 0) {
-                backButtonStringWidth = App.messageFont.stringWidth(Locale.get(BACK));
-            }
+        if (showBackButton && backButtonStringWidth == 0) {
+            backButtonStringWidth = App.messageFont.stringWidth(Locale.get(BACK));
         }
+//#endif
     }
 //#endif
 
@@ -729,7 +723,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
         if (
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
             !Util.isTouch &&
 //#endif
             selectionMode && selected.type != ChannelViewItem.MESSAGE && selected.type != ChannelViewItem.UNREAD_INDICATOR

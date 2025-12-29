@@ -188,7 +188,7 @@ public class Icons {
 //#else
         sh.skip(4);
 //#endif
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
         if (Util.isFullTouch) sh.skip();
         else
 //#endif

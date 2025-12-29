@@ -124,7 +124,7 @@ public class ListScreen extends KineticScrollingCanvas {
         scroll = minScroll;
 
         SELECT_COMMAND = new Command(selectLabel, selectLabelLong, Command.OK, 1);
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
         if (!Util.isTouch)
 //#endif
         addCommand(SELECT_COMMAND);

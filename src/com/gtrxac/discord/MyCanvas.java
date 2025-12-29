@@ -25,8 +25,8 @@ public abstract class MyCanvas {
         this.title = title;
         commands = new Vector();
 
-//#ifdef MIDP2_GENERIC
-        this.isFullscreen = Util.isKemulator;
+//#ifdef KEMULATOR
+        this.isFullscreen = true;
 //#else
         this.isFullscreen = false;
 //#endif

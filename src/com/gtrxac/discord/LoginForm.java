@@ -29,7 +29,7 @@ Strings
     private Command tokenBoxOkCommand;
     private Command tokenBoxCancelCommand;
     private Command tokenBoxUnderscoreCommand;
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
     private Command nnpLinkCommand;
 //#endif
     private Command guideLinkCommand;
@@ -51,21 +51,18 @@ Strings
 //#ifdef PROXYLESS_DEFAULT
         append(Locale.get(PROXYLESS_INFO));
 //#else
-//#ifdef MIDP2_GENERIC
-        if (Util.isSymbian) {
-            nnpLinkCommand = Locale.createCommand(GET_TLS, Command.ITEM, 0);
-            StringItem nnpLinkItem = new StringItem(null, Locale.get(PROXYLESS_INFO_TLS), Item.HYPERLINK);
-            nnpLinkItem.setDefaultCommand(nnpLinkCommand);
-            nnpLinkItem.setItemCommandListener(this);
+//#ifdef SYMBIAN
+        nnpLinkCommand = Locale.createCommand(GET_TLS, Command.ITEM, 0);
+        StringItem nnpLinkItem = new StringItem(null, Locale.get(PROXYLESS_INFO_TLS), Item.HYPERLINK);
+        nnpLinkItem.setDefaultCommand(nnpLinkCommand);
+        nnpLinkItem.setItemCommandListener(this);
 
-            append(Locale.get(PROXYLESS_INFO_TLS_PREFIX));
-            append(nnpLinkItem);
-            append(Locale.get(PROXYLESS_INFO_TLS_SUFFIX));
-        } else
+        append(Locale.get(PROXYLESS_INFO_TLS_PREFIX));
+        append(nnpLinkItem);
+        append(Locale.get(PROXYLESS_INFO_TLS_SUFFIX));
+//#else
+        append(Locale.get(PROXYLESS_INFO_TLS_PREFIX) + Locale.get(PROXYLESS_INFO_TLS) + Locale.get(PROXYLESS_INFO_TLS_SUFFIX));
 //#endif
-        {
-            append(Locale.get(PROXYLESS_INFO_TLS_PREFIX) + Locale.get(PROXYLESS_INFO_TLS) + Locale.get(PROXYLESS_INFO_TLS_SUFFIX));
-        }
 
         proxylessInfoCommand = Locale.createCommand(OPEN, Command.ITEM, 1);
         StringItem proxylessInfoItem = new StringItem(null, Locale.get(PROXYLESS_LINK), Item.HYPERLINK);
@@ -253,7 +250,7 @@ Strings
 
 //#ifndef BLACKBERRY
     public void commandAction(Command c, Item i) {
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
         if (c == nnpLinkCommand) {
             App.platRequest("http://nnproject.cc/tls");
         } else

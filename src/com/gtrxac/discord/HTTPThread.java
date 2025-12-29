@@ -640,8 +640,8 @@ public class HTTPThread extends Thread implements Strings {
                         openButton.setItemCommandListener(App.attachmentView);
                         App.attachmentView.append(openButton);
 
+//#ifdef SYMBIAN
                         // Fix unselectable buttons on early Symbian 9.3 (e.g. N86)
-//#ifdef MIDP2_GENERIC
                         if (Util.isSymbian93 && i == 0) {
                             App.disp.setCurrentItem((showButton != null) ? showButton : openButton);
                         }

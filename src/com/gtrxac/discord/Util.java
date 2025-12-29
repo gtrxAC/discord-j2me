@@ -450,9 +450,7 @@ public class Util {
 		return (cR << 16) | (cG << 8) | cB;
 	}
 
-//#ifdef MIDP2_GENERIC
-	public static final boolean isKemulator;
-	public static final boolean isSymbian;
+//#ifdef SYMBIAN
 	public static final boolean isSymbian93;
 //#endif
 
@@ -471,20 +469,11 @@ public class Util {
 	public static final boolean noPointerEventsBug;
 //#endif
 
-//#ifdef MIDP2_GENERIC
-	// List of Symbian phones that have a touchscreen (i.e. no physical softkeys) but have a keyboard
+//#ifdef SYMBIAN
+	// List of Symbian phones that have a touchscreen (i.e. no physical softkeys) but have a d-pad
 	// Source: lpcwiki
-	// I don't know the platform strings of non-Nokia phones
-	private static final String[] SYMBIAN_TOUCH_LIST = {
-		"NokiaC6-00", "NokiaE6-", "NokiaE7-", "Nokia702T", "NokiaN97"
-	};
-
-	// List of Symbian phones that have a touchscreen and lack any keyboard
-	private static final String[] SYMBIAN_FULLTOUCH_LIST = {
-		// S60v5
-		"Nokia5228", "Nokia523", "Nokia5250", "Nokia5530", "Nokia580", "NokiaC5-03", "NokiaC5-04", "NokiaC5-05", "NokiaC5-06", "NokiaX6",
-		// Symbian^3
-		"Nokia500", "Nokia600", "Nokia603", "Nokia700", "Nokia701", "Nokia801T", "Nokia808", "NokiaC6-01", "NokiaC7", "NokiaN8", "NokiaT7", "NokiaX7"
+	private static final String[] SYMBIAN_TOUCH_WITH_KEYS_LIST = {
+		"NokiaC6-00", "NokiaE6-", "NokiaE7-", "Nokia702T", "NokiaN97", "SonyEricssonU8"
 	};
 
 	public static final boolean isTouch;
@@ -505,19 +494,11 @@ public class Util {
 		String platform = System.getProperty("microedition.platform");
 		if (platform == null) platform = "";
 
-//#ifdef MIDP2_GENERIC
-		isKemulator = checkClass("emulator.custom.CustomMethod");
+//#ifdef SYMBIAN
+		isSymbian93 = platform.indexOf("sw_platform_version=3.2") != -1;
 
-		isSymbian = platform.indexOf("platform=S60") != -1 ||
-				System.getProperty("com.symbian.midp.serversocket.support") != null ||
-				System.getProperty("com.symbian.default.to.suite.icon") != null ||
-				checkClass("com.symbian.midp.io.protocol.http.Protocol") ||
-				checkClass("com.symbian.lcdjava.io.File");
-
-		isSymbian93 = isSymbian && platform.indexOf("sw_platform_version=3.2") != -1;
-
-		isFullTouch = isSymbian && indexOfAny(platform, SYMBIAN_FULLTOUCH_LIST, 0) != -1;
-		isTouch = isSymbian && (isFullTouch || indexOfAny(platform, SYMBIAN_TOUCH_LIST, 0) != -1);
+		isTouch = platform.indexOf("sw_platform_version=5.") != -1;
+		isFullTouch = isTouch && indexOfAny(platform, SYMBIAN_TOUCH_WITH_KEYS_LIST, 0) == -1;
 //#endif
 
 //#ifdef NOKIA_UI_SUPPORT

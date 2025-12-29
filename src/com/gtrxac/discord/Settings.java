@@ -229,8 +229,11 @@ public class Settings {
 //#ifdef BLACKBERRY
         isHighRam = true;
 //#endif
-//#ifdef MIDP2_GENERIC
-        isHighRam = Util.isSymbian || Util.isKemulator;
+//#ifdef SYMBIAN
+        isHighRam = true;
+//#endif
+//#ifdef KEMULATOR
+        isHighRam = true;
 //#endif
 
         final int defaultFontSize =
@@ -292,11 +295,11 @@ public class Settings {
 //#endif
         );
         KineticScrollingCanvas.scrollBarMode = getIntRecord(
-//#ifdef MIDP2_GENERIC
-            Util.isKemulator ?
-                KineticScrollingCanvas.SCROLL_BAR_VISIBLE :
-//#endif
+//#ifdef KEMULATOR
+            KineticScrollingCanvas.SCROLL_BAR_VISIBLE
+//#else
             KineticScrollingCanvas.SCROLL_BAR_HIDDEN
+//#endif
         );
         autoUpdate = getIntRecord(Settings.AUTO_UPDATE_RELEASE_ONLY);
 //#ifdef NOKIA_UI_SUPPORT

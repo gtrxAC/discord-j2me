@@ -31,8 +31,8 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
         if (c == updateCommand) {
             StringBuffer target = new StringBuffer();
             String format = ".jad";
-//#ifdef MIDP2_GENERIC
-            if (Util.isKemulator) format = ".jar";
+//#ifdef KEMULATOR
+            format = ".jar";
 //#endif
 //#ifdef J2ME_LOADER
             format = ".jar";

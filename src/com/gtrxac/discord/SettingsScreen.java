@@ -77,13 +77,14 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         // Settings that are hidden on certain platforms (only on certain builds and if a runtime check passes):
 
         Setting fullscreenSetting =
-//#ifdef MIDP2_GENERIC
-            Util.isKemulator ? new Setting(Settings.fullscreenDefault ? 1 : 0) :
-//#endif
+//#ifdef KEMULATOR
+            new Setting(Settings.fullscreenDefault ? 1 : 0);
+//#else
             new Setting(FULLSCREEN_DEFAULT, 1, Settings.fullscreenDefault ? 1 : 0, App.ic.fullscreen);
+//#endif
 
         Setting fastScrollSetting =
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
             Util.isFullTouch ? new Setting(KeyRepeatThread.enabled ? 1 : 0) :
 //#endif
             new Setting(FAST_SCROLLING, 1, KeyRepeatThread.enabled ? 1 : 0, null, App.ic.fastScroll);

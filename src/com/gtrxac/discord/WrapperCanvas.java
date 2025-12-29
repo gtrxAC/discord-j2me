@@ -23,22 +23,20 @@ public class WrapperCanvas extends Canvas {
     private static volatile boolean isKeyPressed = false;
     public static volatile long beginRepeatTime;
 
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
     private static long uiq3BackButtonTimer;
 //#endif
 
     protected void keyPressed(int key) {
-//#ifdef MIDP2_GENERIC
-        if (Util.isSymbian) {
-            // Symbian^3: Ignore home button presses which would otherwise deactivate touch mode
-            if (key == -12) return;
+//#ifdef SYMBIAN
+        // Symbian^3: Ignore home button presses which would otherwise deactivate touch mode
+        if (key == -12) return;
 
-            // UIQ3: Back button has duplicated key events, use a timer to suppress the latter event
-            if (key == -11) {
-                long curr = System.currentTimeMillis();
-                if (curr < uiq3BackButtonTimer + 500) return;
-                uiq3BackButtonTimer = curr;
-            }
+        // UIQ3: Back button has duplicated key events, use a timer to suppress the latter event
+        if (key == -11) {
+            long curr = System.currentTimeMillis();
+            if (curr < uiq3BackButtonTimer + 500) return;
+            uiq3BackButtonTimer = curr;
         }
 //#endif
         current.keyPressed(key);
@@ -62,8 +60,8 @@ public class WrapperCanvas extends Canvas {
     }
 
     protected void keyRepeated(int key) {
-//#ifdef MIDP2_GENERIC
-        if (Util.isSymbian && key == -12) return;
+//#ifdef SYMBIAN
+        if (key == -12) return;
 //#endif
         if (!KeyRepeatThread.enabled) current.keyRepeated(key);
     }
@@ -184,8 +182,8 @@ public class WrapperCanvas extends Canvas {
 
     public void updateTitle() {
         if (current == null) return;
-//#ifdef MIDP2_GENERIC
-        if (Util.isKemulator && !"Discord".equals(current.title) && current.title != null) {
+//#ifdef KEMULATOR
+        if (!"Discord".equals(current.title) && current.title != null) {
             setTitle("Discord - " + current.title);
         } else
 //#endif

@@ -103,7 +103,7 @@ public class HTTP implements Strings {
 //#endif
 //#endif
 
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
 			int attempts = 0;
 
 			while (true) {

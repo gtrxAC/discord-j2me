@@ -41,26 +41,23 @@ public class EmojiPicker extends KineticScrollingCanvas implements Strings, Comm
 
         lastScreen = App.disp.getCurrent();
 
-//#ifdef MIDP2_GENERIC
-        if (Util.isKemulator) {
-            emojiSize = FormattedStringPartEmoji.emojiSize*4/3/16*16;
-        } else
-//#endif
-        {
-            int w = getWidth(), h = getHeight();
-            if (w < h) emojiSize = w/9;
-            else emojiSize = h/6;
+//#ifdef KEMULATOR
+        emojiSize = FormattedStringPartEmoji.emojiSize*4/3/16*16;
+//#else
+        int w = getWidth(), h = getHeight();
+        if (w < h) emojiSize = w/9;
+        else emojiSize = h/6;
 
-            emojiSize = (emojiSize + 8)/16*16;
-            if (emojiSize < 16) emojiSize = 16;
-        }
+        emojiSize = (emojiSize + 8)/16*16;
+        if (emojiSize < 16) emojiSize = 16;
+//#endif
 
         sheetWidth = emojiSize*45;
         emojiJson = FormattedStringPartEmoji.loadEmojiJson("emoji", 2);
 
         selectCommand = Locale.createCommand(SELECT, Command.OK, 0);
         backCommand = Locale.createCommand(BACK, Command.BACK, 1);
-//#ifdef MIDP2_GENERIC
+//#ifdef SYMBIAN
         if (!Util.isTouch)
 //#endif
         addCommand(selectCommand);
