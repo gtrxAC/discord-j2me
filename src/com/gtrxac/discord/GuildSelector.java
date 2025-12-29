@@ -109,7 +109,10 @@ public class GuildSelector extends ListScreen implements CommandListener, String
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
             // Unload server list if needed, and go back to main menu
-            if (!Settings.highRamMode) App.guilds = null;
+            if (!Settings.highRamMode) {
+                App.guilds = null;
+                App.guildSelector = null;
+            }
             App.disp.setCurrent(MainMenu.get(false));
         }
         else if (c == refreshCommand) {

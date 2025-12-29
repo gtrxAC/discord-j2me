@@ -96,7 +96,10 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
     public void commandAction(Command c, Displayable d) {
         if (c == BACK_COMMAND) {
             // Unload DM list if needed, and go back to main menu
-            if (!Settings.highRamMode) App.dmChannels = null;
+            if (!Settings.highRamMode) {
+                App.dmChannels = null;
+                App.dmSelector = null;
+            }
             App.disp.setCurrent(MainMenu.get(false));
         }
         if (c == searchCommand) {
