@@ -87,7 +87,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 //#ifdef SYMBIAN
             Util.isFullTouch ? new Setting(KeyRepeatThread.enabled ? 1 : 0) :
 //#endif
-            new Setting(FAST_SCROLLING, 1, KeyRepeatThread.enabled ? 1 : 0, null, App.ic.fastScroll);
+            new Setting(FAST_SCROLLING, 1, KeyRepeatThread.enabled ? 1 : 0, App.ic.fastScroll);
 
         // Settings that only exist on certain builds and are only shown if a runtime check passes:
 
@@ -123,7 +123,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 new Setting(SETTINGS_SECTION_AUTHOR_FONT, 2, Settings.authorFontSize, fontValueLabels, fontIcons),
                 new Setting(SETTINGS_SECTION_CONTENT_FONT, 2, Settings.messageFontSize, fontValueLabels, fontIcons),
                 new Setting(SETTINGS_SECTION_REPLIES, 1, Settings.showRefMessage ? 1 : 0, replyValueLabels, replyIcons),
-                new Setting(TIME_FORMAT, 1, 0, App.ic.use12h),
+                new Setting(TIME_FORMAT, 1, 0, null, App.ic.use12h),
                 new Setting(NAME_COLORS, 1, Settings.useNameColors ? 1 : 0, nameColorIcons),
                 fullscreenSetting,
                 new Setting(TEXT_FORMATTING, 1, FormattedString.useMarkdown ? 1 : 0, App.ic.markdown),
@@ -153,7 +153,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 new Setting(NATIVE_FILE_PICKER, 1, Settings.nativeFilePicker ? 1 : 0, App.ic.nativePicker),
                 new Setting(AUTO_RECONNECT, 1, Settings.autoReConnect ? 1 : 0, App.ic.autoReconnect),
                 new Setting(DEFAULT_HOTKEYS, 1, Settings.defaultHotkeys ? 1 : 0, App.ic.keysDefault),
-                new Setting(REMAP_HOTKEYS_L, 1, 0, App.ic.keys),
+                new Setting(REMAP_HOTKEYS_L, 1, 0, null, App.ic.keys),
                 new Setting(SHOW_SCROLLBAR, 2, KineticScrollingCanvas.scrollBarMode, scrollBarValueLabels, App.ic.scrollBars),
                 new Setting(AUTO_UPDATE, 2, Settings.autoUpdate, autoUpdateValueLabels, App.ic.autoUpdate),
                 fastScrollSetting,
