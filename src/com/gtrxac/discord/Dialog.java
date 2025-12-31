@@ -22,6 +22,7 @@ implements CommandListener
     private String[] textLines;
     public Object lastScreen;
     public Object nextScreen;
+    public Object behindScreen;
     private int fontHeight;
 //#ifdef OVER_100KB
     private boolean isScrollable;
@@ -54,6 +55,13 @@ implements CommandListener
         super.addCommand(DISMISS_COMMAND);
 
         setString(text);
+
+        // Get the screen that should be drawn behind this one
+        // If this Dialog is stacked above another Dialog, get the last non-Dialog screen
+        behindScreen = lastScreen;
+        while (behindScreen instanceof Dialog) {
+            behindScreen = ((Dialog) behindScreen).lastScreen;
+        }
     }
 
     private static void checkInitOverlay() {
@@ -108,6 +116,10 @@ implements CommandListener
     }
 
     public void paint(Graphics g) {
+        paint(g, true);
+    }
+
+    public void paint(Graphics g, boolean drawLastScreen) {
 //#ifdef OVER_100KB
         checkScrollInRange();
 //#endif
@@ -120,32 +132,27 @@ implements CommandListener
 
         int themeBg = Theme.dialogBackgroundColor;
 
-        // Get the screen that should be drawn behind this one
-        // If this Dialog is stacked above another Dialog, get the last non-Dialog screen
-        Object behindScreen = lastScreen;
-        while (behindScreen instanceof Dialog) {
-            behindScreen = ((Dialog) behindScreen).lastScreen;
-        }
-
         // If possible, draw last screen behind a darkened overlay
         if (overlay != null && behindScreen instanceof MyCanvas) {
             // When changing screen size, the _paint() method will keep using the old width/height.
             // There may be a proper fix for this, but for now, we just fill the background with the theme
             // background color (so at least there isn't a white background)
+            if (drawLastScreen) {
 //#ifdef NOKIA_THEME_BACKGROUND
-            if (Settings.theme != Theme.SYSTEM)
+                if (Settings.theme != Theme.SYSTEM)
 //#endif
-            {
-                g.setColor(themeBg);
-                g.fillRect(0, 0, getWidth(), getHeight());
-            }
+                {
+                    g.setColor(themeBg);
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                }
 
-            try {
-                ((MyCanvas) behindScreen).paint(g);
-            }
-            catch (Exception e) {}
+                try {
+                    ((MyCanvas) behindScreen).paint(g);
+                }
+                catch (Exception e) {}
 
-            g.setClip(0, 0, getWidth(), getHeight());
+                g.setClip(0, 0, getWidth(), getHeight());
+            }
     
             // Draw overlay (grid of 64×64 black square images with 70% opacity)
             for (int y = 0; y < getHeight(); y += 64) {

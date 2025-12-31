@@ -71,6 +71,7 @@ public class MyDisplay {
         return !TransitionScreen.tempDisabled &&
             prev instanceof MyCanvas &&
             !(prev instanceof LoadingScreen) &&
+            !(prev instanceof Dialog) &&
             !(next instanceof Dialog) &&
             !(prev instanceof ChannelView && next instanceof LoadingScreen);
     }

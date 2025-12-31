@@ -39,11 +39,17 @@ public class TransitionScreen extends MyCanvas implements Runnable {
             offset = getWidth()*((int) time)/LENGTH;
         }
 
-        g.translate(offset*-direction, 0);
-        prev.paint(g);
-        g.translate(getWidth()*direction, 0);
-        g.setClip(0, 0, getWidth(), getHeight());
-        next.paint(g);
+        if (prev instanceof Dialog && ((Dialog) prev).behindScreen == next) {
+            next.paint(g);
+            g.translate(offset*-direction, 0);
+            ((Dialog) prev).paint(g, false);
+        } else {
+            g.translate(offset*-direction, 0);
+            prev.paint(g);
+            g.translate(getWidth()*direction, 0);
+            g.setClip(0, 0, getWidth(), getHeight());
+            next.paint(g);
+        }
     }
 
     public void run() {
