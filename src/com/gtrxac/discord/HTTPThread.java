@@ -140,11 +140,11 @@ public class HTTPThread extends Thread {
                     } else {
                         // If user scrolled a page back or forward, keep reusing the same channel view
                         App.channelView.requestUpdate();
+                        App.channelView.repaint();
                     }
 
                     // Show the channel view screen (hide the loading screen)
                     App.disp.setCurrent(App.channelView);
-                    App.channelView.repaint();
                     break;
                 }
 
