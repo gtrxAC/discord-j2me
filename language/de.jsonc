@@ -935,74 +935,61 @@
     "Ungarisch",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "Up",
-    "Move up",
-    "Down",
-    "Move down",
+    "Nach oben",
+    "Nach oben",
+    "Nach unten",
+    "Nach unten",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect.",
+    "Die direkte Verbindung ist aktiviert, aber die Verbindung zum Gateway erfordert die Verwendung des Proxys, was unsicher sein kann. Möchten Sie eine Verbindung zum Gateway herstellen?\nAuswählen 'Ausblenden', um immer verbunden zu sein.",
 
     // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
-    "Show message bar",
+    "Nachrichtenleiste anzeigen",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
     "Auto",
 
     // Title for login screen (new version).
-    "Welcome",
+    "Willkommen",
     
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "Öffnen",
+    "Öffnen",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "Mehr erfahren",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "Die App kann auch mit einem Proxy-Server verwendet werden. ",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "Es wird empfohlen, Ihren eigenen Proxy zu hosten. ",
 
     // Hint text shown after the above string on BlackBerry devices.
-    "To edit your connection URLs, press the BlackBerry key.",
+    "Um Ihre Verbindungs-URLs zu bearbeiten, drücken Sie die BlackBerry-Taste.",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
+    "Verbindungs URLs",
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "Gateway (Echtzeit-Chat) erfordert die Verwendung eines Proxy-Servers.",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "Das Gateway wird für Echtzeit-Chat und bestimmte andere Funktionen verwendet.",
 
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
+    "Die App benötigt ein Token zum Anmelden. ",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "Um Tippfehler zu vermeiden, können Sie das Token aus einer Textdatei importieren oder in die JAR-Datei einfügen.",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file.",
+    "Um Tippfehler zu vermeiden, können Sie das Token in die JAR-Datei einfügen.",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "Ihr Gerät erfordert, dass die App signiert ist, um die direkte Verbindung zu verwenden. Laden Sie eine signierte JAD der App herunter, die für Ihr Gerät geeignet ist, oder deaktivieren Sie die direkte Verbindung.\nLesen Sie mehr unter gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
-
-    // NOTE for translators:
-    // The string with the comment "Information text shown in login screen related to proxyless mode"
-    // and the one below it, with the comment "This version of the text is shown otherwise"
-    // have been updated.
-    // These are somewhere around line 895 and 900.
-    // Previously they said:
-    // Direct connection "reduces the risk of an account restriction"
-    // Now they say:
-    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
-    // These texts should be updated accordingly in other languages too.
-    // You can remove this note when you've updated those strings for your language.
-
+    "Unterstützung direkter Verbindungen"
 ]
