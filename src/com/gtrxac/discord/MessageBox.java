@@ -7,8 +7,6 @@ import javax.microedition.lcdui.*;
  */
 public class MessageBox extends TextBox implements CommandListener {
     private Message editMessage;  // null if sending a new message
-    private Command sendCommand;
-    private Command backCommand;
 
     MessageBox(Message editMessage) {
         super("", "", 2000, 0);
@@ -22,10 +20,8 @@ public class MessageBox extends TextBox implements CommandListener {
             this.editMessage = editMessage;
         }
 
-        sendCommand = new Command("OK", Command.OK, 0);
-        backCommand = new Command("Back", Command.BACK, 1);
-        addCommand(sendCommand);
-        addCommand(backCommand);
+        addCommand(new Command("OK", Command.OK, 0));
+        addCommand(new Command("Back", Command.BACK, 1));
     }
 
     // Send HTTP request to send a message. Also used by ReplyForm
@@ -38,7 +34,8 @@ public class MessageBox extends TextBox implements CommandListener {
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == sendCommand) {
+        if (c.getPriority() == 0) {
+            // ok command
             if (editMessage == null) {
                 sendMessage(getString(), null, false);
             } else {

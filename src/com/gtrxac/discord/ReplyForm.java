@@ -7,8 +7,6 @@ public class ReplyForm extends Form implements CommandListener {
 
     public TextField replyField;
     private ChoiceGroup pingGroup;
-    private Command sendCommand;
-    private Command backCommand;
 
     public ReplyForm(Message msg) {
         super("Send message");
@@ -28,15 +26,13 @@ public class ReplyForm extends Form implements CommandListener {
             append(pingGroup);
         }
 
-        sendCommand = new Command("Send", Command.OK, 0);
-        backCommand = new Command("Back", Command.BACK, 1);
-
-        addCommand(sendCommand);
-        addCommand(backCommand);
+        addCommand(new Command("Send", Command.OK, 0));
+        addCommand(new Command("Back", Command.BACK, 1));
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == sendCommand) {
+        if (c.getPriority() == 0) {
+            // send command
             MessageBox.sendMessage(
                 replyField.getString(),
                 msg.id,

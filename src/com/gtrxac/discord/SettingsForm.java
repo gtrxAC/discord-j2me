@@ -8,8 +8,6 @@ public class SettingsForm extends Form implements CommandListener {
     private ChoiceGroup authorFontGroup;
     private ChoiceGroup messageFontGroup;
     private TextField messageCountField;
-    private Command saveCommand;
-    private Command cancelCommand;
 
     public SettingsForm() {
         super("Settings");
@@ -44,26 +42,24 @@ public class SettingsForm extends Form implements CommandListener {
         append(new StringItem("About", "Discord client for Java ME (Nokia 6310i version)\nDeveloped by gtrxAC\nJSON parser by Shinovon"));
         append(new StringItem("Support", "discord.gg/2GKuJjQagp\nt.me/dscforsymbian"));
 
-        saveCommand = new Command("Save", Command.BACK, 0);
-        cancelCommand = new Command("Cancel", Command.BACK, 1);
-        addCommand(saveCommand);
-        addCommand(cancelCommand);
+        addCommand(new Command("Save", Command.BACK, 0));
+        addCommand(new Command("Cancel", Command.BACK, 1));
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == saveCommand) {
+        if (c.getPriority() == 0) {
+            // save command
             App.theme = App.disp.isColor() ? themeGroup.getSelectedIndex() : 0;
             App.authorFontSize = authorFontGroup.getSelectedIndex();
             App.messageFontSize = messageFontGroup.getSelectedIndex();
 
+            int newCount = 0;
             try {
-                int newCount = Integer.parseInt(messageCountField.getString());
-                if (newCount < 1 || newCount > 100) throw new Exception();
-                App.messageLoadCount = newCount;
+                newCount = Integer.parseInt(messageCountField.getString());
             }
-            catch (Exception e) {
-                App.messageLoadCount = 20;
-            }
+            catch (Exception e) {}
+
+            App.messageLoadCount = (newCount >= 1 && newCount <= 100) ? newCount : 20;
 
             App.use12hTime = uiGroup.isSelected(0);
             App.listTimestamps = uiGroup.isSelected(1);
@@ -71,6 +67,7 @@ public class SettingsForm extends Form implements CommandListener {
             Settings.save();
             App.login();
         } else {
+            // cancel command
             App.disp.setCurrent(new MainMenu());
         }
     }

@@ -3,7 +3,6 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class MainMenu extends List implements CommandListener {
-    private Command quitCommand;
     public static int lastSelected;
 
     public MainMenu() {
@@ -17,8 +16,7 @@ public class MainMenu extends List implements CommandListener {
         append("Log out", null);
         setSelectedIndex(lastSelected, true);
 
-        quitCommand = new Command("Quit", Command.EXIT, 0);
-        addCommand(quitCommand);
+        addCommand(new Command("Quit", Command.EXIT, 1));
     }
 
     public void commandAction(Command c, Displayable d) {

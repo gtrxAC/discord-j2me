@@ -6,10 +6,6 @@ import java.util.*;
 
 public class GuildSelector extends List implements CommandListener {
     private Vector guilds;
-    private Command backCommand;
-    private Command addFavCommand;
-    private Command removeFavCommand;
-    private Command refreshCommand;
     public boolean isFavGuilds;
 
     public GuildSelector(Vector guilds, boolean isFavGuilds) {
@@ -24,35 +20,21 @@ public class GuildSelector extends List implements CommandListener {
             append(App.trimItem(g.name), null);
         }
 
-        backCommand = new Command("Back", Command.BACK, 0);
-        addCommand(backCommand);
+        addCommand(new Command("Back", Command.BACK, 1));
 
         if (isFavGuilds) {
-            removeFavCommand = new Command("Remove", Command.ITEM, 2);
-            addCommand(removeFavCommand);
+            addCommand(new Command("Remove", Command.ITEM, 2));
         } else {
-            addFavCommand = new Command(Settings.favLabel, Command.ITEM, 2);
-            refreshCommand = new Command("Refresh", Command.SCREEN, 3);
-            addCommand(addFavCommand);
-            addCommand(refreshCommand);
+            addCommand(new Command(Settings.favLabel, Command.ITEM, 3));
+            addCommand(new Command("Refresh", Command.SCREEN, 4));
         }
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == backCommand) {
-            App.disp.setCurrent(new MainMenu());
-        }
-        else if (c == refreshCommand) {
-            App.openGuildSelector(true);
-        }
-        else if (c == removeFavCommand) {
-            Settings.favRemove(getSelectedIndex());
-            Settings.favOpenSelector();
-        }
-        else {
-            DiscordObject g = (DiscordObject) guilds.elementAt(getSelectedIndex());
+        DiscordObject g = (DiscordObject) guilds.elementAt(getSelectedIndex());
 
-            if (c == List.SELECT_COMMAND) {
+        switch (c.getPriority()) {
+            case 0: {  // list select command
                 App.isDM = false;
                 if (g == App.selectedGuild) {
                     App.openChannelSelector(false);
@@ -60,9 +42,28 @@ public class GuildSelector extends List implements CommandListener {
                     App.selectedGuild = g;
                     App.openChannelSelector(true);
                 }
-            } else {
-                // add to favorites command
+                break;
+            }
+
+            case 1: {  // back
+                App.disp.setCurrent(new MainMenu());
+                break;
+            }
+
+            case 2: {  // remove favorite
+                Settings.favRemove(getSelectedIndex());
+                Settings.favOpenSelector();
+                break;
+            }
+
+            case 3: {  // add favorite
                 Settings.favAdd(g);
+                break;
+            }
+
+            case 4: {  // refresh
+                App.openGuildSelector(true);
+                break;
             }
         }
     }

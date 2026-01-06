@@ -4,9 +4,6 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class ChannelSelector extends List implements CommandListener {
-    private Command backCommand;
-    private Command refreshCommand;
-
     public ChannelSelector() {
         super("", List.IMPLICIT);
         setCommandListener(this);
@@ -23,24 +20,28 @@ public class ChannelSelector extends List implements CommandListener {
             append(App.trimItem(label), null);
         }
 
-        backCommand = new Command("Back", Command.BACK, 0);
-        refreshCommand = new Command("Refresh", Command.SCREEN, 1);
-        addCommand(backCommand);
-        addCommand(refreshCommand);
+        addCommand(new Command("Back", Command.BACK, 1));
+        addCommand(new Command("Refresh", Command.SCREEN, 2));
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == backCommand) {
-            if (App.isDM) App.disp.setCurrent(new MainMenu());
-            else App.disp.setCurrent(App.guildSelector);
-        }
-        else if (c == refreshCommand) {
-            App.openChannelSelector(true);
-        }
-        else {
-            // list select command
-            App.selectedChannel = (DiscordObject) App.channels.elementAt(getSelectedIndex());
-            App.openChannelView(true);
+        switch (c.getPriority()) {
+            case 0: {  // list select command
+                App.selectedChannel = (DiscordObject) App.channels.elementAt(getSelectedIndex());
+                App.openChannelView(true);
+                break;
+            }
+
+            case 1: {  // back
+                if (App.isDM) App.disp.setCurrent(new MainMenu());
+                else App.disp.setCurrent(App.guildSelector);
+                break;
+            }
+
+            case 2: {  // refresh
+                App.openChannelSelector(true);
+                break;
+            }
         }
     }
 }

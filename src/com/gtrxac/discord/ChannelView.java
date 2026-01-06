@@ -8,13 +8,10 @@ import cc.nnproject.json.*;
  * Message list for channels (both guild channels and DM channels).
  */
 public class ChannelView extends Canvas implements CommandListener {
-    private Command backCommand;
     private Command selectCommand;
-    private Command sendCommand;
     private Command replyCommand;
     private Command editCommand;
     private Command deleteCommand;
-    private Command refreshCommand;
 
     public Vector items;
 
@@ -45,17 +42,16 @@ public class ChannelView extends Canvas implements CommandListener {
         if (dummy) return;
         setCommandListener(this);
 
-        backCommand = new Command("Back", Command.BACK, 0);
+        // commands that get added/removed based on selected item
         selectCommand = new Command("Select", Command.OK, 1);
-        sendCommand = new Command("Send", Command.SCREEN, 2);
         replyCommand = new Command("Reply", Command.ITEM, 3);
         editCommand = new Command("Edit", Command.ITEM, 4);
         deleteCommand = new Command("Delete", Command.ITEM, 5);
-        refreshCommand = new Command("Refresh", Command.SCREEN, 6);
 
-        addCommand(backCommand);
-        addCommand(sendCommand);
-        addCommand(refreshCommand);
+        // commands that are always shown (dont need to be saved in a field)
+        addCommand(new Command("Back", Command.BACK, 0));
+        addCommand(new Command("Send", Command.SCREEN, 2));
+        addCommand(new Command("Refresh", Command.SCREEN, 6));
     }
 
     public void requestUpdate() {
@@ -378,33 +374,46 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == backCommand) {
-            App.openChannelSelector(false);
-        }
-        else if (c == sendCommand) {
-            App.disp.setCurrent(new MessageBox(null));
-        }
-        else if (c == refreshCommand) {
-            App.openChannelView(true);
-        }
-        else if (c == selectCommand) {
-            executeItemAction();
-        }
-        else {
-            Message selected = (Message) items.elementAt(selectedItem);
-
-            if (c == replyCommand) {
+        switch (c.getPriority()) {
+            case 0: {  // back
+                App.openChannelSelector(false);
+                break;
+            }
+            
+            case 1: {  // select
+                executeItemAction();
+                break;
+            }
+            
+            case 2: {  // send
+                App.disp.setCurrent(new MessageBox(null));
+                break;
+            }
+            
+            case 3: {  // reply
+                Message selected = (Message) items.elementAt(selectedItem);
                 App.disp.setCurrent(new ReplyForm(selected));
+                break;
             }
-            else if (c == editCommand) {
+            
+            case 4: {  // edit
+                Message selected = (Message) items.elementAt(selectedItem);
                 App.disp.setCurrent(new MessageBox(selected));
+                break;
             }
-            else {
-                // delete command
+            
+            case 5: {  // delete
+                Message selected = (Message) items.elementAt(selectedItem);
                 HTTPThread h = new HTTPThread(HTTPThread.DELETE_MESSAGE);
                 h.editMessage = selected;
                 h.start();
+                break;
             }
+            
+            case 6: {  // refresh
+                App.openChannelView(true);
+                break;
+            } 
         }
     }
 }
