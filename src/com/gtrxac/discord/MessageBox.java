@@ -27,7 +27,7 @@ public class MessageBox extends TextBox implements CommandListener {
     // Send HTTP request to send a message. Also used by ReplyForm
     public static void sendMessage(String msg, String refID, boolean ping) {
         HTTPThread h = new HTTPThread(HTTPThread.SEND_MESSAGE);
-        h.sendMessage = msg;
+        h.content = msg;
         h.sendReference = refID;
         h.sendPing = ping;
         h.start();
@@ -41,7 +41,7 @@ public class MessageBox extends TextBox implements CommandListener {
             } else {
                 HTTPThread h = new HTTPThread(HTTPThread.EDIT_MESSAGE);
                 h.editMessage = editMessage;
-                h.editContent = getString();
+                h.content = getString();
                 h.start();
             }
         } else {

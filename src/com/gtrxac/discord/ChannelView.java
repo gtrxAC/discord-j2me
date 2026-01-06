@@ -125,13 +125,6 @@ public class ChannelView extends Canvas implements CommandListener {
         }
     }
 
-    private void getMessages() {
-        HTTPThread h = new HTTPThread(HTTPThread.FETCH_MESSAGES);
-        h.fetchMsgsBefore = before;
-        h.fetchMsgsAfter = after;
-        h.start();
-    }
-
     // Get the screen Y position that an item will be drawn at
     public int getItemPosition(int index) {
         int y = -scroll;
@@ -263,20 +256,16 @@ public class ChannelView extends Canvas implements CommandListener {
     }
 
     private void executeItemAction() {
-        ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
-
-        if (selected == ChannelViewItem.newerMessagesButton) {
+        if (items.elementAt(selectedItem) == ChannelViewItem.newerMessagesButton) {
             page--;
             before = null;
             after = ((Message) App.messages.elementAt(0)).id;
-            getMessages();
-        }
-        else if (selected == ChannelViewItem.olderMessagesButton) {
+        } else {  // it's older messages button
             page++;
             after = null;
             before = ((Message) App.messages.elementAt(App.messages.size() - 1)).id;
-            getMessages();
         }
+        new HTTPThread(HTTPThread.FETCH_MESSAGES).start();
     }
     
     private void keyEvent(int keycode) {

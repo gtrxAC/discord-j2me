@@ -17,22 +17,14 @@ public class HTTPThread extends Thread {
 
     int action;
 
-    // Parameters for FETCH_GUILDS
-    boolean showFavGuilds;
-
-    // Parameters for FETCH_MESSAGES
-    String fetchMsgsBefore;
-    String fetchMsgsAfter;
-
 	// Parameters for SEND_MESSAGE
-	String sendMessage;
+    // content is also used for EDIT_MESSAGE
+    String content;
 	String sendReference;  // ID of the message the user is replying to
 	boolean sendPing;
 
-    // Parameters for EDIT_MESSAGE
-    // editMessage is also used for DELETE_MESSAGE
+    // Parameters for EDIT_MESSAGE and DELETE_MESSAGE
     Message editMessage;
-    String editContent;
 
     public HTTPThread(int action) {
         this.action = action;
@@ -94,7 +86,7 @@ public class HTTPThread extends Thread {
 
                 case SEND_MESSAGE: {
                     JSONObject json = new JSONObject();
-                    json.put("content", sendMessage);
+                    json.put("content", content);
                     json.put("flags", 0);
                     json.put("mobile_network_type", "unknown");
                     json.put("tts", false);
@@ -124,8 +116,12 @@ public class HTTPThread extends Thread {
                     StringBuffer url = new StringBuffer(
                         "/channels/" + App.selectedChannel.id + "/messages?limit=" + App.messageLoadCount + "&m=" + (App.markAsRead ? 1 : 0)
                     );
-                    if (fetchMsgsBefore != null) url.append("&before=").append(fetchMsgsBefore);
-                    if (fetchMsgsAfter != null) url.append("&after=").append(fetchMsgsAfter);
+
+                    String fetchBefore = App.channelView.before;
+                    String fetchAfter = App.channelView.after;
+
+                    if (fetchBefore != null) url.append("&before=").append(fetchBefore);
+                    if (fetchAfter != null) url.append("&after=").append(fetchAfter);
 
                     JSONArray messages = JSONObject.parseArray(get(url.toString()));
                     App.messages = new Vector();
@@ -134,7 +130,7 @@ public class HTTPThread extends Thread {
                         App.messages.addElement(new Message(messages.getArray(i)));
                     }
 
-                    if ((fetchMsgsBefore == null && fetchMsgsAfter == null) || sendMessage != null) {
+                    if ((fetchBefore == null && fetchAfter == null) || content != null) {
                         // If user opened a new channel or sent a message, create a new channel view
                         App.channelView = new ChannelView(false);
                     } else {
@@ -150,13 +146,13 @@ public class HTTPThread extends Thread {
 
                 case EDIT_MESSAGE: {
                     JSONObject newMessage = new JSONObject();
-                    newMessage.put("content", editContent);
+                    newMessage.put("content", content);
 
                     String path = "/channels/" + App.selectedChannel.id + "/messages/" + editMessage.id + "/edit";
                     post(path, newMessage);
 
                     // Update displayed message content
-                    editMessage.content = editContent;
+                    editMessage.content = content;
                     editMessage.needUpdate = true;
 
                     App.disp.setCurrent(App.channelView);
