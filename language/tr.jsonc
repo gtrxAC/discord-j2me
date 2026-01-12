@@ -930,66 +930,66 @@
     "Negative offset",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Hungarian",
+    "Macarca",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "Up",
-    "Move up",
-    "Down",
-    "Move down",
+    "Yukarı",
+    "Yukarı taşı",
+    "Aşağı",
+    "Aşağı taşı",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect.",
+    "Doğrudan bağlantı etkinleştirildi, ancak ağ geçidine bağlanmak için proxy sunucusunu kullanmanız gerekli, bu güvenli olmayabilir. Ağ geçidine bağlanmak ister misiniz?\nHer zaman ağ geçidine bağlanmak için 'Gizle' ye basın.",
 
     // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
-    "Show message bar",
+    "Mesaj çubuğunu göster",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
-    "Auto",
+    "Otomatik",
 
     // Title for login screen (new version).
-    "Welcome",
+    "Merhaba",
     
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "Aç",
+    "Aç",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "Daha fazla...",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "Bu uygulama proxy sunucusu ile kullanılabilir. ",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "Kendi proxy sunucunzu kurmanız önerilir. ",
 
     // Hint text shown after the above string on BlackBerry devices.
-    "To edit your connection URLs, press the BlackBerry key.",
+    "Bağlantı URL'nizi düzenlemek için BlackBerry tuşuna basın.",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
+    "Bağlantı URL'leri",
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "Ağ geçidi (gerçek zamanlı sohbet) bir proxy sunucusu gerektirir.",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "Ağ geçidi gerçek zamanlı sohbet ve diğer birçok özellik için kullanılmaktadır.",
 
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
+    "Uygulamaya giriş yapmak için bir token'e ihtiyacınız var. ",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "Yazım hatalarını önlemek için, token'nin yazılı olduğu bir not dosyasını içe aktarabilirsiniz ya da token'i JAR dosyasına koyabilirsiniz.",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file.",
+    "Yazım hatalarını önlemek için, token'i JAR dosyasına koyabilirsiniz.",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "Doğrudan bağlantıyı kullanmak için bu uygulamanın bir sertifika ile imzalanması gerekli. Telefonunuza uyumlu imzalı bir JAD dosyasını indirin ya da doğrudan bağlantıyı devre dışı bırakın.\nDaha fazla öğrenmek için gtrxac.fi/j2me/proxyless adresine gidin (adres İngilzce dilindedir)",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
+    "Doğrudan bağlantı desteği"
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"
