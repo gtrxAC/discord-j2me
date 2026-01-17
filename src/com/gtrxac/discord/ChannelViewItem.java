@@ -1,6 +1,7 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import jtube.ui.nokia.*;
 
 public class ChannelViewItem implements Strings {
     static final int MESSAGE = 0;
@@ -36,7 +37,7 @@ public class ChannelViewItem implements Strings {
     private static Image unreadIndicatorImage;
 
     public static int drawUnreadIndicatorImage(Graphics directG, int baseX, int baseY) {
-        Font font = (directG == null) ? App.titleFont : smallFont;
+        Font font = (directG == null) ? App.titleFont : smallBoldFont;
         int fontHeight = (font.getHeight() + 1)/2*2;
         int stringWidth = font.stringWidth(Locale.get(NEW_MARKER));
         int totalWidth = fontHeight/2 + stringWidth + fontHeight/4;
@@ -132,7 +133,7 @@ public class ChannelViewItem implements Strings {
     
                 // Referenced message if message is a reply and option is enabled
                 if (msg.recipient != null && Settings.showRefMessage) {
-                    result += getRefAreaHeight(messageFontHeight, shouldUseDirectRefMessage()) + messageFontHeight/4;
+                    result += messageFontHeight + messageFontHeight/4;
                 }
     
                 return result;
@@ -162,31 +163,25 @@ public class ChannelViewItem implements Strings {
         return ((!refImgHasPfp || !refImgHasColor) && System.currentTimeMillis() > refImgLastDrawn + 250);
     }
 
+    private static void initSmallFonts() {
+        if (smallFont == null) {
+            int smallFontSize = App.messageFont.getHeight()*3/4;
+            smallFont = DirectFontUtil.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, smallFontSize, Font.SIZE_SMALL);
+            smallBoldFont = DirectFontUtil.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, smallFontSize, Font.SIZE_SMALL);
+        }
+    }
+
     public static boolean shouldUseDirectRefMessage() {
-//#ifdef OVER_100KB
         final boolean result = (
+            DirectFontUtil.supported ||
 //#ifdef NOKIA_THEME_BACKGROUND
             Settings.theme == Theme.SYSTEM ||
 //#endif
             Settings.messageFontSize != 0
         );
 
-        if (result && smallFont == null) {
-            smallFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
-            smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
-        }
+        if (result) initSmallFonts();
         return result;
-//#else
-        return false;
-//#endif
-    }
-
-    private int getRefAreaHeight(int messageFontHeight, boolean directRefMessage) {
-        if (directRefMessage) {
-            return smallFont.getHeight()*5/4;
-        } else {
-            return messageFontHeight;
-        }
     }
 
     /**
@@ -238,11 +233,11 @@ public class ChannelViewItem implements Strings {
 
                             // Should referenced message be drawn directly or onto an image that is then downscaled?
                             // Drawing directly means we cannot use a smaller font size, but should be faster and supports system theme transparency, so use it in system theme mode and if a larger font is in use
+                            // Smaller font size can be used on Nokia touchscreens and emulators (DirectFont, code from JTube)
                             // Drawing onto an image lets us use a smaller font than what J2ME normally allows
                             final boolean directRefMessage = shouldUseDirectRefMessage();
 
-                            // Determine refmessage area's height based on the font size and whether we are direct drawing
-                            int refAreaHeight = getRefAreaHeight(messageFontHeight, directRefMessage);
+                            int refAreaHeight = messageFontHeight;
 
                             if (directRefMessage || shouldRedrawRefMessage(selected)) {
 //#ifdef OVER_100KB
@@ -628,18 +623,9 @@ public class ChannelViewItem implements Strings {
             }
 
             case UNREAD_INDICATOR: {
-//#ifdef NOKIA_THEME_BACKGROUND
-                final boolean directDraw = (Settings.theme == Theme.SYSTEM);
-
-                if (directDraw && smallFont == null) {
-                    smallFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
-                    smallBoldFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
-                }
-//#else
-                final boolean directDraw = false;
-//#endif
+                final boolean directDraw = shouldUseDirectRefMessage();
                 
-                Font font = (directDraw ? smallFont : App.titleFont);
+                Font font = (directDraw ? smallBoldFont : App.titleFont);
                 int height = (font.getHeight() + 1)/2*2;
 
                 int end = width - messageFontHeight/4;
