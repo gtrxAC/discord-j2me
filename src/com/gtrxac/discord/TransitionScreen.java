@@ -82,4 +82,8 @@ public class TransitionScreen extends MyCanvas implements Runnable {
             App.disp.setCurrent(prev, false);
         }
     }
+
+    public void hideNotify() {
+        prev.hideNotify();
+    }
 }

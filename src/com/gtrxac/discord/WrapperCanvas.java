@@ -211,12 +211,14 @@ public class WrapperCanvas extends Canvas {
     }
 
     public synchronized void setCurrent(MyCanvas d) {
+        if (current != null) current.hideNotify();
         current = d;
         updateTitle();
         updateCommands_();
         updateFullscreen();
         updateCommandListener();
         checkUpdateSize(current);
+        current.showNotify();
         repaint();
     }
 }
