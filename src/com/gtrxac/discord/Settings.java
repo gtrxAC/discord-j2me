@@ -33,7 +33,7 @@ public class Settings {
         Font normal = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
         Font bold = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
 
-        return (normal != bold) && (normal.isBold() != bold.isBold());
+        return (normal.isBold() != bold.isBold());
     }
 
     public static void load() {
@@ -69,8 +69,8 @@ public class Settings {
 
         if (App.messageFontSize >= 3)  {
             // default setting for message font size:
-            // medium on s40 128x128 and 128x160, small on everything else
-            App.messageFontSize = (App.isNokia && App.screenWidth == 128) ? 1 : 0;
+            // medium on s40v2, small on everything else
+            App.messageFontSize = (App.isNokia && App.isMidp2 && App.screenWidth == 128) ? 1 : 0;
         }
 
         if (App.authorFontSize >= 3) {

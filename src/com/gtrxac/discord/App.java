@@ -173,6 +173,7 @@ public class App extends MIDlet {
 	// System info and generic utilities
 
     public static final boolean isNokia;
+    public static final boolean isMidp2;
     public static final int screenWidth;
     public static final int screenHeight;
     public static int charsPerItem = 0;
@@ -181,6 +182,7 @@ public class App extends MIDlet {
         String plat = System.getProperty("microedition.platform");
         if (plat == null) plat = "";
         isNokia = (plat.indexOf("Nokia") != -1);
+        isMidp2 = hasClass("javax.microedition.media.Player");
 
         ChannelView canvas = new ChannelView(true);
         screenWidth = canvas.getWidth();
@@ -212,7 +214,7 @@ public class App extends MIDlet {
                 case 128: {
                     // 128px wide -> could be midp1 or midp2
                     // if it's midp1, it's s40v1, so we must limit the chars per item (read trimItem comment)
-                    if (!hasClass("javax.microedition.media.Player")) charsPerItem = 14;
+                    if (!isMidp2) charsPerItem = 14;
                     break;
                 }
                 case 96: {
