@@ -19,16 +19,6 @@ public class Settings {
         index = 1;
     }
 
-    public static boolean isAvailable() {
-        try {
-            RecordStore.openRecordStore("a", false).closeRecordStore();
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
-
     private static boolean hasBoldFont() {
         Font normal = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
         Font bold = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
@@ -37,7 +27,7 @@ public class Settings {
     }
 
     public static void load() {
-        try {
+        try {            
             open();
             App.api = getStringRecord("http://146.59.80.3");
             App.token = getStringRecord("");

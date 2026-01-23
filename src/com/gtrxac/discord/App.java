@@ -48,11 +48,11 @@ public class App extends MIDlet {
     public void startApp() {
         if (disp == null) {
             disp = Display.getDisplay(this);
+            Settings.load();
 
-            if (!Settings.isAvailable() && getAppProperty("Token") == null) {
+            if (App.token == null || App.token.trim().length() == 0) {
                 disp.setCurrent(new LoginForm());
             } else {
-                Settings.load();
                 login();
             }
         }

@@ -6,6 +6,9 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 import javax.microedition.io.*;
 
+/**
+ * Class for all networking functionality: HTTP implementation, API functions
+ */
 public class HTTPThread extends Thread {
     static final int FETCH_GUILDS = 0;
     static final int FETCH_CHANNELS = 1;
@@ -117,8 +120,12 @@ public class HTTPThread extends Thread {
                         "/channels/" + App.selectedChannel.id + "/messages?limit=" + App.messageLoadCount + "&m=" + (App.markAsRead ? 1 : 0)
                     );
 
-                    String fetchBefore = App.channelView.before;
-                    String fetchAfter = App.channelView.after;
+                    String fetchBefore = null;
+                    String fetchAfter = null;
+                    if (App.channelView != null) {
+                        fetchBefore = App.channelView.before;
+                        fetchAfter = App.channelView.after;
+                    }
 
                     if (fetchBefore != null) url.append("&before=").append(fetchBefore);
                     if (fetchAfter != null) url.append("&after=").append(fetchAfter);

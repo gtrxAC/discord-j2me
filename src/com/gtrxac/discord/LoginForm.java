@@ -7,7 +7,7 @@ public class LoginForm extends Form implements CommandListener {
     private TextField tokenField;
 
     public LoginForm() {
-        super("Log in");
+        super("Welcome");
         setCommandListener(this);
 
         Settings.load();
@@ -15,9 +15,9 @@ public class LoginForm extends Form implements CommandListener {
         apiField = new TextField("API URL", App.api, 200, 0);
         tokenField = new TextField("Token", App.token, 200, 0);
 
-        append("Only use proxies that you trust!");
+        append("Only use proxies that you trust! Hosting your own proxy or using an alt account is recommended.");
         append(apiField);
-        append("The token can be found from your browser's dev tools (look online for help). Using an alt account is recommended.");
+        append("The token can be found from your browser's dev tools (look online for help).");
         append(tokenField);
 
         addCommand(new Command("Log in", Command.OK, 0));
