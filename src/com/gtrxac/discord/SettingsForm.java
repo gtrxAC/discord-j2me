@@ -14,7 +14,7 @@ public class SettingsForm extends Form implements CommandListener {
         setCommandListener(this);
 
         String[] uiChoices = {"12-hour time", "List timestamps", "Mark as read"};
-        uiGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, uiChoices, null);
+        uiGroup = new ChoiceGroup("User interface", ChoiceGroup.MULTIPLE, uiChoices, null);
         uiGroup.setSelectedIndex(0, App.use12hTime);
         uiGroup.setSelectedIndex(1, App.listTimestamps);
         uiGroup.setSelectedIndex(2, App.markAsRead);
@@ -39,8 +39,7 @@ public class SettingsForm extends Form implements CommandListener {
         messageCountField = new TextField("Message count", new Integer(App.messageLoadCount).toString(), 3, TextField.NUMERIC);
         append(messageCountField);
 
-        append(new StringItem("About", "Discord client for Java ME (Nokia 6310i version)\nDeveloped by gtrxAC\nJSON parser by Shinovon"));
-        append(new StringItem("Support", "discord.gg/2GKuJjQagp\nt.me/dscforsymbian"));
+        append("Discord client for Java ME (MIDP 1.0 version)\nDeveloped by gtrxAC\nJSON parser by Shinovon\ndiscord.gg/2GKuJjQagp\nt.me/dscforsymbian");
 
         addCommand(new Command("Save", Command.BACK, 0));
         addCommand(new Command("Cancel", Command.BACK, 1));
