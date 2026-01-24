@@ -13,7 +13,7 @@ public class ChannelView extends Canvas implements CommandListener {
     private Command editCommand;
     private Command deleteCommand;
 
-    public Vector items;
+    public ChannelViewItem[] items;
 
     // Parameters for viewing old messages (message IDs)
     int page;
@@ -27,7 +27,7 @@ public class ChannelView extends Canvas implements CommandListener {
 
     boolean touchMode;
     boolean selectionMode;
-    int selectedItem;
+    int selectedIndex;
 
     int width, height;
 
@@ -64,7 +64,7 @@ public class ChannelView extends Canvas implements CommandListener {
      *   If false, this update occurred for another reason, for example loading another page of older messages.
      */
     private void update(boolean wasResized) {
-        items = new Vector(App.messageLoadCount + 2);
+        Vector itemsVec = new Vector(App.messageLoadCount + 2);
 
         int messageCount = App.messages.size();
         if (messageCount == 0) return;
@@ -73,7 +73,7 @@ public class ChannelView extends Canvas implements CommandListener {
         maxScroll = -height;
 
         if (page > 0) {
-            items.addElement(ChannelViewItem.newerMessagesButton);
+            itemsVec.addElement(ChannelViewItem.newerMessagesButton);
             maxScroll += ChannelViewItem.newerMessagesButton.height;
         }
 
@@ -102,14 +102,17 @@ public class ChannelView extends Canvas implements CommandListener {
                 msg.contentLines = App.wordWrap(msg.content, availableWidth, App.messageFont);
                 msg.needUpdate = false;
             }
-            items.addElement(msg);
+            itemsVec.addElement(msg);
             maxScroll += msg.calculateHeight();
         }
 
         if (messageCount >= App.messageLoadCount) {
-            items.addElement(ChannelViewItem.olderMessagesButton);
+            itemsVec.addElement(ChannelViewItem.olderMessagesButton);
             maxScroll += ChannelViewItem.olderMessagesButton.height;
         }
+
+        items = new ChannelViewItem[itemsVec.size()];
+        itemsVec.copyInto(items);
 
         if (haveDrawn && wasResized) {
             // If this channel view has been previously drawn and was just resized
@@ -120,15 +123,14 @@ public class ChannelView extends Canvas implements CommandListener {
             // If user selected Show newer messages, go to the top of the
             // message list, so it's more intuitive to scroll through
             scroll = (after != null) ? 0 : maxScroll;
-            selectedItem = (after != null) ? (items.size() - 1) : 0;
+            selectedIndex = (after != null) ? (items.length - 1) : 0;
             selectionMode = (before != null || after != null);
         }
 
         int y = 0;
-        for (int i = items.size() - 1; i >= 0; i--) {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
-            item.pos = y;
-            y += item.height;
+        for (int i = items.length - 1; i >= 0; i--) {
+            items[i].pos = y;
+            y += items[i].height;
         }
 
         makeSelectedItemVisible();
@@ -139,7 +141,7 @@ public class ChannelView extends Canvas implements CommandListener {
     private boolean makeSelectedItemVisible() {
         if (!selectionMode || touchMode) return false;
 
-        ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
+        ChannelViewItem selected = items[selectedIndex];
         int itemPos = selected.pos - scroll;
         int itemHeight = selected.height;
 
@@ -226,16 +228,15 @@ public class ChannelView extends Canvas implements CommandListener {
         if (scroll < 0) scroll = 0;
         if (scroll > maxScroll) scroll = maxScroll;
 
-        if (items.size() > 0) {
-            ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
-            updateCommands(selected);
+        if (items.length > 0) {
+            updateCommands(items[selectedIndex]);
         }
 
         g.setFont(App.messageFont);
         g.setColor(ChannelViewItem.backgroundColor);
         g.fillRect(0, 0, width, height);
 
-        if (items.size() == 0) {
+        if (items.length == 0) {
             g.setColor(ChannelViewItem.timestampColor);
             g.drawString(
                 "Nothing to see here", width/2, height/2 - ChannelViewItem.fontHeight/2,
@@ -243,11 +244,11 @@ public class ChannelView extends Canvas implements CommandListener {
             );
         } else {
             int y = -scroll;
-            for (int i = items.size() - 1; i >= 0; i--) {
-                ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
+            for (int i = items.length - 1; i >= 0; i--) {
+                ChannelViewItem item = items[i];
                 
                 if (y + item.height > 0) {
-                    item.draw(g, y, width, i == selectedItem && selectionMode);
+                    item.draw(g, y, width, i == selectedIndex && selectionMode);
                 }
                 y += item.height;
                 if (y > height) break;
@@ -260,22 +261,20 @@ public class ChannelView extends Canvas implements CommandListener {
             Graphics.TOP | Graphics.RIGHT
         );
 
-        g.setColor(0x00FF00);
-        g.drawRect(g.getClipX(), g.getClipY(), g.getClipWidth() - 1, g.getClipHeight() - 1);
+        // g.setColor(0x00FF00);
+        // g.drawRect(g.getClipX(), g.getClipY(), g.getClipWidth() - 1, g.getClipHeight() - 1);
 
         haveDrawn = true;
     }
 
     private void executeItemAction() {
-        Object selected = items.elementAt(selectedItem);
-
-        if (selected == ChannelViewItem.newerMessagesButton) {
+        if (items[selectedIndex] == ChannelViewItem.newerMessagesButton) {
             page--;
             before = null;
             after = ((Message) App.messages.elementAt(0)).id;
             new HTTPThread(HTTPThread.FETCH_MESSAGES).start();
         }
-        else if (selected == ChannelViewItem.olderMessagesButton) {
+        else if (items[selectedIndex] == ChannelViewItem.olderMessagesButton) {
             page++;
             after = null;
             before = ((Message) App.messages.elementAt(App.messages.size() - 1)).id;
@@ -285,14 +284,13 @@ public class ChannelView extends Canvas implements CommandListener {
     
     private void keyEvent(int keycode) {
         touchMode = false;
-        ChannelViewItem selected = (ChannelViewItem) items.elementAt(selectedItem);
-        int thisItemHeight = selected.height;
-        int thisItemPos = selected.pos - scroll;
+        int thisItemHeight = items[selectedIndex].height;
+        int thisItemPos = items[selectedIndex].pos - scroll;
 
         if (keycode == KEY_NUM2) {
             // jump to top-most item
             selectionMode = true;
-            selectedItem = items.size() - 1;
+            selectedIndex = items.length - 1;
 
             if (makeSelectedItemVisible()) {
                 // scroll changed; need full repaint
@@ -305,7 +303,7 @@ public class ChannelView extends Canvas implements CommandListener {
         else if (keycode == KEY_NUM8) {
             // jump to bottom-most item
             selectionMode = true;
-            selectedItem = 0;
+            selectedIndex = 0;
 
             if (makeSelectedItemVisible()) {
                 repaint();
@@ -329,19 +327,23 @@ public class ChannelView extends Canvas implements CommandListener {
                 }
                 // Else go up by one message
                 else {
-                    int max = items.size() - 1;
-                    if (selectedItem >= max) {
-                        selectedItem = max;
+                    int max = items.length - 1;
+                    if (selectedIndex >= max) {
+                        selectedIndex = max;
                     } else {
-                        selectedItem++;
+                        selectedIndex++;
                     }
                     
                     if (makeSelectedItemVisible()) {
                         repaint();
                     } else {
                         // repaint prev and current selected item
-                        ChannelViewItem nextItem = (ChannelViewItem) items.elementAt(selectedItem);
-                        repaint(0, nextItem.pos - scroll, getWidth(), nextItem.height + thisItemHeight);
+                        repaint(
+                            0,
+                            items[selectedIndex].pos - scroll,
+                            getWidth(),
+                            items[selectedIndex].height + thisItemHeight
+                        );
                     }
                 }
                 break;
@@ -354,23 +356,22 @@ public class ChannelView extends Canvas implements CommandListener {
                     repaint();
                 }
                 // Bottom-most message -> disable selection mode and repaint bottom-most
-                else if (selectedItem == 0) {
+                else if (selectedIndex == 0) {
                     selectionMode = false;
                     repaint(0, thisItemPos, getWidth(), getHeight());
                 }
                 // Else go down by one message
                 else {
-                    if (selectedItem <= 0) {
-                        selectedItem = 0;
+                    if (selectedIndex <= 0) {
+                        selectedIndex = 0;
                     } else {
-                        selectedItem--;
+                        selectedIndex--;
                     }
 
                     if (makeSelectedItemVisible()) {
                         repaint();
                     } else {
-                        ChannelViewItem nextItem = (ChannelViewItem) items.elementAt(selectedItem);
-                        repaint(0, thisItemPos, getWidth(), thisItemHeight + nextItem.height);
+                        repaint(0, thisItemPos, getWidth(), thisItemHeight + items[selectedIndex].height);
                     }
                 }
                 break;
@@ -400,17 +401,17 @@ public class ChannelView extends Canvas implements CommandListener {
         if (items == null) return;
         touchMode = true;
 
-        for (int i = 0; i < items.size(); i++) {
-            ChannelViewItem item = (ChannelViewItem) items.elementAt(i);
+        for (int i = 0; i < items.length; i++) {
+            ChannelViewItem item = items[i];
             int itemPos = item.pos - scroll;
 
             if (y >= itemPos && y <= itemPos + item.height) {
-                if (selectionMode && i == selectedItem) {
+                if (selectionMode && i == selectedIndex) {
                     // If this item was already selected, execute its action if it's a button
                     executeItemAction();
                 } else {
                     selectionMode = true;
-                    selectedItem = i;
+                    selectedIndex = i;
                 }
                 break;
             }
@@ -437,19 +438,19 @@ public class ChannelView extends Canvas implements CommandListener {
             }
             
             case 3: {  // reply
-                Message selected = (Message) items.elementAt(selectedItem);
+                Message selected = (Message) items[selectedIndex];
                 App.disp.setCurrent(new ReplyForm(selected));
                 break;
             }
             
             case 4: {  // edit
-                Message selected = (Message) items.elementAt(selectedItem);
+                Message selected = (Message) items[selectedIndex];
                 App.disp.setCurrent(new MessageBox(selected));
                 break;
             }
             
             case 5: {  // delete
-                Message selected = (Message) items.elementAt(selectedItem);
+                Message selected = (Message) items[selectedIndex];
                 HTTPThread h = new HTTPThread(HTTPThread.DELETE_MESSAGE);
                 h.editMessage = selected;
                 h.start();
