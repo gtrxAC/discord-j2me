@@ -27,6 +27,7 @@ public class ChannelViewItem {
     String label;
     int labelOrAuthorWidth;
     int height;
+    int pos;
 
     public ChannelViewItem() {}
 
