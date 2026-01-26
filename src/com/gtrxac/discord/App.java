@@ -113,6 +113,8 @@ public class App extends MIDlet {
 		Message.timestampDistance = authorFont.stringWidth(" ")*4/3;
         Message.arrowStringWidth = timestampFont.stringWidth(" > ");
 
+        Message.pseudoBold = (messageFontSize == authorFontSize) && !Settings.hasBoldFont();
+
 		//                               Monochrome Dark      Light
 		final int[] backgroundColors =   {0xFFFFFF, 0x313338, 0xFFFFFF};
 		final int[] highlightColors =    {0x000000, 0x1E1F22, 0xCCCCDD};
@@ -174,6 +176,7 @@ public class App extends MIDlet {
 
     public static final boolean isNokia;
     public static final boolean isMidp2;
+    public static final boolean isSejp1;  // Sony Ericsson Java Platform 1 (T610, T630, Z600)
     public static final int screenWidth;
     public static final int screenHeight;
     public static int charsPerItem = 0;
@@ -182,7 +185,8 @@ public class App extends MIDlet {
         String plat = System.getProperty("microedition.platform");
         if (plat == null) plat = "";
         isNokia = (plat.indexOf("Nokia") != -1);
-        isMidp2 = hasClass("javax.microedition.media.Player");
+        isMidp2 = hasClass("javax.microedition.lcdui.Spacer");
+        isSejp1 = plat.indexOf("SonyEr") != -1 && !isMidp2;
 
         ChannelView canvas = new ChannelView(true);
         screenWidth = canvas.getWidth();

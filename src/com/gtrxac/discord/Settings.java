@@ -19,7 +19,13 @@ public class Settings {
         index = 1;
     }
 
-    private static boolean hasBoldFont() {
+    /**
+     * check if the system has a dedicated bold font (for the small font size)
+     * may have false positives
+     */
+    public static boolean hasBoldFont() {
+        if (App.isSejp1) return false;
+
         Font normal = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
         Font bold = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL);
 

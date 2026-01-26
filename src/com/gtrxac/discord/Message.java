@@ -23,6 +23,10 @@ public class Message extends ChannelViewItem {
     static int screenMargin;
     static int timestampDistance;
 
+    // draw author name twice to simulate a bold font
+    // used if the system has no actual bold font and the author font size is the same as the message font size
+    static boolean pseudoBold;
+
     public String id;
     public String author;
     public String timestamp;
@@ -189,10 +193,12 @@ public class Message extends ChannelViewItem {
             g.setColor(selected ? selMessageColor : authorColor);
             g.setFont(App.authorFont);
             g.drawString(author, screenMargin, y, Graphics.TOP | Graphics.LEFT);
+            if (pseudoBold) g.drawString(author, screenMargin + 1, y, Graphics.TOP | Graphics.LEFT);
 
             // Draw recipient name if applicable
             if (recipient != null) {
                 g.drawString(recipient, labelOrAuthorWidth, y, Graphics.TOP | Graphics.LEFT);
+                if (pseudoBold) g.drawString(recipient, labelOrAuthorWidth + 1, y, Graphics.TOP | Graphics.LEFT);
             }
 
             g.setFont(App.timestampFont);
