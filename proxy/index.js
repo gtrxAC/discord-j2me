@@ -7,6 +7,7 @@ const path = require('path');
 const sanitizeHtml = require('sanitize-html');
 const crypto = require('crypto').webcrypto;
 const { LRUCache } = require('lru-cache');
+const WebSocket = require('ws');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -1086,6 +1087,161 @@ app.get(`${BASE_L}/users/@me`, getToken, async (req, res) => {
 app.post(`${BASE_L}/channels/:channel/messages`, getToken, sendMessage);
 app.post(`${BASE_L}/channels/:channel/messages/:message/edit`, getToken, editMessage);
 app.get(`${BASE_L}/channels/:channel/messages/:message/delete`, getToken, deleteMessage);
+
+const gatewaySessions = new Map();
+
+// gateway proxy for 30kB client (socket to http)
+class GatewayProxy {
+    constructor(token) {
+        this.token = token;
+        this.lastReceived = -1;
+        this.messages = [];
+        
+        this.socket = new WebSocket(
+            "wss://gateway.discord.gg/?v=9&encoding=json",
+            {origin: "https://discord.com"}
+        );
+
+        this.updateExpiration();
+
+        this.socket.on("message", (event) => {
+            const data = JSON.parse(event.toString());
+
+            console.log("received", data);
+
+            if (data.s > this.lastReceived) {
+                this.lastReceived = data.s;
+            }
+
+            if (data.op == 10) {
+                const heartbeatInterval = data.d.heartbeat_interval;
+                
+                this.heartbeat = setInterval(() => {
+                    if (!this.isValid()) {
+                        clearInterval(this.heartbeat);
+                        return;
+                    }
+
+                    this.send({
+                        op: 1,
+                        d: (this.lastReceived == -1) ? null : this.lastReceived
+                    });
+                }, heartbeatInterval);
+
+                this.send({
+                    op: 2,
+                    d: {
+                        token: this.token,
+                        capabilities: 30717,
+                        properties: {
+                            os: "Android",
+                            browser: "Discord Android",
+                            device: ""
+                        }
+                    }
+                });
+            } else {
+                switch (data.t) {
+                    // case "GATEWAY_HELLO": {
+                    //     this.send({
+                    //         op: -1,
+                    //         t: "GATEWAY_CONNECT",
+                    //         d: {
+                    //             supported_events: ["READY", "J2ME_MESSAGE_CREATE"],
+                    //             url: "wss://gateway.discord.gg/?v=9&encoding=json"
+                    //         }
+                    //     });
+                    //     break;
+                    // }
+
+                    case "READY": {
+                        this.readyMessage = {guilds: data.d.guilds};
+                        break;
+                    }
+
+                    case "MESSAGE_CREATE": {
+                        if (data.d.guild_id) {
+                            // add guild message event
+                            const guild = this.readyMessage?.guilds.find(g => g.id === data.d.guild_id);
+                            const guildName = guild?.properties.name;
+                            const channelName = guild?.channels.find(ch => ch.id === data.d.channel_id)?.name;
+
+                            this.messages.push([
+                                0,
+                                data.d.guild_id,
+                                data.d.channel_id,
+                                guildName,
+                                channelName,
+                                data.d.author.global_name ?? data.d.author.username
+                            ]);
+                        } else {
+                            // add direct message event
+                            this.messages.push([
+                                1,
+                                data.d.channel_id,
+                                data.d.author.global_name ?? data.d.author.username
+                            ]);
+                        }
+                        break;
+                    }
+                }
+            }
+        })
+
+        this.socket.on("close", () => {
+            console.log("Disconnected");
+
+            this.socket = null;
+        })
+    }
+    
+    send(json) {
+        console.log("sending", json);
+        this.socket.send(JSON.stringify(json) + "\n");
+    }
+
+    isValid() {
+        return Date.now() < this.expires && this.socket;
+    }
+
+    updateExpiration() {
+        this.expires = Date.now() + 2*60*1000;
+    }
+
+    getMessages() {
+        const messages = this.messages;
+        this.messages = [];
+        return messages;
+    }
+}
+
+function getExistingSession(token) {
+    if (!gatewaySessions.has(token)) return null;
+
+    const session = gatewaySessions.get(token);
+    if (session.isValid()) {
+        session.updateExpiration();
+        return session;
+    }
+    return null; 
+}
+
+function getSession(token) {
+    const session = getExistingSession(token);
+    if (session) return session;
+
+    const newSession = new GatewayProxy(token);
+    gatewaySessions.set(token, newSession);
+    return newSession;
+}
+
+app.get(`${BASE_L}/gw`, getToken, (req, res) => {
+    const session = getSession(res.locals.headers.Authorization);
+    const messages = session.getMessages();
+
+    console.log("sending", messages);
+    res.send(messages);
+});
 
 // for my personal server
 if (process.env.DPFILEHOST) {
