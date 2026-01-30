@@ -8,7 +8,10 @@ function checkIsModern(req, res, next) {
         || ua.includes("opera");
 
     req.format = req.accepts("html") ? "html" : "wml";
-    
+
+    if (req.format == "wml") {
+        res.set("Content-Type", "text/vnd.wap.wml");
+    }
     next();
 }
 
@@ -16,7 +19,6 @@ function htmlOnly(req, res, next) {
     if (req.format == 'wml') {
         res.render("htmlonly");
     } else {
-        res.set("Content-Type", "text/vnd.wap.wml");
         next();
     }
 }
