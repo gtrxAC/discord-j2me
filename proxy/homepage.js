@@ -31,20 +31,20 @@ router.get('/', checkIsModern, async (req, res) => {
 })
 
 // Download page
-router.get('/j2me', checkIsModern, htmlOnly, async (req, res) => {
-    res.render("download", {
+router.get('/j2me', checkIsModern, async (req, res) => {
+    res.render("download_" + req.format, {
         versions: getRecommendedVersions(req)
     })
 });
 
 const allVersions = (req, res) => {
-    res.render("download", {
+    res.render("download_" + req.format, {
         versions: arrayDownloadLinkHtml(Object.keys(mainVersionDownloadLinks))
     })
 }
 
-router.get('/all', checkIsModern, htmlOnly, allVersions);
-router.get('/j2me/all', checkIsModern, htmlOnly, allVersions);
+router.get('/all', checkIsModern, allVersions);
+router.get('/j2me/all', checkIsModern, allVersions);
 
 router.get('/bench', checkIsModern, htmlOnly, async (req, res) => {
     res.render("bench");
