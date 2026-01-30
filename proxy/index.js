@@ -344,51 +344,6 @@ function generateUploadToken(token) {
     return result;
 }
 
-function checkIsModern(req, res, next) {
-    const ua = (req.headers['user-agent'] ?? '').toLowerCase();
-    res.locals.isModern =
-        (/linux|mac|windows|android/g.test(ua) && !/windows (ce|mobile)/g.test(ua))
-        || ua.includes("opera");
-    next();
-}
-
-// Home page
-app.get('/', checkIsModern, async (req, res) => {
-    res.render("index", {isModern: res.locals.isModern});
-})
-
-const { getRecommendedVersions, mainVersionDownloadLinks, arrayDownloadLinkHtml } = require('./recommend');
-
-// Download page
-app.get('/j2me', checkIsModern, async (req, res) => {
-    res.render("download", {
-        versions: getRecommendedVersions(req),
-        isModern: res.locals.isModern
-    })
-});
-
-const allVersions = (req, res) => {
-    res.render("download", {
-        versions: arrayDownloadLinkHtml(Object.keys(mainVersionDownloadLinks)),
-        isModern: res.locals.isModern
-    })
-}
-
-app.get('/all', checkIsModern, allVersions);
-app.get('/j2me/all', checkIsModern, allVersions);
-
-app.get('/bench', checkIsModern, async (req, res) => {
-    res.render("bench", {isModern: res.locals.isModern})
-});
-
-app.get('/j2me/guide', checkIsModern, async (req, res) => {
-    res.render("guide", {isModern: res.locals.isModern})
-});
-
-app.get('/j2me/proxyless', checkIsModern, async (req, res) => {
-    res.render("proxyless", {isModern: res.locals.isModern})
-});
-
 // Get user's server list
 // Has cache which can be used with query parameter "c". This param is included by newer clients except when the list is force refreshed
 const userGuilds = new LRUCache({max: 200});
@@ -1242,6 +1197,8 @@ app.get(`${BASE_L}/gw`, getToken, (req, res) => {
     console.log("sending", messages);
     res.send(messages);
 });
+
+app.use("/", require('./homepage'));
 
 // for my personal server
 if (process.env.DPFILEHOST) {
