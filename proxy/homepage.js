@@ -46,8 +46,8 @@ const allVersions = (req, res) => {
 router.get('/all', checkIsModern, allVersions);
 router.get('/j2me/all', checkIsModern, allVersions);
 
-router.get('/bench', checkIsModern, htmlOnly, async (req, res) => {
-    res.render("bench");
+router.get('/bench', checkIsModern, async (req, res) => {
+    res.render("bench_" + req.format);
 });
 
 router.get('/j2me/guide', checkIsModern, htmlOnly, async (req, res) => {
