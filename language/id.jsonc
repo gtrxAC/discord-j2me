@@ -90,7 +90,7 @@
     "Tiada pesan",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
-    "Segarkan utk membaca pesan terbaru",
+    "Segarkan utk pesan terbaru",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
     "Menghubungkan",
@@ -988,8 +988,8 @@
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "Perangkat Anda memerlukan aplikasi yang telah ditandatangani untuk menggunakan sambungan langsung. Unduh JAD aplikasi yang ditandatangani dan sesuai untuk perangkat Anda, atau nonaktifkan sambungan langsung.\nBaca selengkapnya di gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
+    "Dukungan sambungan langsung"
 ]
