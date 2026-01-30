@@ -16,6 +16,7 @@ function htmlOnly(req, res, next) {
     if (req.format == 'wml') {
         res.render("htmlonly");
     } else {
+        res.set("Content-Type", "text/vnd.wap.wml");
         next();
     }
 }
