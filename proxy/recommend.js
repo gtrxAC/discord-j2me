@@ -24,6 +24,7 @@ const mainVersionDownloadLinks = {
 // these must have 'name' field which is the name of the jad/jar (object key in main versions)
 const otherVersionDownloadLinks = {
     "midp2_alt_recommend":  { name: "midp2_alt", target: "MIDP2" },
+    "phoneme_android":  { name: "midp2_alt_tls", target: "phoneME", tls: true },
 }
 
 // other html snippets which can be included as part of recommendations (must be before or after actual version names, not in between)
@@ -54,12 +55,17 @@ function downloadLinkHtml(name, beta) {
     if (!beta && obj.version == null) return '';
     if (beta) name += "_beta";
 
-    const jad = (obj.showJad || obj.showJad === undefined) ? `<a href="/discord_${name}.jad">JAD</a> - ` : '';
+    const showJad = (obj.showJad || obj.showJad === undefined);
+    const showJar = (obj.showJar || obj.showJar === undefined);
+
+    const jad = (showJad) ? `<a href="/discord_${name}.jad">JAD</a> ` : '';
+    const jadJarSep = (showJad && showJar) ? ' - ' : '';
+    const jar = (showJar) ? `<a href="/discord_${name}.jar">JAR</a>` : '';
 
     const tlsVia = (typeof tlsText == 'string') ? `<a href="/j2me/proxyless#${tlsLink}">${tlsText}</a>` : '';
     const tlsInfo = (tlsText) ? `<small>with Direct connection ${tlsVia}</small> <br/>` : '';
 
-    return `<p>${beta ? (obj.betaVersion + ' beta') : obj.version} for ${target} <br/> ${tlsInfo} ${jad}<a href="/discord_${name}.jar">JAR</a></p>`;
+    return `<p>${beta ? (obj.betaVersion + ' beta') : obj.version} for ${target} <br/> ${tlsInfo} ${jad}${jadJarSep}${jar}</p>`;
 }
 
 function arrayDownloadLinkHtml(versions) {
@@ -81,7 +87,7 @@ function getRecommendedVersionsArray(req) {
     }
     if (ua.includes('android')) {
         // return ["JL_INFO", 'jl', "JL_INFO_2"];  // won't use this for now cuz j2me loader-specific info would be shown in the google search result's description
-        return ["RECOMMENDED", "jl", "SHOW_ALL"]
+        return ["RECOMMENDED", "jl", "phoneme_android", "SHOW_ALL"]
     }
 
     const midp2 = /midp\W*2/g.test(ua) || ua.includes('bada');
