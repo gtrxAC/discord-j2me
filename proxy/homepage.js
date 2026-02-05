@@ -1,5 +1,5 @@
 const express = require('express');
-const { getRecommendedVersions, mainVersionDownloadLinks, arrayDownloadLinkHtml } = require('./recommend');
+const { getRecommendedVersions, versionDownloadLinks, arrayDownloadLinkHtml } = require('./recommend');
 
 function checkIsModern(req, res, next) {
     const ua = (req.headers['user-agent'] ?? '').toLowerCase();
@@ -39,7 +39,7 @@ router.get('/j2me', checkIsModern, async (req, res) => {
 
 const allVersions = (req, res) => {
     res.render("download_" + req.format, {
-        versions: arrayDownloadLinkHtml(Object.keys(mainVersionDownloadLinks))
+        versions: arrayDownloadLinkHtml(Object.keys(versionDownloadLinks))
     })
 }
 

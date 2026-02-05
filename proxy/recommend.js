@@ -2,29 +2,24 @@
  * Automatic version recommendation system for home page
  */
 
-const mainVersionDownloadLinks = {
-    "midp2":            { version: "5.2", betaVersion: null, target: "Symbian S60v3 and up", tls: "via system-level TLS", tlsLink: "s60" },
-    "s40v3":            { version: "5.2", betaVersion: null, target: "Nokia S40v3 and up" },
-    "midp2_alt_tls":    { version: "5.2", betaVersion: null, target: "Nokia S40v3 and up", tls: "via Java-based TLS", tlsLink: "s40" },
-    "nokia_128px":      { version: "5.2", betaVersion: null, target: "Nokia S40v3 and up (128x160)" },
-    "nokia_128px_tls":  { version: "5.2", betaVersion: null, target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40" },
-    "s60v2":            { version: "5.2", betaVersion: null, target: "Symbian S60v2" },
-    "s40v2":            { version: "5.2", betaVersion: null, target: "Nokia S40v2" },
-    "midp2_alt":        { version: "5.2", betaVersion: null, target: "other MIDP2 devices" },
-    "blackberry":       { version: "5.2", betaVersion: null, target: "BlackBerry" },
-    "samsung":          { version: "5.2", betaVersion: null, target: "Samsung" },
-    "samsung_100kb":    { version: "5.2", betaVersion: null, target: "Samsung (100 kB version)" },
-    "lg":               { version: "5.2", betaVersion: null, target: "LG" },
-    "jl":               { version: "5.2", betaVersion: null, target: "J2ME Loader", tls: true, showJad: false },
-    "6310i":            { version: "3.2", betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
-    "midp1":            { version: "3.0", betaVersion: null, target: "MIDP1" },
-}
-
-// below ones are shown only on specific devices and have a different 'target' field (label text shown in html)
-// these must have 'name' field which is the name of the jad/jar (object key in main versions)
-const otherVersionDownloadLinks = {
-    "midp2_alt_recommend":  { name: "midp2_alt", target: "MIDP2" },
-    "phoneme_android":  { name: "midp2_alt_tls", target: "phoneME", tls: true },
+const versionDownloadLinks = {
+    "midp2":               { version: "5.2", betaVersion: null, target: "Symbian S60v3 and up", tls: "via system-level TLS", tlsLink: "s60" },
+    "s40v3":               { version: "5.2", betaVersion: null, target: "Nokia S40v3 and up" },
+    "midp2_alt_tls":       { version: "5.2", betaVersion: null, target: "Nokia S40v3 and up", tls: "via Java-based TLS", tlsLink: "s40" },
+    "phoneme_android":     { version: "5.2", betaVersion: null, target: "phoneME", tls: true, showJar: false, file: "midp2_alt_tls" },
+    "nokia_128px":         { version: "5.2", betaVersion: null, target: "Nokia S40v3 and up (128x160)" },
+    "nokia_128px_tls":     { version: "5.2", betaVersion: null, target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40" },
+    "s60v2":               { version: "5.2", betaVersion: null, target: "Symbian S60v2" },
+    "s40v2":               { version: "5.2", betaVersion: null, target: "Nokia S40v2" },
+    "midp2_alt":           { version: "5.2", betaVersion: null, target: "other MIDP2 devices" },
+    "midp2_alt_recommend": { version: "5.2", betaVersion: null, target: "MIDP2", file: "midp2_alt" },
+    "blackberry":          { version: "5.2", betaVersion: null, target: "BlackBerry" },
+    "samsung":             { version: "5.2", betaVersion: null, target: "Samsung" },
+    "samsung_100kb":       { version: "5.2", betaVersion: null, target: "Samsung (100 kB version)" },
+    "lg":                  { version: "5.2", betaVersion: null, target: "LG" },
+    "jl":                  { version: "5.2", betaVersion: null, target: "J2ME Loader", tls: true, showJad: false },
+    "6310i":               { version: "3.2", betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
+    "midp1":               { version: "3.0", betaVersion: null, target: "MIDP1" },
 }
 
 // other html snippets which can be included as part of recommendations (must be before or after actual version names, not in between)
@@ -38,21 +33,13 @@ const otherSnippets = {
 }
 
 function downloadLinkHtml(name, beta) {
-    let obj = otherVersionDownloadLinks[name] ?? mainVersionDownloadLinks[name];
+    let obj = versionDownloadLinks[name];
     if (!obj) return null;
-
-    let tlsText = obj.tls;
-    let tlsLink = obj.tlsLink;
-    let target = obj.target;
-    if (obj.name) {
-        name = obj.name;
-        obj = mainVersionDownloadLinks[obj.name];
-        if (!tlsText) tlsText = obj.tls;
-        if (!tlsLink) tlsLink = obj.tlsLink;
-    }
 
     if (beta && obj.betaVersion == null) return '';
     if (!beta && obj.version == null) return '';
+
+    if (obj.file) name = obj.file;
     if (beta) name += "_beta";
 
     const showJad = (obj.showJad || obj.showJad === undefined);
@@ -62,15 +49,15 @@ function downloadLinkHtml(name, beta) {
     const jadJarSep = (showJad && showJar) ? ' - ' : '';
     const jar = (showJar) ? `<a href="/discord_${name}.jar">JAR</a>` : '';
 
-    const tlsVia = (typeof tlsText == 'string') ? `<a href="/j2me/proxyless#${tlsLink}">${tlsText}</a>` : '';
-    const tlsInfo = (tlsText) ? `<small>with Direct connection ${tlsVia}</small> <br/>` : '';
+    const tlsVia = (typeof obj.tls == 'string') ? `<a href="/j2me/proxyless#${obj.tlsLink}">${obj.tls}</a>` : '';
+    const tlsInfo = (obj.tls) ? `<small>with Direct connection ${tlsVia}</small> <br/>` : '';
 
-    return `<p>${beta ? (obj.betaVersion + ' beta') : obj.version} for ${target} <br/> ${tlsInfo} ${jad}${jadJarSep}${jar}</p>`;
+    return `<p>${beta ? (obj.betaVersion + ' beta') : obj.version} for ${obj.target} <br/> ${tlsInfo} ${jad}${jadJarSep}${jar}</p>`;
 }
 
 function arrayDownloadLinkHtml(versions) {
     const haveAnyBetas = versions
-        .map(ver => mainVersionDownloadLinks[ver]?.betaVersion || mainVersionDownloadLinks[otherVersionDownloadLinks[ver]?.name]?.betaVersion)
+        .map(ver => versionDownloadLinks[ver]?.betaVersion)
         .some(ver => ver != null);
 
     return (haveAnyBetas ? `<h2>Stable versions</h2>` : '') +
@@ -132,8 +119,10 @@ function getRecommendedVersionsArray(req) {
         return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_alt_recommend", "SHOW_ALL"];
     }
     if (/linux|mac|windows/g.test(ua) && !/windows (ce|mobile)/g.test(ua)) {
-        // modern device: show all downloads
-        return Object.keys(mainVersionDownloadLinks);
+        // modern device: show all downloads except those that point to another file (are aliases)
+        return Object.entries(versionDownloadLinks)
+            .filter(ver => ver[1].file === undefined)
+            .map(ver => ver[0]);
     }
     return ["DONT_KNOW_PROXYLESS", "midp2_alt_recommend", "6310i", "midp1", "SHOW_ALL"];
 }
@@ -167,8 +156,7 @@ function getRecommendedVersions(req) {
 }
 
 module.exports = {
-    mainVersionDownloadLinks,
-    otherVersionDownloadLinks,
+    versionDownloadLinks,
     downloadLinkHtml,
     arrayDownloadLinkHtml,
     getRecommendedVersionsArray,
