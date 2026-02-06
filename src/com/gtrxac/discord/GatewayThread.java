@@ -689,8 +689,8 @@ public class GatewayThread extends Thread implements Strings
 
 					// Identify
 					JSONObject idProps = new JSONObject();
-					idProps.put("os", "Linux");
-					idProps.put("browser", "Firefox");
+					idProps.put("os", "a");  // these are changed to "Android", "Discord Android" by the proxy
+					idProps.put("browser", "a");
 					idProps.put("device", "");
 			
 					JSONObject idData = new JSONObject();
