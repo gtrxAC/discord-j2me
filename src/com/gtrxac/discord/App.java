@@ -364,6 +364,9 @@ public class App extends MIDlet implements Strings {
 
 	public static void platRequest(String url) {
 		try {
+//#ifdef J2ME_LOADER
+			instance.platformRequest(url);
+//#else
 			if (instance.platformRequest(url)) {
 //#ifdef OVER_100KB
 				disp.setCurrent(new PlatformRequestDialog());
@@ -371,6 +374,7 @@ public class App extends MIDlet implements Strings {
 				error(Locale.get(PLAT_REQUEST_FAILED));
 //#endif
 			}
+//#endif
 		}
 		catch (Exception e) {
 			String msg =
