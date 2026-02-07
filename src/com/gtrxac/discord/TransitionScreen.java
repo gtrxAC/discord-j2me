@@ -60,6 +60,11 @@ public class TransitionScreen extends MyCanvas implements Runnable {
         }
         while (time < LENGTH);
 
+        // one last repaint where the animation is over, to make the lag from switching screens less noticeable
+        time = LENGTH;
+        repaint();
+        serviceRepaints();
+
         if (App.disp.getActualCurrent() == this) {
             App.disp.setCurrent(next, false);
         }
