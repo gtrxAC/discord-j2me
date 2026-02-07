@@ -1,3 +1,4 @@
+//#ifdef TRANSITION_SCREEN
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
@@ -92,3 +93,4 @@ public class TransitionScreen extends MyCanvas implements Runnable {
         prev.hideNotify();
     }
 }
+//#endif

@@ -28,12 +28,16 @@ public class MyDisplay {
     }
 
     public Object getCurrent() {
+//#ifdef TRANSITION_SCREEN
         Object result = getActualCurrent();
 
         if (result instanceof TransitionScreen) {
             return ((TransitionScreen) result).next;
         }
         return result;
+//#else
+        return getActualCurrent();
+//#endif
     }
 
     public int numAlphaLevels() {
@@ -41,7 +45,10 @@ public class MyDisplay {
     }
 
     private int updateHistory(Object d, Object curr) {
+//#ifdef TRANSITION_SCREEN
         if (d instanceof TransitionScreen) return 0;
+//#endif
+
         // System.out.println("---");
         // System.out.println("go to: " + d.toString());
         // System.out.println("---");
@@ -54,7 +61,13 @@ public class MyDisplay {
             history.pop();
             return -1;
         }
-        else if (curr != null && !(curr instanceof TransitionScreen) && !(curr instanceof LoadingScreen)) {
+        else if (
+            curr != null &&
+//#ifdef TRANSITION_SCREEN
+            !(curr instanceof TransitionScreen) &&
+//#endif
+            !(curr instanceof LoadingScreen)
+        ) {
             history.push(curr);
         }
         return 1;
@@ -67,6 +80,7 @@ public class MyDisplay {
         disp.setCurrent(d);
     }
 
+//#ifdef TRANSITION_SCREEN
     private boolean allowTransition(Object prev, MyCanvas next) {
         return !TransitionScreen.tempDisabled &&
             prev instanceof MyCanvas &&
@@ -75,6 +89,7 @@ public class MyDisplay {
             !(next instanceof Dialog) &&
             !(prev instanceof ChannelView && next instanceof LoadingScreen);
     }
+//#endif
 
     public synchronized void setCurrent(MyCanvas d, boolean transition) {
         Object curr = getActualCurrent();
@@ -83,6 +98,7 @@ public class MyDisplay {
         // for (int i = 0;i <  history.size(); i++) System.out.println(history.elementAt(i));
         // System.out.println("---");
 
+//#ifdef TRANSITION_SCREEN
         if (transition && allowTransition(curr, d)) {
             if (d instanceof MainMenu) {
                 direction = -1;
@@ -96,6 +112,10 @@ public class MyDisplay {
             WrapperCanvas.instance.setCurrent(d);
             TransitionScreen.tempDisabled = false;
         }
+//#else
+        WrapperCanvas.instance.setCurrent(d);
+//#endif
+
         disp.setCurrent(WrapperCanvas.instance);
     }
 

@@ -180,7 +180,9 @@ public class WrapperCanvas extends Canvas {
     }
 
     private void updateCommands_() {  // cant use updateCommands name because kemulator would bug out
+//#ifdef TRANSITION_SCREEN
         if (current instanceof TransitionScreen) return;
+//#endif
 
         // delete old ones that don't belong to current screen
         for (int i = 0; i < commands.size(); ) {
