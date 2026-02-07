@@ -47,7 +47,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
             while (true) {
                 Object curr = App.disp.getCurrent();
                 if (curr == this) {
-                    App.gateway.playNotificationSound();
+                    GatewayThread.playNotificationSound();
                     break;
                 }
                 Util.sleep(125);

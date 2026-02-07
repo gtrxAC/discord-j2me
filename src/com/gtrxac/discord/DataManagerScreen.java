@@ -108,6 +108,28 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
                         Settings.save();
                     }
 //#endif
+                    else if ("notifsound".equals(rmsName)) {
+                        if (Settings.soundModes[SoundSettingsScreen.NOTIFICATION_SOUND] == Settings.SOUND_CUSTOM) {
+                            Settings.soundModes[SoundSettingsScreen.NOTIFICATION_SOUND] = Settings.SOUND_DEFAULT;
+                        }
+                        Settings.save();
+                    }
+                    else if ("insound".equals(rmsName)) {
+                        if (Settings.soundModes[SoundSettingsScreen.INCOMING_SOUND] == Settings.SOUND_CUSTOM) {
+                            Settings.soundModes[SoundSettingsScreen.INCOMING_SOUND] = Settings.SOUND_DEFAULT;
+                        }
+                        Settings.save();
+                    }
+                    else if ("outsound".equals(rmsName)) {
+                        if (Settings.soundModes[SoundSettingsScreen.OUTGOING_SOUND] == Settings.SOUND_CUSTOM) {
+                            Settings.soundModes[SoundSettingsScreen.OUTGOING_SOUND] = Settings.SOUND_DEFAULT;
+                        }
+                        Settings.save();
+                    }
+                    else if ("bgimage".equals(rmsName)) {
+                        Settings.useBackgroundImage = false;
+                        Settings.save();
+                    }
                 }
                 catch (Exception e) {
                     App.error(e);

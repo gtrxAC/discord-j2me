@@ -115,12 +115,16 @@ public class SettingsSectionScreen extends ListScreen implements CommandListener
             int itemIndex = getItemIndex(selectedIndex);
 
             // SPECIAL CASE for Behavior -> Remap hotkeys: open separate menu
-            if (section == 2 && itemIndex == 5) {
+            if (section == 3 && itemIndex == 5) {
                 App.disp.setCurrent(new KeyMapper());
             }
             // SPECIAL CASE for Appearance -> Time format: open separate menu
-            else if (section == 0 && itemIndex == 4) {
+            else if (section == 1 && itemIndex == 3) {
                 App.disp.setCurrent(new TimeFormatForm());
+            }
+            // SPECIAL CASE for Theme -> Import image: open separate menu
+            else if (section == 0 && itemIndex == 2) {
+                App.disp.setCurrent(new BackgroundFilePicker());
             }
             else {
                 int max = settings[section][itemIndex].maxValue;
@@ -147,7 +151,7 @@ public class SettingsSectionScreen extends ListScreen implements CommandListener
                 try {
                     int value = Integer.parseInt(((TextBox) d).getString());
                     // SPECIAL CASE for Images -> Menu icon size
-                    boolean isMenuIconSizeSetting = (section == 1 && itemIndex == 4);
+                    boolean isMenuIconSizeSetting = (section == 2 && itemIndex == 4);
                     // it has a minimum value of 0 (off), while other options have a min of 1
                     // and 1 and 2 are reserved values that older versions of the app used for 16 and 32 px, so don't allow inputting them
 

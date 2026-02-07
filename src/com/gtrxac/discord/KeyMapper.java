@@ -83,7 +83,7 @@ public class KeyMapper extends MyCanvas implements CommandListener, Strings {
 //#endif
 
             Settings.defaultHotkeys = false;
-            SettingsSectionScreen.settings[2][4].value = 0;  // settings index for Behaviour -> Use default hotkeys
+            SettingsSectionScreen.settings[3][4].value = 0;  // settings index for Behaviour -> Use default hotkeys
             SettingsSectionScreen.instance.updateMenuItem(4);
 
             Settings.save();

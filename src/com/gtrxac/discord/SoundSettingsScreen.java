@@ -5,7 +5,7 @@ import javax.microedition.rms.*;
 
 public class SoundSettingsScreen extends ListScreen implements CommandListener, Strings {
     public static SoundSettingsScreen instance;
-    private Displayable lastScreen;
+    private Object lastScreen;
 
     public static final String[] rmsNames = {
         "notifsound", "insound", "outsound"
@@ -55,7 +55,7 @@ public class SoundSettingsScreen extends ListScreen implements CommandListener, 
         append(title, rightItem, App.ic.notifySound, null);
     }
 
-    protected void showNotify() {
+    public void showNotify() {
         deleteAll();
         add(NOTIFICATION_SOUND, "Notification");
         add(INCOMING_SOUND, "Incoming message");

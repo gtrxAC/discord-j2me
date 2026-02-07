@@ -989,7 +989,16 @@
     "Doğrudan bağlantıyı kullanmak için bu uygulamanın bir sertifika ile imzalanması gerekli. Telefonunuza uyumlu imzalı bir JAD dosyasını indirin ya da doğrudan bağlantıyı devre dışı bırakın.\nDaha fazla öğrenmek için gtrxac.fi/j2me/proxyless adresine gidin (adres İngilzce dilindedir)",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Doğrudan bağlantı desteği"
+    "Doğrudan bağlantı desteği",
+
+    // Settings option for toggling the custom background image on or off.
+    "Wallpaper",
+
+    // Settings option for selecting a new image file to be used as a custom background image.
+    "Import wallpaper",
+
+    // Title for the file picker screen for selecting a background image.
+    "Select wallpaper"
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"

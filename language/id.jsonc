@@ -991,5 +991,14 @@
     "Perangkat Anda memerlukan aplikasi yang telah ditandatangani untuk menggunakan sambungan langsung. Unduh JAD aplikasi yang ditandatangani dan sesuai untuk perangkat Anda, atau nonaktifkan sambungan langsung.\nBaca selengkapnya di gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Dukungan sambungan langsung"
+    "Dukungan sambungan langsung",
+
+    // Settings option for toggling the custom background image on or off.
+    "Wallpaper",
+
+    // Settings option for selecting a new image file to be used as a custom background image.
+    "Import wallpaper",
+
+    // Title for the file picker screen for selecting a background image.
+    "Select wallpaper"
 ]

@@ -290,15 +290,13 @@ public class GatewayThread extends Thread implements Strings
 	}
 //#endif
 
-//#ifdef OVER_100KB
-	private Player player;
-//#endif
+	private static Player player;
 
-	public void playNotificationSound() {
+	public static void playNotificationSound() {
 		playNotificationSound(SoundSettingsScreen.NOTIFICATION_SOUND);
 	}
 
-	public void playNotificationSound(int type) {
+	public static void playNotificationSound(int type) {
 		InputStream is = null;
 		String fileName = "/notify.mid";
 
@@ -306,7 +304,7 @@ public class GatewayThread extends Thread implements Strings
 			case Settings.SOUND_OFF: return;
 
 			case Settings.SOUND_BEEP: {
-				AlertType.ALARM.playSound(App.disp);
+				AlertType.ALARM.playSound(App.disp.disp);
 				return;
 			}
 
@@ -326,7 +324,7 @@ public class GatewayThread extends Thread implements Strings
 			}
 
 			case Settings.SOUND_DEFAULT: {
-				is = getClass().getResourceAsStream("/notify.mid");
+				is = new Object().getClass().getResourceAsStream("/notify.mid");
 				break;
 			}
 		}
@@ -340,7 +338,7 @@ public class GatewayThread extends Thread implements Strings
 			player = NotificationSoundDialog.playSound(fileName, is);
 		}
 		catch (Exception e) {
-			AlertType.ALARM.playSound(App.disp);
+			AlertType.ALARM.playSound(App.disp.disp);
 		}
 
 		if (type == SoundSettingsScreen.NOTIFICATION_SOUND && Settings.playNotifVibra) {

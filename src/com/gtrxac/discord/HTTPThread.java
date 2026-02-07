@@ -490,7 +490,7 @@ public class HTTPThread extends Thread implements Strings {
                         while (!(App.disp.getCurrent() instanceof ChannelView)) {
                             Util.sleep(10);
                         }
-                        App.gateway.playNotificationSound(SoundSettingsScreen.OUTGOING_SOUND);
+                        GatewayThread.playNotificationSound(SoundSettingsScreen.OUTGOING_SOUND);
                     }
 
                     JSONObject message = JSON.getObject(HTTP.post("/channels/" + channelId + "/messages", json, false));

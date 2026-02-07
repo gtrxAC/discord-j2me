@@ -992,6 +992,15 @@
     "Thiết bị của bạn yêu cầu ứng dụng phải được kí để kết nối trực tiếp. Tải một tệp JAD đã được kí phù hợp với thiết bị của bạn, hoặc tắt Kết nối trực tiếp.\nTìm hiểm thêm tại gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Hỗ trợ kết nối trực tiếp"
+    "Hỗ trợ kết nối trực tiếp",
+
+    // Settings option for toggling the custom background image on or off.
+    "Wallpaper",
+
+    // Settings option for selecting a new image file to be used as a custom background image.
+    "Import wallpaper",
+
+    // Title for the file picker screen for selecting a background image.
+    "Select wallpaper"
 
 ]
