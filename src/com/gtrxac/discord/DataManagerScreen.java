@@ -24,6 +24,10 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
     }
 
     private void addItem(int titleKey, String rmsName, boolean showFirstRecord) {
+        addItem(Locale.get(titleKey), rmsName, showFirstRecord);
+    }
+
+    private void addItem(String title, String rmsName, boolean showFirstRecord) {
         RecordStore rms = null;
 
         try {
@@ -35,7 +39,7 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
             } else {
                 info = size;
             }
-            append(Locale.get(titleKey), info, App.ic.pfpNone, null);
+            append(title, info, App.ic.pfpNone, null);
             rmsNames.addElement(rmsName);
         }
         catch (Exception e) {}
@@ -53,6 +57,9 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
 //#endif
         addItem(DATA_MANAGER_LAST_READ, "unread", false);
         addItem(DATA_MANAGER_NOTIF_SOUND, "notifsound", true);
+        addItem("Incoming sound", "insound", true);
+        addItem("Outgoing sound", "outsound", true);
+        addItem("Background image", "bgimage", true);
         addItem(DATA_MANAGER_LANGUAGE, "lang", true);
         addItem(DATA_MANAGER_THEME, "theme", false);
         addItem(DATA_MANAGER_FAV_GUILDS, "favguild", false);
@@ -101,6 +108,28 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
                         Settings.save();
                     }
 //#endif
+                    else if ("notifsound".equals(rmsName)) {
+                        if (Settings.soundModes[SoundSettingsScreen.NOTIFICATION_SOUND] == Settings.SOUND_CUSTOM) {
+                            Settings.soundModes[SoundSettingsScreen.NOTIFICATION_SOUND] = Settings.SOUND_DEFAULT;
+                        }
+                        Settings.save();
+                    }
+                    else if ("insound".equals(rmsName)) {
+                        if (Settings.soundModes[SoundSettingsScreen.INCOMING_SOUND] == Settings.SOUND_CUSTOM) {
+                            Settings.soundModes[SoundSettingsScreen.INCOMING_SOUND] = Settings.SOUND_DEFAULT;
+                        }
+                        Settings.save();
+                    }
+                    else if ("outsound".equals(rmsName)) {
+                        if (Settings.soundModes[SoundSettingsScreen.OUTGOING_SOUND] == Settings.SOUND_CUSTOM) {
+                            Settings.soundModes[SoundSettingsScreen.OUTGOING_SOUND] = Settings.SOUND_DEFAULT;
+                        }
+                        Settings.save();
+                    }
+                    else if ("bgimage".equals(rmsName)) {
+                        Settings.useBackgroundImage = false;
+                        Settings.save();
+                    }
                 }
                 catch (Exception e) {
                     App.error(e);

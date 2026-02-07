@@ -1,6 +1,7 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import javax.microedition.rms.*;
 import java.util.*;
 
 public abstract class MyCanvas {
@@ -13,6 +14,11 @@ public abstract class MyCanvas {
     public static final int GAME_B = 10;
     public static final int GAME_C = 11;
     public static final int GAME_D = 12;
+
+    public static Image backgroundImageOrig;  // set to null to force reload
+    private static Image backgroundImage;
+    private static int backgroundImageWidth;
+    private static int backgroundImageHeight;
 
     String title;
     boolean isFullscreen;
@@ -117,6 +123,34 @@ public abstract class MyCanvas {
         bbDrawTitle(g);
 //#endif
 
+        if (Settings.useBackgroundImage) {
+            if (backgroundImageOrig == null) {
+                backgroundImage = null;
+                backgroundImageWidth = 0;
+                backgroundImageHeight = 0;
+
+                RecordStore rms = null;
+
+                try {
+                    rms = RecordStore.openRecordStore("bgimage", false);
+                    byte[] imageRecord = rms.getRecord(2);
+                    backgroundImageOrig = Image.createImage(imageRecord, 0, imageRecord.length);
+
+                    int largerDimension = Math.max(getWidth(), getHeight());
+                    backgroundImageOrig = Util.resizeImageBilinear(backgroundImageOrig, largerDimension, largerDimension);
+                }
+                catch (Exception e) {
+                    Settings.useBackgroundImage = false;
+                    return;
+                }
+                
+                Util.closeRecordStore(rms);
+            }
+            if (backgroundImageWidth != getWidth() || backgroundImageHeight != getHeight()) {
+                backgroundImage = Util.resizeImageBilinear(backgroundImageOrig, getWidth(), getHeight());
+            }
+            g.drawImage(backgroundImage, 0, 0, Graphics.TOP | Graphics.LEFT);
+        } else
 //#ifdef NOKIA_THEME_BACKGROUND
         if (Settings.theme != Theme.SYSTEM || isFullscreen)
 //#endif

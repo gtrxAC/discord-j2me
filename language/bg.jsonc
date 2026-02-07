@@ -558,5 +558,14 @@
     "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
+    "Direct connection support",
+
+    // Settings option for toggling the custom background image on or off.
+    "Wallpaper",
+
+    // Settings option for selecting a new image file to be used as a custom background image.
+    "Import wallpaper",
+
+    // Title for the file picker screen for selecting a background image.
+    "Select wallpaper"
 ]

@@ -450,5 +450,7 @@ public class Theme {
         else
 //#endif
         loadPresetTheme();
+
+        MyCanvas.backgroundImageOrig = null;
     }
 }

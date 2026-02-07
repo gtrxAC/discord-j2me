@@ -99,7 +99,7 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
 
     public void showNotify() {
         if (dialogType == NOTIFICATION_DIALOG && !hasPlayedSound) {
-            App.gateway.playNotificationSound();
+            GatewayThread.playNotificationSound();
             hasPlayedSound = true;
         }
     }

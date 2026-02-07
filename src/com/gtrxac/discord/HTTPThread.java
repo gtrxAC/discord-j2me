@@ -485,6 +485,14 @@ public class HTTPThread extends Thread implements Strings {
                         }
                     }
 
+                    if (Settings.soundModes[SoundSettingsScreen.OUTGOING_SOUND] != Settings.SOUND_OFF) {
+                        // wait for current screen to change so the outgoing sound doesnt get cut off
+                        while (!(App.disp.getCurrent() instanceof ChannelView)) {
+                            Util.sleep(10);
+                        }
+                        GatewayThread.playNotificationSound(SoundSettingsScreen.OUTGOING_SOUND);
+                    }
+
                     JSONObject message = JSON.getObject(HTTP.post("/channels/" + channelId + "/messages", json, false));
 
                     // If gateway enabled, don't need to fetch new messages

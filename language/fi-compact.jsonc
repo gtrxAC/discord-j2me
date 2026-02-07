@@ -989,5 +989,14 @@
     "Laitteesi vaatii allekirjoitetun sovelluksen Suora yhteys -tilan käyttämiseen. Lataa laitteellesi sopiva sovelluksen allekirjoitettu JAD-tiedosto tai poista Suora yhteys käytöstä.\nLue lisää: gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Suora yhteys -tuki"
+    "Suora yhteys -tuki",
+
+    // Settings option for toggling the custom background image on or off.
+    "Taustakuva",
+
+    // Settings option for selecting a new image file to be used as a custom background image.
+    "Tuo taustakuva",
+
+    // Title for the file picker screen for selecting a background image.
+    "Valitse taustakuva"
 ]

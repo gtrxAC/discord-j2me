@@ -428,4 +428,7 @@ public interface Strings {
     static final int TOKEN_IMPORT_HELP = 399;
     static final int PROXYLESS_ERROR_UNSIGNED = 400;
     static final int WHAT_ALICEINDISARRAY_DID = 401;
+    static final int BACKGROUND_IMAGE = 402;
+    static final int IMPORT_BACKGROUND = 403;
+    static final int BACKGROUND_FILE_PICKER_TITLE = 404;
 }
