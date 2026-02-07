@@ -647,7 +647,7 @@ app.post(`${BASE}/channels/:channel/messages/:message/ack`, getToken, async (req
     catch (e) { handleError(res, e); }
 });
 
-// Get user info (only ID is used)
+// Get user info (out of the info sent officially by Discord API, only the user ID is used, but the proxy uses this route for sending auto update info too)
 app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
     try {
         res.send(JSON.stringify({
@@ -655,15 +655,15 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             _uploadtoken: generateUploadToken(res.locals.headers.Authorization),
             _liteproxy: true,
 
-            // Number and display name of latest available release version.
+            // Number and display name of latest available stable version.
             _latest: 29,
             _latestname: "5.2.0",
 
             // Latest available beta version.
-            // If there is no beta version, the version number should be set to 0 (so clients will always download the newer release version).
-            // If there is a beta version, the beta version number should be higher than the release one.
-            _latestbeta: 0,
-            _latestbetaname: "",
+            // If there is no beta version, the version number should be set to 0 (so clients will always download the newer stable version).
+            // If there is a beta version, the beta version number should be higher than the stable one.
+            _latestbeta: 30,
+            _latestbetaname: "5.3.0 beta1",
 
             // Version number of emoji JSON data.
             // When the JSON is edited, this number should be increased by one.

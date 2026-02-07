@@ -38,7 +38,7 @@ public class HTTP implements Strings {
 			}
 
 			if (!App.isLiteProxy) {
-				hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:143.0) Gecko/20100101 Firefox/143.0");
+				hc.setRequestProperty("User-Agent", "Discord-Android/262205;RNA");
 			}
 			if (authorize) {
 				hc.setRequestProperty("Authorization", Settings.token);
