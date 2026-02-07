@@ -113,16 +113,49 @@ function getToken(req, res, next) {
         return;
     }
 
+    // https://docs.discord.food/reference#client-properties
+    // Using android app's super props because it may be suspicious if we use web client's props and the version number never updates. On android it would be more plausible that someone doesn't auto update the app.
+    const superProps = {
+        "os": "Android",
+        "browser": "Discord Android",
+        "device": "a20e", // Samsung Galaxy A20e
+        "system_locale": "en-US",
+        "has_client_mods": false,
+        "client_version": "262.5 - rn",
+        "release_channel": "alpha",
+        "device_vendor_id": "17503929-a4b8-4490-87bf-0222adfdadc8",
+        "design_id": 2,
+        "browser_user_agent": "",
+        "browser_version": "",
+        "os_version": "34", // Android 14
+        "client_build_number": 3463,
+        "client_event_source": null
+    }
+
+    // Headers taken from Firefox HTTP request, some may be unnecessary
+    // I don't know which headers the Android app sends
     res.locals.headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0",
-        "Accept": "*/*",
-        "Accept-Language": "en-US,en;q=0.5",
+        "User-Agent": "Discord-Android/262205;RNA",
         "Authorization": token,
-        "X-Discord-Locale": "en-GB",
-        "X-Debug-Options": "bugReporterEnabled",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin"
+        "X-Super-Properties": btoa(JSON.stringify(superProps)),
+        "X-Discord-Locale": "en-US",
+        "X-Discord-Timezone": "Europe/Kyiv",
+
+        // these I'm not sure about
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        // "X-Debug-Options": "bugReporterEnabled",
+        "Alt-Used": "discord.com",
+        // "Connection": "keep-alive",
+        "Cookie": "locale=en-US",
+
+        // these are likely unnecessary
+        // "Referer": "https://discord.com/channels/.../...",
+        // "Sec-Fetch-Dest": "empty",
+        // "Sec-Fetch-Mode": "cors",
+        // "Sec-Fetch-Site": "same-origin",
+        // "Priority": "u=0",
     };
 
     // Get user ID from token (base64 decode the token up to the first period)

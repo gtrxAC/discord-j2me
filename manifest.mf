@@ -46,7 +46,8 @@ Nokia-UI-Enhancement: CanvasHasBackground
 //#ifdef SAMSUNG_FULL
 MIDlet-Touch-Support: true
 MIDlet-ScreenMode: ROTATE
-MIDlet-Landscape-Support: true
+MIDlet-Landscape-Support: TRUE
+MIDlet-FixedVKP-Support: TRUE
 //#endif
 //#ifdef LG
 MIDlet-Screen-Mode: Both
