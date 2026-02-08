@@ -32,6 +32,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             Locale.get(SETTINGS_SECTION_IMAGES),
             Locale.get(SETTINGS_SECTION_BEHAVIOR),
             Locale.get(SETTINGS_SECTION_NOTIFICATIONS),
+            Locale.get(SETTINGS_SECTION_SOUNDS),
             Locale.get(SETTINGS_SECTION_LANGUAGE),
             Locale.get(DATA_MANAGER_TITLE),
         };

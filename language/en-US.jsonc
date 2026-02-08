@@ -998,5 +998,17 @@
     null,
 
     // Title for the file picker screen for selecting a background image.
+    null,
+
+    // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
+    null,
+
+    // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
+    null,
+
+    // Option in the sound settings to use a generic system notification tone (usually a beep).
+    null,
+
+    // Option in the sound settings to import a sound file from the device's storage.
     null
 ]

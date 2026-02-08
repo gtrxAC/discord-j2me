@@ -431,4 +431,8 @@ public interface Strings {
     static final int BACKGROUND_IMAGE = 402;
     static final int IMPORT_BACKGROUND = 403;
     static final int BACKGROUND_FILE_PICKER_TITLE = 404;
+    static final int SETTINGS_SECTION_SOUNDS = 405;
+    static final int SOUND_PICKER_TITLE = 406;
+    static final int NOTIFICATION_BEEP = 407;
+    static final int IMPORT_SOUND = 408;
 }

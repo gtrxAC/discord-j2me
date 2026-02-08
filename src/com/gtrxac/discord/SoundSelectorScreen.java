@@ -9,13 +9,13 @@ public class SoundSelectorScreen extends ListScreen implements CommandListener, 
     private int type;
 
     SoundSelectorScreen(int type) {
-        super("Sounds", true, false, false);
+        super(Locale.get(SETTINGS_SECTION_SOUNDS), true, false, false);
         setCommandListener(this);
         lastScreen = (SoundSettingsScreen) App.disp.getCurrent();
         this.type = type;
 
-        append("Off", null);
-        append("Beep", null);
+        append(Locale.get(SETTING_VALUE_OFF), null);
+        append(Locale.get(NOTIFICATION_BEEP), null);
         append("Excellence", null);
         
         RecordStore rms = null;
@@ -28,7 +28,7 @@ public class SoundSelectorScreen extends ListScreen implements CommandListener, 
     
         Util.closeRecordStore(rms);
 
-        append("Import file", null);
+        append(Locale.get(IMPORT_SOUND), null);
 
         setSelectedIndex(Settings.soundModes[type], true);
     }

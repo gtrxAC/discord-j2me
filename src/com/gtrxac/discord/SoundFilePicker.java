@@ -13,7 +13,7 @@ public class SoundFilePicker extends FilePicker {
     }
 
     protected SoundFilePicker(String currentPath, int type) {
-        super("Select sound", currentPath);
+        super(Locale.get(SOUND_PICKER_TITLE), currentPath);
         this.type = type;
     }
 
