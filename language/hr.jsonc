@@ -1012,6 +1012,12 @@
     "Beep",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Import sound"
+    "Import sound",
+
+    // Names of the different types of customizable sounds in the sound settings screen.
+    // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
+    "Notification",
+    "Incoming message",
+    "Outgoing message"
 ]
 

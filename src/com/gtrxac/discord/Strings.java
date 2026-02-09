@@ -435,4 +435,7 @@ public interface Strings {
     static final int SOUND_PICKER_TITLE = 406;
     static final int NOTIFICATION_BEEP = 407;
     static final int IMPORT_SOUND = 408;
+    static final int SOUND_TYPE_NOTIFICATION = 409;
+    static final int SOUND_TYPE_INCOMING = 410;
+    static final int SOUND_TYPE_OUTGOING = 411;
 }

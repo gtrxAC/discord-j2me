@@ -17,14 +17,14 @@ public class SoundSettingsScreen extends ListScreen implements CommandListener, 
     public static final int OUTGOING_SOUND = 2;
 
     SoundSettingsScreen() {
-        super("Sounds", true, false, true);
+        super(Locale.get(SETTINGS_SECTION_SOUNDS), true, false, true);
         setCommandListener(this);
         lastScreen = App.disp.getCurrent();
         instance = this;
         addItems();
     }
 
-    private void add(int index, String title) {
+    private void add(int index, int titleKey) {
         String rightItem = null;
 
         switch (Settings.soundModes[index]) {
@@ -54,13 +54,13 @@ public class SoundSettingsScreen extends ListScreen implements CommandListener, 
                 break;
             }
         }
-        append(title, rightItem, App.ic.notifySound, null);
+        append(Locale.get(titleKey), rightItem, App.ic.notifySound, null);
     }
 
     public void addItems() {
-        add(NOTIFICATION_SOUND, "Notification");
-        add(INCOMING_SOUND, "Incoming message");
-        add(OUTGOING_SOUND, "Outgoing message");
+        add(NOTIFICATION_SOUND, SOUND_TYPE_NOTIFICATION);
+        add(INCOMING_SOUND, SOUND_TYPE_INCOMING);
+        add(OUTGOING_SOUND, SOUND_TYPE_OUTGOING);
     }
 
     public void showNotify() {
