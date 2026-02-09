@@ -997,20 +997,20 @@
     "Wallpaper",
 
     // Settings option for selecting a new image file to be used as a custom background image.
-    "Import wallpaper",
+    "Tambahkan wallpaper",
 
     // Title for the file picker screen for selecting a background image.
-    "Select wallpaper",
+    "Pilih wallpaper",
 
     // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
-    "Sounds",
+    "Suara",
 
     // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
-    "Select sound",
+    "Pilih Suara",
 
     // Option in the sound settings to use a generic system notification tone (usually a beep).
-    "Beep",
+    "Bawaan",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Import sound"
+    "Tambahkan suara"
 ]
