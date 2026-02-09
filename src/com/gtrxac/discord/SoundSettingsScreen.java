@@ -6,6 +6,7 @@ import javax.microedition.rms.*;
 public class SoundSettingsScreen extends ListScreen implements CommandListener, Strings {
     public static SoundSettingsScreen instance;
     private Object lastScreen;
+    private boolean hasShown;
 
     public static final String[] rmsNames = {
         "notifsound", "insound", "outsound"
@@ -20,6 +21,7 @@ public class SoundSettingsScreen extends ListScreen implements CommandListener, 
         setCommandListener(this);
         lastScreen = App.disp.getCurrent();
         instance = this;
+        addItems();
     }
 
     private void add(int index, String title) {
@@ -55,11 +57,20 @@ public class SoundSettingsScreen extends ListScreen implements CommandListener, 
         append(title, rightItem, App.ic.notifySound, null);
     }
 
-    public void showNotify() {
-        deleteAll();
+    public void addItems() {
         add(NOTIFICATION_SOUND, "Notification");
         add(INCOMING_SOUND, "Incoming message");
         add(OUTGOING_SOUND, "Outgoing message");
+    }
+
+    public void showNotify() {
+        if (hasShown) {
+            int sel = getSelectedIndex();
+            deleteAll();
+            addItems();
+            setSelectedIndex(sel, true);
+        }
+        hasShown = true;
     }
     
     public void commandAction(Command c, Displayable d) {
