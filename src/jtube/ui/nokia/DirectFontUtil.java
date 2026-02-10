@@ -26,21 +26,21 @@ import javax.microedition.lcdui.Font;
 
 // import jtube.App;
 
-//#ifdef DIRECTFONT
+//#ifdef CHECK_DIRECTFONT
 import jtube.PlatformUtils;
 //#endif
 
 public class DirectFontUtil {
 	
-//#ifdef DIRECTFONT
+//#ifdef CHECK_DIRECTFONT
 	public static final boolean supported;
 	
 	static {
 		boolean inited = false;
 		
 		if(/*App.midlet.getAppProperty("JTube-BlackBerry-Build") == null &&*/
-				(PlatformUtils.isS60v5() || PlatformUtils.isAshaFullTouch() ||
-						PlatformUtils.isKemulator || PlatformUtils.isJ2ML())) {
+				(PlatformUtils.isS60v5() || PlatformUtils.isAshaFullTouch() /*||
+						PlatformUtils.isKemulator || PlatformUtils.isJ2ML() */)) {
 			try {
 				Class.forName("com.nokia.mid.ui.DirectUtils");
 				DirectUtilsInvoker.init();
@@ -51,7 +51,15 @@ public class DirectFontUtil {
 		supported = inited;
 	}
 //#else
+//#ifdef ALWAYS_DIRECTFONT
+	public static final boolean supported = true;
+
+	static {
+		DirectUtilsInvoker.init();
+	}
+//#else
 	public static final boolean supported = false;
+//#endif
 //#endif
 	
 	public static Font getFont(int face, int style, int height, int size) {

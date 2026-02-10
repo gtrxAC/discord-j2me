@@ -21,33 +21,29 @@ SOFTWARE.
 */
 package jtube;
 
-//#ifdef DIRECTFONT
+import com.gtrxac.discord.Util;
+
+//#ifdef CHECK_DIRECTFONT
 public class PlatformUtils {
 	public static final String platform;
 
 	public static boolean isJ9;
 	public static boolean isAsha;
-	public static boolean isKemulator;
 	public static boolean isS40;
-
-	public static final String os = System.getProperty("os.name");
-	public static final String vendor = System.getProperty("java.vendor");
 
     static {
 		String p = System.getProperty("microedition.platform");
 		if(p == null) p = "";
 		platform = p;
 
+		// s40 check
+		isS40 = checkClass("javax.microedition.midlet.MIDletProxy") || checkClass("com.nokia.mid.impl.isa.jam.Jam");
+
 		// asha check
 		String s40v = getS40_version();
 		isAsha = isNokia() && s40v != null && (s40v.startsWith("7") || s40v.startsWith("8") || s40v.startsWith("9"));
 
 		isJ9 = platform.indexOf("sw_platform=S60") != -1;
-
-		// s40 check
-		isS40 = checkClass("javax.microedition.midlet.MIDletProxy") || checkClass("com.nokia.mid.impl.isa.jam.Jam");
-
-		isKemulator = checkClass("emulator.custom.CustomMethod");
     }
 	
 	private static boolean isJ9S60Version(String v) {
@@ -155,12 +151,13 @@ public class PlatformUtils {
 	}
 	
 	public static boolean checkClass(String s) {
-		try {
-			Class.forName(s);
-			return true;
-		} catch (Exception e) {
-		}
-		return false;
+		// try {
+		// 	Class.forName(s);
+		// 	return true;
+		// } catch (Exception e) {
+		// }
+		// return false;
+		return Util.checkClass(s);
 	}
 
 	public static boolean isAshaTouchAndType() {
@@ -185,11 +182,6 @@ public class PlatformUtils {
 		if(c1 == '2') return c2 == '0' ? c3 == '0' && c3 == '1' && c3 == '5' : c2 == '1' && c3 == '0';
 		if(c1 == '3') return c2 == '0' && c3 == '2';
 		return false;
-	}
-
-	// J2ME Loader check
-	public static boolean isJ2ML() {
-		return "Linux".equals(os) && "The Android Project".equals(vendor);
 	}
 }
 //#endif
