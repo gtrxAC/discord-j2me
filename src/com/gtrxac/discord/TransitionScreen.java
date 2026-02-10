@@ -13,6 +13,7 @@ public class TransitionScreen extends MyCanvas implements Runnable {
     Command backCommand;
 
     static boolean tempDisabled;
+    static boolean hasClearedScreen;  // has screen already been cleared once during this frame?
 
     private static final int LENGTH = 150;
 
@@ -40,6 +41,8 @@ public class TransitionScreen extends MyCanvas implements Runnable {
             offset = getWidth()*((int) time)/LENGTH;
         }
 
+        hasClearedScreen = false;
+
         if (prev instanceof Dialog && ((Dialog) prev).behindScreen == next) {
             next.paint(g);
             g.translate(offset*-direction, 0);
@@ -49,8 +52,15 @@ public class TransitionScreen extends MyCanvas implements Runnable {
             prev.paint(g);
             g.translate(getWidth()*direction, 0);
             g.setClip(0, 0, getWidth(), getHeight());
+
+            // exception for aboutscreen because it clears the screen a different way
+            if (!(prev instanceof AboutScreen)) {
+                hasClearedScreen = true;
+            }
             next.paint(g);
         }
+
+        hasClearedScreen = false;
     }
 
     public void run() {

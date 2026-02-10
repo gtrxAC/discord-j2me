@@ -1018,6 +1018,10 @@
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
     "Notification",
     "Incoming message",
-    "Outgoing message"
+    "Outgoing message",
+
+    // Settings options for the different methods for resizing a custom background image to fit the screen.
+    "Crop",
+    "Stretch"
 ]
 

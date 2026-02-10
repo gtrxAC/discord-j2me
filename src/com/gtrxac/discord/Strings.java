@@ -438,4 +438,6 @@ public interface Strings {
     static final int SOUND_TYPE_NOTIFICATION = 409;
     static final int SOUND_TYPE_INCOMING = 410;
     static final int SOUND_TYPE_OUTGOING = 411;
+    static final int WALLPAPER_CROP = 412;
+    static final int WALLPAPER_STRETCH = 413;
 }

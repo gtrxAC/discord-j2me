@@ -177,7 +177,7 @@ public class ChannelViewItem implements Strings {
 //#ifdef NOKIA_THEME_BACKGROUND
             Settings.theme == Theme.SYSTEM ||
 //#endif
-            Settings.useBackgroundImage ||
+            Settings.wallpaperMode != Settings.WALLPAPER_OFF ||
             Settings.messageFontSize != 0
         );
 

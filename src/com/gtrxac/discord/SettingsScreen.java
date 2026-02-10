@@ -60,6 +60,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
         if (SettingsSectionScreen.settings != null) return;
 
         int[] themeValueLabels = { THEME_DARK, THEME_LIGHT, THEME_BLACK, THEME_SYSTEM, THEME_CUSTOM };
+        int[] wallpaperValueLabels = { SETTING_VALUE_OFF, WALLPAPER_CROP, WALLPAPER_STRETCH };
         int[] fontValueLabels = { FONT_SMALL, FONT_MEDIUM, FONT_LARGE };
         int[] replyValueLabels = { REPLIES_ONLY_RECIPIENT, REPLIES_FULL_MESSAGE };
         int[] messageBarValueLabels = { SETTING_VALUE_OFF, SETTING_VALUE_AUTO, SETTING_VALUE_ON };
@@ -130,7 +131,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             {
                 // Theme section
                 new Setting(SETTINGS_SECTION_THEMES, 4, Settings.theme, themeValueLabels, themeIcons),
-                new Setting(BACKGROUND_IMAGE, 1, Settings.useBackgroundImage ? 1 : 0, App.ic.attachFormat),
+                new Setting(BACKGROUND_IMAGE, 2, Settings.wallpaperMode, wallpaperValueLabels, App.ic.attachFormat),
                 new Setting(IMPORT_BACKGROUND, 1, 0, null, App.ic.nativePicker),
             }, {
                 // Appearance section
@@ -232,7 +233,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     Settings.messageFontSize != settings[1][2].value;
 
                 Settings.theme = settings[0][0].value;
-                Settings.useBackgroundImage = settings[0][1].value == 1;
+                Settings.wallpaperMode = settings[0][1].value;
 
                 Settings.authorFontSize = settings[1][0].value;
                 Settings.messageFontSize = settings[1][1].value;

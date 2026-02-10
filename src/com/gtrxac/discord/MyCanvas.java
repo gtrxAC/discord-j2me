@@ -122,8 +122,10 @@ public abstract class MyCanvas {
 //#ifdef BLACKBERRY
         bbDrawTitle(g);
 //#endif
+        int screenWidth = WrapperCanvas.instance.getWidth();  // getting width this way so it ignores area taken by scrollbar
+        int screenHeight = getHeight();
 
-        if (Settings.useBackgroundImage) {
+        if (Settings.wallpaperMode != Settings.WALLPAPER_OFF) {
             if (backgroundImageOrig == null) {
                 backgroundImage = null;
                 backgroundImageWidth = 0;
@@ -136,32 +138,65 @@ public abstract class MyCanvas {
                     byte[] imageRecord = rms.getRecord(2);
                     backgroundImageOrig = Image.createImage(imageRecord, 0, imageRecord.length);
 
-                    int largerDimension = Math.max(getWidth(), getHeight());
+                    int largerDimension = Math.max(screenWidth, screenHeight);
                     backgroundImageOrig = Util.resizeImageBilinear(backgroundImageOrig, largerDimension, largerDimension);
                 }
                 catch (Exception e) {
-                    Settings.useBackgroundImage = false;
+                    Settings.wallpaperMode = Settings.WALLPAPER_OFF;
                     return;
                 }
                 
                 Util.closeRecordStore(rms);
             }
-            if (backgroundImageWidth != getWidth() || backgroundImageHeight != getHeight()) {
-                backgroundImage = Util.resizeImageBilinear(backgroundImageOrig, getWidth(), getHeight());
+
+            if (backgroundImageWidth != screenWidth || backgroundImageHeight != screenHeight) {
+                if (Settings.wallpaperMode == Settings.WALLPAPER_CROP) {
+                    int origWidth = backgroundImageOrig.getWidth();
+                    int origHeight = backgroundImageOrig.getHeight();
+                    int origRatio = origWidth*1000/origHeight;
+
+                    int scaledWidth, scaledHeight;
+                    
+                    if (screenWidth > screenHeight) {
+                        scaledWidth = screenWidth;
+                        scaledHeight = (screenWidth*1000)/origRatio;
+                    } else {
+                        scaledHeight = screenHeight;
+                        scaledWidth = (screenHeight*1000)/origRatio;
+                    }
+
+                    Image backgroundImageScaled = Util.resizeImageBilinear(backgroundImageOrig, scaledWidth, scaledHeight);
+
+                    backgroundImage = Image.createImage(screenWidth, screenHeight);
+                    Graphics bgG = backgroundImage.getGraphics();
+                    bgG.drawImage(backgroundImageScaled, screenWidth/2, screenHeight/2, Graphics.HCENTER | Graphics.VCENTER);
+                    backgroundImage = Image.createImage(backgroundImage);
+                } else {
+                    // stretch
+                    backgroundImage = Util.resizeImageBilinear(backgroundImageOrig, screenWidth, screenHeight);
+                }
+                backgroundImageWidth = screenWidth;
+                backgroundImageHeight = screenHeight;
             }
-            g.drawImage(backgroundImage, 0, 0, Graphics.TOP | Graphics.LEFT);
+
+//#ifdef TRANSITION_SCREEN
+            if (!TransitionScreen.hasClearedScreen)
+//#endif
+            {
+                g.drawImage(backgroundImage, -g.getTranslateX(), 0, Graphics.TOP | Graphics.LEFT);
+            }
         } else
 //#ifdef NOKIA_THEME_BACKGROUND
         if (Settings.theme != Theme.SYSTEM || isFullscreen)
 //#endif
         {
             g.setColor(color);
-            g.fillRect(0, 0, getWidth(), getHeight());
+            g.fillRect(0, 0, screenWidth, screenHeight);
 
 //#ifdef NOKIA_THEME_BACKGROUND
             // Fix white border rendering bug on Symbian 9.3 - 9.4
             if (!isFullscreen) {
-                g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+                g.drawRect(0, 0, screenWidth - 1, screenHeight - 1);
             }
 //#endif
         }

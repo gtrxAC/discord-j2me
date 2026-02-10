@@ -32,8 +32,8 @@
   },
   {
     "name": "discord_nokia_128px",
-    "defines": ["NOKIA_128PX_VERSION", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "NOKIA_THEME_BACKGROUND", "OVER_100KB", "EMOJI_SUPPORT", "S40"],
-    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar", "TRANSITION_SCREEN"],
+    "defines": ["NOKIA_128PX_VERSION", "NOKIA_128PX", "NOKIA_MIDLET_CATEGORY", "NOKIA_THEME_BACKGROUND", "OVER_100KB", "EMOJI_SUPPORT", "S40", "TRANSITION_SCREEN"],
+    "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
     "excludes": ["en.json", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg", "bar.png"]
   },
   {

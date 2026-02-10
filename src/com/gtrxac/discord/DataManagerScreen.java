@@ -127,7 +127,7 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
                         Settings.save();
                     }
                     else if ("bgimage".equals(rmsName)) {
-                        Settings.useBackgroundImage = false;
+                        Settings.wallpaperMode = Settings.WALLPAPER_OFF;
                         Settings.save();
                     }
                 }
