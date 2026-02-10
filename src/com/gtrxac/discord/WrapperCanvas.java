@@ -17,6 +17,7 @@ public class WrapperCanvas extends Canvas {
     }
 
     protected void hideNotify() {
+        stopKeyRepeat();
         current.hideNotify();
     }
 
@@ -51,11 +52,15 @@ public class WrapperCanvas extends Canvas {
         }
     }
 
-    protected void keyReleased(int key) {
+    private void stopKeyRepeat() {
         if (KeyRepeatThread.enabled && isKeyPressed) {
             isKeyPressed = false;
             KeyRepeatThread.activeKey = 0;
         }
+    }
+
+    protected void keyReleased(int key) {
+        stopKeyRepeat();
         current.keyReleased(key);
     }
 
