@@ -153,7 +153,7 @@ public class WrapperCanvas extends Canvas {
     }
 
     protected void sizeChanged(int width, int height) {
-        updateSize(current, width, height);
+        if (current != null) updateSize(current, width, height);
     }
 
     public void updateSize(MyCanvas canvas, int width, int height) {
