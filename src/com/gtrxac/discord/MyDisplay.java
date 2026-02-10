@@ -4,6 +4,9 @@ import javax.microedition.lcdui.*;
 import java.util.*;
 
 public class MyDisplay {
+    public static final int TRANSITION_FORWARD = 1;
+    public static final int TRANSITION_BACKWARD = -1;
+
     public Display disp;
     public Stack history;
     public MyCanvas current;
@@ -59,7 +62,7 @@ public class MyDisplay {
 
         if (history.size() > 0 && d.getClass().equals(history.peek().getClass())) {
             history.pop();
-            return -1;
+            return TRANSITION_BACKWARD;
         }
         else if (
             curr != null &&
@@ -70,7 +73,7 @@ public class MyDisplay {
         ) {
             history.push(curr);
         }
-        return 1;
+        return TRANSITION_FORWARD;
     }
 
     public synchronized void setCurrent(Displayable d) {
@@ -91,20 +94,33 @@ public class MyDisplay {
     }
 //#endif
 
+    /**
+     * set current screen and specify custom transition direction, 1 for forward, -1 for backward
+     */
+    public synchronized void setCurrent(MyCanvas d, int direction) {
+        setCurrent(d, true, direction);
+    }
+
     public synchronized void setCurrent(MyCanvas d, boolean transition) {
+        setCurrent(d, transition, 0);
+    }
+
+    public synchronized void setCurrent(MyCanvas d, boolean transition, int customDirection) {
         Object curr = getActualCurrent();
 
         int direction = updateHistory(d, curr);
         // for (int i = 0;i <  history.size(); i++) System.out.println(history.elementAt(i));
         // System.out.println("---");
 
+        if (customDirection != 0) direction = customDirection;
+
 //#ifdef TRANSITION_SCREEN
         if (transition && allowTransition(curr, d)) {
             if (d instanceof MainMenu) {
-                direction = -1;
+                direction = TRANSITION_BACKWARD;
             }
             else if (d instanceof LoadingScreen) {
-                direction = 1;
+                direction = TRANSITION_FORWARD;
             }
             TransitionScreen ts = new TransitionScreen((MyCanvas) curr, d, direction);
             WrapperCanvas.instance.setCurrent(ts);

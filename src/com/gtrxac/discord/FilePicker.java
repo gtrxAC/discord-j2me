@@ -68,7 +68,11 @@ public abstract class FilePicker extends ListScreen implements CommandListener, 
             if (!currentPath.equals("file:///")) {
                 int lastSlashIndex = currentPath.lastIndexOf('/', currentPath.length() - 2);
                 if (lastSlashIndex != -1) {
-                    App.disp.setCurrent(lastScreen);
+                    if (lastScreen instanceof MyCanvas) {
+                        App.disp.setCurrent((MyCanvas) lastScreen, MyDisplay.TRANSITION_BACKWARD);
+                    } else {
+                        App.disp.setCurrent(lastScreen);
+                    }
                 }
             } else {
                 close();
