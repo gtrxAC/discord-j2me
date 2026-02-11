@@ -992,33 +992,33 @@
     "Obsługa połączenia bezpośredniego",
 
     // Settings option for toggling the custom background image on or off.
-    "Wallpaper",
+    "Tapeta",
 
     // Settings option for selecting a new image file to be used as a custom background image.
-    "Import wallpaper",
+    "Importuj tapetę",
 
     // Title for the file picker screen for selecting a background image.
-    "Select wallpaper",
+    "Wybierz tapetę",
 
     // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
-    "Sounds",
+    "Dźwięki",
 
     // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
-    "Select sound",
+    "Wybierz dźwięk",
 
     // Option in the sound settings to use a generic system notification tone (usually a beep).
-    "Beep",
+    "Sygnał",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Import sound",
+    "Importuj dźwięk",
 
     // Names of the different types of customizable sounds in the sound settings screen.
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
-    "Notification",
-    "Incoming message",
-    "Outgoing message",
+    "Powiadomienia",
+    "Wiad. przychodząca",
+    "Wiad. wychodząca",
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
-    "Crop",
-    "Stretch"
+    "Przytnij",
+    "Rozciągnij"
 ]
