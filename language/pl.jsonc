@@ -971,7 +971,7 @@
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Brama (czat w czasie rzeczwyistym) wymaga użycia serwera proxy.",
+    "Brama (czat w czasie rzeczywistym) wymaga użycia serwera proxy.",
     // This string is shown on versions that don't support Direct connection.
     "Brama jest używana do wyświetlania czatu w czasie rzeczywistym oraz niektórych funkcji.",
 
