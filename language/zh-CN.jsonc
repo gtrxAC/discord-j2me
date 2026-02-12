@@ -996,33 +996,33 @@
     "直连支持",
 
     // Settings option for toggling the custom background image on or off.
-    "Wallpaper",
+    "壁纸",
 
     // Settings option for selecting a new image file to be used as a custom background image.
-    "Import wallpaper",
+    "导入壁纸",
 
     // Title for the file picker screen for selecting a background image.
-    "Select wallpaper",
+    "选择壁纸",
 
     // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
-    "Sounds",
+    "声音",
 
     // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
-    "Select sound",
+    "选择声音",
 
     // Option in the sound settings to use a generic system notification tone (usually a beep).
     "Beep",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Import sound",
+    "导入声音",
 
     // Names of the different types of customizable sounds in the sound settings screen.
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
-    "Notification",
-    "Incoming message",
-    "Outgoing message",
+    "通知",
+    "新消息",
+    "外发消息",
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
-    "Crop",
-    "Stretch"
+    "裁剪",
+    "拉伸"
 ]
