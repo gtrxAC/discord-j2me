@@ -30,7 +30,7 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
 
     public void commandAction(Command c, Item i) {
         int prio = c.getPriority();
-        Attachment attach = (Attachment) msg.attachments.elementAt(prio % 100);
+        Attachment attach = msg.attachments[prio % 100];
 
         if (prio < 100) {
             // 'Open in browser' button

@@ -574,7 +574,7 @@ public class HTTPThread extends Thread implements Strings {
                         throw new Exception(Locale.get(CDN_ERROR_ATTACHMENT));
                     }
 
-                    Vector attachments = App.attachmentView.msg.attachments;
+                    Attachment[] attachments = App.attachmentView.msg.attachments;
                     int layout = Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
                     // Fix for https://github.com/nikita36078/J2ME-Loader/pull/1046
@@ -582,8 +582,8 @@ public class HTTPThread extends Thread implements Strings {
                     Util.sleep(100);
 //#endif
 
-                    for (int i = 0; i < attachments.size(); i++) {
-                        Attachment attach = (Attachment) attachments.elementAt(i);
+                    for (int i = 0; i < attachments.length; i++) {
+                        Attachment attach = attachments[i];
 
                         String attachName = attach.name +
                             Locale.get(LEFT_PAREN) + attach.size + Locale.get(RIGHT_PAREN);

@@ -495,16 +495,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
 //#endif
 
-            if (msg.attachments != null && msg.attachments.size() > 0) {
+            if (msg.attachments != null) {
                 ChannelViewItem attachItem = new ChannelViewItem(ChannelViewItem.ATTACHMENTS_BUTTON);
                 attachItem.msg = msg;
                 items.addElement(attachItem);
                 maxScroll += attachItem.getHeight();
             }
 
-            if (msg.embeds != null && msg.embeds.size() > 0) {
-                for (int e = 0; e < msg.embeds.size(); e++) {
-                    Embed emb = (Embed) msg.embeds.elementAt(e);
+            if (msg.embeds != null) {
+                for (int e = 0; e < msg.embeds.length; e++) {
+                    Embed emb = msg.embeds[e];
 
 //#ifdef OVER_100KB
                     if ((wasResized || emb.titleFormatted == null || needUpdate) && emb.title != null) {

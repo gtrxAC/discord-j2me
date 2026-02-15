@@ -124,10 +124,9 @@ public class ChannelViewItem implements Strings {
                 if (msg.showAuthor) result += App.authorFont.getHeight();
     
                 // Each embed's height + top margin
-                if (msg.embeds != null && msg.embeds.size() > 0) {
-                    for (int i = 0; i < msg.embeds.size(); i++) {
-                        Embed emb = (Embed) msg.embeds.elementAt(i);
-                        result += emb.getHeight(messageFontHeight) + messageFontHeight/4;
+                if (msg.embeds != null) {
+                    for (int i = 0; i < msg.embeds.length; i++) {
+                        result += msg.embeds[i].getHeight(messageFontHeight) + messageFontHeight/4;
                     }
                 }
     
@@ -481,9 +480,9 @@ public class ChannelViewItem implements Strings {
 //#endif
 
                 // Draw embeds
-                if (msg.embeds != null && msg.embeds.size() > 0) {
-                    for (int i = 0; i < msg.embeds.size(); i++) {
-                        Embed emb = (Embed) msg.embeds.elementAt(i);
+                if (msg.embeds != null) {
+                    for (int i = 0; i < msg.embeds.length; i++) {
+                        Embed emb = msg.embeds[i];
                         y += messageFontHeight/4; // Top margin
 
                         g.setColor(selected ? Theme.selectedEmbedBackgroundColor : Theme.embedBackgroundColor);
@@ -582,8 +581,8 @@ public class ChannelViewItem implements Strings {
             case ATTACHMENTS_BUTTON: {
                 String caption =
                     Locale.get(VIEW_ATTACHMENTS_PREFIX) +
-                    msg.attachments.size() +
-                    (msg.attachments.size() > 1 ?
+                    msg.attachments.length +
+                    (msg.attachments.length > 1 ?
                         Locale.get(VIEW_ATTACHMENTS_SUFFIX) :
                         Locale.get(VIEW_ATTACHMENT_SUFFIX)
                     );
