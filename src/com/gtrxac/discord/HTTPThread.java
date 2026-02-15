@@ -377,10 +377,10 @@ public class HTTPThread extends Thread implements Strings {
 //#endif
                         wasFetched = true;
                     }
-                    App.guilds = new Vector();
+                    App.guilds = new Guild[guilds.size()];
 
                     for (int i = 0; i < guilds.size(); i++) {
-                        App.guilds.addElement(new Guild(guilds.getObject(i)));
+                        App.guilds[i] = new Guild(guilds.getObject(i));
                     }
 
                     if (wasFetched
@@ -406,7 +406,7 @@ public class HTTPThread extends Thread implements Strings {
                         String roleData = HTTP.get("/guilds/" + App.selectedGuild.id + "/roles", false);
                         JSONArray roleArr = JSON.getArray(roleData);
 
-                        App.selectedGuild.roles = new Vector();
+                        Vector rolesVec = new Vector();
 
                         if (App.isLiteProxy) {
                             // Sorted server-side: load roles as-is
@@ -415,7 +415,7 @@ public class HTTPThread extends Thread implements Strings {
                                 
                                 if (data.getInt("color") == 0) continue;
                                 
-                                App.selectedGuild.roles.addElement(new Role(data));
+                                rolesVec.addElement(new Role(data));
                             }
                         } else {
                             // Not sorted server-side: manually sort based on 'position' field
@@ -426,10 +426,13 @@ public class HTTPThread extends Thread implements Strings {
                                     if (data.getInt("position", i) != i) continue;
                                     if (data.getInt("color") == 0) continue;
 
-                                    App.selectedGuild.roles.addElement(new Role(data));
+                                    rolesVec.addElement(new Role(data));
                                 }
                             }
                         }
+
+                        App.selectedGuild.roles = new Role[rolesVec.size()];
+                        rolesVec.copyInto(App.selectedGuild.roles);
                     }
 
                     App.selectedGuild.channels = Channel.parseChannels(
@@ -444,15 +447,19 @@ public class HTTPThread extends Thread implements Strings {
 
                 case FETCH_DM_CHANNELS: {
                     JSONArray channels = JSON.getArray(HTTP.get("/users/@me/channels", false));
-                    App.dmChannels = new Vector();
+                    Vector dmChannelsVec = new Vector();
             
                     for (int i = 0; i < channels.size(); i++) {
                         JSONObject ch = channels.getObject(i);
                         int type = ch.getInt("type", 1);
                         if (type != 1 && type != 3) continue;
             
-                        App.dmChannels.addElement(new DMChannel(ch));
+                        dmChannelsVec.addElement(new DMChannel(ch));
                     }
+
+                    App.dmChannels = new DMChannel[dmChannelsVec.size()];
+                    dmChannelsVec.copyInto(App.dmChannels);
+
                     App.dmSelector = new DMSelector();
                     setScreen(App.dmSelector);
                     break;
@@ -911,11 +918,11 @@ public class HTTPThread extends Thread implements Strings {
                     );
 
                     JSONArray threads = JSON.getObject(threadData).getArray("threads");
-                    App.threads = new Vector();
+                    App.threads = new Channel[threads.size()];
 
                     for (int i = 0; i < threads.size(); i++) {
                         JSONObject thr = threads.getObject(i);
-                        App.threads.addElement(new Channel(thr, true));
+                        App.threads[i] = new Channel(thr, true);
                     }
 
                     App.selectedChannelForThreads.threads = App.threads;

@@ -15,8 +15,8 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
         super("#" + App.selectedChannelForThreads.name, true, true, false);
         setCommandListener(this);
 
-        for (int i = 0; i < App.threads.size(); i++) {
-            Channel ch = (Channel) App.threads.elementAt(i);
+        for (int i = 0; i < App.threads.length; i++) {
+            Channel ch = App.threads[i];
             append(ch.toString(), null, null, ch.getMenuIndicator());
         }
 
@@ -28,7 +28,7 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
 //#endif
         addCommand(refreshCommand);
 
-        if (App.threads.size() > 0) {
+        if (App.threads.length > 0) {
             addCommand(markThreadReadCommand);
             addCommand(markAllReadCommand);
 //#ifdef OVER_100KB
@@ -41,8 +41,8 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
      * Updates the unread indicator for a thread shown in this selector.
      */
     public void update(String id) {
-        for (int i = 0; i < App.threads.size(); i++) {
-            Channel ch = (Channel) App.threads.elementAt(i);
+        for (int i = 0; i < App.threads.length; i++) {
+            Channel ch = App.threads[i];
             if (id != null && !ch.id.equals(id)) continue;
 
             set(i, ch.toString(), null, null, ch.getMenuIndicator());
@@ -72,7 +72,7 @@ public class ThreadSelector extends ListScreen implements CommandListener, Strin
             update();
         }
         else {
-            Channel ch = (Channel) App.threads.elementAt(getSelectedIndex());
+            Channel ch = App.threads[getSelectedIndex()];
 
             if (c == SELECT_COMMAND) {
                 App.isDM = false;

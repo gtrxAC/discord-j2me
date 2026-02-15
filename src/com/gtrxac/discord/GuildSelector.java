@@ -8,7 +8,7 @@ import java.util.*;
 public class GuildSelector extends ListScreen implements CommandListener, Strings {
     boolean isFavGuilds;
 
-    private Vector guilds;
+    private Guild[] guilds;
     private Command addFavCommand;
     private Command removeFavCommand;
     private Command moveUpCommand;
@@ -21,7 +21,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
     private Command saveCommand;
 //#endif
 
-    public GuildSelector(Vector guilds, boolean isFavGuilds) throws Exception {
+    public GuildSelector(Guild[] guilds, boolean isFavGuilds) throws Exception {
         super(Locale.get(GUILD_SELECTOR_TITLE), true, true, false);
         
         if (isFavGuilds) setTitle(Locale.get(FAVORITE_SELECTOR_TITLE));
@@ -31,8 +31,8 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         this.isFavGuilds = isFavGuilds;
 
         UnreadManager.autoSave = false;
-        for (int i = 0; i < guilds.size(); i++) {
-            Guild g = (Guild) guilds.elementAt(i);
+        for (int i = 0; i < guilds.length; i++) {
+            Guild g = guilds[i];
             append(g.name, null, IconCache.getResized(g, Settings.menuIconSize), g.getMenuIndicator());
         }
         UnreadManager.manualSave();
@@ -40,7 +40,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 7);
         addCommand(refreshCommand);
 
-        if (guilds.size() != 0) {
+        if (guilds.length != 0) {
 //#ifdef OVER_100KB
             muteCommand = Locale.createCommand(MUTE, Command.ITEM, 5);
             addCommand(muteCommand);
@@ -67,8 +67,8 @@ public class GuildSelector extends ListScreen implements CommandListener, String
      * Updates the icon and unread indicator for a server shown in this selector.
      */
     public void update(String id) {
-        for (int i = 0; i < guilds.size(); i++) {
-            Guild g = (Guild) guilds.elementAt(i);
+        for (int i = 0; i < guilds.length; i++) {
+            Guild g = guilds[i];
             if (id != null && !g.id.equals(id)) continue;
 
             set(i, g.name, null, IconCache.getResized(g, Settings.menuIconSize), g.getMenuIndicator());
@@ -84,12 +84,12 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         RecordStore rms = null;
         try {
             rms = RecordStore.openRecordStore("guild", true);
-            Util.setOrAddRecord(rms, 1, Integer.toString(App.guilds.size()));
+            Util.setOrAddRecord(rms, 1, Integer.toString(App.guilds.length));
             Util.setOrAddRecord(rms, 2, App.myUserId);
 
             JSONArray guildsJson = new JSONArray();
-            for (int i = 0; i < App.guilds.size(); i++) {
-                Guild g = (Guild) App.guilds.elementAt(i);
+            for (int i = 0; i < App.guilds.length; i++) {
+                Guild g = App.guilds[i];
                 guildsJson.add(g.toJSON());
             }
             Util.setOrAddRecord(rms, 3, guildsJson.build());
@@ -122,7 +122,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
                 App.openGuildSelector(true, true);
             }
         }
-        else if (guilds.size() == 0) {
+        else if (guilds.length == 0) {
             return;
         }
         else if (c == removeFavCommand) {
@@ -143,7 +143,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
             FavoriteGuilds.swap(sel, sel + 1);
         }
         else {
-            Guild g = (Guild) guilds.elementAt(getSelectedIndex());
+            Guild g = guilds[getSelectedIndex()];
 
             if (c == SELECT_COMMAND) {
                 // If gateway is active, subscribe to typing events for this server, if not already subscribed

@@ -5,7 +5,7 @@ import javax.microedition.lcdui.*;
 import cc.nnproject.json.*;
 
 public class DMSelector extends ListScreen implements CommandListener, Strings {
-    Vector lastDMs;
+    DMChannel[] lastDMs;
 
     private Command searchCommand;
     private Command refreshCommand;
@@ -21,22 +21,22 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
 
         // Get the 20 latest DMs (add into another vector sorted by highest to lowest last message ID)
         int count = 20;
-        if (App.dmChannels.size() < 20) count = App.dmChannels.size();
-        lastDMs = new Vector(count);
+        if (App.dmChannels.length < 20) count = App.dmChannels.length;
+        Vector lastDMsVec = new Vector(count);
         
         for (int i = 0; i < count; i++) {
             long highestID = 0;
             int highestIndex = 0;
 
-            for (int u = 0; u < App.dmChannels.size(); u++) {
-                DMChannel ch = (DMChannel) App.dmChannels.elementAt(u);
+            for (int u = 0; u < App.dmChannels.length; u++) {
+                DMChannel ch = App.dmChannels[u];
 
                 if (ch.lastMessageID <= highestID) continue;
 
                 // Don't repeat ones that we've already added
                 boolean alreadyHave = false;
-                for (int l = 0; l < lastDMs.size(); l++) {
-                    if (((DMChannel) lastDMs.elementAt(l)).lastMessageID == ch.lastMessageID) {
+                for (int l = 0; l < lastDMsVec.size(); l++) {
+                    if (((DMChannel) lastDMsVec.elementAt(l)).lastMessageID == ch.lastMessageID) {
                         alreadyHave = true;
                         break;
                     }
@@ -46,12 +46,15 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
                 highestID = ch.lastMessageID;
                 highestIndex = u;
             }
-            lastDMs.addElement(App.dmChannels.elementAt(highestIndex));
+            lastDMsVec.addElement(App.dmChannels[highestIndex]);
         }
 
+        lastDMs = new DMChannel[lastDMsVec.size()];
+        lastDMsVec.copyInto(lastDMs);
+
         UnreadManager.autoSave = false;
-        for (int i = 0; i < lastDMs.size(); i++) {
-            DMChannel ch = (DMChannel) lastDMs.elementAt(i);
+        for (int i = 0; i < lastDMs.length; i++) {
+            DMChannel ch = lastDMs[i];
             append(ch.name, null, IconCache.getResized(ch, Settings.menuIconSize), ch.getMenuIndicator());
         }
         UnreadManager.manualSave();
@@ -67,7 +70,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
         addCommand(searchCommand);
         addCommand(refreshCommand);
 
-        if (App.dmChannels.size() > 0) {
+        if (App.dmChannels.length > 0) {
             addCommand(markReadCommand);
             addCommand(markAllReadCommand);
 //#ifdef OVER_100KB
@@ -80,8 +83,8 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
      * Updates the icon and unread indicator for one DM channel in this selector.
      */
     public void update(String chId) {
-        for (int i = 0; i < lastDMs.size(); i++) {
-            DMChannel ch = (DMChannel) lastDMs.elementAt(i);
+        for (int i = 0; i < lastDMs.length; i++) {
+            DMChannel ch = lastDMs[i];
             if (chId != null && !ch.id.equals(chId)) continue;
 
             set(i, ch.name, null, IconCache.getResized(ch, Settings.menuIconSize), ch.getMenuIndicator());
@@ -113,8 +116,8 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             update();
         }
         else {
-            if (lastDMs.size() == 0) return;
-            DMChannel dmCh = (DMChannel) lastDMs.elementAt(getSelectedIndex());
+            if (lastDMs.length == 0) return;
+            DMChannel dmCh = lastDMs[getSelectedIndex()];
 
             if (c == SELECT_COMMAND) {
                 App.isDM = true;
