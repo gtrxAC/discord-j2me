@@ -218,7 +218,9 @@ public class WrapperCanvas extends Canvas {
     }
 
     public synchronized void setCurrent(MyCanvas d) {
-        if (current != null) current.hideNotify();
+        if (current != null && isShown()) {
+            current.hideNotify();
+        }
         current = d;
         updateTitle();
         updateCommands_();
