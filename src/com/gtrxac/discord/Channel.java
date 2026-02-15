@@ -9,7 +9,7 @@ import cc.nnproject.json.*;
 public class Channel extends HasUnreads {
     public String name;
     public long lastMessageID;
-    public Vector threads;
+    public Channel[] threads;
     public boolean isForum;
     public boolean isThread;
 
@@ -40,12 +40,12 @@ public class Channel extends HasUnreads {
 
     public static Channel getByID(String id) {
         if (App.guilds != null) {
-            for (int g = 0; g < App.guilds.size(); g++) {
-                Guild guild = (Guild) App.guilds.elementAt(g);
+            for (int g = 0; g < App.guilds.length; g++) {
+                Guild guild = App.guilds[g];
                 if (guild.channels == null) continue;
 
-                for (int c = 0; c < guild.channels.size(); c++) {
-                    Channel ch = (Channel) guild.channels.elementAt(c);
+                for (int c = 0; c < guild.channels.length; c++) {
+                    Channel ch = guild.channels[c];
                     if (id.equals(ch.id)) return ch;
                 }
             }
@@ -53,8 +53,8 @@ public class Channel extends HasUnreads {
         return null;
     }
     
-    public static Vector parseChannels(JSONArray arr) {
-        Vector result = new Vector();
+    public static Channel[] parseChannels(JSONArray arr) {
+        Vector resultVec = new Vector();
 
         for (int i = 0; i < arr.size(); i++) {
             for (int a = 0; a < arr.size(); a++) {
@@ -64,12 +64,12 @@ public class Channel extends HasUnreads {
                 int type = ch.getInt("type", 0);
                 if (type != 0 && type != 5 && type != 15 && type != 16) continue;
 
-                result.addElement(new Channel(ch));
+                resultVec.addElement(new Channel(ch));
             }
         }
         // Add text chats of voice channels at the end
         // (could add them at their correct locations but it's more complicated, we'd have to parse the structure of the channel categories)
-        int vcCount = arr.size() - result.size();
+        int vcCount = arr.size() - resultVec.size();
 
         for (int i = 0; i < vcCount; i++) {
             for (int a = 0; a < arr.size(); a++) {
@@ -77,9 +77,12 @@ public class Channel extends HasUnreads {
                 if (ch.getInt("position", i) != i) continue;
                 if (ch.getInt("type", 0) != 2) continue;
 
-                result.addElement(new Channel(ch));
+                resultVec.addElement(new Channel(ch));
             }
         }
+
+        Channel[] result = new Channel[resultVec.size()];
+        resultVec.copyInto(result);
         return result;
     }
 

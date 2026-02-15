@@ -6,9 +6,9 @@ import javax.microedition.lcdui.*;
 
 public class Guild extends HasUnreads implements HasIcon, Strings {
     public String name;
-    public Vector channels;
+    public Channel[] channels;
     public String iconHash;
-    public Vector roles;
+    public Role[] roles;
 
     public Guild(JSONObject data) {
         id = data.getString("id");
@@ -32,8 +32,8 @@ public class Guild extends HasUnreads implements HasIcon, Strings {
     public static Guild getById(String id) {
         if (App.guilds == null) return null;
         
-        for (int i = 0; i < App.guilds.size(); i++) {
-            Guild g = (Guild) App.guilds.elementAt(i);
+        for (int i = 0; i < App.guilds.length; i++) {
+            Guild g = App.guilds[i];
             if (g.id.equals(id)) return g;
         }
         return null;
@@ -54,8 +54,8 @@ public class Guild extends HasUnreads implements HasIcon, Strings {
     public boolean hasUnreads() {
         if (channels == null) return false;
 
-        for (int i = 0; i < channels.size(); i++) {
-            Channel ch = (Channel) channels.elementAt(i);
+        for (int i = 0; i < channels.length; i++) {
+            Channel ch = channels[i];
             if (
                 ch.hasUnreads()
 //#ifdef OVER_100KB

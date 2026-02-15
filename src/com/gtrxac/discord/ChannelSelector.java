@@ -17,8 +17,8 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
         setCommandListener(this);
 
         UnreadManager.autoSave = false;
-        for (int i = 0; i < App.channels.size(); i++) {
-            Channel ch = (Channel) App.channels.elementAt(i);
+        for (int i = 0; i < App.channels.length; i++) {
+            Channel ch = App.channels[i];
             append(ch.toString(), null, null, ch.getMenuIndicator());
         }
         UnreadManager.manualSave();
@@ -32,7 +32,7 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
 //#endif
         addCommand(refreshCommand);
 
-        if (App.channels.size() > 0) {
+        if (App.channels.length > 0) {
             addCommand(viewThreadsCommand);
             addCommand(markChannelReadCommand);
             addCommand(markGuildReadCommand);
@@ -46,8 +46,8 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
      * Updates the unread indicator for a channel shown in this selector.
      */
     public void update(String id) {
-        for (int i = 0; i < App.channels.size(); i++) {
-            Channel ch = (Channel) App.channels.elementAt(i);
+        for (int i = 0; i < App.channels.length; i++) {
+            Channel ch = App.channels[i];
             if (id != null && !ch.id.equals(id)) continue;
 
             set(i, ch.toString(), null, null, ch.getMenuIndicator());
@@ -79,7 +79,7 @@ public class ChannelSelector extends ListScreen implements CommandListener, Stri
             App.guildSelector.update(App.selectedGuild.id);
         }
         else {
-            Channel ch = (Channel) App.channels.elementAt(getSelectedIndex());
+            Channel ch = App.channels[getSelectedIndex()];
 
             if (c == markChannelReadCommand) {
                 ch.markRead();

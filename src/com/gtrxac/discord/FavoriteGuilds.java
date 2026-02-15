@@ -112,8 +112,11 @@ public class FavoriteGuilds {
                 if (g != null) guildsVec.addElement(g);
             }
 
+            Guild[] guildsArr = new Guild[guildsVec.size()];
+            guildsVec.copyInto(guildsArr);
+
             try {
-                App.guildSelector = new GuildSelector(guildsVec, true);
+                App.guildSelector = new GuildSelector(guildsArr, true);
                 App.guildSelector.isFavGuilds = true;
             }
             catch (Exception e) {

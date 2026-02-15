@@ -158,11 +158,10 @@ public class UnreadManager {
         if (App.dmSelector != null) markRead(App.dmSelector.lastDMs);
     }
 
-    public static void markRead(Vector v) {
+    public static void markRead(HasUnreads[] v) {
         autoSave = false;
-        for (int i = 0; i < v.size(); i++) {
-            HasUnreads ch = (HasUnreads) v.elementAt(i);
-            ch.markRead();
+        for (int i = 0; i < v.length; i++) {
+            v[i].markRead();
         }
         autoSave = true;
         save();

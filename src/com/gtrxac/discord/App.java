@@ -65,7 +65,7 @@ public class App extends MIDlet implements Strings {
 	static String myUserId;
 	static boolean isLiteProxy;
 
-	static Vector guilds;
+	static Guild[] guilds;
 	static Guild selectedGuild;
 	static GuildSelector guildSelector;
 	static Vector subscribedGuilds;
@@ -73,12 +73,12 @@ public class App extends MIDlet implements Strings {
 	static JSONArray unsortedGuilds;
 //#endif
 
-	static Vector channels;
+	static Channel[] channels;
 	static Channel selectedChannel;
 	static ChannelSelector channelSelector;
 	static boolean channelIsOpen;
 
-	static Vector threads;
+	static Channel[] threads;
 	static ThreadSelector threadSelector;
 	static Channel selectedChannelForThreads;
 
@@ -93,7 +93,7 @@ public class App extends MIDlet implements Strings {
 	static boolean dontShowLoadScreen;
 
 	static boolean isDM;
-	static Vector dmChannels;
+	static DMChannel[] dmChannels;
 	static DMChannel selectedDmChannel;
 	static DMSelector dmSelector;
 

@@ -676,8 +676,8 @@ public class GatewayThread extends Thread implements Strings
 								JSONObject member = members.getObject(i);
 								JSONArray memberRoles = member.getArray("roles");
 
-								for (int r = 0; r < App.selectedGuild.roles.size(); r++) {
-									Role role = (Role) App.selectedGuild.roles.elementAt(r);
+								for (int r = 0; r < App.selectedGuild.roles.length; r++) {
+									Role role = App.selectedGuild.roles[r];
 									if (memberRoles.indexOf(role.id) == -1) continue;
 
 									resultColor = role.color;

@@ -48,8 +48,8 @@ public class DMChannel extends HasUnreads implements HasIcon, Strings {
     static DMChannel getById(String id) {
         if (App.dmChannels == null) return null;
 
-        for (int c = 0; c < App.dmChannels.size(); c++) {
-            DMChannel ch = (DMChannel) App.dmChannels.elementAt(c);
+        for (int c = 0; c < App.dmChannels.length; c++) {
+            DMChannel ch = App.dmChannels[c];
             if (id.equals(ch.id)) return ch;
         }
         return null;
