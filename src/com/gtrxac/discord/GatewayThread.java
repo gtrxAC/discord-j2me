@@ -186,9 +186,9 @@ public class GatewayThread extends Thread implements Strings
 		if (msg.attachments != null) {
 			if (msg.content.length() != 0) c.append(" ");
 			c.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
-			c.append(msg.attachments.size());
+			c.append(msg.attachments.length);
 
-			if (msg.attachments.size() != 1) {
+			if (msg.attachments.length != 1) {
 				c.append(Locale.get(NOTIFICATION_ATTACHMENTS_SUFFIX));
 			} else {
 				c.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX));

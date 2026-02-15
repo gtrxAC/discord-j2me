@@ -35,8 +35,8 @@ public class Message implements Strings {
     // fields for non-status messages
     public User recipient;
     public String refContent;
-    public Vector attachments;
-    public Vector embeds;
+    public Attachment[] attachments;
+    public Embed[] embeds;
     public boolean showAuthor;
 
     public boolean needUpdate;  // does this message's contentlines need to be updated before next draw
@@ -164,12 +164,14 @@ public class Message implements Strings {
 
             try {
                 JSONArray attachArray = contentObj.getArray("attachments");
-                if (attachArray.size() >= 1) {
-                    attachments = new Vector();
+                int count = attachArray.size();
 
-                    for (int i = 0; i < attachArray.size(); i++) {
+                if (count >= 1) {
+                    attachments = new Attachment[count];
+
+                    for (int i = 0; i < count; i++) {
                         JSONObject attach = attachArray.getObject(i);
-                        attachments.addElement(new Attachment(attach));
+                        attachments[i] = new Attachment(attach);
                     }
                 }
             }
@@ -189,13 +191,20 @@ public class Message implements Strings {
 
             try {
                 JSONArray embedArray = contentObj.getArray("embeds");
-                if (embedArray.size() >= 1) {
-                    embeds = new Vector();
+                int count = embedArray.size();
 
-                    for (int i = 0; i < embedArray.size(); i++) {
+                if (count >= 1) {
+                    Vector embedsVec = new Vector();
+
+                    for (int i = 0; i < count; i++) {
                         Embed emb = new Embed(embedArray.getObject(i));
                         if (emb.title == null && emb.description == null) continue;
-                        embeds.addElement(emb);
+                        embedsVec.addElement(emb);
+                    }
+
+                    if (embedsVec.size() > 0) {
+                        embeds = new Embed[embedsVec.size()];
+                        embedsVec.copyInto(embeds);
                     }
                 }
             }
@@ -218,8 +227,8 @@ public class Message implements Strings {
 
         if (
             content.length() == 0 &&
-            (attachments == null || attachments.size() == 0) &&
-            (embeds == null || embeds.size() == 0) &&
+            (attachments == null || attachments.length == 0) &&
+            (embeds == null || embeds.length == 0) &&
             !isStatus
         ) {
             isStatus = true;
@@ -241,7 +250,7 @@ public class Message implements Strings {
         if (recipient != null) return true;
 
         // This message only consists of an attachment -> true
-        if (attachments != null && attachments.size() > 0 && content.length() == 0) return true;
+        if (attachments != null && content.length() == 0) return true;
 
         // This message or above message is a status message -> true
         if (isStatus || above.isStatus) return true;
