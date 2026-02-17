@@ -107,7 +107,7 @@
 
     // Suffix for channel view banner text when one person is typing.
     // Example: "aa is typing"
-    " is typing",
+    " gépel",
 
     // Suffix for channel view banner text when two or three people are typing.
     // Example: "aa, bb, cc are typing"
@@ -122,11 +122,11 @@
 
     // Error messages shown when trying to upload a file, delete a message, or edit a message, and the current proxy server is a direct HTTPS-HTTP proxy (and not a Discord J2ME specific proxy)
     "Ez a proxy nem támogatja a fájlfeltöltést.",
-    "Ez a proxy nem támogatja az üzenet törlést.",
-    "Ez a proxy nem támogatja az üzenet szerkesztést.",
+    "Ez a proxy nem támogatja az üzenetek törlését.",
+    "Ez a proxy nem támogatja az üzenetek szerkesztését.",
 
     // Error message shown when trying to open the native file picker and the device does not support the J2ME FileConnection API.
-    "FileConnection nem támogatott",
+    "Az eszközöd nem támogatja a J2ME FileConnection API-eszközt.",
 
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
@@ -197,11 +197,11 @@
     "Törlés",
 
     // Softkey command for adding a server to the favorites list.
-    "Kevenc",
+    "Kedvenc",
     "Hozzáadás a kedvencekhez",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
-    "Kapcsolati szál hiba: ",
+    "Az útválasztó megszüntette a kapcsolatot a kapcsolati szállal kapcsolatos hiba miattt.",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
     "Ellenőrizd a token-ed",
@@ -209,7 +209,7 @@
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
     // e.g. HTTP error 500
-    "HTTP hiba ",
+    "HTTP hiba, kód: ",
 
     // Error message shown when trying to load attachments and the CDN URL hasn't been set (is empty).
     "A CDN URL nem lett beírva. A csatolmány funkciók nem elérhetőek.",
@@ -219,7 +219,7 @@
     ")",
 
     // Softkey labels for showing a text attachment's contents within the app.
-    "Mutat",
+    "Mutat szövegként",
     "Mutatás szövegként",
 
     // Softkey labels for showing an attachment in the device's built-in web browser.
@@ -261,16 +261,16 @@
     "Csak olyan proxit használj amiben megbízol!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "A tokened a böngésződ dev tool menüjében található (KERESS RÁ ONLINE). Alt használata javasolt.",
+    "A tokened a böngésződ dev tool menüjében található (KERESS RÁ ONLINE). Alternatív fiók használata javasolt.",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
-    "Wi-Fi Használata",
+    "Wi-Fi használata",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
     "API URL",
     "CDN URL",
-    "gateway URL",
+    "Útválasztó/gateway URL",
     "Token",
 
     // Softkey label for confirming the login options in the login screen.
@@ -289,8 +289,8 @@
 
     // Token sending options.
     "Header-ben (alap)",
-    "JSON",
-    "Query paraméter",
+    "JSON-ban",
+    "Query paraméterként",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
     "Írd be a tokened.",
@@ -349,8 +349,8 @@
     // Note: order of day and month cannot be changed currently
     ":",
     "/",
-    "De.",
-    "Du.",
+    "de.",
+    "du.",
 
     // Softkey labels for inserting a mention/ping in the "send message" screen.
     "Említés",
@@ -362,7 +362,7 @@
     "Üzenet küldése (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "gateway kapcsolat szükséges",
+    "Aktív útválasztó/gateway kapcsolat szükséges",
 
     // Title text for "copy message content" screen.
     "Másolás",
@@ -374,13 +374,13 @@
     "A kapcsolat megszakadt",
 
     // Main body text for gateway disconnect prompt screen.
-    "Gateway hiba. Szeretnél újracsatlakozni?",
+    "Útválasztó/gateway hiba. Szeretnél újracsatlakozni?",
 
     // Top label for disconnection message shown in gateway disconnect prompt screen. The disconnection message is either a message sent by the Discord gateway (such as "requesting client reconnect") or a Java exception.
     "Üzenet",
 
     // Prefix for top body text shown in the reply form. The whole top text is in the form "Replying to @user". The contents of the recipient message are shown below this.
-    "Neki válasz: ",
+    "Válasz neki: ",
 
     // Top label for the message entry box in the reply form.
     "Válasz:",
@@ -392,7 +392,7 @@
     "Beállítások",
 
     // Settings screen heading for themes section.
-    "Téma",
+    "Témák",
 
     // Theme options.
     "Sötét",
@@ -400,7 +400,7 @@
     "Fekete",
 
     // Settings screen heading for miscellaneous user interface related settings.
-    "Felhasználói felület",
+    "Felhasználói felület beállításai",
 
     // Settings option for enabling the old channel view user interface (from version 1.1 and below).
     // This is no longer used, so keep it as null.
@@ -409,13 +409,13 @@
     // hehe imagine if was evil and re-enabled it
 
     // Settings option for using 12-hour time format in timestamps.
-    "12-órás idő",
+    "12-órás idő (de/du)",
 
     // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-    "Java fájlkezelő",
+    "Java fájlkezelő (a telefonod alap fájlkezelője)",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "Gateway automata visszakapcsolódás",
+    "Útválasztó/gateway automata visszakapcsolódása",
 
     // Settings option for enabling icons in server and direct message lists.
     "Szerver/DM ikonok",
@@ -424,7 +424,7 @@
     "Név színek",
 
     // Settings screen heading for message author font size.
-    "Üzenet szerző betűtípus",
+    "Üzenet szerző betűmérete",
 
     // Font size options.
     "Kicsi",
@@ -432,13 +432,13 @@
     "Nagy",
 
     // Settings screen heading for message content font size.
-    "Üzenet tartalom betűtípus",
+    "Üzenet tartalom betűmérete",
 
     // Settings screen heading for message load count. This is the amount of messages that are loaded and shown at a time.
-    "Üzenet betöltési mennyiség",
+    "Üzenetek betöltési mennyisége",
 
     // Settings screen heading for selecting attachment file format.
-    "Csatolmány formátum",
+    "Csatolmány(ok) formátuma",
 
     // Settings screen heading for maximum attachment size in pixels.
     "Max. csatolmány méret (px)",
@@ -501,7 +501,7 @@
     ")\n\nPróbáld meg kézzel másolni és beilleszteni a böngésződbe: ",
 
     // Title text for URL list screen ('Open URL' option in channel view).
-    "URL Kiválasztása",
+    "URL kiválasztása",
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
     "Beillesztés",
@@ -511,7 +511,7 @@
     "Nyelvek",
 
     // Settings section for language options.
-    "Nyelvek",
+    "Nyelvek opciói",
     
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
     "Nyelvek",
@@ -529,7 +529,7 @@
     "Teljes képernyős mód",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Üzenet feldobása: ",
+    "Üzenetértesítések",
 
     // Options for the kinds of messages that notifications should be shown for.
     "Összes üzenetre",
@@ -539,14 +539,14 @@
     // Text shown in notification alert windows. This is in the form of:
     // User sent you a direct message: "message content"
     // User sent a message in Server Name #channel: "message content"
-    " sent you a direct message: \"",
-    " sent a message in ",
+    " küldött egy közvetlen üzenetet",
+    " küldött egy üzenetet itt: ",
 
     // Title for notification alert windows
     "Új üzenet",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Üzenet jelenjen meg:",
+    "Üzenetértesítés megjelenítési módja:",
 
     // Options for the kinds of notification methods.
     "Ablakban",
@@ -557,11 +557,11 @@
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
-    "Nincs it semmi",
+    "Nincs it semmi.",
 
     // Main body text for gateway disconnect prompt screen.
     // This string is shown when "gateway auto reconnect" setting is enabled and 3 reconnect attempts have failed.
-    "Nem sikerült kapcsolódni a gatewayhez. Megpróbálod újra?",
+    "Nem sikerült kapcsolódni a útválasztóhoz/gatewayhez. Megpróbálod újra?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
     "Válasz fájllal",
@@ -644,19 +644,19 @@
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
-    "Vietnám",
-    "Svéd",
-    "Indonéz",
-    "Lengyel",
-    "Spanyol",
-    "Portugál (Brazil)",
-    "Táj",
-    "Portugál",
-    "Kínai (Hagyományos) és Kantoni",
-    "Ukrán",
-    "Román",
-    "Török",
-    "Orosz",
+    "vietnámi",
+    "svéd",
+    "indonéz",
+    "lengyel",
+    "spanyol",
+    "portugál (Brazília)",
+    "thai",
+    "portugál",
+    "kínai (Hagyományos) és kantoni",
+    "ukrán",
+    "román",
+    "török",
+    "orosz",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
     "Megnéz",
@@ -682,11 +682,11 @@
     "Összes verzió",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Német",
-    "Horvát",
+    "német",
+    "horvát",
 
     // Units for attachment sizes.
-    " bit(ek)",
+    " bit",
     " kB",
     " MB",
 
@@ -703,13 +703,13 @@
     "Token változtatása",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "Nokia UI",
+    "Nokia felhaználói felület értesítésekhez",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
     "Android üzenetek",
 
     // Text shown in the red bar used for marking the last unread messages in the chat view.
-    "ÚJ",
+    "Új",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
     "Feltöltöd ezt a képet?",
@@ -728,7 +728,7 @@
     "Nincs elég memória az előnézet megtekintéséhez",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "emojik mutatása",
+    "Emojik mutatása",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
     "Csak alap",
@@ -747,8 +747,8 @@
     "Emojik letöltése...",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Francia",
-    "Bulgár",
+    "francia",
+    "bolgár",
 
     // Settings option for toggling markdown text formatting support in chat (bold, italic, etc).
     "Szöveg formázás",
@@ -771,7 +771,7 @@
     "alvonás (_) beillesztése",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Üzenet hang",
+    "üzenethang",
 
     // Settings option for toggling vibration alert for notifications.
     "Rezgés",
@@ -827,7 +827,7 @@
     "Böngésző megnyitása",
 
     // Text shown in that dialog box.
-    "Meg akarod nyitni a böngészőt? Az app be lesz zárva.",
+    "Meg akarod nyitni a böngészőt? Az app be lesz zárva (a legtöbb eszközön).",
 
     // Settings option for enabling custom menu scrolling handler. When this is enabled, holding up or down on the d-pad will scroll through menus by one menu item every 50 milliseconds, which is faster than the default scrolling speed on most devices.
     "Gyors tekerés",
@@ -836,42 +836,42 @@
     "Nem sikerült a hangot lejátszani. Lehet hogy nem támogatott a fájltípus.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Japán",
-    "Katalán",
-    "Arab",
+    "japán",
+    "katalán",
+    "arab",
 
     // Theme option shown in settings for the theme that uses colors from the system's UI.
-    "Rendszer",
+    "Rendszer témája",
 
     // Theme option shown in settings for the user-defined theme.
-    "Saját",
+    "Saját téma",
 
     // Title and description of the dialog that prompts for saving and applying the custom theme that is currently being previewed.
     "Téma",
     "Szeretnéd ezt a témát használni?",
 
     // Item shown in the data manager for the saved custom theme data.
-    "Téma",
+    "Témaadatok",
 
     // Error message shown when opening the emoji picker but there is not enough free RAM on the device to load all the emojis.
-    "Nincs elég memória az emoji választó megjelenítéséhez",
+    "Nincs elég memória az emojiválasztó megjelenítéséhez.",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: A proxy szerver nem elérhető. Próbáld meg újra később, vagy szólj a készítőknek.",
+    "HTTP 502: A proxy szerver nem elérhető. Próbáld meg újra később, vagy szólj a készítőknek GitHubon vagy Discordon.",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: A kérés váratlanul át lett irántítva. Ellenőrizd a kapcsolatot.",
+    "HTTP 302: A kérés váratlanul át lett irányítva. Ellenőrizd a kapcsolatot.",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
     "Figyelmeztetés",
-    "A Discord ismert arról, hogy a harmadik féltől származó kliensekről a feltöltéseket spamként jelöli. Leggyakrabban ez új vagy 2 faktoros hitelesítés nélküli fiókokon történik. Fojtasd a saját felelőségedre. \n Válaszd az elrejt opciót ha nem akarod ezt többet látni.",
+    "A Discord ismert arról, hogy a harmadik féltől származó kliensekről (mint pl. ez) való feltöltéseket spamként jelöli. Leggyakrabban ez új vagy kétfaktoros hitelesítés nélküli fiókokon történik. Folytasd a saját felelőségedre. \n Válaszd az elrejt opciót ha nem akarod ezt többet látni.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
     "Elrejt",
     "Elrejt",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "A Discord ismert arról, hogy az új közvelten üzeneteket harmadik féltől származó kliensekről spamként jelöli.  Ajánlott, hogy az első üzenetet egy hivatalos kliensről küldd. Folytatod?",
+    "A Discord ismert arról, hogy az új közvetlen üzeneteket harmadik féltől származó kliensekről spamként jelöli.  Ajánlott, hogy az első üzenetet egy hivatalos kliensről küldd. Folytatod?",
 
     // Related to "Types of data shown in the data manager" above.
     "Kedvenc szerverek",
@@ -918,10 +918,10 @@
     "Az ezközöd nem támogatja az üzenetek törlését proxy nélküli módban.\nSzeretnéd az üzenetet a proxyn keresztül törölni?\nVálaszd az elrejt opciót hogy mindig a proxin kereszül törölj.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Kínai (egyszerűsített)",
+    "kínai (egyszerűsített)",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Idő formátum",
+    "Időformátum",
 
     // Title for time preview shown in the time format screen.
     "Előnézet",
@@ -931,96 +931,96 @@
     "Időeltolás (percek)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negatív Időeltolás",
+    "Negatív időeltolás",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Magyar",
+    "magyar",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "Up",
-    "Move up",
-    "Down",
-    "Move down",
+    "Fel",
+    "Mozgatás felfele",
+    "Le",
+    "Lefele mozgatás",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect.",
+    "A közvetlen kapcsolat és a proxykapcsolat ba van kapcsolva egyszerre. A proxykapcsolódás nem mindig biztonságos.\nSelect 'Hide' to always connect.",
 
     // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
-    "Show message bar",
+    "Üzenetíró mező mutatása",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
     "Auto",
 
     // Title for login screen (new version).
-    "Welcome",
+    "Üdvözöljük",
     
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "Megnyit",
+    "Megnyitás",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "Több infó...",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "Az app proxyval is használható. ",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "Ajánlott a saját proxyd használata. ",
 
     // Hint text shown after the above string on BlackBerry devices.
     "To edit your connection URLs, press the BlackBerry key.",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
+    "Kapcsolati URL-ek",
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "Az útválasztó/gateway (a valós idejű csethez kötelező) proxyt igényel",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "Az útválasztó/gateway a valós idejű csethet kell.",
 
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
+    "A bejelentkezéshez token kell (ld. Token menüpont). ",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "Az írási hibák elkerülése végett behelyezheted a tokent a JAR fájlba, vagy szöveges fájlból hozzáadhatod.",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file.",
+    "Az írási hibák elkerülése végett behelyezheted a tokent a JAR fájlba.",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "Az eszközöd aláírt fájlt igényel HTTPS-kapcsolathoz. Tölts le egy aláírt JAD fájlt a GitHubról vagy a gtrxac.fi weblapról. \nld. gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support",
+    "Közvetlen kapcsolat",
 
     // Settings option for toggling the custom background image on or off.
-    "Wallpaper",
+    "Háttérkép",
 
     // Settings option for selecting a new image file to be used as a custom background image.
-    "Import wallpaper",
+    "Importálás",
 
     // Title for the file picker screen for selecting a background image.
-    "Select wallpaper",
+    "Kiválaszt mint háttérkép",
 
     // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
-    "Sounds",
+    "Hangok",
 
     // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
-    "Select sound",
+    "Hang kiválasztása",
 
     // Option in the sound settings to use a generic system notification tone (usually a beep).
-    "Beep",
+    "Bíp",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Import sound",
+    "Importálás",
 
     // Names of the different types of customizable sounds in the sound settings screen.
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
-    "Notification",
-    "Incoming message",
-    "Outgoing message",
+    "Értesítés",
+    "Bejövő üzenet",
+    "Kimenő üzenet",
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
     "Crop",
