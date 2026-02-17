@@ -31,16 +31,16 @@ public class MyDisplay {
     }
 
     public Object getCurrent() {
-//#ifdef TRANSITION_SCREEN
-        Object result = getActualCurrent();
+        if (Settings.useTransition) {
+            Object result = getActualCurrent();
 
-        if (result instanceof TransitionScreen) {
-            return ((TransitionScreen) result).next;
+            if (result instanceof TransitionScreen) {
+                return ((TransitionScreen) result).next;
+            }
+            return result;
+        } else {
+            return getActualCurrent();
         }
-        return result;
-//#else
-        return getActualCurrent();
-//#endif
     }
 
     public int numAlphaLevels() {
@@ -48,9 +48,7 @@ public class MyDisplay {
     }
 
     private int updateHistory(Object d, Object curr) {
-//#ifdef TRANSITION_SCREEN
-        if (d instanceof TransitionScreen) return 0;
-//#endif
+        if (Settings.useTransition && d instanceof TransitionScreen) return 0;
 
         // System.out.println("---");
         // System.out.println("go to: " + d.toString());
@@ -66,9 +64,7 @@ public class MyDisplay {
         }
         else if (
             curr != null &&
-//#ifdef TRANSITION_SCREEN
-            !(curr instanceof TransitionScreen) &&
-//#endif
+            (!Settings.useTransition || !(curr instanceof TransitionScreen)) &&
             !(curr instanceof LoadingScreen)
         ) {
             history.push(curr);
@@ -83,16 +79,15 @@ public class MyDisplay {
         disp.setCurrent(d);
     }
 
-//#ifdef TRANSITION_SCREEN
     private boolean allowTransition(Object prev, MyCanvas next) {
-        return !TransitionScreen.tempDisabled &&
+        return Settings.useTransition &&
+            !TransitionScreen.tempDisabled &&
             prev instanceof MyCanvas &&
             !(prev instanceof LoadingScreen) &&
             !(prev instanceof Dialog) &&
             !(next instanceof Dialog) &&
             !(prev instanceof ChannelView && next instanceof LoadingScreen);
     }
-//#endif
 
     /**
      * set current screen and specify custom transition direction, 1 for forward, -1 for backward
@@ -114,23 +109,23 @@ public class MyDisplay {
 
         if (customDirection != 0) direction = customDirection;
 
-//#ifdef TRANSITION_SCREEN
-        if (transition && allowTransition(curr, d)) {
-            if (d instanceof MainMenu) {
-                direction = TRANSITION_BACKWARD;
+        if (Settings.useTransition) {
+            if (transition && allowTransition(curr, d)) {
+                if (d instanceof MainMenu) {
+                    direction = TRANSITION_BACKWARD;
+                }
+                else if (d instanceof LoadingScreen) {
+                    direction = TRANSITION_FORWARD;
+                }
+                TransitionScreen ts = new TransitionScreen((MyCanvas) curr, d, direction);
+                WrapperCanvas.instance.setCurrent(ts);
+            } else {
+                WrapperCanvas.instance.setCurrent(d);
+                TransitionScreen.tempDisabled = false;
             }
-            else if (d instanceof LoadingScreen) {
-                direction = TRANSITION_FORWARD;
-            }
-            TransitionScreen ts = new TransitionScreen((MyCanvas) curr, d, direction);
-            WrapperCanvas.instance.setCurrent(ts);
         } else {
             WrapperCanvas.instance.setCurrent(d);
-            TransitionScreen.tempDisabled = false;
         }
-//#else
-        WrapperCanvas.instance.setCurrent(d);
-//#endif
 
         disp.setCurrent(WrapperCanvas.instance);
     }

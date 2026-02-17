@@ -1024,7 +1024,10 @@
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
     "Crop",
-    "Stretch"
+    "Stretch",
+
+    // Setting for enabling or disabling the wipe transition animation when changing between screens.
+    "Screen transition"
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"

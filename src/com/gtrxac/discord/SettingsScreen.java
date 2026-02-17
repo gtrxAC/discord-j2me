@@ -147,6 +147,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
 //#else
                 null,
 //#endif
+//#ifdef TRANSITION_SCREEN
+                new Setting(SCREEN_TRANSITION, 1, Settings.useTransition ? 1 : 0, App.ic.themesGroup),
+//#else
+                null,
+//#endif
             }, {
                 // Images section
                 new Setting(SETTINGS_SECTION_IMAGE_FORMAT, 1, Settings.useJpeg ? 1 : 0, imageFormatValueLabels, App.ic.attachFormat),
@@ -244,6 +249,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 FormattedString.useMarkdown = settings[1][6].value == 1;
 //#ifdef TOUCH_SUPPORT
                 Settings.messageBarMode = settings[1][7].value;
+//#endif
+//#ifdef TRANSITION_SCREEN
+                Settings.useTransition = settings[1][8].value == 1;
 //#endif
 
                 Settings.useJpeg = settings[2][0].value == 1;

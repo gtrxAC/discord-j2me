@@ -1024,5 +1024,8 @@
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
     "裁剪",
-    "拉埋佢"
+    "拉埋佢",
+
+    // Setting for enabling or disabling the wipe transition animation when changing between screens.
+    "Screen transition"
 ]

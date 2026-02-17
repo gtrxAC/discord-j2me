@@ -1020,6 +1020,9 @@
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
     "Kırp",
-    "Uzat"
+    "Uzat",
+
+    // Setting for enabling or disabling the wipe transition animation when changing between screens.
+    "Screen transition"
 
 ]

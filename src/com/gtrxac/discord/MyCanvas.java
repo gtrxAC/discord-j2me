@@ -179,10 +179,7 @@ public abstract class MyCanvas {
                 backgroundImageHeight = screenHeight;
             }
 
-//#ifdef TRANSITION_SCREEN
-            if (!TransitionScreen.hasClearedScreen)
-//#endif
-            {
+            if (!Settings.useTransition || !TransitionScreen.hasClearedScreen) {
                 g.drawImage(backgroundImage, -g.getTranslateX(), 0, Graphics.TOP | Graphics.LEFT);
             }
         } else

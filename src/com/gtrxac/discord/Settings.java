@@ -118,6 +118,11 @@ public class Settings {
 //#endif
     static int soundModes[] = new int[3];
     static int wallpaperMode;
+//#ifdef TRANSITION_SCREEN
+    static boolean useTransition;
+//#else
+    static final boolean useTransition = false;
+//#endif
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -391,6 +396,11 @@ public class Settings {
         soundModes[SoundSettingsScreen.INCOMING_SOUND] = getIntRecord(SOUND_OFF);
         soundModes[SoundSettingsScreen.OUTGOING_SOUND] = getIntRecord(SOUND_OFF);
         wallpaperMode = getIntRecord(Settings.WALLPAPER_OFF);
+//#ifdef TRANSITION_SCREEN
+        useTransition = getBoolRecord(true);
+//#else
+        getBoolRecord(false);
+//#endif
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -565,6 +575,11 @@ public class Settings {
         setIntRecord(soundModes[SoundSettingsScreen.INCOMING_SOUND]);
         setIntRecord(soundModes[SoundSettingsScreen.OUTGOING_SOUND]);
         setIntRecord(wallpaperMode);
+//#ifdef TRANSITION_SCREEN
+        setBoolRecord(useTransition);
+//#else
+        setBoolRecord(false);
+//#endif
     }
 
     private static void write() throws Exception {
