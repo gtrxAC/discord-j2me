@@ -105,11 +105,12 @@ public class Settings {
     private static int index;
 
     public static int getBestMenuIconSize() {
-        int height = Util.fontSize;
-        int result = height/16*16;
-        if (height - result >= 6) result += 16;
-        if (result == 0) return 8;
-        return result;
+        // int height = Util.fontSize;
+        // int result = height/16*16;
+        // if (height - result >= 6) result += 16;
+        // if (result == 0) return 8;
+        // return result;
+        return 16;
     }
 
 //#ifdef EMOJI_SUPPORT

@@ -55,9 +55,9 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         backCommand = Locale.createCommand(BACK, Command.BACK, 0);
         addCommand(backCommand);
 
-        logoSize = Settings.getBestMenuIconSize()*3;
+        logoSize = 28*2;//Settings.getBestMenuIconSize()*3;
         try {
-            logo = Image.createImage("/icon.png");
+            logo = Image.createImage("/icon_28.png");
             logo = Util.resizeImage(logo, logoSize, logoSize);
         }
         catch (Exception e) {}
