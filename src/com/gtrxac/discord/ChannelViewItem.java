@@ -1,17 +1,29 @@
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import java.io.*;
 import jtube.ui.nokia.*;
 
 public class ChannelViewItem implements Strings {
     static final int MESSAGE = 0;
     static final int OLDER_BUTTON = 1;
     static final int NEWER_BUTTON = 2;
-    static final int ATTACHMENTS_BUTTON = 3;
     static final int UNREAD_INDICATOR = 4;
+//#ifdef INLINE_ATTACHMENTS
+    static final int ATTACHMENTS = 5;
+//#else
+    static final int ATTACHMENTS_BUTTON = 3;
+//#endif
+
+//#ifdef INLINE_ATTACHMENTS
+    static Image playButtonOrig;
+    static Image playButton;
+    static Image fileIconOrig;
+    static Image fileIcon;
+//#endif
 
     int type;  // one of the constants defined above
-    Message msg;  // message data for MESSAGE and ATTACHMENTS_BUTTON types
+    Message msg;  // message data for MESSAGE and ATTACHMENTS/ATTACHMENTS_BUTTON types
 
     // Ref message (referenced message) = recipient message of a reply
 
@@ -99,7 +111,11 @@ public class ChannelViewItem implements Strings {
         // Also show reply option if message is merged (no author row is shown)
         // and the message only consists of attachments (only shown as a 'view attachments' button)
         return (
+//#ifdef INLINE_ATTACHMENTS
+            type == ChannelViewItem.ATTACHMENTS &&
+//#else
             type == ChannelViewItem.ATTACHMENTS_BUTTON &&
+//#endif
             !msg.showAuthor && msg.content.length() == 0
         );
     }
@@ -142,6 +158,16 @@ public class ChannelViewItem implements Strings {
                 if (shouldUseDirectRefMessage()) return smallFont.getHeight() + 1 + messageFontHeight/6*2;
                 return messageFontHeight;
             }
+
+//#ifdef INLINE_ATTACHMENTS
+            case ATTACHMENTS: {
+                boolean useIcons = Settings.pfpType != Settings.PFP_TYPE_NONE;
+                int x = useIcons ? messageFontHeight*2 : 0;
+                int attachAreaSize = (App.channelView.getWidth() - x)/3;
+
+                return attachAreaSize*((msg.attachments.length + 2)/3);
+            }
+//#endif
 
             default: {
                 // For buttons
@@ -578,6 +604,7 @@ public class ChannelViewItem implements Strings {
             }
 
             // Similar to older/newer button, but left aligned
+//#ifndef INLINE_ATTACHMENTS
             case ATTACHMENTS_BUTTON: {
                 String caption =
                     Locale.get(VIEW_ATTACHMENTS_PREFIX) +
@@ -621,6 +648,7 @@ public class ChannelViewItem implements Strings {
                 g.drawString(caption, x + messageFontHeight, y + messageFontHeight/3, Graphics.TOP | Graphics.LEFT);
                 break;
             }
+//#endif
 
             case UNREAD_INDICATOR: {
                 final boolean directDraw = shouldUseDirectRefMessage();
@@ -651,6 +679,95 @@ public class ChannelViewItem implements Strings {
                 }
                 break;
             }
+
+//#ifdef INLINE_ATTACHMENTS
+            case ATTACHMENTS: {
+                // Highlight background if selected
+                if (selected) {
+                    g.setColor(Theme.selectedMessageBackgroundColor);
+
+                    // To prevent the profile picture from cutting off because of the highlight, draw the highlight a bit lower down
+                    if (msg.content.length() == 0 && useIcons) {
+                        g.fillRect(0, y + messageFontHeight/2, width, getHeight() - messageFontHeight/2);
+                    } else {
+                        g.fillRect(0, y, width, getHeight());
+                    }
+                }
+
+                int x = useIcons ? messageFontHeight*2 : 0;
+
+                int attachAreaSize = (width - x)/3;
+                int attachMargin = attachAreaSize/30;
+                int attachImageSize = attachAreaSize - attachMargin*2;
+                int playButtonSize = attachAreaSize/2;
+
+                for (int i = 0; i < msg.attachments.length; i++) {
+                    Attachment attach = msg.attachments[i];
+
+                    int attX = x + (i%3)*attachAreaSize + attachMargin;
+                    int attY = y + (i/3)*attachAreaSize + attachMargin;
+                    
+                    if (attach.supported) {
+                        Image attachImage = IconCache.getResized(attach, attachImageSize);
+                    
+                        if (attachImage != null) {
+                            g.drawImage(attachImage, attX, attY, Graphics.TOP | Graphics.LEFT);
+                        }
+                        if (attach.isVideo) {
+                            if (playButtonOrig == null) {
+                                try {
+                                    playButtonOrig = Image.createImage("/play.png");
+                                }
+                                catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (playButton == null || playButton.getWidth() != playButtonSize) {
+                                playButton = Util.resizeImageBilinear(playButtonOrig, playButtonSize, playButtonSize);
+                            }
+                            g.drawImage(
+                                playButton,
+                                attX + attachImageSize/2,
+                                attY + attachImageSize/2,
+                                Graphics.HCENTER | Graphics.VCENTER
+                            );
+                        }
+                    }
+                    else {
+                        g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+                        g.fillRoundRect(attX, attY, attachImageSize, attachImageSize, messageFontHeight/2, messageFontHeight/2);
+
+                        g.setColor(Theme.statusMessageContentColor);
+                        g.setFont(App.messageFont);
+                        g.drawString(
+                            Util.stringToWidth(attach.name, App.messageFont, attachImageSize - messageFontHeight),
+                            attX + messageFontHeight/2,
+                            attY + messageFontHeight/2,
+                            Graphics.TOP | Graphics.LEFT
+                        );
+
+                        if (fileIconOrig == null) {
+                            try {
+                                fileIconOrig = Image.createImage("/file.png");
+                            }
+                            catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (fileIcon == null || fileIcon.getWidth() != playButtonSize) {
+                            fileIcon = Util.resizeImageBilinear(fileIconOrig, playButtonSize, playButtonSize);
+                        }
+                        g.drawImage(
+                            fileIcon,
+                            attX + attachImageSize/2,
+                            attY + attachImageSize*3/5,
+                            Graphics.HCENTER | Graphics.VCENTER
+                        );
+                    }
+                }
+                break;
+            }
+//#endif
         }
     }
 }

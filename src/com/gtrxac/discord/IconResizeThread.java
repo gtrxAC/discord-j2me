@@ -101,6 +101,9 @@ public class IconResizeThread extends Thread {
 //#ifdef EMOJI_SUPPORT
                 && !isEmoji
 //#endif
+//#ifdef INLINE_ATTACHMENTS
+                && !(target instanceof Attachment)
+//#endif
             ) {
                 result = circleCutout(resized);
             } else {

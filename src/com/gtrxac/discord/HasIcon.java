@@ -1,7 +1,5 @@
 package com.gtrxac.discord;
 
-import javax.microedition.lcdui.*;
-
 /**
  * Represents an entity that has a loadable icon/avatar image on Discord.
  * Also used for server emojis, though they work a little differently (no hashes).

@@ -671,29 +671,38 @@ public class HTTPThread extends Thread implements Strings {
                 case FETCH_ICON: {
                     if (Settings.cdn == null || Settings.cdn.length() == 0) throw new Exception();
 
-                    String type = iconTarget.getIconType();
-                    String id = iconTarget.getIconID();
                     String hash = iconTarget.getIconHash();
-                    // Choose image file format based on user settings. Emojis are always png.
+                    Image icon = null;
+
+//#ifdef INLINE_ATTACHMENTS
+                    if (iconTarget instanceof Attachment) {
+                        icon = HTTP.getImage(hash);
+                    } else
+//#endif
+                    {
+                        String type = iconTarget.getIconType();
+                        String id = iconTarget.getIconID();
+                        // Choose image file format based on user settings. Emojis are always png.
 //#ifdef EMOJI_SUPPORT
-                    boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
-                    String format = ((Settings.useJpeg && notEmoji) ? "jpg" : "png");
+                        boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
+                        String format = ((Settings.useJpeg && notEmoji) ? "jpg" : "png");
 //#else
-                    String format = (Settings.useJpeg ? "jpg" : "png");
+                        String format = (Settings.useJpeg ? "jpg" : "png");
 //#endif
-                    int size = (Settings.pfpSize == Settings.ICON_SIZE_32) ? 32 : 16;
+                        int size = (Settings.pfpSize == Settings.ICON_SIZE_32) ? 32 : 16;
 
-                    String urlHashPart
+                        String urlHashPart
 //#ifdef EMOJI_SUPPORT
-                    = ""; if (notEmoji) urlHashPart
+                        = ""; if (notEmoji) urlHashPart
 //#endif
-                    = "/" + hash;
+                        = "/" + hash;
 
-                    Image icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
+                        icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
 
-                    // Resize menu icon if fetched size doesn't match requested size
-                    if (!(iconTarget instanceof User) && size%16 != 0) {
-                        icon = Util.resizeImageBilinear(icon, Settings.menuIconSize, Settings.menuIconSize);
+                        // Resize menu icon if fetched size doesn't match requested size
+                        if (!(iconTarget instanceof User) && size%16 != 0) {
+                            icon = Util.resizeImageBilinear(icon, Settings.menuIconSize, Settings.menuIconSize);
+                        }
                     }
 
                     IconCache.set(hash, icon);

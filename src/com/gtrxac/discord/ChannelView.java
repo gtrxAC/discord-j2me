@@ -144,12 +144,11 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     // 2x smooth downscaling algorithm specifically for message bar icons
     // the ones in Util are not smooth enough
     // makes several assumptions:
-    // - alpha doesnt matter (but shouldn't be difficult to add if you need)
     // - image is square, same width and height
     // - width/height is an even number
     // - you want to downscale exactly to half resolution
     // TODO: we are currently calling this twice per image to do a 4x downscale, so we could optimize this to do 4x directly
-    private static Image downscale(Image img) {
+    static Image downscale(Image img) {
         int size = img.getWidth();
         int[] input = new int[size*size];
         img.getRGB(input, 0, size, 0, 0, size, size);
@@ -160,26 +159,41 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 int tl = input[y*4*size + x*2];
+//#ifdef INLINE_ATTACHMENTS
+                int tla = (tl & 0xFF000000) >> 24;
+//#endif
                 int tlr = (tl & 0x00FF0000) >> 16;
                 int tlg = (tl & 0x0000FF00) >> 8;
                 int tlb = (tl & 0x000000FF);
 
                 int tr = input[y*4*size + x*2 + 1];
+//#ifdef INLINE_ATTACHMENTS
+                int tra = (tr & 0xFF000000) >> 24;
+//#endif
                 int trr = (tr & 0x00FF0000) >> 16;
                 int trg = (tr & 0x0000FF00) >> 8;
                 int trb = (tr & 0x000000FF);
 
                 int bl = input[(y*4 + 2)*size + x*2];
+//#ifdef INLINE_ATTACHMENTS
+                int bla = (bl & 0xFF000000) >> 24;
+//#endif
                 int blr = (bl & 0x00FF0000) >> 16;
                 int blg = (bl & 0x0000FF00) >> 8;
                 int blb = (bl & 0x000000FF);
 
                 int br = input[(y*4 + 2)*size + x*2 + 1];
+//#ifdef INLINE_ATTACHMENTS
+                int bra = (br & 0xFF000000) >> 24;
+//#endif
                 int brr = (br & 0x00FF0000) >> 16;
                 int brg = (br & 0x0000FF00) >> 8;
                 int brb = (br & 0x000000FF);
 
                 result[y*size + x] =
+//#ifdef INLINE_ATTACHMENTS
+                    ((tla + tra + bla + bra)/4) << 24 |
+//#endif
                     ((tlr + trr + blr + brr)/4) << 16 |
                     ((tlg + trg + blg + brg)/4) << 8 |
                     ((tlb + trb + blb + brb)/4);
@@ -496,7 +510,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 //#endif
 
             if (msg.attachments != null) {
-                ChannelViewItem attachItem = new ChannelViewItem(ChannelViewItem.ATTACHMENTS_BUTTON);
+                ChannelViewItem attachItem = new ChannelViewItem(
+//#ifdef INLINE_ATTACHMENTS
+                    ChannelViewItem.ATTACHMENTS
+//#else
+                    ChannelViewItem.ATTACHMENTS_BUTTON
+//#endif
+                );
                 attachItem.msg = msg;
                 items.addElement(attachItem);
                 maxScroll += attachItem.getHeight();
@@ -947,7 +967,12 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 getMessages();
                 break;
             }
-            case ChannelViewItem.ATTACHMENTS_BUTTON: {
+//#ifdef INLINE_ATTACHMENTS
+            case ChannelViewItem.ATTACHMENTS:
+//#else
+            case ChannelViewItem.ATTACHMENTS_BUTTON:
+//#endif
+            {
                 App.openAttachmentView(false, selected.msg);
                 break;
             }
