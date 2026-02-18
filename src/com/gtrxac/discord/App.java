@@ -156,9 +156,6 @@ public class App extends MIDlet implements Strings {
 	}
 
     public static void login() {
-		ic = null;
-		ic = new Icons();
-
 		guilds = null;
 		dmChannels = null;
 

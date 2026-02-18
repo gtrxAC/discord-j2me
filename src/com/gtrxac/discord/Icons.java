@@ -104,7 +104,11 @@ public class Icons {
     Image msgBar;
 //#endif
 
-    Icons() {
+    public static int TYPE_MAIN_MENU = 0;  // subset of icons to be loaded in the main menu and rest of the app
+    public static int TYPE_SETTINGS = 1;  // settings and data manager
+    public static int TYPE_LANGUAGE = 2;  // language selector
+
+    Icons(int type) {
         if (Settings.menuIconSize == 0) return;
 
         Spritesheet sh;
@@ -115,122 +119,143 @@ public class Icons {
             return;
         }
 
-        favorites = sh.next();
-        dms = sh.next();
-        guilds = sh.next();
-        settings = sh.next();
-        logout = sh.next();
-        themesGroup = sh.next();
-        themeDark = sh.next();
-        themeLight = sh.next();
-        themeBlack = sh.next();
-        uiGroup = sh.next();
-        use12h = sh.next();
-        nativePicker = sh.next();
-        autoReconnect = sh.next();
-        menuIcons = sh.next();
-        nameColors = sh.next();
-        nameColorsOff = sh.next();
-        fontSmall = sh.next();
-        fontMedium = sh.next();
-        fontLarge = sh.next();
-        msgCount = sh.next();
-        attachFormat = sh.next();
-        attachSize = sh.next();
-        pfpNone = sh.next();
-        pfpSquare = sh.next();
-        pfpCircle = sh.next();
-        pfpCircleHq = sh.next();
-        pfpPlaceholder = sh.next();
-        pfp16 = sh.next();
-        pfp32 = sh.next();
-        repliesName = sh.next();
-        repliesFull = sh.next();
-        keys = sh.next();
-        keysDefault = sh.next();
-        iconSize = sh.next();
-        language = sh.next();
-        notify = sh.next();
-        notifyPing = sh.next();
-        notifyDM = sh.next();
-        notifyAlert = sh.next();
-        notifySound = sh.next();
-        fullscreen = sh.next();
-        keepChLoaded = sh.next();
-        scrollBars = sh.next();
+        if (type == TYPE_MAIN_MENU) {
+            favorites = sh.next();
+            dms = sh.next();
+            guilds = sh.next();
+            settings = sh.next();
+            logout = sh.next();
+        } else {
+            sh.skip(5);
+        }
+
+        if (type == TYPE_SETTINGS) {
+            themesGroup = sh.next();
+            themeDark = sh.next();
+            themeLight = sh.next();
+            themeBlack = sh.next();
+            uiGroup = sh.next();
+            use12h = sh.next();
+            nativePicker = sh.next();
+            autoReconnect = sh.next();
+            menuIcons = sh.next();
+            nameColors = sh.next();
+            nameColorsOff = sh.next();
+            fontSmall = sh.next();
+            fontMedium = sh.next();
+            fontLarge = sh.next();
+            msgCount = sh.next();
+            attachFormat = sh.next();
+            attachSize = sh.next();
+            pfpNone = sh.next();
+            pfpSquare = sh.next();
+            pfpCircle = sh.next();
+            pfpCircleHq = sh.next();
+            pfpPlaceholder = sh.next();
+            pfp16 = sh.next();
+            pfp32 = sh.next();
+            repliesName = sh.next();
+            repliesFull = sh.next();
+            keys = sh.next();
+            keysDefault = sh.next();
+            iconSize = sh.next();
+            language = sh.next();
+            notify = sh.next();
+            notifyPing = sh.next();
+            notifyDM = sh.next();
+            notifyAlert = sh.next();
+            notifySound = sh.next();
+            fullscreen = sh.next();
+            keepChLoaded = sh.next();
+            scrollBars = sh.next();
 //#ifdef PIGLER_SUPPORT
-        pigler = sh.next();
+            pigler = sh.next();
 //#else
-        sh.skip();
+            sh.skip();
 //#endif
-        about = sh.next();
-        autoUpdate = sh.next();
+        } else {
+            sh.skip(39);
+        }
+
+        if (type == TYPE_MAIN_MENU) {
+            about = sh.next();
+        } else {
+            sh.skip();
+        }
+
+        if (type == TYPE_SETTINGS) {
+            autoUpdate = sh.next();
 //#ifdef NOKIA_UI_ICON
-        nokiaUI = sh.next();
+            nokiaUI = sh.next();
 //#else
-        sh.skip();
+            sh.skip();
 //#endif
 //#ifdef J2ME_LOADER
-        android = sh.next();
+            android = sh.next();
 //#else
-        sh.skip();
+            sh.skip();
 //#endif
-        vibra = sh.next();
+            vibra = sh.next();
 //#ifdef OVER_100KB
 //#ifdef EMOJI_SUPPORT
-        emoji = sh.next();
+            emoji = sh.next();
 //#else
-        sh.skip();
+            sh.skip();
 //#endif
-        markdown = sh.next();
-        typing = sh.next();
-        dataManager = sh.next();
+            markdown = sh.next();
+            typing = sh.next();
+            dataManager = sh.next();
 //#else
-        sh.skip(4);
+            sh.skip(4);
 //#endif
 //#ifdef SYMBIAN
-        if (Util.isFullTouch) sh.skip();
-        else
+            if (Util.isFullTouch) sh.skip();
+            else
 //#endif
-        fastScroll = sh.next();
+            fastScroll = sh.next();
 //#ifdef OVER_100KB
-        themeCustom = sh.next();
+            themeCustom = sh.next();
 //#else
-        sh.skip();
+            sh.skip();
 //#endif
 //#ifdef TOUCH_SUPPORT
-        msgBar = sh.next();
+            msgBar = sh.next();
 //#else
-        sh.skip();
+            sh.skip();
 //#endif
-        flagGB = sh.next();
-        flagUS = sh.next();
-        flagES = sh.next();
-        flagFR = sh.next();
-        flagDE = sh.next();
-        flagIT = sh.next();
-        flagNL = sh.next();
-        flagPT = sh.next();
-        flagUK = sh.next();
-        flagFI = sh.next();
-        flagPL = sh.next();
-        flagID = sh.next();
-        flagTR = sh.next();
-        flagBR = sh.next();
-        flagRU = sh.next();
-        flagRO = sh.next();
-        flagVI = sh.next();
-        flagSV = sh.next();
-        flagTH = sh.next();
-        flagTW = sh.next();
-        flagHK = sh.next();
-        flagHR = sh.next();
-        flagBG = sh.next();
-        flagMY = sh.next();
-        flagCA = sh.next();
-        flagJP = sh.next();
-        flagAR = sh.next();
-        flagHU = sh.next();
-        flagCN = sh.next();
+        }
+
+        if (type == TYPE_LANGUAGE) {
+            sh.skip(11);
+            flagGB = sh.next();
+            flagUS = sh.next();
+            flagES = sh.next();
+            flagFR = sh.next();
+            flagDE = sh.next();
+            flagIT = sh.next();
+            flagNL = sh.next();
+            flagPT = sh.next();
+            flagUK = sh.next();
+            flagFI = sh.next();
+            flagPL = sh.next();
+            flagID = sh.next();
+            flagTR = sh.next();
+            flagBR = sh.next();
+            flagRU = sh.next();
+            flagRO = sh.next();
+            flagVI = sh.next();
+            flagSV = sh.next();
+            flagTH = sh.next();
+            flagTW = sh.next();
+            flagHK = sh.next();
+            flagHR = sh.next();
+            flagBG = sh.next();
+            flagMY = sh.next();
+            flagCA = sh.next();
+            flagJP = sh.next();
+            flagAR = sh.next();
+            flagHU = sh.next();
+            flagCN = sh.next();
+        }
     }
 }

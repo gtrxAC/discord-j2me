@@ -37,6 +37,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             Locale.get(DATA_MANAGER_TITLE),
         };
 
+        App.ic = null;
+        App.ic = new Icons(Icons.TYPE_SETTINGS);
+
         append(sectionNames[0], App.ic.themeCustom);
         append(sectionNames[1], App.ic.themesGroup);
         append(sectionNames[2], App.ic.attachFormat);
@@ -223,12 +226,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 Setting[][] settings = SettingsSectionScreen.settings;
 
                 // Check if icons need to be reloaded (if any icon-related settings have changed)
-                boolean reloadMenuIcons =
-                    Settings.menuIconSize != settings[2][4].value ||
-                    Settings.showMenuIcons != (settings[2][5].value == 1);
-
                 boolean reloadIcons =
-                    reloadMenuIcons ||
                     Settings.pfpType != settings[2][2].value ||
                     Settings.pfpSize != settings[2][3].value ||
                     Settings.useJpeg != (settings[2][0].value == 1);
@@ -294,14 +292,7 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     App.guilds = null;
                     App.dmChannels = null;
 
-                    if (reloadIcons) {
-                        IconCache.init();
-                        
-                        if (reloadMenuIcons) {
-                            App.ic = null;
-                            App.ic = new Icons();
-                        }
-                    }
+                    if (reloadIcons) IconCache.init();
                 }
 
 //#ifdef PIGLER_SUPPORT
