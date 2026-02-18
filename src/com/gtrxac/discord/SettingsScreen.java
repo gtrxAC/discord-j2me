@@ -148,6 +148,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             },
         };
 
+        App.ic = null;
+        App.ic = new Icons(Icons.TYPE_SETTINGS);
+
         icons = new Image[][][] {
             {
                 // Appearance
@@ -550,12 +553,12 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
             // Save or cancel command in main settings screen: (if save, write changes to state and save them persistently), then return to main menu
             if (c == saveCommand) {
                 // Check if icons need to be reloaded (if any icon-related settings have changed)
-                boolean reloadMenuIcons =
-                    Settings.menuIconSize != values[1][4] ||
-                    Settings.showMenuIcons != (values[1][5] == 1);
+                // boolean reloadMenuIcons =
+                //     Settings.menuIconSize != values[1][4] ||
+                //     Settings.showMenuIcons != (values[1][5] == 1);
 
                 boolean reloadIcons =
-                    reloadMenuIcons ||
+                    // reloadMenuIcons ||
                     Settings.pfpType != values[1][2] ||
                     Settings.pfpSize != values[1][3] ||
                     Settings.useJpeg != (values[1][0] == 1);
@@ -626,10 +629,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     if (reloadIcons) {
                         IconCache.init();
                         
-                        if (reloadMenuIcons) {
-                            App.ic = null;
-                            App.ic = new Icons();
-                        }
+                        // if (reloadMenuIcons) {
+                        //     App.ic = null;
+                        //     App.ic = new Icons();
+                        // }
                     }
                 }
 

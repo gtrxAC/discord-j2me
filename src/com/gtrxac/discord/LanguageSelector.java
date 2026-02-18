@@ -43,6 +43,9 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
         setCommandListener(this);
         lastScreen = App.disp.getCurrent();
 
+        App.ic = null;
+        App.ic = new Icons(Icons.TYPE_LANGUAGE);
+
         Image[] flags = {
             App.ic.flagAR, App.ic.flagBG, App.ic.flagCA, App.ic.flagDE, App.ic.flagGB, App.ic.flagUS, App.ic.flagES, App.ic.flagFI, App.ic.flagFR, App.ic.flagHR, App.ic.flagHU, App.ic.flagID,
             App.ic.flagIT, App.ic.flagJP, App.ic.flagMY, App.ic.flagPL, App.ic.flagPT, App.ic.flagBR, App.ic.flagRO,
@@ -56,6 +59,8 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
     }
 
     public void commandAction(Command c, Displayable d) {
+        App.ic = null;  // don't need to load new icons because the old ones are kept by lastscreen
+
         if (c == SELECT_COMMAND) {
             Settings.language = Locale.langIds[getSelectedIndex()];
             Locale.setLanguage();

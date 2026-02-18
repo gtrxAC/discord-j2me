@@ -33,6 +33,9 @@ public class MainMenu extends ListScreen implements CommandListener, Strings {
         quitCommand = Locale.createCommand(QUIT, Command.EXIT, 0);
         addCommand(quitCommand);
 
+        App.ic = null;
+        App.ic = new Icons(Icons.TYPE_MAIN_MENU);
+
         append(Locale.get(MAIN_MENU_GUILDS), App.ic.guilds);
         append(Locale.get(MAIN_MENU_DMS), App.ic.dms);
         append(Locale.get(MAIN_MENU_SETTINGS), App.ic.settings);
