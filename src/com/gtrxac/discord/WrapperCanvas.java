@@ -82,7 +82,14 @@ public class WrapperCanvas extends Canvas {
 //#ifdef TOUCH_SUPPORT
     private static boolean isDraggingBack;
 
-    private boolean checkBackGesture(int x) {
+    private boolean checkBackGesture(int x, int y) {
+        if (
+            x >= getWidth()/10 ||
+            y >= getHeight()*4/5 ||  // to avoid gesture interfering with upload button of message bar
+            App.disp.history.size() == 0 ||
+            !(App.disp.history.peek() instanceof MyCanvas)
+        ) return false;
+
         // find command with type "back" and lowest priority value
         // the command will be run when the gesture completes
         Command backCommand = null;
@@ -97,22 +104,19 @@ public class WrapperCanvas extends Canvas {
         // don't allow gesture if the screen doesn't have a back command
         if (backCommand == null) return false;
 
-        if (x < getWidth()/10 && App.disp.history.size() > 0 && App.disp.history.peek() instanceof MyCanvas) {
-            isDraggingBack = true;
-            TransitionScreen.touchOffset = x;
-            TransitionScreen ts = new TransitionScreen(current, (MyCanvas) App.disp.history.peek(), 0);
-            ts.backCommand = backCommand;
-            App.disp.setCurrent(ts, false);
-            return true;
-        }
-        return false;
+        isDraggingBack = true;
+        TransitionScreen.touchOffset = x;
+        TransitionScreen ts = new TransitionScreen(current, (MyCanvas) App.disp.history.peek(), 0);
+        ts.backCommand = backCommand;
+        App.disp.setCurrent(ts, false);
+        return true;
     }
 
     protected void pointerPressed(int x, int y) {
 //#ifdef BLACKBERRY
-        if (!checkBackGesture(x)) current.pointerPressed(x, y - current.bbTitleHeight);
+        if (!checkBackGesture(x, y)) current.pointerPressed(x, y - current.bbTitleHeight);
 //#else
-        if (!checkBackGesture(x)) current.pointerPressed(x, y);
+        if (!checkBackGesture(x, y)) current.pointerPressed(x, y);
 //#endif
         repaint();
     }
