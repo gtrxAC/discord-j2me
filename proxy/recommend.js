@@ -24,8 +24,9 @@ const versionDownloadLinks = {
 
 // all downloads except those that point to another file (are aliases)
 const directVersionDownloadLinks = Object.entries(versionDownloadLinks)
-    .filter(ver => ver[1].file === undefined)
-    .map(ver => ver[1]);
+    .filter(ver => ver[1].file === undefined);
+
+const directVersionDownloadNames = directVersionDownloadLinks.map(ver => ver[0]);
 
 // other html snippets which can be included as part of recommendations (must be before or after actual version names, not in between)
 const otherSnippets = {
@@ -128,9 +129,7 @@ function getRecommendedVersionsArray(req) {
     }
     if (/linux|mac|windows/g.test(ua) && !/windows (ce|mobile)/g.test(ua)) {
         // modern device: show all downloads except those that point to another file (are aliases)
-        return Object.entries(versionDownloadLinks)
-            .filter(ver => ver[1].file === undefined)
-            .map(ver => ver[0]);
+        return directVersionDownloadNames;
     }
     return ["DONT_KNOW_PROXYLESS", "midp2_alt_recommend", "6310i", "midp1", "SHOW_ALL"];
 }
@@ -166,6 +165,7 @@ function getRecommendedVersions(req) {
 module.exports = {
     versionDownloadLinks,
     directVersionDownloadLinks,
+    directVersionDownloadNames,
     downloadLinkHtml,
     arrayDownloadLinkHtml,
     getRecommendedVersionsArray,
