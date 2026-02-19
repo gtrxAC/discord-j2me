@@ -5,10 +5,10 @@
 const versionDownloadLinks = {
     "midp2":               { version: "5.2", betaVersion: "5.3", target: "Symbian S60v3 and up", tls: "via system-level TLS", tlsLink: "s60" },
     "s40v3":               { version: "5.2", betaVersion: "5.3", target: "Nokia S40v3 and up" },
-    "midp2_alt_tls":       { version: "5.2", betaVersion: "5.3", target: "Nokia S40v3 and up", tls: "via Java-based TLS", tlsLink: "s40" },
-    "phoneme_android":     { version: "5.2", betaVersion: "5.3", target: "phoneME", tls: true, showJar: false, file: "midp2_alt_tls" },
+    "midp2_alt_tls":       { version: "5.2", betaVersion: "5.3", target: "Nokia S40v3 and up", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
+    "phoneme_android":     { version: "5.2", betaVersion: "5.3", target: "phoneME", tls: true, file: "midp2_alt_tls" },
     "nokia_128px":         { version: "5.2", betaVersion: "5.3", target: "Nokia S40v3 and up (128x160)" },
-    "nokia_128px_tls":     { version: "5.2", betaVersion: "5.3", target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40" },
+    "nokia_128px_tls":     { version: "5.2", betaVersion: "5.3", target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
     "s60v2":               { version: "5.2", betaVersion: "5.3", target: "Symbian S60v2" },
     "s40v2":               { version: "5.2", betaVersion: "5.3", target: "Nokia S40v2" },
     "midp2_alt":           { version: "5.2", betaVersion: "5.3", target: "other MIDP2 devices" },
