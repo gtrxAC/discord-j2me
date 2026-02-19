@@ -1023,5 +1023,10 @@
     "Venytä",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Siirtymätehoste"
+    "Siirtymätehoste",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Saapuva viesti",
+    "Lähtevä viesti",
+    "Taustakuva"
 ]

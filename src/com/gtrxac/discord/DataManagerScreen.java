@@ -57,9 +57,9 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
 //#endif
         addItem(DATA_MANAGER_LAST_READ, "unread", false);
         addItem(DATA_MANAGER_NOTIF_SOUND, "notifsound", true);
-        addItem("Incoming sound", "insound", true);
-        addItem("Outgoing sound", "outsound", true);
-        addItem("Background image", "bgimage", true);
+        addItem(DATA_MANAGER_INSOUND, "insound", true);
+        addItem(DATA_MANAGER_OUTSOUND, "outsound", true);
+        addItem(DATA_MANAGER_BGIMAGE, "bgimage", true);
         addItem(DATA_MANAGER_LANGUAGE, "lang", true);
         addItem(DATA_MANAGER_THEME, "theme", false);
         addItem(DATA_MANAGER_FAV_GUILDS, "favguild", false);

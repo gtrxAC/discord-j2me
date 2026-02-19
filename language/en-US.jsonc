@@ -1023,5 +1023,10 @@
     null,
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
+    null,
+
+    // Related to "Types of data shown in the data manager" above.
+    null,
+    null,
     null
 ]

@@ -441,4 +441,7 @@ public interface Strings {
     static final int WALLPAPER_CROP = 412;
     static final int WALLPAPER_STRETCH = 413;
     static final int SCREEN_TRANSITION = 414;
+    static final int DATA_MANAGER_INSOUND = 415;
+    static final int DATA_MANAGER_OUTSOUND = 416;
+    static final int DATA_MANAGER_BGIMAGE = 417;
 }
