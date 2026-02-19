@@ -1023,10 +1023,10 @@
     "Rozciągnij",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "Efekt przejścia ekranu",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper"
+    "Dźwięki dla wiad. przych.",
+    "Dźwięki dla wiad. wych.",
+    "Tapety"
 ]
