@@ -22,6 +22,11 @@ const versionDownloadLinks = {
     "midp1":               { version: "3.0", betaVersion: null, target: "MIDP1" },
 }
 
+// all downloads except those that point to another file (are aliases)
+const directVersionDownloadLinks = Object.entries(versionDownloadLinks)
+    .filter(ver => ver[1].file === undefined)
+    .map(ver => ver[0]);
+
 // other html snippets which can be included as part of recommendations (must be before or after actual version names, not in between)
 const otherSnippets = {
     JL_INFO: `<p>You can try Discord J2ME on your Android device by downloading the JAR below. You will need the J2ME Loader app installed.</p>`,
@@ -72,6 +77,9 @@ function getRecommendedVersionsArray(req) {
     if (!ua) {
         return ["DONT_KNOW_PROXYLESS", "midp2_alt", "6310i", "midp1", "SHOW_ALL"];
     }
+    if (ua.includes('bb10')) {
+        return ["RECOMMENDED", "jl", "SHOW_ALL"]
+    }
     if (ua.includes('android')) {
         // return ["JL_INFO", 'jl', "JL_INFO_2"];  // won't use this for now cuz j2me loader-specific info would be shown in the google search result's description
         return ["RECOMMENDED", "jl", "phoneme_android", "SHOW_ALL"]
@@ -120,9 +128,7 @@ function getRecommendedVersionsArray(req) {
     }
     if (/linux|mac|windows/g.test(ua) && !/windows (ce|mobile)/g.test(ua)) {
         // modern device: show all downloads except those that point to another file (are aliases)
-        return Object.entries(versionDownloadLinks)
-            .filter(ver => ver[1].file === undefined)
-            .map(ver => ver[0]);
+        return directVersionDownloadLinks;
     }
     return ["DONT_KNOW_PROXYLESS", "midp2_alt_recommend", "6310i", "midp1", "SHOW_ALL"];
 }
@@ -157,6 +163,7 @@ function getRecommendedVersions(req) {
 
 module.exports = {
     versionDownloadLinks,
+    directVersionDownloadLinks,
     downloadLinkHtml,
     arrayDownloadLinkHtml,
     getRecommendedVersionsArray,
