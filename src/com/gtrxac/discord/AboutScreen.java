@@ -131,7 +131,8 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         addDeveloper(i, "AlanHudik", TRANSLATOR_HR, 2);
         addDeveloper(i, "Alex222", TRANSLATOR_SV, 2);
         addDeveloper(i, "cappuchi", TRANSLATOR_PL, 2);
-        addDeveloper(i, "chair_senpai\nmicrotegla", TRANSLATOR_HU, 2);
+        i.addElement(new AboutScreenItem("chair_senpai", Font.SIZE_SMALL, 0, false, true));
+        addDeveloper(i, "microtegla", TRANSLATOR_HU, 2);
         addDeveloper(i, "Dragan232", TRANSLATOR_CA, 2);
         i.addElement(new AboutScreenItem("ElHamexd", Font.SIZE_SMALL, 0, false, true));
         addDeveloper(i, "AlexisBlade2001", TRANSLATOR_ES, 2);
