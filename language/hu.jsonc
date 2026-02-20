@@ -31,7 +31,7 @@
 
     // Softkey label for closing a menu.
     // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
-    "Bezárás",
+    "Bezár",
     "Bezárás",
 
     // Title text for attachment view screen.
@@ -180,7 +180,7 @@
     "Közvetlen üzenet",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
-    "Keresés",
+    "Keres",
     "Keresés",
 
     // Title text shown for all error message screens.
@@ -193,7 +193,7 @@
     "Kedvencek",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
-    "Törlés",
+    "Töröl",
     "Törlés",
 
     // Softkey command for adding a server to the favorites list.
@@ -230,7 +230,7 @@
     "Betöltés...",
 
     // Loading screen text shown when an attachment is being sent.
-    "Küldés...",
+    "Csatolmány küldése...",
 
     // Error message prefix shown when an error occurs while uploading an attachment.
     "Hiba a fájl küldésekor: ",
@@ -333,17 +333,17 @@
     "megváltoztatta a csoport ikonját",
     "üzenetet tűzött ki",
     "belépett a szerverbe",
-    "boostolta a szervert",
+    "gyorsította a szervert",
 
     // Prefix of status message shown when a user has boosted the server and the server has reached a certain boosting level. The level is appended to the end of this string, in the form "boosted the server to level X".
-    "boostolta a szervert erre a szintre: ",
+    "gyorsította a szervert erre a szintre: ",
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
     "(matrica: ",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
-    "ismeretlen",
+    "ismeretlen matrica",
 
     // Message timestamp hour-minute separator, day-month separator, and AM/PM indicators.
     // Note: order of day and month cannot be changed currently
@@ -412,10 +412,10 @@
     "12-órás idő (de/du)",
 
     // Settings option for using the Java-based file picker for sending attachments. If disabled, the web-based file picker is used.
-    "Java fájlkezelő (a telefonod alap fájlkezelője)",
+    "Java/alap fájlkez.",
 
     // Settings option for automatically reconnecting to the gateway if the connection closes.
-    "Útválasztó/gateway automata visszakapcsolódása",
+    "Gateway automata visszakapcsolódása",
 
     // Settings option for enabling icons in server and direct message lists.
     "Szerver/DM ikonok",
@@ -504,8 +504,8 @@
     "URL kiválasztása",
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
-    "Beillesztés",
-    "Beillesztés",
+    "Említ...",
+    "Megemlítés beillesztése",
 
     // Title for language selection screen.
     "Nyelvek",
@@ -599,7 +599,7 @@
     " között.",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "Pigler API",
+    "Pigler ért. API",
 
     // Prefix for error messages related to Pigler Notifications API.
     "Pigler API hiba: ",
@@ -639,8 +639,8 @@
     // Lines shown in the about (credits) screen for what each developer (major contributor) did.
     // The name of the person in question is shown above each line.
     "Fő programozó",
-    "Csatolmány töltés, Pigler API beépítés, JSON feldolgozó",
-    "Töltés animáció, menü ikonok, emojik, Olasz fordítás",
+    "Csatolmány feltöltés, Pigler API beépítés, JSON feldolgozó",
+    "Töltés animáció, menüikonok, emojik, olasz fordítás",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
@@ -703,7 +703,7 @@
     "Token változtatása",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "Nokia felhaználói felület értesítésekhez",
+    "Nokia felh. felület értesítésekhez",
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
     "Android üzenetek",
@@ -798,7 +798,7 @@
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
     "Lejátszás",
-    "Lejátszás mégegyszer",
+    "Lejátszás megint",
 
     // Confirmation message shown when a new notification sound has been set.
     "Üzenet hang beállítva!",
@@ -903,7 +903,7 @@
 
     // Softkey command for opening the nnproject TLS 1.2 page.
     "Letölt",
-    "TLS 1.2 letöltése",
+    "nnprojekt TLS 1.2 letöltése",
 
     // Text shown in bottom message bar.
     "Üzenet",
@@ -1023,16 +1023,16 @@
     "Kimenő üzenet",
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
-    "Crop",
-    "Stretch",
+    "Vág",
+    "Nyújt",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "Képernyőátmenet",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper"
+    "Bejövő hang",
+    "Kimenő hang",
+    "Háttérkép"
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"
