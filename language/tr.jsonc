@@ -1026,7 +1026,7 @@
     "Screen transition",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper"
+    "Gelen mesaj sesi",
+    "Giden mesaj sesi",
+    "Duvar kağıdı"
 ]
