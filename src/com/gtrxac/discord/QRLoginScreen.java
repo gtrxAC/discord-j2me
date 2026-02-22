@@ -14,10 +14,10 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
     private boolean gotToken;
 
     public QRLoginScreen() {
-        super("Log in");
+        super(Locale.get(LOGIN_FORM_TITLE));
         lastScreen = App.disp.getCurrent();
 
-        append("Connecting...");
+        append(Locale.get(QR_LOGIN_CONNECTING));
         new Thread(this).start();
 
         addCommand(Locale.createCommand(BACK, Command.BACK, 0));
@@ -53,7 +53,7 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
             StringBuffer sb = new StringBuffer();
 
             deleteAll();
-            append("Retrieving QR code...");
+            append(Locale.get(QR_LOGIN_RETRIEVING));
 
             while (true) {
                 // Get message
@@ -97,9 +97,9 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
                 }
                 else {
                     // it's a disconnect message
+                    disconnect();
                     if (!gotToken) {
-                        disconnect();
-                        App.error("Disconnected, please try again", lastScreen);
+                        App.error(Locale.get(QR_LOGIN_DISCONNECTED), lastScreen);
                     }
                 }
             }

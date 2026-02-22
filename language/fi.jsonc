@@ -989,5 +989,59 @@
     "Laitteesi vaatii allekirjoitetun sovelluksen Suora yhteys -tilan käyttämiseen. Lataa laitteellesi sopiva sovelluksen allekirjoitettu JAD-tiedosto tai poista Suora yhteys käytöstä.\nLue lisää: gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Suora yhteys -tuki"
+    "Suora yhteys -tuki",
+
+    // Settings option for toggling the custom background image on or off.
+    "Taustakuva",
+
+    // Settings option for selecting a new image file to be used as a custom background image.
+    "Tuo taustakuva",
+
+    // Title for the file picker screen for selecting a background image.
+    "Valitse taustakuva",
+
+    // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
+    "Äänet",
+
+    // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
+    "Valitse ääni",
+
+    // Option in the sound settings to use a generic system notification tone (usually a beep).
+    "Piippaus",
+
+    // Option in the sound settings to import a sound file from the device's storage.
+    "Tuo ääni",
+
+    // Names of the different types of customizable sounds in the sound settings screen.
+    // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
+    "Ilmoitus",
+    "Saapuva viesti",
+    "Lähtevä viesti",
+
+    // Settings options for the different methods for resizing a custom background image to fit the screen.
+    "Rajaa",
+    "Venytä",
+
+    // Setting for enabling or disabling the wipe transition animation when changing between screens.
+    "Siirtymätehosteet",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Saapuva viesti",
+    "Lähtevä viesti",
+    "Taustakuva",
+
+    // Explanation of QR code login shown in the login screen.
+    "Kirjautumiseen tarvitset tunnuslausekkeen (token), jonka saat skannaamalla QR-koodin Discord-mobiilisovelluksella.",
+
+    // Softkey command labels for opening the QR login screen.
+    "Hae QR",
+    "Hae QR-koodi",
+
+    // Status messages shown in the QR login screen.
+    "Yhdistetään...",
+    "Haetaan QR-koodi...",
+    "Yhteys katkesi, yritä uudelleen",
+
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
+    "Voit myös manuaalisesti kirjoittaa tokenisi. "
 ]

@@ -428,4 +428,27 @@ public interface Strings {
     static final int TOKEN_IMPORT_HELP = 399;
     static final int PROXYLESS_ERROR_UNSIGNED = 400;
     static final int WHAT_ALICEINDISARRAY_DID = 401;
+    static final int BACKGROUND_IMAGE = 402;
+    static final int IMPORT_BACKGROUND = 403;
+    static final int BACKGROUND_FILE_PICKER_TITLE = 404;
+    static final int SETTINGS_SECTION_SOUNDS = 405;
+    static final int SOUND_PICKER_TITLE = 406;
+    static final int NOTIFICATION_BEEP = 407;
+    static final int IMPORT_SOUND = 408;
+    static final int SOUND_TYPE_NOTIFICATION = 409;
+    static final int SOUND_TYPE_INCOMING = 410;
+    static final int SOUND_TYPE_OUTGOING = 411;
+    static final int WALLPAPER_CROP = 412;
+    static final int WALLPAPER_STRETCH = 413;
+    static final int SCREEN_TRANSITION = 414;
+    static final int DATA_MANAGER_INSOUND = 415;
+    static final int DATA_MANAGER_OUTSOUND = 416;
+    static final int DATA_MANAGER_BGIMAGE = 417;
+    static final int LOGIN_FORM_QR_HELP = 418;
+    static final int GET_QR_CODE = 419;
+    static final int GET_QR_CODE_L = 420;
+    static final int QR_LOGIN_CONNECTING = 421;
+    static final int QR_LOGIN_RETRIEVING = 422;
+    static final int QR_LOGIN_DISCONNECTED = 423;
+    static final int LOGIN_FORM_TOKEN_HELP_V3 = 424;
 }

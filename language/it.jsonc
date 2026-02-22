@@ -989,7 +989,61 @@
     "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support"
+    "Direct connection support",
+
+    // Settings option for toggling the custom background image on or off.
+    "Wallpaper",
+
+    // Settings option for selecting a new image file to be used as a custom background image.
+    "Import wallpaper",
+
+    // Title for the file picker screen for selecting a background image.
+    "Select wallpaper",
+
+    // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
+    "Sounds",
+
+    // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
+    "Select sound",
+
+    // Option in the sound settings to use a generic system notification tone (usually a beep).
+    "Beep",
+
+    // Option in the sound settings to import a sound file from the device's storage.
+    "Import sound",
+
+    // Names of the different types of customizable sounds in the sound settings screen.
+    // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
+    "Notification",
+    "Incoming message",
+    "Outgoing message",
+
+    // Settings options for the different methods for resizing a custom background image to fit the screen.
+    "Crop",
+    "Stretch",
+
+    // Setting for enabling or disabling the wipe transition animation when changing between screens.
+    "Screen transition",
+
+    // Related to "Types of data shown in the data manager" above.
+    "Incoming sound",
+    "Outgoing sound",
+    "Wallpaper",
+
+    // Explanation of QR code login shown in the login screen.
+    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+
+    // Softkey command labels for opening the QR login screen.
+    "Get QR",
+    "Get QR code",
+
+    // Status messages shown in the QR login screen.
+    "Connecting...",
+    "Retrieving QR code...",
+    "Disconnected, please try again",
+
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
+    "You can also manually enter your token. "
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"
