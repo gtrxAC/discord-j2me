@@ -361,6 +361,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 Util.stringToWidth(label, App.messageFont, fullWidth - fontHeight*4),
                 barHeight*19/20, fontHeight/2, Graphics.TOP | Graphics.LEFT
             );
+
+            messageBar = Image.createImage(messageBar);
             messageBarWidth = fullWidth;
         }
         return true;
