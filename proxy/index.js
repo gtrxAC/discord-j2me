@@ -8,6 +8,7 @@ const sanitizeHtml = require('sanitize-html');
 const crypto = require('crypto').webcrypto;
 const { LRUCache } = require('lru-cache');
 const WebSocket = require('ws');
+const QRCode = require('qrcode');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -1197,6 +1198,12 @@ app.get(`${BASE_L}/gw`, getToken, (req, res) => {
     console.log("sending", messages);
     res.send(messages);
 });
+
+// QR generator for QR code auth
+app.get(`${BASE}/qr/:fingerprint`, async (req, res) => {
+    const qr = await QRCode.toBuffer(`https://discord.com/ra/${req.params.fingerprint}`);
+    res.send(qr);
+})
 
 app.use("/", require('./homepage'));
 

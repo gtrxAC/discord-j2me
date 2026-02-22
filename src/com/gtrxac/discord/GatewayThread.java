@@ -82,6 +82,10 @@ public class GatewayThread extends Thread implements Strings
 	 * Send JSON message to gateway socket.
 	 */
 	public void send(JSONObject msg) {
+		send(os, msg);
+	}
+
+	public static void send(OutputStream os, JSONObject msg) {
 		try {
 			os.write((msg.build() + "\n").getBytes("UTF-8"));
 			os.flush();
