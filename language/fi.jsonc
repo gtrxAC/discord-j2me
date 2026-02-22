@@ -1028,5 +1028,20 @@
     // Related to "Types of data shown in the data manager" above.
     "Saapuva viesti",
     "Lähtevä viesti",
-    "Taustakuva"
+    "Taustakuva",
+
+    // Explanation of QR code login shown in the login screen.
+    "Kirjautumiseen tarvitset tunnuslausekkeen (token), jonka saat skannaamalla QR-koodin Discord-mobiilisovelluksella.",
+
+    // Softkey command labels for opening the QR login screen.
+    "Hae QR",
+    "Hae QR-koodi",
+
+    // Status messages shown in the QR login screen.
+    "Yhdistetään...",
+    "Haetaan QR-koodi...",
+    "Yhteys katkesi, yritä uudelleen",
+
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
+    "Voit myös manuaalisesti kirjoittaa tokenisi. "
 ]

@@ -117,14 +117,14 @@ Strings
         
         addSpacer(4);
 
-        append("To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.");
+        append(Locale.get(LOGIN_FORM_QR_HELP));
 
-        qrLoginCommand = new Command("QR login", Command.ITEM, 5);
+        qrLoginCommand = Locale.createCommand(GET_QR_CODE, Command.ITEM, 5);
 
 //#ifndef BLACKBERRY
         addSpacer(2);
 
-        StringItem qrButton = new StringItem(null, "Get QR code", Item.BUTTON);
+        StringItem qrButton = new StringItem(null, Locale.get(GET_QR_CODE_L), Item.BUTTON);
         qrButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         qrButton.setDefaultCommand(qrLoginCommand);
         qrButton.setItemCommandListener(this);
@@ -133,7 +133,7 @@ Strings
 
         addSpacer(4);
 
-        append("You can also manually enter your token. " + Locale.get(LOGIN_FORM_TOKEN_HELP));
+        append(Locale.get(LOGIN_FORM_TOKEN_HELP_V3) + Locale.get(LOGIN_FORM_TOKEN_HELP));
         
         boolean haveToken = (Settings.token != null && Settings.token.length() != 0);
         String tokenLabel = Locale.get(haveToken ? CHANGE_TOKEN_L : SET_TOKEN_L);

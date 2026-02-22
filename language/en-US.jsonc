@@ -1028,5 +1028,20 @@
     // Related to "Types of data shown in the data manager" above.
     null,
     null,
+    null,
+
+    // Explanation of QR code login shown in the login screen.
+    null,
+
+    // Softkey command labels for opening the QR login screen.
+    null,
+    null,
+
+    // Status messages shown in the QR login screen.
+    null,
+    null,
+    null,
+
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
     null
 ]

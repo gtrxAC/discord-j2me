@@ -597,5 +597,20 @@
     // Related to "Types of data shown in the data manager" above.
     "Incoming sound",
     "Outgoing sound",
-    "Wallpaper"
+    "Wallpaper",
+
+    // Explanation of QR code login shown in the login screen.
+    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+
+    // Softkey command labels for opening the QR login screen.
+    "Get QR",
+    "Get QR code",
+
+    // Status messages shown in the QR login screen.
+    "Connecting...",
+    "Retrieving QR code...",
+    "Disconnected, please try again",
+
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
+    "You can also manually enter your token. "
 ]

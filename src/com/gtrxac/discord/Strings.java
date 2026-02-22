@@ -444,4 +444,11 @@ public interface Strings {
     static final int DATA_MANAGER_INSOUND = 415;
     static final int DATA_MANAGER_OUTSOUND = 416;
     static final int DATA_MANAGER_BGIMAGE = 417;
+    static final int LOGIN_FORM_QR_HELP = 418;
+    static final int GET_QR_CODE = 419;
+    static final int GET_QR_CODE_L = 420;
+    static final int QR_LOGIN_CONNECTING = 421;
+    static final int QR_LOGIN_RETRIEVING = 422;
+    static final int QR_LOGIN_DISCONNECTED = 423;
+    static final int LOGIN_FORM_TOKEN_HELP_V3 = 424;
 }
