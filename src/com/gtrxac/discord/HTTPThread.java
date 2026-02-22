@@ -495,7 +495,7 @@ public class HTTPThread extends Thread implements Strings {
                     }
 
                     hasSentMessageStatic = true;
-                    
+
                     JSONObject message = JSON.getObject(HTTP.post("/channels/" + channelId + "/messages", json, false));
 
                     // If gateway enabled, don't need to fetch new messages
@@ -1020,6 +1020,10 @@ public class HTTPThread extends Thread implements Strings {
                 case MARK_AS_READ: {
                     e.printStackTrace();
                     break;
+                }
+                case SEND_MESSAGE: {
+                    hasSentMessageStatic = false;
+                    // fall through
                 }
                 default: {
                     App.error(e, prevScreen);
