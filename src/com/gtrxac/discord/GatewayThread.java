@@ -495,8 +495,16 @@ public class GatewayThread extends Thread implements Strings
 						}
 						if (skip) continue;
 
-						// Play incoming message sound for messages that aren't ours
-						if (!authorID.equals(App.myUserId)) playNotificationSound(SoundSettingsScreen.INCOMING_SOUND);
+						if (!authorID.equals(App.myUserId)) {
+							// Play incoming message sound for messages that aren't ours
+							playNotificationSound(SoundSettingsScreen.INCOMING_SOUND);
+						} else {
+							// Play "outgoing message" sound if the message was sent by us and from this client
+							if (HTTPThread.hasSentMessageStatic) {
+								GatewayThread.playNotificationSound(SoundSettingsScreen.OUTGOING_SOUND);
+								HTTPThread.hasSentMessageStatic = false;
+							}
+						}
 
 						// If we're on the newest page, make the new message visible
 						if (App.channelView.page == 0 && !App.channelView.outdated) {

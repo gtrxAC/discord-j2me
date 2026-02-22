@@ -83,6 +83,8 @@ public class HTTPThread extends Thread implements Strings {
     String langID;
 
     private boolean showLoad;
+    private boolean hasSentMessage;
+    static boolean hasSentMessageStatic;
 
     public HTTPThread(int action) {
         this.action = action;
@@ -492,14 +494,8 @@ public class HTTPThread extends Thread implements Strings {
                         }
                     }
 
-                    if (Settings.soundModes[SoundSettingsScreen.OUTGOING_SOUND] != Settings.SOUND_OFF) {
-                        // wait for current screen to change so the outgoing sound doesnt get cut off
-                        while (!(App.disp.getCurrent() instanceof ChannelView)) {
-                            Util.sleep(10);
-                        }
-                        GatewayThread.playNotificationSound(SoundSettingsScreen.OUTGOING_SOUND);
-                    }
-
+                    hasSentMessageStatic = true;
+                    
                     JSONObject message = JSON.getObject(HTTP.post("/channels/" + channelId + "/messages", json, false));
 
                     // If gateway enabled, don't need to fetch new messages
@@ -516,11 +512,15 @@ public class HTTPThread extends Thread implements Strings {
                     UnreadManager.markRead(channelId, Long.parseLong(message.getString("id")));
                     UnreadManager.autoSave = true;
 
+                    hasSentMessage = true;
+
                     // fall through (if gateway disabled, fetch messages because there might have 
                     // been other messages sent during the time the user was writing their message)
                 }
 
                 case FETCH_MESSAGES: {
+                    hasSentMessageStatic = false;
+
                     setBannerText(Locale.get(CHANNEL_VIEW_LOADING));
 
                     String channelId = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
@@ -573,6 +573,14 @@ public class HTTPThread extends Thread implements Strings {
 
                     App.disp.setCurrent(App.channelView);
                     App.channelView.repaint();
+
+                    // Play "Outgoing message" sound if gateway is off and channel was reloaded after sending a message
+                    if (
+                        !App.gatewayActive() && hasSentMessage &&
+                        Settings.soundModes[SoundSettingsScreen.OUTGOING_SOUND] != Settings.SOUND_OFF
+                    ) {
+                        GatewayThread.playNotificationSound(SoundSettingsScreen.OUTGOING_SOUND);
+                    }
                     break;
                 }
 
@@ -584,8 +592,8 @@ public class HTTPThread extends Thread implements Strings {
                     Attachment[] attachments = App.attachmentView.msg.attachments;
                     int layout = Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
-                    // Fix for https://github.com/nikita36078/J2ME-Loader/pull/1046
 //#ifdef J2ME_LOADER
+                    // Fix for https://github.com/nikita36078/J2ME-Loader/pull/1046
                     Util.sleep(100);
 //#endif
 
