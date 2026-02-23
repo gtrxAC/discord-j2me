@@ -1031,17 +1031,17 @@
     "Tapety",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "Aby się zalogować, wymagany jest token uwierzytelnienia, który można uzyskać poprzez skanowanie kodu QR w mobilnej wersji Discorda dla systemów Android oraz iOS.",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "Zeskanuj",
+    "Zesk. kod QR",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "Łączenie...",
+    "Uzyskiwanie kodu QR...",
+    "Rozłączono, spróbuj ponownie",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. "
+    "Możesz też ręcznie wpisać swój token. "
 ]
