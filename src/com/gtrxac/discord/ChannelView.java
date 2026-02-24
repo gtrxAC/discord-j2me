@@ -745,10 +745,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
 
         if (
-//#ifdef SYMBIAN
-            !Util.isTouch &&
-//#endif
-            selectionMode && selected.type != ChannelViewItem.MESSAGE && selected.type != ChannelViewItem.UNREAD_INDICATOR
+            !Util.hideSelectCommand &&
+            selectionMode &&
+            selected.type != ChannelViewItem.MESSAGE &&
+            selected.type != ChannelViewItem.UNREAD_INDICATOR
         ) {
             _addCommand(selectCommand);
         } else {

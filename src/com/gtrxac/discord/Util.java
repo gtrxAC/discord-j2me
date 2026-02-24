@@ -469,6 +469,8 @@ public class Util {
 	public static final boolean noPointerEventsBug;
 //#endif
 
+	public static final boolean hideSelectCommand;
+
 //#ifdef SYMBIAN
 	// List of Symbian phones that have a touchscreen (i.e. no physical softkeys) but have a d-pad
 	// Source: lpcwiki
@@ -476,7 +478,6 @@ public class Util {
 		"NokiaC6-00", "NokiaE6-", "NokiaE7-", "Nokia702T", "NokiaN97", "SonyEricssonU8"
 	};
 
-	public static final boolean isTouch;
 	public static final boolean isFullTouch;
 //#endif
 
@@ -490,6 +491,47 @@ public class Util {
 
 	public static int fontSize;
 
+	private static boolean isAshaTouch(String plat) {
+		if (!plat.startsWith("Nokia")) return false;
+		plat = plat.substring(5);
+
+		// In the 230's case, we could check if it's the Asha 230 or the Series 30+ 230.
+		// But S30+ users will use a different build of the app anyway
+		// Same for the 500 (Asha 500 or Symbian 500)
+
+		// if (plat.startsWith("230")) {
+		// 	return System.getProperty("com.nokia.mid.ui.version") != null;
+		// }
+
+		if (plat.startsWith("Asha")) {
+			plat = plat.substring(4);
+		}
+
+		return
+			// Series 40 Touch and Type
+			plat.startsWith("202") ||
+			plat.startsWith("203") ||
+			plat.startsWith("300") ||
+			plat.startsWith("303") ||
+
+			// Series 40 Developer Platform 2 (full-touch 240x400)
+			plat.startsWith("305") ||
+			plat.startsWith("306") ||
+			plat.startsWith("308") ||
+			plat.startsWith("309") ||
+			// could make sure it's not the 3100/3105, but those are midp1 anyway
+			// same for 3109/3110c, but those phones use a different build of the app
+			(plat.startsWith("310") /*&& !plat.startsWith("3109")*/) ||
+			(plat.startsWith("311") /*&& !plat.startsWith("3110c")*/) ||
+
+			// Asha software platform (full-touch 240x320)
+			plat.startsWith("230") ||
+			(plat.startsWith("500") && !plat.startsWith("5000")) ||
+			plat.startsWith("501") ||
+			plat.startsWith("502") ||
+			plat.startsWith("503");
+	}
+
 	static {
 		String platform = System.getProperty("microedition.platform");
 		if (platform == null) platform = "";
@@ -497,8 +539,14 @@ public class Util {
 //#ifdef SYMBIAN
 		isSymbian93 = platform.indexOf("sw_platform_version=3.2") != -1;
 
-		isTouch = platform.indexOf("sw_platform_version=5.") != -1;
-		isFullTouch = isTouch && indexOfAny(platform, SYMBIAN_TOUCH_WITH_KEYS_LIST, 0) == -1;
+		hideSelectCommand = platform.indexOf("sw_platform_version=5.") != -1;
+		isFullTouch = hideSelectCommand && indexOfAny(platform, SYMBIAN_TOUCH_WITH_KEYS_LIST, 0) == -1;
+//#else
+//#ifdef S40_MAYBE_TOUCH
+		hideSelectCommand = isAshaTouch(platform);
+//#else
+		hideSelectCommand = false;
+//#endif
 //#endif
 
 //#ifdef NOKIA_UI_SUPPORT
