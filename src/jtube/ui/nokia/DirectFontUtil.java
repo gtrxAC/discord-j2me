@@ -23,12 +23,10 @@ SOFTWARE.
 package jtube.ui.nokia;
 
 import javax.microedition.lcdui.Font;
+import com.gtrxac.discord.*;
 
 // import jtube.App;
-
-//#ifdef CHECK_DIRECTFONT
-import jtube.PlatformUtils;
-//#endif
+// import jtube.PlatformUtils;
 
 public class DirectFontUtil {
 	
@@ -38,9 +36,13 @@ public class DirectFontUtil {
 	static {
 		boolean inited = false;
 		
-		if(/*App.midlet.getAppProperty("JTube-BlackBerry-Build") == null &&*/
-				(PlatformUtils.isS60v5() || PlatformUtils.isAshaFullTouch() /*||
-						PlatformUtils.isKemulator || PlatformUtils.isJ2ML() */)) {
+		// if(/*App.midlet.getAppProperty("JTube-BlackBerry-Build") == null &&*/
+		// 		(PlatformUtils.isS60v5() || PlatformUtils.isAshaFullTouch() /*||
+		// 				PlatformUtils.isKemulator || PlatformUtils.isJ2ML() */)) {
+
+		// Currently, the same platforms support directfont as the platforms where we hide the "Select" command
+		// except S40 touch and type does not
+		if (Util.hideSelectCommand && Util.ashaSeries != Util.ASHA_SERIES_TOUCH_AND_TYPE) {
 			try {
 				Class.forName("com.nokia.mid.ui.DirectUtils");
 				DirectUtilsInvoker.init();
@@ -65,6 +67,13 @@ public class DirectFontUtil {
 	public static Font getFont(int face, int style, int height, int size) {
 //#ifdef DIRECTFONT
 		if(supported) {
+			// On Asha software platform (I don't know if this occurs on S40 DP 2.0)
+			// if the font size is set to specifically 8, it will be larger
+			// all other font sizes work as intended
+			if (height == 8 && Util.ashaSeries == Util.ASHA_SERIES_NASP) {
+				// Round up to 9 because 7 is so small that it becomes unreadable
+				height = 9;
+			}
 			try {
 				Font f = DirectUtilsInvoker.getFont(face, style, height);
 				if(f != null) return f;

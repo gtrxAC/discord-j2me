@@ -491,8 +491,16 @@ public class Util {
 
 	public static int fontSize;
 
-	private static boolean isAshaTouch(String plat) {
-		if (!plat.startsWith("Nokia")) return false;
+	public static final int ashaSeries;
+
+	public static final int ASHA_SERIES_NONE = 0;
+	public static final int ASHA_SERIES_TOUCH_AND_TYPE = 1;
+	public static final int ASHA_SERIES_S40_DP2 = 2;
+	public static final int ASHA_SERIES_NASP = 3;
+
+	private static int getAshaSeries(String plat) {
+//#ifdef S40_MAYBE_TOUCH
+		if (!plat.startsWith("Nokia")) return ASHA_SERIES_NONE;
 		plat = plat.substring(5);
 
 		// In the 230's case, we could check if it's the Asha 230 or the Series 30+ 230.
@@ -507,14 +515,18 @@ public class Util {
 			plat = plat.substring(4);
 		}
 
-		return
-			// Series 40 Touch and Type
+		// Series 40 Touch and Type
+		if (
 			plat.startsWith("202") ||
 			plat.startsWith("203") ||
 			plat.startsWith("300") ||
-			plat.startsWith("303") ||
+			plat.startsWith("303")
+		) {
+			return ASHA_SERIES_TOUCH_AND_TYPE; 
+		}
 
-			// Series 40 Developer Platform 2 (full-touch 240x400)
+		// Series 40 Developer Platform 2 (full-touch 240x400)
+		if (
 			plat.startsWith("305") ||
 			plat.startsWith("306") ||
 			plat.startsWith("308") ||
@@ -522,19 +534,30 @@ public class Util {
 			// could make sure it's not the 3100/3105, but those are midp1 anyway
 			// same for 3109/3110c, but those phones use a different build of the app
 			(plat.startsWith("310") /*&& !plat.startsWith("3109")*/) ||
-			(plat.startsWith("311") /*&& !plat.startsWith("3110c")*/) ||
+			(plat.startsWith("311") /*&& !plat.startsWith("3110c")*/)
+		) {
+			return ASHA_SERIES_S40_DP2;
+		}
 
-			// Asha software platform (full-touch 240x320)
+		// Asha software platform (full-touch 240x320)
+		if (
 			plat.startsWith("230") ||
 			(plat.startsWith("500") && !plat.startsWith("5000")) ||
 			plat.startsWith("501") ||
 			plat.startsWith("502") ||
-			plat.startsWith("503");
+			plat.startsWith("503")
+		) {
+			return ASHA_SERIES_NASP;
+		}
+//#endif
+		return ASHA_SERIES_NONE;
 	}
 
 	static {
 		String platform = System.getProperty("microedition.platform");
 		if (platform == null) platform = "";
+
+		ashaSeries = getAshaSeries(platform);
 
 //#ifdef SYMBIAN
 		isSymbian93 = platform.indexOf("sw_platform_version=3.2") != -1;
@@ -542,11 +565,7 @@ public class Util {
 		hideSelectCommand = platform.indexOf("sw_platform_version=5.") != -1;
 		isFullTouch = hideSelectCommand && indexOfAny(platform, SYMBIAN_TOUCH_WITH_KEYS_LIST, 0) == -1;
 //#else
-//#ifdef S40_MAYBE_TOUCH
-		hideSelectCommand = isAshaTouch(platform);
-//#else
-		hideSelectCommand = false;
-//#endif
+		hideSelectCommand = (ashaSeries != ASHA_SERIES_NONE);
 //#endif
 
 //#ifdef NOKIA_UI_SUPPORT
