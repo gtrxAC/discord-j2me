@@ -119,9 +119,8 @@ public abstract class MyCanvas {
     protected void clearScreen(Graphics g, int color) {
         // On BlackBerry, the clip is set by default to (0, -y, width, height+y), where y is the height of the title bar. This means that apps can draw stuff over the title bar.
         // We'll draw a custom title bar over the default one, then set a new clip so nothing else in the app can draw over it.
-//#ifdef BLACKBERRY
-        bbDrawTitle(g);
-//#endif
+        if (useCustomTitle) drawCustomTitle(g);
+
         int screenWidth = WrapperCanvas.instance.getWidth();  // getting width this way so it ignores area taken by scrollbar
         int screenHeight = getHeight();
 
@@ -200,34 +199,73 @@ public abstract class MyCanvas {
     }
 
 //#ifdef BLACKBERRY
-    public int bbTitleHeight;
-    private static final Font bbTitleFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+    public static final boolean useCustomTitle = true;
+    private static final Font custTitleFont =
+        Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+//#else
+//#ifdef S40_MAYBE_TOUCH
+    public static final boolean useCustomTitle = (Util.ashaSeries == Util.ASHA_SERIES_NASP);
+    private static final Font custTitleFont =
+        useCustomTitle ? Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_MEDIUM) : null;
+//#else
+    public static final boolean useCustomTitle = false;
+    private static final Font custTitleFont = null;
+//#endif
+//#endif
 
-    protected void bbDrawTitle(Graphics g) {
-        bbTitleHeight = g.getTranslateY();
+    public int custTitleHeight;
 
-        if (bbTitleHeight != 0) {
+    protected void drawCustomTitle(Graphics g) {
+//#ifdef BLACKBERRY
+        custTitleHeight = g.getTranslateY();
+//#else
+        int fontHeight = custTitleFont.getHeight();
+        custTitleHeight = fontHeight + fontHeight/4*2;
+//#endif
+
+        if (custTitleHeight != 0) {
             String title = getTitle();
             if (title == null) title = "Discord";
 
+//#ifdef BLACKBERRY
+            g.translate(0, -custTitleHeight);
+
             g.setColor(0xEEEEFF);
-            g.fillRect(0, -bbTitleHeight, getWidth(), bbTitleHeight);
+            g.fillRect(0, -custTitleHeight, getWidth(), custTitleHeight);
 
             g.setColor(0x111111);
-            g.setFont(bbTitleFont);
-            g.drawString(title, getWidth()/2, -bbTitleHeight, Graphics.HCENTER | Graphics.TOP);
+            g.setFont(custTitleFont);
+            g.drawString(title, getWidth()/2, -custTitleHeight, Graphics.HCENTER | Graphics.TOP);
             g.drawLine(0, -1, getWidth(), -1);
 
             g.setClip(0, 0, getWidth(), getHeight());
+//#else
+            g.translate(0, -g.getTranslateY());
+            g.setClip(0, 0, getWidth(), getHeight());
+
+            g.setColor(0xFFFFFF);
+            g.fillRect(0, 0, getWidth(), custTitleHeight);
+
+            g.setColor(0x22BBEE);
+            g.setFont(custTitleFont);
+            g.drawString(title, fontHeight/3, fontHeight/4, Graphics.LEFT | Graphics.TOP);
+            // g.drawLine(0, -1, getWidth(), -1);
+
+            g.setClip(0, custTitleHeight, getWidth(), getHeight());
+//#endif
+
+            g.translate(0, custTitleHeight);
         }
     }
-//#endif
 
     public int getWidth() {
         return width;
     }
 
     public int getHeight() {
+//#ifdef S40_MAYBE_TOUCH
+        if (useCustomTitle) return height - custTitleHeight;
+//#endif
         return height;
     }
 

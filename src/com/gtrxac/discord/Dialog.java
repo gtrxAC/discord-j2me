@@ -124,11 +124,9 @@ implements CommandListener
         checkScrollInRange();
 //#endif
 
-//#ifdef BLACKBERRY
-        bbDrawTitle(g);
-//#else
-        g.setClip(0, 0, getWidth(), getHeight());
-//#endif
+        if (!useCustomTitle) {
+            g.setClip(0, 0, getWidth(), getHeight());
+        }
 
         int themeBg = Theme.dialogBackgroundColor;
 
@@ -171,6 +169,8 @@ implements CommandListener
             g.setColor(background);
             g.fillRect(0, 0, getWidth(), getHeight());
         }
+
+        if (useCustomTitle) drawCustomTitle(g);
 
         // Centered card with actual theme background color
         int baseX = (getWidth() - getContentWidth())/2;

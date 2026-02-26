@@ -190,9 +190,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         int height = getHeight();
         checkScrollInRange();
 
-//#ifdef BLACKBERRY
-        bbDrawTitle(g);
-//#endif
+        if (useCustomTitle) drawCustomTitle(g);
 
         g.setColor(0x000000);
         g.fillRect(0, 0, width, height);
@@ -220,19 +218,13 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         if (scroll < logoArea) drawLogo(g, width);
         g.translate(0, logoArea + logoSize/8);
 
-//#ifdef BLACKBERRY
-        height = height*8/7;
-//#endif
+        if (useCustomTitle) height = height*8/7;
 
         for (int i = 0; i < items.length; i++) {
             items[i].draw(g, g.getTranslateY() < height && g.getTranslateY() > -items[i].height);
         }
 
-//#ifdef BLACKBERRY
-        g.translate(0, -g.getTranslateY() + bbTitleHeight);
-//#else
-        g.translate(0, -g.getTranslateY());
-//#endif
+        g.translate(0, -g.getTranslateY() + custTitleHeight);
         drawScrollbar(g);
     }
 

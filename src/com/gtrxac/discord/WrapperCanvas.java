@@ -1,8 +1,11 @@
 package com.gtrxac.discord;
 
-import java.util.Vector;
-
+import java.util.*;
 import javax.microedition.lcdui.*;
+
+//#ifdef S40_MAYBE_TOUCH
+import com.nokia.mid.ui.LCDUIUtil;
+//#endif
 
 public class WrapperCanvas extends Canvas {
     public static WrapperCanvas instance;
@@ -10,10 +13,20 @@ public class WrapperCanvas extends Canvas {
     private Vector commands;
     boolean needUpdateCommands;
 
+    private static Command ashaPlaceholderCommand;
+
     public WrapperCanvas() {
         super();
         instance = this;
         commands = new Vector();
+//#ifdef S40_MAYBE_TOUCH
+        if (Util.ashaSeries == Util.ASHA_SERIES_NASP) {
+            // Asha platform: enable fullscreen mode and show statusbar
+            // -> fix buggy canvas resizing caused by commands/titlebar visibility changing
+            setFullScreenMode(true);
+            LCDUIUtil.setObjectTrait(this, "nokia.ui.canvas.status_zone", new Boolean(true));
+        }
+//#endif
     }
 
     protected void hideNotify() {
@@ -113,31 +126,19 @@ public class WrapperCanvas extends Canvas {
     }
 
     protected void pointerPressed(int x, int y) {
-//#ifdef BLACKBERRY
-        if (!checkBackGesture(x, y)) current.pointerPressed(x, y - current.bbTitleHeight);
-//#else
-        if (!checkBackGesture(x, y)) current.pointerPressed(x, y);
-//#endif
+        if (!checkBackGesture(x, y)) current.pointerPressed(x, y - current.custTitleHeight);
         repaint();
     }
 
     protected void pointerDragged(int x, int y) {
         if (isDraggingBack) TransitionScreen.touchOffset = x;
-//#ifdef BLACKBERRY
-        else current.pointerDragged(x, y - current.bbTitleHeight);
-//#else
-        else current.pointerDragged(x, y);
-//#endif
+        else current.pointerDragged(x, y - current.custTitleHeight);
         repaint();
     }
 
     protected void pointerReleased(int x, int y) {
         isDraggingBack = false;
-//#ifdef BLACKBERRY
-        current.pointerReleased(x, y - current.bbTitleHeight);
-//#else
-        current.pointerReleased(x, y);
-//#endif
+        current.pointerReleased(x, y - current.custTitleHeight);
         repaint();
     }
 //#endif
@@ -212,7 +213,9 @@ public class WrapperCanvas extends Canvas {
     }
 
     public void updateFullscreen() {
-        if (current != null) setFullScreenMode(current.isFullscreen);
+        if (current != null) {
+            setFullScreenMode(Util.ashaSeries == Util.ASHA_SERIES_NASP || current.isFullscreen);
+        }
     }
 
     public void updateCommandListener() {
