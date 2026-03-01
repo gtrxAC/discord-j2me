@@ -282,8 +282,17 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         return result;
     }
 
+    private int getMessageBarWidth() {
+        int result = getFullWidth();
+
+        // on S40 DP2, not in fullscreen mode, the back button is drawn over the canvas on the bottom right, so give it space
+        if (Util.ashaSeries == Util.ASHA_SERIES_S40_DP2 && !isFullscreen) result -= 46;
+
+        return result;
+    }
+
     private boolean checkAndLoadMessageBar() {
-        int fullWidth = getFullWidth();
+        int fullWidth = getMessageBarWidth();
         
         if (messageBarWidth != fullWidth) {
             final int imgWidth = 15;
@@ -325,7 +334,10 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 messageBarHash = newBarHash;
             }
 
-            Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, fullWidth - partWidth*2, barHeight);
+            int centerScaledWidth = fullWidth - partWidth*2;
+            if (Util.ashaSeries == Util.ASHA_SERIES_S40_DP2) centerScaledWidth++;  // fix missing column of pixels because idk
+
+            Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, centerScaledWidth, barHeight);
 
             messageBar = Image.createImage(fullWidth, barHeight);
             Graphics barG = messageBar.getGraphics();
@@ -944,7 +956,14 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 //#ifdef TOUCH_SUPPORT
         if (shouldShowBottomBar()) {
             g.setClip(0, 0, getFullWidth(), super.getHeight());
-            g.drawImage(messageBar, 0, getHeight(), Graphics.TOP | Graphics.LEFT);
+            g.drawImage(messageBar, 0, height, Graphics.TOP | Graphics.LEFT);
+
+            if (Util.ashaSeries == Util.ASHA_SERIES_S40_DP2) {
+                int messageBarWidth = getMessageBarWidth();
+
+                g.setColor(Theme.channelViewBackgroundColor);
+                g.fillRect(messageBarWidth, height, getFullWidth() - messageBarWidth, super.getHeight() - height);
+            }
         }
 //#endif
 
@@ -1172,7 +1191,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 commandAction(uploadCommand, null);
             }
             // Button on right-most edge: send emoji (open "send message" box then the emoji picker)
-            else if (x > getWidth() - fontHeight*2) {
+            else if (x > getMessageBarWidth() - fontHeight*2) {
                 showMessageBox(true);
             }
             // Rest of the bar: send message

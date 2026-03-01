@@ -252,11 +252,14 @@ public class Settings {
         isHighRam = true;
 //#endif
 
-        final int defaultFontSize =
 //#ifdef NOKIA_128PX
-            1;
+        final int defaultFontSize = 1;
 //#else
-            0;
+//#ifdef S40_MAYBE_TOUCH
+        final int defaultFontSize = (Util.ashaSeries == Util.ASHA_SERIES_S40_DP2) ? 1 : 0;
+//#else
+        final int defaultFontSize = 0;
+//#endif
 //#endif
 
         api = getStringRecord(api);

@@ -190,11 +190,18 @@ public class ChannelViewItem implements Strings {
 
     private static void initSmallFonts() {
         if (smallFont == null) {
-            // Asha platform handles font sizes differently than Symbian
-            // I don't know how font sizes are handled in S40 DP 2.0
-            int smallFontSize = (Util.ashaSeries == Util.ASHA_SERIES_NASP) ?
-                App.messageFont.getHeight()/2 :
-                App.messageFont.getHeight()*3/4;
+            // Asha platform, S40 DP2, and Symbian all handle font sizes differently
+            int smallFontSize;
+
+            if (Util.ashaSeries == Util.ASHA_SERIES_NASP) {
+                smallFontSize = App.messageFont.getHeight()/2;
+            }
+            else if (Util.ashaSeries == Util.ASHA_SERIES_S40_DP2) {
+                smallFontSize = App.messageFont.getHeight()*3/5;
+            }
+            else {
+                smallFontSize = App.messageFont.getHeight()*3/4;
+            }
 
             smallFont = DirectFontUtil.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, smallFontSize, Font.SIZE_SMALL);
             smallBoldFont = DirectFontUtil.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, smallFontSize, Font.SIZE_SMALL);
