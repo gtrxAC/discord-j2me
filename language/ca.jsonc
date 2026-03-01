@@ -1025,25 +1025,25 @@
     "Estira",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "Transició de pantalla",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper",
+    "So entrant",
+    "So sortint",
+    "Fons de pantalla",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "Per iniciar sessió, cal un token d'autenticació, que es pot recuperar escanejant un codi QR amb aplicació mòbil Discord.",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "Obtén QR",
+    "Obtén codi QR",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "Connectant...",
+    "Recuperant codi QR...",
+    "Desconnectat, reintenta",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. "
+    "També pots introduir teu token manualment. "
 ]
