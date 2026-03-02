@@ -283,12 +283,16 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
     private int getMessageBarWidth() {
+//#ifdef S40_MAYBE_TOUCH
         int result = getFullWidth();
 
         // on S40 DP2, not in fullscreen mode, the back button is drawn over the canvas on the bottom right, so give it space
         if (Util.ashaSeries == Util.ASHA_SERIES_S40_DP2 && !isFullscreen) result -= 46;
 
         return result;
+//#else
+        return getFullWidth();
+//#endif
     }
 
     private boolean checkAndLoadMessageBar() {
