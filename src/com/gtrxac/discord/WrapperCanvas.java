@@ -30,6 +30,7 @@ public class WrapperCanvas extends Canvas {
     }
 
     protected void hideNotify() {
+        lastShownScreen = null;
         stopKeyRepeat();
         current.hideNotify();
     }
@@ -147,6 +148,8 @@ public class WrapperCanvas extends Canvas {
     private static boolean hasDoneSamsungFontFix;
 //#endif
 
+    private MyCanvas lastShownScreen;
+
     protected void showNotify() {
 //#ifdef SAMSUNG_FULL
         // On Samsung Jet S8000 (tested with S800MCEIK1 firmware) the first canvas that is shown
@@ -159,7 +162,11 @@ public class WrapperCanvas extends Canvas {
             hasDoneSamsungFontFix = true;
         } else
 //#endif
-        current.showNotify();
+        // prevent calling shownotify twice when screen has changed from non-wrappercanvas to wrappercanvas
+        if (lastShownScreen != current) {
+            current.showNotify();
+            lastShownScreen = null;
+        }
     }
 
     protected void sizeChanged(int width, int height) {
@@ -233,6 +240,7 @@ public class WrapperCanvas extends Canvas {
         updateCommandListener();
         checkUpdateSize(current);
         current.showNotify();
+        lastShownScreen = current;
         repaint();
     }
 }
