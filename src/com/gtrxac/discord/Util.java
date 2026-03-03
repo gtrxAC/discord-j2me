@@ -559,22 +559,27 @@ public class Util {
 
 		ashaSeries = getAshaSeries(platform);
 
+//#ifdef SAMSUNG_FULL
+		hasSamsungFontBug = indexOfAny(platform, SAMSUNG_FONT_BUG_LIST, 0) != -1;
+		noPointerEventsBug = platform.indexOf("S7350") == -1;
+//#endif
+
 //#ifdef SYMBIAN
 		isSymbian93 = platform.indexOf("sw_platform_version=3.2") != -1;
 
 		hideSelectCommand = platform.indexOf("sw_platform_version=5.") != -1;
 		isFullTouch = hideSelectCommand && indexOfAny(platform, SYMBIAN_TOUCH_WITH_KEYS_LIST, 0) == -1;
 //#else
+//#ifdef SAMSUNG_FULL
+		// phones with these bugs are also full-touch phones (though there are of course more full-touch Samsungs which could be added)
+		hideSelectCommand = hasSamsungFontBug || noPointerEventsBug;
+//#else
 		hideSelectCommand = (ashaSeries != ASHA_SERIES_NONE);
+//#endif
 //#endif
 
 //#ifdef NOKIA_UI_SUPPORT
 		supportsNokiaUINotifs = (System.getProperty("com.nokia.mid.ui.softnotification") != null);
-//#endif
-
-//#ifdef SAMSUNG_FULL
-		hasSamsungFontBug = indexOfAny(platform, SAMSUNG_FONT_BUG_LIST, 0) != -1;
-		noPointerEventsBug = platform.indexOf("S7350") == -1;
 //#endif
 
 //#ifdef PIGLER_SUPPORT
