@@ -342,9 +342,8 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             if (Util.ashaSeries == Util.ASHA_SERIES_S40_DP2) centerScaledWidth++;  // fix missing column of pixels because idk
 
             Image messageBarCenterScaled = Util.resizeImageBilinear(messageBarCenter, centerScaledWidth, barHeight);
-
-            messageBar = Image.createImage(fullWidth, barHeight);
-            Graphics barG = messageBar.getGraphics();
+            Image messageBarMut = Image.createImage(fullWidth, barHeight);
+            Graphics barG = messageBarMut.getGraphics();
 
             barG.setColor(Theme.channelViewBackgroundColor);
             barG.fillRect(0, 0, fullWidth, barHeight);
@@ -378,7 +377,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 barHeight*19/20, fontHeight/2, Graphics.TOP | Graphics.LEFT
             );
 
-            messageBar = Image.createImage(messageBar);
+            messageBar = Image.createImage(messageBarMut);
             messageBarWidth = fullWidth;
         }
         return true;
