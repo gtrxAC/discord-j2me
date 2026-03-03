@@ -3,9 +3,11 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
+import jtube.ui.nokia.DirectFontUtil;
+
 public class FormattedStringPartRichText extends FormattedStringPartText {
     public FormattedStringPartRichText(String content, Font font, int style) {
-        super(content, Font.getFont(font.getFace(), style, font.getSize()));
+        super(content, DirectFontUtil.getFont(font.getFace(), style, FormattedStringParser.fontSize, font.getSize()));
     }
 
     public void draw(Graphics g, int yOffset) {

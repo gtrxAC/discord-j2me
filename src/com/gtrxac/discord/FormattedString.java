@@ -4,6 +4,8 @@ package com.gtrxac.discord;
 import java.util.*;
 import javax.microedition.lcdui.*;
 
+import jtube.ui.nokia.DirectFontUtil;
+
 public class FormattedString implements Strings {
     private FormattedStringPart[] parts;
     int height;
@@ -57,7 +59,7 @@ public class FormattedString implements Strings {
                 if (!isEmpty) {
                     tempParts.addElement(new FormattedStringPartText(" ", font));
                 }
-                editedFont = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+                editedFont = DirectFontUtil.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, FormattedStringParser.fontSize, Font.SIZE_SMALL);
                 tempParts.addElement(createEditedOrForwardedPart(EDITED_MESSAGE, editedFont, Theme.editedTextColor));
             }
         }

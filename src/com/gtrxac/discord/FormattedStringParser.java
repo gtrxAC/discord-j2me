@@ -53,6 +53,8 @@ public class FormattedStringParser {
     public static String[] unicodeEmojiNames;
 //#endif
 
+    static int fontSize;
+
     FormattedStringParser(String src, Font font, boolean showEmoji, boolean singleLine) {
         this.src = src;
         this.font = font;
@@ -68,6 +70,10 @@ public class FormattedStringParser {
                 this.src = Util.replace(this.src, unicodeEmojis[i], unicodeEmojiNames[i]);
             }
         }
+//#endif
+
+//#ifdef DIRECTFONT
+        fontSize = singleLine ? ChannelViewItem.smallFontSize : 0;
 //#endif
     }
 

@@ -3,10 +3,12 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
+import jtube.ui.nokia.DirectFontUtil;
+
 public class FormattedStringPartMonospace extends FormattedStringPartRichText {
     public FormattedStringPartMonospace(String content, Font font) {
         super(content, font, 0);
-        this.font = Font.getFont(Font.FACE_MONOSPACE, font.getStyle(), font.getSize());
+        this.font = DirectFontUtil.getFont(Font.FACE_MONOSPACE, font.getStyle(), FormattedStringParser.fontSize, font.getSize());
     }
 
     public void draw(Graphics g, int yOffset) {

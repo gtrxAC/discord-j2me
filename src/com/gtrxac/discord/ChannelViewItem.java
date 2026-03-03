@@ -39,6 +39,7 @@ public class ChannelViewItem implements Strings {
     boolean refImgSelected;  // was the cached ref image selected? used for determining correct background color
     long refImgLastDrawn;    // timestamp when ref image was last drawn, used for preventing too frequent redraws
 
+    static int smallFontSize;
     private static Font smallFont;
     private static Font smallBoldFont;
 
@@ -191,8 +192,6 @@ public class ChannelViewItem implements Strings {
     private static void initSmallFonts() {
         if (smallFont == null) {
             // Asha platform, S40 DP2, and Symbian all handle font sizes differently
-            int smallFontSize;
-
             if (Util.ashaSeries == Util.ASHA_SERIES_NASP) {
                 smallFontSize = App.messageFont.getHeight()/2;
             }

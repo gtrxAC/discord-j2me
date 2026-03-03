@@ -66,7 +66,7 @@ public class DirectFontUtil {
 	
 	public static Font getFont(int face, int style, int height, int size) {
 //#ifdef DIRECTFONT
-		if(supported) {
+		if (supported && height > 0) {
 			// On Asha software platform (I don't know if this occurs on S40 DP 2.0)
 			// if the font size is set to specifically 8, it will be larger
 			// all other font sizes work as intended
