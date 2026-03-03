@@ -13,7 +13,7 @@
     "kemulator.location": "/path/to/folder/with/kemlator",
 
     // Environment settings for VSCode
-    "java.jdt.ls.java.home": "${config:jdk.location}",
+    // "java.jdt.ls.java.home": "${config:jdk.location}",
     "java.project.referencedLibraries": [
         "sdk/lib/**/*.jar",
     ],
