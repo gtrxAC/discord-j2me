@@ -187,15 +187,26 @@ public class GatewayThread extends Thread implements Strings
 		StringBuffer c = new StringBuffer();
 		c.append(Util.stringToLength(msg.content, 50));
 
-		if (msg.attachments != null) {
+		if (msg.imageAttachments != null) {
 			if (msg.content.length() != 0) c.append(" ");
 			c.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
-			c.append(msg.attachments.length);
+			c.append(msg.imageAttachments.length);
 
-			if (msg.attachments.length != 1) {
-				c.append(Locale.get(NOTIFICATION_ATTACHMENTS_SUFFIX));
+			if (msg.imageAttachments.length != 1) {
+				c.append(" images)");
 			} else {
-				c.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX));
+				c.append(" image)");
+			}
+		}
+		if (msg.fileAttachments != null) {
+			if (msg.content.length() != 0) c.append(" ");
+			c.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
+			c.append(msg.fileAttachments.length);
+
+			if (msg.fileAttachments.length != 1) {
+				c.append(" files)");
+			} else {
+				c.append(" file)");
 			}
 		}
 		msg.content = c.toString();

@@ -526,7 +526,20 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
 //#endif
 
-            if (msg.attachments != null) {
+            if (msg.fileAttachments != null) {
+                ChannelViewItem attachItem = new ChannelViewItem(
+//#ifdef INLINE_ATTACHMENTS
+                    ChannelViewItem.ATTACHMENTS_NONIMAGE
+//#else
+                    ChannelViewItem.ATTACHMENTS_BUTTON_NONIMAGE
+//#endif
+                );
+                attachItem.msg = msg;
+                items.addElement(attachItem);
+                maxScroll += attachItem.getHeight();
+            }
+
+            if (msg.imageAttachments != null) {
                 ChannelViewItem attachItem = new ChannelViewItem(
 //#ifdef INLINE_ATTACHMENTS
                     ChannelViewItem.ATTACHMENTS
@@ -997,7 +1010,17 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             case ChannelViewItem.ATTACHMENTS_BUTTON:
 //#endif
             {
-                App.openAttachmentView(false, selected.msg);
+                App.openAttachmentView(false, selected.msg.imageAttachments);
+                break;
+            }
+
+//#ifdef INLINE_ATTACHMENTS
+            case ChannelViewItem.ATTACHMENTS_NONIMAGE:
+//#else
+            case ChannelViewItem.ATTACHMENTS_BUTTON_NONIMAGE:
+//#endif
+            {
+                App.openAttachmentView(false, selected.msg.fileAttachments);
                 break;
             }
         }

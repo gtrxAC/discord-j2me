@@ -3,14 +3,14 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 
 public class AttachmentView extends Form implements CommandListener, ItemCommandListener, Strings {
-    Message msg;
+    Attachment[] atts;
 
     private Command backCommand;
     private Command refreshCommand;
 
-    public AttachmentView(Message msg) {
+    public AttachmentView(Attachment[] atts) {
         super(Locale.get(ATTACHMENT_VIEW_TITLE));
-        this.msg = msg;
+        this.atts = atts;
         setCommandListener(this);
 
         backCommand = Locale.createCommand(BACK, Command.BACK, 0);
@@ -24,13 +24,13 @@ public class AttachmentView extends Form implements CommandListener, ItemCommand
             App.openChannelView(false);
         }
         else if (c == refreshCommand) {
-            App.openAttachmentView(true, msg);
+            App.openAttachmentView(true, atts);
         }
     }
 
     public void commandAction(Command c, Item i) {
         int prio = c.getPriority();
-        Attachment attach = msg.attachments[prio % 100];
+        Attachment attach = atts[prio % 100];
 
         if (prio < 100) {
             // 'Open in browser' button

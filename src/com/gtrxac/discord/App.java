@@ -351,9 +351,9 @@ public class App extends MIDlet implements Strings {
 		}
 	}
 
-	public static void openAttachmentView(boolean reload, Message msg) {
-		if (reload || attachmentView == null || attachmentView.msg != msg) {
-			attachmentView = new AttachmentView(msg);
+	public static void openAttachmentView(boolean reload, Attachment[] atts) {
+		if (reload || attachmentView == null || attachmentView.atts != atts) {
+			attachmentView = new AttachmentView(atts);
 			new HTTPThread(HTTPThread.FETCH_ATTACHMENTS).start();
 		}
 		disp.setCurrent(attachmentView);

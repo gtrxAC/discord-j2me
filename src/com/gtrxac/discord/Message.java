@@ -35,7 +35,8 @@ public class Message implements Strings {
     // fields for non-status messages
     public User recipient;
     public String refContent;
-    public Attachment[] attachments;
+    public Attachment[] imageAttachments;
+    public Attachment[] fileAttachments;
     public Embed[] embeds;
     public boolean showAuthor;
 
@@ -167,11 +168,24 @@ public class Message implements Strings {
                 int count = attachArray.size();
 
                 if (count >= 1) {
-                    attachments = new Attachment[count];
+                    Vector imageAttVec = new Vector();
+                    Vector fileAttVec = new Vector();
 
                     for (int i = 0; i < count; i++) {
-                        JSONObject attach = attachArray.getObject(i);
-                        attachments[i] = new Attachment(attach);
+                        JSONObject attachJson = attachArray.getObject(i);
+                        Attachment attach = new Attachment(attachJson);
+
+                        if (attach.supported) imageAttVec.addElement(attach);
+                        else fileAttVec.addElement(attach);
+                    }
+
+                    if (imageAttVec.size() != 0) {
+                        imageAttachments = new Attachment[imageAttVec.size()];
+                        imageAttVec.copyInto(imageAttachments);
+                    }
+                    if (fileAttVec.size() != 0) {
+                        fileAttachments = new Attachment[fileAttVec.size()];
+                        fileAttVec.copyInto(fileAttachments);
                     }
                 }
             }
@@ -227,7 +241,8 @@ public class Message implements Strings {
 
         if (
             content.length() == 0 &&
-            (attachments == null || attachments.length == 0) &&
+            imageAttachments == null &&
+            fileAttachments == null &&
             (embeds == null || embeds.length == 0) &&
             !isStatus
         ) {
@@ -250,7 +265,7 @@ public class Message implements Strings {
         if (recipient != null) return true;
 
         // This message only consists of an attachment -> true
-        if (attachments != null && content.length() == 0) return true;
+        if ((imageAttachments != null || fileAttachments != null) && content.length() == 0) return true;
 
         // This message or above message is a status message -> true
         if (isStatus || above.isStatus) return true;
@@ -265,7 +280,8 @@ public class Message implements Strings {
         content = Locale.get(MESSAGE_DELETED);
         isStatus = true;
         embeds = null;
-        attachments = null;
+        imageAttachments = null;
+        fileAttachments = null;
         needUpdate = true;
 //#ifdef OVER_100KB
         isEdited = false;

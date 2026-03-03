@@ -11,8 +11,10 @@ public class ChannelViewItem implements Strings {
     static final int UNREAD_INDICATOR = 4;
 //#ifdef INLINE_ATTACHMENTS
     static final int ATTACHMENTS = 5;
+    static final int ATTACHMENTS_NONIMAGE = 6;
 //#else
     static final int ATTACHMENTS_BUTTON = 3;
+    static final int ATTACHMENTS_BUTTON_NONIMAGE = 5;
 //#endif
 
 //#ifdef INLINE_ATTACHMENTS
@@ -113,7 +115,7 @@ public class ChannelViewItem implements Strings {
         // and the message only consists of attachments (only shown as a 'view attachments' button)
         return (
 //#ifdef INLINE_ATTACHMENTS
-            type == ChannelViewItem.ATTACHMENTS &&
+            (type == ChannelViewItem.ATTACHMENTS || type == ChannelViewItem.ATTACHMENTS_NONIMAGE) &&
 //#else
             type == ChannelViewItem.ATTACHMENTS_BUTTON &&
 //#endif
@@ -166,7 +168,15 @@ public class ChannelViewItem implements Strings {
                 int x = useIcons ? messageFontHeight*2 : 0;
                 int attachAreaSize = (App.channelView.getWidth() - x)/3;
 
-                return attachAreaSize*((msg.attachments.length + 2)/3);
+                return attachAreaSize*((msg.imageAttachments.length + 2)/3);
+            }
+
+            case ATTACHMENTS_NONIMAGE: {
+                initSmallFonts();
+                int margin = messageFontHeight/3;
+                int itemHeight = margin*3 + messageFontHeight + smallFont.getHeight();  // margin (for top and between items) + top padding + bottom padding + title + filesize
+
+                return itemHeight*msg.fileAttachments.length + margin;  // + bottom margin
             }
 //#endif
 
@@ -616,14 +626,28 @@ public class ChannelViewItem implements Strings {
 
             // Similar to older/newer button, but left aligned
 //#ifndef INLINE_ATTACHMENTS
-            case ATTACHMENTS_BUTTON: {
-                String caption =
-                    Locale.get(VIEW_ATTACHMENTS_PREFIX) +
-                    msg.attachments.length +
-                    (msg.attachments.length > 1 ?
-                        Locale.get(VIEW_ATTACHMENTS_SUFFIX) :
-                        Locale.get(VIEW_ATTACHMENT_SUFFIX)
-                    );
+            case ATTACHMENTS_BUTTON:
+            case ATTACHMENTS_BUTTON_NONIMAGE:    
+            {
+                String caption;
+
+                if (type == ATTACHMENTS_BUTTON) {
+                    caption = 
+                        Locale.get(VIEW_ATTACHMENTS_PREFIX) +
+                        msg.imageAttachments.length +
+                        (msg.imageAttachments.length > 1 ?
+                            " images" :
+                            " image"
+                        );
+                } else {
+                    caption = 
+                        Locale.get(VIEW_ATTACHMENTS_PREFIX) +
+                        msg.fileAttachments.length +
+                        (msg.fileAttachments.length > 1 ?
+                            " files" :
+                            " file"
+                        );
+                }
 
                 int x = useIcons ? messageFontHeight*2 : 0;
                 int textWidth = App.messageFont.stringWidth(caption);
@@ -712,69 +736,93 @@ public class ChannelViewItem implements Strings {
                 int attachImageSize = attachAreaSize - attachMargin*2;
                 int playButtonSize = attachAreaSize/2;
 
-                for (int i = 0; i < msg.attachments.length; i++) {
-                    Attachment attach = msg.attachments[i];
+                for (int i = 0; i < msg.imageAttachments.length; i++) {
+                    Attachment attach = msg.imageAttachments[i];
 
                     int attX = x + (i%3)*attachAreaSize + attachMargin;
                     int attY = y + (i/3)*attachAreaSize + attachMargin;
                     
-                    if (attach.supported) {
-                        Image attachImage = IconCache.getResized(attach, attachImageSize);
-                    
-                        if (attachImage != null) {
-                            g.drawImage(attachImage, attX, attY, Graphics.TOP | Graphics.LEFT);
-                        }
-                        if (attach.isVideo) {
-                            if (playButtonOrig == null) {
-                                try {
-                                    playButtonOrig = Image.createImage("/play.png");
-                                }
-                                catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            if (playButton == null || playButton.getWidth() != playButtonSize) {
-                                playButton = Util.resizeImageBilinear(playButtonOrig, playButtonSize, playButtonSize);
-                            }
-                            g.drawImage(
-                                playButton,
-                                attX + attachImageSize/2,
-                                attY + attachImageSize/2,
-                                Graphics.HCENTER | Graphics.VCENTER
-                            );
-                        }
+                    Image attachImage = IconCache.getResized(attach, attachImageSize);
+                
+                    if (attachImage != null) {
+                        g.drawImage(attachImage, attX, attY, Graphics.TOP | Graphics.LEFT);
                     }
-                    else {
-                        g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-                        g.fillRoundRect(attX, attY, attachImageSize, attachImageSize, messageFontHeight/2, messageFontHeight/2);
-
-                        g.setColor(Theme.statusMessageContentColor);
-                        g.setFont(App.messageFont);
-                        g.drawString(
-                            Util.stringToWidth(attach.name, App.messageFont, attachImageSize - messageFontHeight),
-                            attX + messageFontHeight/2,
-                            attY + messageFontHeight/2,
-                            Graphics.TOP | Graphics.LEFT
-                        );
-
-                        if (fileIconOrig == null) {
+                    if (attach.isVideo) {
+                        if (playButtonOrig == null) {
                             try {
-                                fileIconOrig = Image.createImage("/file.png");
+                                playButtonOrig = Image.createImage("/play.png");
                             }
                             catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
-                        if (fileIcon == null || fileIcon.getWidth() != playButtonSize) {
-                            fileIcon = Util.resizeImageBilinear(fileIconOrig, playButtonSize, playButtonSize);
+                        if (playButton == null || playButton.getWidth() != playButtonSize) {
+                            playButton = Util.resizeImageBilinear(playButtonOrig, playButtonSize, playButtonSize);
                         }
                         g.drawImage(
-                            fileIcon,
+                            playButton,
                             attX + attachImageSize/2,
-                            attY + attachImageSize*3/5,
+                            attY + attachImageSize/2,
                             Graphics.HCENTER | Graphics.VCENTER
                         );
                     }
+                }
+                break;
+            }
+
+            case ATTACHMENTS_NONIMAGE: {
+                int margin = messageFontHeight/3;
+                int x = (useIcons ? messageFontHeight*2 : 0) + margin;
+                int smallFontHeight = smallFont.getHeight();
+                int contentHeight = messageFontHeight + smallFontHeight;
+
+                if (fileIconOrig == null) {
+                    try {
+                        fileIconOrig = Image.createImage("/file.png");
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (fileIcon == null || fileIcon.getWidth() != contentHeight) {
+                    fileIcon = Util.resizeImageBilinear(fileIconOrig, contentHeight, contentHeight);
+                }
+
+                y += margin;
+
+                for (int i = 0; i < msg.fileAttachments.length; i++) {
+                    Attachment attach = msg.fileAttachments[i];
+
+                    g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+                    g.fillRoundRect(
+                        x,
+                        y,
+                        width - x - margin,
+                        margin*2 + contentHeight,
+                        margin*2,
+                        margin*2
+                    );
+
+                    y += margin;
+                    x += margin;
+
+                    g.drawImage(fileIcon, x, y, 0);
+
+                    x += contentHeight + margin;
+
+                    String attName = Util.stringToWidth(attach.name, App.titleFont, width - x - margin*2);
+                    g.setColor(Theme.linkColor);
+                    g.setFont(App.titleFont);
+                    g.drawString(attName, x, y, 0);
+
+                    y += messageFontHeight;
+
+                    g.setColor(Theme.statusMessageContentColor);
+                    g.setFont(smallFont);
+                    g.drawString(attach.size, x, y, 0);
+
+                    y += smallFontHeight + margin*2;
+                    x -= contentHeight + margin*2;
                 }
                 break;
             }

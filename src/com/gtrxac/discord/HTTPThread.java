@@ -589,7 +589,7 @@ public class HTTPThread extends Thread implements Strings {
                         throw new Exception(Locale.get(CDN_ERROR_ATTACHMENT));
                     }
 
-                    Attachment[] attachments = App.attachmentView.msg.attachments;
+                    Attachment[] attachments = App.attachmentView.atts;
                     int layout = Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_NEWLINE_BEFORE;
 
 //#ifdef J2ME_LOADER
