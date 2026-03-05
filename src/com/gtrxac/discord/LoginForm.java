@@ -247,6 +247,11 @@ Strings
             showUrls();
         }
         else if (c == qrLoginCommand) {
+            // check "Use Wifi" checkbox status because network is used to fetch QR code
+            boolean[] selected = {false};
+            wifiGroup.getSelectedFlags(selected);
+            Settings.bbWifi = selected[0];
+            
             showQrLogin();
         }
 //#endif
