@@ -251,7 +251,7 @@
     "ตอบกลับข้อความ",
     "คัดลอกเนื้อหาของข้อความ",
     "รีเฟรชข้อความ",
-    "ย้อนกลัับ",
+    "ย้อนกลับ",
 
     // Error message prefix shown when a key has been mapped to an action and the user tried to map the same key to another action. The name of the already mapped action (see above) is written after this prefix.
     "ปุ่มนี้ถูกใช้แล้วสำหรับการ",
@@ -260,7 +260,7 @@
     "เข้าสู่ระบบ",
 
     // Proxy server warning message shown at the top of the login screen.
-    "เพื่อความปลอดภัย ขอให้ใช้พร็อกซี่ที่ปลอดภัยและไว้ได้เท่านั้น!",
+    "เพื่อความปลอดภัย ขอให้ใช้พร็อกซี่ที่ปลอดภัยและไว้ใจได้เท่านั้น!",
 
     // Help message for finding your token. Shown in login screen above the token field.
     "Token เป็นรหัสประจำตัวการเข้าสู่ระบบของผู้ใช้งาน ซึ่งดูได้จากเครื่องมือของนักพัฒนาหรือ DevTools (สำหรับวิธีดูให้ค้นหาในเน็ต) ขอแนะนำให้ใช้บัญชีสำรองเพื่อความปลอดภัย",
@@ -859,189 +859,189 @@
     "HTTP 302: คำขอถูกเปลี่ยนเส้นทางโดยไม่คาดคิด กรุณาตรวจสอบการเชื่อมต่อของคุณ",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
-    "Warning",
-    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+    "คำเตือน",
+    "บ่อยครั้ง Discord จะตรวจจับการอัพโหลดไฟล์จากแอพที่ไม่ใช่ของ Discord เองว่าเป็นการส่งสแปม โดยมักจะเกิดขึ้นกับบัญชีใหม่ที่ยังไม่ได้ตั้งการยืนยันตัวตนหลายขั้นตอน หรือยังไม่ยืนยันตัวตนด้วยเบอร์โทรศัพท์ หากดำเนินการต่อ ถือว่าคุณยอมรับความเสี่ยงนี้\nเลือก 'ซ่อน' หากไม่ต้องการเห็นคำเตือนนี้อีก",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Hide",
-    "Hide",
+    "ซ่อน",
+    "ซ่อน",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?",
+    "บ่อยครั้ง Discord จะตรวจจับการส่งข้อตวามส่วนตัวจากแอพที่ไม่ใช่ของ Discord เองว่าเป็นการส่งสแปม ขอแนะนำให้ข้อความแรกโดยใช้แอพของ Discord เอง ต้องการดำเนินการต่อหรือไม่?",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "เซิร์ฟเวอร์โปรด",
+    "เซิร์ฟเวอร์ที่บันทึกไว้",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!",
+    "บันทึกเสร็จสิ้น",
+    "บันทึกรายการเซิร์ฟเวอร์ไว้ในแคชแล้ว",
 
     // Related to "Types of data shown in the data manager" above.
-    "Emoji names",
+    "ชื่ออิโมจิ",
 
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.
-    "Guide",
-    "Setup guide",
+    "คู่มือ",
+    "คู่มือการตั้งค่า",
 
     // Option in login screen to use direct connection (proxyless) mode.
-    "Direct connection",
+    "เชื่อมต่อโดยตรง",
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "Direct connection reduces the risk of an account restriction.",
+    "การเชื่อมต่อโดยตรงจะลดความเสี่ยงที่บัญชีจะถูกจำกัดการใช้งาน",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "Direct connection (",
-    "requires TLS 1.2",
-    ") reduces the risk of an account restriction.",
+    "การเชื่อมต่อโดยตรง (",
+    "ต้องใช้การเข้ารหัส TLS 1.2",
+    ") จะลดความเสี่ยงที่บัญชีจะถูกจำกัดการใช้งาน",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
-    "Get TLS",
-    "Get TLS",
+    "ติดตั้ง TLS",
+    "ติดตั้ง TLS",
 
     // Text shown in bottom message bar.
-    "Message",
+    "ส่งข้อความ",
 
     // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
-    "Message ",
+    "ส่งข้อความไปยัง ",
 
     // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
     // You should use the same term for "Direct connection" that you used above.
-    "Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "อุปกรณ์ของคุณไม่รองรับการแก้ไขข้อความในโหมดการเชื่อมต่อโดยตรง\nคุณต้องการที่จะแก้ไขข้อความนี้ผ่านพร็อกซี่หรือไม่?\nเลือก 'ซ่อน' หากต้องการให้ใช้พร็อกซี่ทุกครั้ง",
 
-    "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "อุปกรณ์ของคุณไม่รองรับการลบข้อความในโหมดการเชื่อมต่อโดยตรง\nคุณต้องการที่จะลบข้อความนี้ผ่านพร็อกซี่หรือไม่?\nเลือก 'ซ่อน' หากต้องการให้ใช้พร็อกซี่ทุกครั้ง",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Chinese (Simplified)",
+    "ภาษาจีน (ตัวย่อ)",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Time format",
+    "รูปแบบเวลา",
 
     // Title for time preview shown in the time format screen.
-    "Preview",
+    "ตัวอย่าง",
 
     // Titles for sliders in the time format screen for changing the time offset.
-    "Time offset (hours)",
-    "Time offset (minutes)",
+    "ค่าความต่างเวลา (ชั่วโมง)",
+    "ค่าความต่างเวลา (นาที)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negative offset",
+    "ค่าความต่างติดลบ",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Hungarian",
+    "ภาษาฮังการี",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "Up",
-    "Move up",
-    "Down",
-    "Move down",
+    "ขึ้น",
+    "เลื่อนขึ้น",
+    "ลง",
+    "เลื่อนลง",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect.",
+    "การเชื่อมต่อโดยตรงถูกเปิดใช้งานอยู่ แต่การเชื่อมต่อไปยัง gateway จำเป็นต้องใช้พร็อกซี่ซึ่งอาจไม่ปลอดภัย คุณต้องการที่จะเชื่อมต่อไปยัง gateway หรือไม่?\nเลือก 'ซ่อน' หากต้องการให้เชื่อมต่อทุกครั้ง",
 
     // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
-    "Show message bar",
+    "แสดงแถบป้อนข้อความ",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
-    "Auto",
+    "อัตโนมัติ",
 
     // Title for login screen (new version).
-    "Welcome",
+    "ยินดีต้อนรับ",
     
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "เปิด",
+    "เปิด",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "อ่านเพิ่มเติม",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "แอพนี้สามารถใช้งานร่วมกับพร็อกซี่ได้เช่นกัน",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "ขอแนะนำให้จัดตั้งพร็อกซี่ส่วนตัวเพื่อความปลอดภัย ",
 
     // Hint text shown after the above string on BlackBerry devices.
-    "To edit your connection URLs, press the BlackBerry key.",
+    "กดปุ่ม BlackBerry เพื่อเปลี่ยน URL สำหรับการเชื่อมต่อ",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
+    "URL สำหรับการเชื่อมต่อ",
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "การใช้ gateway (สำหรับการแชทแบบเรียลไทม์) จะต้องใช้ร่วมกับพร็อกซี่",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "Gateway จะถูกใช้สำหรับการแชทแบบเรียลไทม์และฟีเจอร์บางอย่าง",
 
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
+    "แอพนี้จำเป็นต้องใช้รหัส token เพื่อเข้าสู่ระบบ ",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "คุณสามารถนำเข้าไฟล์ข้อความที่มีรหัส token หรือใส่รหัส token เข้าไปในไฟล์ JAR ของแอพนี้เพื่อหลีกเลี่ยงการพิมพ์ผิด",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file.",
+    "คุณสามารถใส่รหัส token เข้าไปในไฟล์ JAR ของแอพนี้เพื่อหลีกเลี่ยงการพิมพ์ผิด",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "อุปกรณ์ของคุณต้องการให้แอพนี้มีใบรับรอง (signed) เพื่อใช้งานการเชื่อมต่อโดยตรง ดาวน์โหลดไฟล์ JAD ของแอพนี่ที่มีใบรับรองสำหรับอุปกรณ์ของคุณ หรือปิดใช้งานการเชื่อมต่อโดยตรง\nอ่านเพิ่มเติมที่ gtrxac.fi/j2me/proxyless (ข้อมูลเป็นภาษาอังกฤษ)",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support",
+    "การรองรับการเชื่อมต่อโดยตรง",
 
     // Settings option for toggling the custom background image on or off.
-    "Wallpaper",
+    "ภาพพื้นหลัง",
 
     // Settings option for selecting a new image file to be used as a custom background image.
-    "Import wallpaper",
+    "นำเข้าภาพพื้นหลัง",
 
     // Title for the file picker screen for selecting a background image.
-    "Select wallpaper",
+    "เลือกภาพพื้นหลัง",
 
     // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
-    "Sounds",
+    "เสียง",
 
     // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
-    "Select sound",
+    "เลือกเสียง",
 
     // Option in the sound settings to use a generic system notification tone (usually a beep).
-    "Beep",
+    "เสียงบี๊บ",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Import sound",
+    "นำเข้าเสียง",
 
     // Names of the different types of customizable sounds in the sound settings screen.
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
-    "Notification",
-    "Incoming message",
-    "Outgoing message",
+    "แจ้งเตือน",
+    "ข้อความเข้า",
+    "ข้อความออก",
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
-    "Crop",
-    "Stretch",
+    "ตัดภาพ",
+    "ยืดภาพ",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "เอฟเฟกต์เปลี่ยนหน้าจอ",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper",
+    "เสียงข้อความเข้า",
+    "เสียงข้อความออก",
+    "ภาพพื้นหลัง",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "การเข้าสู่ระบบจะต้องใช้รหัส token โดยจะรับจากการสแกน QR code ผ่านแอพ Discord บน Android หรือ iOS",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "แสดง QR",
+    "แสดง QR code",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "กำลังเชื่อมต่อ...",
+    "กำลังแสดง QR code...",
+    "การเชื่อมต่อถูกตัด กรุณาลองอีกครั้ง",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. "
+    "คุณสามารถเลือกที่จะใส่รหัส token เองได้เช่นกัน "
 ]
