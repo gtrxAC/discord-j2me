@@ -1031,17 +1031,17 @@
     "Duvar kağıdı",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "Giriş yapmak için, bir giriş token'nine ihtiyacınız var, bunu Discord mobil uygulaması üzerinden QR kodunu taratarak alabilirisinz.",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "QR al",
+    "QR kodunu al",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "Bağlanılıyor...",
+    "QR kodu alınıyor...",
+    "Bağlantı kesildi, lütfen tekrar deneyin",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. "
+    "Ayrıca token'i manuel olarak da girebilirsiniz. "
 ]
