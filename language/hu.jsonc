@@ -894,7 +894,7 @@
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "A proxy nélküli kapcsolat csökkenti a fiók lezárásának esélyét.",
+    "A proxy nélküli, direkt kapcsolat csökkenti a fiókod lezárásának esélyét.",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
     "A proxy néküli mód (",
@@ -1035,19 +1035,19 @@
     "Háttérkép",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "A bejelentkezéshez egy azonosítókulcs (token) szükséges, amit megszerezhetsz úgy, hogy beszkennelsz egy QR-kódot a Discord mobilalkalmazással.",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "QR-szerzés",
+    "QR-kód megszerzése",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "Kapcsolódás...",
+    "QR-kód beszerzése folyamatban...",
+    "A kapcsolat megszakadt, próbáld újra.",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. "
+    "Manuálisan is beírhatod a tokened (az eszközöd billentyűzetével). "
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"
