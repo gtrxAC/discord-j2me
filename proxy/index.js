@@ -9,6 +9,7 @@ const crypto = require('crypto').webcrypto;
 const { LRUCache } = require('lru-cache');
 const WebSocket = require('ws');
 const QRCode = require('qrcode');
+const fs = require('fs/promises');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -651,6 +652,23 @@ app.post(`${BASE}/channels/:channel/messages/:message/ack`, getToken, async (req
 // Get user info (out of the info sent officially by Discord API, only the user ID is used, but the proxy uses this route for sending auto update info too)
 app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
     try {
+        const languageFilesDir = (await fs.readdir("static/lang"))
+            .filter(f => f.endsWith('.json'));
+
+        const languageFileDatesArray = await Promise.all(
+            languageFilesDir.map(async (file) => {
+                const fullPath = path.join("static/lang", file);
+                const stats = await fs.stat(fullPath);
+
+                return [
+                    file.replace('.json', ''),
+                    stats.mtime.getTime()
+                ];
+            })
+        );
+
+        const languageFileDates = Object.fromEntries(languageFileDatesArray);
+
         res.send(JSON.stringify({
             id: res.locals.userID,
             _uploadtoken: generateUploadToken(res.locals.headers.Authorization),
@@ -675,7 +693,9 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             // If any of these numbers increase, or if new sheets are added, the clients re-download the appropriate sheets.
             // Seems you might have to use 1 as the initial version number if adding a new sheet
             //             0  1  2  3  4  5  6  7  8  9  10 11 12
-            _emojisheets: [0, 1, 0, 0, 1, 1, 1, 2, 1, 1, 2, 3, 1]
+            _emojisheets: [0, 1, 0, 0, 1, 1, 1, 2, 1, 1, 2, 3, 1],
+
+            _langversions: languageFileDates
         }));
     }
     catch (e) { handleError(res, e); }

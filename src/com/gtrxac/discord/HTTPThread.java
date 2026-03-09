@@ -222,6 +222,34 @@ public class HTTPThread extends Thread implements Strings {
                 newEmojiJsonVersion = resp.getInt("_emojiversion", 0);
                 newEmojiSheetVersions = resp.getArray("_emojisheets", null);
 //#endif
+
+                JSONObject newLangVersions = resp.getObject("_langversions", null);
+                if (newLangVersions != null) {
+//#ifdef NOKIA_128PX
+                    long newLangVersion = newLangVersions.getLong(Settings.language + "-compact", 0);
+
+                    if (newLangVersion == 0) {
+                        newLangVersion = newLangVersions.getLong(Settings.language, 0);
+                    }
+//#else
+                    long newLangVersion = newLangVersions.getLong(Settings.language, 0);
+//#endif
+                    if (Locale.version < newLangVersion) {
+                        loadScreen.text = "Updating translations...";
+
+                        Locale.version = newLangVersion;
+
+                        HTTPThread h = new HTTPThread(FETCH_LANGUAGE);
+                        h.langID = Settings.language;
+                        h.start();
+                        try {
+                            h.join();
+                        }
+                        catch (Exception e) {}
+
+                        loadScreen.text = Locale.get(LOADING);
+                    }
+                }
             }
 
 //#ifdef EMOJI_SUPPORT

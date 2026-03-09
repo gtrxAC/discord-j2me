@@ -11,6 +11,8 @@ public class Locale {
         "ar", "bg", "ca", "de", "en", "en-US", "es", "fi", "fr", "hr", "hu", "id", "it", "ja", "ms", "pl", "pt", "pt-BR", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-TW", "zh-HK", "zh-CN"
     };
 
+    public static long version;  // version number (modification date) of currently downloaded language data
+
     private static Vector strs;
 
     private static Vector getDefaultStrings() {
@@ -73,10 +75,11 @@ public class Locale {
 
         try {
             langRms = RecordStore.openRecordStore("lang", true);
+            int numRecs = langRms.getNumRecords();
 
             // Get ID of language that is currently loaded in RMS storage
             String currentId = null;
-            if (langRms.getNumRecords() == 2) {
+            if (numRecs >= 2) {
                 currentId = Util.bytesToString(langRms.getRecord(1));
             }
 
@@ -84,6 +87,10 @@ public class Locale {
                 // Requested language is already in RMS: load it from RMS
                 String jsonData = Util.bytesToString(langRms.getRecord(2));
                 result = JSON.getArray(jsonData).toVector();
+
+                if (numRecs == 3) {
+                    version = Long.parseLong(Util.bytesToString(langRms.getRecord(3)));
+                }
             } else {
                 // Requested language is not loaded: download it
                 HTTPThread h = new HTTPThread(HTTPThread.FETCH_LANGUAGE);
@@ -109,6 +116,7 @@ public class Locale {
             langRms = RecordStore.openRecordStore("lang", false);
             Util.setOrAddRecord(langRms, 1, langId);
             Util.setOrAddRecord(langRms, 2, jsonData);
+            Util.setOrAddRecord(langRms, 3, Long.toString(version));
         }
         catch (Exception e) {}
 
