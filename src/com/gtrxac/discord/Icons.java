@@ -123,10 +123,20 @@ public class Icons {
             favorites = sh.next();
             dms = sh.next();
             guilds = sh.next();
-            settings = sh.next();
+        } else {
+            sh.skip(3);
+        }
+
+        if (type != TYPE_LANGUAGE) {
+            settings = sh.next();  // used for Settings icon in main menu and for System theme setting
+        } else {
+            sh.skip();
+        }
+
+        if (type == TYPE_MAIN_MENU) {
             logout = sh.next();
         } else {
-            sh.skip(5);
+            sh.skip();
         }
 
         if (type == TYPE_SETTINGS) {
