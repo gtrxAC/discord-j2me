@@ -228,8 +228,6 @@ public abstract class MyCanvas {
             if (title == null) title = "Discord";
 
 //#ifdef BLACKBERRY
-            g.translate(0, -custTitleHeight);
-
             g.setColor(0xEEEEFF);
             g.fillRect(0, -custTitleHeight, getWidth(), custTitleHeight);
 
@@ -249,12 +247,11 @@ public abstract class MyCanvas {
             g.setColor(0x22BBEE);
             g.setFont(custTitleFont);
             g.drawString(title, fontHeight/3, fontHeight/4, Graphics.LEFT | Graphics.TOP);
-            // g.drawLine(0, -1, getWidth(), -1);
 
             g.setClip(0, custTitleHeight, getWidth(), getHeight());
-//#endif
 
             g.translate(0, custTitleHeight);
+//#endif
         }
     }
 
