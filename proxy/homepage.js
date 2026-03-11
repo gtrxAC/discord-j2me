@@ -16,11 +16,14 @@ async function checkIsModern(req, res, next) {
     if (!res.locals.showLibrecounterImage) {
         // No counter image (browser does not support TLS or SVG)
         // Instead count a visit server-side and fetch the visitor count to be shown as text
-        try {
-            await axios.get(
-                `https://librecounter.org/count?url=http://gtrxac.fi${encodeURIComponent(req.originalUrl)}&userAgent=${encodeURIComponent(uaOrig)}`
-            );
-        } catch (e) {}
+        // Don't count visits for bots
+        if (!ua.includes("bot") && !ua.startsWith("axios") && !ua.startsWith("curl")) {
+            try {
+                await axios.get(
+                    `https://librecounter.org/count?url=http://gtrxac.fi${encodeURIComponent(req.originalUrl)}&userAgent=${encodeURIComponent(uaOrig)}`
+                );
+            } catch (e) {}
+        }
 
         try {
             const stats = await axios.get(`https://librecounter.org/gtrxac.fi/siteStats`);
