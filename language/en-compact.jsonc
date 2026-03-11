@@ -975,7 +975,7 @@
     // This version of the string is shown on versions that support Direct connection.
     "Gateway (real-time chat) requires the use of a proxy.",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "The gateway is used for real-time chat and some other features.",
 
     // Explanation string for the token settings.
     "The app requires a token for logging in. ",
@@ -1033,7 +1033,7 @@
     "Wallpaper",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, a token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "To log in, retrieve your token by scanning a QR code with the Discord mobile app.",
 
     // Softkey command labels for opening the QR login screen.
     "Get QR",
@@ -1045,5 +1045,13 @@
     "Disconnected, please try again",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. "
+    "You can also manually enter your token. ",
+
+    // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
+    // Now there are separate types of buttons for "View X files" and "View X images"
+    // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
+    " file",
+    " files",
+    " image",
+    " images"
 ]

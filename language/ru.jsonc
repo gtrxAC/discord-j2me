@@ -1043,5 +1043,13 @@
     "Disconnected, please try again",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. "
+    "You can also manually enter your token. ",
+
+    // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
+    // Now there are separate types of buttons for "View X files" and "View X images"
+    // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
+    " file",
+    " files",
+    " image",
+    " images"
 ]

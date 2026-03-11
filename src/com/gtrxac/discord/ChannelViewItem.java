@@ -635,18 +635,12 @@ public class ChannelViewItem implements Strings {
                     caption = 
                         Locale.get(VIEW_ATTACHMENTS_PREFIX) +
                         msg.imageAttachments.length +
-                        (msg.imageAttachments.length > 1 ?
-                            " images" :
-                            " image"
-                        );
+                        Locale.get(msg.imageAttachments.length > 1 ? VIEW_ATTACHMENT_IMAGES : VIEW_ATTACHMENT_IMAGE);
                 } else {
                     caption = 
                         Locale.get(VIEW_ATTACHMENTS_PREFIX) +
                         msg.fileAttachments.length +
-                        (msg.fileAttachments.length > 1 ?
-                            " files" :
-                            " file"
-                        );
+                        Locale.get(msg.fileAttachments.length > 1 ? VIEW_ATTACHMENT_FILES : VIEW_ATTACHMENT_FILE);
                 }
 
                 int x = useIcons ? messageFontHeight*2 : 0;

@@ -451,4 +451,8 @@ public interface Strings {
     static final int QR_LOGIN_RETRIEVING = 422;
     static final int QR_LOGIN_DISCONNECTED = 423;
     static final int LOGIN_FORM_TOKEN_HELP_V3 = 424;
+    static final int VIEW_ATTACHMENT_FILE = 425;
+    static final int VIEW_ATTACHMENT_FILES = 426;
+    static final int VIEW_ATTACHMENT_IMAGE = 427;
+    static final int VIEW_ATTACHMENT_IMAGES = 428;
 }
