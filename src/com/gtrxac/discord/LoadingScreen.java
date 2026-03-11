@@ -18,6 +18,7 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
 
     public LoadingScreen() {
         super();
+        setTitle("Discord");
         text = Locale.get(LOADING);
         curFrame = 0;
         animDirection = 1;
