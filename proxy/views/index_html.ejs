@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gtrxac.fi</title>
-    <% if (isModern) { %>
+    <% if (showMetaDescription) { %>
         <meta name="description" content="The home of Discord J2ME and gtrxAC's other apps and online services for old feature phones.">
     <% } %>
     <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
@@ -20,8 +20,16 @@
         <p><a href="/fh">DP File Host</a><br/>Temporary file hosting service</p>
         <p><a href="/bench">Benchmarks</a><br/>J2ME performance testing apps; not developed by me</p>
 
-        <% if (isModern) { %>
+        <% if (showSponsors) { %>
             <iframe src="https://github.com/sponsors/gtrxAC/button" title="Sponsor gtrxAC" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+        <% } else { %>
+            <p><strong>Support me!</strong><br/>If you want to donate, visit github.com/sponsors/gtrxAC on your PC or smartphone.</p>
+        <% } %>
+
+        <% if (!showLibrecounterImage) { %>
+            <div class="footer">
+                you are visitor #<%= visitorCount %> today
+            </div>
         <% } %>
     </div>
 </body>

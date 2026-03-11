@@ -1,11 +1,34 @@
 const express = require('express');
+const axios = require('axios');
 const { getRecommendedVersions, arrayDownloadLinkHtml, directVersionDownloadNames } = require('./recommend');
 
-function checkIsModern(req, res, next) {
-    const ua = (req.headers['user-agent'] ?? '').toLowerCase();
-    res.locals.isModern =
-        (/linux|mac|windows|android/g.test(ua) && !/windows (ce|mobile)/g.test(ua))
-        || ua.includes("opera");
+async function checkIsModern(req, res, next) {
+    const uaOrig = (req.headers['user-agent'] ?? '');
+    const ua = uaOrig.toLowerCase();
+
+    res.locals.showSponsors =
+        (/linux|mac|windows|android/g.test(ua) && !/windows (ce|mobile)/g.test(ua));
+
+    res.locals.showMetaDescription = res.locals.showSponsors;
+    res.locals.showGuideImages = res.locals.showSponsors;
+    res.locals.showLibrecounterImage = res.locals.showSponsors || ua.includes("opera");
+
+    if (!res.locals.showLibrecounterImage) {
+        // No counter image (browser does not support TLS or SVG)
+        // Instead count a visit server-side and fetch the visitor count to be shown as text
+        try {
+            await axios.get(
+                `https://librecounter.org/count?url=http://gtrxac.fi${encodeURIComponent(req.originalUrl)}&userAgent=${encodeURIComponent(uaOrig)}`
+            );
+        } catch (e) {}
+
+        try {
+            const stats = await axios.get(`https://librecounter.org/gtrxac.fi/siteStats`);
+            res.locals.visitorCount = stats.data.byDay[stats.data.byDay.length - 1].value;
+        } catch (e) {
+            res.locals.visitorCount = "(error)";
+        }
+    }
 
     req.format = req.accepts("html") ? "html" : "wml";
 
