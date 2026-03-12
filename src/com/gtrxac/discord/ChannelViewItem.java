@@ -173,7 +173,7 @@ public class ChannelViewItem implements Strings {
 
             case ATTACHMENTS_NONIMAGE: {
                 initSmallFonts();
-                int margin = messageFontHeight/3;
+                int margin = messageFontHeight/4;
                 int itemHeight = margin*3 + messageFontHeight + smallFont.getHeight();  // margin (for top and between items) + top padding + bottom padding + title + filesize
 
                 return itemHeight*msg.fileAttachments.length + margin;  // + bottom margin
@@ -765,10 +765,12 @@ public class ChannelViewItem implements Strings {
             }
 
             case ATTACHMENTS_NONIMAGE: {
-                int margin = messageFontHeight/3;
-                int x = (useIcons ? messageFontHeight*2 : 0) + margin;
+                int marginX = messageFontHeight/3;
+                int marginY = messageFontHeight/4;
+                int startX = (useIcons ? messageFontHeight*2 : marginX);
                 int smallFontHeight = smallFont.getHeight();
                 int contentHeight = messageFontHeight + smallFontHeight;
+                int fileIconSize = contentHeight*4/5;
 
                 if (fileIconOrig == null) {
                     try {
@@ -778,33 +780,34 @@ public class ChannelViewItem implements Strings {
                         e.printStackTrace();
                     }
                 }
-                if (fileIcon == null || fileIcon.getWidth() != contentHeight) {
-                    fileIcon = Util.resizeImageBilinear(fileIconOrig, contentHeight, contentHeight);
+                if (fileIcon == null || fileIcon.getWidth() != fileIconSize) {
+                    fileIcon = Util.resizeImageBilinear(fileIconOrig, fileIconSize, fileIconSize);
                 }
 
-                y += margin;
+                y += marginY;
 
                 for (int i = 0; i < msg.fileAttachments.length; i++) {
                     Attachment attach = msg.fileAttachments[i];
+                    int x = startX;
 
                     g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
                     g.fillRoundRect(
                         x,
                         y,
-                        width - x - margin,
-                        margin*2 + contentHeight,
-                        margin*2,
-                        margin*2
+                        width - x - marginX,
+                        marginY*2 + contentHeight,
+                        marginX*2,
+                        marginX*2
                     );
 
-                    y += margin;
-                    x += margin;
+                    y += marginY;
+                    x += marginX;
 
-                    g.drawImage(fileIcon, x, y, 0);
+                    g.drawImage(fileIcon, x, y + contentHeight/2, Graphics.LEFT | Graphics.VCENTER);
 
-                    x += contentHeight + margin;
+                    x += fileIconSize + marginX;
 
-                    String attName = Util.stringToWidth(attach.name, App.titleFont, width - x - margin*2);
+                    String attName = Util.stringToWidth(attach.name, App.titleFont, width - x - marginX*2);
                     g.setColor(Theme.linkColor);
                     g.setFont(App.titleFont);
                     g.drawString(attName, x, y, 0);
@@ -815,8 +818,7 @@ public class ChannelViewItem implements Strings {
                     g.setFont(smallFont);
                     g.drawString(attach.size, x, y, 0);
 
-                    y += smallFontHeight + margin*2;
-                    x -= contentHeight + margin*2;
+                    y += smallFontHeight + marginY*2;
                 }
                 break;
             }
