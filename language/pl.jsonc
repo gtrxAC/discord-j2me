@@ -578,7 +578,7 @@
     // Settings section names/titles.
     // "Language" title is defined above (see "Settings section for language options")
     "Wygląd",
-    "Obrazy",
+    "Obrazki",
     "Zachowanie",
     "Powiadomienia",
 
@@ -708,7 +708,7 @@
     "NOWE",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Przesłać ten obraz?",
+    "Przesłać ten obrazek?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
     "Podgląd przy wybieraniu pliku",
@@ -721,7 +721,7 @@
     "Aby zmienić swój token, naciśnij klawisz BlackBerry.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
-    "Za mało pamięci, żeby wyświetlić podgląd obrazu",
+    "Za mało pamięci, żeby wyświetlić podgląd obrazka",
 
     // Settings option for enabling or disabling emoji display in chats.
     "Pokaż emotikony",
@@ -1048,8 +1048,8 @@
     // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
     // Now there are separate types of buttons for "View X files" and "View X images"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
-    " file",
-    " files",
-    " image",
-    " images"
+    " plik",
+    " pliki/ów",
+    " obrazek",
+    " obrazki/ów"
 ]
