@@ -6,5 +6,10 @@
         </a>
     </div>
 <% } else { %>
-    <h1><%= title %></h1>
+    <h1>
+        <%= title %>
+        <% if (!showLibrecounterImage) { %>
+            <img src="/countvisit" alt=""/>
+        <% } %>
+    </h1>
 <% } %>

@@ -15,16 +15,7 @@ async function checkIsModern(req, res, next) {
 
     if (!res.locals.showLibrecounterImage) {
         // No counter image (browser does not support TLS or SVG)
-        // Instead count a visit server-side and fetch the visitor count to be shown as text
-        // Don't count visits for bots
-        if (!ua.includes("bot") && !ua.startsWith("axios") && !ua.startsWith("curl") && !ua.includes("go-http-client") && !ua.includes("bitsight") && !ua.includes("webpagetest")) {
-            try {
-                await axios.get(
-                    `https://librecounter.org/count?url=http://gtrxac.fi${encodeURIComponent(req.originalUrl)}&userAgent=${encodeURIComponent(uaOrig)}`
-                );
-            } catch (e) {}
-        }
-
+        // Instead fetch the visitor count to be shown as text
         try {
             const stats = await axios.get(`https://librecounter.org/gtrxac.fi/siteStats`);
             res.locals.visitorCount = stats.data.byDay[stats.data.byDay.length - 1].value;
@@ -83,5 +74,13 @@ router.get('/j2me/guide', checkIsModern, htmlOnly, async (req, res) => {
 router.get('/j2me/proxyless', checkIsModern, htmlOnly, async (req, res) => {
     res.render("proxyless");
 });
+
+router.get('/countvisit', checkIsModern, (req, res) => {
+    const ua = req.headers['user-agent'] ?? '';
+    axios.get(
+        `https://librecounter.org/count?url=http://gtrxac.fi&userAgent=${encodeURIComponent(ua)}`
+    );
+    res.sendFile("static/blank.png", {root: "."});
+})
 
 module.exports = router;
