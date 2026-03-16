@@ -853,216 +853,204 @@
     "Memoria insufficiente per selezionare emoji.",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: The proxy server is currently unavailable. Please try again later or contact the developers.",
+    "HTTP 502: Il server proxy non è momentaneamente disponibile. Riprova più tardi o contatta gli sviluppatori.",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: The request was unexpectedly redirected. Please check your connection.",
+    "HTTP 302: La richiesta è stata reindirizzata inaspettatamente. Controlla la tua connessione.",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
-    "Warning",
-    "Discord is known to flag uploads from 3rd-party clients as spam. This often happens on new accounts without 2FA or a verified phone number. Continue at your own risk.\nSelect 'Hide' if you don't want to see this again.",
+    "Attenzione",
+    "Discord è noto per segnalare come spam il caricamento dei file provenienti da client di terze parti. Questo accade spesso in nuovi account senza autenticazione a due fattori (2FA) o senza un numero di telefono verificato. Continua a tuo rischio.\nSeleziona 'Nascondi' per non visualizzare più questo messaggio.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Hide",
-    "Hide",
+    "Nascondi",
+    "Nascondi",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Discord is known to flag new direct messages from 3rd-party clients as spam. It is recommended to send your first message from an official client. Do you want to continue?",
+    "Discord è noto per segnalare come spam nuovi messaggi diretti (DM) provenienti da client di terze parti. È consigliato inviare il primo messaggio dal client ufficiale. Vuoi continuare?",
 
     // Related to "Types of data shown in the data manager" above.
-    "Favourite servers",
-    "Saved servers",
+    "Server preferiti",
+    "Server salvati",
 
     // Title and description of dialog screen shown when the user has saved their server list.
-    "Saved",
-    "Server list saved to cache!",
+    "Salvati",
+    "Lista server salvata nella cache!",
 
     // Related to "Types of data shown in the data manager" above.
-    "Emoji names",
+    "Nomi emoji",
 
     // Softkey command in login screen for opening the Discord J2ME setup guide web page.
     // The long version of the label is used as the button label.
-    "Guide",
-    "Setup guide",
+    "Guida",
+    "Guida setup",
 
     // Option in login screen to use direct connection (proxyless) mode.
-    "Direct connection",
+    "Connessione diretta",
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "Direct connection reduces the risk of an account restriction.",
+    "La connessione diretta riduce il rischio di ricevere una restrizione dell'account.",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
-    "Direct connection (",
-    "requires TLS 1.2",
-    ") reduces the risk of an account restriction.",
+    "La connessione diretta (",
+    "richiede il TLS 1.2",
+    ") riduce il rischio di ricevere una restrizione dell'account.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
-    "Get TLS",
-    "Get TLS",
+    "Installa TLS",
+    "Installa TLS",
 
     // Text shown in bottom message bar.
-    "Message",
+    "Invia un messaggio in",
 
     // Text shown in bottom message bar. This version of the text includes the channel name after the text, like "Message #general". Shown if the screen is wide enough.
-    "Message ",
+    "Invia un messaggio in",
 
     // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
     // You should use the same term for "Direct connection" that you used above.
-    "Your device does not support editing messages in Direct connection mode.\nDo you want to edit this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "Il tuo dispositivo non supporta modificare i messaggi in modalità connessione diretta.\nVuoi modificare questo messaggio usando il proxy?\nSeleziona 'Nascondi' per usare sempre il proxy.",
 
-    "Your device does not support deleting messages in Direct connection mode.\nDo you want to delete this message via the proxy?\nSelect 'Hide' to always use the proxy.",
+    "Il tuo dispositivo non supporta eliminare i messaggi in modalità connessione diretta.\nVuoi eliminare questo messaggio usando il proxy?\nSeleziona 'Nascondi' per usare sempre il proxy.",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Chinese (Simplified)",
+    "Cinese (Semplificato)",
 
     // Item in settings menu for opening the time format configuration screen.
-    "Time format",
+    "Formato ora",
 
     // Title for time preview shown in the time format screen.
-    "Preview",
+    "Anteprima",
 
     // Titles for sliders in the time format screen for changing the time offset.
-    "Time offset (hours)",
-    "Time offset (minutes)",
+    "Scostamento ora",
+    "Scostamento minuti",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negative offset",
+    "Scostamento negativo",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Hungarian",
+    "Ungherese",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "Up",
-    "Move up",
-    "Down",
-    "Move down",
+    "Su",
+    "Muovi su",
+    "Giù",
+    "Muovi giù",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Direct connection is enabled, but connecting to the gateway requires using the proxy, which may be unsafe. Do you want to connect to the gateway?\nSelect 'Hide' to always connect.",
+    "La connessione diretta è abilitata, ma il collegamento al gateway richiede il proxy, che potrebbe essere insicuro. Vuoi connetterti al gateway?\nSeleziona 'Nascondi' per connetterti sempre al proxy.",
 
     // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
-    "Show message bar",
+    "Mostra barra messaggi",
 
     // "Automatic" option value for settings. Currently used for the "Show message bar" setting. When that is set to "Auto", the message bar will be shown if the viewable screen area is taller than a square.
-    "Auto",
+    "Automatico",
 
     // Title for login screen (new version).
-    "Welcome",
+    "Benvenuti",
     
     // Softkey commands for opening a link in the login screen.
-    "Open",
-    "Open",
+    "Apri",
+    "Apri",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
-    "Learn more",
+    "Per saperne di più",
 
     // Info text shown in the login screen after the Direct connection option and before the button for changing proxy URLs.
-    "The app can also be used with a proxy server. ",
+    "Quest'app può essere usata anche con server proxy . ",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "It is recommended to host your own proxy. ",
+    "È consigliato di fare hosting del proprio proxy. ",
 
     // Hint text shown after the above string on BlackBerry devices.
-    "To edit your connection URLs, press the BlackBerry key.",
+    "Per modificare gli URL di connessione, premi il tasto BlackBerry.",
 
     // Text label shown inside the button for changing the proxy connection URLs (on non-BlackBerry devices).
-    "Connection URLs",
+    "URL di connessione",
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Gateway (real-time chat) requires the use of a proxy server.",
+    "Gateway (chat in tempo reale) richiede l'uso di un server proxy.",
     // This string is shown on versions that don't support Direct connection.
-    "The gateway is used for real-time chat and certain other features.",
+    "La gateway è utilizzata per chat in tempo reale and certain other features.",
 
     // Explanation string for the token settings.
-    "The app requires a token for logging in. ",
+    "L'applicazione richiede il token per fare l'accesso. ",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "To avoid typing errors, you can import the token from a text file or insert it into the JAR file.",
+    "Per evitare errori di battitura, puoi importare il token da un file testo, o puoi inserirlo all'interno del file JAR.",
     // This string is shown on devices that don't support FileConnection.
-    "To avoid typing errors, you can insert the token into the JAR file.",
+    "Per evitare errori di battitura, puoi inserire il token all'interno del file JAR.",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Your device requires the app to be signed to use Direct connection. Download a signed JAD of the app suitable for your device, or disable Direct connection.\nRead more at gtrxac.fi/j2me/proxyless",
+    "Il tuo dispositivo richiede che la tua app sia firmata per usare la connessione diretta. Scarica una JAD dell'app firmata adatta per il tuo dispositivo, o disattiva la connessione diretta.\nPer saperne di più: gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
-    "Direct connection support",
+    "Supporto connessione diretta",
 
     // Settings option for toggling the custom background image on or off.
-    "Wallpaper",
+    "Sfondo",
 
     // Settings option for selecting a new image file to be used as a custom background image.
-    "Import wallpaper",
+    "Importa sfondo",
 
     // Title for the file picker screen for selecting a background image.
-    "Select wallpaper",
+    "Seleziona sfondo",
 
     // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
-    "Sounds",
+    "Suoni",
 
     // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
-    "Select sound",
+    "Seleziona suono",
 
     // Option in the sound settings to use a generic system notification tone (usually a beep).
     "Beep",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Import sound",
+    "Importa suono",
 
     // Names of the different types of customizable sounds in the sound settings screen.
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
-    "Notification",
-    "Incoming message",
-    "Outgoing message",
+    "Notifica",
+    "Messaggio in arrivo",
+    "Messaggio in uscita",
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
-    "Crop",
-    "Stretch",
+    "Ritaglia",
+    "Adatta",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "Transizione schermo",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper",
+    "Suono messaggio in entrata",
+    "Suono messaggio in uscita",
+    "Sfondo",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "Per accedere serve il token di autenticazione, che può essere ottenuto scannerizando il codice QR con l'app mobile Discord.",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "Genera QR",
+    "Genera codice QR",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "Connessione...",
+    "Recuperando il codice QR...",
+    "Disconnesso, riprova.",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. ",
+    "Puoi anche inserire il token manualmente. ",
 
     // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
     // Now there are separate types of buttons for "View X files" and "View X images"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
     " file",
-    " files",
-    " image",
-    " images"
-
-    // NOTE for translators:
-    // The string with the comment "Information text shown in login screen related to proxyless mode"
-    // and the one below it, with the comment "This version of the text is shown otherwise"
-    // have been updated.
-    // These are somewhere around line 895 and 900.
-    // Previously they said:
-    // Direct connection "reduces the risk of an account restriction"
-    // Now they say:
-    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
-    // These texts should be updated accordingly in other languages too.
-    // You can remove this note when you've updated those strings for your language.
+    " file",
+    " immagine",
+    " immagini"
 
 ]
