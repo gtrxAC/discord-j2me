@@ -400,7 +400,13 @@ public class Settings {
         soundModes[SoundSettingsScreen.OUTGOING_SOUND] = getIntRecord(SOUND_OFF);
         wallpaperMode = getIntRecord(Settings.WALLPAPER_OFF);
 //#ifdef TRANSITION_SCREEN
-        useTransition = getBoolRecord(true);
+        useTransition = getBoolRecord(
+//#ifdef TRANSITION_DEFAULT
+            true
+//#else
+            false
+//#endif
+        );
 //#else
         getBoolRecord(false);
 //#endif
