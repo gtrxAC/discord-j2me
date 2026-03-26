@@ -52,8 +52,11 @@ public class App extends MIDlet implements Strings {
 //#ifdef LG
 	"lg";
 //#endif
-//#ifdef J2ME_LOADER
+//#ifdef JL_VERSION
 	"jl";
+//#endif
+//#ifdef JL_TLS_VERSION
+	"jl_tls";
 //#endif
 
 	public static final long DISCORD_EPOCH = 1420070400000L;

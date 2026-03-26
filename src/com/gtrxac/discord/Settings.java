@@ -113,7 +113,7 @@ public class Settings {
 //#ifdef TOUCH_SUPPORT
     static int messageBarMode;
 //#endif
-//#ifdef J2ME_LOADER
+//#ifdef JL_TLS_VERSION
     static boolean useModcon;
 //#endif
     static int soundModes[] = new int[3];
@@ -391,7 +391,7 @@ public class Settings {
             MESSAGE_BAR_AUTO
 //#endif
         );
-//#ifdef J2ME_LOADER
+//#ifdef JL_TLS_VERSION
         useModcon =
 //#endif
         getBoolRecord(false);
@@ -568,7 +568,7 @@ public class Settings {
 //#endif
         );
         setBoolRecord(
-//#ifdef J2ME_LOADER
+//#ifdef JL_TLS_VERSION
             useModcon
 //#else
             false

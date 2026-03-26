@@ -19,7 +19,7 @@ public class HTTP implements Strings {
 
 		try {
 			hc = (HttpConnection)
-//#ifdef J2ME_LOADER
+//#ifdef JL_TLS_VERSION
 				(Settings.useModcon ? ModernConnector.open(url) : Connector.open(url));
 //#else
 //#ifdef MODERNCONNECTOR
@@ -98,7 +98,7 @@ public class HTTP implements Strings {
 
 	public static byte[] request(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
 //#ifdef MODERNCONNECTOR
-//#ifndef J2ME_LOADER
+//#ifndef JL_TLS_VERSION
 		try {
 //#endif
 //#endif
@@ -120,7 +120,7 @@ public class HTTP implements Strings {
 				}
 			}
 //#else
-//#ifdef J2ME_LOADER
+//#ifdef JL_TLS_VERSION
 			// J2ME Loader: if proxyless enabled, and HTTPS request (using system TLS) fails, start using java-based TLS instead
 			// Android below 5 does not have TLS 1.2 by default
 			try {
@@ -140,7 +140,7 @@ public class HTTP implements Strings {
 //#endif
 
 //#ifdef MODERNCONNECTOR
-//#ifndef J2ME_LOADER
+//#ifndef JL_TLS_VERSION
 		}
 		catch (Exception e) {
 			if (Settings.proxyless && e instanceof SecurityException) {

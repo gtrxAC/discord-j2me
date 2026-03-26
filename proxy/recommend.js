@@ -11,13 +11,15 @@ const versionDownloadLinks = {
     "nokia_128px_tls":     { version: "5.2", betaVersion: "5.3", target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
     "s60v2":               { version: "5.2", betaVersion: "5.3", target: "Symbian S60v2" },
     "s40v2":               { version: "5.2", betaVersion: "5.3", target: "Nokia S40v2" },
+    // "s40v2_128kb":         { version: "5.2.1", betaVersion: null, target: "Nokia S40v2 (128 kB version)" },
     "midp2_alt":           { version: "5.2", betaVersion: "5.3", target: "other MIDP2 devices" },
     "midp2_alt_recommend": { version: "5.2", betaVersion: "5.3", target: "MIDP2", file: "midp2_alt" },
     "blackberry":          { version: "5.2", betaVersion: "5.3", target: "BlackBerry" },
     "samsung":             { version: "5.2", betaVersion: "5.3", target: "Samsung" },
     "samsung_100kb":       { version: "5.2", betaVersion: null, target: "Samsung (100 kB version)" },
     "lg":                  { version: "5.2", betaVersion: "5.3", target: "LG" },
-    "jl":                  { version: "5.2", betaVersion: "5.3", target: "J2ME Loader", tls: true, showJad: false },
+    "jl_tls":              { version: null, betaVersion: "5.3", target: "J2ME Loader", tls: "via Java-based TLS", showJad: false },
+    "jl":                  { version: "5.2", betaVersion: "5.3", target: "J2ME Loader (low-RAM devices)", tls: "(if supported by OS)", showJad: false },
     "6310i":               { version: "3.2", betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
     "midp1":               { version: "3.0", betaVersion: null, target: "MIDP1" },
 }
@@ -55,7 +57,13 @@ function downloadLinkHtml(name, beta) {
     const jadJarSep = (showJad && showJar) ? ' - ' : '';
     const jar = (showJar) ? `<a href="/discord_${name}.jar">JAR</a>` : '';
 
-    const tlsVia = (typeof obj.tls == 'string') ? `<a href="/j2me/proxyless#${obj.tlsLink}">${obj.tls}</a>` : '';
+    const tlsVia =
+        (typeof obj.tls == 'string') ?
+            (obj.tlsLink) ?
+                `<a href="/j2me/proxyless#${obj.tlsLink}">${obj.tls}</a>` :
+                obj.tls :
+            '';
+
     const tlsInfo = (obj.tls) ? `<small>with Direct connection ${tlsVia}</small> <br/>` : '';
 
     return `<p>${beta ? (obj.betaVersion + ' beta') : obj.version} for ${obj.target} <br/> ${tlsInfo} ${jad}${jadJarSep}${jar}</p>`;
