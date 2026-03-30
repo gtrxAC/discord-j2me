@@ -224,7 +224,8 @@ public class HTTPThread extends Thread implements Strings {
 //#endif
 
                 JSONObject newLangVersions = resp.getObject("_langversions", null);
-                if (newLangVersions != null) {
+                
+                if (!Settings.language.equals("en") && newLangVersions != null) {
 //#ifdef NOKIA_128PX
                     long newLangVersion = newLangVersions.getLong(Settings.language + "-compact", 0);
 
