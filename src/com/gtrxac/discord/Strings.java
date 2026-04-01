@@ -455,4 +455,6 @@ public interface Strings {
     static final int VIEW_ATTACHMENT_FILES = 426;
     static final int VIEW_ATTACHMENT_IMAGE = 427;
     static final int VIEW_ATTACHMENT_IMAGES = 428;
+    static final int SYNC_UNREADS_DESCRIPTION = 429;
+    static final int SYNC_UNREADS = 430;
 }

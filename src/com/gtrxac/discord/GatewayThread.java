@@ -425,7 +425,9 @@ public class GatewayThread extends Thread implements Strings
 						events.add("TYPING_START");
 						events.add("GUILD_MEMBERS_CHUNK");
 						events.add("J2ME_READY");
-						events.add("J2ME_READ_STATES");
+						if (Settings.syncReadStates) {
+							events.add("J2ME_READ_STATES");
+						}
 
 						JSONObject connData = new JSONObject();
 						connData.put("supported_events", events);

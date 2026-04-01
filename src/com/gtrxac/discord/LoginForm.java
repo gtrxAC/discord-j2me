@@ -36,6 +36,7 @@ Strings
     private Command urlsBackCommand;
     private Command editUrlsCommand;
     private Command qrLoginCommand;
+    private ChoiceGroup syncGroup;
 
     public LoginForm() {
         super(Locale.get(LOGIN_FORM_TITLE_V2));
@@ -114,6 +115,17 @@ Strings
         gatewayGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, gatewayChoices, null);
         gatewayGroup.setSelectedIndex(0, Settings.useGateway);
         append(gatewayGroup);
+
+        addSpacer(2);
+
+        append(Locale.get(SYNC_UNREADS_DESCRIPTION));
+
+        addSpacer(2);
+
+        String[] syncChoices = {Locale.get(SYNC_UNREADS)};
+        syncGroup = new ChoiceGroup(null, ChoiceGroup.MULTIPLE, syncChoices, null);
+        syncGroup.setSelectedIndex(0, Settings.syncReadStates);
+        append(syncGroup);
         
         addSpacer(4);
 
@@ -226,6 +238,8 @@ Strings
             wifiGroup.getSelectedFlags(selected);
             Settings.bbWifi = selected[0];
 //#endif
+            syncGroup.getSelectedFlags(selected);
+            Settings.syncReadStates = selected[0];
             
             Settings.save();
             App.login();
