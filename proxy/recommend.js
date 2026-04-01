@@ -10,18 +10,18 @@ const versionDownloadLinks = {
     "nokia_128px":         { version: "5.3", betaVersion: null, target: "Nokia S40v3 and up (128x160)" },
     "nokia_128px_tls":     { version: "5.3", betaVersion: null, target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
     "s60v2":               { version: "5.3", betaVersion: null, target: "Symbian S60v2" },
-    "s40v2":               { version: "5.3", betaVersion: null, target: "Nokia S40v2" },
-    "s40v2_128kb":         { version: "5.2.1", betaVersion: null, target: "Nokia S40v2 (128 kB version)" },
+    "s40v2":               { version: "5.2.1", betaVersion: null, target: "Nokia S40v2 (with 512 kB heap)" },
+    "s40v2hi":             { version: "5.3", betaVersion: null, target: "Nokia S40v2 (with 1 MB heap)" },
     "midp2_alt":           { version: "5.3", betaVersion: null, target: "other MIDP2 devices" },
     "midp2_alt_recommend": { version: "5.3", betaVersion: null, target: "MIDP2", file: "midp2_alt" },
     "blackberry":          { version: "5.3", betaVersion: null, target: "BlackBerry" },
     "samsung":             { version: "5.3", betaVersion: null, target: "Samsung" },
-    "samsung_100kb":       { version: "5.3", betaVersion: null, target: "Samsung (100 kB version)" },
+    "samsung_100kb":       { version: "5.2",   betaVersion: null, target: "Samsung (100 kB version)" },
     "lg":                  { version: "5.3", betaVersion: null, target: "LG" },
     "jl_tls":              { version: "5.3", betaVersion: null, target: "J2ME Loader", tls: "via Java-based TLS", showJad: false },
     "jl":                  { version: "5.3", betaVersion: null, target: "J2ME Loader (low-RAM devices)", tls: "(if supported by OS)", showJad: false },
-    "6310i":               { version: "3.2", betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
-    "midp1":               { version: "3.0", betaVersion: null, target: "MIDP1" },
+    "6310i":               { version: "3.2",   betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
+    "midp1":               { version: "3.0",   betaVersion: null, target: "MIDP1" },
 }
 
 // all downloads except those that point to another file (are aliases)
@@ -35,7 +35,7 @@ const otherSnippets = {
     JL_INFO: `<p>You can try Discord J2ME on your Android device by downloading the JAR below. You will need the J2ME Loader app installed.</p>`,
     JL_INFO_2: `<p>If you want to load Discord J2ME onto an older device, <a href="/j2me/all">choose another version here</a>.</p>`,
     SHOW_ALL: `<p><a href="/j2me/all">See all versions</a></p>`,
-    NO_PROXYLESS: `Direct connection is currently not available on your device.`,
+    NO_PROXYLESS: `Direct connection is currently not available for your device.`,
     NEVER_PROXYLESS: `Direct connection is not supported on your device.`,
     DONT_KNOW_PROXYLESS: `We cannot confirm if your device supports Direct connection.`
 }
@@ -87,11 +87,11 @@ function getRecommendedVersionsArray(req) {
         return ["DONT_KNOW_PROXYLESS", "midp2_alt", "6310i", "midp1", "SHOW_ALL"];
     }
     if (ua.includes('bb10')) {
-        return ["RECOMMENDED", "jl", "SHOW_ALL"]
+        return ["RECOMMENDED", "jl_tls", "jl", "SHOW_ALL"]
     }
     if (ua.includes('android')) {
         // return ["JL_INFO", 'jl', "JL_INFO_2"];  // won't use this for now cuz j2me loader-specific info would be shown in the google search result's description
-        return ["RECOMMENDED", "jl", "phoneme_android", "SHOW_ALL"]
+        return ["RECOMMENDED", "jl_tls", "jl", "phoneme_android", "SHOW_ALL"]
     }
 
     const midp2 = /midp\W*2/g.test(ua) || ua.includes('bada');
@@ -119,7 +119,10 @@ function getRecommendedVersionsArray(req) {
         if (midp2) return ["NO_PROXYLESS", "RECOMMENDED", 'lg', "SHOW_ALL"];
         return ["NO_PROXYLESS", "RECOMMENDED", "lg", "6310i", "midp1", "SHOW_ALL"];
     }
-    if (/^nokia(2855|315|322|507|514|602|6030|60[67]|610|615[25]|6170|623[05]|6255|68|72[67]|736|880\d\/)/g.test(ua)) {
+    if (/^nokia(2855|315|6170|623[05]|6255|7270|880\d\/)/g.test(ua)) {  // s40v2 with 1-2mb ram
+        return ["NEVER_PROXYLESS", "RECOMMENDED", "s40v2hi", "SHOW_ALL"];
+    }
+    if (/^nokia(322|507|514|602|6030|60[67]|610|7260|7360)/g.test(ua)) {  // s40v2 with 500kb ram
         return ["NEVER_PROXYLESS", "RECOMMENDED", "s40v2", "SHOW_ALL"];
     }
     if (/^nokia(2690|3109|3110|350|520|608[56]|6125|6136|6151|c1|c2-00)/g.test(ua)) {  // 128x with 1mb jar size
@@ -142,6 +145,15 @@ function getRecommendedVersionsArray(req) {
     return ["DONT_KNOW_PROXYLESS", "midp2_alt_recommend", "6310i", "midp1", "SHOW_ALL"];
 }
 
+function getProxylessText(req) {
+    let versions = getRecommendedVersionsArray(req);
+
+    if (versions[0].includes("PROXYLESS")) {
+        return `<p>Hosting your own proxy server is recommended for better security. ${otherSnippets[versions[0]]} <a href="/j2me/proxyless#unsupported">Learn more</a></p>`;
+    }
+    return null;
+}
+
 function getRecommendedVersions(req) {
     let versions = getRecommendedVersionsArray(req);
     let prefix = '';
@@ -150,7 +162,7 @@ function getRecommendedVersions(req) {
     let proxylessText = "";
 
     if (versions[0].includes("PROXYLESS")) {
-        proxylessText = "<p>" + otherSnippets[versions.shift()] + ` <a href="/j2me/proxyless#unsupported">Hosting</a> your own proxy server is recommended.</p>`;
+        versions.shift();
     }
     if (versions[0] == "RECOMMENDED") {
         showRecommendedText = true;
@@ -177,5 +189,6 @@ module.exports = {
     downloadLinkHtml,
     arrayDownloadLinkHtml,
     getRecommendedVersionsArray,
-    getRecommendedVersions
+    getRecommendedVersions,
+    getProxylessText
 }

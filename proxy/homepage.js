@@ -1,6 +1,9 @@
 const express = require('express');
 const axios = require('axios');
-const { getRecommendedVersions, arrayDownloadLinkHtml, directVersionDownloadNames } = require('./recommend');
+const { getRecommendedVersions, arrayDownloadLinkHtml, directVersionDownloadNames, getProxylessText } = require('./recommend');
+
+const DEFAULT_PROXYLESS_TEXT =
+    `<p>For better security, download a version that supports Direct connection, if available for your device. Read the <a href="/j2me/proxyless">guide</a> before installing a version with Direct connection.</p>`;
 
 async function checkIsModern(req, res, next) {
     const uaOrig = (req.headers['user-agent'] ?? '');
@@ -50,13 +53,15 @@ router.get('/', checkIsModern, async (req, res) => {
 // Download page
 router.get('/j2me', checkIsModern, async (req, res) => {
     res.render("download_" + req.format, {
-        versions: getRecommendedVersions(req)
+        versions: getRecommendedVersions(req),
+        proxylessText: getProxylessText(req) ?? DEFAULT_PROXYLESS_TEXT
     })
 });
 
 const allVersions = (req, res) => {
     res.render("download_" + req.format, {
-        versions: arrayDownloadLinkHtml(directVersionDownloadNames)
+        versions: arrayDownloadLinkHtml(directVersionDownloadNames),
+        proxylessText: DEFAULT_PROXYLESS_TEXT
     })
 }
 

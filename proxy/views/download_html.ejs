@@ -15,12 +15,12 @@
         <% title = "Discord J2ME" %>
         <%- include('include/title'); %>
 
-        <p>To avoid account restrictions, log in with a <strong>QR code</strong> (5.3 beta) instead of a token.</p>
-        
-        <p>For better security, download a version that supports Direct connection, if available for your device. Read the <a href="/j2me/proxyless">guide</a> before installing a version with Direct connection.</p>
+        <p>To avoid account restrictions, log in with a <strong>QR code</strong> instead of a token.</p>
+
+        <%- proxylessText %>
 
         <%- versions %>
-        <b><a href="/j2me/guide">OLD token setup guide</a> (QR login is recommended instead)</b>
+        <a href="/j2me/guide">OLD token setup guide</a> (QR login is recommended instead)
     </div>
 </body>
 </html>

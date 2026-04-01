@@ -29,7 +29,7 @@ public class App extends MIDlet implements Strings {
 	"nokia_128px_tls";
 //#endif
 //#ifdef S40V2
-	"s40v2";
+	"s40v2hi";
 //#endif
 //#ifdef MIDP2_ALT
 	"midp2_alt";
