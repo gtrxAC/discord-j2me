@@ -88,4 +88,8 @@ router.get('/countvisit', checkIsModern, (req, res) => {
     res.sendFile("static/blank.png", {root: "."});
 })
 
+router.get('/jarsize', checkIsModern, htmlOnly, async (req, res) => {
+    res.render("jarsize");
+});
+
 module.exports = router;
