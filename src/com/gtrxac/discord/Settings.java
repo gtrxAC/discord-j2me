@@ -105,12 +105,15 @@ public class Settings {
     private static int index;
 
     public static int getBestMenuIconSize() {
-        // int height = Util.fontSize;
-        // int result = height/16*16;
-        // if (height - result >= 6) result += 16;
-        // if (result == 0) return 8;
-        // return result;
+//#ifndef NOKIA_128PX
+        int height = Util.fontSize;
+        int result = height/16*16;
+        if (height - result >= 6) result += 16;
+        if (result == 0) return 8;
+        return result;
+//#else
         return 16;
+//#endif
     }
 
 //#ifdef EMOJI_SUPPORT
@@ -254,7 +257,7 @@ public class Settings {
         pfpSize = getIntRecord(Settings.ICON_SIZE_16);
         nativeFilePicker = getBoolRecord(false);
         autoReConnect = getBoolRecord(true);
-        showMenuIcons = getBoolRecord(!Util.isS40);  // server/DM icons dont load well on S40, disable by default
+        showMenuIcons = getBoolRecord(false);  // server/DM icons dont load well on S40, disable by default
         tokenType = getIntRecord(Settings.TOKEN_TYPE_HEADER);
         useNameColors = getBoolRecord(true);
         sendHotkey = getIntRecord(0);

@@ -497,8 +497,6 @@ public class Util {
 
 	public static final boolean supportsFileConn;
 
-	public static final boolean isS40;
-
 	public static int fontSize;
 
 	static {
@@ -534,18 +532,6 @@ public class Util {
 //#endif
 
 		supportsFileConn = System.getProperty("microedition.io.file.FileConnection.version") != null;
-
-		isS40 =
-//#ifdef NOKIA_128PX
-			true;
-//#else
-//#ifdef NOT_S40
-			false;
-//#else
-			checkClass("javax.microedition.midlet.MIDletProxy") || checkClass("com.nokia.mid.impl.isa.jam.Jam");
-//#endif
-//#endif
-
 
 		fontSize = Font.getDefaultFont().getHeight();
 //#ifdef SAMSUNG_FULL
