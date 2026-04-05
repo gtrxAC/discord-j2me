@@ -1058,8 +1058,8 @@
     // Description for the read state (unread indicator dots) synchronization feature. Shown in the login screen above the checkbox for "Sync unreads".
     // This feature more specifically uses more network bandwidth, RAM, and storage, and also requires the gateway,
     // but this string is kept relatively short so the login screen is not too cluttered.
-    "Syncing unread indicators with official clients requires more memory.",
+    "Synchronisierung der ungelesen Nachrichten Indikatoren mit offiziellen Clients erfordert mehr Speicher.",
 
     // Label for the check box for toggling read state synchronization feature.
-    "Sync unreads"
+    "Ungelesene Nachrichten synchronisieren"
 ]
