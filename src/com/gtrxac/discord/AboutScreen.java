@@ -26,11 +26,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
     int logoY;
     int easingTimer = 0;  // delay before icon starts moving upwards (also on versions without easing animation)
 
-//#ifdef NOKIA_128PX
     private static final int PARTICLE_COUNT = 30;
-//#else
-    private static final int PARTICLE_COUNT = 40;
-//#endif
 
     private AboutScreenParticle[] particles;
     private AboutScreenItem[] items;
