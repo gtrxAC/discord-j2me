@@ -183,7 +183,7 @@ public class Icons {
         }
 
         if (type == TYPE_LANGUAGE) {
-            sh.skip(12);
+            sh.skip(11);
             flagGB = sh.next();
             flagUS = sh.next();
             flagES = sh.next();
