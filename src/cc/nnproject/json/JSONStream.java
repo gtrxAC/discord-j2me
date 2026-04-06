@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2024 Arman Jussupgaliyev
+Copyright (c) 2024-2026 Arman Jussupgaliyev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -117,7 +117,7 @@ public class JSONStream {
 	
 	public Object nextValue() throws IOException {
 		char c = nextTrim();
-		switch(c) {
+		switch (c) {
 		case '{':
 			return nextObject(false);
 		case '[':
@@ -179,6 +179,11 @@ public class JSONStream {
 //		back();
 		
 		while (true) {
+			c = nextTrim();
+			if (c == ',') continue;
+			if (c != '"')
+				throw new RuntimeException("JSON: jumpToKey: malformed object at ".concat(Integer.toString(index)));
+			back();
 			if (nextString(true).equals(key)) {
 				// jump to value
 				if (nextTrim() != ':')
@@ -191,7 +196,7 @@ public class JSONStream {
 //			skipValue();
 			c = nextTrim();
 			
-			switch(c) {
+			switch (c) {
 			case '{':
 				skipObject();
 				break;
@@ -225,7 +230,7 @@ public class JSONStream {
 	public boolean skipArrayElements(int count) throws IOException {
 		while (true) {
 			char c = nextTrim();
-			switch(c) {
+			switch (c) {
 			case ']':
 				return false;
 			case '{':
@@ -246,7 +251,7 @@ public class JSONStream {
 			}
 			c = nextTrim();
 			if (c == ',') {
-				if(--count == 0)
+				if (--count == 0)
 					return true;
 				continue;
 			}
@@ -260,22 +265,22 @@ public class JSONStream {
 //		boolean q = false;
 //		boolean e = false;
 //		while(true) {
-//			if(p) {
+//			if (p) {
 //				p = false;
 //			} else c = next();
-//			if(c == 0) return false;
-//			if(!e) {
-//				if(c == '\\') e = true;
-//				else if(c == '"') q = !q;
+//			if (c == 0) return false;
+//			if (!e) {
+//				if (c == '\\') e = true;
+//				else if (c == '"') q = !q;
 //			} else e = false;
-//			if(!q)
-//			if(c == '{' || c == ',') {
-//				if((c = next()) == '\"') {
+//			if (!q)
+//			if (c == '{' || c == ',') {
+//				if ((c = next()) == '\"') {
 //					back();
 //					String s = nextString();
-//					if(nextTrim() != ':')
+//					if (nextTrim() != ':')
 //						throw new JSONException("jumpToKey: malformed object at ".concat(Integer.toString(index)));
-//					if(key.equals(s)) return true;
+//					if (key.equals(s)) return true;
 //				} else p = true;
 //			}
 //		}
@@ -285,7 +290,7 @@ public class JSONStream {
 	
 	public void skipValue() throws IOException {
 		char c = nextTrim();
-		switch(c) {
+		switch (c) {
 		case '{':
 			skipObject();
 			break;
@@ -391,12 +396,15 @@ public class JSONStream {
 		JSONObject r = new JSONObject();
 		object: {
 		while (true) {
+			char c = nextTrim();
+			if (c == '}') break object;
+			back();
 			String key = nextString(true);
 			if (nextTrim() != ':')
 				throw new JSONException("nextObject: malformed object at ".concat(Integer.toString(index)));
 			Object val = null;
-			char c = nextTrim();
-			switch(c) {
+			c = nextTrim();
+			switch (c) {
 			case '}':
 				break object;
 			case '{':
@@ -449,7 +457,7 @@ public class JSONStream {
 		while (true) {
 			Object val = null;
 			char c = nextTrim();
-			switch(c) {
+			switch (c) {
 			case ']':
 				break array;
 			case '{':
@@ -505,18 +513,40 @@ public class JSONStream {
 				l = c;
 				continue;
 			}
-			if (c == 'u' && l == '\\') {
-				char[] chars = new char[4];
-				chars[0] = next();
-				chars[1] = next();
-				chars[2] = next();
-				chars[3] = next();
-				sb.append(l = (char) Integer.parseInt(new String(chars), 16));
-				continue;
+			if (l == '\\') {
+				if (c == 'u') {
+					char[] chars = new char[4];
+					chars[0] = next();
+					chars[1] = next();
+					chars[2] = next();
+					chars[3] = next();
+					sb.append(l = (char) Integer.parseInt(new String(chars), 16));
+					continue;
+				}
+				if (c == 'n') {
+					sb.append(l = '\n');
+					continue;
+				}
+				if (c == 'r') {
+					sb.append(l = '\r');
+					continue;
+				}
+				if (c == 't') {
+					sb.append(l = '\t');
+					continue;
+				}
+				if (c == 'f') {
+					sb.append(l = '\f');
+					continue;
+				}
+				if (c == 'b') {
+					sb.append(l = '\b');
+					continue;
+				}
 			}
 			if (c == 0 || (l != '\\' && c == '"')) break;
 			sb.append(c);
-			l = c;
+			l = l == '\\' ? 0 : c;
 		}
 		if (eof)
 			throw new IOException("nextString: Unexpected end");
@@ -531,7 +561,7 @@ public class JSONStream {
 			if (nextTrim() != ':')
 				throw new JSONException("skipObject: malformed object at ".concat(Integer.toString(index)));
 			char c = nextTrim();
-			switch(c) {
+			switch (c) {
 			case '}':
 				return;
 			case '{':
@@ -562,7 +592,7 @@ public class JSONStream {
 	private void skipArray() throws IOException {
 		while (true) {
 			char c = nextTrim();
-			switch(c) {
+			switch (c) {
 			case ']':
 				return;
 			case '{':
@@ -622,7 +652,7 @@ public class JSONStream {
 						return new Integer(Integer.parseInt(str.substring(2), 16));
 					}
 					// decimal
-					if (str.indexOf('.') != -1 || str.indexOf('E') != -1 || "-0".equals(str))
+					if (str.indexOf('.') != -1 || str.indexOf('E') != -1 || str.indexOf('e') != -1 || "-0".equals(str))
 						return new Integer(0);
 					if (first == '-') length--;
 					if (length > 8) // (str.length() - (str.charAt(0) == '-' ? 1 : 0)) >= 10

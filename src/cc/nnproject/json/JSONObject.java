@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2021-2024 Arman Jussupgaliyev
+Copyright (c) 2021-2025 Arman Jussupgaliyev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,8 @@ SOFTWARE.
 */
 package cc.nnproject.json;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -50,16 +52,15 @@ public class JSONObject extends AbstractJSON {
 		try {
 			if (has(name)) {
 				Object o = table.get(name);
-				if (o instanceof JSONString)
-					table.put(name, o = JSON.parseJSON(((JSONString) o).str));
+				if (o instanceof String[])
+					table.put(name, o = JSON.parseJSON(((String[]) o)[0]));
 				if (o == JSON.json_null)
 					return null;
 				return o;
 			}
 		} catch (JSONException e) {
 			throw e;
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 		throw new JSONException("No value for name: " + name);
 	}
 	
@@ -111,8 +112,7 @@ public class JSONObject extends AbstractJSON {
 		if (has(name)) {
 			try {
 				return (JSONObject) get(name);
-			} catch (Exception e) {
-			}
+			} catch (Exception e) {}
 		}
 		return def;
 	}
@@ -207,11 +207,11 @@ public class JSONObject extends AbstractJSON {
 	}
 	
 	public void put(String name, AbstractJSON json) {
-		table.put(name, json);
+		table.put(name, json == null ? JSON.json_null : json);
 	}
 	
 	public void put(String name, String s) {
-		table.put(name, s);
+		table.put(name, s == null ? JSON.json_null : s);
 	}
 
 	public void put(String name, int i) {
@@ -305,6 +305,8 @@ public class JSONObject extends AbstractJSON {
 				s.append(((AbstractJSON) v).build());
 			} else if (v instanceof String) {
 				s.append("\"").append(JSON.escape_utf8((String) v)).append("\"");
+			} else if (v instanceof String[]) {
+				s.append(((String[]) v)[0]);
 			} else if (v == JSON.json_null) {
 				s.append((String) null);
 			} else {
@@ -336,8 +338,8 @@ public class JSONObject extends AbstractJSON {
 			String k = (String) keys.nextElement();
 			s.append("\"").append(k).append("\": ");
 			Object v = get(k);
-			if (v instanceof JSONString)
-				table.put(k, v = JSON.parseJSON(((JSONString) v).str));
+			if (v instanceof String[])
+				table.put(k, v = JSON.parseJSON(((String[]) v)[0]));
 			if (v instanceof AbstractJSON) {
 				s.append(((AbstractJSON) v).format(l + 1));
 			} else if (v instanceof String) {
@@ -358,6 +360,46 @@ public class JSONObject extends AbstractJSON {
 			s.append("\n}");
 		}
 		return s.toString();
+	}
+	
+	public void write(OutputStream out) throws IOException {
+		out.write((byte) '{');
+		if (size() == 0) {
+			out.write((byte) '}');
+			return;
+		}
+		Enumeration keys = table.keys();
+		while (true) {
+			String k = (String) keys.nextElement();
+			out.write((byte) '"');
+			JSON.writeString(out, k.toString());
+			out.write((byte) '"');
+			out.write((byte) ':');
+			Object v = table.get(k);
+			if (v instanceof JSONObject) {
+				((JSONObject) v).write(out);
+			} else if (v instanceof JSONArray) {
+				((JSONArray) v).write(out);
+			} else if (v instanceof String) {
+				out.write((byte) '"');
+				JSON.writeString(out, (String) v);
+				out.write((byte) '"');
+			} else if (v instanceof String[]) {
+				out.write((((String[]) v)[0]).getBytes("UTF-8"));
+			} else if (v == JSON.json_null) {
+				out.write((byte) 'n');
+				out.write((byte) 'u');
+				out.write((byte) 'l');
+				out.write((byte) 'l');
+			} else {
+				out.write(String.valueOf(v).getBytes("UTF-8"));
+			}
+			if (!keys.hasMoreElements()) {
+				break;
+			}
+			out.write((byte) ',');
+		}
+		out.write((byte) '}');
 	}
 
 	public Enumeration keys() {
@@ -386,8 +428,8 @@ public class JSONObject extends AbstractJSON {
 		while (keys.hasMoreElements()) {
 			String k = (String) keys.nextElement();
 			Object v = table.get(k);
-			if (v instanceof JSONString)
-				table.put(k, v = JSON.parseJSON(((JSONString) v).str));
+			if (v instanceof String[])
+				table.put(k, v = JSON.parseJSON(((String[]) v)[0]));
 			if (v instanceof JSONObject) {
 				v = ((JSONObject) v).toTable();
 			} else if (v instanceof JSONArray) {
@@ -403,6 +445,5 @@ public class JSONObject extends AbstractJSON {
 	}
 	
 	// TODO: Enumeration elements()
-	// TODO: String keyOf(Object)
 
 }
