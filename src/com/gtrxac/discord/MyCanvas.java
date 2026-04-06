@@ -156,7 +156,7 @@ public abstract class MyCanvas extends Canvas {
         }
     }
 
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
     protected void _pointerPressed(int x, int y) {}
     protected void _pointerDragged(int x, int y) {}
     protected void _pointerReleased(int x, int y) {}
@@ -175,7 +175,7 @@ public abstract class MyCanvas extends Canvas {
         _pointerReleased(x, y - bbTitleHeight);
     }
 //#else
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
     protected void pointerPressed(int x, int y) {
         _pointerPressed(x, y);
     }

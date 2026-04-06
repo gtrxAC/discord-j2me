@@ -39,7 +39,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
     private boolean threadIsForSound;
 
     public void run() {
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
         if (threadIsForSound) {
             threadIsForSound = false;
 //#endif
@@ -52,7 +52,7 @@ public class NotificationDialog extends Dialog implements CommandListener, Strin
                 }
                 Util.sleep(125);
             }
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
         }
         // for kineticscrollingcanvas scroll thread
         else {

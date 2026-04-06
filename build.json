@@ -7,7 +7,7 @@
   },
   {
     "name": "discord_midp2_lite",
-    "defines": ["MIDP2_LITE_VERSION", "OVER_100KB", "ICON_16"],
+    "defines": ["MIDP2_LITE_VERSION", "OVER_100KB", "ICON_16", "TOUCH_SUPPORT_LITE"],
     "bootclasspath": ["sdk/lib/jsr75.jar", "sdk/lib/midpapi20.jar", "sdk/lib/cldcapi10.jar"],
     "excludes": ["en.json", "icon.png", "icon_32.png", "icon_38_18.png", "icon_42_29.png", "sparkle.png", "icon.svg", "bar.png"]
   },

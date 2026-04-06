@@ -9,7 +9,7 @@ import javax.microedition.lcdui.*;
  * If subclass implements Runnable, make sure it has a passthrough to be able to run the scroll thread (examples in EmojiPicker, NotificationDialog)
  */
 public abstract class KineticScrollingCanvas extends MyCanvas
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
 implements Runnable
 //#endif
 {
@@ -22,7 +22,7 @@ implements Runnable
     private int totalScroll;
     private int totalScrollAbs;
 
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
     public static int scrollUnit;
     protected int velocity;
     private long lastPointerTime;
@@ -35,7 +35,7 @@ implements Runnable
     private static int scrollBarSize; 
     
     static {
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
         scrollBarSize = Font.getDefaultFont().stringWidth("a")*5/2;
 //#ifdef SAMSUNG_FULL
         if (Util.hasSamsungFontBug) scrollBarSize = scrollBarSize*5/2;
@@ -71,7 +71,7 @@ implements Runnable
         return totalScrollAbs < fontHeight/2 && Math.abs(totalScroll) < fontHeight/4;
     }
 
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
     private void handleScrollBar(int y) {
         lastScrollBarY = y;
         int height = getHeight() - scrollBarSize;
@@ -191,7 +191,7 @@ implements Runnable
         // Don't show scrollbar when pointer dragged to the very top/bottom, to avoid the scrollbar getting stuck visible (in hidden mode)
         else if (
             showScrollbar
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
             || (usingScrollBar && lastScrollBarY > height/30 && lastScrollBarY < height*29/30)
 //#endif
         ) {

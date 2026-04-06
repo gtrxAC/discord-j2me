@@ -250,7 +250,7 @@ public class ListScreen extends KineticScrollingCanvas {
         if (useRightItems) rightItems = new Vector();
         selected = 0;
         scroll = minScroll;
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
         velocity = 0;  // stop any kinetic scrolling
 //#endif
         repaint();
@@ -495,7 +495,7 @@ public class ListScreen extends KineticScrollingCanvas {
         repaint();
     }
 
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
     private boolean pressedOnBlank;
 
     protected void _pointerPressed(int x, int y) {

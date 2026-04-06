@@ -53,10 +53,13 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     static String draftMessage;
 //#endif
 
-//#ifdef TOUCH_SUPPORT
-//#ifndef BLACKBERRY
+//#ifdef TOUCH_SUPPORT_LITE
     boolean showBackButton;
     int backButtonStringWidth;
+//#endif
+
+//#ifdef TOUCH_SUPPORT
+//#ifndef BLACKBERRY
 //#endif
     static Image messageBarLeft;
     static Image messageBarCenter;
@@ -123,7 +126,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 //#endif
     }
 
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
 //#ifndef BLACKBERRY
     public void setFullScreenMode(boolean mode) {
         super.setFullScreenMode(mode);
@@ -140,7 +143,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         }
     }
 //#endif
+//#endif
 
+//#ifdef TOUCH_SUPPORT
     private boolean shouldShowBottomBar() {
         return hasPointerEvents() &&
             (Settings.messageBarMode == Settings.MESSAGE_BAR_ON || (Settings.messageBarMode == Settings.MESSAGE_BAR_AUTO && super.getHeight() > getWidth())) &&
@@ -890,7 +895,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
         }
 
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
 //#ifndef BLACKBERRY
         if (showBackButton) {
             int buttonOffset = fontHeight/2;
@@ -1117,18 +1122,15 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         repaint();
     }
 
-//#ifdef TOUCH_SUPPORT
-    private boolean tappedOnBottom;
-
+//#ifdef TOUCH_SUPPORT_LITE
     protected void _pointerPressed(int x, int y) {
-        tappedOnBottom = (y > getHeight() && shouldShowBottomBar());
 //#ifndef BLACKBERRY
         int buttonOffset = fontHeight/2;
         int buttonMargin = fontHeight/3;
         int buttonWidth = backButtonStringWidth + buttonMargin*2;
         int buttonHeight = fontHeight + buttonMargin*2;
 
-        if (showBackButton && !tappedOnBottom && x >= width - buttonWidth - buttonOffset && y >= height - buttonHeight - buttonOffset) {
+        if (showBackButton && x >= width - buttonWidth - buttonOffset && y >= height - buttonHeight - buttonOffset) {
             commandAction(fullScreenCommand, this);
             return;
         }
@@ -1143,24 +1145,6 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
     }
 
     protected void _pointerReleased(int x, int y) {
-//#ifdef TOUCH_SUPPORT
-        if (tappedOnBottom && y > getHeight() && shouldShowBottomBar()) {
-            // Tapped on the bottom message bar, determine which part was pressed:
-            // Button on left-most edge: upload file
-            if (x < fontHeight*2) {
-                commandAction(uploadCommand, this);
-            }
-            // Button on right-most edge: send emoji (open "send message" box then the emoji picker)
-            else if (x > getWidth() - fontHeight*2) {
-                showMessageBox(true);
-            }
-            // Rest of the bar: send message
-            else {
-                showMessageBox(false);
-            }
-            return;
-        }
-//#endif
         touchMode = true;
 
         if (!pointerWasTapped(fontHeight)) {

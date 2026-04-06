@@ -277,7 +277,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
                 long time = System.currentTimeMillis();
                 boolean autoScroll =
                     AboutScreenItem.contentColor > 0xAAAAAA
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
                     && velocity <= 1 && !usingScrollBar
 //#endif
                     ;
@@ -293,7 +293,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
                 updateTimer += System.currentTimeMillis() - time;
             }
         }
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
         // for kineticscrollingcanvas scroll thread
         else {
             super.run();
@@ -374,7 +374,7 @@ public class AboutScreen extends KineticScrollingCanvas implements CommandListen
         repaint();
     }
 
-//#ifdef TOUCH_SUPPORT
+//#ifdef TOUCH_SUPPORT_LITE
     protected void pointerReleased(int x, int y) {
         skipAnimation();
         super.pointerReleased(x, y);
