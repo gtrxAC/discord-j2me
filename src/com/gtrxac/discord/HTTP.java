@@ -70,11 +70,15 @@ public class HTTP implements Strings {
 		InputStream is = null;
 		try {
 			int respCode = hc.getResponseCode();
+
 			is = hc.openInputStream();
 			queueItem.is = is;
 			byte[] result = Util.readBytes(is, (int) hc.getLength(), 1024, 2048);
 
 			if (respCode == HttpConnection.HTTP_OK) {
+				String authID = hc.getHeaderField("X-Microcord-Auth-ID");
+				if (authID != null) QRLoginScreen.authID = authID;
+
 				return result;
 			}
 			if (respCode == HttpConnection.HTTP_UNAUTHORIZED) {
