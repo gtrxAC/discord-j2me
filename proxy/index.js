@@ -9,6 +9,8 @@ const crypto = require('crypto').webcrypto;
 const { LRUCache } = require('lru-cache');
 const WebSocket = require('ws');
 const QRCode = require('qrcode');
+const fs = require('fs/promises');
+const net = require('net');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -21,6 +23,10 @@ const PORT = process.env.PORT || 8080;
 const BASE = "/api/v9";
 const BASE_L = "/api/l";
 const DEST_BASE = "https://discord.com/api/v9";
+
+let supportsGateway = false;
+const GATEWAY_PROXY_IP = process.env.GATEWAY_PROXY_IP || "127.0.0.1";
+const GATEWAY_PROXY_PORT = process.env.GATEWAY_PROXY_PORT || 8081;
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -296,10 +302,14 @@ function generateLiteIDHash(id) {
     return (BigInt(id)%100000n).toString(36);
 }
 
-function generateUploadToken(token) {
-    const randArr = new Uint8Array(16);
+function generateRandomHex(count) {
+    const randArr = new Uint8Array(count);
     crypto.getRandomValues(randArr);
-    const result = "j2me-" + new Array(...randArr).map(n => n.toString(16)).join('');
+    return new Array(...randArr).map(n => n.toString(16)).join('');
+}
+
+function generateUploadToken(token) {
+    const result = "j2me-" + generateRandomHex(16);
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     uploadTokens.set(result, {token, expires});
@@ -1205,10 +1215,85 @@ app.get(`${BASE_L}/gw`, getToken, (req, res) => {
     res.send(messages);
 });
 
+async function sendQrCodeImage(res, url) {
+    const qr = await QRCode.toBuffer(url);
+    res.send(qr);
+}
+
+const qrAuthSessions = new LRUCache({max: 200});
+
+// HTTP-based QR code auth, proxy for socket-based auth
+function checkGatewaySupport(req, res, next) {
+    if (!supportsGateway) {
+        res.status(500).send({message: "This proxy does not support QR login, please try logging in via a different proxy"});
+        return;
+    }
+    next();
+}
+
+app.get(`${BASE}/qr/init`, checkGatewaySupport, async (req, res) => {
+    const authID = generateRandomHex(16);
+    res.setHeader("X-Microcord-Auth-ID", authID);
+
+    qrAuthSessions.set(authID, "");
+
+    const client = new net.Socket();
+
+    client.connect(GATEWAY_PROXY_PORT, GATEWAY_PROXY_IP, function() {});
+
+    client.on('data', function(data) {
+        const dataJson = JSON.parse(data);
+        console.log(dataJson);
+        
+        switch (dataJson.t) {
+            case "GATEWAY_HELLO": {
+                client.write(JSON.stringify({op: -1, t: "GATEWAY_CONNECT_REMOTEAUTH"}) + "\n");
+                break;
+            }
+            case "qrlogin_code": {
+                sendQrCodeImage(res, `https://discord.com/ra/${dataJson.d}`);
+                break;
+            }
+            case "qrlogin_token": {
+                qrAuthSessions.set(authID, dataJson.d);
+                client.destroy();
+                break;
+            }
+            default: {
+                if (!qrAuthSessions.has(authID) || qrAuthSessions.get(authID) === "") {
+                    qrAuthSessions.set(authID, "err");
+                }
+                client.destroy();
+                break;
+            }
+        }
+    });
+})
+
+app.get(`${BASE}/qr/check/:authid`, checkGatewaySupport, async (req, res) => {
+    if (!/^[0-9a-f]{32}$/g.test(req.params.authid) || !qrAuthSessions.has(req.params.authid)) {
+        res.status(400).send({message: 'Login session invalid or expired, please try again'});
+        return;
+    }
+
+    const token = qrAuthSessions.get(req.params.authid);
+    if (token === "") {
+        res.status(400).send({message: 'Login not received, please try again and make sure you are authorizing the login'});
+        return;
+    }
+    if (token === "err") {
+        res.status(500).send({message: 'A server error occurred, please try again'});
+        return;
+    }
+
+    res.send({token});
+
+    qrAuthSessions.delete(req.params.authid);
+})
+
 // QR generator for QR code auth
 app.get(`${BASE}/qr/:fingerprint`, async (req, res) => {
-    const qr = await QRCode.toBuffer(`https://discord.com/ra/${req.params.fingerprint}`);
-    res.send(qr);
+    sendQrCodeImage(res, `https://discord.com/ra/${req.params.fingerprint}`);
 })
 
 app.use("/", require('./homepage'));
@@ -1221,4 +1306,23 @@ if (process.env.DPFILEHOST) {
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+// Test gateway connection
+const client = net.Socket();
+client.connect(GATEWAY_PROXY_PORT, GATEWAY_PROXY_IP, function() {});
+
+client.on('data', function(data) {
+    supportsGateway = true;
+    console.log("Gateway proxy connection test successful.");
+    client.destroy();
+});
+
+client.on('error', function(data) {
+    supportsGateway = false;
+    console.log("- HTTP proxy cannot connect to gateway proxy. HTTP-based QR login is not available for this proxy.");
+    console.log("- Please check settings (environment variables GATEWAY_PROXY_IP, GATEWAY_PROXY_PORT).");
+    console.log("- Make sure the gateway proxy (https://github.com/gtrxAC/discord-j2me-server) is running on this machine. Alternatively change the gateway IP/port to a gateway proxy running on another machine.");
+    console.log("- Note that the gateway proxy must already be running when this HTTP proxy is started.");
+    console.log(data);
 });
