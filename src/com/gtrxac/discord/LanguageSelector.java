@@ -59,7 +59,8 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
     }
 
     public void commandAction(Command c, Displayable d) {
-        App.ic = null;  // don't need to load new icons because the old ones are kept by lastscreen
+        App.ic = null;
+        App.ic = new Icons(Icons.TYPE_SETTINGS);
 
         if (c == SELECT_COMMAND) {
             Settings.language = Locale.langIds[getSelectedIndex()];
