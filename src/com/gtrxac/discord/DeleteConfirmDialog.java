@@ -1,4 +1,4 @@
-//#ifdef OVER_100KB
+//#ifndef DIALOGS_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;

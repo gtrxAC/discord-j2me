@@ -1,13 +1,13 @@
-//#ifdef SAMSUNG_100KB
+//#ifdef DIALOGS_100KB
 package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
+import javax.microedition.media.*;
 
-public class Dialogs100kb extends Dialog implements Strings, CommandListener {
+public class Dialogs100kb extends Dialog implements Strings, CommandListener, Runnable {
     public static final int DELETE_CONFIRM_DIALOG = 0;
     public static final int NOTIFICATION_DIALOG = 1;
     public static final int RECONNECT_DIALOG = 2;
-    public static final int UPDATE_DIALOG = 3;
 
     public int dialogType;
     private Command yesCommand;
@@ -39,7 +39,6 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
 
     // Notification dialog
     private Notification notif;
-    private boolean hasPlayedSound;
 
     public Dialogs100kb(Notification notif, String location, Message msg) {
         super(Locale.get(NOTIFICATION_TITLE), "");
@@ -54,6 +53,9 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         noCommand = Locale.createCommand(CLOSE, Command.BACK, 0);
         addCommand(yesCommand);
         addCommand(noCommand);
+
+        threadIsForSound = true;
+        new Thread(this).start();
     }
 
     // Reconnect dialog
@@ -76,32 +78,6 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
         noCommand = Locale.createCommand(NO, Command.BACK, 1);
         addCommand(yesCommand);
         addCommand(noCommand);
-    }
-
-    // Update dialog
-    private boolean isBeta;
-
-    public Dialogs100kb(String latestVersion, boolean isBeta) {
-        super(
-            Locale.get(UPDATE_AVAILABLE_TITLE),
-            Locale.get(UPDATE_AVAILABLE) + App.VERSION_NAME + Locale.get(UPDATE_AVAILABLE_LATEST) + latestVersion
-        );
-
-        setCommandListener(this);
-        this.isBeta = isBeta;
-        dialogType = UPDATE_DIALOG;
-
-        yesCommand = Locale.createCommand(UPDATE, Command.OK, 1);
-        noCommand = Locale.createCommand(CLOSE, Command.BACK, 0);
-        addCommand(yesCommand);
-        addCommand(noCommand);
-    }
-
-    protected void showNotify() {
-        if (dialogType == NOTIFICATION_DIALOG && !hasPlayedSound) {
-            App.gateway.playNotificationSound();
-            hasPlayedSound = true;
-        }
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -134,25 +110,32 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
                 App.disp.setCurrent(lastScreen);
                 break;
             }
-
-            case UPDATE_DIALOG: {
-                if (c == yesCommand) {
-                    StringBuffer target = new StringBuffer();
-        
-                    target.append(Settings.api);
-                    target.append("/discord_");
-                    target.append(App.VERSION_VARIANT);
-                    if (isBeta) target.append("_beta");
-                    target.append(".jad");
-        
-                    App.platRequest(target.toString());
-                }
-                else {
-                    App.disp.setCurrent(MainMenu.get(false));
-                }
-                break;
-            }
         }
+    }
+
+    private boolean threadIsForSound;
+
+    public void run() {
+//#ifdef TOUCH_SUPPORT_LITE
+        if (threadIsForSound) {
+            threadIsForSound = false;
+//#endif
+            Util.sleep(50);
+            while (true) {
+                Displayable curr = App.disp.getCurrent();
+                if (curr == this) {
+                    App.gateway.playNotificationSound();
+                    break;
+                }
+                Util.sleep(125);
+            }
+//#ifdef TOUCH_SUPPORT_LITE
+        }
+        // for kineticscrollingcanvas scroll thread
+        else {
+            super.run();
+        }
+//#endif
     }
 }
 //#endif

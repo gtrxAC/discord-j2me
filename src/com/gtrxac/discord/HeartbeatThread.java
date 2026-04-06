@@ -1,4 +1,4 @@
-//#ifdef OVER_100KB
+//#ifndef THREADS_100KB
 package com.gtrxac.discord;
 
 import java.io.*;

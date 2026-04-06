@@ -1,4 +1,4 @@
-//#ifdef SAMSUNG_100KB
+//#ifdef THREADS_100KB
 package com.gtrxac.discord;
 
 import java.io.*;

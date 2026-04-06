@@ -1264,7 +1264,7 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 App.disp.setCurrent(new URLList(selected.content));
             }
             else if (c == deleteCommand) {
-//#ifdef OVER_100KB
+//#ifndef DIALOGS_100KB
                 App.disp.setCurrent(new DeleteConfirmDialog(selected));
 //#else
                 App.disp.setCurrent(new Dialogs100kb(selected));
