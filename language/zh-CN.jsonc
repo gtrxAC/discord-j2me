@@ -263,7 +263,7 @@
     "仅使用您信任的代理！",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    " Token可以在浏览器的开发者工具中找到（在线查找帮助）。建议使用小号。",
+    "Token 可以在浏览器的开发者工具中找到（在线查找帮助）。建议使用小号。",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
     "使用 Wi-Fi",
@@ -492,7 +492,7 @@
     "取消",
 
     // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
-   "必须先关闭应用程序才能打开URL。",
+   "必须先关闭应用程序才能打开 URL。",
 
     // Prefix of error message shown when an error occurs when trying to open an URL.
     "无法打开网址（",
@@ -741,7 +741,7 @@
     "导入 Token",
 
     // Title text for the token import file picker screen.
-    "选择 Token文件",
+    "选择 Token 文件",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
     "正在下载表情符号...",
@@ -984,9 +984,9 @@
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "为避免输入错误，您可以从文本文件导入 Token或将其插入JAR文件。",
+    "为避免输入错误，您可以从文本文件导入 Token 或将其插入 JAR 文件。",
     // This string is shown on devices that don't support FileConnection.
-    "为避免输入错误，可将 Token插入JAR文件中。",
+    "为避免输入错误，可将 Token 插入 JAR 文件中。",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
@@ -1027,41 +1027,41 @@
     "拉伸",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "屏幕切换动画",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper",
+    "呼入铃声",
+    "呼出铃声",
+    "壁纸",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "登录需要身份验证 Token，您可以使用 Discord 手机应用扫描二维码来获取。",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "获取二维码",
+    "获取二维码",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "正在连接...",
+    "正在获取二维码...",
+    "已断开连接，请重试",
 
-    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. ",
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info.
+    "您也可以手动输入您的 Token。",
 
     // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
     // Now there are separate types of buttons for "View X files" and "View X images"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
-    " file",
-    " files",
-    " image",
-    " images",
+    " 个文件",
+    " 个文件",
+    " 张图片",
+    " 张图片",
 
     // Description for the read state (unread indicator dots) synchronization feature. Shown in the login screen above the checkbox for "Sync unreads".
     // This feature more specifically uses more network bandwidth, RAM, and storage, and also requires the gateway,
     // but this string is kept relatively short so the login screen is not too cluttered.
-    "Syncing unread indicators with official clients requires more memory.",
+    "与官方客户端同步未读标记会占用更多内存。",
 
     // Label for the check box for toggling read state synchronization feature.
-    "Sync unreads"
+    "同步未读状态"
 ]
