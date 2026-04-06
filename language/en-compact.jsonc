@@ -177,7 +177,7 @@
     "User not found. Try creating the DM from another client.",
 
     // Title text for direct message list.
-    "Direct message",
+    "Direct msgs.",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
     "Search",
