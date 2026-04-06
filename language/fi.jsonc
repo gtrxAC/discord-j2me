@@ -117,7 +117,7 @@
 
     // Suffix for channel view banner text when more than three people are typing.
     // Example: "4 people are typing"
-    " ihmistä kirjoittaa",
+    " henkilöä kirjoittaa",
 
     // Comma separator used to separate usernames in the channel view banner text shown when people are typing.
     ", ",
@@ -930,7 +930,7 @@
     "Negatiivinen aikaero",
 
     // Related to "Lines shown in the about screen for which language" above.
-    "Hungarian",
+    "unkari",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
     "Ylös",
