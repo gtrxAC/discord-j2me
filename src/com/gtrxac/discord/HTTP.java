@@ -15,6 +15,7 @@ public class HTTP implements Strings {
 	private static byte[] requestWrapped(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
 		HttpConnection hc = null;
 		OutputStream os = null;
+		HTTPQueue queueItem = HTTPQueue.newQueueItem();
 
 		try {
 			hc = (HttpConnection) 
@@ -24,6 +25,8 @@ public class HTTP implements Strings {
 				Connector
 //#endif	
 				.open(App.getPlatformSpecificUrl(url));
+
+			queueItem.hc = hc;
 				
 			try {
 				hc.setRequestMethod(method);
@@ -47,22 +50,23 @@ public class HTTP implements Strings {
 				hc.setRequestProperty("Content-Length", String.valueOf(dataBytes.length));
 
 				os = hc.openOutputStream();
+				queueItem.os = os;
 				os.write(dataBytes);
 			}
 
-			return sendRequest(hc);
+			return sendRequest(queueItem, hc);
 		}
 		finally {
-			try { os.close(); } catch (Exception e) {}
-			try { hc.close(); } catch (Exception e) {}
+			queueItem.finished();
 		}
 	}
 
-	public static byte[] sendRequest(HttpConnection hc) throws Exception {
+	public static byte[] sendRequest(HTTPQueue queueItem, HttpConnection hc) throws Exception {
 		InputStream is = null;
 		try {
 			int respCode = hc.getResponseCode();
 			is = hc.openInputStream();
+			queueItem.is = is;
 			byte[] result = Util.readBytes(is, (int) hc.getLength(), 1024, 2048);
 
 			if (respCode == HttpConnection.HTTP_OK) {
