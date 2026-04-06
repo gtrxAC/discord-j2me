@@ -696,11 +696,11 @@
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
     "設定",
-    "設定令牌",
+    "設定 Token",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
     "更改",
-    "更改令牌",
+    "更改 Token",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "Nokia UI",
@@ -738,10 +738,10 @@
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
     "匯入",
-    "匯入令牌",
+    "匯入 Token",
 
     // Title text for the token import file picker screen.
-    "揀令牌檔案",
+    "揀 Token 檔案",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
     "下載表情符號中...",
@@ -980,13 +980,13 @@
     "呢個網關用於即時傾偈同其他特定功能。",
 
     // Explanation string for the token settings.
-    "呢個應用程式需要令牌先可以登入。",
+    "呢個應用程式需要 Token 先可以登入。",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "為咗避免打錯字，你可以從文字檔入面匯入令牌，或者將令牌插入JAR檔入面。",
+    "為咗避免打錯字，你可以從文字檔入面匯入 Token，或者將 Token 插入 JAR 檔入面。",
     // This string is shown on devices that don't support FileConnection.
-    "為咗避免輸入錯誤，你可以將令牌放入JAR檔案度。",
+    "為咗避免輸入錯誤，你可以將 Token 放入JAR檔案度。",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
@@ -1027,41 +1027,41 @@
     "拉埋佢",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "转场动画",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper",
+    "收嘢声",
+    "送出声",
+    "桌布",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "想登入，你要用 Discord 手机版扫下个二維碼攞个认证 Token 先得。",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "攞二維碼",
+    "攞二維碼",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "连接紧...",
+    "攞紧二維碼...",
+    "断咗线，试多次啦",
 
-    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. ",
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info.
+    "你都可以自己手动入返个 Token。",
 
     // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
     // Now there are separate types of buttons for "View X files" and "View X images"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
-    " file",
-    " files",
-    " image",
-    " images",
+    " 个档案",
+    " 个档案",
+    " 张图",
+    " 张图",
 
     // Description for the read state (unread indicator dots) synchronization feature. Shown in the login screen above the checkbox for "Sync unreads".
     // This feature more specifically uses more network bandwidth, RAM, and storage, and also requires the gateway,
     // but this string is kept relatively short so the login screen is not too cluttered.
-    "Syncing unread indicators with official clients requires more memory.",
+    "如果要同步埋官方 App 嗰啲未读标记，会食多啲内存架。",
 
     // Label for the check box for toggling read state synchronization feature.
-    "Sync unreads"
+    "同步未读标记"
 ]

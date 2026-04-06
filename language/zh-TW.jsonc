@@ -979,13 +979,13 @@
     "閘道器用於即時聊天和某些其他功能。",
 
     // Explanation string for the token settings.
-    "此應用程式需要令牌才能登入。",
+    "此應用程式需要 Token 才能登入。",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "為避免輸入錯誤，您可以從文字檔案匯入令牌或將其插入 JAR 檔案中。",
+    "為避免輸入錯誤，您可以從文字檔案匯入 Token 或將其插入 JAR 檔案中。",
     // This string is shown on devices that don't support FileConnection.
-    "為避免輸入錯誤，您可以將令牌插入 JAR 檔案中。",
+    "為避免輸入錯誤，您可以將 Token 插入 JAR 檔案中。",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
@@ -1026,41 +1026,41 @@
     "拉伸",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "畫面切換 ",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper",
+    "來電音效",
+    "撥出音效",
+    "桌布",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "若要登入，需要驗證 Token，您可以使用 Discord 手機應用程式掃描二維碼來取得。",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "取得二維碼",
+    "取得二維碼",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "連線中...",
+    "正在取得二維碼...",
+    "已斷線，請重試",
 
-    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. ",
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info.
+    "您也可以手動輸入您的 Token。",
 
     // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
     // Now there are separate types of buttons for "View X files" and "View X images"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
-    " file",
-    " files",
-    " image",
-    " images",
+    " 個檔案",
+    " 個檔案",
+    " 張圖片",
+    " 張圖片",
 
     // Description for the read state (unread indicator dots) synchronization feature. Shown in the login screen above the checkbox for "Sync unreads".
     // This feature more specifically uses more network bandwidth, RAM, and storage, and also requires the gateway,
     // but this string is kept relatively short so the login screen is not too cluttered.
-    "Syncing unread indicators with official clients requires more memory.",
+    "與官方用戶端同步未讀標記會消耗更多記憶體。",
 
     // Label for the check box for toggling read state synchronization feature.
-    "Sync unreads"
+    "同步未讀標記"
 ]
