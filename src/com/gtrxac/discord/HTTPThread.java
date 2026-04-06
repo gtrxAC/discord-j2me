@@ -750,6 +750,7 @@ public class HTTPThread extends Thread implements Strings {
                 case SEND_ATTACHMENT: {
                     loadScreen.text = Locale.get(SENDING);
 
+                    HTTPQueue queueItem = HTTPQueue.newQueueItem();
                     HttpConnection httpConn = null;
                     DataOutputStream os = null;
 
@@ -758,11 +759,13 @@ public class HTTPThread extends Thread implements Strings {
 
                         // note: forced proxy, different API from standard Discord API
                         httpConn = (HttpConnection) Connector.open(HTTP.getFullUrl("/channels/" + id + "/upload", true));
+                        queueItem.hc = httpConn;
 
                         httpConn.setRequestMethod(HttpConnection.POST);
                         httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 
                         os = httpConn.openDataOutputStream();
+                        queueItem.os = os;
 
                         os.write(createFormPart("token", null));
                         os.write(Settings.token.getBytes());
@@ -800,13 +803,12 @@ public class HTTPThread extends Thread implements Strings {
                         os.flush();
 
                         fileInputStream.close();
-                        HTTP.sendRequest(httpConn);
+                        HTTP.sendRequest(queueItem, httpConn);
                         attachFc.close();
                         new HTTPThread(FETCH_MESSAGES).start();
                     }
                     finally {
-                        try { os.close(); } catch (Exception e) {}
-                        try { httpConn.close(); } catch (Exception e) {}
+                        queueItem.finished();
                     }
                     break;
                 }

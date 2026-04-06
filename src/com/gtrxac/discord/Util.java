@@ -599,7 +599,6 @@ public class Util {
 //#endif
 //#endif
 
-
 		fontSize = Font.getDefaultFont().getHeight();
 //#ifdef SAMSUNG_FULL
 		if (hasSamsungFontBug) fontSize *= 2;
