@@ -170,6 +170,8 @@ public class App extends MIDlet implements Strings {
     }
 
 	public static void error(String message, Object next) {
+		message = Util.replace(message, "java.lang.Exception: ", "");
+
 		disp.setCurrent(new Dialog(Locale.get(ERROR_TITLE), message, next));
 
 		// clear banner text (e.g. hide "sending message" text if message sending fails)
