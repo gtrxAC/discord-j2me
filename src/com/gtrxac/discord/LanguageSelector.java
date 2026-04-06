@@ -55,6 +55,9 @@ public class LanguageSelector extends ListScreen implements CommandListener, Str
 
         for (int i = 0; i < Locale.langIds.length; i++) {
             append(langNames[i], flags[i]);
+            if (Settings.language.equals(Locale.langIds[i])) {
+                setSelectedIndex(i, true);
+            }
         }
     }
 
