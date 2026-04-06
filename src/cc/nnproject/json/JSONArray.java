@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2021-2024 Arman Jussupgaliyev
+Copyright (c) 2021-2025 Arman Jussupgaliyev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,8 @@ SOFTWARE.
 */
 package cc.nnproject.json;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -60,8 +62,8 @@ public class JSONArray extends AbstractJSON {
 		}
 		try {
 			Object o = elements[index];
-			if (o instanceof JSONString)
-				o = elements[index] = JSON.parseJSON(((JSONString) o).str);
+			if (o instanceof String[])
+				o = elements[index] = JSON.parseJSON(((String[]) o)[0]);
 			if (o == JSON.json_null)
 				return null;
 			return o;
@@ -407,6 +409,8 @@ public class JSONArray extends AbstractJSON {
 				s.append(((AbstractJSON) v).build());
 			} else if (v instanceof String) {
 				s.append("\"").append(JSON.escape_utf8((String) v)).append("\"");
+			} else if (v instanceof String[]) {
+				s.append(((String[]) v)[0]);
 			} else if (v == JSON.json_null) {
 				s.append((String) null);
 			} else {
@@ -435,8 +439,8 @@ public class JSONArray extends AbstractJSON {
 		int i = 0;
 		while (i < size) {
 			Object v = elements[i];
-			if (v instanceof JSONString) {
-				v = elements[i] = JSON.parseJSON(((JSONString) v).str);
+			if (v instanceof String[]) {
+				v = elements[i] = JSON.parseJSON(((String[]) v)[0]);
 			}
 			if (v instanceof AbstractJSON) {
 				s.append(((AbstractJSON) v).format(l + 1));
@@ -459,6 +463,42 @@ public class JSONArray extends AbstractJSON {
 		}
 		return s.toString();
 	}
+	
+	public void write(OutputStream out) throws IOException {
+		int size = count;
+		out.write((byte) '[');
+		if (size == 0) {
+			out.write((byte) ']');
+			return;
+		}
+		int i = 0;
+		while (i < size) {
+			Object v = elements[i];
+			if (v instanceof JSONObject) {
+				((JSONObject) v).write(out);
+			} else if (v instanceof JSONArray) {
+				((JSONArray) v).write(out);
+			} else if (v instanceof String) {
+				out.write((byte) '"');
+				JSON.writeString(out, (String) v);
+				out.write((byte) '"');
+			} else if (v instanceof String[]) {
+				out.write((((String[]) v)[0]).getBytes("UTF-8"));
+			} else if (v == JSON.json_null) {
+				out.write((byte) 'n');
+				out.write((byte) 'u');
+				out.write((byte) 'l');
+				out.write((byte) 'l');
+			} else {
+				out.write(String.valueOf(v).getBytes("UTF-8"));
+			}
+			i++;
+			if (i < size) {
+				out.write((byte) ',');
+			}
+		}
+		out.write((byte) '}');
+	}
 
 	public Enumeration elements() {
 		return new Enumeration() {
@@ -470,8 +510,8 @@ public class JSONArray extends AbstractJSON {
 			
 			public Object nextElement() {
 				Object o = elements[i];
-				if (o instanceof JSONString)
-					o = elements[i] = JSON.parseJSON(((JSONString) o).str);
+				if (o instanceof String[])
+					o = elements[i] = JSON.parseJSON(((String[]) o)[0]);
 				i++;
 				return o == JSON.json_null ? null : o;
 			}
@@ -495,8 +535,8 @@ public class JSONArray extends AbstractJSON {
 		Vector copy = new Vector(size);
 		for (int i = 0; i < size; i++) {
 			Object o = elements[i];
-			if (o instanceof JSONString)
-				o = elements[i] = JSON.parseJSON(((JSONString) o).str);
+			if (o instanceof String[])
+				o = elements[i] = JSON.parseJSON(((String[]) o)[0]);
 			if (o instanceof JSONObject) {
 				o = ((JSONObject) o).toTable();
 			} else if (o instanceof JSONArray) {
@@ -526,8 +566,8 @@ public class JSONArray extends AbstractJSON {
 	
 	private int _indexOf(Object object, int start) {
 		for (int i = start; i < count; i++) {
-			if (elements[i] instanceof JSONString)
-				elements[i] = JSON.parseJSON(((JSONString) elements[i]).str);
+			if (elements[i] instanceof String[])
+				elements[i] = JSON.parseJSON(((String[]) elements[i])[0]);
 			if (object.equals(elements[i])) return i;
 		}
 		return -1;

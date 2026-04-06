@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2022-2024 Arman Jussupgaliyev
+Copyright (c) 2022-2025 Arman Jussupgaliyev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,9 @@ SOFTWARE.
 */
 package cc.nnproject.json;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 public abstract class AbstractJSON {
 	
 	// common methods for both JSONObject and JSONArray
@@ -36,6 +39,8 @@ public abstract class AbstractJSON {
 	public final String format() {
 		return format(0);
 	}
+	
+	public abstract void write(OutputStream out) throws IOException;
 	
 	protected abstract String format(int l);
 	
