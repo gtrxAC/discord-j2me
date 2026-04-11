@@ -341,10 +341,16 @@ function generateLiteIDHash(id) {
     return (BigInt(id)%100000n).toString(36);
 }
 
+function byteToHexWithLeadingZero(byte) {
+    const result = byte.toString(16);
+    if (result.length == 1) return '0' + result;
+    return result;
+}
+
 function generateRandomHex(count) {
     const randArr = new Uint8Array(count);
     crypto.getRandomValues(randArr);
-    return new Array(...randArr).map(n => n.toString(16)).join('');
+    return new Array(...randArr).map(byteToHexWithLeadingZero).join('');
 }
 
 function generateUploadToken(token) {
