@@ -45,16 +45,7 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
 
     public void commandAction(Command c, Displayable d) {
         if (c == checkCommand) {
-            try {
-                JSONObject checkJson = JSON.getObject(HTTP.get("/qr/check/" + authID, true));
-
-                gotToken = true;
-                Settings.token = checkJson.getString("token");
-                exit();
-            }
-            catch (Exception e) {
-                App.error(e, lastScreen);
-            }
+            new HTTPThread(HTTPThread.HTTP_QR_LOGIN_CHECK).start();
         } else {
             exit();
         }
@@ -157,5 +148,10 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
         append(new Spacer(getWidth(), 1));
         append("Select 'Check' after you've authorized the login on your smartphone.");
         addCommand(checkCommand);
+    }
+
+    public void tokenCallback() {
+        gotToken = true;
+        exit();
     }
 }

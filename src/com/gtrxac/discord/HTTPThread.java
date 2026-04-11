@@ -30,6 +30,7 @@ public class HTTPThread extends Thread implements Strings {
     static final int VIEW_ATTACHMENT_AUDIO = 15;
     static final int SET_THEME = 16;
     static final int MARK_AS_READ = 17;
+    static final int HTTP_QR_LOGIN_CHECK = 18;
 //#endif
 
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWykTrZu0gW";
@@ -1019,6 +1020,16 @@ public class HTTPThread extends Thread implements Strings {
                         "{\"token\":null}", false
                     );
                     UnreadManager.markReadChannelID = null;
+                    break;
+                }
+
+                case HTTP_QR_LOGIN_CHECK: {
+                    JSONObject checkJson = JSON.getObject(HTTP.get("/qr/check/" + QRLoginScreen.authID, true));
+                    Settings.token = checkJson.getString("token");
+                    
+                    if (prevScreen instanceof QRLoginScreen) {
+                        ((QRLoginScreen) prevScreen).tokenCallback();
+                    }
                     break;
                 }
 //#endif
