@@ -85,11 +85,14 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
         replyCommand = Locale.createCommand(REPLY, Command.ITEM, 3);
         uploadCommand = Locale.createCommand(UPLOAD_FILE, Command.ITEM, 4);
         replyUploadCommand = Locale.createCommand(REPLY_FILE, Command.ITEM, 5);
-        copyCommand = Locale.createCommand(COPY_CONTENT, Command.ITEM, 6);
         editCommand = Locale.createCommand(EDIT, Command.ITEM, 7);
         deleteCommand = Locale.createCommand(DELETE, Command.ITEM, 8);
         openUrlCommand = Locale.createCommand(OPEN_URL, Command.ITEM, 9);
         refreshCommand = Locale.createCommand(REFRESH, Command.ITEM, 11);
+
+        if (Util.supportsClipboard) {
+            copyCommand = Locale.createCommand(COPY_CONTENT, Command.ITEM, 6);
+        }
 
         fontHeight = App.messageFont.getHeight();
         authorFontHeight = App.authorFont.getHeight();
@@ -711,7 +714,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
 
     private void updateCommands(ChannelViewItem selected) {
         if (selectionMode && selected.type == ChannelViewItem.MESSAGE && !selected.msg.isStatus) {
-            _addCommand(copyCommand);
+            if (Util.supportsClipboard) {
+                _addCommand(copyCommand);
+            }
 
             if (App.myUserId.equals(selected.msg.author.id)) {
                 _addCommand(editCommand);
@@ -727,7 +732,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
                 _removeCommand(openUrlCommand);
             }
         } else {
-            _removeCommand(copyCommand);
+            if (Util.supportsClipboard) {
+                _removeCommand(copyCommand);
+            }
             _removeCommand(editCommand);
             _removeCommand(deleteCommand);
             _removeCommand(openUrlCommand);
