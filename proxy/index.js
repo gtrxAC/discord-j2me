@@ -690,8 +690,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             _liteproxy: true,
 
             // Number and display name of latest available stable version.
-            _latest: 35,
-            _latestname: "5.3.0",
+            _latest: 36,
+            _latestname: "5.3.1",
 
             // Latest available beta version.
             // If there is no beta version, the version number should be set to 0 (so clients will always download the newer stable version).

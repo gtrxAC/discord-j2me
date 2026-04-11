@@ -3,25 +3,27 @@
  */
 
 const versionDownloadLinks = {
-    "midp2":               { version: "5.3", betaVersion: null, target: "Symbian S60v3 and up", tls: "via system-level TLS", tlsLink: "s60" },
-    "s40v3":               { version: "5.3", betaVersion: null, target: "Nokia S40v3 and up" },
-    "midp2_alt_tls":       { version: "5.3", betaVersion: null, target: "Nokia S40v3 and up", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
-    "phoneme_android":     { version: "5.3", betaVersion: null, target: "phoneME", tls: true, file: "midp2_alt_tls", showJar: false },
-    "nokia_128px":         { version: "5.3", betaVersion: null, target: "Nokia S40v3 and up (128x160)" },
-    "nokia_128px_tls":     { version: "5.3", betaVersion: null, target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
-    "s60v2":               { version: "5.3", betaVersion: null, target: "Symbian S60v2" },
-    "s40v2":               { version: "5.2.1", betaVersion: null, target: "Nokia S40v2 (with 512 kB heap)" },
-    "s40v2hi":             { version: "5.3", betaVersion: null, target: "Nokia S40v2 (with 1 MB heap)" },
-    "midp2_alt":           { version: "5.3", betaVersion: null, target: "other MIDP2 devices" },
-    "midp2_alt_recommend": { version: "5.3", betaVersion: null, target: "MIDP2", file: "midp2_alt" },
-    "blackberry":          { version: "5.3", betaVersion: null, target: "BlackBerry" },
-    "samsung":             { version: "5.3", betaVersion: null, target: "Samsung" },
-    "samsung_100kb":       { version: "5.2",   betaVersion: null, target: "Samsung (100 kB version)" },
-    "lg":                  { version: "5.3", betaVersion: null, target: "LG" },
-    "jl_tls":              { version: "5.3", betaVersion: null, target: "J2ME Loader", tls: "via Java-based TLS", showJad: false },
-    "jl":                  { version: "5.3", betaVersion: null, target: "J2ME Loader (low-RAM devices)", tls: "(if supported by OS)", showJad: false },
-    "6310i":               { version: "3.2",   betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
-    "midp1":               { version: "3.0",   betaVersion: null, target: "MIDP1" },
+    "midp2":                { version: "5.3.1", betaVersion: null, target: "Symbian S60v3 and up", tls: "via system-level TLS", tlsLink: "s60" },
+    "s40v3":                { version: "5.3.1", betaVersion: null, target: "Nokia S40v3 and up" },
+    "midp2_alt_tls":        { version: "5.3.1", betaVersion: null, target: "Nokia S40v3 and up", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
+    "phoneme_android":      { version: "5.3.1", betaVersion: null, target: "phoneME", tls: true, file: "midp2_alt_tls", showJar: false },
+    "nokia_128px":          { version: "5.3.1", betaVersion: null, target: "Nokia S40v3 and up (128x160)" },
+    "nokia_128px_tls":      { version: "5.3.1", betaVersion: null, target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
+    "s60v2":                { version: "5.3.1", betaVersion: null, target: "Symbian S60v2" },
+    "s40v2":                { version: "5.2.2", betaVersion: null, target: "Nokia S40v2 (with 512 kB heap)" },
+    "s40v2hi":              { version: "5.3.1", betaVersion: null, target: "Nokia S40v2 (with 1 MB heap)" },
+    "midp2_alt":            { version: "5.3.1", betaVersion: null, target: "other MIDP2 devices" },
+    "midp2_alt_recommend":  { version: "5.3.1", betaVersion: null, target: "MIDP2", file: "midp2_alt" },
+    "midp2_lite":           { version: "5.2.2", betaVersion: null, target: "other MIDP2 devices (low-end)" },
+    "midp2_lite_recommend": { version: "5.2.2", betaVersion: null, target: "MIDP2 (low-end)", file: "midp2_lite" },
+    "blackberry":           { version: "5.3.1", betaVersion: null, target: "BlackBerry" },
+    "samsung":              { version: "5.3.1", betaVersion: null, target: "Samsung" },
+    "samsung_100kb":        { version: "5.2",   betaVersion: null, target: "Samsung (100 kB version)" },
+    "lg":                   { version: "5.3.1", betaVersion: null, target: "LG" },
+    "jl_tls":               { version: "5.3.1", betaVersion: null, target: "J2ME Loader", tls: "via Java-based TLS", showJad: false },
+    "jl":                   { version: "5.3.1", betaVersion: null, target: "J2ME Loader (low-RAM devices)", tls: "(if supported by OS)", showJad: false },
+    "6310i":                { version: "3.2",   betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
+    "midp1":                { version: "3.0",   betaVersion: null, target: "MIDP1" },
 }
 
 // all downloads except those that point to another file (are aliases)
@@ -135,14 +137,19 @@ function getRecommendedVersionsArray(req) {
         return ["NO_PROXYLESS", "RECOMMENDED", "s40v3", "SHOW_ALL"];
     }
     if (midp2) {
-        if (ua.includes('nokia')) return ["RECOMMENDED", "midp2_alt_tls", "s40v3", "SHOW_ALL"];
+        if (ua.includes('nokia')) {
+            return ["RECOMMENDED", "midp2_alt_tls", "s40v3", "SHOW_ALL"];
+        }
+        if (ua.includes('motorola') || ua.startsWith('mot-')) {
+            return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_lite_recommend", "midp2_alt_recommend", "6310i", "midp1", "SHOW_ALL"];
+        }
         return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_alt_recommend", "SHOW_ALL"];
     }
     if (/linux|mac|windows/g.test(ua) && !/windows (ce|mobile)/g.test(ua)) {
         // modern device: show all downloads except those that point to another file (are aliases)
         return directVersionDownloadNames;
     }
-    return ["DONT_KNOW_PROXYLESS", "midp2_alt_recommend", "6310i", "midp1", "SHOW_ALL"];
+    return ["DONT_KNOW_PROXYLESS", "midp2_alt_recommend", "midp2_lite_recommend", "6310i", "midp1", "SHOW_ALL"];
 }
 
 function getProxylessText(req) {
