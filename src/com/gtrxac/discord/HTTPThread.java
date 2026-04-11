@@ -968,6 +968,8 @@ public class HTTPThread extends Thread implements Strings {
                 }
 
                 case HTTP_QR_LOGIN_CHECK: {
+                    Util.sleep(1000);
+
                     JSONObject checkJson = JSON.getObject(HTTP.get("/qr/check/" + QRLoginScreen.authID, true));
                     Settings.token = checkJson.getString("token");
                     
