@@ -1059,5 +1059,17 @@
     "Luettujen viestien synkronointi vaatii enemmän muistia.",
 
     // Label for the check box for toggling read state synchronization feature.
-    "Synkr. viestit"
+    "Synkr. viestit",
+    
+    // Softkey command labels for checking the status of HTTP-based QR login after the QR code has been scanned. If the check is successful, the token is received and the login is complete.
+    // This can also be translated as e.g. "Continue".
+    "Jatka",
+    "Jatka",
+
+    // Error message shown when the proxy server has not sent an authentication ID which is required for HTTP-based QR login.
+    "Login session not received",
+
+    // Help text shown in the QR login screen when using HTTP-based QR login.
+    // "Check" should be pressed after the QR code is scanned on the Discord app on Android/iOS and the login is authorized by selecting the "Log in" button in the safety warning.
+    "Paina 'Jatka' kun olet skannannut QR-koodin ja hyväksynyt kirjautumisen."
 ]

@@ -28,7 +28,7 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
         addCommand(Locale.createCommand(BACK, Command.BACK, 0));
         setCommandListener(this);
 
-        checkCommand = new Command("Check", Command.OK, 0);//Locale.createCommand(BACK, Command.BACK, 0));
+        checkCommand = Locale.createCommand(CHECK, Command.OK, 0);
     }
 
     private void disconnect() {
@@ -140,13 +140,13 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
         qrImage = Util.resizeImageBilinear(qrImage, newSize[0], newSize[1]);
 
         if (authID == null) {
-            throw new Exception("Login session not received");
+            throw new Exception(Locale.get(QR_LOGIN_NOT_RECEIVED));
         }
 
         deleteAll();
         append(qrImage);
         append(new Spacer(getWidth(), 1));
-        append("Select 'Check' after you've authorized the login on your smartphone.");
+        append(Locale.get(QR_LOGIN_CHECK_HELP));
         addCommand(checkCommand);
     }
 
