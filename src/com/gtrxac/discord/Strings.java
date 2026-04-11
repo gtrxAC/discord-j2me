@@ -451,8 +451,14 @@ public interface Strings {
     static final int QR_LOGIN_RETRIEVING = 422;
     static final int QR_LOGIN_DISCONNECTED = 423;
     static final int LOGIN_FORM_TOKEN_HELP_V3 = 424;
-    static final int CHECK = 425;
-    static final int CHECK_L = 426;
-    static final int QR_LOGIN_NOT_RECEIVED = 427;
-    static final int QR_LOGIN_CHECK_HELP = 428;
+    static final int VIEW_ATTACHMENT_FILE = 425;
+    static final int VIEW_ATTACHMENT_FILES = 426;
+    static final int VIEW_ATTACHMENT_IMAGE = 427;
+    static final int VIEW_ATTACHMENT_IMAGES = 428;
+    static final int SYNC_UNREADS_DESCRIPTION = 429;
+    static final int SYNC_UNREADS = 430;
+    static final int CHECK = 431;
+    static final int CHECK_L = 432;
+    static final int QR_LOGIN_NOT_RECEIVED = 433;
+    static final int QR_LOGIN_CHECK_HELP = 434;
 }
