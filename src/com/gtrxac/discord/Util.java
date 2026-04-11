@@ -541,12 +541,8 @@ public class Util {
 
 //#ifdef S40V2
 		// Hide the "Copy message content" option on phones that do not have a clipboard
-		// Out of S40v2 phones, probably only the 2610/2626 have a clipboard
-		// but to be safe I'll only exclude the phones that I've tested that do not have a clipboard
-		supportsClipboard =
-			!platform.startsWith("Nokia6230") &&  // 6230 and 6230i
-			!platform.startsWith("Nokia6021") &&
-			!platform.startsWith("Nokia6060");
+		// From my testing, it's pretty safe to assume that out of S40v2 phones, only the 2610/2626 have a clipboard
+		supportsClipboard = platform.startsWith("Nokia26");
 //#endif
 
 		fontSize = Font.getDefaultFont().getHeight();
