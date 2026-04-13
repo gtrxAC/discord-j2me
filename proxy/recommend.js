@@ -141,6 +141,10 @@ function getRecommendedVersionsArray(req) {
             return ["RECOMMENDED", "midp2_alt_tls", "s40v3", "SHOW_ALL"];
         }
         if (ua.includes('motorola') || ua.startsWith('mot-')) {
+            if (ua.includes('cldc-1.0')) {
+                // dont recommend midp2_alt for older motorolas (a good heuristic is to check for lack of cldc-1.1, even though that is not required)
+                return ["NEVER_PROXYLESS", "RECOMMENDED", "midp2_lite_recommend", "6310i", "midp1", "SHOW_ALL"];
+            }
             return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_lite_recommend", "midp2_alt_recommend", "6310i", "midp1", "SHOW_ALL"];
         }
         return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_alt_recommend", "SHOW_ALL"];
