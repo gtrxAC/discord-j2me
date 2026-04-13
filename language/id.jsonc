@@ -1058,20 +1058,20 @@
     // Description for the read state (unread indicator dots) synchronization feature. Shown in the login screen above the checkbox for "Sync unreads".
     // This feature more specifically uses more network bandwidth, RAM, and storage, and also requires the gateway,
     // but this string is kept relatively short so the login screen is not too cluttered.
-    "Syncing unread indicators with official clients requires more memory.",
+    "Sinkronisasi pesan baru menggunakan lebih banyak memori",
 
     // Label for the check box for toggling read state synchronization feature.
-    "Sync unreads",
+    "Sinkronkan pesan baru",
 
     // Softkey command labels for checking the status of HTTP-based QR login after the QR code has been scanned. If the check is successful, the token is received and the login is complete.
     // This can also be translated as e.g. "Continue".
-    "Check",
-    "Check",
+    "Lanjutkan",
+    "Lanjutkan",
 
     // Error message shown when the proxy server has not sent an authentication ID which is required for HTTP-based QR login.
-    "Login session not received",
+    "Sesi login belum diterima",
 
     // Help text shown in the QR login screen when using HTTP-based QR login.
     // "Check" should be pressed after the QR code is scanned on the Discord app on Android/iOS and the login is authorized by selecting the "Log in" button in the safety warning.
-    "Select 'Check' after you've authorized the login on your smartphone."
+    "Tekan 'Lanjutkan' setelah Anda menyetujui permintaan login di ponsel."
 ]
