@@ -229,6 +229,14 @@ public class Util {
 		return Image.createRGBImage(dst, w1, h1, true);
 	}
 
+	// S and V are in the range 0 to 100
+	public static int hsvToRgb100(int h, int s, int v) {
+		s = s*255/100;
+		v = v*255/100;
+		return hsvToRgb(h, s, v);
+	}
+
+	// S and V are in the range 0 to 255
 	public static int hsvToRgb(int h, int s, int v) {
 		int r, g, b;
 
@@ -280,6 +288,40 @@ public class Util {
 				break;
 		}
 		return (r << 16) | (g << 8) | b;
+	}
+
+	public static int[] rgbToHsv(int hex) {
+		int[] split = splitRGB(hex);
+		return rgbToHsv(split[0], split[1], split[2]);
+	}
+
+	public static int[] rgbToHsv(int r, int g, int b) {
+		int rFixed = r*1000/255;
+		int gFixed = g*1000/255;
+		int bFixed = b*1000/255;
+
+		int max = Math.max(Math.max(rFixed, gFixed), bFixed);
+		int min = Math.min(Math.min(rFixed, gFixed), bFixed);
+
+		int h = 0;
+		int v = max;
+		int d = max - min;
+		int s = (max == 0) ? 0 : (d*1000/max);
+
+		if (max != min) {
+			if (max == rFixed) {
+				h = (gFixed - bFixed)*1000/d + (gFixed < bFixed ? 6000 : 0);
+			}
+			else if (max == gFixed) {
+				h = (bFixed - rFixed)*1000/d + 2000;
+			}
+			else {  // max == bFixed
+				h = (rFixed - gFixed)*1000/d + 4000;
+			}
+			h /= 6;
+		}
+		
+		return new int[] {h*360/1000, s*100/1000, v*100/1000};
 	}
 
 	public static void hashtablePutWithLimit(Hashtable ht, Vector keys, Object key, Object value, int limit) {

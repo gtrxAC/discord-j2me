@@ -87,6 +87,8 @@ public class Theme {
     public static int messageBarDraftColor;
 //#endif
 
+    public static boolean isLight;
+
     //                                     Dark      Light     Black
     private static final int[] channelViewBackgroundColors = {0x313338, 0xFFFFFF, 0x000000};
     private static final int[] channelViewEmptyTextColors =  {0xAAAAAA, 0x666666, 0x999999};
@@ -452,5 +454,10 @@ public class Theme {
         loadPresetTheme();
 
         MyCanvas.backgroundImageOrig = null;
+
+        // check based on message content text color if this theme is a dark theme or a light theme
+        int[] textColorSplit = Util.splitRGB(messageContentColor);
+        int textColorAverage = (textColorSplit[0] + textColorSplit[1] + textColorSplit[2])/3;
+        isLight = (textColorAverage < 128);
     }
 }

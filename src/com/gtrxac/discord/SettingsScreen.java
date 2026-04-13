@@ -235,6 +235,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     Settings.authorFontSize != settings[1][1].value ||
                     Settings.messageFontSize != settings[1][2].value;
 
+                boolean themeChanged =
+                    Settings.theme != settings[0][0].value;
+
                 Settings.theme = settings[0][0].value;
                 Settings.wallpaperMode = settings[0][1].value;
 
@@ -293,6 +296,11 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                     App.dmChannels = null;
 
                     if (reloadIcons) IconCache.init();
+                }
+                // Unload server list if theme changed, so the role colors get re-calculated based on the new theme (see Role)
+                if (themeChanged) {
+                    App.guilds = null;
+                    NameColorCache.init();
                 }
 
 //#ifdef PIGLER_SUPPORT
