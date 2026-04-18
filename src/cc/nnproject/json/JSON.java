@@ -52,7 +52,7 @@ public final class JSON {
 			throw new JSONException("Empty text");
 		char c = text.charAt(0);
 		if (c != '{' && c != '[')
-			throw new JSONException("Not JSON object or array");
+			throw new JSONException("Not JSON object or array: \"" + text.substring(0, 40) + '"');
 		return (AbstractJSON) parseJSON(text, 0, text.length());
 	}
 
@@ -60,7 +60,7 @@ public final class JSON {
 		if (text == null || text.length() <= 1)
 			throw new JSONException("Empty text");
 		if (text.charAt(0) != '{')
-			throw new JSONException("Not JSON object");
+			throw new JSONException("Not JSON object: \"" + text.substring(0, 40) + '"');
 		return (JSONObject) parseJSON(text, 0, text.length());
 	}
 
@@ -68,7 +68,7 @@ public final class JSON {
 		if (text == null || text.length() <= 1)
 			throw new JSONException("Empty text");
 		if (text.charAt(0) != '[')
-			throw new JSONException("Not JSON array");
+			throw new JSONException("Not JSON array: \"" + text.substring(0, 40) + '"');
 		return (JSONArray) parseJSON(text, 0, text.length());
 	}
 
