@@ -23,7 +23,7 @@
     "Fitxer sense nom",
 
     // Title text for the attachment picker (native file picker) screen.
-    "Seleccioneu adjunt",
+    "Selecciona adjunt",
 
     // Softkey labels for going back to the previous screen.
     "Enrere",
@@ -31,55 +31,55 @@
 
     // Softkey label for closing a menu.
     // Currently used in the attachment picker for closing the whole picker (because there is also a "Back" softkey for going back one directory)
-    "Tanqueu",
-    "Tanqueu",
+    "Tanca",
+    "Tanca",
 
     // Title text for attachment view screen.
     "Adjunts",
 
     // Softkey labels for refetching contents of channel view or attachment view.
     "Actual.",
-    "Actualitzeu",
+    "Actualitza",
 
     // Softkey labels used in channel or DM list for marking the selected channel or DM as read.
     "Com a llegit",
-    "Marqueu com a llegit",
+    "Marca com a llegit",
 
     // Softkey labels used in channel and DM lists for marking every DM or every channel in the currently shown server as read.
     "Tot com a llegit",
-    "Marqueu tot com a llegit",
+    "Marca tot com a llegit",
 
     // Generic "Select" softkey labels.
     "Selecc.",
-    "Seleccioneu",
+    "Selecciona",
 
     // Softkey labels for sending a message in the currently open channel.
-    "Envieu",
-    "Envieu missatge",
+    "Envia",
+    "Envia missatge",
 
     // Softkey labels for sending a reply to the selected message.
-    "Responeu",
-    "Responeu",
+    "Respon",
+    "Respon",
 
     // Softkey labels for sending an attachment in the currently open channel.
-    "Carregueu",
-    "Carregueu fitxer",
+    "Carrega",
+    "Carrega fitxer",
 
     // Softkey labels for copying the text content of the selected message.
-    "Copieu",
-    "Copieu contingut",
+    "Copia",
+    "Copia contingut",
 
     // Softkey labels for editing the selected message.
-    "Editeu",
-    "Editeu",
+    "Edita",
+    "Edita",
 
     // Softkey labels for deleting the selected message.
-    "Suprimiu",
-    "Suprimiu",
+    "Suprimeix",
+    "Suprimeix",
 
     // Softkey labels for selecting an URL in the selected message. This opens a screen where each URL found in the message is listed, and one can be selected to be opened in the device's browser.
-    "Obriu URL",
-    "Obriu URL",
+    "Obre URL",
+    "Obre URL",
 
     // Channel view title suffix when reading older messages.
     " (vell)",
@@ -88,7 +88,7 @@
     "Aquí no hi ha res",
 
     // Channel view banner text shown when reading older messages and a new message arrives via the gateway.
-    "Actualitzeu per llegir missatges nous",
+    "Actualitza per llegir missatges nous",
 
     // Channel view banner text shown when a gateway disconnect occurred and an automatic reconnect is in progress.
     "Tornant a connectar",
@@ -131,18 +131,18 @@
     // Button labels for navigating between pages of messages in the channel view. Try to keep these as long as (or shorter than) the English strings.
     // In the old channel view, these are shown as softkey labels (these strings are short and long variations of each)
     "Més vell",
-    "Vegeu missatges més vells",
+    "Veges missatges més vells",
     "Més nou",
-    "Vegeu missatges més nous",
+    "Veges missatges més nous",
 
     // Parts of the button label for viewing attachments of a message.
     // Examples: "View 1 attachment", "View 2 attachments"
-    "Vegeu ",
+    "Veges ",
     " adjunt",
     " adjunts",
 
     // Title for confirmation screen shown when deleting a message.
-    "Suprimiu",
+    "Suprimeix",
 
     // Body text for confirmation screen shown when deleting a message.
     "Suprimir aquest missatge?",
@@ -168,20 +168,20 @@
     "(missatge suprimit)",
 
     // Title text for direct message search screen.
-    "Cerqueu MDs",
+    "Cerca MDs",
 
     // Guide text for text field in direct message search and "insert mention" screens.
-    "Introduïu nom d'usuari",
+    "Introdueix el nom d'usuari",
 
     // Error message shown when the searched user was not found in the direct messages list. Discord J2ME cannot initiate DM conversations based on only a username, so this message asks the user to use another client.
-    "No s'ha trobat usuari. Proveu creant MD des d'un altre client.",
+    "No s'ha trobat usuari. Proveu creant el MD des d'un altre client.",
 
     // Title text for direct message list.
     "Missatge directe",
 
     // Generic "Search" softkey label. Currently used for searching for usernames in direct messages and when inserting a mention/ping.
-    "Cerqueu",
-    "Cerqueu",
+    "Cerca",
+    "Cerca",
 
     // Title text shown for all error message screens.
     "Error",
@@ -193,18 +193,18 @@
     "Preferits",
 
     // Generic "Remove" softkey command. Currently used for removing a server from the favorites list.
-    "Elimineu",
-    "Elimineu",
+    "Eliminar",
+    "Eliminar",
 
     // Softkey command for adding a server to the favorites list.
-    "Preferiu",
-    "Afegiu a preferit",
+    "Prefereix",
+    "Afegeix a preferit",
 
     // Text shown when the gateway disconnects due to an error with the heartbeat thread. As this error message is quite technical, you may simplify/generalize it to, for example, "connection error".
     "Sense resposta de proxy: ",
 
     // Error message shown when the supplied authentication token is invalid (HTTP Unauthorized).
-    "Comproveu teu token",
+    "Comprova teu token",
 
     // Prefix of error message shown when the HTTP response has an error code.
     // The full message consists of this string and the code itself,
@@ -219,12 +219,12 @@
     ")",
 
     // Softkey labels for showing a text attachment's contents within the app.
-    "Mostreu",
-    "Mostreu com a text",
+    "Mostra",
+    "Mostra com a text",
 
     // Softkey labels for showing an attachment in the device's built-in web browser.
-    "Obriu",
-    "Obriu a navegador",
+    "Obre",
+    "Obre a navegador",
 
     // Generic "Loading..." text shown in loading screen and in "Insert mention" screen.
     "Carregant...",
@@ -236,11 +236,11 @@
     "Error en enviant fitxer: ",
 
     // Generic "Skip" softkey label. Currently used for skipping an action in the key mapper.
-    "Salteu",
-    "Salteu",
+    "Salta",
+    "Salta",
 
     // Key press prompt shown in hotkey mapper.
-    "Premeu botó per utilitzant per:",
+    "Prem el botó per utilitzant per:",
 
     // Names of hotkey actions shown in the key mapper.
     // These are shown after the "Press the key to use for:" string.
@@ -255,16 +255,16 @@
     "Aquest botó ja està configurat per ",
 
     // Title text shown in login screen.
-    "Inicieu sessió",
+    "Inicia sessió",
 
     // Proxy server warning message shown at the top of the login screen.
-    "Utilitzeu només proxys en quals confieu!",
+    "Utilitza només proxys en quals confieu!",
 
     // Help message for finding your token. Shown in login screen above the token field.
-    "Token es pot trobar a eines de desenvolupador de vostre navegador (trobeu ajuda online). Es recomana utilitzant un compte alternatiu.",
+    "El token es pot trobar a eines de desenvolupador de teu navegador (trobar ajuda online). Es recomana utilitzant un compte alternatiu.",
 
     // "Use Wi-Fi" option shown in login screen on BlackBerry devices.
-    "Utilitzeu Wi-Fi",
+    "Utilitza Wi-Fi",
 
     // Labels of text fields shown in the login screen.
     // You don't need to use these acronyms if they don't make sense in your language. Translations like "Server URL" and "Image server URL" are acceptable too.
@@ -274,18 +274,18 @@
     "Token",
 
     // Softkey label for confirming the login options in the login screen.
-    "Inicieu",
-    "Inicieu sessió",
+    "Inicia",
+    "Inicia sessió",
 
     // Softkey command for exiting the application.
-    "Sortiu",
-    "Sortiu",
+    "Surt",
+    "Surt",
 
     // "Use gateway" option shown in login screen.
-    "Utilitzeu passareŀla",
+    "Utilitza passareŀla",
 
     // Label for radio button field for token sending options.
-    "Envieu token com a",
+    "Envia token com a",
 
     // Token sending options.
     "Capçalera (predeterminat)",
@@ -293,8 +293,8 @@
     "Paràmetre de consulta",
 
     // Error messages shown when trying to login and the token or API URL fields are empty.
-    "Introduïu teu token",
-    "Especifiqueu un URL API",
+    "Introdueix teu token",
+    "Especifica un URL API",
 
     // Main menu items.
     // "Log out" brings you back to the login screen where you enter your token and other login settings.
@@ -302,10 +302,10 @@
     "Preferits",
     "Missatges directes",
     "Configuració",
-    "Tanqueu sessió",
+    "Tanca sessió",
 
     // Title text shown in "Insert mention" screen (for adding a ping when writing a message).
-    "Inseriu menció",
+    "Insereix menció",
 
     // Label shown for username search results in "Insert mention" screen. Shown if more than one user matches the username query.
     "Resultats de cerca",
@@ -354,21 +354,21 @@
 
     // Softkey labels for inserting a mention/ping in the "send message" screen.
     "Menció",
-    "Inseriu menció",
+    "Insereix menció",
 
     // Prefixes of title text for "send message" screen.
     // The full title is in the form of "Send message (@user)" or "Send message (#channel)".
-    "Envieu missatge (@",
-    "Envieu missatge (#",
+    "Envia missatge (@",
+    "Envia missatge (#",
 
     // Error message shown when trying to insert a mention into a message and the gateway connection is not active.
-    "Requeriu connexió activa de passareŀla",
+    "Requereix connexió activa de passareŀla",
 
     // Title text for "copy message content" screen.
-    "Copieu missatge",
+    "Copia missatge",
 
     // Title text for "edit message content" screen.
-    "Editeu missatge",
+    "Edita missatge",
 
     // Title text for gateway disconnect prompt screen.
     "Desconnectat",
@@ -383,10 +383,10 @@
     "Responent a ",
 
     // Top label for the message entry box in the reply form.
-    "Vostre missatge:",
+    "Teu missatge:",
 
     // Checkbox for selecting whether to mention/ping the recipient. Shown in the reply form.
-    "Mencioneu autor",
+    "Mencióna autor",
 
     // Title text for settings menu.
     "Configuració",
@@ -465,7 +465,7 @@
     "Mida de icona de menú (px)",
 
     // Settings section for controlling the display of reply messages.
-    "Mostreu respostes com a",
+    "Mostra respostes com a",
 
     // Settings option to show replies as only the recipient (in the form "Author -> Recipient").
     "Només destinatari",
@@ -480,14 +480,14 @@
     "Tecles directe predeterminat",
 
     // Softkey label for opening the key remapper in the settings menu. The long variant of the label is shown as the button text.
-    "Establiu tecles",
-    "Establiu tecles directe",
+    "Estableix tecles",
+    "Estableix tecles directe",
 
     // Generic softkey labels. Currently used in settings menu.
-    "Deseu",
-    "Deseu",
-    "Canceŀleu",
-    "Canceŀleu",
+    "Desa",
+    "Desa",
+    "Canceŀla",
+    "Canceŀla",
 
     // Error message shown when trying to open an URL (e.g. attachment)from the app, but the phone does not support opening URLs while keeping the app running in the background.
     "L'aplicació s'ha de tancar abans que es pugui obrir l'URL.",
@@ -496,14 +496,14 @@
     "No s'ha pogut obrir l'URL (",
 
     // Suffix of error message shown when an error occurs when trying to open an URL. The actual URL is shown after this message.
-    ")\n\nPodeu provar de copiant manualment l'URL a navegador de vostre dispositiu: ",
+    ")\n\nPodeu provar de copiant manualment l'URL a navegador de teu dispositiu: ",
 
     // Title text for URL list screen ('Open URL' option in channel view).
-    "Seleccioneu URL",
+    "Selecciona URL",
 
     // Softkey labels for inserting a mention in the "Insert mention" screen.
-    "Inseriu",
-    "Inseriu",
+    "Insereix",
+    "Insereix",
 
     // Title for language selection screen.
     "Idioma",
@@ -513,11 +513,11 @@
 
     // Softkey labels for opening the language selection menu in the settings menu. The long variant of the label is shown as the button text.
     "Idioma",
-    "Establiu idioma",
+    "Estableix idioma",
 
     // Softkey commands for toggling fullscreen mode in the chat view.
     "Pantalla completa",
-    "Alterneu pantalla completa",
+    "Alterna pantalla completa",
 
     // Hotkey action for toggling fullscreen mode in the chat view. Shown in the key mapper.
     // Related to "Names of hotkey actions shown in the key mapper" above.
@@ -527,7 +527,7 @@
     "Mode de pantalla completa",
 
     // Settings section for selecting which kinds of messages notifications should be shown for.
-    "Mostreu notificacions por",
+    "Mostra notificacions por",
 
     // Options for the kinds of messages that notifications should be shown for.
     "Tots missatges",
@@ -544,14 +544,14 @@
     "Nou missatge",
 
     // Settings section for selecting which kinds of notification methods should be used for incoming messages.
-    "Aviseu-me amb:",
+    "Avisa-me amb:",
 
     // Options for the kinds of notification methods.
     "Finestra d'alerta",
     "So",
 
     // Settings option for keeping server/channel lists in memory when pressing the Back button, so they don't have to be reloaded every time.
-    "Manteniu canals carregats",
+    "Mantenir canals carregats",
 
     // Text shown at the center of list screens when they are empty (no items).
     // Note: in English, this is the same as the text shown when a channel view is empty ("Nothing to see here") but in some languages, that string was translated as something like "No messages", hence the need for a separate string for lists.
@@ -562,8 +562,8 @@
     "No es pot connectar a passareŀla. Tornar a provar?",
 
     // Softkey labels for sending an attachment as a reply to the selected message.
-    "Responeu amb fitxer",
-    "Responeu amb fitxer",
+    "Respon amb fitxer",
+    "Respon amb fitxer",
 
     // Text shown in the reply form when a file is attached to the message that is currently being written. The name of the file is shown below this.
     "Fitxer adjunt",
@@ -593,7 +593,7 @@
     // where X is the maximum value for that setting.
     // In English, the suffix is not needed, so it's an empty string, "".
     // If the "X" needs to be in the middle of the sentence in your language, use the suffix to write what goes after the "X".
-    "Introduïu un número vàlid entre 1 i ",
+    "Introdueix un número vàlid entre 1 i ",
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
@@ -603,7 +603,7 @@
     "Error API Pigler API: ",
 
     // Error message shown when Pigler API support is not detected. This is shown every time on app startup if Pigler notifications are enabled in app settings, until either the option is disabled or Pigler support is installed on the device.
-    "Pigler Notification API no és compatible. Instaŀleu API Pigler des nnp.nnchan.ru/pna o desactiveu notificacions de Pigler a Configuració.",
+    "Pigler Notification API no és compatible. Instaŀla API Pigler des nnp.nnchan.ru/pna o desactiva notificacions de Pigler a Configuració.",
 
     // Settings option for showing the scrollbar on the right side of the screen.
     "Barra de desplaçament",
@@ -657,8 +657,8 @@
     "Rus",
 
     // Softkey labels shown in notification alert window for opening/viewing the channel where the notification occurred.
-    "Vegeu",
-    "Vegeu",
+    "Veges",
+    "Veges",
 
     // Settings option for automatically checking for updates on every startup of the app. If an update is found, a prompt is shown, which when confirmed, opens a browser to install the new version.
     "Actualització auto",
@@ -671,8 +671,8 @@
     "\nÚltima: ",
 
     // Softkey labels for confirming an update in the update dialog box.
-    "Actual.",
-    "Actualitzeu",
+    "Actualitza",
+    "Actualitza",
 
     // Options for the "Auto update" setting.
     // "Releases only" means the user is only notified for stable release versions, not betas/pre-release versions. "All versions" means the user is also notified for betas.
@@ -690,15 +690,15 @@
 
     // Softkey labels for opening the thread list of a channel in the channel list.
     "Fils",
-    "Vegeu fils",
+    "Veges fils",
 
     // Softkey labels for entering a token in the login screen (if a token hasn't already been set). The long variant of the label is shown as the button text.
-    "Establiu",
-    "Establiu token",
+    "Estableix",
+    "Estableix token",
 
     // Softkey labels for changing the token in the login screen (if a token has already been set). The long variant of the label is shown as the button text.
-    "Canvieu",
-    "Canvieu token",
+    "Canvia",
+    "Canvia token",
 
     // Option in notification settings for using Nokia UI API for notifications.
     "IU Nokia",
@@ -710,7 +710,7 @@
     "NOU",
 
     // Prompt shown at the top of the image preview screen when selecting an attachment.
-    "Pugeu aquesta imatge?",
+    "Puja aquesta imatge?",
 
     // Settings option for enabling/disabling image previews when selecting a file in the native attachment file picker.
     "Vista prèvia de selector de fitxers",
@@ -719,14 +719,14 @@
     "Missatge reenviat:",
 
     // Help texts shown in the login screen for how to open the token input text box.
-    "Per establir teu token, premeu tecla BlackBerry.",
-    "Per cambiar teu token, premeu tecla BlackBerry.",
+    "Per establir teu token, premeu la tecla BlackBerry.",
+    "Per cambiar teu token, premeu la tecla BlackBerry.",
 
     // Error message shown when image previews are enabled in the native file picker, but there is not enough free RAM on the device to show a preview for the selected image.
     "No prou memòria per mostrar vista prèvia d'imatge",
 
     // Settings option for enabling or disabling emoji display in chats.
-    "Mostreu emoji",
+    "Mostra emoji",
 
     // Option for "Show emoji" setting where only standard emoji are shown. Custom emoji from servers are not shown, and are displayed as text instead.
     "Només predeterminat",
@@ -735,11 +735,11 @@
     "Tots",
 
     // Softkey labels for importing the token (from a file) in the login screen. The long variant of the label is shown as the button text.
-    "Importeu",
-    "Importeu token",
+    "Importa",
+    "Importa token",
 
     // Title text for the token import file picker screen.
-    "Seleccioneu fitxer token",
+    "Selecciona fitxer token",
 
     // Text shown in loading screen when emoji data is being downloaded or updated.
     "Baixant emoji...",
@@ -753,10 +753,10 @@
 
     // Softkey labels for inserting an emoji in the "send message" screen.
     "Emoji",
-    "Inseriu emoji",
+    "Insereix emoji",
 
     // Title for emoji picker screen.
-    "Seleccioneu emoji",
+    "Selecciona emoji",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
     "Baixar dades de emoji?",
@@ -766,7 +766,7 @@
 
     // Softkey command for inserting a '_' character in the token input screen. Some devices don't have a built-in way to insert a '_'.
     "Subratllat",
-    "Inseriu subratllat",
+    "Insereix subratllat",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
     "So de notificació",
@@ -777,32 +777,32 @@
     // Softkey command (short label and long label) for muting a channel/server/etc. or unmuting if it is already muted.
     // For technical reasons it's easier to have one label for "mute/unmute" rather than separate "Mute" and "Unmute" labels that change dynamically.
     // The short "Mute" label is also shown for unmuting. The long label can also be just "Mute" if "mute/unmute" doesn't make sense in your language.
-    "Silencieu",
-    "Silencieu",
+    "Silenciar",
+    "Silenciar",
 
     // Hotkey actions for instantly moving to the top or bottom of the chat view. Related to "Names of hotkey actions shown in the key mapper" above.
     "desplaçant cap a dalt",
     "desplaçant cap a baix",
 
     // Settings option for toggling whether to send the typing indicator, i.e. show other people that you are typing when you select "Send message" or "Upload file".
-    "Envieu indicador d'escriptura",
+    "Enviar indicador d'escriptura",
 
     // Softkey command labels for applying an attached audio file as the in-app notification sound. The long variant of the label is shown on the button in the attachment view screen.
-    "Util. com a",
-    "Utilitzeu com a so de notificació",
+    "Utilitza com a",
+    "Utilitza com a so de notificació",
 
     // Prompt shown when applying a new notification sound. The sound is played at the same time as the prompt appears.
     "Aplicar això com a so de notificació?",
 
     // Softkey command for playing the notification sound again in the aforementioned prompt.
-    "Reproduïu",
-    "Torna reproduïu",
+    "Reprodueix",
+    "Torna reprodueix",
 
     // Confirmation message shown when a new notification sound has been set.
     "So de notificació aplicat!",
 
     // Title for data manager screen. Data manager screen is used for viewing memory usage of application data and deleting parts of the app data if needed.
-    "Gestioneu dades",
+    "Gestiona dades",
 
     // Types of data shown in the data manager:
 
@@ -816,13 +816,13 @@
     "Dades d'idioma",
 
     // Title shown in the prompt when deleting a type of app data.
-    "Suprimiu",
+    "Suprimeix",
 
     // Prompt shown when deleting a type of app data. The type (one of the four listed above) is shown below this text.
     "Suprimir aquest element?\n",
 
     // Title for dialog box shown when opening an URL on a device that does not support running an app at the same time as the browser.
-    "Obriu navegador",
+    "Obre navegador",
 
     // Text shown in that dialog box.
     "Obrir navegador web? Aplicació es tancarà.",
@@ -831,7 +831,7 @@
     "Despalaçament ràpid",
 
     // Error message shown when the notification sound failed to be played, usually because the device does not support the sound's file format.
-    "No s'ha pogut reproduir so. És possible que tipus de fitxer no sigui compatible.",
+    "No s'ha pogut reproduir so. És possible que el tipus de fitxer no sigui compatible.",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Japonès",
@@ -855,21 +855,21 @@
     "No hi ha prou memòria per mostrar selector d'emojis",
 
     // Error message shown when a HTTP request results in the error 502 (bad gateway), meaning the proxy is down.
-    "HTTP 502: Proxy no està disponible actualment. Torneu-ho a provar més tard o contacteu amb desenvolupadors.",
+    "HTTP 502: Proxy no està disponible actualment. Torna-ho a provar més tard o posa't en contacte amb desenvolupadors.",
 
     // Error message shown when a HTTP request results in the error 302 (moved temporarily)
-    "HTTP 302: Soŀlicitud s'ha redirigit inesperadament. Comproveu connexió.",
+    "HTTP 302: Soŀlicitud s'ha redirigit inesperadament. Comprova connexió.",
 
     // Title and description for the dialog warning message shown when uploading a file for the first time. The user can select 'OK' to dismiss it once, or 'Hide' to never show it again.
     "Avís",
-    "Se sap que Discord marca càrregues de clients de tercers com a correu brossa. Això passar sovint en comptes nous sense 2FA ni un número de telèfon verificat. Continueu sota vostra responsabilitat.\nSeleccioneu \"Amagueu\" si no vola tornar a veure això.",
+    "Se sap que Discord marca càrregues de clients de tercers com a correu brossa. Això passa sovint en comptes nous sense 2FA ni un número de telèfon verificat. Continua sota teva responsabilitat.\nSelecciona \"Amaga\" si no vola tornar a veure això.",
 
     // Softkey labels for dismissing the upload warning (above) and never showing it again.
-    "Amagueu",
-    "Amagueu",
+    "Amaga",
+    "Amaga",
 
     // Dialog warning shown when sending direct message to someone in your DMs list who you've never messaged before.
-    "Se sap que Discord marca nous missatges directes de clients de tercers com a correu brossa. Es recomana enviar primer missatge des d'un client oficial. Voleu continuar?",
+    "Se sap que Discord marca nous missatges directes de clients de tercers com a correu brossa. Es recomana enviar primer missatge des d'un client oficial. Vols continuar?",
 
     // Related to "Types of data shown in the data manager" above.
     "Servidors preferits",
@@ -892,16 +892,16 @@
 
     // Information text shown in login screen related to proxyless mode:
     // This version of the text is shown if the device is known to support TLS 1.2.
-    "Connexió directa permet connectar-te sense un proxy, cosa que reduïu risc de restricció de compte.",
+    "Connexió directa permet connectar-te sense un proxy, cosa que redueix risc de restricció de compte.",
 
     // This version of the text is shown otherwise. The text is split into three parts which are shown together. The middle one is a link to the nnproject TLS 1.2 page if using a Symbian device.
     "Connexió directa (",
-    "requeriu TLS 1.2",
-    ") permet connectar-te sense un proxy, cosa que reduïu risc de restricció de compte.",
+    "requereix TLS 1.2",
+    ") permet connectar-te sense un proxy, cosa que redueix risc de restricció de compte.",
 
     // Softkey command for opening the nnproject TLS 1.2 page.
-    "Obteniu TLS",
-    "Obteniu TLS",
+    "Obtén TLS",
+    "Obtén TLS",
 
     // Text shown in bottom message bar.
     "Missatge",
@@ -911,9 +911,9 @@
 
     // Error messages shown if the device does not support PATCH/DELETE HTTP methods, which are required to edit/delete messages respectively in proxyless mode.
     // You should use the same term for "Direct connection" that you used above.
-    "Vostre dispositiu no admet edició de missatges en mode de connexió directa.\nVoleu editar aquest missatge via proxy?\nSeleccioneu \"Amagueu\" per utilitzar sempre proxy.",
+    "Teu dispositiu no admet edició de missatges en mode de connexió directa.\nVols editar aquest missatge via proxy?\nSelecciona \"Amaga\" per utilitzar sempre proxy.",
 
-    "Vostre dispositiu no admet supressió de missatges en mode de connexió directa.\nVoleu editar aquest missatge via proxy?\nSeleccioneu \"Amagueu\" per utilitzar sempre proxy.",
+    "Teu dispositiu no admet supressió de missatges en mode de connexió directa.\nVols editar aquest missatge via proxy?\nSelecciona \"Amaga\" per utilitzar sempre proxy.",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Xinès (simplificat)",
@@ -941,7 +941,7 @@
     "Mou avall",
 
     // Warning dialog shown when "Direct connection" and "Use gateway" options are both enabled.
-    "Connexió directa està activada, però connectar-se a passareŀla requeriu ús de proxy, cosa que pot ser insegura. Voleu connectar-te a passareŀla?\nSeleccioneu \"Amageu\" per connectar-vos sempre.",
+    "Connexió directa està activada, però connectar-se a passareŀla requereix ús de proxy, cosa que pot ser insegura. Vols connectar-te a passareŀla?\nSelecciona \"Amaga\" per connectar-te sempre.",
 
     // Settings option for toggling the bar on the bottom of the screen for sending a message. Only available on touchscreen.
     "Mostra barra de missatges",
@@ -953,8 +953,8 @@
     "Benvingut",
     
     // Softkey commands for opening a link in the login screen.
-    "Obriu",
-    "Obriu",
+    "Obre",
+    "Obre",
 
     // Text for the link shown in the login screen for reading more about Direct connection.
     "Més informació",
@@ -963,7 +963,7 @@
     "Aplicació també es pot utilitzar amb un servidor proxy. ",
 
     // Safety recommendation in the login screen, shown after the above string.
-    "Es recomana allotjar vostre propi proxy. ",
+    "Es recomana allotjar teu propi proxy. ",
 
     // Hint text shown after the above string on BlackBerry devices.
     "Per editar les URL de connexió, premeu tecla BlackBerry.",
@@ -973,22 +973,22 @@
 
     // Explanation strings for the "Use gateway" option.
     // This version of the string is shown on versions that support Direct connection.
-    "Passareŀla (xat en temps real) requeriu ús d'un servidor proxy.",
+    "Passareŀla (xat en temps real) requereix ús d'un servidor proxy.",
     // This string is shown on versions that don't support Direct connection.
     "Passareŀla s'utilitza per a xat en temps real i altres funcions.",
 
     // Explanation string for the token settings.
-    "Aplicació requeriu un token per iniciar sessió. ",
+    "Aplicació requereix un token per iniciar sessió. ",
 
     // Explanation strings for other token entry methods.
     // This version of the string is shown on devices that support FileConnection (file system access in Java).
-    "Per evitar errors d'escriptura, podeu importar token des d'un fitxer de text o inserir-lo a fitxer JAR.",
+    "Per evitar errors d'escriptura, pots importar token des d'un fitxer de text o inserir-lo a fitxer JAR.",
     // This string is shown on devices that don't support FileConnection.
-    "Per evitar errors d'escriptura, podeu inserir token a fitxer JAR.",
+    "Per evitar errors d'escriptura, pots inserir token a fitxer JAR.",
 
     // Error message shown when a HTTPS connection fails due to the app not being signed with a code-signing certificate.
     // More user-friendly form of "java.lang.SecurityException"
-    "Dispositiu requeriu que aplicació estigui signada per utilitzar Connexió directa. Baixeu un JAD signat d'aplicació adequat per a vostre dispositiu o desactiveu connexió directa.\nLlegiu-ne més a gtrxac.fi/j2me/proxyless",
+    "Dispositiu requereix que aplicació estigui signada per utilitzar Connexió directa. Baixa un JAD signat d'aplicació adequat per a teu dispositiu o desactiva connexió directa.\nLlegeix-ne més a gtrxac.fi/j2me/proxyless",
 
     // Related to "Lines shown in the about (credits) screen for what each developer" above.
     "Suport de connexió directa",
@@ -997,22 +997,22 @@
     "Fons",
 
     // Settings option for selecting a new image file to be used as a custom background image.
-    "Importeu fons",
+    "Importa fons",
 
     // Title for the file picker screen for selecting a background image.
-    "Seleccioneu fons",
+    "Selecciona fons",
 
     // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
     "Sons",
 
     // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
-    "Seleccioneu so",
+    "Selecciona so",
 
     // Option in the sound settings to use a generic system notification tone (usually a beep).
     "Bip",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Importeu so",
+    "Importa so",
 
     // Names of the different types of customizable sounds in the sound settings screen.
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
@@ -1021,8 +1021,9 @@
     "Missatge sortint",
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
-    "Retalleu",
-    "Estireu",
+        // Settings options for the different methods for resizing a custom background image to fit the screen.
+    "Retalla",
+    "Estira",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
     "Transició de pantalla",
@@ -1033,19 +1034,19 @@
     "Fons de pantalla",
 
     // Explanation of QR code login shown in the login screen.
-    "Per iniciar sessió, requeriu un token d'autenticació, que es pot recuperar escanejant un codi QR amb aplicació mòbil Discord.",
+    "Per iniciar sessió, requereix un token d'autenticació, que es pot recuperar escanejant un codi QR amb aplicació mòbil Discord.",
 
     // Softkey command labels for opening the QR login screen.
-    "Obtiu QR",
-    "Obtiu codi QR",
+    "Obtén QR",
+    "Obtén codi QR",
 
     // Status messages shown in the QR login screen.
     "Connectant...",
     "Recuperant codi QR...",
-    "Desconnectat, reintenteu",
+    "Desconnectat, reintenteix",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "També podeu introduir vostre token manualment. ",
+    "També pots introduir teu token manualment. ",
 
     // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
     // Now there are separate types of buttons for "View X files" and "View X images"
@@ -1065,13 +1066,13 @@
 
     // Softkey command labels for checking the status of HTTP-based QR login after the QR code has been scanned. If the check is successful, the token is received and the login is complete.
     // This can also be translated as e.g. "Continue".
-    "Check",
-    "Check",
+    "Comprova",
+    "Comprova",
 
     // Error message shown when the proxy server has not sent an authentication ID which is required for HTTP-based QR login.
-    "Login session not received",
+    "No s'ha rebut sessió d'inici",
 
     // Help text shown in the QR login screen when using HTTP-based QR login.
     // "Check" should be pressed after the QR code is scanned on the Discord app on Android/iOS and the login is authorized by selecting the "Log in" button in the safety warning.
-    "Select 'Check' after you've authorized the login on your smartphone."
+    "Selecciona \"Comprova\" després d'haver autoritzat inici de sessió a teu telèfon inteŀligent."
 ]
