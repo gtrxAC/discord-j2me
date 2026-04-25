@@ -1071,5 +1071,13 @@
 
     // Help text shown in the QR login screen when using HTTP-based QR login.
     // "Check" should be pressed after the QR code is scanned on the Discord app on Android/iOS and the login is authorized by selecting the "Log in" button in the safety warning.
-    "Select 'Check' after you've authorized the login on your smartphone."
+    "Select 'Check' after you've authorized the login on your smartphone.",
+
+    // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
+    "Server not found. ",
+    "Channel not found",
+    "Conversation not found",
+
+    // Help text shown after the "Server not found" error.
+    "If you recently joined this server, you may have to wait a few days for the server list to update."
 ]

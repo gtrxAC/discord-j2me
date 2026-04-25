@@ -134,10 +134,11 @@ public class HTTPThread extends Thread implements Strings {
         }
     }
 
-    private void runSilentHTTP(int action) {
+    private void runSilentHTTP(int action, boolean reload) {
         HTTPThread h = new HTTPThread(action);
         App.dontShowLoadScreen = true;
         h.silent = true;
+        h.forceReload = reload;
         h.start();
         try {
             h.join();
@@ -923,20 +924,39 @@ public class HTTPThread extends Thread implements Strings {
                     App.isDM = (guildID == null);
                     if (App.isDM) {
                         if (App.dmSelector == null) {
-                            runSilentHTTP(HTTPThread.FETCH_DM_CHANNELS);
+                            runSilentHTTP(HTTPThread.FETCH_DM_CHANNELS, false);
                         }
                         App.selectedDmChannel = DMChannel.getById(channelID);
+
+                        if (App.selectedDmChannel == null) {
+                            throw new Exception(Locale.get(DM_NOT_FOUND));
+                        }
                     } else {
                         if (App.guilds == null || App.guildSelector == null) {
-                            runSilentHTTP(HTTPThread.FETCH_GUILDS);
+                            runSilentHTTP(HTTPThread.FETCH_GUILDS, false);
                         }
                         Guild prevSelectedGuild = App.selectedGuild;
                         App.selectedGuild = Guild.getById(guildID);
 
+                        // If guild not found, force reload the server list and try again
+                        if (App.selectedGuild == null) {
+                            runSilentHTTP(HTTPThread.FETCH_GUILDS, true);
+                            App.selectedGuild = Guild.getById(guildID);
+
+                            // If still not found, error out
+                            if (App.selectedGuild == null) {
+                                throw new Exception(Locale.get(GUILD_NOT_FOUND) + Locale.get(GUILD_NOT_FOUND_HELP));
+                            }
+                        }
+
                         if (App.channels == null || App.channelSelector == null || prevSelectedGuild != App.selectedGuild) {
-                            runSilentHTTP(HTTPThread.FETCH_CHANNELS);
+                            runSilentHTTP(HTTPThread.FETCH_CHANNELS, false);
                         }
                         App.selectedChannel = Channel.getByID(channelID);
+
+                        if (App.selectedChannel == null) {
+                            throw new Exception(Locale.get(CHANNEL_NOT_FOUND));
+                        }
                     }
                     App.dontShowLoadScreen = true;
                     new HTTPThread(HTTPThread.FETCH_MESSAGES).start();

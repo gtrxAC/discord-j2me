@@ -1071,5 +1071,13 @@
 
     // Help text shown in the QR login screen when using HTTP-based QR login.
     // "Check" should be pressed after the QR code is scanned on the Discord app on Android/iOS and the login is authorized by selecting the "Log in" button in the safety warning.
-    "Paina 'Jatka' kun olet skannannut QR-koodin ja sallinut kirjautumisen."
+    "Paina 'Jatka' kun olet skannannut QR-koodin ja sallinut kirjautumisen.",
+
+    // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
+    "Palvelinta ei löytynyt. ",
+    "Kanavaa ei löytynyt",
+    "Keskustelua ei löytynyt",
+
+    // Help text shown after the "Server not found" error.
+    "Jos liityit palvelimelle hiljattain, odota palvelinluettelon päivittämistä, joka voi kestää muutaman päivän."
 ]

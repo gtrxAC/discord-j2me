@@ -461,4 +461,8 @@ public interface Strings {
     static final int CHECK_L = 432;
     static final int QR_LOGIN_NOT_RECEIVED = 433;
     static final int QR_LOGIN_CHECK_HELP = 434;
+    static final int GUILD_NOT_FOUND = 435;
+    static final int CHANNEL_NOT_FOUND = 436;
+    static final int DM_NOT_FOUND = 437;
+    static final int GUILD_NOT_FOUND_HELP = 438;
 }
