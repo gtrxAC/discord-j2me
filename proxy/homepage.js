@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const serveIndex = require('serve-index');
 const { getRecommendedVersions, arrayDownloadLinkHtml, directVersionDownloadNames, getProxylessText } = require('./recommend');
 
 const DEFAULT_PROXYLESS_TEXT =
@@ -91,5 +92,7 @@ router.get('/countvisit', checkIsModern, (req, res) => {
 router.get('/jarsize', checkIsModern, htmlOnly, async (req, res) => {
     res.render("jarsize");
 });
+
+router.use('/archive', express.static('static/archive'), serveIndex('static/archive', {'icons': true}));
 
 module.exports = router;
