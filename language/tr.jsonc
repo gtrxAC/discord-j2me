@@ -923,11 +923,11 @@
     "Önizleme",
 
     // Titles for sliders in the time format screen for changing the time offset.
-    "Time offset (hours)",
-    "Time offset (minutes)",
+    "Zaman farkı (saat)",
+    "Zaman farkı (dakika)",
 
     // Option in the time format screen for changing the time offset between negative and positive numbers.
-    "Negative offset",
+    "Negatif fark",
 
     // Related to "Lines shown in the about screen for which language" above.
     "Macarca",
@@ -1014,7 +1014,7 @@
 
     // Names of the different types of customizable sounds in the sound settings screen.
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
-    "Notification",
+    "Bildirim",
     "Gelen mesaj",
     "Giden mesaj",
 
@@ -1023,7 +1023,7 @@
     "Uzat",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "Ekran geçişleri",
 
     // Related to "Types of data shown in the data manager" above.
     "Gelen mesaj sesi",
@@ -1063,13 +1063,13 @@
 
     // Softkey command labels for checking the status of HTTP-based QR login after the QR code has been scanned. If the check is successful, the token is received and the login is complete.
     // This can also be translated as e.g. "Continue".
-    "Check",
-    "Check",
+    "Kontrol et",
+    "Kontrol et",
 
     // Error message shown when the proxy server has not sent an authentication ID which is required for HTTP-based QR login.
-    "Login session not received",
+    "Oturum bilgisi alınamadı",
 
     // Help text shown in the QR login screen when using HTTP-based QR login.
     // "Check" should be pressed after the QR code is scanned on the Discord app on Android/iOS and the login is authorized by selecting the "Log in" button in the safety warning.
-    "Select 'Check' after you've authorized the login on your smartphone."
+    "Akıllı telefonunuzdan giriş işlemini onayladıktan sonra \"Kontrol et\" tuşuna basın."
 ]
