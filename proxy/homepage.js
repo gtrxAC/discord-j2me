@@ -93,6 +93,6 @@ router.get('/jarsize', checkIsModern, htmlOnly, async (req, res) => {
     res.render("jarsize");
 });
 
-router.use('/archive', express.static('static/archive'), serveIndex('static/archive', {'icons': true}));
+router.use('/j2me/archive', express.static('static/archive'), serveIndex('static/archive', {'icons': true}));
 
 module.exports = router;
