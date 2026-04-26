@@ -42,6 +42,11 @@ public class Message implements Strings {
 
     public boolean needUpdate;  // does this message's contentlines need to be updated before next draw
 
+//#ifdef EMOJI_SUPPORT
+    public Reaction[] reactions;
+    public int reactionsHeight;
+//#endif
+
     public Message(JSONObject data) {
         id = data.getString("id");
         author = new User(data.getObject("author"));
@@ -223,6 +228,42 @@ public class Message implements Strings {
                 }
             }
             catch (Exception e) {}
+
+//#ifdef EMOJI_SUPPORT
+            if (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) {
+                try {
+                    JSONArray reactionsArray = contentObj.getArray("reactions");
+                    int count = reactionsArray.size();
+
+                    reactions = new Reaction[count];
+
+                    for (int i = 0; i < count; i++) {
+                        JSONObject reactJson = reactionsArray.getObject(i);
+                        String nameOrId = ":question:";  // fallback to "question mark" emoji
+                        boolean isGuildEmoji = false;
+
+                        try {
+                            JSONObject emojiJson = reactJson.getObject("emoji");
+                            nameOrId = emojiJson.getString("id", null);
+                            isGuildEmoji = true;
+
+                            if (nameOrId == null) {
+                                nameOrId = emojiJson.getString("name");
+                                isGuildEmoji = false;
+                            }
+                        }
+                        catch (Exception ee) {
+                            ee.printStackTrace();
+                        }
+
+                        reactions[i] = new Reaction(isGuildEmoji, nameOrId, reactJson.getInt("count", 0));
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+//#endif
         }
 
         timestamp = formatTimestamp((Long.parseLong(id) >> 22) + App.DISCORD_EPOCH);

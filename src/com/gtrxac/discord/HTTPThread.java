@@ -561,24 +561,28 @@ public class HTTPThread extends Thread implements Strings {
                     );
                     if (fetchMsgsBefore != null) url.append("&before=" + fetchMsgsBefore);
                     if (fetchMsgsAfter != null) url.append("&after=" + fetchMsgsAfter);
-//#ifdef OVER_100KB
+
                     if (
                         App.isLiteProxy
 //#ifdef PROXYLESS_SUPPORT
                         && !Settings.proxyless
 //#endif
                     ) {
-                        url.append("&m=1");  // do ack (mark as read) proxy-side
+                        // send feature flags to proxy
+                        url.append("&f=m");  // do ack (mark as read) proxy-side
+
 //#ifdef EMOJI_SUPPORT
                         if (FormattedString.emojiMode == FormattedString.EMOJI_MODE_ALL) {
-                            url.append("&em=1");
+                            url.append('e');  // guild emojis
+                        }
+                        if (FormattedString.emojiMode != FormattedString.EMOJI_MODE_OFF) {
+                            url.append('r');  // reactions
                         }
 //#endif
                         if (FormattedString.useMarkdown) {
-                            url.append("&ed=1");
+                            url.append('E');  // (edited) indicators
                         }
                     }
-//#endif
 
                     JSONArray messages = JSON.getArray(HTTP.get(url.toString(), false));
                     App.messages = new Vector();

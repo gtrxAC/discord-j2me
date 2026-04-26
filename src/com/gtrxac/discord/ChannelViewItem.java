@@ -16,6 +16,9 @@ public class ChannelViewItem implements Strings {
     static final int ATTACHMENTS_BUTTON = 3;
     static final int ATTACHMENTS_BUTTON_NONIMAGE = 5;
 //#endif
+//#ifdef EMOJI_SUPPORT
+    static final int REACTIONS = 7;
+//#endif
 
 //#ifdef INLINE_ATTACHMENTS
     static Image playButtonOrig;
@@ -177,6 +180,11 @@ public class ChannelViewItem implements Strings {
                 int itemHeight = margin*3 + messageFontHeight + smallFont.getHeight();  // margin (for top and between items) + top padding + bottom padding + title + filesize
 
                 return itemHeight*msg.fileAttachments.length + margin;  // + bottom margin
+            }
+//#endif
+//#ifdef EMOJI_SUPPORT
+            case REACTIONS: {
+                return msg.reactionsHeight;
             }
 //#endif
 
@@ -819,6 +827,35 @@ public class ChannelViewItem implements Strings {
                     g.drawString(attach.size, x, y, 0);
 
                     y += smallFontHeight + marginY*2;
+                }
+                break;
+            }
+//#endif
+//#ifdef EMOJI_SUPPORT
+            case REACTIONS: {
+                y += messageFontHeight/4;
+                int reactionHeight = messageFontHeight + messageFontHeight/4*2;
+
+                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
+
+                for (int i = 0; i < msg.reactions.length; i++) {
+                    Reaction r = msg.reactions[i];
+                    g.fillRoundRect(
+                        r.x, y + r.y,
+                        r.width,
+                        reactionHeight,
+                        messageFontHeight/2,
+                        messageFontHeight/2
+                    );
+                }
+
+                g.setFont(App.messageFont);
+                g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
+
+                for (int i = 0; i < msg.reactions.length; i++) {
+                    Reaction r = msg.reactions[i];
+                    r.parts[0].draw(g, y);
+                    r.parts[1].draw(g, y);
                 }
                 break;
             }

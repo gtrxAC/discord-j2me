@@ -529,6 +529,49 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             }
 //#endif
 
+//#ifdef EMOJI_SUPPORT
+            if (msg.reactions != null) {
+                int yMargin = fontHeight/4;
+                int xMargin = fontHeight/3;
+                int x = iconAreaWidth;
+                int y = 0;
+                int availableArea = contentWidth;
+
+                for (int j = 0; j < msg.reactions.length; j++) {
+                    Reaction r = msg.reactions[j];
+
+                    int emojiWidth = r.parts[0].getWidth() + xMargin;
+                    int countWidth = r.parts[1].getWidth();
+
+                    int width = xMargin*3 + emojiWidth + countWidth;
+
+                    if (width > availableArea) {
+                        y += fontHeight + yMargin*3;
+                        x = iconAreaWidth;
+                        availableArea = contentWidth;
+                    }
+
+                    r.x = x;
+                    r.y = y;
+                    r.width = width - xMargin;
+                    r.parts[0].x = x + xMargin;
+                    r.parts[0].y = y + yMargin;
+                    r.parts[1].x = x + xMargin + emojiWidth;
+                    r.parts[1].y = y + yMargin;
+
+                    x += width;
+                    availableArea -= width;
+                }
+
+                msg.reactionsHeight = y + fontHeight + yMargin*4;
+
+                ChannelViewItem reactionsItem = new ChannelViewItem(ChannelViewItem.REACTIONS);
+                reactionsItem.msg = msg;
+                items.addElement(reactionsItem);
+                maxScroll += msg.reactionsHeight;
+            }
+//#endif
+
             if (msg.fileAttachments != null) {
                 ChannelViewItem attachItem = new ChannelViewItem(
 //#ifdef INLINE_ATTACHMENTS

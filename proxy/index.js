@@ -220,7 +220,7 @@ function parseMessageContent(content, showGuildEmoji, convertTags = true) {
     return result;
 }
 
-function parseMessageObject(msg, req, showGuildEmoji, showEdited) {
+function parseMessageObject(msg, req, showGuildEmoji, showEdited, showReactions) {
     const result = {
         id: msg.id
     }
@@ -318,6 +318,30 @@ function parseMessageObject(msg, req, showGuildEmoji, showEdited) {
                 ret.fields = emb.fields;
             }
             return ret;
+        })
+    }
+    if (showReactions && msg.reactions?.length) {
+        result.reactions = msg.reactions.map(r => {
+            let emojiObj;
+            if (r.emoji.id && showGuildEmoji) {
+                // custom server emoji when server emojis are enabled: send only id (name is not needed for fetching the emoji image)
+                emojiObj = {
+                    id: r.emoji.id
+                }
+            }
+            else if (!r.emoji.id) {
+                // default emoji: send only name with emoji converted into colon format (in official api, id would be null)
+                emoji.colons_mode = true;
+                emojiObj = {
+                    name: emoji.replace_unified(r.emoji.name)
+                }
+            }
+            // (custom server emoji when server emojis disabled: emoji field is not sent at all, client should have a fallback, e.g. show "?" emoji)
+
+            return {
+                count: r.count,
+                emoji: emojiObj
+            }
         })
     }
 
@@ -531,15 +555,37 @@ app.get(`${BASE}/users/@me/channels`, getToken, async (req, res) => {
 // Get messages
 app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
     try {
-        let proxyUrl = `${DEST_BASE}/channels/${req.params.channel}/messages`;
-        let queryParam = [];
+        // vars for feature flags which can be enabled/disabled by client based on its capabilities
         let showGuildEmoji = false;
         let showEdited = false;
+        let markAsRead = false;
+        let showReactions = false;
+
+        // old feature flags with separate param for each
+        if (req.query.emoji || req.query.em) showGuildEmoji = true;
+        if (req.query.edit || req.query.ed) showEdited = true;
+        if (req.query.m == 1) markAsRead = true;
+
+        // new feature flags
+        if (req.query.f) {
+            req.query.f.split('').forEach(chr => {
+                switch (chr) {
+                    case 'e': showGuildEmoji = true; break;
+                    case 'E': showEdited = true; break;
+                    case 'm': markAsRead = true; break;
+                    case 'r': showReactions = true; break;
+                }
+            })
+        }
+
+        // passthrough query parameters for pagination
+        let proxyUrl = `${DEST_BASE}/channels/${req.params.channel}/messages`;
+        let queryParam = [];
+
         if (req.query.limit) queryParam.push(`limit=${req.query.limit}`);
         if (req.query.before) queryParam.push(`before=${req.query.before}`);
         if (req.query.after) queryParam.push(`after=${req.query.after}`);
-        if (req.query.emoji || req.query.em) showGuildEmoji = true;
-        if (req.query.edit || req.query.ed) showEdited = true;
+
         if (queryParam.length) proxyUrl += '?' + queryParam.join('&');
 
         const response = await axios.get(proxyUrl, {headers: res.locals.headers});
@@ -550,12 +596,12 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         })
 
         const messages = response.data.map(msg => {
-            const result = parseMessageObject(msg, req, showGuildEmoji, showEdited);
+            const result = parseMessageObject(msg, req, showGuildEmoji, showEdited, showReactions);
 
             // Content from forwarded message
             if (msg.message_snapshots) {
                 result.message_snapshots = [{
-                    message: parseMessageObject(msg.message_snapshots[0].message, req, showGuildEmoji, showEdited)
+                    message: parseMessageObject(msg.message_snapshots[0].message, req, showGuildEmoji, showEdited, showReactions)
                 }]
             }
             return result;
@@ -563,7 +609,7 @@ app.get(`${BASE}/channels/:channel/messages`, getToken, async (req, res) => {
         res.send(stringifyUnicode(messages));
 
         // Mark latest message as read if client requested to do so and we are not reading an older page of messages
-        if (req.query.m == 1 && !req.query.before && !req.query.after && response.data?.[0]?.id) {
+        if (markAsRead && !req.query.before && !req.query.after && response.data?.[0]?.id) {
             axios.post(
                 `${DEST_BASE}/channels/${req.params.channel}/messages/${response.data[0].id}/ack`,
                 {token: null},
