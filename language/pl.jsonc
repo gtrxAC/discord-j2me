@@ -1074,10 +1074,10 @@
     "Wybierz opcję 'Sprawdź' tuż po autoryzacji logowania na smartfonie.",
 
     // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
-    "Server not found. ",
-    "Channel not found",
-    "Conversation not found",
+    "Nie znaleziono serwera. ",
+    "Nie znaleziono kanału",
+    "Nie znaleziono konwersacji",
 
     // Help text shown after the "Server not found" error.
-    "If you recently joined this server, you may have to wait a few days for the server list to update."
+    "Jeśli dopiero co dołączyłeś do tego serwera, musisz poczekać kilka dni na zaktaualizowanie się listy serwerów."
 ]
