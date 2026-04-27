@@ -7,6 +7,7 @@ const versionDownloadLinks = {
     "s40v3":                { version: "5.3.1", betaVersion: null, target: "Nokia S40v3 and up" },
     "midp2_alt_tls":        { version: "5.3.1", betaVersion: null, target: "Nokia S40v3 and up", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
     "phoneme_android":      { version: "5.3.1", betaVersion: null, target: "phoneME", tls: true, file: "midp2_alt_tls", showJar: false },
+    "sony_ericsson":        { version: "5.3.1", betaVersion: null, target: "Sony Ericsson", tls: "via Java-based TLS", tlsLink: "se", file: "midp2_alt_tls", showJar: false },
     "nokia_128px":          { version: "5.3.1", betaVersion: null, target: "Nokia S40v3 and up (128x160)" },
     "nokia_128px_tls":      { version: "5.3.1", betaVersion: null, target: "Nokia S40v3 and up (128x160)", tls: "via Java-based TLS", tlsLink: "s40", showJar: false },
     "s60v2":                { version: "5.3.1", betaVersion: null, target: "Symbian S60v2" },
@@ -101,6 +102,11 @@ function getRecommendedVersionsArray(req) {
 
     if (!midp2 && midp1) {
         return ["NEVER_PROXYLESS", "RECOMMENDED", "6310i", "midp1", "SHOW_ALL"];
+    }
+    if (ua.includes('sonyericsson') && midp2) {
+        // for now I'll recommend full/direct connection builds for all models, but we need to test and see which ones work well
+        // return ["RECOMMENDED", "sony_ericsson", "midp2_alt_recommend", "midp2_lite_recommend", "SHOW_ALL"];
+        return ["RECOMMENDED", "midp2_alt_recommend", "midp2_lite_recommend", "SHOW_ALL"];
     }
     if (ua.includes('blackberry')) {
         return ["NO_PROXYLESS", "RECOMMENDED", 'blackberry', "SHOW_ALL"];
