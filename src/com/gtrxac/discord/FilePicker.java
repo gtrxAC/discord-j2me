@@ -3,7 +3,8 @@ package com.gtrxac.discord;
 import javax.microedition.lcdui.*;
 import javax.microedition.io.file.*;
 import javax.microedition.io.*;
-import java.util.*;
+import java.util.Vector;
+import java.util.Enumeration;
 import java.io.*;
 
 public abstract class FilePicker extends ListScreen implements CommandListener, Strings {

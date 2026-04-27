@@ -28,17 +28,17 @@ ${JAVA_HOME}/bin/javac `find build/src -name '*'.java` -d classes \
     -bootclasspath ${BOOTCLASSPATH} \
     > sdk/log.txt
 
-if [[ ! -e lib/ModernConnector ]]; then
+if [[ ! -e lib/bouncycastle ]]; then
     echo "Extracting libraries"
-    mkdir lib/ModernConnector
-    cd lib/ModernConnector
-    ${JAVA_HOME}/bin/jar xf ../ModernConnector.jar
+    mkdir lib/bouncycastle
+    cd lib/bouncycastle
+    ${JAVA_HOME}/bin/jar xf ../bouncycastle.jar
     cd ../..
 fi
 
 echo "Creating JAR"
 ${JAVA_HOME}/bin/jar cvf bin/in.jar -C classes . -C build/res . >> sdk/log.txt
-[[ ${MODCON} == 1 ]] && ${JAVA_HOME}/bin/jar uvf bin/in.jar -C lib/ModernConnector . >> sdk/log.txt
+[[ ${MODCON} == 1 ]] && ${JAVA_HOME}/bin/jar uvf bin/in.jar -C lib/bouncycastle . >> sdk/log.txt
 ${JAVA_HOME}/bin/jar uvfm bin/in.jar build/manifest.mf >> sdk/log.txt
 
 # Preverify and obfuscate (ProGuard)

@@ -19,7 +19,7 @@ const compileTarget = (target) => {
     process.env.BOOTCLASSPATH = target.bootclasspath.join(classpathJoiner);
     process.env.EXCLUDES = (target.excludes || []).join(" ");
 
-    process.env.MODCON = Number(target.bootclasspath.some(jar => jar.includes('ModernConnector')));
+    process.env.MODCON = Number(target.bootclasspath.some(jar => jar.includes('bouncycastle')));
 
     console.log(`${"_".repeat(80)}\n`)
     console.log(` Compiling: ${target.name}`)
