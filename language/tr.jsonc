@@ -1063,7 +1063,7 @@
 
     // Softkey command labels for checking the status of HTTP-based QR login after the QR code has been scanned. If the check is successful, the token is received and the login is complete.
     // This can also be translated as e.g. "Continue".
-    "Kontrol et",
+    "Kntrl et",
     "Kontrol et",
 
     // Error message shown when the proxy server has not sent an authentication ID which is required for HTTP-based QR login.
@@ -1079,5 +1079,5 @@
     "Sohbet bulunamadı",
 
     // Help text shown after the "Server not found" error.
-    "Eğer bu sunucuya daha yeni katıldıysanız, sunucu listesinin güncellenmesi için birkaç gün beklemeniz gerekebilir."
+    "Eğer bu sunucuya yeni katıldıysanız, sunucu listesinin güncellenmesi için birkaç gün beklemeniz gerekebilir."
 ]
