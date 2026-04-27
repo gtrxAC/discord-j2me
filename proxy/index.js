@@ -742,8 +742,8 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             // Latest available beta version.
             // If there is no beta version, the version number should be set to 0 (so clients will always download the newer stable version).
             // If there is a beta version, the beta version number should be higher than the stable one.
-            _latestbeta: 0,
-            _latestbetaname: "",
+            _latestbeta: 37,
+            _latestbetaname: "5.4.0 beta1",
 
             // Version number of emoji JSON data.
             // When the JSON is edited, this number should be increased by one.

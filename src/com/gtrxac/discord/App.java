@@ -8,8 +8,8 @@ import java.util.*;
 import cc.nnproject.json.*;
 
 public class App extends MIDlet implements Strings {
-	public static final int VERSION_CODE = 36;
-	public static final String VERSION_NAME = "5.3.1";
+	public static final int VERSION_CODE = 37;
+	public static final String VERSION_NAME = "5.4.0 beta1";
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =
