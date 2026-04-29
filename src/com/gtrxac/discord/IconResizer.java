@@ -2,14 +2,14 @@ package com.gtrxac.discord;
 
 import javax.microedition.lcdui.*;
 
-public class IconResizeThread extends Thread {
+public class IconResizer {
     private static final int[] alphaAndValues = {0x00000000, 0x3FFFFFFF, 0x7FFFFFFF, 0xBFFFFFFF, 0xFFFFFFFF};
 
     private HasIcon target;
     private Image smallIcon;
     private int size;
 
-    public IconResizeThread(HasIcon target, Image smallIcon, int size) {
+    public IconResizer(HasIcon target, Image smallIcon, int size) {
         this.target = target;
         this.smallIcon = smallIcon;
         this.size = size;
@@ -110,7 +110,7 @@ public class IconResizeThread extends Thread {
                 result = resized;
             }
 
-            IconCache.setResized(target.getIconHash() + size, result);
+            IconCache.set(target, size, result);
             target.iconLoaded();
         }
         catch (Exception e) {

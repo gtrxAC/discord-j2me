@@ -5,84 +5,47 @@ import javax.microedition.lcdui.*;
 
 public class IconCache {
     private static Hashtable icons;
-    private static Hashtable resizedIcons;
     private static Vector iconHashes;
-    private static Vector resizedIconHashes;
     private static Vector activeRequests;
-    private static Vector activeResizes;
 
     public static void init() {
         icons = new Hashtable();
-        resizedIcons = new Hashtable();
         iconHashes = new Vector();
-        resizedIconHashes = new Vector();
         activeRequests = new Vector();
-        activeResizes = new Vector();
     }
 
-    private static Image get(HasIcon target) {
-        // Don't show icons if they are disabled
-        if (target.isDisabled()) return null;
-        
+    public static Image get(HasIcon target, int size) {
         String hash = target.getIconHash();
         if (hash == null) return null;
 
-        Image result = (Image) icons.get(hash);
+        String resizedHash = hash + size;
+
+        Image result = (Image) icons.get(resizedHash);
         if (result != null) return result;
 
-        if (!activeRequests.contains(hash)) {
-            activeRequests.addElement(hash);
+        if (!activeRequests.contains(resizedHash)) {
+            activeRequests.addElement(resizedHash);
             HTTPThread http = new HTTPThread(HTTPThread.FETCH_ICON);
             http.iconTarget = target;
+            http.iconSize = size;
             http.start();
         }
         return null;
     }
 
+    public static void set(HasIcon target, int size, Image icon) {
+        String hash = target.getIconHash() + size;
+        removeRequest(hash);
+        Util.hashtablePutWithLimit(icons, iconHashes, hash, icon, Settings.messageLoadCount*2);
+    }
+
+    public static boolean has(HasIcon target, int size) {
+        String hash = target.getIconHash() + size;
+        return icons.containsKey(hash);
+    }
+
     public static synchronized void removeRequest(String hash) {
         int index = activeRequests.indexOf(hash);
         if (index != -1) activeRequests.removeElementAt(index);
-    }
-
-    public static synchronized void removeResize(String hash) {
-        int index = activeResizes.indexOf(hash);
-        if (index != -1) activeResizes.removeElementAt(index);
-    }
-
-    public static void set(String hash, Image icon) {
-        removeRequest(hash);
-        Util.hashtablePutWithLimit(icons, iconHashes, hash, icon, 100);
-    }
-
-    public static Image getResized(HasIcon target, int size) {
-        String hash = target.getIconHash();
-        if (hash == null) return null;
-
-        String resizedHash = hash + size;
-        
-        Image result = (Image) resizedIcons.get(resizedHash);
-        if (result != null) return result;
-
-        Image origIcon = (Image) get(target);
-
-        if (origIcon != null && !activeResizes.contains(resizedHash)) {
-            activeResizes.addElement(resizedHash);
-            new IconResizeThread(target, origIcon, size).start();
-        }
-        return null;
-    }
-
-    public static void setResized(String resizedHash, Image icon) {
-        removeResize(resizedHash);
-        Util.hashtablePutWithLimit(resizedIcons, resizedIconHashes, resizedHash, icon, Settings.messageLoadCount*2);
-    }
-
-    public static boolean has(HasIcon target) {
-        return icons.containsKey(target.getIconHash());
-    }
-
-    public static boolean hasResized(HasIcon target, int size) {
-        String resizedHash = target.getIconHash() + size;
-        return resizedIcons.containsKey(resizedHash);
     }
 }

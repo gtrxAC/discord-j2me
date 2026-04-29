@@ -322,7 +322,7 @@ public class ChannelViewItem implements Strings {
                                     refImgHasPfp =
                                         !useIcons || Settings.pfpSize == Settings.PFP_SIZE_PLACEHOLDER ||
                                         msg.recipient.getIconHash() == null ||
-                                        IconCache.hasResized(msg.recipient, refFontHeight);
+                                        IconCache.has(msg.recipient, refFontHeight);
 
                                     refImgHasColor = hasColor;
 
@@ -359,7 +359,7 @@ public class ChannelViewItem implements Strings {
                                 }
 
                                 if (useIcons) {
-                                    Image icon = IconCache.getResized(msg.recipient, refFontHeight);
+                                    Image icon = IconCache.get(msg.recipient, refFontHeight);
 
                                     if (icon != null) {
                                         refG.drawImage(icon, refX, refY, Graphics.TOP | Graphics.LEFT);
@@ -452,7 +452,7 @@ public class ChannelViewItem implements Strings {
 
                     // Draw icon
                     if (useIcons) {
-                        Image icon = IconCache.getResized(msg.author, iconSize);
+                        Image icon = IconCache.get(msg.author, iconSize);
                         int iconX = messageFontHeight/3;
                         int iconY = y + messageFontHeight/6;
 
@@ -744,7 +744,7 @@ public class ChannelViewItem implements Strings {
                     int attX = x + (i%3)*attachAreaSize + attachMargin;
                     int attY = y + (i/3)*attachAreaSize + attachMargin;
                     
-                    Image attachImage = IconCache.getResized(attach, attachImageSize);
+                    Image attachImage = IconCache.get(attach, attachImageSize);
                 
                     if (attachImage != null) {
                         g.drawImage(attachImage, attX, attY, Graphics.TOP | Graphics.LEFT);

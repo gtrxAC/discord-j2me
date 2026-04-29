@@ -55,7 +55,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
         UnreadManager.autoSave = false;
         for (int i = 0; i < lastDMs.length; i++) {
             DMChannel ch = lastDMs[i];
-            append(ch.name, null, IconCache.getResized(ch, Settings.menuIconSize), ch.getMenuIndicator());
+            append(ch.name, null, IconCache.get(ch, Settings.menuIconSize), ch.getMenuIndicator());
         }
         UnreadManager.manualSave();
 
@@ -87,7 +87,7 @@ public class DMSelector extends ListScreen implements CommandListener, Strings {
             DMChannel ch = lastDMs[i];
             if (chId != null && !ch.id.equals(chId)) continue;
 
-            set(i, ch.name, null, IconCache.getResized(ch, Settings.menuIconSize), ch.getMenuIndicator());
+            set(i, ch.name, null, IconCache.get(ch, Settings.menuIconSize), ch.getMenuIndicator());
         }
     }
 

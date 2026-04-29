@@ -33,7 +33,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
         UnreadManager.autoSave = false;
         for (int i = 0; i < guilds.length; i++) {
             Guild g = guilds[i];
-            append(g.name, null, IconCache.getResized(g, Settings.menuIconSize), g.getMenuIndicator());
+            append(g.name, null, IconCache.get(g, Settings.menuIconSize), g.getMenuIndicator());
         }
         UnreadManager.manualSave();
 
@@ -71,7 +71,7 @@ public class GuildSelector extends ListScreen implements CommandListener, String
             Guild g = guilds[i];
             if (id != null && !g.id.equals(id)) continue;
 
-            set(i, g.name, null, IconCache.getResized(g, Settings.menuIconSize), g.getMenuIndicator());
+            set(i, g.name, null, IconCache.get(g, Settings.menuIconSize), g.getMenuIndicator());
         }
     }
 

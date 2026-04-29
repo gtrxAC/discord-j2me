@@ -31,7 +31,7 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
     }
 
     public void draw(Graphics g, int yOffset) {
-        Image img = IconCache.getResized(this, size);
+        Image img = IconCache.get(this, size);
         if (img != null) {
             if (!hasLoaded) {
                 // Fix positioning for emojis that aren't square (center within square container)

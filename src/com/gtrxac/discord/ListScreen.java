@@ -87,7 +87,7 @@ public class ListScreen extends KineticScrollingCanvas {
         baseContentHeight = Math.max(fontHeight, iconSize);
 
         int indicatorHeight = baseContentHeight/2*2;
-        int[] indicatorCircleBuf = IconResizeThread.createCircleBuf(fontHeight/4*4);
+        int[] indicatorCircleBuf = IconResizer.createCircleBuf(fontHeight/4*4);
         int[] indicatorImageData = new int[(fontHeight/4)*indicatorHeight];
 
         for (int y = 0; y < indicatorHeight; y++) {
@@ -98,7 +98,7 @@ public class ListScreen extends KineticScrollingCanvas {
 
                 indicatorImageData[y*(fontHeight/4) + x] =
                     (0xFF000000 | Theme.listIndicatorColor) &
-                    IconResizeThread.getCircleBufAlpha(indicatorCircleBuf, fontHeight/4*2, circleBufX, circleBufY);
+                    IconResizer.getCircleBufAlpha(indicatorCircleBuf, fontHeight/4*2, circleBufX, circleBufY);
             }
         }
 

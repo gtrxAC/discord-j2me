@@ -60,6 +60,7 @@ public class HTTPThread extends Thread implements Strings {
 
     // Parameters for FETCH_ICON
     HasIcon iconTarget;  // item (guild or DM channel) that this icon should be assigned to
+    int iconSize;
 
     // Parameters for SEND_ATTACHMENT
     FileConnection attachFc;
@@ -748,8 +749,7 @@ public class HTTPThread extends Thread implements Strings {
                         }
                     }
 
-                    IconCache.set(hash, icon);
-                    iconTarget.iconLoaded();
+                    new IconResizer(iconTarget, icon, iconSize).run();
                     break;
                 }
 
@@ -1064,7 +1064,7 @@ public class HTTPThread extends Thread implements Strings {
         catch (Exception e) {
             switch (action) {
                 case FETCH_ICON: {
-                    IconCache.removeRequest(iconTarget.getIconHash());
+                    IconCache.removeRequest(iconTarget.getIconHash() + iconSize);
                     break;
                 }
                 case SEND_ATTACHMENT: {
