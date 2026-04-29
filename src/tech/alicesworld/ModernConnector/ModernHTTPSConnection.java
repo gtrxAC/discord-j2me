@@ -1,3 +1,4 @@
+//#ifdef MODERNCONNECTOR
 package tech.alicesworld.ModernConnector;
 
 import java.io.ByteArrayOutputStream;
@@ -787,3 +788,4 @@ public final class ModernHTTPSConnection implements HttpsConnection {
         }
     }
 }
+//#endif
