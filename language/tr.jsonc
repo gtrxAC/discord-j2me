@@ -342,7 +342,7 @@
 
     // Prefix of message content when the message is a sticker.
     // The whole message is in the form of "(sticker: Name)"
-    "(sticker: ",
+    "(çıkartma: ",
 
     // Placeholder name for a sticker when the sticker's name could not be fetched.
     "bilinmiyor",
@@ -1063,7 +1063,7 @@
 
     // Softkey command labels for checking the status of HTTP-based QR login after the QR code has been scanned. If the check is successful, the token is received and the login is complete.
     // This can also be translated as e.g. "Continue".
-    "Kontrol et",
+    "Kntrl et",
     "Kontrol et",
 
     // Error message shown when the proxy server has not sent an authentication ID which is required for HTTP-based QR login.
@@ -1074,10 +1074,10 @@
     "Akıllı telefonunuzdan giriş işlemini onayladıktan sonra \"Kontrol et\" tuşuna basın.",
 
     // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
-    "Server not found. ",
-    "Channel not found",
-    "Conversation not found",
+    "Sunucu bulunamadı. ",
+    "Kanal bulunamadı",
+    "Sohbet bulunamadı",
 
     // Help text shown after the "Server not found" error.
-    "If you recently joined this server, you may have to wait a few days for the server list to update."
+    "Eğer bu sunucuya yeni katıldıysanız, sunucu listesinin güncellenmesi için birkaç gün beklemeniz gerekebilir."
 ]
