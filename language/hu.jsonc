@@ -1079,7 +1079,7 @@
 
     // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
     "Szerver nem található. ",
-    "Csatorna nem található. ,
+    "Csatorna nem található. ",
     "Csevegés nem található. ",
 
     // Help text shown after the "Server not found" error.

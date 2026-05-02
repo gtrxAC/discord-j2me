@@ -21,9 +21,7 @@ public class ChannelViewItem implements Strings {
 //#endif
 
 //#ifdef INLINE_ATTACHMENTS
-    static Image playButtonOrig;
     static Image playButton;
-    static Image fileIconOrig;
     static Image fileIcon;
 //#endif
 
@@ -750,16 +748,14 @@ public class ChannelViewItem implements Strings {
                         g.drawImage(attachImage, attX, attY, Graphics.TOP | Graphics.LEFT);
                     }
                     if (attach.isVideo) {
-                        if (playButtonOrig == null) {
+                        if (playButton == null || playButton.getWidth() != playButtonSize) {
                             try {
-                                playButtonOrig = Image.createImage("/play.png");
+                                Image playButtonOrig = Image.createImage("/play.png");
+                                playButton = Util.resizeImageBilinear(playButtonOrig, playButtonSize, playButtonSize);
                             }
                             catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        }
-                        if (playButton == null || playButton.getWidth() != playButtonSize) {
-                            playButton = Util.resizeImageBilinear(playButtonOrig, playButtonSize, playButtonSize);
                         }
                         g.drawImage(
                             playButton,
@@ -780,16 +776,14 @@ public class ChannelViewItem implements Strings {
                 int contentHeight = messageFontHeight + smallFontHeight;
                 int fileIconSize = contentHeight*4/5;
 
-                if (fileIconOrig == null) {
+                if (fileIcon == null || fileIcon.getWidth() != fileIconSize) {
                     try {
-                        fileIconOrig = Image.createImage("/file.png");
+                        Image fileIconOrig = Image.createImage("/file.png");
+                        fileIcon = Util.resizeImageBilinear(fileIconOrig, fileIconSize, fileIconSize);
                     }
                     catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                if (fileIcon == null || fileIcon.getWidth() != fileIconSize) {
-                    fileIcon = Util.resizeImageBilinear(fileIconOrig, fileIconSize, fileIconSize);
                 }
 
                 y += marginY;
