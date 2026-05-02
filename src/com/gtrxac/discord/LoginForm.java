@@ -88,12 +88,15 @@ Strings
         append(Locale.get(PROXY_INFO_RECOMMEND) + Locale.get(LOGIN_FORM_WARNING));
 //#endif
 
-        editUrlsCommand = Locale.createCommand(OPEN, Command.ITEM, 2);
 //#ifdef BLACKBERRY
+        editUrlsCommand = new Command(Locale.get(CONNECTION_URLS), Command.ITEM, 2);
+
         append(new Spacer(getWidth(), 1));
         append(Locale.get(EDIT_URLS_BB_HINT));
         addCommand(editUrlsCommand);
 //#else
+        editUrlsCommand = Locale.createCommand(OPEN, Command.ITEM, 2);
+
         StringItem urlsButton = new StringItem(null, Locale.get(CONNECTION_URLS), Item.BUTTON);
         urlsButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         urlsButton.setDefaultCommand(editUrlsCommand);
