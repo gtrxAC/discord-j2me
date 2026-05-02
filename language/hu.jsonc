@@ -1052,38 +1052,38 @@
     // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
     // Now there are separate types of buttons for "View X files" and "View X images"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
-    " file",
-    " files",
-    " image",
-    " images",
+    " fájl",
+    " fájl",
+    " kép",
+    " kép",
 
     // Description for the read state (unread indicator dots) synchronization feature. Shown in the login screen above the checkbox for "Sync unreads".
     // This feature more specifically uses more network bandwidth, RAM, and storage, and also requires the gateway,
     // but this string is kept relatively short so the login screen is not too cluttered.
-    "Syncing unread indicators with official clients requires more memory.",
+    "Az olvasatlanüzenet-jelzők szinkronizálása több RAM-memóriát igényel.",
 
     // Label for the check box for toggling read state synchronization feature.
-    "Sync unreads",
+    "Olvasatlanüz.-jelzők szinkr.",
 
     // Softkey command labels for checking the status of HTTP-based QR login after the QR code has been scanned. If the check is successful, the token is received and the login is complete.
     // This can also be translated as e.g. "Continue".
-    "Check",
-    "Check",
+    "Ellenőrzés",
+    "HTTP-s QRkód bejelentkezés státuszának ellenőrzése",
 
     // Error message shown when the proxy server has not sent an authentication ID which is required for HTTP-based QR login.
-    "Login session not received",
+    "Bejelentkezési azonosító nem lett fogadva",
 
     // Help text shown in the QR login screen when using HTTP-based QR login.
     // "Check" should be pressed after the QR code is scanned on the Discord app on Android/iOS and the login is authorized by selecting the "Log in" button in the safety warning.
-    "Select 'Check' after you've authorized the login on your smartphone.",
+    "Válaszd az 'Ellenőrzés' opciót a QR beolvasása után",
 
     // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
-    "Server not found. ",
-    "Channel not found",
-    "Conversation not found",
+    "Szerver nem található. ",
+    "Csatorna nem található. ,
+    "Csevegés nem található. ",
 
     // Help text shown after the "Server not found" error.
-    "If you recently joined this server, you may have to wait a few days for the server list to update."
+    "Ha nemrégiben csatlakoztál, akkor próbáld újra a szerver megtekintését néhány nap múlva."
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"
