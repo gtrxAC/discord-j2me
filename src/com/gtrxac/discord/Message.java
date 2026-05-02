@@ -259,9 +259,7 @@ public class Message implements Strings {
                         reactions[i] = new Reaction(isGuildEmoji, nameOrId, reactJson.getInt("count", 0));
                     }
                 }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
+                catch (Exception e) {}
             }
 //#endif
         }
