@@ -55,7 +55,7 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
 //#ifdef PROXYLESS_SUPPORT
         addItem(DATA_MANAGER_EMOJI2, "emoji2", false);
 //#endif
-        addItem(DATA_MANAGER_LAST_READ, "unread", false);
+        addItem(DATA_MANAGER_LAST_READ, "u", false);
         addItem(DATA_MANAGER_NOTIF_SOUND, "notifsound", true);
         addItem(DATA_MANAGER_INSOUND, "insound", true);
         addItem(DATA_MANAGER_OUTSOUND, "outsound", true);
@@ -93,7 +93,7 @@ public class DataManagerScreen extends ListScreen implements CommandListener, St
                         App.guilds = null;
                         App.dmChannels = null;
                     }
-                    else if ("unread".equals(rmsName)) {
+                    else if ("u".equals(rmsName)) {
                         UnreadManager.init();
                     }
 //#ifdef EMOJI_SUPPORT

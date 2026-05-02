@@ -1,6 +1,7 @@
 package com.gtrxac.discord;
 
 import java.util.*;
+import java.io.*;
 import javax.microedition.rms.*;
 import cc.nnproject.json.*;
 
@@ -24,21 +25,26 @@ public class UnreadManager {
         lastUnreadTime = null;
         lastHadUnreads = false;
 
-        // Load last read message IDs from RMS (convert JSON to hashtable)
+        // delete old version of unreads RMS
         try {
-            RecordStore rms = RecordStore.openRecordStore("unread", true);
+            RecordStore.deleteRecordStore("unread");
+        }
+        catch (Exception e) {}
+
+        // Load last read message IDs from RMS (convert binary to hashtable)
+        try {
+            RecordStore rms = RecordStore.openRecordStore("u", true);
 
             if (rms.getNumRecords() >= 1) {
-                JSONArray json = JSON.getArray(new String(rms.getRecord(1)));
+                byte[] record = rms.getRecord(1);
+                int numEntries = record.length/16;
+                ByteArrayInputStream rmsStream = new ByteArrayInputStream(record);
+                DataInputStream rmsDataStream = new DataInputStream(rmsStream);
 
-                for (int i = 0; i < json.size(); i++) {
-                    JSONArray elem = json.getArray(i);
-                    // Convert base-36 string -> long -> decimal string
-                    long key = Long.parseLong(elem.getString(0), Character.MAX_RADIX);
-                    long value = Long.parseLong(elem.getString(1), Character.MAX_RADIX);
-                    String keyStr = String.valueOf(key);
-                    String valStr = String.valueOf(value);
-                    channels.put(keyStr, valStr);
+                for (int i = 0; i < numEntries; i++) {
+                    String key = String.valueOf(rmsDataStream.readLong());
+                    String value = String.valueOf(rmsDataStream.readLong());
+                    channels.put(key, value);
                 }
             }
             Util.closeRecordStore(rms);
@@ -66,24 +72,23 @@ public class UnreadManager {
         }
 //#endif
 
-        JSONArray json = new JSONArray();
-        
-        // Convert hashtable to JSON array of key/value pairs
-        for (Enumeration e = channels.keys(); e.hasMoreElements();) {
-            JSONArray elem = new JSONArray();
-            String key = (String) e.nextElement();
-            String value = (String) channels.get(key);
+        ByteArrayOutputStream rmsStream = new ByteArrayOutputStream(channels.size()*8*2);
+        DataOutputStream rmsDataStream = new DataOutputStream(rmsStream);
 
-            // Convert decimal string -> long -> base-36 string
-            elem.add(Long.toString(Long.parseLong(key), Character.MAX_RADIX));
-            elem.add(Long.toString(Long.parseLong(value), Character.MAX_RADIX));
-            json.add(elem);
-        }
-
-        // Write stringified JSON to RMS
         try {
-            RecordStore rms = RecordStore.openRecordStore("unread", true);
-            Util.setOrAddRecord(rms, 1, json.build());
+            for (Enumeration e = channels.keys(); e.hasMoreElements();) {
+                String key = (String) e.nextElement();
+                String value = (String) channels.get(key);
+
+                rmsDataStream.writeLong(Long.parseLong(key));
+                rmsDataStream.writeLong(Long.parseLong(value));
+            }
+        }
+        catch (Exception e) {}
+
+        try {
+            RecordStore rms = RecordStore.openRecordStore("u", true);
+            Util.setOrAddRecord(rms, 1, rmsStream.toByteArray());
             Util.closeRecordStore(rms);
         }
         catch (Exception e) { App.error(e); }
