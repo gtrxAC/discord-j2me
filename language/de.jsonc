@@ -1076,10 +1076,10 @@
     "Wählen Sie 'Prüfen' nachdem Sie die Anmeldung auf Ihrem Smartphone autorisiert haben.",
 
     // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
-    "Server not found. ",
-    "Channel not found",
-    "Conversation not found",
+    "Server nicht gefunden. ",
+    "Kanal nicht gefunden",
+    "Unterhaltung nicht gefunden",
 
     // Help text shown after the "Server not found" error.
-    "If you recently joined this server, you may have to wait a few days for the server list to update."
+    "Wenn Sie diesem Server kürzlich beigetreten sind, müssen Sie möglicherweise einige Tage warten, bis die Serverliste aktualisiert ist."
 ]
