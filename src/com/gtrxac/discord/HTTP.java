@@ -40,6 +40,11 @@ public class HTTP implements Strings {
 				throw requestMethodException;
 			}
 
+//#ifdef MODERNCONNECTOR
+			if (url.indexOf("remote-auth") != -1) {
+				hc.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:149.0) Gecko/20100101 Firefox/149.0");
+			} else
+//#endif
 			if (!App.isLiteProxy) {
 				hc.setRequestProperty("User-Agent", "Discord-Android/262205;RNA");
 			}
@@ -96,6 +101,11 @@ public class HTTP implements Strings {
 				throw new Exception(message);
 			}
 			catch (JSONException e) {
+//#ifdef MODERNCONNECTOR
+				if (Util.bytesToString(result).indexOf("captcha") != -1) {
+					throw new Exception("A CAPTCHA was received. You may try logging in to a Discord desktop client via QR code and then trying Discord J2ME QR login again, but it is likely that you'll need to use token login instead.");
+				}
+//#endif
 				throw new Exception(Locale.get(HTTP_ERROR_CODE) + respCode);
 			}
 		}

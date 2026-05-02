@@ -5,6 +5,21 @@ import javax.microedition.io.*;
 import java.io.*;
 import cc.nnproject.json.*;
 
+//#ifdef MODERNCONNECTOR
+import tech.alicesworld.ModernConnector.*;
+import java.security.*;
+import java.math.*;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.generators.RSAKeyPairGenerator;
+import org.bouncycastle.crypto.params.RSAKeyGenerationParameters;
+import org.bouncycastle.crypto.engines.RSAEngine;
+import org.bouncycastle.crypto.encodings.OAEPEncoding;
+import org.bouncycastle.crypto.util.SubjectPublicKeyInfoFactory;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
+import org.bouncycastle.util.encoders.*;
+import org.bouncycastle.crypto.digests.*;
+//#endif
+
 public class QRLoginScreen extends Form implements Runnable, CommandListener, Strings {
     private Object lastScreen;
     private SocketConnection sc;
@@ -15,6 +30,10 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
 
     public static volatile String authID;
     private Command checkCommand;
+
+//#ifdef MODERNCONNECTOR
+    WebSocketClient ws;
+//#endif
 
     public QRLoginScreen() {
         super(Locale.get(LOGIN_FORM_TITLE));
@@ -38,8 +57,18 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
 		try { sc.close(); } catch (Exception e) {}
     }
 
+//#ifdef MODERNCONNECTOR
+    private void disconnectProxyless() {
+        running = false;
+		try { ws.close(); } catch (Exception e) {}
+    }
+//#endif
+
     private void exit() {
         disconnect();
+//#ifdef MODERNCONNECTOR
+        disconnectProxyless();
+//#endif
         App.disp.setCurrent(lastScreen);
     }
 
@@ -54,6 +83,24 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
     public void run() {
         running = true;
 
+//#ifdef MODERNCONNECTOR
+        if (Settings.proxyless) {
+            try {
+                qrLoginSocketProxyless();
+            }
+            catch (Exception e) {
+                if (running) {
+                    e.printStackTrace();
+                    disconnectProxyless();
+                    tryQrLoginWithProxy();
+                }
+            }
+        } else
+//#endif
+        tryQrLoginWithProxy();
+    }
+
+    private void tryQrLoginWithProxy() {
         try {
             qrLoginSocket();
         }
@@ -71,6 +118,146 @@ public class QRLoginScreen extends Form implements Runnable, CommandListener, St
             }
         }
     }
+
+//#ifdef MODERNCONNECTOR
+private void SEND(String d) throws IOException {
+    System.out.println("sending: " + d);
+    ws.sendMessage(d);
+}
+
+    private void qrLoginSocketProxyless() throws Exception {
+        ws = (WebSocketClient) ModernConnector.open("wss://remote-auth-gateway.discord.gg/?v=2");
+
+        deleteAll();
+        append(Locale.get(QR_LOGIN_RETRIEVING) + " proxyless");
+
+        AsymmetricCipherKeyPair keyPair = null;
+        OAEPEncoding cipher = new OAEPEncoding(
+            new RSAEngine(),
+            new SHA256Digest(),
+            new SHA256Digest(),
+            null);
+
+        while (true) {
+            try {
+                String message = ws.receiveMessageString();
+                System.out.println("received: " + message);
+
+                // if (message.trim().length() == 0) return;
+
+                JSONObject messageJson = JSON.getObject(message);
+                String op = messageJson.getString("op");
+
+                if ("hello".equals(op)) {
+                    deleteAll();
+                    append("Creating keys...");
+
+                    RSAKeyPairGenerator generator = new RSAKeyPairGenerator();
+
+                    generator.init(new RSAKeyGenerationParameters(
+                        BigInteger.valueOf(0x10001), // public exponent 65537
+                        new SecureRandom(),
+                        2048,
+                        80
+                    ));
+
+                    keyPair = generator.generateKeyPair();
+                    cipher.init(false, keyPair.getPrivate());
+
+                    // TODO: start heartbeat thread
+
+                    // TODO: set disconnect timeout
+
+                    SubjectPublicKeyInfo spki =
+                        SubjectPublicKeyInfoFactory.createSubjectPublicKeyInfo(keyPair.getPublic());
+
+                    byte[] pubKey = spki.getEncoded();
+                    String pubKeyBase64 = Util.bytesToString(Base64.encode(pubKey));
+
+                    deleteAll();
+                    append("Sending encryption key...");
+
+                    JSONObject msg = new JSONObject();
+                    msg.put("op", "init");
+                    msg.put("encoded_public_key", pubKeyBase64);
+                    SEND(msg.build());
+
+                    deleteAll();
+                    append("Waiting for response...");
+                }
+                else if ("nonce_proof".equals(op)) {
+                    deleteAll();
+                    append("Decrypting handshake message...");
+
+                    String encNonceBase64 = messageJson.getString("encrypted_nonce");
+                    byte[] encNonceBytes = Base64.decode(Util.stringToBytes(encNonceBase64));
+                    byte[] nonceBytes = cipher.processBlock(encNonceBytes, 0, encNonceBytes.length);
+                    String nonce = Util.bytesToString(UrlBase64.encode(nonceBytes));
+
+                    // Bouncy Castle Base64URL adds periods at the end for padding, Discord does not accept them so remove them
+                    while (nonce.endsWith(".")) {
+                        nonce = nonce.substring(0, nonce.length() - 1);
+                    }
+
+                    deleteAll();
+                    append("Sending handshake message...");
+
+                    JSONObject msg = new JSONObject();
+                    msg.put("op", "nonce_proof");
+                    msg.put("nonce", nonce);
+                    SEND(msg.build());
+
+                    deleteAll();
+                    append("Waiting for response...");
+                }
+                else if ("pending_remote_init".equals(op)) {
+                    deleteAll();
+                    append("Loading QR code...");
+
+                    String qrFingerprint = messageJson.getString("fingerprint");
+                    Image qrImage = HTTP.getImage(Settings.api + "/api/v9/qr/" + qrFingerprint);
+                    int[] newSize = Util.resizeFit(qrImage.getWidth(), qrImage.getHeight(), getWidth(), getHeight()*9/10);
+                    qrImage = Util.resizeImageBilinear(qrImage, newSize[0], newSize[1]);
+
+                    deleteAll();
+                    append(qrImage);
+                }
+                else if ("pending_login".equals(op)) {
+                    JSONObject msg = new JSONObject();
+                    msg.put("ticket", messageJson.getString("ticket"));
+
+                    byte[] encTokenBase64Bytes = null;
+                    try {
+                        encTokenBase64Bytes = HTTP.request(
+                            "POST", "https://discord.com/api/v9/users/@me/remote-auth/login",
+                            msg.build(), null, false);
+                    }
+                    catch (Exception e) {
+                        App.error(e, lastScreen);
+                        ws.close();
+                        return;
+                    }
+
+                    String encTokenBase64 = Util.bytesToString(encTokenBase64Bytes);
+                    byte[] encToken = Base64.decode(encTokenBase64);
+                    String token = Util.bytesToString(cipher.processBlock(encToken, 0, encToken.length));
+
+                    gotToken = true;
+                    Settings.token = messageJson.getString("d");
+                    exit();
+                }
+                else if ("cancel".equals(op)) {
+                    ws.close();
+                    break;
+                }
+            }
+            catch (IOException ex) {
+                ex.printStackTrace();
+                break;
+            }
+        }
+    }
+//#endif
 
     private void qrLoginSocket() throws Exception {
         sc = (SocketConnection) Connector.open(App.getPlatformSpecificUrl(Settings.gatewayUrl));

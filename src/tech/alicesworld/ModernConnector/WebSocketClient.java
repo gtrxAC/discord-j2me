@@ -108,9 +108,10 @@ public class WebSocketClient {
 
     private String generateHandshakeRequest() {
         String secWebSocketKey = generateSecWebSocketKey();
-        return "GET / HTTP/1.1\r\n"
+        return "GET /?v=2 HTTP/1.1\r\n"
                 + "Host: " + serverUrl + ":" + port + "\r\n"
                 + "Upgrade: websocket\r\n"
+                + "Origin: https://discord.com\r\n"
                 + "Connection: Upgrade\r\n"
                 + "Sec-WebSocket-Key: " + secWebSocketKey + "\r\n"
                 + "Sec-WebSocket-Version: 13\r\n"
