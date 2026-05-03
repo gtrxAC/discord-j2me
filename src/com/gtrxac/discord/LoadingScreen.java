@@ -4,7 +4,8 @@ import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 public class LoadingScreen extends MyCanvas implements Runnable, Strings {
-    private int iconOffset;
+    private int phoneOffset;
+    private int bubbleOffset;
 
     volatile String text;
 //#ifdef EMOJI_SUPPORT
@@ -14,7 +15,8 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
     int animDirection;
 
     static int scale;
-    static Image[] frames;
+    static Image[] phoneFrames;
+    static Image[] bubbleFrames;
 
     public LoadingScreen() {
         super();
@@ -33,29 +35,36 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
         int smallerDimension = Math.min(getWidth(), getHeight());
         int newScale = smallerDimension/270 + 1;
 
-        if (frames == null || scale != newScale) {
+        if (phoneFrames == null || scale != newScale) {
             scale = newScale;
             loadFrames();
         }
-        iconOffset = 4*scale;
+        // -24 (half of full frame width to center it on screen)
+        // -3 (offset to make it look more centered since the phone is more towards the right)
+        // 15 (phone offset to make it align with the bubble)
+        phoneOffset = (-3 + 14 - 24)*scale;
+        bubbleOffset = (-3 - 24)*scale;
     }
 
     private void loadFrames() {
         Image sheet;
-        frames = new Image[8];
+        phoneFrames = new Image[4];
+        bubbleFrames = new Image[4];
 
         try {
-            sheet = Image.createImage("/loading.png");
+            sheet = Image.createImage("/l.png");
         }
         catch (Exception e) {
             return;
         }
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 4; i++) {
             try {
-                frames[i] = Image.createImage(sheet, i*48, 0, 48, 48, Sprite.TRANS_NONE);
+                phoneFrames[i] = Image.createImage(sheet, i*32, 0, 32, 48, Sprite.TRANS_NONE);
+                bubbleFrames[i] = Image.createImage(sheet, 128 + i*31, 0, 31, 24, Sprite.TRANS_NONE);
                 if (scale > 1) {
-                    frames[i] = Util.resizeImage(frames[i], 48*scale, 48*scale);
+                    phoneFrames[i] = Util.resizeImage(phoneFrames[i], 32*scale, 48*scale);
+                    bubbleFrames[i] = Util.resizeImage(bubbleFrames[i], 31*scale, 24*scale);
                 }
             }
             catch (Exception e) {}
@@ -101,29 +110,38 @@ public class LoadingScreen extends MyCanvas implements Runnable, Strings {
         clearScreen(g, Theme.loadingScreenBackgroundColor);
 
         // Draw current animation frame
-        if (frames[curFrame] != null) {
-            int messageFontHeight = App.messageFont.getHeight();
-            int halfContainerHeight = 24*scale + messageFontHeight*3/4;
+        int messageFontHeight = App.messageFont.getHeight();
+        int halfContainerHeight = 24*scale + messageFontHeight*3/4;
+        int halfWidth = getWidth()/2;
+        int halfHeight = getHeight()/2;
 
+        int curPhoneFrame = Math.min(curFrame, 3);
+        g.drawImage(
+            phoneFrames[curPhoneFrame], halfWidth + phoneOffset, halfHeight - halfContainerHeight,
+            Graphics.LEFT | Graphics.TOP
+        );
+
+        int curBubbleFrame = curFrame - 4;
+        if (curBubbleFrame >= 0) {
             g.drawImage(
-                frames[curFrame], getWidth()/2 - iconOffset, getHeight()/2 - halfContainerHeight,
-                Graphics.HCENTER | Graphics.TOP
+                bubbleFrames[curBubbleFrame], halfWidth + bubbleOffset, halfHeight - halfContainerHeight,
+                Graphics.LEFT | Graphics.TOP
             );
+        }
 
-            g.setColor(Theme.loadingScreenTextColor);
-            g.setFont(App.messageFont);
+        g.setColor(Theme.loadingScreenTextColor);
+        g.setFont(App.messageFont);
+        g.drawString(
+            text, halfWidth, halfHeight + halfContainerHeight,
+            Graphics.HCENTER | Graphics.BOTTOM
+        );
+//#ifdef EMOJI_SUPPORT
+        if (text2 != null) {
             g.drawString(
-                text, getWidth()/2, getHeight()/2 + halfContainerHeight,
+                text2, halfWidth, halfHeight + halfContainerHeight + messageFontHeight,
                 Graphics.HCENTER | Graphics.BOTTOM
             );
-//#ifdef EMOJI_SUPPORT
-            if (text2 != null) {
-                g.drawString(
-                    text2, getWidth()/2, getHeight()/2 + halfContainerHeight + messageFontHeight,
-                    Graphics.HCENTER | Graphics.BOTTOM
-                );
-            }
-//#endif
         }
+//#endif
     }
 }
