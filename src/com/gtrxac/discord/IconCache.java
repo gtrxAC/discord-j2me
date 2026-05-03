@@ -4,14 +4,29 @@ import java.util.*;
 import javax.microedition.lcdui.*;
 
 public class IconCache {
+    public static final int UNSCALED_CACHE_SIZE = 25;  // enough to hold icons of all DMs (20) and a bit more
+
     private static Hashtable icons;
     private static Vector iconHashes;
     private static Vector activeRequests;
 
+    public static Hashtable unscaledIcons;  // managed by httpthread
+    public static Vector unscaledIconHashes;  // managed by httpthread
+
+    private static int cacheSize;
+    private static int usageCounter;
+
     public static void init() {
-        icons = new Hashtable();
-        iconHashes = new Vector();
+        cacheSize = Settings.messageLoadCount*2;
+
+        icons = new Hashtable(cacheSize);
+        iconHashes = new Vector(cacheSize);
         activeRequests = new Vector();
+
+        unscaledIcons = new Hashtable(UNSCALED_CACHE_SIZE);
+        unscaledIconHashes = new Vector(UNSCALED_CACHE_SIZE);
+
+        usageCounter = 0;
     }
 
     public static Image get(HasIcon target, int size) {
@@ -36,7 +51,7 @@ public class IconCache {
     public static void set(HasIcon target, int size, Image icon) {
         String hash = target.getIconHash() + size;
         removeRequest(hash);
-        Util.hashtablePutWithLimit(icons, iconHashes, hash, icon, Settings.messageLoadCount*2);
+        Util.hashtablePutWithLimit(icons, iconHashes, hash, icon, cacheSize);
     }
 
     public static boolean has(HasIcon target, int size) {

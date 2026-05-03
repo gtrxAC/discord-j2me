@@ -109,7 +109,6 @@ public class App extends MIDlet implements Strings {
 
     static {
 		subscribedGuilds = new Vector();
-		IconCache.init();
 		NameColorCache.init();
 		UnreadManager.init();
     }
@@ -126,6 +125,7 @@ public class App extends MIDlet implements Strings {
         if (!started) {
             disp = new MyDisplay(Display.getDisplay(this));
             Settings.load();
+			IconCache.init();
 
             // If token was not found in save file, go to login screen, else login and go to main menu
             if (Settings.token.trim().length() == 0) {

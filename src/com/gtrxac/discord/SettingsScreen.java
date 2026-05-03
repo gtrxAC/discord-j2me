@@ -238,6 +238,10 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 boolean themeChanged =
                     Settings.theme != settings[0][0].value;
 
+                boolean iconCacheSizeChanged =
+                    reloadIcons ||
+                    Settings.messageLoadCount != settings[3][0].value;
+
                 Settings.theme = settings[0][0].value;
                 Settings.wallpaperMode = settings[0][1].value;
 
@@ -294,8 +298,9 @@ public class SettingsScreen extends ListScreen implements CommandListener, Strin
                 if (reloadIcons || fontSizeChanged) {
                     App.guilds = null;
                     App.dmChannels = null;
-
-                    if (reloadIcons) IconCache.init();
+                }
+                if (iconCacheSizeChanged) {
+                    IconCache.init();
                 }
                 // Unload server list if theme changed, so the role colors get re-calculated based on the new theme (see Role)
                 if (themeChanged) {

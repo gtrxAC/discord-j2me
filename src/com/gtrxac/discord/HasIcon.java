@@ -34,4 +34,9 @@ public interface HasIcon {
      * Determine (based on user settings) if this type of icon is disabled (should not be loaded).
      */
     public boolean isDisabled();
+    
+    /**
+     * Determine if original unscaled icon should be kept in memory, so if this icon is to be loaded in multiple sizes, there won't be multiple HTTP requests.
+     */
+    public boolean keepUnscaledIcon();
 }

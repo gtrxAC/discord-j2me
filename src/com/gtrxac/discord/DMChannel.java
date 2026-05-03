@@ -67,6 +67,11 @@ public class DMChannel extends HasUnreads implements HasIcon, Strings {
 		if (App.dmSelector != null) App.dmSelector.update(id);
     }
 
+    public boolean keepUnscaledIcon() {
+        // dm group icons are not used elsewhere, but dm user icons are user profile pictures which do get reused
+        return !isGroup;
+    }
+
     public boolean hasUnreads() {
         return UnreadManager.hasUnreads(id, lastMessageID);
     }

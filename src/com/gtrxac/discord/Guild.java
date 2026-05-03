@@ -47,6 +47,10 @@ public class Guild extends HasUnreads implements HasIcon, Strings {
         return !Settings.showMenuIcons || Settings.menuIconSize == 0;
     }
 
+    public boolean keepUnscaledIcon() {
+        return false;
+    }
+
     public void iconLoaded() {
 		if (App.guildSelector != null) App.guildSelector.update(id);
     }

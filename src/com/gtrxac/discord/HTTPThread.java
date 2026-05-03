@@ -724,28 +724,27 @@ public class HTTPThread extends Thread implements Strings {
                     } else
 //#endif
                     {
-                        String type = iconTarget.getIconType();
-                        String id = iconTarget.getIconID();
-                        // Choose image file format based on user settings. Emojis are always png.
+                        if (iconTarget.keepUnscaledIcon() && IconCache.unscaledIcons.containsKey(hash)) {
+                            icon = (Image) IconCache.unscaledIcons.get(hash);
+                        } else {
+                            String type = iconTarget.getIconType();
+                            String id = iconTarget.getIconID();
 //#ifdef EMOJI_SUPPORT
-                        boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
-                        String format = ((Settings.useJpeg && notEmoji) ? "jpg" : "png");
+                            boolean notEmoji = !(iconTarget instanceof FormattedStringPartGuildEmoji);
 //#else
-                        String format = (Settings.useJpeg ? "jpg" : "png");
+                            boolean notEmoji = true;
 //#endif
-                        int size = (Settings.pfpSize == Settings.ICON_SIZE_32) ? 32 : 16;
+                            // Choose image file format based on user settings. Emojis are always png.
+                            String format = ((Settings.useJpeg && notEmoji) ? "jpg" : "png");
 
-                        String urlHashPart
-//#ifdef EMOJI_SUPPORT
-                        = ""; if (notEmoji) urlHashPart
-//#endif
-                        = "/" + hash;
+                            String urlHashPart = notEmoji ? ("/" + hash) : "";
+                            int size = (Settings.pfpSize == Settings.ICON_SIZE_32) ? 32 : 16;
 
-                        icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
+                            icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
 
-                        // Resize menu icon if fetched size doesn't match requested size
-                        if (!(iconTarget instanceof User) && size%16 != 0) {
-                            icon = Util.resizeImageBilinear(icon, Settings.menuIconSize, Settings.menuIconSize);
+                            if (iconTarget.keepUnscaledIcon()) {
+                                Util.hashtablePutWithLimit(IconCache.unscaledIcons, IconCache.unscaledIconHashes, hash, icon, 25);
+                            }
                         }
                     }
 
@@ -1064,7 +1063,10 @@ public class HTTPThread extends Thread implements Strings {
         catch (Exception e) {
             switch (action) {
                 case FETCH_ICON: {
-                    IconCache.removeRequest(iconTarget.getIconHash() + iconSize);
+                    // remove active request for this icon so it can be requested again, but if the icon was not found, don't try again
+                    if (e.toString().indexOf("404") == 0) {
+                        IconCache.removeRequest(iconTarget.getIconHash() + iconSize);
+                    }
                     break;
                 }
                 case SEND_ATTACHMENT: {

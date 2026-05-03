@@ -122,5 +122,9 @@ public class Attachment implements Strings
     public boolean isDisabled() {
         return false;
     }
+
+    public boolean keepUnscaledIcon() {
+        return false;
+    }
 //#endif
 }

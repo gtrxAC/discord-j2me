@@ -49,6 +49,12 @@ public class User implements HasIcon {
         return Settings.pfpType == Settings.PFP_TYPE_NONE || Settings.pfpSize == Settings.PFP_SIZE_PLACEHOLDER;
     }
 
+    public boolean keepUnscaledIcon() {
+        // keep unscaled icon because user icon can be displayed in different sizes
+        // (in DM list, as pfp in chat, as smaller pfp in replies)
+        return true;
+    }
+
     public void iconLoaded() {
         if (App.channelView != null) App.channelView.repaint();
     }

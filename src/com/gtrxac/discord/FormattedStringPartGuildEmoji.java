@@ -22,6 +22,10 @@ public class FormattedStringPartGuildEmoji extends FormattedStringPart implement
         return false;
     }
 
+    public boolean keepUnscaledIcon() {
+        return true;
+    }
+
     public void iconLoaded() {
 		if (App.channelView != null) App.channelView.repaint();
     }
