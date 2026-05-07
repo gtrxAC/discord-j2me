@@ -1,3 +1,4 @@
 DPFileHost/
 .env
 static/archive
+gateway_proxy/
