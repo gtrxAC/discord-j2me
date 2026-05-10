@@ -22,7 +22,7 @@
         <p><a href="/wiki/Main_Page">LPCwiki Proxy</a><br/>Read Legacy Portable Computing Wiki without modern HTTPS</p>
 
         <% if (showSponsors) { %>
-            <iframe src="https://github.com/sponsors/gtrxAC/button" title="Sponsor gtrxAC" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+            <iframe src="https://github.com/sponsors/gtrxAC/button" title="Sponsor gtrxAC" height="32" width="115" style="border: 0;"></iframe>
         <% } else { %>
             <p><strong>Support me!</strong><br/>If you want to donate, visit github.com/sponsors/gtrxAC on your PC or smartphone.</p>
         <% } %>
@@ -33,5 +33,19 @@
             </div>
         <% } %>
     </div>
+
+    <% if (showButtons) { %>
+        <div class="main buttons">
+            <div style="flex: 1">
+                <p style="font-size: 0.8em;">Want to link to my page? Add the button to your HTML!</p>
+                <a href="http://gtrxac.fi"><img src="http://gtrxac.fi/button.png" alt="gtrxac.fi" width="88"></a>
+                <br/>
+                <input type="text" readonly="true" value="&lt;a href=&quot;http://gtrxac.fi/&quot;&gt;&lt;img src=&quot;http://gtrxac.fi/button.png&quot; alt=&quot;gtrxac.fi&quot; width=&quot;88&quot;&gt;&lt;/a&gt;">
+            </div>
+            <div style="flex: 3;">
+                <a href="https://hutch3g.eu/"><img src="http://hutch3g.eu/img/Hutch3G.gif" title="3 is a magic number ♪" width="88"></a>
+            </div>
+        </div>
+    <% } %>
 </body>
 </html>

@@ -15,6 +15,7 @@ body {
     margin: 0 auto;
     padding: 0.6em 0.4em;
     overflow-wrap: break-word;
+    margin-bottom: 0.5em;
 }
 
 p {
@@ -59,5 +60,12 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.5em 0;
     text-align: center;
     font-size: 0.8em;
+    color: #666;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    text-align: center;
     color: #666;
 }

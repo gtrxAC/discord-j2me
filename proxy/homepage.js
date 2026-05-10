@@ -16,6 +16,7 @@ async function checkIsModern(req, res, next) {
     res.locals.showMetaDescription = res.locals.showSponsors;
     res.locals.showGuideImages = res.locals.showSponsors;
     res.locals.showLibrecounterImage = res.locals.showSponsors || ua.includes("opera");
+    res.locals.showButtons = res.locals.showLibrecounterImage;
 
     if (!res.locals.showLibrecounterImage) {
         // No counter image (browser does not support TLS or SVG)
