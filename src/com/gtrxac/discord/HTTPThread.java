@@ -201,11 +201,8 @@ public class HTTPThread extends Thread implements Strings {
 
                 if (latest > App.VERSION_CODE && Settings.autoUpdate == Settings.AUTO_UPDATE_ALL) {
                     String latestName = resp.getString("_latestbetaname", Locale.get(NAME_UNKNOWN));
-//#ifdef OVER_100KB
-                    App.disp.setCurrent(new UpdateDialog(latestName, true));
-//#else
-                    App.disp.setCurrent(new Dialogs100kb(latestName, true));
-//#endif
+                    String latestChangelog = resp.getString("_bc", null);
+                    App.disp.setCurrent(new UpdateDialog(latestName, latestChangelog, true));
                     return;
                 }
                 
@@ -213,11 +210,8 @@ public class HTTPThread extends Thread implements Strings {
 
                 if (latest > App.VERSION_CODE && Settings.autoUpdate != Settings.AUTO_UPDATE_OFF) {
                     String latestName = resp.getString("_latestname", Locale.get(NAME_UNKNOWN));
-//#ifdef OVER_100KB
-                    App.disp.setCurrent(new UpdateDialog(latestName, false));
-//#else
-                    App.disp.setCurrent(new Dialogs100kb(latestName, false));
-//#endif
+                    String latestChangelog = resp.getString("_c", null);
+                    App.disp.setCurrent(new UpdateDialog(latestName, latestChangelog, false));
                     return;
                 }
 

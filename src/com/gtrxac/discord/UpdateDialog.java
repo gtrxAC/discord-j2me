@@ -9,17 +9,24 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
 
     private boolean isBeta;
     
-    public UpdateDialog(String latestVersion, boolean isBeta) {
+    public UpdateDialog(String latestVersion, String latestChangelog, boolean isBeta) {
         super(Locale.get(UPDATE_AVAILABLE_TITLE), "");
         setCommandListener(this);
         this.isBeta = isBeta;
 
-        setString(
-            Locale.get(UPDATE_AVAILABLE) +
-            App.VERSION_NAME +
-            Locale.get(UPDATE_AVAILABLE_LATEST) +
-            latestVersion
-        );
+        StringBuffer text = new StringBuffer();
+
+        text.append(Locale.get(UPDATE_AVAILABLE))
+            .append(App.VERSION_NAME)
+            .append(Locale.get(UPDATE_AVAILABLE_LATEST))
+            .append(latestVersion);
+
+        if (latestChangelog != null) {
+            text.append("\n\nWhat's new?\n")
+                .append(latestChangelog);
+        }
+
+        setString(text.toString());
 
         updateCommand = Locale.createCommand(UPDATE, Command.OK, 1);
         closeCommand = Locale.createCommand(CLOSE, Command.BACK, 0);
@@ -38,9 +45,9 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
             format = ".jar";
 //#endif
 
-            target.append(Settings.api);
-            target.append("/discord_");
-            target.append(App.VERSION_VARIANT);
+            target.append(Settings.api)
+                .append("/discord_")
+                .append(App.VERSION_VARIANT);
             if (isBeta) target.append("_beta");
             target.append(format);
 

@@ -29,6 +29,7 @@ const GATEWAY_PROXY_IP = process.env.GATEWAY_PROXY_IP || "127.0.0.1";
 const GATEWAY_PROXY_PORT = process.env.GATEWAY_PROXY_PORT || 8081;
 
 const app = express();
+app.disable('x-powered-by');
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.static(path.join(__dirname, 'static'), {extensions: ['html']}));
@@ -739,11 +740,17 @@ app.get(`${BASE}/users/@me`, getToken, async (req, res) => {
             _latest: 36,
             _latestname: "5.3.1",
 
+            // Changelog of latest available stable version.
+            _c: "",
+
             // Latest available beta version.
             // If there is no beta version, the version number should be set to 0 (so clients will always download the newer stable version).
             // If there is a beta version, the beta version number should be higher than the stable one.
             _latestbeta: 37,
             _latestbetaname: "5.4.0 beta1",
+
+            // Changelog of latest available beta version.
+            _bc: "",
 
             // Version number of emoji JSON data.
             // When the JSON is edited, this number should be increased by one.
@@ -1385,9 +1392,11 @@ client.on('data', function(data) {
 
 client.on('error', function(data) {
     supportsGateway = false;
-    console.log("- HTTP proxy cannot connect to gateway proxy. HTTP-based QR login is not available for this proxy.");
-    console.log("- Please check settings (environment variables GATEWAY_PROXY_IP, GATEWAY_PROXY_PORT).");
-    console.log("- Make sure the gateway proxy (https://github.com/gtrxAC/discord-j2me-server) is running on this machine. Alternatively change the gateway IP/port to a gateway proxy running on another machine.");
-    console.log("- Note that the gateway proxy must already be running when this HTTP proxy is started.");
-    console.log(data);
+    // disabled this warning because QR login cannot be used anymore
+
+    // console.log("- HTTP proxy cannot connect to gateway proxy. HTTP-based QR login is not available for this proxy.");
+    // console.log("- Please check settings (environment variables GATEWAY_PROXY_IP, GATEWAY_PROXY_PORT).");
+    // console.log("- Make sure the gateway proxy (https://github.com/gtrxAC/discord-j2me-server) is running on this machine. Alternatively change the gateway IP/port to a gateway proxy running on another machine.");
+    // console.log("- Note that the gateway proxy must already be running when this HTTP proxy is started.");
+    // console.log(data);
 });
