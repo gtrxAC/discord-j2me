@@ -1077,10 +1077,10 @@
     "Selecciona \"Comprova\" després d'haver autoritzat inici de sessió a teu telèfon inteŀligent.",
 
     // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
-    "Server not found. ",
-    "Channel not found",
-    "Conversation not found",
+    "No s'ha trobat servidor. ",
+    "No s'ha trobat canal",
+    "No s'ha trobat conversa",
 
     // Help text shown after the "Server not found" error.
-    "If you recently joined this server, you may have to wait a few days for the server list to update."
+    "Si t'has unit recentment a aquest servidor, és possible que hagis d'esperar uns dies perquè s'actualitzi llista de servidors."
 ]
