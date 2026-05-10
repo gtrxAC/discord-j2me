@@ -492,6 +492,13 @@ public class Util {
 		return (cR << 16) | (cG << 8) | cB;
 	}
 
+	public static final void drawRoundRectWithOutline(Graphics g, int lineColor, int fillColor, int x, int y, int width, int height, int rounding) {
+		g.setColor(lineColor);
+		g.fillRoundRect(x - 1, y - 1, width + 2, height + 2, rounding + 4, rounding + 4);
+		g.setColor(fillColor);
+		g.fillRoundRect(x + 1, y + 1, width - 2, height - 2, rounding, rounding);
+	}
+
 //#ifdef SYMBIAN
 	public static final boolean isSymbian93;
 //#endif

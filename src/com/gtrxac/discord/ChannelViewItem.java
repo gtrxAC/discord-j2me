@@ -237,6 +237,22 @@ public class ChannelViewItem implements Strings {
         return result;
     }
 
+    private static void drawButton(Graphics g, boolean selected, int x, int y, int width, int height, int rounding) {
+        if (selected) {
+            Util.drawRoundRectWithOutline(g,
+                Theme.selectedButtonOutlineColor, Theme.selectedButtonBackgroundColor,
+                x, y, width, height, rounding);
+        }
+        else if (Settings.theme != Theme.SYSTEM) {
+            g.setColor(Theme.buttonBackgroundColor);
+            g.fillRoundRect(x, y, width, height, rounding, rounding);
+        }
+        else {
+            g.setColor(Theme.buttonTextColor);
+            g.drawRoundRect(x, y, width, height, rounding, rounding);
+        }
+    }
+
     /**
      * Draws this channel view item on the screen.
      * @param g Graphics object to use for drawing.
@@ -595,31 +611,12 @@ public class ChannelViewItem implements Strings {
                 int textWidth = App.messageFont.stringWidth(caption);
                 g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
 
-//#ifdef OVER_100KB
                 int rectX = width/2 - textWidth/2 - messageFontHeight;
                 int rectY = y + messageFontHeight/6;
                 int rectWidth = textWidth + messageFontHeight*2;
                 int rectHeight = messageFontHeight*4/3;
                 int rounding = messageFontHeight/2;
-
-                if (selected || Settings.theme != Theme.SYSTEM) {
-                    g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-                    g.fillRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
-                } else {
-                    g.setColor(Theme.buttonTextColor);
-                    g.drawRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
-                }
-//#else
-                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-                g.fillRoundRect(
-                    width/2 - textWidth/2 - messageFontHeight,
-                    y + messageFontHeight/6,
-                    textWidth + messageFontHeight*2,
-                    messageFontHeight*4/3,
-                    messageFontHeight/2,
-                    messageFontHeight/2
-                );
-//#endif
+                drawButton(g, selected, rectX, rectY, rectWidth, rectHeight, rounding);
 
                 g.setFont(App.messageFont);
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
@@ -652,31 +649,12 @@ public class ChannelViewItem implements Strings {
                 int x = useIcons ? messageFontHeight*2 : 0;
                 int textWidth = App.messageFont.stringWidth(caption);
 
-//#ifdef OVER_100KB
                 int rectX = x + messageFontHeight/2;
                 int rectY = y + messageFontHeight/6;
                 int rectWidth = textWidth + messageFontHeight;
                 int rectHeight = messageFontHeight*4/3;
                 int rounding = messageFontHeight/2;
-
-                if (selected || Settings.theme != Theme.SYSTEM) {
-                    g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-                    g.fillRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
-                } else {
-                    g.setColor(Theme.buttonTextColor);
-                    g.drawRoundRect(rectX, rectY, rectWidth, rectHeight, rounding, rounding);
-                }
-//#else
-                g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-                g.fillRoundRect(
-                    x + messageFontHeight/2,
-                    y + messageFontHeight/6,
-                    textWidth + messageFontHeight,
-                    messageFontHeight*4/3,
-                    messageFontHeight/2,
-                    messageFontHeight/2
-                );
-//#endif
+                drawButton(g, selected, rectX, rectY, rectWidth, rectHeight, rounding);
 
                 g.setFont(App.messageFont);
                 g.setColor(selected ? Theme.selectedButtonTextColor : Theme.buttonTextColor);
@@ -792,15 +770,7 @@ public class ChannelViewItem implements Strings {
                     Attachment attach = msg.fileAttachments[i];
                     int x = startX;
 
-                    g.setColor(selected ? Theme.selectedButtonBackgroundColor : Theme.buttonBackgroundColor);
-                    g.fillRoundRect(
-                        x,
-                        y,
-                        width - x - marginX,
-                        marginY*2 + contentHeight,
-                        marginX*2,
-                        marginX*2
-                    );
+                    drawButton(g, selected, x, y, width - x - marginX, marginY*2 + contentHeight, marginX*2);
 
                     y += marginY;
                     x += marginX;
@@ -834,13 +804,8 @@ public class ChannelViewItem implements Strings {
 
                 for (int i = 0; i < msg.reactions.length; i++) {
                     Reaction r = msg.reactions[i];
-                    g.fillRoundRect(
-                        r.x, y + r.y,
-                        r.width,
-                        reactionHeight,
-                        messageFontHeight/2,
-                        messageFontHeight/2
-                    );
+                    int rounding = messageFontHeight/2;
+                    drawButton(g, selected, r.x, y + r.y, r.width, reactionHeight, rounding);
                 }
 
                 g.setFont(App.messageFont);

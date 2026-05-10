@@ -369,15 +369,14 @@ public class ListScreen extends KineticScrollingCanvas {
 
             y += margin;
             if (thisSelected) {
-                g.setColor(Theme.listSelectedBackgroundColor);
-                g.fillRoundRect(
-                    baseX + fontHeight/4,
-                    y,
-                    getWidth() - baseX - fontHeight/2,
-                    itemContentHeight + fontHeight/3,
-                    fontHeight/2,
-                    fontHeight/2
-                );
+                int rectX = baseX + fontHeight/4;
+                int rectWidth = getWidth() - baseX - fontHeight/2;
+                int rectHeight = itemContentHeight + fontHeight/3;
+                int rectRound = fontHeight/2;
+
+                Util.drawRoundRectWithOutline(g,
+                    Theme.listSelectedOutlineColor, Theme.listSelectedBackgroundColor,
+                    rectX, y, rectWidth, rectHeight, rectRound);
             }
             y += margin;
             if (indicator == INDICATOR_UNREAD) {

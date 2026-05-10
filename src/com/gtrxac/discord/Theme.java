@@ -39,6 +39,7 @@ public class Theme {
     public static int buttonBackgroundColor;
     public static int buttonTextColor;
     public static int selectedButtonBackgroundColor;
+    public static int selectedButtonOutlineColor;
     public static int selectedButtonTextColor;
 
     public static int bannerBackgroundColor;
@@ -56,6 +57,7 @@ public class Theme {
     public static int listMutedTextColor;
     public static int listDescriptionTextColor;
     public static int listSelectedBackgroundColor;
+    public static int listSelectedOutlineColor;
     public static int listSelectedTextColor;
     public static int listSelectedMutedTextColor;
     public static int listSelectedDescriptionTextColor;
@@ -98,7 +100,7 @@ public class Theme {
     private static final int[] messageContentColors =    {0xFFFFFF, 0x111111, 0xEEEEEE};
     private static final int[] recipientMessageContentColors = {0xDDDDDD, 0x333333, 0xCCCCCC};
     private static final int[] statusMessageContentColors =  {0xAAAAAA, 0x666666, 0x999999};
-    private static final int[] selectedMessageBackgroundColors =  {0x232428, 0xDDDDDD, 0x303030};
+    private static final int[] selectedMessageBackgroundColors =  {0x47494e, 0xDDDDDD, 0x303030};
     private static final int[] selectedMessageAuthorColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
     private static final int[] selectedMessageContentColors =    {0xFFFFFF, 0x111111, 0xEEEEEE};
     private static final int[] selectedRecipientMessageContentColors = {0xDDDDDD, 0x333333, 0xCCCCCC};
@@ -106,12 +108,13 @@ public class Theme {
 
     private static final int[] embedBackgroundColors = {0x2b2d31, 0xEEEEEE, 0x202020};
     private static final int[] embedDescriptionColors =    {0xFFFFFF, 0x111111, 0xEEEEEE};
-    private static final int[] selectedEmbedBackgroundColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
+    private static final int[] selectedEmbedBackgroundColors = {0x3a3c41, 0xEEEEEE, 0x202020};
     private static final int[] selectedEmbedDescriptionColors =     {0xFFFFFF, 0x111111, 0xEEEEEE};
 
     private static final int[] buttonBackgroundColors = {0x2b2d31, 0xEEEEEE, 0x202020};
     private static final int[] buttonTextColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
-    private static final int[] selectedButtonBackgroundColors =     {0x1e1f22, 0xCCCCCC, 0x404040};
+    private static final int[] selectedButtonBackgroundColors =     {0x47494e, 0xdddddd, 0x333333};
+    private static final int[] selectedButtonOutlineColors =     {0x6d7176, 0xb6b6b6, 0x606060};
     private static final int[] selectedButtonTextColors =     {0xFFFFFF, 0x000000, 0xFFFFFF};
 
 //#ifndef S40V2
@@ -123,7 +126,8 @@ public class Theme {
     private static final int[] listTextColors    = {0xdddddd, 0x222222, 0xdddddd};
 	private static final int[] listMutedTextColors      = {0x888888, 0x888888, 0x888888};
     private static final int[] listDescriptionTextColors =  {0xAAAAAA, 0x666666, 0x999999};
-    private static final int[] listSelectedBackgroundColors      = {0x404249, 0xbbbbbb, 0x333333};
+    private static final int[] listSelectedBackgroundColors      = {0x404249, 0xdddddd, 0x333333};
+    private static final int[] listSelectedOutlineColors      = {0x5f6168, 0xb6b6b6, 0x606060};
     private static final int[] listSelectedTextColors = {0xffffff, 0x000000, 0xffffff};
 	private static final int[] listSelectedMutedTextColors      = {0x888888, 0x888888, 0x888888};
     private static final int[] listSelectedDescriptionTextColors =  {0xAAAAAA, 0x666666, 0x999999};
@@ -180,6 +184,7 @@ public class Theme {
         buttonBackgroundColor = buttonBackgroundColors[Settings.theme];
         buttonTextColor = buttonTextColors[Settings.theme];
         selectedButtonBackgroundColor = selectedButtonBackgroundColors[Settings.theme];
+        selectedButtonOutlineColor = selectedButtonOutlineColors[Settings.theme];
         selectedButtonTextColor = selectedButtonTextColors[Settings.theme];
 
 //#ifdef S40V2
@@ -199,6 +204,7 @@ public class Theme {
         listMutedTextColor = listMutedTextColors[Settings.theme];
         listDescriptionTextColor = listDescriptionTextColors[Settings.theme];
         listSelectedBackgroundColor = listSelectedBackgroundColors[Settings.theme];
+        listSelectedOutlineColor = listSelectedOutlineColors[Settings.theme];
         listSelectedTextColor = listSelectedTextColors[Settings.theme];
         listSelectedMutedTextColor = listSelectedMutedTextColors[Settings.theme];
         listSelectedDescriptionTextColor = listSelectedDescriptionTextColors[Settings.theme];
@@ -235,8 +241,10 @@ public class Theme {
         // int bg = ThemeManager.getCurrentTheme().getColor(Theme.COLOR_BACKGROUND);
         int bg = App.disp.getColor(Display.COLOR_BACKGROUND);
         int fg = App.disp.getColor(Display.COLOR_FOREGROUND);
+        // int b = App.disp.getColor(Display.COLOR_BORDER);
         int hbg = App.disp.getColor(Display.COLOR_HIGHLIGHTED_BACKGROUND);
         int hfg = App.disp.getColor(Display.COLOR_HIGHLIGHTED_FOREGROUND);
+        int hb = App.disp.getColor(Display.COLOR_HIGHLIGHTED_BORDER);
 
         // fallback color scheme for devices where Display.getColor does not return valid colors (e.g. all black)
         if (fg == bg || hfg == hbg) {
@@ -276,6 +284,7 @@ public class Theme {
         buttonBackgroundColor = bg;
         buttonTextColor = fg;
         selectedButtonBackgroundColor = hbg;
+        selectedButtonOutlineColor = hb;
         selectedButtonTextColor = hfg;
 
         typingBannerBackgroundColor = bg;
@@ -294,6 +303,7 @@ public class Theme {
         listMutedTextColor = Util.blend(fg, bg, 6);
         listDescriptionTextColor = secondaryText;
         listSelectedBackgroundColor = hbg;
+        listSelectedOutlineColor = hb;
         listSelectedTextColor = hfg;
         listSelectedMutedTextColor = Util.blend(hfg, hbg, 6);
         listSelectedDescriptionTextColor = Util.blend(hfg, hbg, 8);
@@ -372,6 +382,7 @@ public class Theme {
         buttonBackgroundColor = jsonGetHex(data, "buttonBackground", buttonBackgroundColor);
         buttonTextColor = jsonGetHex(data, "buttonText", buttonTextColor);
         selectedButtonBackgroundColor = jsonGetHex(data, "selectedButtonBackground", selectedButtonBackgroundColor);
+        selectedButtonOutlineColor = jsonGetHex(data, "selectedButtonOutline", selectedButtonBackgroundColor);  // note: default to background color so existing themes don't break
         selectedButtonTextColor = jsonGetHex(data, "selectedButtonText", selectedButtonTextColor);
         bannerBackgroundColor = jsonGetHex(data, "bannerBackground", bannerBackgroundColor);
         bannerTextColor = jsonGetHex(data, "bannerText", bannerTextColor);
@@ -387,6 +398,7 @@ public class Theme {
         listMutedTextColor = jsonGetHex(data, "listMutedText", listMutedTextColor);
         listDescriptionTextColor = jsonGetHex(data, "listDescriptionText", listDescriptionTextColor);
         listSelectedBackgroundColor = jsonGetHex(data, "listSelectedBackground", listSelectedBackgroundColor);
+        listSelectedOutlineColor = jsonGetHex(data, "listSelectedOutline", listSelectedBackgroundColor);  // note: default to background color so existing themes don't break
         listSelectedTextColor = jsonGetHex(data, "listSelectedText", listSelectedTextColor);
         listSelectedMutedTextColor = jsonGetHex(data, "listSelectedMutedText", listSelectedMutedTextColor);
         listSelectedDescriptionTextColor = jsonGetHex(data, "listSelectedDescriptionText", listSelectedDescriptionTextColor);
