@@ -350,22 +350,22 @@ public class Message implements Strings {
                     hour = 12; // 12 AM or 12 PM
                 }
 
-                time.append(hour);
-                time.append(Locale.get(TIME_SEPARATOR));
+                time.append(hour)
+                    .append(Locale.get(TIME_SEPARATOR));
                 if (minute < 10) time.append("0");
-                time.append(minute);
-                time.append(period);
+                time.append(minute)
+                    .append(period);
             } else {
-                time.append(hour);
-                time.append(Locale.get(TIME_SEPARATOR));
+                time.append(hour)
+                    .append(Locale.get(TIME_SEPARATOR));
                 if (minute < 10) time.append("0");
                 time.append(minute);
             }
         } else {
             int day = cal.get(Calendar.DAY_OF_MONTH);
             if (day < 10) time.append("0");
-            time.append(day);
-            time.append(Locale.get(DATE_SEPARATOR));
+            time.append(day)
+                .append(Locale.get(DATE_SEPARATOR));
             int month = cal.get(Calendar.MONTH) + 1;
             if (month < 10) time.append("0");
             time.append(month);

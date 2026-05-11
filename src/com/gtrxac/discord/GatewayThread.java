@@ -189,8 +189,8 @@ public class GatewayThread extends Thread implements Strings
 
 		if (msg.imageAttachments != null) {
 			if (msg.content.length() != 0) c.append(" ");
-			c.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
-			c.append(msg.imageAttachments.length);
+			c.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX))
+				.append(msg.imageAttachments.length);
 
 			if (msg.imageAttachments.length != 1) {
 				c.append(" images)");
@@ -200,8 +200,8 @@ public class GatewayThread extends Thread implements Strings
 		}
 		if (msg.fileAttachments != null) {
 			if (msg.content.length() != 0) c.append(" ");
-			c.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX));
-			c.append(msg.fileAttachments.length);
+			c.append(Locale.get(NOTIFICATION_ATTACHMENT_PREFIX))
+				.append(msg.fileAttachments.length);
 
 			if (msg.fileAttachments.length != 1) {
 				c.append(" files)");

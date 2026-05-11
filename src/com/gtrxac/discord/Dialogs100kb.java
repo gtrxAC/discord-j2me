@@ -65,10 +65,10 @@ public class Dialogs100kb extends Dialog implements Strings, CommandListener {
 
         StringBuffer sb = new StringBuffer(Locale.get(Settings.autoReConnect ? AUTO_RECONNECT_FAILED : RECONNECT_FORM_TEXT));
         if (message != null && message.length() > 0) {
-            sb.append("\n");
-            sb.append(Locale.get(RECONNECT_FORM_MESSAGE));
-            sb.append(":\n");
-            sb.append(message);
+            sb.append("\n")
+                .append(Locale.get(RECONNECT_FORM_MESSAGE))
+                .append(":\n")
+                .append(message);
         }
         setString(sb.toString());
 

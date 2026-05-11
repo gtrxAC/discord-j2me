@@ -81,16 +81,16 @@ public class MessageBox extends TextBox implements CommandListener, Strings {
         StringBuffer sb = new StringBuffer();
         
         if (App.isDM) {
-            sb.append(Locale.get(MESSAGE_BOX_TITLE_PREFIX_DM));
-            sb.append(App.selectedDmChannel.name);
+            sb.append(Locale.get(MESSAGE_BOX_TITLE_PREFIX_DM))
+                .append(App.selectedDmChannel.name);
         } else {
             String prefix = Locale.get(MESSAGE_BOX_TITLE_PREFIX_CHANNEL);
             // Remove "#" character if we're in a thread
             if (App.selectedChannel.isThread) {
                 prefix = prefix.substring(0, prefix.length() - 1);
             }
-            sb.append(prefix);
-            sb.append(App.selectedChannel.name);
+            sb.append(prefix)
+                .append(App.selectedChannel.name);
         }
         sb.append(Locale.get(RIGHT_PAREN));
         return sb.toString();
