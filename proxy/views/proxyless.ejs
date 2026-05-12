@@ -64,7 +64,7 @@
                 <td>Not supported by aNokiCert, and the JAR size limit on 2nd Edition devices is too low.</td>
             </tr>
             <tr>
-                <td>Nokia Series 40, 3rd Edition and up<br><i>on devices with at least 1 MB max JAR size</i></td>
+                <td>Nokia Series 40, 3rd Edition and up<br><i>devices with at least 1 MB max JAR size</i></td>
                 <td><div class="yes">Yes</div></td>
                 <td>Code-signing certificates can be installed via software like aNokiCert.<br/>Early 3rd Edition devices (e.g. Nokia 6270) are not supported yet as the certs seem to be stored in a different location in the phone's file system.</td>
             </tr>
@@ -94,9 +94,9 @@
                 <td>TLS 1.2 can be installed on a system level; certificate is not required.</td>
             </tr>
             <tr>
-                <td>Sony Ericsson</td>
-                <td><div class="maybe">No?</div></td>
-                <td>Certificate can be installed via file system modification. HTTPS connection fails for some reason.</td>
+                <td>Sony Ericsson<br><i>devices with DB3350 chipset</i></td>
+                <td><div class="yes">Yes</div></td>
+                <td>Certificate can be installed via file system modification. HTTPS connection fails on most older devices for some reason.</td>
             </tr>
             <tr>
                 <td>J2ME Loader, KEmulator, likely other emulators</td>
@@ -153,7 +153,7 @@
         </ol>
 
         <h2 id="se">How to use Direct connection on Sony Ericsson?</h2>
-        <p><strong>Direct connection on Sony Ericsson will be supported from version 5.4 onwards.</strong></p>
+        <p><strong>Direct connection on Sony Ericsson is supported from version 5.4 onwards.</strong></p>
         <ol>
             <li>Connect your SE device to a PC program that can manage the internal file system of SE phones (e.g. SEFP2).</li>
             <li>Navigate to <i>/tpa/preset/custom</i> and replace Utiroot.cer with <a href="/fh/exp.cer">the custom certificate</a> (make sure to keep the original file name Utiroot.cer).</li>

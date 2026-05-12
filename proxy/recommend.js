@@ -108,7 +108,7 @@ function getRecommendedVersionsArray(req) {
         if (/ericsson(u10|u10i|u10a|j108|j108i|j108a|j10|j10i|j10i2|k970|j20|j20i|j20a|x5|u100|u100i|w20|w20i|w20a)\//g.test(ua)) {
             return ["RECOMMENDED", "sony_ericsson", "midp2_alt_recommend", "midp2_lite_recommend", "SHOW_ALL"];
         }
-        return ["RECOMMENDED", "midp2_alt_recommend", "midp2_lite_recommend", "SHOW_ALL"];
+        return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_alt_recommend", "midp2_lite_recommend", "SHOW_ALL"];
     }
     if (ua.includes('blackberry')) {
         return ["NO_PROXYLESS", "RECOMMENDED", 'blackberry', "SHOW_ALL"];
