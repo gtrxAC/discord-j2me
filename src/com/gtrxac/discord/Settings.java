@@ -182,10 +182,10 @@ public class Settings {
         manifestValue = App.instance.getAppProperty("CDN-URL");
         if (manifestValue != null) cdn = manifestValue;
         manifestValue = App.instance.getAppProperty("Use-gateway");
-        if (manifestValue != null) useGateway = manifestValue.startsWith("Y") || manifestValue.startsWith("1");
+        if (manifestValue != null) useGateway = manifestValue.charAt(0) == 'Y' || manifestValue.charAt(0) == '1';
 //#ifdef PROXYLESS_SUPPORT
         manifestValue = App.instance.getAppProperty("Direct-connection");
-        if (manifestValue != null) proxyless = manifestValue.startsWith("Y") || manifestValue.startsWith("1");
+        if (manifestValue != null) proxyless = manifestValue.charAt(0) == 'Y' || manifestValue.charAt(0) == '1';
 //#endif
 
         // Check if save file in old format is available.

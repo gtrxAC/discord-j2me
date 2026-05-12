@@ -731,10 +731,10 @@ public class HTTPThread extends Thread implements Strings {
                             // Choose image file format based on user settings. Emojis are always png.
                             String format = ((Settings.useJpeg && notEmoji) ? "jpg" : "png");
 
-                            String urlHashPart = notEmoji ? ("/" + hash) : "";
+                            String urlHashPart = notEmoji ? ('/' + hash) : "";
                             int size = (Settings.pfpSize == Settings.ICON_SIZE_32) ? 32 : 16;
 
-                            icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + "." + format + "?size=" + size);
+                            icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + '.' + format + "?size=" + size);
 
                             if (iconTarget.keepUnscaledIcon()) {
                                 Util.hashtablePutWithLimit(IconCache.unscaledIcons, IconCache.unscaledIconHashes, hash, icon, 25);
