@@ -827,6 +827,9 @@ public class ChannelView extends KineticScrollingCanvas implements CommandListen
             selectionMode &&
             selected.type != ChannelViewItem.MESSAGE &&
             selected.type != ChannelViewItem.UNREAD_INDICATOR
+//#ifdef EMOJI_SUPPORT
+            && selected.type != ChannelViewItem.REACTIONS
+//#endif
         ) {
             _addCommand(selectCommand);
         } else {
