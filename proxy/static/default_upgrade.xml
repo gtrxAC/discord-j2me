@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<customization>
+
+   <security>
+       <certificate>
+         <name>Discord J2ME</name>
+         <type>x509</type>
+         <storage>java-3p</storage>
+         <datafile>exp.cer</datafile>
+         <modifiable>true</modifiable>
+         <activated>true</activated>
+      </certificate>
+   </security>
+  
+
+</customization>
