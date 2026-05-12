@@ -1306,68 +1306,73 @@ function checkGatewaySupport(req, res, next) {
 }
 
 app.get(`${BASE}/qr/init`, checkGatewaySupport, async (req, res) => {
-    const authID = generateRandomHex(16);
-    res.setHeader("X-Microcord-Auth-ID", authID);
+    res.status(500).send({message: "QR code login is no longer available as Discord has started issuing CAPTCHAs for all QR login requests. Please use token login instead."});
+    // const authID = generateRandomHex(16);
+    // res.setHeader("X-Microcord-Auth-ID", authID);
 
-    qrAuthSessions.set(authID, "");
+    // qrAuthSessions.set(authID, "");
 
-    const client = new net.Socket();
+    // const client = new net.Socket();
 
-    client.connect(GATEWAY_PROXY_PORT, GATEWAY_PROXY_IP, function() {});
+    // client.connect(GATEWAY_PROXY_PORT, GATEWAY_PROXY_IP, function() {});
 
-    client.on('data', function(data) {
-        const dataJson = JSON.parse(data);
-        console.log(dataJson);
+    // client.on('data', function(data) {
+    //     const dataJson = JSON.parse(data);
+    //     console.log(dataJson);
         
-        switch (dataJson.t) {
-            case "GATEWAY_HELLO": {
-                client.write(JSON.stringify({op: -1, t: "GATEWAY_CONNECT_REMOTEAUTH"}) + "\n");
-                break;
-            }
-            case "qrlogin_code": {
-                sendQrCodeImage(res, `https://discord.com/ra/${dataJson.d}`);
-                break;
-            }
-            case "qrlogin_token": {
-                qrAuthSessions.set(authID, dataJson.d);
-                client.destroy();
-                break;
-            }
-            default: {
-                if (!qrAuthSessions.has(authID) || qrAuthSessions.get(authID) === "") {
-                    qrAuthSessions.set(authID, "err");
-                }
-                client.destroy();
-                break;
-            }
-        }
-    });
+    //     switch (dataJson.t) {
+    //         case "GATEWAY_HELLO": {
+    //             client.write(JSON.stringify({op: -1, t: "GATEWAY_CONNECT_REMOTEAUTH"}) + "\n");
+    //             break;
+    //         }
+    //         case "qrlogin_code": {
+    //             sendQrCodeImage(res, `https://discord.com/ra/${dataJson.d}`);
+    //             break;
+    //         }
+    //         case "qrlogin_token": {
+    //             qrAuthSessions.set(authID, dataJson.d);
+    //             client.destroy();
+    //             break;
+    //         }
+    //         default: {
+    //             if (!qrAuthSessions.has(authID) || qrAuthSessions.get(authID) === "") {
+    //                 qrAuthSessions.set(authID, "err");
+    //             }
+    //             client.destroy();
+    //             break;
+    //         }
+    //     }
+    // });
 })
 
 app.get(`${BASE}/qr/check/:authid`, checkGatewaySupport, async (req, res) => {
-    if (!/^[0-9a-f]{32}$/g.test(req.params.authid) || !qrAuthSessions.has(req.params.authid)) {
-        res.status(400).send({message: 'Login session invalid or expired, please try again'});
-        return;
-    }
+    res.status(500).send({message: "QR code login is no longer available as Discord has started issuing CAPTCHAs for all QR login requests. Please use token login instead."});
 
-    const token = qrAuthSessions.get(req.params.authid);
-    if (token === "") {
-        res.status(400).send({message: 'Login not received, please try again and make sure you are authorizing the login'});
-        return;
-    }
-    if (token === "err") {
-        res.status(500).send({message: 'A server error occurred, please try again'});
-        return;
-    }
+    // if (!/^[0-9a-f]{32}$/g.test(req.params.authid) || !qrAuthSessions.has(req.params.authid)) {
+    //     res.status(400).send({message: 'Login session invalid or expired, please try again'});
+    //     return;
+    // }
 
-    res.send({token});
+    // const token = qrAuthSessions.get(req.params.authid);
+    // if (token === "") {
+    //     res.status(400).send({message: 'Login not received, please try again and make sure you are authorizing the login'});
+    //     return;
+    // }
+    // if (token === "err") {
+    //     res.status(500).send({message: 'A server error occurred, please try again'});
+    //     return;
+    // }
 
-    qrAuthSessions.delete(req.params.authid);
+    // res.send({token});
+
+    // qrAuthSessions.delete(req.params.authid);
 })
 
 // QR generator for QR code auth
 app.get(`${BASE}/qr/:fingerprint`, async (req, res) => {
-    sendQrCodeImage(res, `https://discord.com/ra/${req.params.fingerprint}`);
+    // sendQrCodeImage(res, `https://discord.com/ra/${req.params.fingerprint}`);
+
+    res.status(500).send({message: "QR code login is no longer available as Discord has started issuing CAPTCHAs for all QR login requests. Please use token login instead."});
 })
 
 app.use("/", require('./homepage'));

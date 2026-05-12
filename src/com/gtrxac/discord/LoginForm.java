@@ -132,23 +132,10 @@ Strings
         
         addSpacer(4);
 
-        append(Locale.get(LOGIN_FORM_QR_HELP));
-
         qrLoginCommand = Locale.createCommand(GET_QR_CODE, Command.ITEM, 5);
+        addCommand(qrLoginCommand);
 
-//#ifndef BLACKBERRY
-        addSpacer(2);
-
-        StringItem qrButton = new StringItem(null, Locale.get(GET_QR_CODE_L), Item.BUTTON);
-        qrButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
-        qrButton.setDefaultCommand(qrLoginCommand);
-        qrButton.setItemCommandListener(this);
-        append(qrButton);
-//#endif
-
-        addSpacer(4);
-
-        append(Locale.get(LOGIN_FORM_TOKEN_HELP_V3) + Locale.get(LOGIN_FORM_TOKEN_HELP));
+        append(Locale.get(LOGIN_FORM_TOKEN_HELP_V2) + Locale.get(LOGIN_FORM_TOKEN_HELP));
         
         boolean haveToken = (Settings.token != null && Settings.token.length() != 0);
         String tokenLabel = Locale.get(haveToken ? CHANGE_TOKEN_L : SET_TOKEN_L);
@@ -193,7 +180,6 @@ Strings
         addCommand(changeTokenCommand);
         if (Util.supportsFileConn) addCommand(importTokenCommand);
         addCommand(guideLinkCommand);
-        addCommand(qrLoginCommand);
 //#else
         append(tokenButton);
         append(new Spacer(getWidth(), 1));
@@ -263,15 +249,16 @@ Strings
         else if (c == editUrlsCommand) {
             showUrls();
         }
+//#endif
         else if (c == qrLoginCommand) {
+//#ifdef BLACKBERRY
             // check "Use Wifi" checkbox status because network is used to fetch QR code
             boolean[] selected = {false};
             wifiGroup.getSelectedFlags(selected);
             Settings.bbWifi = selected[0];
-            
+//#endif
             showQrLogin();
         }
-//#endif
         else if (c == tokenBoxUnderscoreCommand) {
             int caretPosition = tokenBox.getCaretPosition();
             String currentText = tokenBox.getString();
@@ -312,9 +299,6 @@ Strings
             App.platRequest(Settings.api + "/j2me/proxyless");
         }
 //#endif
-        else if (c == qrLoginCommand) {
-            showQrLogin();
-        }
         else {
             // import token command
             App.disp.setCurrent(new TokenFilePicker());
