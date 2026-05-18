@@ -6,27 +6,16 @@ import javax.microedition.lcdui.*;
 public class IconCache {
     public static final int UNSCALED_CACHE_SIZE = 25;  // enough to hold icons of all DMs (20) and a bit more
 
-    private static Hashtable icons;
-    private static Vector iconHashes;
-    private static Vector activeRequests;
-
-    public static Hashtable unscaledIcons;  // managed by httpthread
-    public static Vector unscaledIconHashes;  // managed by httpthread
-
     private static int cacheSize;
-    private static int usageCounter;
+    private static Hashtable icons;
+    public static Hashtable unscaledIcons;  // managed by httpthread
+    private static Vector activeRequests;
 
     public static void init() {
         cacheSize = Settings.messageLoadCount*2;
-
         icons = new Hashtable(cacheSize);
-        iconHashes = new Vector(cacheSize);
-        activeRequests = new Vector();
-
         unscaledIcons = new Hashtable(UNSCALED_CACHE_SIZE);
-        unscaledIconHashes = new Vector(UNSCALED_CACHE_SIZE);
-
-        usageCounter = 0;
+        activeRequests = new Vector();
     }
 
     public static Image get(HasIcon target, int size) {
@@ -35,8 +24,10 @@ public class IconCache {
 
         String resizedHash = hash + size;
 
-        Image result = (Image) icons.get(resizedHash);
-        if (result != null) return result;
+        Object result = icons.get(resizedHash);
+        if (result != null) {
+            return ((CachedImage) result).getImage();
+        }
 
         if (!activeRequests.contains(resizedHash)) {
             activeRequests.addElement(resizedHash);
@@ -48,10 +39,10 @@ public class IconCache {
         return null;
     }
 
-    public static void set(HasIcon target, int size, Image icon) {
+    public static void set(HasIcon target, int size, CachedImage icon) {
         String hash = target.getIconHash() + size;
         removeRequest(hash);
-        Util.hashtablePutWithLimit(icons, iconHashes, hash, icon, cacheSize);
+        Util.hashtablePutCachedImageWithLimit(icons, hash, icon, cacheSize);
     }
 
     public static boolean has(HasIcon target, int size) {

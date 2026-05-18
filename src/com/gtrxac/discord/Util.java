@@ -334,6 +334,34 @@ public class Util {
 		keys.addElement(key);
 	}
 
+	// Remove least recently used CachedImage elements from hashtable
+	// until there are less than "limit" elements.
+	public static void hashtableCheckLimit(Hashtable ht, int limit) {
+		synchronized (ht) {
+			while (ht.size() >= limit) {
+				int lowestLastUsed = Integer.MAX_VALUE;
+				Object keyWithLowest = null;
+
+				Enumeration keys = ht.keys();
+				while (keys.hasMoreElements()) {
+					Object thisKey = keys.nextElement();
+					int thisLastUsed = ((CachedImage) ht.get(thisKey)).lastUsed;
+					
+					if (thisLastUsed < lowestLastUsed) {
+						lowestLastUsed = thisLastUsed;
+						keyWithLowest = thisKey;
+					}
+				}
+				ht.remove(keyWithLowest);
+			}
+		}
+	}
+
+	public static void hashtablePutCachedImageWithLimit(Hashtable ht, Object key, CachedImage value, int limit) {
+		hashtableCheckLimit(ht, limit);
+		ht.put(key, value);
+	}
+
 	public static String stringToLength(String str, int length) {
 		return (str.length() >= length && length > 3) ? str.substring(0, length - 3) + "..." : str;
 	}

@@ -110,7 +110,9 @@ public class IconResizer {
                 result = resized;
             }
 
-            IconCache.set(target, size, result);
+            CachedImage cachedResult = new CachedImage(result);
+
+            IconCache.set(target, size, cachedResult);
             target.iconLoaded();
         }
         catch (Exception e) {

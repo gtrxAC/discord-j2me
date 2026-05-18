@@ -719,7 +719,8 @@ public class HTTPThread extends Thread implements Strings {
 //#endif
                     {
                         if (iconTarget.keepUnscaledIcon() && IconCache.unscaledIcons.containsKey(hash)) {
-                            icon = (Image) IconCache.unscaledIcons.get(hash);
+                            CachedImage cachedIcon = (CachedImage) IconCache.unscaledIcons.get(hash);
+                            icon = cachedIcon.getImage();
                         } else {
                             String type = iconTarget.getIconType();
                             String id = iconTarget.getIconID();
@@ -737,7 +738,10 @@ public class HTTPThread extends Thread implements Strings {
                             icon = HTTP.getImage(Settings.cdn + type + id + urlHashPart + '.' + format + "?size=" + size);
 
                             if (iconTarget.keepUnscaledIcon()) {
-                                Util.hashtablePutWithLimit(IconCache.unscaledIcons, IconCache.unscaledIconHashes, hash, icon, 25);
+                                CachedImage cachedIcon = new CachedImage(icon);
+
+                                Util.hashtablePutCachedImageWithLimit(
+                                    IconCache.unscaledIcons, hash, cachedIcon, IconCache.UNSCALED_CACHE_SIZE);
                             }
                         }
                     }
