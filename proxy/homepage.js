@@ -13,8 +13,11 @@ async function checkIsModern(req, res, next) {
     const isModern = (/linux|mac|windows|android/g.test(ua) && !/windows (ce|mobile)/g.test(ua));
     const isOpera = ua.includes("opera");
 
+    // basic detection of old phones (doesn't have to be perfect, this is only for hiding the meta description which is a small size optimization)
+    const isJ2ME = /midp|cldc|wap|nokia|ericsson|samsung|sgh/g.test(ua);
+
     res.locals.showSponsors = isModern;
-    res.locals.showMetaDescription = isModern;
+    res.locals.showMetaDescription = !isJ2ME;
     res.locals.showGuideImages = isModern;
     res.locals.showLibrecounterImage = isModern || isOpera;
     res.locals.showButtons = isModern || isOpera;
