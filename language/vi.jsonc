@@ -995,92 +995,92 @@
     "Hỗ trợ kết nối trực tiếp",
 
     // Settings option for toggling the custom background image on or off.
-    "Wallpaper",
+    "Hình nền",
 
     // Settings option for selecting a new image file to be used as a custom background image.
-    "Import wallpaper",
+    "Chọn ảnh",
 
     // Title for the file picker screen for selecting a background image.
-    "Select wallpaper",
+    "Chọn hình nền",
 
     // Section in the settings menu for customizing notification and incoming/outgoing message sounds.
-    "Sounds",
+    "Âm báo",
 
     // Title for the file picker screen for selecting a sound for notifications or incoming/outgoing messages.
-    "Select sound",
+    "Chọn âm báo",
 
     // Option in the sound settings to use a generic system notification tone (usually a beep).
-    "Beep",
+    "Bíp",
 
     // Option in the sound settings to import a sound file from the device's storage.
-    "Import sound",
+    "Chọn âm báo",
 
     // Names of the different types of customizable sounds in the sound settings screen.
     // Incoming and outgoing message sounds are played when a message is received or sent in the currently opened channel.
-    "Notification",
-    "Incoming message",
-    "Outgoing message",
+    "Thông báo",
+    "Tin nhắn được nhận",
+    "Tin nhắn gửi đi",
 
     // Settings options for the different methods for resizing a custom background image to fit the screen.
-    "Crop",
-    "Stretch",
+    "Cắt",
+    "Dãn",
 
     // Setting for enabling or disabling the wipe transition animation when changing between screens.
-    "Screen transition",
+    "Hiệu ứng chuyển",
 
     // Related to "Types of data shown in the data manager" above.
-    "Incoming sound",
-    "Outgoing sound",
-    "Wallpaper",
+    "Âm nhận tin nhắn",
+    "Âm gửi tin nhắn",
+    "Hình nền",
 
     // Explanation of QR code login shown in the login screen.
-    "To log in, an authentication token is required, which can be retrieved by scanning a QR code with the Discord mobile app.",
+    "Cần một mã truy cập để đăng nhập, mã này có thể được nhận bằng cách quét một mã QR.",
 
     // Softkey command labels for opening the QR login screen.
-    "Get QR",
-    "Get QR code",
+    "Dùng QR",
+    "Dùng mã QR",
 
     // Status messages shown in the QR login screen.
-    "Connecting...",
-    "Retrieving QR code...",
-    "Disconnected, please try again",
+    "Đang kết nối...",
+    "Đang tạo mã QR...",
+    "Đã ngắt kết nối, vui lòng thử lại",
 
-    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
-    "You can also manually enter your token. ",
+    // First sentence of explanation of manual token entry in the login screen, shown below the QR login info.
+    "Bạn cũng có thể tự nhập mã. ",
 
     // Suffixes for the new style of "View (number) attachments" buttons, singular and plural.
     // Now there are separate types of buttons for "View X files" and "View X images"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
-    " file",
-    " files",
-    " image",
-    " images",
+    " tệp",
+    " tệp",
+    " ảnh",
+    " ảnh",
 
     // Description for the read state (unread indicator dots) synchronization feature. Shown in the login screen above the checkbox for "Sync unreads".
     // This feature more specifically uses more network bandwidth, RAM, and storage, and also requires the gateway,
     // but this string is kept relatively short so the login screen is not too cluttered.
-    "Syncing unread indicators with official clients requires more memory.",
+    "Việc đồng bộ các tin nhắn chưa đọc với ứng dụng chính thống cần nhiều bộ nhớ hơn.",
 
     // Label for the check box for toggling read state synchronization feature.
-    "Sync unreads",
-    
+    "Đồng bộ tin nhắn chưa đọc",
+
     // Softkey command labels for checking the status of HTTP-based QR login after the QR code has been scanned. If the check is successful, the token is received and the login is complete.
     // This can also be translated as e.g. "Continue".
-    "Check",
-    "Check",
+    "Xong",
+    "Xong",
 
     // Error message shown when the proxy server has not sent an authentication ID which is required for HTTP-based QR login.
-    "Login session not received",
+    "Không nhận được phiên đăng nhập",
 
     // Help text shown in the QR login screen when using HTTP-based QR login.
     // "Check" should be pressed after the QR code is scanned on the Discord app on Android/iOS and the login is authorized by selecting the "Log in" button in the safety warning.
-    "Select 'Check' after you've authorized the login on your smartphone.",
+    "Ấn xong sau khi cho phép đăng nhập trên điện thoại thông minh của bạn.",
 
     // Error messages shown when opening a notification and the server, server channel, or DM conversation was not found in the loaded server/DM lists.
-    "Server not found. ",
-    "Channel not found",
-    "Conversation not found",
+    "Không tìm được máy chủ. ",
+    "Không tìm được kênh",
+    "Không tìm được đoạn chat",
 
     // Help text shown after the "Server not found" error.
-    "If you recently joined this server, you may have to wait a few days for the server list to update."
+    "Nếu bạn mới tham gia máy chủ gần đây, bạn có thể cần chờ vài ngày để danh sách máy chủ được cập nhật."
 ]
