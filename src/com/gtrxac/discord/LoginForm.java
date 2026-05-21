@@ -37,6 +37,11 @@ Strings
     private Command editUrlsCommand;
     private Command qrLoginCommand;
     private ChoiceGroup syncGroup;
+//#ifdef PASSWORD_LOGIN
+    private Command passwordLoginCommand;
+    private Command passwordLoginContinueCommand;
+    private Command passwordLoginCancelCommand;
+//#endif
 
     public LoginForm() {
         super(Locale.get(LOGIN_FORM_TITLE_V2));
@@ -141,9 +146,19 @@ Strings
         String tokenLabel = Locale.get(haveToken ? CHANGE_TOKEN_L : SET_TOKEN_L);
         String tokenLabelShort = Locale.get(haveToken ? CHANGE_TOKEN : SET_TOKEN);
 
+//#ifdef PASSWORD_LOGIN
+        passwordLoginCommand = new Command("Password", Command.ITEM, 0);
+//#endif
         changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0);
         guideLinkCommand = Locale.createCommand(SETUP_GUIDE, Command.ITEM, 4);
 //#ifndef BLACKBERRY
+//#ifdef PASSWORD_LOGIN
+        StringItem passwordButton = new StringItem(null, "Login with password", Item.BUTTON);
+        passwordButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
+        passwordButton.setDefaultCommand(passwordLoginCommand);
+        passwordButton.setItemCommandListener(this);
+//#endif
+
         StringItem tokenButton = new StringItem(null, tokenLabel, Item.BUTTON);
         tokenButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         tokenButton.setDefaultCommand(changeTokenCommand);
@@ -177,10 +192,16 @@ Strings
         append(new Spacer(getWidth(), 1));
         String tokenHint = Locale.get(haveToken ? LOGIN_FORM_CHANGE_TOKEN_BB_HINT : LOGIN_FORM_SET_TOKEN_BB_HINT);
         append(tokenHint);
+//#ifdef PASSWORD_LOGIN
+        addCommand(passwordLoginCommand);
+//#endif
         addCommand(changeTokenCommand);
         if (Util.supportsFileConn) addCommand(importTokenCommand);
         addCommand(guideLinkCommand);
 //#else
+//#ifdef PASSWORD_LOGIN
+        append(passwordButton);
+//#endif
         append(tokenButton);
         append(new Spacer(getWidth(), 1));
         if (Util.supportsFileConn) {
@@ -272,6 +293,19 @@ Strings
             Settings.tokenType = tokenGroup.getSelectedIndex();
             App.disp.setCurrent(this);
         }
+//#ifdef PASSWORD_LOGIN
+        else if (c == passwordLoginCommand) {
+            showPasswordLogin();
+        }
+        else if (c == passwordLoginContinueCommand) {
+            Settings.proxyless = true;
+            Settings.save();
+            showPasswordLogin();
+        }
+        else if (c == passwordLoginCancelCommand) {
+            App.disp.setCurrent(this);
+        }
+//#endif
         else {
             if (c == tokenBoxOkCommand) Settings.token = tokenBox.getString().trim();
             App.disp.setCurrent(this);
@@ -297,6 +331,11 @@ Strings
 //#ifdef PROXYLESS_SUPPORT
         else if (c == proxylessInfoCommand) {
             App.platRequest(Settings.api + "/j2me/proxyless");
+        }
+//#endif
+//#ifdef PASSWORD_LOGIN
+        else if (c == passwordLoginCommand) {
+            showPasswordLogin();
         }
 //#endif
         else {
@@ -346,4 +385,20 @@ Strings
     private void showQrLogin() {
         App.disp.setCurrent(new QRLoginScreen());
     }
+
+//#ifdef PASSWORD_LOGIN
+    private void showPasswordLogin() {
+        if (!Settings.proxyless) {
+            Dialog d = new Dialog("Direct connection", "Logging in with password requires Direct connection. Do you want to enable Direct connection and continue?");
+            passwordLoginContinueCommand = new Command("Yes", Command.OK, 0);
+            passwordLoginCancelCommand = new Command("No", Command.BACK, 0);
+            d.addCommand(passwordLoginContinueCommand);
+            d.addCommand(passwordLoginCancelCommand);
+            d.setCommandListener(this);
+            App.disp.setCurrent(d);
+        } else {
+            App.disp.setCurrent(new PasswordLoginScreen());
+        }
+    }
+//#endif
 }

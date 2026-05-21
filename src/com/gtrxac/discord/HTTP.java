@@ -41,7 +41,15 @@ public class HTTP implements Strings {
 			}
 
 			if (!App.isLiteProxy) {
+				// https://docs.discord.food/reference#client-properties
 				hc.setRequestProperty("User-Agent", "Discord-Android/262205;RNA");
+				hc.setRequestProperty("X-Super-Properties", "eyJvcyI6IkFuZHJvaWQiLCJicm93c2VyIjoiRGlzY29yZCBBbmRyb2lkIiwiZGV2aWNlIjoiYTIwZSIsInN5c3RlbV9sb2NhbGUiOiJlbi1VUyIsImhhc19jbGllbnRfbW9kcyI6ZmFsc2UsImNsaWVudF92ZXJzaW9uIjoiMjYyLjUgLSBybiIsInJlbGVhc2VfY2hhbm5lbCI6ImFscGhhIiwiZGV2aWNlX3ZlbmRvcl9pZCI6IjE3NTAzOTI5LWE0YjgtNDQ5MC04N2JmLTAyMjJhZGZkYWRjOCIsImRlc2lnbl9pZCI6MiwiYnJvd3Nlcl91c2VyX2FnZW50IjoiIiwiYnJvd3Nlcl92ZXJzaW9uIjoiIiwib3NfdmVyc2lvbiI6IjM0IiwiY2xpZW50X2J1aWxkX251bWJlciI6MzQ2MywiY2xpZW50X2V2ZW50X3NvdXJjZSI6bnVsbH0=");
+
+//#ifdef PASSWORD_LOGIN
+				if (url.indexOf("/experiments") != -1 || url.indexOf("/auth/login") != -1 || url.indexOf("/auth/mfa") != -1) {
+					hc.setRequestProperty("X-Fingerprint", PasswordLoginScreen.fingerprint);
+				}
+//#endif
 			}
 			if (authorize) {
 				hc.setRequestProperty("Authorization", Settings.token);
@@ -75,6 +83,8 @@ public class HTTP implements Strings {
 			queueItem.is = is;
 			byte[] result = Util.readBytes(is, (int) hc.getLength(), 1024, 2048);
 
+			System.out.println("Response: '" + Util.bytesToString(result) + "'");
+
 			if (respCode == HttpConnection.HTTP_OK) {
 				String authID = hc.getHeaderField("X-Microcord-Auth-ID");
 				if (authID != null) QRLoginScreen.authID = authID;
@@ -92,7 +102,18 @@ public class HTTP implements Strings {
 			}
 
 			try {
-				String message = JSON.getObject(Util.bytesToString(result)).getString("message");
+				String resultStr = Util.bytesToString(result);
+//#ifdef PASSWORD_LOGIN
+				if (resultStr.indexOf("\"INVALID_LOGIN\"") != -1) {
+					throw new Exception("Incorrect email or password");
+				}
+//#endif
+				String message = JSON.getObject(resultStr).getString("message");
+//#ifdef PASSWORD_LOGIN
+				if (App.disp.getCurrent() instanceof PasswordLoginScreen) {
+					throw new Exception("Login failed: " + message + "\nResponse:\n" + resultStr);
+				}
+//#endif
 				throw new Exception(message);
 			}
 			catch (JSONException e) {

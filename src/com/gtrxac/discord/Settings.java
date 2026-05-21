@@ -124,6 +124,9 @@ public class Settings {
     static final boolean useTransition = false;
 //#endif
     static boolean syncReadStates;
+//#ifdef PASSWORD_LOGIN
+    static String passwordLoginLastEmail;
+//#endif
 
     private static RecordStore loginRms;
     private static JSONArray loginData;
@@ -416,6 +419,11 @@ public class Settings {
 //#else
         syncReadStates = getBoolRecord(false);
 //#endif
+//#ifdef PASSWORD_LOGIN
+        passwordLoginLastEmail = getStringRecord("");
+//#else
+        getStringRecord("");
+//#endif
 
         // Check that message load count is in the Discord API allowed range (default = 20)
         if (messageLoadCount < 1 || messageLoadCount > 100) messageLoadCount = 20;
@@ -596,6 +604,11 @@ public class Settings {
         setBoolRecord(false);
 //#endif
         setBoolRecord(syncReadStates);
+//#ifdef PASSWORD_LOGIN
+        setStringRecord(passwordLoginLastEmail);
+//#else
+        setStringRecord("");
+//#endif
     }
 
     private static void write() throws Exception {
