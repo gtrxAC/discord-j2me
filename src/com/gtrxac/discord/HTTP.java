@@ -101,24 +101,68 @@ public class HTTP implements Strings {
 				throw new Exception(Locale.get(HTTP_ERROR_REDIRECT));
 			}
 
-			try {
-				String resultStr = Util.bytesToString(result);
+			String resultStr = Util.bytesToString(result);
+
 //#ifdef PASSWORD_LOGIN
-				if (resultStr.indexOf("\"INVALID_LOGIN\"") != -1) {
-					throw new Exception("Incorrect email or password");
-				}
-//#endif
-				String message = JSON.getObject(resultStr).getString("message");
-//#ifdef PASSWORD_LOGIN
-				if (App.disp.getCurrent() instanceof PasswordLoginScreen) {
-					throw new Exception("Login failed: " + message + "\nResponse:\n" + resultStr);
-				}
-//#endif
-				throw new Exception(message);
+			boolean inPassLoginScreen = App.disp.getCurrent() instanceof PasswordLoginScreen;
+			
+			if (resultStr.indexOf("\"INVALID_LOGIN\"") != -1) {
+				throw new Exception(Locale.get(INVALID_LOGIN));
 			}
-			catch (JSONException e) {
+//#endif
+
+			String message = null;
+			try {
+				message = JSON.getObject(resultStr).getString("message");
+			}
+			catch (Exception e) {
+				if (resultStr.indexOf("captcha") != -1) {
+					StringBuffer err = new StringBuffer();
+
+					err.append(Locale.get(HTTP_ERROR_CAPTCHA))
+						.append(Locale.get(PLEASE_TRY_FOLLOWING));
+
+//#ifdef PROXYLESS_SUPPORT
+					boolean proxyless = Settings.proxyless;
+					if (!proxyless) {
+						err.append("\n- ").append(Locale.get(CAPTCHA_TIP_PROXYLESS));
+					}
+//#else
+					boolean proxyless = false;
+					err.append("\n- ").append(Locale.get(CAPTCHA_TIP_PROXYLESS_BUILD));
+//#endif
+//#ifdef PASSWORD_LOGIN
+					if (inPassLoginScreen) {
+						err.append("\n- ").append(Locale.get(CAPTCHA_TIP_MFA))
+							.append("\n- ").append(Locale.get(CAPTCHA_TIP_SAME_WIFI))
+							.append("\n- ").append(Locale.get(CAPTCHA_TIP_LOGIN_OFFICIAL));
+					}
+//#endif
+					if (!proxyless) {
+						err.append("\n- ").append(Locale.get(CAPTCHA_TIP_DIFF_PROXY));
+					}
+					err.append("\n- ").append(Locale.get(CAPTCHA_TIP_DIFF_ACCOUNT));
+
+					throw new Exception(err.toString());
+				}
+//#ifdef PASSWORD_LOGIN
+				if (inPassLoginScreen) {
+					throw new Exception(
+						Locale.get(LOGIN_FAILED) +
+						Locale.get(HTTP_ERROR_CODE) +
+						respCode +
+						Locale.get(LOGIN_FAILED_RESPONSE) +
+						resultStr);
+				}
+//#endif
 				throw new Exception(Locale.get(HTTP_ERROR_CODE) + respCode);
 			}
+//#ifdef PASSWORD_LOGIN
+			if (inPassLoginScreen) {
+				throw new Exception(Locale.get(LOGIN_FAILED) + message + Locale.get(LOGIN_FAILED_RESPONSE) + resultStr);
+			}
+//#endif
+			throw new Exception(message);
 		}
 		finally {
 			try { is.close(); } catch (Exception e) {}

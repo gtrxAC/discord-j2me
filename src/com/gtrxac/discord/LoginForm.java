@@ -147,13 +147,13 @@ Strings
         String tokenLabelShort = Locale.get(haveToken ? CHANGE_TOKEN : SET_TOKEN);
 
 //#ifdef PASSWORD_LOGIN
-        passwordLoginCommand = new Command("Password", Command.ITEM, 0);
+        passwordLoginCommand = Locale.createCommand(PASSWORD_LOGIN, Command.ITEM, 0);
 //#endif
         changeTokenCommand = new Command(tokenLabelShort, tokenLabel, Command.ITEM, 0);
         guideLinkCommand = Locale.createCommand(SETUP_GUIDE, Command.ITEM, 4);
 //#ifndef BLACKBERRY
 //#ifdef PASSWORD_LOGIN
-        StringItem passwordButton = new StringItem(null, "Login with password", Item.BUTTON);
+        StringItem passwordButton = new StringItem(null, Locale.get(PASSWORD_LOGIN_L), Item.BUTTON);
         passwordButton.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER | Item.LAYOUT_EXPAND);
         passwordButton.setDefaultCommand(passwordLoginCommand);
         passwordButton.setItemCommandListener(this);
@@ -298,7 +298,10 @@ Strings
             showPasswordLogin();
         }
         else if (c == passwordLoginContinueCommand) {
+            proxylessGroup.setSelectedIndex(0, true);
+            gatewayGroup.setSelectedIndex(0, false);
             Settings.proxyless = true;
+            Settings.useGateway = false;
             Settings.save();
             showPasswordLogin();
         }
@@ -389,7 +392,7 @@ Strings
 //#ifdef PASSWORD_LOGIN
     private void showPasswordLogin() {
         if (!Settings.proxyless) {
-            Dialog d = new Dialog("Direct connection", "Logging in with password requires Direct connection. Do you want to enable Direct connection and continue?");
+            Dialog d = new Dialog(Locale.get(PROXYLESS), Locale.get(PASSWORD_LOGIN_REQUIRE_PROXYLESS));
             passwordLoginContinueCommand = new Command("Yes", Command.OK, 0);
             passwordLoginCancelCommand = new Command("No", Command.BACK, 0);
             d.addCommand(passwordLoginContinueCommand);

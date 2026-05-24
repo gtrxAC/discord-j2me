@@ -26,9 +26,13 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
         super(Locale.get(LOGIN_FORM_TITLE));
         lastScreen = App.disp.getCurrent();
 
-        append("To use password login, you must have multi-factor authentication (authenticator app) enabled on your account.");
-        emailField = new TextField("Email", Settings.passwordLoginLastEmail, 100, TextField.EMAILADDR);
-        passwordField = new TextField("Password", "", 100, TextField.PASSWORD);
+        if (lastScreen instanceof Dialog) {
+            lastScreen = ((Dialog) lastScreen).lastScreen;
+        }
+
+        append("Password login is currently EXPERIMENTAL. We have tried to ensure it is safe, but use it at your own risk. An alt account is strongly recommended.\n" + Locale.get(PASSWORD_LOGIN_MFA_INFO));
+        emailField = new TextField(Locale.get(EMAIL_FIELD), Settings.passwordLoginLastEmail, 100, TextField.EMAILADDR);
+        passwordField = new TextField(Locale.get(PASSWORD_FIELD), "", 100, TextField.PASSWORD);
         append(emailField);
         append(passwordField);
 
@@ -42,10 +46,19 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
     public void commandAction(Command c, Displayable d) {
         if (c == loginCommand) {
             email = emailField.getString();
+            if (email.indexOf("@") == -1) {
+                App.error(Locale.get(PASSWORD_LOGIN_ERROR_NO_EMAIL));
+                return;
+            }
+
             Settings.passwordLoginLastEmail = email;
             Settings.save();
 
             password = passwordField.getString();
+            if (password.length() == 0) {
+                App.error(Locale.get(PASSWORD_LOGIN_ERROR_NO_PASS));
+                return;
+            }
 
             new Thread(this).start();
         }
@@ -73,7 +86,7 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
             // {"login":"EMAIL","password":"PASSWORD","undelete":false,"login_source":null,"gift_code_sku_id":null}
 
             deleteAll();
-            append("Sending login request...");
+            append(Locale.get(PASSWORD_LOGIN_STEP_SENDING_REQUEST));
 
             JSONObject loginObject = new JSONObject();
             loginObject.put("login", email);
@@ -92,22 +105,22 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
             }
 
             if (!loginResponse.getBoolean("mfa")) {
-                throw new Exception("Multi-factor authentication is not enabled for this account.");
+                throw new Exception(Locale.get(PASSWORD_LOGIN_ERROR_NO_MFA));
             }
             if (!loginResponse.getBoolean("totp")) {
-                throw new Exception("Multi-factor authentication via authenticator app is not enabled for this account.");
+                throw new Exception(Locale.get(PASSWORD_LOGIN_ERROR_NO_TOTP));
             }
 
             ticket = loginResponse.getString("ticket");
             loginInstanceID = loginResponse.getString("login_instance_id");
 
             deleteAll();
-            append("Enter the 6-digit code from your authenticator app (e.g. Google Authenticator).");
+            append(Locale.get(PASSWORD_LOGIN_STEP_ENTER_MFA));
 
-            totpField = new TextField("Authentication code", "", 6, TextField.NUMERIC);
+            totpField = new TextField(Locale.get(MFA_CODE_FIELD), "", 6, TextField.NUMERIC);
             append(totpField);
 
-            continueCommand = new Command("Continue", Command.OK, 0);//Locale.createCommand(CONTINUE, Command.OK, 0);
+            continueCommand = Locale.createCommand(CONTINUE, Command.OK, 0);
             addCommand(continueCommand);
             removeCommand(loginCommand);
 
@@ -116,7 +129,7 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
             }
 
             deleteAll();
-            append("Sending authentication code...");
+            append(Locale.get(PASSWORD_LOGIN_STEP_SENDING_MFA));
 
             String totp = totpField.getString();
 
