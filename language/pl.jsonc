@@ -1100,7 +1100,7 @@
     "Logowanie się hasłem wymaga trybu połączenia bezpośredniego. Czy chcesz włączyć ten tryb i kontynuować?",
 
     // Error message shown when a server error response contains a CAPTCHA request. Tips for circumventing the CAPTCHA are shown below.
-    "A CAPTCHA was received. Otrzymano żądanie CAPTCHA.",
+    "Otrzymano żądanie CAPTCHA.",
     "Spróbuj następujące:",
     
     // Tips for circumventing the CAPTCHA:
