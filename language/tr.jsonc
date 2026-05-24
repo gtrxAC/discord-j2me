@@ -1110,7 +1110,7 @@
     // (shown when proxyless disabled and not in password login screen)
     "Doğrudan bağlantıyı açın.",
     // (shown when in password login screen)
-    "Hesabınızda (uygulama bazlı) çok aşamalı doğrulamayı etkinleştirin.",
+    "Hesabınızda (kimlik doğrulama uygulaması bazlı) çok aşamalı doğrulamayı etkinleştirin.",
     "Başka bir cihazdan (Aynı Wi-Fi veya SIM üzerinden) aynı IP adresi ile resmi uygulamadan giriş yapın.",
     // (shown when not proxyless)
     "Başka bir proxy sunucusu deneyin veya kendi sunucunuzu oluşturun.",
@@ -1118,7 +1118,7 @@
     "Başka bir hesap deneyin.",
 
     // Header text shown in the password login screen.
-    "Şifre ile giriş yapmak için, hesabınızda (uygulama bazlı) çok aşamalı doğrulamayı etkinleştirmeniz gerek.",
+    "Şifre ile giriş yapmak için, hesabınızda (kimlik doğrulama uygulaması bazlı) çok aşamalı doğrulamayı etkinleştirmeniz gerek.",
 
     // Text field labels shown in the password login screen.
     "E-posta",
@@ -1127,10 +1127,10 @@
 
     // Status messages showing the progress of password login.
     "Oturum açma talebi iletiliyor...",
-    "Dğrulama kodu gönderiliyor...",
+    "Doğrulama kodu gönderiliyor...",
 
     // Request for the 2-factor authentication (TOTP) code.
-    "Doğrulayıcı uygulamanızdaki (örn. Google Authenticator) 6 haneli kodu girin.",
+    "Kimlik doğrulama uygulamanızdaki (örn. Google Authenticator) 6 haneli kodu girin.",
 
     // Softkey labels for the button used to continue password login after the authentication code was entered.
     "Devam et",
