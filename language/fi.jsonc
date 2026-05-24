@@ -1082,9 +1082,9 @@
     "Jos liityit palvelimelle hiljattain, odota palvelinluettelon päivittämistä, joka voi kestää muutaman päivän.",
 
     // Error messages shown during password login.
-    "Incorrect email or password",
-    "Multi-factor authentication is not enabled for this account.",
-    "Multi-factor authentication via authenticator app is not enabled for this account.",
+    "Väärä sähköpostiosoite tai salasana",
+    "Monivaiheinen todennus ei ole käytössä tällä tilillä.",
+    "Monivaiheinen todennus todennussovelluksen avulla ei ole käytössä tällä tilillä.",
 
     // Header of error messages shown during password login.
     "Kirjautuminen epäonnistui: ",
@@ -1097,50 +1097,50 @@
     "Kirjaudu salasanalla",
 
     // Warning shown when starting password login but Direct connection isn't enabled.
-    "Logging in with password requires Direct connection. Do you want to enable Direct connection and continue?",
+    "Salasanalla kirjautuminen vaatii Suora yhteys -tilan. Jatketaanko ottamalla Suora yhteys käyttöön?",
 
     // Error message shown when a server error response contains a CAPTCHA request. Tips for circumventing the CAPTCHA are shown below.
-    "A CAPTCHA was received. ",
-    "Please try the following:",
+    "Palvelin lähetti CAPTCHA-varmennuksen. ",
+    "Voit yrittää seuraavia:",
     
     // Tips for circumventing the CAPTCHA:
 
     // (shown when the current build of the app doesn't support proxyless)
-    "Install a build of the app that supports Direct connection",
+    "Asenna Discord J2ME -versio, joka tukee Suora yhteys -tilaa",
     // (shown when proxyless disabled and not in password login screen)
-    "Enable Direct connection",
+    "Ota Suora yhteys käyttöön",
     // (shown when in password login screen)
-    "Enable multi-factor authentication (authenticator app) on your account",
-    "Log in to an official client on another device with the same IP address (same Wi-Fi or SIM)",
+    "Ota käyttöön monivaiheinen todennus todennussovelluksen avulla",
+    "Kirjaudu sisään viralliseen Discord-sovellukseen toisella laitteella, jolla on sama IP-osoite (sama Wi-Fi tai SIM)",
     // (shown when not proxyless)
-    "Try a different proxy server or host your own proxy",
+    "Kokeile toista välityspalvelinta tai hostaa oma",
     // (shown always)
-    "Try a different account",
+    "Kokeile toista tiliä",
 
     // Header text shown in the password login screen.
-    "To use password login, you must have multi-factor authentication (authenticator app) enabled on your account.",
+    "Salasanalla kirjautuminen vaatii, että tililläsi on käytössä monivaiheinen todennus todennussovelluksen avulla.",
 
     // Text field labels shown in the password login screen.
-    "Email",
-    "Password",
-    "Authentication code",
+    "Sähköposti",
+    "Salasana",
+    "Todennuskoodi",
 
     // Status messages showing the progress of password login.
-    "Sending login request...",
-    "Sending authentication code...",
+    "Lähetetään kirjautumispyyntöä...",
+    "Lähetetään todennuskoodia...",
 
     // Request for the 2-factor authentication (TOTP) code.
-    "Enter the 6-digit code from your authenticator app (e.g. Google Authenticator).",
+    "Anna 6-numeroinen koodi, jonka löydät todennussovelluksestasi (esim. Google Authenticator).",
 
     // Softkey labels for the button used to continue password login after the authentication code was entered.
-    "Continue",
-    "Continue",
+    "Jatka",
+    "Jatka",
 
     // Error messages shown when trying to start password login without an email or password specified.
-    "Please enter a valid email address",
-    "Please enter your password",
+    "Anna kelvollinen sähköpostiosoite",
+    "Anna salasana",
 
     // Another tip for circumventing the login CAPTCHA.
     // (shown when in password login screen)
-    "If this device supports Wi-Fi, connect to the same Wi-Fi that you normally use for Discord"
+    "Jos laitteesi tukee Wi-Fi-yhteyttä, yhdistä samaan Wi-Fi-verkkoon, jolla yleensä käytät Discordia"
 ]
