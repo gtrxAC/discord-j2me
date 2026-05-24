@@ -1084,7 +1084,7 @@
     // Error messages shown during password login.
     "E-posta veya şifre hatalı.",
     "Çok aşamalı doğrulama bu hesapta etkinleştirilmemiş.",
-    "Uygulama bazlı çok aşamalı doğrulama bu hesapta etkinleştirilmemiş.",
+    "Kimlik doğrulayıcı uygulama bazlı çok aşamalı doğrulama bu hesapta etkinleştirilmemiş.",
 
     // Header of error messages shown during password login.
     "Giriş başarısız: ",
