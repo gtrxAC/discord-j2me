@@ -1079,5 +1079,68 @@
     null,
 
     // Help text shown after the "Server not found" error.
+    null,
+
+    // Error messages shown during password login.
+    null,
+    null,
+    null,
+
+    // Header of error messages shown during password login.
+    null,
+
+    // Header of the response sent by the server (for debugging purposes) during password login.
+    null,
+
+    // Softkey labels used for starting password login. Shown in the login screen. The long variant of the softkey label is shown as the button text.
+    null,
+    null,
+
+    // Warning shown when starting password login but Direct connection isn't enabled.
+    null,
+
+    // Error message shown when a server error response contains a CAPTCHA request. Tips for circumventing the CAPTCHA are shown below.
+    null,
+    null,
+    
+    // Tips for circumventing the CAPTCHA:
+
+    // (shown when the current build of the app doesn't support proxyless)
+    null,
+    // (shown when proxyless disabled and not in password login screen)
+    null,
+    // (shown when in password login screen)
+    null,
+    null,
+    // (shown when not proxyless)
+    null,
+    // (shown always)
+    null,
+
+    // Header text shown in the password login screen.
+    null,
+
+    // Text field labels shown in the password login screen.
+    null,
+    null,
+    null,
+
+    // Status messages showing the progress of password login.
+    null,
+    null,
+
+    // Request for the 2-factor authentication (TOTP) code.
+    null,
+
+    // Softkey labels for the button used to continue password login after the authentication code was entered.
+    null,
+    null,
+
+    // Error messages shown when trying to start password login without an email or password specified.
+    null,
+    null,
+
+    // Another tip for circumventing the login CAPTCHA.
+    // (shown when in password login screen)
     null
 ]

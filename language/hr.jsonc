@@ -1081,6 +1081,69 @@
     "Conversation not found",
 
     // Help text shown after the "Server not found" error.
-    "If you recently joined this server, you may have to wait a few days for the server list to update."
+    "If you recently joined this server, you may have to wait a few days for the server list to update.",
+
+    // Error messages shown during password login.
+    "Incorrect email or password",
+    "Multi-factor authentication is not enabled for this account.",
+    "Multi-factor authentication via authenticator app is not enabled for this account.",
+
+    // Header of error messages shown during password login.
+    "Login failed: ",
+
+    // Header of the response sent by the server (for debugging purposes) during password login.
+    "\nResponse:\n",
+
+    // Softkey labels used for starting password login. Shown in the login screen. The long variant of the softkey label is shown as the button text.
+    "Password",
+    "Password login",
+
+    // Warning shown when starting password login but Direct connection isn't enabled.
+    "Logging in with password requires Direct connection. Do you want to enable Direct connection and continue?",
+
+    // Error message shown when a server error response contains a CAPTCHA request. Tips for circumventing the CAPTCHA are shown below.
+    "A CAPTCHA was received. ",
+    "Please try the following:",
+    
+    // Tips for circumventing the CAPTCHA:
+
+    // (shown when the current build of the app doesn't support proxyless)
+    "Install a build of the app that supports Direct connection",
+    // (shown when proxyless disabled and not in password login screen)
+    "Enable Direct connection",
+    // (shown when in password login screen)
+    "Enable multi-factor authentication (authenticator app) on your account",
+    "Log in to an official client on another device with the same IP address (same Wi-Fi or SIM)",
+    // (shown when not proxyless)
+    "Try a different proxy server or host your own proxy",
+    // (shown always)
+    "Try a different account",
+
+    // Header text shown in the password login screen.
+    "To use password login, you must have multi-factor authentication (authenticator app) enabled on your account.",
+
+    // Text field labels shown in the password login screen.
+    "Email",
+    "Password",
+    "Authentication code",
+
+    // Status messages showing the progress of password login.
+    "Sending login request...",
+    "Sending authentication code...",
+
+    // Request for the 2-factor authentication (TOTP) code.
+    "Enter the 6-digit code from your authenticator app (e.g. Google Authenticator).",
+
+    // Softkey labels for the button used to continue password login after the authentication code was entered.
+    "Continue",
+    "Continue",
+
+    // Error messages shown when trying to start password login without an email or password specified.
+    "Please enter a valid email address",
+    "Please enter your password",
+
+    // Another tip for circumventing the login CAPTCHA.
+    // (shown when in password login screen)
+    "If this device supports Wi-Fi, connect to the same Wi-Fi that you normally use for Discord"
 ]
 
