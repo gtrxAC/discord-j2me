@@ -1086,67 +1086,67 @@
     "Ha nemrégiben csatlakoztál, akkor próbáld újra a szerver megtekintését néhány nap múlva.",
 
     // Error messages shown during password login.
-    "Incorrect email or password",
-    "Multi-factor authentication is not enabled for this account.",
-    "Multi-factor authentication via authenticator app is not enabled for this account.",
+    "Helytelen email vagy jelszó.",
+    "A többfaktoros azonosítás nincs engedélyezve ezen a fiókon.",
+    "A többfaktoros azonosítás egy azonosító-alkalmazás segítségével nincs engedélyezve ezen a fiókon.",
 
     // Header of error messages shown during password login.
-    "Login failed: ",
+    "Sikertelen belépés: ",
 
     // Header of the response sent by the server (for debugging purposes) during password login.
-    "\nResponse:\n",
+    "\nVálasz:\n",
 
     // Softkey labels used for starting password login. Shown in the login screen. The long variant of the softkey label is shown as the button text.
-    "Password",
-    "Password login",
+    "Jelszó",
+    "Jelszóval történő bejelentkezés",
 
     // Warning shown when starting password login but Direct connection isn't enabled.
-    "Logging in with password requires Direct connection. Do you want to enable Direct connection and continue?",
+    "A jelszavas bejelentkezés közvetlen kapcsolatot igényel. Engedélyezed ezt és folytatod?",
 
     // Error message shown when a server error response contains a CAPTCHA request. Tips for circumventing the CAPTCHA are shown below.
-    "A CAPTCHA was received. ",
-    "Please try the following:",
+    "Egy CAPTCHA-t kaptál. ",
+    "Próbáld a következőt:",
     
     // Tips for circumventing the CAPTCHA:
 
     // (shown when the current build of the app doesn't support proxyless)
-    "Install a build of the app that supports Direct connection",
+    "Telepíts egy proxy-nélküli (PROXYLESS) verziót.",
     // (shown when proxyless disabled and not in password login screen)
-    "Enable Direct connection",
+    "Engedélyezd a közv. kapcsolatot",
     // (shown when in password login screen)
-    "Enable multi-factor authentication (authenticator app) on your account",
-    "Log in to an official client on another device with the same IP address (same Wi-Fi or SIM)",
+    "Engedélyezd a többfaktoros azonosítást.",
+    "Jelentkezz be egy hivatalos kliensen keresztül ugyanazzal a SIM-el vagy WiFi-hozzáférési ponttal.",
     // (shown when not proxyless)
-    "Try a different proxy server or host your own proxy",
+    "Próbálj saját vagy más proxyt",
     // (shown always)
-    "Try a different account",
+    "Próbálj másik fiókot.",
 
     // Header text shown in the password login screen.
-    "To use password login, you must have multi-factor authentication (authenticator app) enabled on your account.",
+    "Hogy használd a jelszavas bejelentkezést, engedélyezned kell a hitelesítő alkalmazáson keresztüli bejelentkezést",
 
     // Text field labels shown in the password login screen.
     "Email",
-    "Password",
-    "Authentication code",
+    "Jelszó",
+    "Azon. kód",
 
     // Status messages showing the progress of password login.
-    "Sending login request...",
-    "Sending authentication code...",
+    "Jelszó és felh. név küldése..."
+    "Azonosító-kód küldése...",
 
     // Request for the 2-factor authentication (TOTP) code.
-    "Enter the 6-digit code from your authenticator app (e.g. Google Authenticator).",
+    "Írd be a hatjegyű azonosító kódod az azonosító alkalmazásból (pl. Microsoft Authenticator)",
 
     // Softkey labels for the button used to continue password login after the authentication code was entered.
-    "Continue",
-    "Continue",
+    "Folytat",
+    "Folytat",
 
     // Error messages shown when trying to start password login without an email or password specified.
-    "Please enter a valid email address",
-    "Please enter your password",
+    "Valós e-mail címet írj be.",
+    "Írd be a jelszavad.",
 
     // Another tip for circumventing the login CAPTCHA.
     // (shown when in password login screen)
-    "If this device supports Wi-Fi, connect to the same Wi-Fi that you normally use for Discord"
+    "Ha ez az eszköz támogatja a Wi-Fit, próbálj ugyanarra a hálózatra kapcsolódni ahonnan legtöbbször használod a Discordot."
 
     // NOTE for translators:
     // The string with the comment "Information text shown in login screen related to proxyless mode"
