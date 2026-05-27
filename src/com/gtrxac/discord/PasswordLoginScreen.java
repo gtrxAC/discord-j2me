@@ -6,6 +6,11 @@ import javax.microedition.io.*;
 import java.io.*;
 import cc.nnproject.json.*;
 
+// Reference:
+// - https://docs.discord.food/authentication
+// - https://github.com/Ayeris23/Discord-Classic/blob/master/src/Classes/API/DCLoginManager.m
+// - inspecting Discord Web traffic during a login (devtools network tab)
+
 public class PasswordLoginScreen extends Form implements Runnable, CommandListener, Strings {
     private Object lastScreen;
 
@@ -20,6 +25,7 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
     boolean haveEnteredTotp;
 
     private Command loginCommand;
+    private Command backCommand;
     private Command continueCommand;
 
     public PasswordLoginScreen() {
@@ -36,11 +42,26 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
         append(emailField);
         append(passwordField);
 
-        addCommand(Locale.createCommand(BACK, Command.BACK, 0));
         loginCommand = Locale.createCommand(LOG_IN, Command.OK, 0);
+        backCommand = Locale.createCommand(CANCEL, Command.BACK, 0);
         addCommand(loginCommand);
+        addCommand(backCommand);
 
         setCommandListener(this);
+    }
+
+    private boolean totpIsValid() {
+        String totp = totpField.getString();
+
+        // totp code format: 123456
+        if (totp.length() == 6) {
+            try {
+                Integer.parseInt(totp);
+                return true;
+            }
+            catch (Exception e) {}
+        }
+        return false;
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -63,7 +84,11 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
             new Thread(this).start();
         }
         else if (c == continueCommand) {
-            haveEnteredTotp = true;
+            if (totpIsValid()) {
+                haveEnteredTotp = true;
+            } else {
+                App.error(Locale.get(PASSWORD_LOGIN_ERROR_INVALID_TOTP));
+            }
         }
         else {
             App.disp.setCurrent(lastScreen);
@@ -72,18 +97,18 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
 
     public void run() {
         try {
+            removeCommand(loginCommand);
+            removeCommand(backCommand);
             deleteAll();
-            append("Initiating login...");
+            append(Locale.get(PASSWORD_LOGIN_STEP_INITIATING));
 
-            //String method, String url, Object data, String contentType, boolean authorize
+            // could also use /auth/fingerprint but it seems to be deprecated
             JSONObject experiments = JSON.getObject(Util.bytesToString(HTTP.request(
                 "GET", "https://discord.com/api/v9/experiments?with_guild_experiments=true",
                 null, null, false)));
 
             fingerprint = experiments.getString("fingerprint", "");
-            System.out.println("Fingerprint: '" + fingerprint + "'");
-
-            // {"login":"EMAIL","password":"PASSWORD","undelete":false,"login_source":null,"gift_code_sku_id":null}
+            // System.out.println("Fingerprint: '" + fingerprint + "'");
 
             deleteAll();
             append(Locale.get(PASSWORD_LOGIN_STEP_SENDING_REQUEST));
@@ -95,6 +120,8 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
             loginObject.put("login_source", (Object) null);
             loginObject.put("gift_code_sku_id", (Object) null);
 
+            // NOTE: X-Fingerprint header is sent in HTTP.java
+            // Error handling (e.g. captcha or wrong password) is also handled there
             JSONObject loginResponse = JSON.getObject(Util.bytesToString(HTTP.request(
                 "POST", "https://discord.com/api/v9/auth/login", loginObject.build(), null, false)));
 
@@ -122,11 +149,15 @@ public class PasswordLoginScreen extends Form implements Runnable, CommandListen
 
             continueCommand = Locale.createCommand(CONTINUE, Command.OK, 0);
             addCommand(continueCommand);
-            removeCommand(loginCommand);
+            addCommand(backCommand);
 
+            // wait for main thread to indicate that the totp code has been entered
             while (!haveEnteredTotp) {
                 Util.sleep(100);
             }
+
+            removeCommand(continueCommand);
+            removeCommand(backCommand);
 
             deleteAll();
             append(Locale.get(PASSWORD_LOGIN_STEP_SENDING_MFA));

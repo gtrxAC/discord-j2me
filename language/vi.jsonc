@@ -1145,5 +1145,11 @@
 
     // Another tip for circumventing the login CAPTCHA.
     // (shown when in password login screen)
-    "If this device supports Wi-Fi, connect to the same Wi-Fi that you normally use for Discord"
+    "If this device supports Wi-Fi, connect to the same Wi-Fi that you normally use for Discord",
+
+    // Error message shown when the authentication code is in an invalid format.
+    "Please enter a valid authentication code in the format '123456'",
+
+    // Progress message shown in the password login screen during the beginning, right after entering the password and email.
+    "Initiating login..."
 ]

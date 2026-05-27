@@ -1142,5 +1142,11 @@
 
     // Another tip for circumventing the login CAPTCHA.
     // (shown when in password login screen)
-    "Jos laitteesi tukee Wi-Fi-yhteyttä, yhdistä samaan Wi-Fi-verkkoon, jolla yleensä käytät Discordia"
+    "Jos laitteesi tukee Wi-Fi-yhteyttä, yhdistä samaan Wi-Fi-verkkoon, jolla yleensä käytät Discordia",
+
+    // Error message shown when the authentication code is in an invalid format.
+    "Anna kelvollinen todennuskoodi muodossa '123456'",
+
+    // Progress message shown in the password login screen during the beginning, right after entering the password and email.
+    "Aloitetaan kirjautuminen..."
 ]
