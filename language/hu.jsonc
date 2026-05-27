@@ -1130,7 +1130,7 @@
     "Azon. kód",
 
     // Status messages showing the progress of password login.
-    "Jelszó és felh. név küldése..."
+    "Jelszó és felh. név küldése...",
     "Azonosító-kód küldése...",
 
     // Request for the 2-factor authentication (TOTP) code.
