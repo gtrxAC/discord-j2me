@@ -1145,7 +1145,7 @@
     "Eğer bu cihaz Wi-Fi destekliyorsa, normalde Discord'u kullandığınız Wi-Fi ağına bağlanın.",
 
     // Error message shown when the authentication code is in an invalid format.
-    "Lütfen '123456' formatında, geçerli bir onay kodu girin.",
+    "Lütfen '123456' formatında, geçerli bir doğrulama kodu girin.",
 
     // Progress message shown in the password login screen during the beginning, right after entering the password and email.
     "Oturum açılıyor..."
