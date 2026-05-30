@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Direct connection</title>
-    <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
-    <link rel="stylesheet" href="/style.css">
+    <% title = "Direct connection" %>
+    <%- include('include/head'); %>
     <style>
-        td img {
+        .proxyless td img {
             width: 150px;
         }
         i {
             font-family: monospace;
         }
-        table {
+        .proxyless {
             margin-top: 0.5em;
             border-collapse: collapse;
         }
-        td, th {
+        .proxyless td, .proxyless th {
             padding: 0.3em;
             border: solid thin #333;
         }
@@ -40,7 +37,6 @@
 </head>
 <body>
     <div class="main">
-        <% title = "Direct connection" %>
         <%- include('include/title'); %>
 
         <h2>What is Direct connection?</h2>
@@ -52,7 +48,7 @@
         <p>To support Direct connection, a device must have the ability to <strong>install custom code-signing certificates</strong> for Java apps. On Symbian 9.1 and up, TLS 1.2 can be installed on the system level, so a certificate is not required. The device must also be able to <strong>handle JAR files up to 1 MB</strong> in size.</p>
         <p>The below table lists device platforms known to be supported, along with explanations. You can check your device's <i>software platform</i> and other specs on sites like <a href="https://lpcwiki.miraheze.org/wiki/Main_Page">LPCwiki</a>.</p>
 
-        <table>
+        <table class="proxyless">
             <tr>
                 <th>Platform</th>
                 <th>Supported?</th>

@@ -1,0 +1,10 @@
+.title {
+    border: none;
+    width: 100%;
+}
+.title td {
+    padding: 0;
+}
+.counter {
+    text-align: right;
+}

@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord J2ME</title>
+    <% title = "Discord J2ME" %>
+    <%- include('include/head'); %>
     <% if (showMetaDescription) { %>
         <meta name="description" content="Download the unofficial Discord client for your Nokia, BlackBerry, Sony Ericsson, or other Java-enabled device.">
     <% } %>
-    <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
-    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="main">
-        <% title = "Discord J2ME" %>
         <%- include('include/title'); %>
 
         <%- proxylessText %>

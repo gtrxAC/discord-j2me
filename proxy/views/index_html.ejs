@@ -1,32 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gtrxac.fi</title>
+    <% title = "gtrxac.fi" %>
+    <%- include('include/head'); %>
     <% if (showMetaDescription) { %>
         <meta name="description" content="The home of Discord J2ME and gtrxAC's other apps and online services for old feature phones.">
     <% } %>
-    <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
-    <link rel="stylesheet" href="/style.css">
-    <% if (showLibrecounterImage) { %>
-		<style>
-			.title {
-				border: none;
-				width: 100%;
-			}
-			.title td {
-				padding: 0;
-			}
-			.counter {
-				text-align: right;
-			}
-		</style>
-	<% } %>
 </head>
 <body>
     <div class="main">
-        <% title = "gtrxac.fi" %>
         <%- include('include/title'); %>
         
         <p><a href="/j2me">Discord J2ME</a><br/>Discord client for Java ME (MIDP) devices</p>

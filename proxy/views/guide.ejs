@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord J2ME Guide</title>
+    <% title = "Discord J2ME Guide" %>
+    <%- include('include/head'); %>
     <% if (showMetaDescription) { %>
         <meta name="description" content="A step-by-step tutorial on how to set up and install Discord J2ME with your account's token.">
     <% } %>
-    <link rel="shortcut icon" href="/avatar.png" type="image/x-icon">
-    <link rel="stylesheet" href="/style.css">
     <style>
-        td img {
+        .guide {
+            margin-top: 0.5em;
+        }
+        .guide td img {
             width: 150px;
         }
         i {
             font-family: monospace;
-        }
-        table {
-            margin-top: 0.5em;
         }
     </style>
 </head>
@@ -28,7 +25,7 @@
 
         <p>This is a guide for setting up the app with your account's token.</p>
         <small>This tutorial covers the "manifest injection" method. Another method is to write your token into a text file, transfer the file to your device, and import or copy-paste it in the app. You can also write your token manually, though this is not recommended, as it's slow and prone to errors.</small>
-        <table>
+        <table class="guide">
             <tr>
                 <td>
                     <p><strong>1.</strong> Get your Discord account's token using your browser. There are several guides online for this.</p>
