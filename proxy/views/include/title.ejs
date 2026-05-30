@@ -1,10 +1,16 @@
 <% if (showLibrecounterImage) { %>
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-        <h1><%= title %></h1>
-        <a href="https://librecounter.org/referer/show" target="_blank">
-            <img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
-        </a>
-    </div>
+	<table class="title">
+		<tr>
+			<td>
+				<h1><%= title %></h1>
+			</td>
+			<td class="counter">
+				<a href="https://librecounter.org/referer/show" target="_blank">
+					<img src="https://librecounter.org/oldStyle.svg" referrerPolicy="unsafe-url" height="44px"/>
+				</a>
+			</td>
+		</tr>
+	</table>
 <% } else { %>
     <h1>
         <%= title %>

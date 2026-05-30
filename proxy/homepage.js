@@ -10,6 +10,7 @@ async function checkIsModern(req, res, next) {
     const uaOrig = (req.headers['user-agent'] ?? '');
     const ua = uaOrig.toLowerCase();
 
+	const isDesktop = (/linux|mac|windows/g.test(ua) && !/windows (ce|mobile)|android|iphone/g.test(ua));
     const isModern = (/linux|mac|windows|android/g.test(ua) && !/windows (ce|mobile)/g.test(ua));
     const isOpera = ua.includes("opera");
 
@@ -21,7 +22,7 @@ async function checkIsModern(req, res, next) {
     res.locals.showGuideImages = isModern;
     res.locals.showLibrecounterImage = isModern || isOpera;
     res.locals.showButtons = isModern || isOpera;
-    res.locals.showAddMyButton = isModern;
+    res.locals.showAddMyButton = isDesktop;
 
     if (!res.locals.showLibrecounterImage) {
         // No counter image (browser does not support TLS or SVG)
