@@ -1145,8 +1145,8 @@
     "Jeżeli to urządzenie obsługuje Wi-Fi, połącz się z tą samą siecią Wi-Fi, gdzie zazwyczaj korzystasz z Discorda",
 
     // Error message shown when the authentication code is in an invalid format.
-    "Please enter a valid authentication code in the format '123456'",
+    "Proszę wpisać prawidłowy kod weryfikacyjny.\nKod powinien być w formacie '123456'",
 
     // Progress message shown in the password login screen during the beginning, right after entering the password and email.
-    "Initiating login..."
+    "Inicjuję logowanie..."
 ]
