@@ -1148,5 +1148,8 @@
     null,
 
     // Progress message shown in the password login screen during the beginning, right after entering the password and email.
+    null,
+
+    // Text shown before the latest update's changelog in the update dialog screen.
     null
 ]

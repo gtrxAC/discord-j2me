@@ -1150,5 +1150,8 @@
     "Bitte geben Sie einen gültigen Authentifizierungscode im Format '123456' ein",
 
     // Progress message shown in the password login screen during the beginning, right after entering the password and email.
-    "Anmeldung wird gestartet..."
+    "Anmeldung wird gestartet...",
+
+    // Text shown before the latest update's changelog in the update dialog screen.
+    "\n\nWhat's new?\n"
 ]

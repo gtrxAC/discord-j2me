@@ -1148,5 +1148,8 @@
     "Lütfen '123456' formatında, geçerli bir doğrulama kodu girin.",
 
     // Progress message shown in the password login screen during the beginning, right after entering the password and email.
-    "Oturum açılıyor..."
+    "Oturum açılıyor...",
+
+    // Text shown before the latest update's changelog in the update dialog screen.
+    "\n\nWhat's new?\n"
 ]

@@ -495,4 +495,5 @@ public interface Strings {
     static final int CAPTCHA_TIP_SAME_WIFI = 466;
     static final int PASSWORD_LOGIN_ERROR_INVALID_TOTP = 467;
     static final int PASSWORD_LOGIN_STEP_INITIATING = 468;
+    static final int WHATS_NEW = 469;
 }

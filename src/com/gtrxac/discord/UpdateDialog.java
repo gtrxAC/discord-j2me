@@ -22,7 +22,7 @@ public class UpdateDialog extends Dialog implements CommandListener, Strings {
             .append(latestVersion);
 
         if (latestChangelog != null) {
-            text.append("\n\nWhat's new?\n")
+            text.append(Locale.get(WHATS_NEW))
                 .append(latestChangelog);
         }
 

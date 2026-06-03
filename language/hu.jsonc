@@ -1152,17 +1152,8 @@
     "Please enter a valid authentication code in the format '123456'",
 
     // Progress message shown in the password login screen during the beginning, right after entering the password and email.
-    "Initiating login..."
+    "Initiating login...",
 
-    // NOTE for translators:
-    // The string with the comment "Information text shown in login screen related to proxyless mode"
-    // and the one below it, with the comment "This version of the text is shown otherwise"
-    // have been updated.
-    // These are somewhere around line 895 and 900.
-    // Previously they said:
-    // Direct connection "reduces the risk of an account restriction"
-    // Now they say:
-    // Direct connection "lets you connect without a proxy, reducing the risk of an account restriction".
-    // These texts should be updated accordingly in other languages too.
-    // You can remove this note when you've updated those strings for your language.
+    // Text shown before the latest update's changelog in the update dialog screen.
+    "\n\nWhat's new?\n"
 ]
