@@ -46,7 +46,7 @@ public class HTTP implements Strings {
 				hc.setRequestProperty("X-Super-Properties", "eyJvcyI6IkFuZHJvaWQiLCJicm93c2VyIjoiRGlzY29yZCBBbmRyb2lkIiwiZGV2aWNlIjoiYTIwZSIsInN5c3RlbV9sb2NhbGUiOiJlbi1VUyIsImhhc19jbGllbnRfbW9kcyI6ZmFsc2UsImNsaWVudF92ZXJzaW9uIjoiMjYyLjUgLSBybiIsInJlbGVhc2VfY2hhbm5lbCI6ImFscGhhIiwiZGV2aWNlX3ZlbmRvcl9pZCI6IjE3NTAzOTI5LWE0YjgtNDQ5MC04N2JmLTAyMjJhZGZkYWRjOCIsImRlc2lnbl9pZCI6MiwiYnJvd3Nlcl91c2VyX2FnZW50IjoiIiwiYnJvd3Nlcl92ZXJzaW9uIjoiIiwib3NfdmVyc2lvbiI6IjM0IiwiY2xpZW50X2J1aWxkX251bWJlciI6MzQ2MywiY2xpZW50X2V2ZW50X3NvdXJjZSI6bnVsbH0=");
 
 //#ifdef PASSWORD_LOGIN
-				if (url.indexOf("/experiments") != -1 || url.indexOf("/auth/login") != -1 || url.indexOf("/auth/mfa") != -1) {
+				if (url.indexOf("/auth/login") != -1 || url.indexOf("/auth/mfa") != -1) {
 					hc.setRequestProperty("X-Fingerprint", PasswordLoginScreen.fingerprint);
 				}
 //#endif
