@@ -193,9 +193,9 @@ public class GatewayThread extends Thread implements Strings
 				.append(msg.imageAttachments.length);
 
 			if (msg.imageAttachments.length != 1) {
-				c.append(" images)");
+				c.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX_IMAGES));
 			} else {
-				c.append(" image)");
+				c.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX_IMAGE));
 			}
 		}
 		if (msg.fileAttachments != null) {
@@ -204,9 +204,9 @@ public class GatewayThread extends Thread implements Strings
 				.append(msg.fileAttachments.length);
 
 			if (msg.fileAttachments.length != 1) {
-				c.append(" files)");
+				c.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX_FILES));
 			} else {
-				c.append(" file)");
+				c.append(Locale.get(NOTIFICATION_ATTACHMENT_SUFFIX_FILE));
 			}
 		}
 		msg.content = c.toString();

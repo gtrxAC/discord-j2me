@@ -496,4 +496,8 @@ public interface Strings {
     static final int PASSWORD_LOGIN_ERROR_INVALID_TOTP = 467;
     static final int PASSWORD_LOGIN_STEP_INITIATING = 468;
     static final int WHATS_NEW = 469;
+    static final int NOTIFICATION_ATTACHMENT_SUFFIX_FILE = 470;
+    static final int NOTIFICATION_ATTACHMENT_SUFFIX_FILES = 471;
+    static final int NOTIFICATION_ATTACHMENT_SUFFIX_IMAGE = 472;
+    static final int NOTIFICATION_ATTACHMENT_SUFFIX_IMAGES = 473;
 }

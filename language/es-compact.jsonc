@@ -1152,5 +1152,14 @@
     "Initiating login...",
 
     // Text shown before the latest update's changelog in the update dialog screen.
-    "\n\nWhat's new?\n"
+    "\n\nWhat's new?\n",
+
+    // Suffixes of attachment indicators in notification previews.
+    // For example a notification could say
+    //   User sent you a direct message: "Check this out (2 images) (1 file)"
+    // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
+    " file)",
+    " files)",
+    " image)",
+    " images)"
 ]
