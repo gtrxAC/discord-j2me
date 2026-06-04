@@ -1112,15 +1112,15 @@
     // (shown when proxyless disabled and not in password login screen)
     "Gunakan sambungan langsung",
     // (shown when in password login screen)
-    "Hidupkan autentikasi multifaktor (apl autentikasi) di akun anda",
+    "Hidupkan autentikasi multifaktor (apl autentikasi) di akun ini",
     "Login di klien resmi pada perangkat lain dengan alamat IP yang sama (Wi-Fi atau SIM yg sama, misalnya)",
     // (shown when not proxyless)
     "Coba proxy lain atau host proxy anda secara mandiri",
     // (shown always)
-    "Coba lagi",
+    "Coba lagi dengan akun lain",
 
     // Header text shown in the password login screen.
-    "Untuk menggunakan password login, anda harus menggunakan apl autentikasi di akun anda.",
+    "Untuk menggunakan password login, anda harus menggunakan apl autentikasi di akun ini.",
 
     // Text field labels shown in the password login screen.
     "Email",
