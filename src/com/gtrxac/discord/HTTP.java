@@ -83,7 +83,7 @@ public class HTTP implements Strings {
 			queueItem.is = is;
 			byte[] result = Util.readBytes(is, (int) hc.getLength(), 1024, 2048);
 
-			System.out.println("Response: '" + Util.bytesToString(result) + "'");
+			// System.out.println("Response: '" + Util.bytesToString(result) + "'");
 
 			if (respCode == HttpConnection.HTTP_OK) {
 				String authID = hc.getHeaderField("X-Microcord-Auth-ID");
