@@ -17,12 +17,17 @@ async function checkIsModern(req, res, next) {
     // basic detection of old phones (doesn't have to be perfect, this is only for hiding the meta description which is a small size optimization)
     const isJ2ME = /midp|cldc|wap|nokia|ericsson|samsung|sgh/g.test(ua);
 
-    res.locals.showSponsors = isModern;
+    const isModernTLS = isModern && !/android [1-4]\./.test(ua);
+
+    res.locals.showSponsors = isModernTLS;
     res.locals.showMetaDescription = !isJ2ME;
     res.locals.showGuideImages = isModern;
-    res.locals.showLibrecounterImage = isModern || isOpera;
+    res.locals.showLibrecounterImage = isModernTLS || isOpera;
     res.locals.showButtons = isModern || isOpera;
+    res.locals.showTLSButtons = isModernTLS;
     res.locals.showAddMyButton = isDesktop;
+
+    res.locals.showNotAffiliated = true;
 
     if (!res.locals.showLibrecounterImage) {
         // No counter image (browser does not support TLS or SVG)
@@ -62,14 +67,16 @@ router.get('/', checkIsModern, async (req, res) => {
 router.get('/j2me', checkIsModern, async (req, res) => {
     res.render("download_" + req.format, {
         versions: getRecommendedVersions(req),
-        proxylessText: getProxylessText(req) ?? DEFAULT_PROXYLESS_TEXT
+        proxylessText: getProxylessText(req) ?? DEFAULT_PROXYLESS_TEXT,
+        showingAll: false,
     })
 });
 
 const allVersions = (req, res) => {
     res.render("download_" + req.format, {
         versions: arrayDownloadLinkHtml(directVersionDownloadNames),
-        proxylessText: DEFAULT_PROXYLESS_TEXT
+        proxylessText: DEFAULT_PROXYLESS_TEXT,
+        showingAll: true,
     })
 }
 

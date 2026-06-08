@@ -17,5 +17,14 @@
         <a href="/j2me/archive">Old versions</a><br/>
         <a href="/j2me/guide">Token setup guide</a>
     </div>
+    
+    <div class="footer">
+        <% if (showingAll) { %>
+            <p><a href="/">gtrxac.fi</a> &gt; <a href="/j2me">Discord J2ME</a> &gt; <strong>All versions</strong></p>
+        <% } else { %>
+            <p><a href="/">gtrxac.fi</a> &gt; <strong>Discord J2ME</strong></p>
+        <% } %>
+        <%- include('include/footer') %>
+    </div>
 </body>
 </html>

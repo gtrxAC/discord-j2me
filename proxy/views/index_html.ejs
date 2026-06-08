@@ -42,13 +42,30 @@
             <% } %>
             <div style="flex: 3;">
                 <% if (!showAddMyButton) { %>
-                    <a href="http://gtrxac.fi"><img src="/button.gif" alt="gtrxac.fi" width="88"></a>
+                    <a href="http://gtrxac.fi">
+                        <img src="/button.gif" alt="gtrxac.fi" width="88" height="31">
+                    </a>
                 <% } %>
-                <a href="https://hutch3g.eu/"><img src="http://hutch3g.eu/img/Hutch3G.gif" title="3 is a magic number ♪" width="88"></a>
-                <a href="http://ultraata.net/"><img src="http://ultraata.net/button.png" alt="UltraATA" width="88" height="31"></a>
-                <a href="http://oracity.rocks/"><img src="http://oracity.rocks/images/button.png" alt="oracity rocks!" width="88"></a>
+                <a href="https://hutch3g.eu/">
+                    <img src="http://hutch3g.eu/img/Hutch3G.gif" title="3 is a magic number ♪" alt="Hutch3G" width="88" height="31">
+                </a>
+                <a href="http://ultraata.net/">
+                    <img src="http://ultraata.net/button.png" alt="UltraATA" width="88" height="31">
+                </a>
+                <% if (showTLSButtons) { %>
+                    <a href="http://oracity.rocks/">
+                        <img src="http://oracity.rocks/images/button.png" alt="oracity rocks!" width="88" height="31">
+                    </a>
+                <% } %>
+                <a href="http://bs0dd.net/">
+                    <img src="http://bs0dd.net/banner.gif" alt="Bs0Dd" width="88" height="31">
+                </a>
             </div>
         </div>
     <% } %>
+
+    <div class="footer">
+        <%- include('include/footer') %>
+    </div>
 </body>
 </html>
