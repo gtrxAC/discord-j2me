@@ -105,13 +105,13 @@
             <tr>
                 <td>Sony Ericsson<br/><small>other devices</small></td>
                 <td class="no">No?</td>
-                <td>On most devices, the certificate can be installed, but the connection will get stuck loading.</td>
+                <td>Compatibility is inconsistent across other devices. The certificate can be installed, but in most cases the connection will get stuck loading. See <a href="https://docs.google.com/spreadsheets/d/1lElLNSNEc-IpyqQ0h1nCBE6y1aI0uzgeYsEGqFGPx9s/edit?gid=354213586#gid=354213586">compatibility sheet</a>.</td>
                 <td></td>
             </tr>
             <tr>
-                <td>J2ME Loader</td>
+                <td>Android</td>
                 <td class="yes">Yes</td>
-                <td>Certificate is not required. Two builds are provided; see guide for details.</td>
+                <td>Certificate is not required. Three builds are provided; see guide for details.</td>
                 <td><a href="#jl">Guide</a></td>
             </tr>
             <tr>
@@ -177,32 +177,35 @@
         </ol>
 
         <h2 id="se">How to use Direct connection on Sony Ericsson?</h2>
-        <p><strong>Direct connection on Sony Ericsson is supported from version 5.4 onwards.</strong></p>
         <p><span class="yes">SUPPORTED models:</span> Aino, Cedar, Elm, Hazel, Xperia Pureness, Yari, Zylo.</p>
         <p>Other models are <span class="no">unlikely to be compatible</span> and may get stuck loading.</p>
 
-        <strong>Steps:</strong>
+        <p><strong>Direct connection on Sony Ericsson is supported from Discord J2ME 5.4 onwards.</strong> The certificate must be installed with a PC program that can manage the phone's internal file system. In this guide, we will use Far Manager with SEFP2.</p>
+
         <ol>
-            <li>Connect your SE device to a PC program that can manage the internal file system of SE phones (e.g. SEFP2).</li>
-            <li>Navigate to <span class="mono">/tpa/preset/custom</span>.</li>
-            <li>Replace Utiroot.cer with <a href="/fh/exp.cer">the custom certificate</a> (make sure to keep the original file name Utiroot.cer).</li>
-            <li>Copy <a href="/default_upgrade.xml">default_upgrade.xml</a> to the same folder on the phone.</li>
-            <li>Make sure the device's date and time are set correctly.</li>
+            <li>Download Far Manager <a href="https://drive.google.com/file/d/13NFVz44Y6Z3NyKdByX5tvF0y6jm9wT1U/view?usp=sharing">here</a>.
+            <li>Extract the downloaded archive. Use the password <span class="mono">Far123</span>.</li>
+            <li>Open <span class="mono">Far.exe</span>.</li>
+            <li>Press <span class="mono">11 Plugin</span> on the bottom right.</li>
+            <li>Select <span class="mono">SEFP2</span>.</li>
+            <li>Follow the on-screen instructions to connect the phone. You may get a warning that the files on the phone cannot be read. This warning can be ignored.</li>
+            <li>Download <a href="/fh/exp.cer">exp.cer</a> and <a href="/default_upgrade.xml">default_upgrade.xml</a> to your computer.</li>
+            <li>Copy these two files to the <span class="mono">/tpa/preset/default</span> folder on the phone.</li>
+            <li>Disconnect and reboot the phone.</li>
+            <li>Make sure the phone's date and time are set correctly.</li>
             <li>Download Discord J2ME onto the phone. This <i>must</i> be done by downloading a JAD file via the phone's browser.</li>
         </ol>
 
-        <h2 id="jl">How to use Direct connection on J2ME Loader?</h2>
-        <p>For J2ME Loader, we have two builds available.</p>
-        <ul>
-            <li><strong>discord_jl</strong> is only guaranteed to run on Android 5.0 and above, as it relies on system-level TLS 1.2 support.</li>
-            <li><strong>discord_jl_tls</strong> runs on older devices, as it includes Java-based TLS support, but installation of this build may get stuck on devices with low RAM. More than 512 MB of RAM is recommended.</li>
-        </ul>
-        <p>If you have a low-RAM device with an older Android version:</p>
-        <ul>
-            <li>You can install <strong>discord_jl_tls</strong> onto a higher-spec device first, and then copying the <span class="mono">J2ME-Loader/converted</span> folder from the internal storage onto your other device.</li>
-            <li>You may also try the <strong>discord_midp2_alt_tls</strong> build with another J2ME runtime, like <strong>phoneME</strong>.</li>
-        </ul>
+        <h2 id="jl">How to use Direct connection on Android?</h2>
 
+        <p>For Android devices, we have three builds available. To use the app, you must have a J2ME runtime installed (<a href="https://lpcwiki.miraheze.org/wiki/Java_ME#J2ME_Loader">J2ME Loader</a> or <a href="https://lpcwiki.miraheze.org/wiki/Java_ME#phoneME">phoneME</a>).</p>
+
+        <ul>
+            <li><p><strong>discord_jl_tls</strong> <i>"for J2ME Loader"</i><br/>Supports Android 2.3 and above, but requires at least ~512 MB of RAM. Installation may get stuck on low-RAM devices. <i>(Java-based TLS)</i></p></li>
+            <li><p><strong>discord_jl</strong> <i>"for J2ME Loader (low-RAM devices)"</i><br/>Runs on any device with Android 5.0 or above. <i>(system-level TLS)</i></p></li>
+            <li><p><strong>discord_midp2_alt_tls</strong> <i>"for phoneME"</i><br>Suitable for low-RAM devices running Android 2.2 to 4.4. <i>(Java-based TLS)</i></p></li>
+        </ul>
+        
         <h2 id="unsupported">What if my device is unsupported?</h2>
         <p>It is highly recommended to host your own proxy server if possible. This can be done on your own PC via services like ngrok, or by renting a VPS. A guide will be written later, but more info is available on <a href="https://discord.gg/2GKuJjQagp">our server</a> in the #discord-j2me-wap channel (pinned messages).</p>
         <p>If you're using the public proxy server, disabling the <i>Use gateway</i> option in the login screen reduces the chances of getting your account restricted.</p>

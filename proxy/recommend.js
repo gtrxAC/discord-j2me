@@ -21,8 +21,8 @@ const versionDownloadLinks = {
     "samsung":              { version: "5.3.1", betaVersion: "5.4", target: "Samsung" },
     "samsung_100kb":        { version: "5.2",   betaVersion: null, target: "Samsung (100 kB version)" },
     "lg":                   { version: "5.3.1", betaVersion: "5.4", target: "LG" },
-    "jl_tls":               { version: "5.3.1", betaVersion: "5.4", target: "J2ME Loader", tls: "via Java-based TLS", showJad: false },
-    "jl":                   { version: "5.3.1", betaVersion: "5.4", target: "J2ME Loader (low-RAM devices)", tls: "(if supported by OS)", showJad: false },
+    "jl_tls":               { version: "5.3.1", betaVersion: "5.4", target: "J2ME Loader", tls: "via Java-based TLS", tlsLink: "jl", showJad: false },
+    "jl":                   { version: "5.3.1", betaVersion: "5.4", target: "J2ME Loader (low-RAM devices)", tls: "(if supported by OS)", tlsLink: "jl", showJad: false },
     "6310i":                { version: "3.2",   betaVersion: null, target: "Nokia 3410/6310i (30 kB)" },
     "midp1":                { version: "3.0",   betaVersion: null, target: "MIDP1" },
 }
