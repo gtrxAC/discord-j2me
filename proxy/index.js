@@ -533,6 +533,11 @@ app.get(`${BASE}/users/@me/channels`, getToken, async (req, res) => {
                 if (ch.type == 3) {
                     result.name = ch.name;
                     if (ch.icon != null) result.icon = ch.icon;
+
+                    // no name -> add recipients names
+                    if (ch.name == null) {
+                        result.name = ch.recipients.slice(0, 3).map(rec => rec.global_name ?? rec.username).join(", ");
+                    }
                 } else {
                     result.recipients = [{
                         global_name: ch.recipients[0].global_name,

@@ -23,7 +23,26 @@ public class DMChannel extends HasUnreads implements HasIcon, Strings {
         }
 
         if (isGroup) {
-            name = data.getString("name");
+            name = data.getString("name", null);
+            if (name == null) {
+                JSONArray recipients = data.getArray("recipients");
+                StringBuffer nameBuf = new StringBuffer();
+
+                int i = 0;
+                while (i < recipients.size()) {
+                    JSONObject recipient = recipients.getObject(i);
+                    String name = recipient.getString("global_name", null);
+                    if (name == null) {
+                        name = recipient.getString("username");
+                    }
+                    nameBuf.append(name);
+                    i++;
+                    if (i >= 3 || i >= recipients.size()) break;
+                    nameBuf.append(", ");
+                }
+                name = nameBuf.toString();
+            }
+
             iconID = id;
             iconHash = data.getString("icon", null);
         } else {
