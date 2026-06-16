@@ -1035,11 +1035,11 @@
 
     // Softkey command labels for opening the QR login screen.
     "แสดง QR",
-    "แสดง QR code",
+    "แสดงรหัส QR",
 
     // Status messages shown in the QR login screen.
     "กำลังเชื่อมต่อ...",
-    "กำลังแสดง QR code...",
+    "กำลังแสดงรหัส QR...",
     "การเชื่อมต่อถูกตัด กรุณาลองอีกครั้ง",
 
     // First sentence of explanation of manual token entry in the login screen, shown below the QR login info. 
@@ -1082,83 +1082,83 @@
     "หากคุณเพิ่งเข้าร่วมเซิร์ฟเวอร์นี้ คุณอาจต้องรอให้รายการเซิร์ฟเวอร์ทำการอัพเดทก่อน",
 
     // Error messages shown during password login.
-    "Incorrect email or password",
-    "Multi-factor authentication is not enabled for this account.",
-    "Multi-factor authentication via authenticator app is not enabled for this account.",
+    "อีเมล์หรือรหัสผ่านไม่ถูกต้อง",
+    "บัญชีนี้ไม่ได้เปิดใช้งานการยืนยันตัวตนหลายขั้นตอน",
+    "บัญชีนี้ไม่ได้เปิดใช้งานการยืนยันตัวตนหลายขั้นตอนผ่านแอพยืนยันตัวตน",
 
     // Header of error messages shown during password login.
-    "Login failed: ",
+    "การเข้าสู่ระบบไม่สำเร็จ: ",
 
     // Header of the response sent by the server (for debugging purposes) during password login.
-    "\nResponse:\n",
+    "\nข้อความตอบสนอง:\n",
 
     // Softkey labels used for starting password login. Shown in the login screen. The long variant of the softkey label is shown as the button text.
-    "Password",
-    "Password login",
+    "รหัสผ่าน",
+    "เข้าสู่ระบบด้วยรหัสผ่าน",
 
     // Warning shown when starting password login but Direct connection isn't enabled.
-    "Logging in with password requires Direct connection. Do you want to enable Direct connection and continue?",
+    "การเข้าสู่ระบบด้วยรหัสผ่านจำเป็นต้องใช้การเชื่อมต่อโดยตรง คุณต้องการเปิดใช้งานการเชื่อมต่อโดยตรงและดำเนินการต่อหรือไม่?",
 
     // Error message shown when a server error response contains a CAPTCHA request. Tips for circumventing the CAPTCHA are shown below.
-    "A CAPTCHA was received. ",
-    "Please try the following:",
+    "ตรวจพอการร้องขอ CAPTCHA ",
+    "โปรดลองทำตามขั้นตอนดังนี้:",
     
     // Tips for circumventing the CAPTCHA:
 
     // (shown when the current build of the app doesn't support proxyless)
-    "Install a build of the app that supports Direct connection",
+    "ติดตั้งแอพเวอร์ชั่นที่รองรับการเชื่อมต่อโดยตรง",
     // (shown when proxyless disabled and not in password login screen)
-    "Enable Direct connection",
+    "เปิดใช้งานการเชื่อมต่อโดยตรง",
     // (shown when in password login screen)
-    "Enable multi-factor authentication (authenticator app) on your account",
-    "Log in to an official client on another device with the same IP address (same Wi-Fi or SIM)",
+    "เปิดใช้งานการยืนยันตัวตนหลายขั้นตอน",
+    "เข้าสู่ระบบผ่านแอพของ Discord เอง บนอุปกรณือื่นที่ใช้ที่อยู่ IP เดียวกัน (เครื่อข่าย Wi-Fi หรือข้อมูลมือถือผ่านซิมเดียวกัน)",
     // (shown when not proxyless)
-    "Try a different proxy server or host your own proxy",
+    "ลองใช้เซิร์ฟเวอร์พร็อกซี่อื่น หรือใช้เซิร์ฟเวอร์พร็อกซี่ของตัวเอง",
     // (shown always)
-    "Try a different account",
+    "ลองใช้บัญชีอื่น",
 
     // Header text shown in the password login screen.
-    "To use password login, you must have multi-factor authentication (authenticator app) enabled on your account.",
+    "ในการใช้งานการเข้าสู่ระบบด้วยรหัสผ่าน บัญชีของคุณจะต้องเปิดใช้งานการยืนยันตัวตนหลายขั้นตอน",
 
     // Text field labels shown in the password login screen.
-    "Email",
-    "Password",
-    "Authentication code",
+    "อีเมล์",
+    "รหัสผ่าน",
+    "รหัสยืนยันตัวตน",
 
     // Status messages showing the progress of password login.
-    "Sending login request...",
-    "Sending authentication code...",
+    "กำลังส่งคำขอเข้าสู่ระบบ...",
+    "กำลังส่งรหัสยืนยันตัวตน...",
 
     // Request for the 2-factor authentication (TOTP) code.
-    "Enter the 6-digit code from your authenticator app (e.g. Google Authenticator).",
+    "ใส่รหัส 6 หลักจากแอพยืนยันตัวตน (เช่น Google Authenticator).",
 
     // Softkey labels for the button used to continue password login after the authentication code was entered.
-    "Continue",
-    "Continue",
+    "ทำต่อ",
+    "ทำต่อ",
 
     // Error messages shown when trying to start password login without an email or password specified.
-    "Please enter a valid email address",
-    "Please enter your password",
+    "กรุณาใส่ที่อยู่อีเมล์ให้ถูกต้อง",
+    "กรุณาใส่รหัสผ่าน",
 
     // Another tip for circumventing the login CAPTCHA.
     // (shown when in password login screen)
-    "If this device supports Wi-Fi, connect to the same Wi-Fi that you normally use for Discord",
+    "หากอุปกรณ์นี้รองรับการเชื่อมต่อ Wi-Fi ให้เชื่อมต่อเครือข่าย Wi-Fi เดียวกันกับเครื่องอื่นที่ใช้ Discord",
 
     // Error message shown when the authentication code is in an invalid format.
-    "Please enter a valid authentication code in the format '123456'",
+    "กรุณาใส่รหัสยืนยันตัวตนให้ถูกต้องในรูปแบบ '123456'",
 
     // Progress message shown in the password login screen during the beginning, right after entering the password and email.
-    "Initiating login...",
+    "กำลังเริ่มการเข้าสู่ระบบ...",
 
     // Text shown before the latest update's changelog in the update dialog screen.
-    "\n\nWhat's new?\n",
+    "\n\มีอะไรใหม่\n",
 
     // Suffixes of attachment indicators in notification previews.
     // For example a notification could say
     //   User sent you a direct message: "Check this out (2 images) (1 file)"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
-    " file)",
-    " files)",
-    " image)",
-    " images)"
+    " ไฟล์)",
+    " ไฟล์)",
+    " รูปภาพ)",
+    " รูปภาพ)"
 ]
