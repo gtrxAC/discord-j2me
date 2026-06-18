@@ -1151,7 +1151,7 @@
     "กำลังเริ่มการเข้าสู่ระบบ...",
 
     // Text shown before the latest update's changelog in the update dialog screen.
-    "\n\มีอะไรใหม่\n",
+    "\n\nมีอะไรใหม่\n",
 
     // Suffixes of attachment indicators in notification previews.
     // For example a notification could say
