@@ -595,7 +595,7 @@
     "",
 
     // Settings option for using nnproject's Pigler Notifications API (extension API for showing notifications in the notification panel on Symbian Belle) for message notifications. The name "Pigler" should not be translated.
-    "Pigler API",
+    null,
 
     // Prefix for error messages related to Pigler Notifications API.
     "Błąd Pigler API: ",
@@ -683,8 +683,8 @@
 
     // Units for attachment sizes.
     " bajtów",
-    " kB",
-    " MB",
+    null,
+    null,
 
     // Softkey labels for opening the thread list of a channel in the channel list.
     "Wątki",
@@ -699,7 +699,7 @@
     "Zmień token",
 
     // Option in notification settings for using Nokia UI API for notifications.
-    "Nokia UI",
+    null,
 
     // Option in notification settings for using Nokia UI API for notifications. This variant of the option is shown on J2ME Loader, because J2ME Loader shows Nokia UI notifications as Android notifications in the notification panel.
     "Powiadomienia na Androidzie",
