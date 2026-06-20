@@ -19,6 +19,9 @@ public class IconCache {
     }
 
     public static Image get(HasIcon target, int size) {
+        // Don't show icons if they are disabled
+        if (target.isDisabled()) return null;
+        
         String hash = target.getIconHash();
         if (hash == null) return null;
 
