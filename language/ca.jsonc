@@ -1085,83 +1085,83 @@
     "Si t'has unit recentment a aquest servidor, és possible que hagis d'esperar uns dies perquè s'actualitzi llista de servidors.",
 
     // Error messages shown during password login.
-    "Incorrect email or password",
-    "Multi-factor authentication is not enabled for this account.",
-    "Multi-factor authentication via authenticator app is not enabled for this account.",
+    "Correu electrònic o mot de pas incorrectes",
+    "Autenticació multifactor no està activada per a aquest compte.",
+    "Autenticació multifactor mitjançant aplicació d'autenticació no està activada per a aquest compte.",
 
     // Header of error messages shown during password login.
-    "Login failed: ",
+    "Error d'inici de sessió: ",
 
     // Header of the response sent by the server (for debugging purposes) during password login.
-    "\nResponse:\n",
+    "\nResposta:\n",
 
     // Softkey labels used for starting password login. Shown in the login screen. The long variant of the softkey label is shown as the button text.
-    "Password",
-    "Password login",
+    "Mot de pas",
+    "Inici de mot de pas",
 
     // Warning shown when starting password login but Direct connection isn't enabled.
-    "Logging in with password requires Direct connection. Do you want to enable Direct connection and continue?",
+    "Inici de sessió amb mot de pas requereix una connexió directa. Vols habilitar Connexió directa i continuar?",
 
     // Error message shown when a server error response contains a CAPTCHA request. Tips for circumventing the CAPTCHA are shown below.
-    "A CAPTCHA was received. ",
-    "Please try the following:",
+    "S'ha rebut un CAPTCHA. ",
+    "Prova el següent:",
     
     // Tips for circumventing the CAPTCHA:
 
     // (shown when the current build of the app doesn't support proxyless)
-    "Install a build of the app that supports Direct connection",
+    "Instaŀla una compilació de l'aplicació que admeti Connexió directa",
     // (shown when proxyless disabled and not in password login screen)
-    "Enable Direct connection",
+    "Activa connexió directa",
     // (shown when in password login screen)
-    "Enable multi-factor authentication (authenticator app) on your account",
-    "Log in to an official client on another device with the same IP address (same Wi-Fi or SIM)",
+    "Activa autenticació multifactor (aplicació d'autenticació) a teu compte",
+    "Inicia sessió a un client oficial en un altre dispositiu amb la mateixa adreça IP (mateixa Wi-Fi o SIM)",
     // (shown when not proxyless)
-    "Try a different proxy server or host your own proxy",
+    "Prova un servidor proxy diferent o allotja teu propi servidor proxy",
     // (shown always)
-    "Try a different account",
+    "Prova un compte diferent",
 
     // Header text shown in the password login screen.
-    "To use password login, you must have multi-factor authentication (authenticator app) enabled on your account.",
+    "Per utilitzar inici de sessió amb mot de pas, heu de tenir activada autenticació multifactor (aplicació d'autenticació) a teu compte.",
 
     // Text field labels shown in the password login screen.
-    "Email",
-    "Password",
-    "Authentication code",
+    "Correu electrònic",
+    "Mot de pas",
+    "Codi d'autenticació",
 
     // Status messages showing the progress of password login.
-    "Sending login request...",
-    "Sending authentication code...",
+    "Enviant soŀlicitud d'inici de sessió...",
+    "Enviant codi d'autenticació...",
 
     // Request for the 2-factor authentication (TOTP) code.
-    "Enter the 6-digit code from your authenticator app (e.g. Google Authenticator).",
+    "Introdueix el codi de 6 dígits de teva aplicació d'autenticació (per exemple, Google Authenticator).",
 
     // Softkey labels for the button used to continue password login after the authentication code was entered.
-    "Continue",
-    "Continue",
+    "Continua",
+    "Continua",
 
     // Error messages shown when trying to start password login without an email or password specified.
-    "Please enter a valid email address",
-    "Please enter your password",
+    "Introduïu una adreça electrònica vàlida",
+    "Introduïu teu mot de pas",
 
     // Another tip for circumventing the login CAPTCHA.
     // (shown when in password login screen)
-    "If this device supports Wi-Fi, connect to the same Wi-Fi that you normally use for Discord",
+    "Si aquest dispositiu admet Wi-Fi, connecta't al mateix Wi-Fi que fas servir normalment per a Discord.",
 
     // Error message shown when the authentication code is in an invalid format.
-    "Please enter a valid authentication code in the format '123456'",
+    "Introduïu un codi d'autenticació vàlid amb el format \"123456\"",
 
     // Progress message shown in the password login screen during the beginning, right after entering the password and email.
-    "Initiating login...",
+    "Iniciant inici de sessió...",
 
     // Text shown before the latest update's changelog in the update dialog screen.
-    "\n\nWhat's new?\n",
+    "\n\Què hi ha de nou?\n",
 
     // Suffixes of attachment indicators in notification previews.
     // For example a notification could say
     //   User sent you a direct message: "Check this out (2 images) (1 file)"
     // "Images" are for any file types that are previewable as images (which also includes videos), "files" are for any other type of file.
-    " file)",
-    " files)",
-    " image)",
-    " images)"
+    " fitxer)",
+    " fitxers)",
+    " imatge)",
+    " imatges)"
 ]
