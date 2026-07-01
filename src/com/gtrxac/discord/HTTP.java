@@ -12,7 +12,7 @@ import tech.alicesworld.ModernConnector.*;
 public class HTTP implements Strings {
 	public static final Exception requestMethodException = new Exception();
 
-	private static byte[] requestWrapped(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
+	private static byte[] requestWrapped2(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
 		HttpConnection hc = null;
 		OutputStream os = null;
 		url = App.getPlatformSpecificUrl(url);
@@ -74,6 +74,29 @@ public class HTTP implements Strings {
 		}
 	}
 
+	private static byte[] requestWrapped(String method, String url, Object data, String contentType, boolean authorize) throws Exception {
+//#ifndef NO_HTTP_REDIRECT_SUPPORT
+		int redirects = 0;
+
+		while (redirects < 5) {
+			try {
+				return requestWrapped2(method, url, data, contentType, authorize);
+			}
+			catch (Exception e) {
+				if (e instanceof HTTPRedirectException) {
+					redirects++;
+					url = ((HTTPRedirectException) e).getUrl();
+					continue;
+				}
+				throw e;
+			}
+		}
+		throw new Exception("Too many redirects while fetching '" + url + "'");
+//#else
+		return requestWrapped2(method, url, data, contentType, authorize);
+//#endif
+	}
+
 	public static byte[] sendRequest(HTTPQueue queueItem, HttpConnection hc) throws Exception {
 		InputStream is = null;
 		try {
@@ -91,6 +114,12 @@ public class HTTP implements Strings {
 
 				return result;
 			}
+//#ifndef NO_HTTP_REDIRECT_SUPPORT
+			if (respCode >= 300 && respCode < 400) {
+				String loc = hc.getHeaderField("Location");
+				if (loc != null) throw new HTTPRedirectException(loc);
+			}
+//#endif
 			if (respCode == HttpConnection.HTTP_UNAUTHORIZED) {
 				throw new Exception(Locale.get(HTTP_ERROR_TOKEN));
 			}
@@ -233,7 +262,13 @@ public class HTTP implements Strings {
 //#endif
 		useProxy = true;
 
-		String fullUrl = (useProxy ? Settings.api : "https://discord.com") + "/api/v9" + url;
+		String urlBase = (useProxy ? Settings.api : "https://discord.com");
+//#ifdef FLUXER_SUPPORT
+		int apiVer = urlBase.endsWith("://web.fluxer.app") ? 1 : 9;
+		String fullUrl = urlBase + "/api/v" + apiVer + url;
+//#else
+		String fullUrl = urlBase + "/api/v9" + url;
+//#endif
 
 		if (useProxy && Settings.tokenType == Settings.TOKEN_TYPE_QUERY) {
 			if (fullUrl.indexOf("?") != -1) {

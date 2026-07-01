@@ -82,7 +82,17 @@ public class Attachment implements Strings
         int[] size = Util.resizeFit(imageWidth, imageHeight, screenWidth, screenHeight);
 
         // Preview url is not using our own proxy, because media.discordapp.net works over http
-        String scaledUrlBase = "http://" + proxyUrl.substring("https://".length()) +
+        StringBuffer urlBaseBuf = new StringBuffer();
+        
+        urlBaseBuf.append("http://")
+            .append(proxyUrl.substring("https://".length()));
+
+//#ifdef FLUXER_SUPPORT
+        // Discord adds '?' suffix automatically, but Fluxer doesn't
+        if (proxyUrl.indexOf("?") == -1) urlBaseBuf.append("?");
+//#endif
+
+        String scaledUrlBase = urlBaseBuf.toString() +
             "format=" + (Settings.useJpeg ? "jpeg" : "png") + "&width=";
 
         previewUrl = scaledUrlBase + size[0] + "&height=" + size[1];
