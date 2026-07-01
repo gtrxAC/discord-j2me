@@ -96,6 +96,11 @@ function getToken(req, res, next) {
         return;
     }
 
+    // Sony Ericsson R300 changes the format of the Authorization header
+    if (token.startsWith("Basic ")) {
+        token = atob(token.slice("Basic ".length));
+    }
+
     // Check that the token is of the correct length (at least 70 characters, could be slightly shorter with some user IDs, not sure)
     if (!token.startsWith("j2me-")) {
         if (token.length == 62) {
