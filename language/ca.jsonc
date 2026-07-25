@@ -1154,7 +1154,7 @@
     "Iniciant inici de sessió...",
 
     // Text shown before the latest update's changelog in the update dialog screen.
-    "\n\Què hi ha de nou?\n",
+    "\n\nQuè hi ha de nou?\n",
 
     // Suffixes of attachment indicators in notification previews.
     // For example a notification could say
