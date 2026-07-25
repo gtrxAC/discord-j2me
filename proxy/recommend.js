@@ -155,7 +155,11 @@ function getRecommendedVersionsArray(req) {
             }
             return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_lite_recommend", "midp2_alt_recommend", "6310i", "midp1", "SHOW_ALL"];
         }
-        return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_alt_recommend", "SHOW_ALL"];
+        if (ua.startsWith("sie-")) {
+            // generally Siemens phones cannot handle the full version anymore, so show lite on top
+            return ["NO_PROXYLESS", "RECOMMENDED", "midp2_lite_recommend", "midp2_alt_recommend", "SHOW_ALL"];
+        }
+        return ["DONT_KNOW_PROXYLESS", "RECOMMENDED", "midp2_alt_recommend", "midp2_lite_recommend", "SHOW_ALL"];
     }
     if (/linux|mac|windows/g.test(ua) && !/windows (ce|mobile)/g.test(ua)) {
         // modern device: show all downloads except those that point to another file (are aliases)
