@@ -7,6 +7,7 @@ import java.util.*;
 import javax.microedition.io.*;
 
 public class BluetoothHTTP extends HTTP implements BluetoothHTTPProtocol {
+	private static final Object CONNECTION_LOCK = new Object();
 	private static StreamConnection sc;
 	private static BluetoothConnection bc;
 	private static DataInputStream dis;
@@ -29,50 +30,54 @@ public class BluetoothHTTP extends HTTP implements BluetoothHTTPProtocol {
 	}
 
 	private void clearConnections() {
-		if (bc != null) bc.close();
-		sc = null;
-		bc = null;
-		dis = null;
-		dos = null;
+		synchronized (CONNECTION_LOCK) {
+			if (bc != null) bc.close();
+			sc = null;
+			bc = null;
+			dis = null;
+			dos = null;
+		}
 	}
 
 	private void execute(String method, String url, Hashtable requestHeaders, byte[] data) throws Exception {
-		// No existing connection -> open new connection
-		if (bc == null) {
+		synchronized (CONNECTION_LOCK) {
+			// No existing connection -> open new connection
+			if (bc == null) {
+				try {
+					sc = (StreamConnection) Connector.open(selectedConnectionUrl);
+					bc = new BluetoothConnection(sc);
+					dis = null;
+					dos = null;
+				}
+				catch (Exception e) {
+					clearConnections();
+					throw new Exception("Failed to open Bluetooth connection: " + e.toString());
+				}
+			}
+
+			// Connection does not have I/O open -> open them
+			if (bc != null && (dis == null || dos == null)) {
+				try {
+					bc.open();
+					dis = bc.input;
+					dos = bc.output;
+				}
+				catch (Exception e) {
+					clearConnections();
+					throw new Exception("Failed to open Bluetooth stream: " + e.toString());
+				}
+			}
+
 			try {
-				sc = (StreamConnection) Connector.open(selectedConnectionUrl);
-				bc = new BluetoothConnection(sc);
-				dis = null;
-				dos = null;
+				writeRequest(dos, method, url, requestHeaders, data);
+				dos.flush();
+				readResponse(dis);
 			}
 			catch (Exception e) {
+				// Error with BT connection -> close everything
 				clearConnections();
-				throw new Exception("Failed to open Bluetooth connection: " + e.toString());
+				throw new Exception("Bluetooth communication error: " + e.toString());
 			}
-		}
-
-		// Connection does not have I/O open -> open them
-		if (is == null) {
-			try {
-				bc.open();
-				dis = bc.input;
-				dos = bc.output;
-			}
-			catch (Exception e) {
-				clearConnections();
-				throw new Exception("Failed to open Bluetooth stream: " + e.toString());
-			}
-		}
-
-		try {
-			writeRequest(dos, method, url, requestHeaders, data);
-			dos.flush();
-			readResponse(dis);
-		}
-		catch (Exception e) {
-			// Error with BT connection -> close everything
-			clearConnections();
-			throw new Exception("Bluetooth communication error: " + e.toString());
 		}
 	}
 
