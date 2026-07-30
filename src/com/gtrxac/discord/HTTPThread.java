@@ -761,7 +761,7 @@ public class HTTPThread extends Thread implements Strings {
                         String id = App.isDM ? App.selectedDmChannel.id : App.selectedChannel.id;
 
                         // note: forced proxy, different API from standard Discord API
-                        httpConn = (HttpConnection) Connector.open(HTTP.getFullUrl("/channels/" + id + "/upload", true));
+                        httpConn = (HttpConnection) MultiConnector.open(HTTP.getFullUrl("/channels/" + id + "/upload", true));
                         queueItem.hc = httpConn;
 
                         httpConn.setRequestMethod(HttpConnection.POST);

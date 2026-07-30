@@ -21,9 +21,9 @@ public class HTTPQueue implements Runnable {
 //#endif
 
     private long timestamp;
-    InputStream is;
-    OutputStream os;
-    HttpConnection hc;
+    public InputStream is;
+    public OutputStream os;
+    public HttpConnection hc;
 
     private static volatile Vector queueItems = new Vector(MAX_SLOTS);
 

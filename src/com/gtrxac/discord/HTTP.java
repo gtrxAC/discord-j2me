@@ -19,17 +19,7 @@ public class HTTP implements Strings {
 		HTTPQueue queueItem = HTTPQueue.newQueueItem();
 
 		try {
-			hc = (HttpConnection)
-//#ifdef JL_TLS_VERSION
-				(Settings.useModcon ? ModernConnector.open(url) : Connector.open(url));
-//#else
-//#ifdef MODERNCONNECTOR
-				ModernConnector
-//#else
-				Connector
-//#endif	
-				.open(url);
-//#endif
+			hc = (HttpConnection) MultiConnector.open(url);
 
 			queueItem.hc = hc;
 				

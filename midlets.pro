@@ -3,6 +3,7 @@
 -libraryjars ../sdk/lib/midpapi20.jar
 -libraryjars ../sdk/lib/cldcapi11.jar
 -libraryjars ../sdk/lib/jsr75.jar
+-libraryjars ../sdk/lib/jsr82.jar
 -libraryjars ../sdk/lib/javapiglerapi.jar
 -libraryjars ../sdk/lib/nokiaui.jar
 
