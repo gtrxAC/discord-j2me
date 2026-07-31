@@ -32,8 +32,9 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
         deleteAll();
         append("Cellular/Wi-Fi", null);
         append(client.isSearching() ? "Searching..." : "Bluetooth search", null);
+        append("Help", null);
 
-        int maxItem = 2 + devices.size() - 1;
+        int maxItem = 3 + devices.size() - 1;
         setSelectedIndex(Math.min(lastSel, maxItem), true);
     }
 
@@ -63,8 +64,8 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
             App.error("No devices found. Make sure the server device is set to visible, then try again.");
         } else {
             append("Search completed", null);
-            set(1, "Bluetooth search", null);
         }
+        set(1, "Bluetooth search", null);
     }
 
     public void bluetoothSearchError(Exception e) {
@@ -97,9 +98,21 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
                 searchDevices(false);
                 break;
             }
+            case 2: {
+                // help
+                String help = "- Select 'Bluetooth search' to tether to a device running BlueWAP Server.\n- Gateway is not available when using this mode.";
+
+//#ifdef PROXYLESS_SUPPORT
+                help += "\n- Use Direct connection if your server device supports TLS 1.2 (e.g. Android 5+).";
+//#endif
+                help += "\n- Get BlueWAP Server: github.com/gtrxAC/BlueWAP";
+
+                App.disp.setCurrent(new Dialog("Help", help));
+                break;
+            }
             default: {
                 // select device
-                int devIndex = getSelectedIndex() - 2;
+                int devIndex = getSelectedIndex() - 3;
                 if (devIndex < 0 || devIndex >= devices.size()) {
                     // selected "search completed" or "no devices found" item - do nothing
                     break;
