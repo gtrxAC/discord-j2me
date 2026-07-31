@@ -16,6 +16,7 @@ import com.nokia.mid.ui.*;
 //#endif
 
 import cc.nnproject.json.*;
+import fi.gtrxac.bluewap.http.HTTP;
 
 public class GatewayThread extends Thread implements Strings
 //#ifdef PIGLER_SUPPORT
@@ -363,6 +364,10 @@ public class GatewayThread extends Thread implements Strings
 
 	public void run() {
 		try {
+			if (HTTP.CONNECTION_TYPE == HTTP.CONNECTION_TYPE_BLUETOOTH) {
+				throw new Exception("Gateway is not available when using Bluetooth tethering.");
+			}
+
 //#ifdef PIGLER_SUPPORT
 			checkInitPigler();
 //#endif
