@@ -100,7 +100,7 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
             }
             case 2: {
                 // help
-                String help = "- Select 'Bluetooth search' to tether to a device running BlueWAP Server.\n- Gateway is not available when using this mode.";
+                String help = "- Select 'Bluetooth search' to tether to a device running BlueWAP Server.";
 
 //#ifdef PROXYLESS_SUPPORT
                 help += "\n- Use Direct connection if your server device supports TLS 1.2 (e.g. Android 5+).";
