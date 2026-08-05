@@ -71,12 +71,14 @@ Strings
         append(Locale.get(PROXYLESS_INFO_TLS_PREFIX) + Locale.get(PROXYLESS_INFO_TLS) + Locale.get(PROXYLESS_INFO_TLS_SUFFIX));
 //#endif
 
+//#ifndef BLACKBERRY
         proxylessInfoCommand = Locale.createCommand(OPEN, Command.ITEM, 1);
         StringItem proxylessInfoItem = new StringItem(null, Locale.get(PROXYLESS_LINK), Item.HYPERLINK);
         proxylessInfoItem.setLayout(Item.LAYOUT_NEWLINE_BEFORE | Item.LAYOUT_NEWLINE_AFTER);
         proxylessInfoItem.setDefaultCommand(proxylessInfoCommand);
         proxylessInfoItem.setItemCommandListener(this);
         append(proxylessInfoItem);
+//#endif
 //#endif
 
         addSpacer(2);

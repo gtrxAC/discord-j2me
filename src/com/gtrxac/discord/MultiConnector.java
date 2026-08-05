@@ -17,7 +17,7 @@ public class MultiConnector {
 //#ifndef NO_BLUETOOTH
         if (HTTP.CONNECTION_TYPE == HTTP.CONNECTION_TYPE_BLUETOOTH) {
             if (BluetoothHTTP.selectedConnectionUrl == null) {
-                throw new Exception("Connection mode not selected");
+                throw new Exception("Server device not selected");
             }
             return new BluetoothHTTPConnection(url);
         }
@@ -34,5 +34,17 @@ public class MultiConnector {
 //#endif	
             .open(url);
 //#endif
+    }
+
+    public static Object openSocket(String url) throws Exception {
+//#ifndef NO_BLUETOOTH
+        if (HTTP.CONNECTION_TYPE == HTTP.CONNECTION_TYPE_BLUETOOTH) {
+            if (BluetoothHTTP.selectedConnectionUrl == null) {
+                throw new Exception("Server device not selected");
+            }
+            return new BluetoothSocketConnection();
+        }
+//#endif
+        return Connector.open(url);
     }
 }

@@ -364,15 +364,11 @@ public class GatewayThread extends Thread implements Strings
 
 	public void run() {
 		try {
-			if (HTTP.CONNECTION_TYPE == HTTP.CONNECTION_TYPE_BLUETOOTH) {
-				throw new Exception("Gateway is not available when using Bluetooth tethering.");
-			}
-
 //#ifdef PIGLER_SUPPORT
 			checkInitPigler();
 //#endif
 
-			sc = (SocketConnection) Connector.open(App.getPlatformSpecificUrl(Settings.gatewayUrl));
+			sc = (SocketConnection) MultiConnector.openSocket(App.getPlatformSpecificUrl(Settings.gatewayUrl));
 
 			// Not supported on JBlend (e.g. some Samsungs)
 //#ifdef OVER_100KB

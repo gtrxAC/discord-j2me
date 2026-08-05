@@ -34,7 +34,7 @@ public abstract class HTTP {
 	public static HTTP createRequest(String method, String url) throws Exception {
 		String proto = new URL(url).protocol;
 
-		if (proto.equals("http") || proto.equals("https")) {
+		if (proto.equals("http") || proto.equals("https") || proto.equals("discord")) {
 			return createFetchRequest(method, url);
 		}
 		if (proto.equals("file") || proto.equals("jar")) {
