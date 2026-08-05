@@ -40,7 +40,15 @@ async function checkIsModern(req, res, next) {
         }
     }
 
-    req.format = req.accepts("html") ? "html" : "wml";
+    // Detect if the phone supports HTML based on accept headers
+    // Ericsson phones (tested with T65) are an exception, they have "Accept: */*" even though they don't support HTML
+    // This may also be the case for early SEs and so I have listed a few of them separately
+    // Any other devices with "Accept: */*" will generally accept HTML but this may need more testing
+
+    const isEricsson = (ua.includes("ericsson") && !ua.includes("sony")) ||
+        /sonyericsson(t68|t200|t300|t600|t100|t105)/.test(ua);
+
+    req.format = (req.accepts("html") && !isEricsson) ? "html" : "wml";
 
     if (req.format == "wml") {
         res.set("Content-Type", "text/vnd.wap.wml");
