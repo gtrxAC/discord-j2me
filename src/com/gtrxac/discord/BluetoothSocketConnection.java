@@ -6,6 +6,7 @@ import java.io.*;
 
 public class BluetoothSocketConnection implements SocketConnection {
     private static final int POLLING_RATE_MS = 5000;
+    private static final int RECEIVE_INTERVAL_MS = 100;
 
     private String connectionUrl;
 
@@ -74,7 +75,8 @@ public class BluetoothSocketConnection implements SocketConnection {
                             receiveBufferPos = 0;
                             break;
                         }
-                        Util.sleep(POLLING_RATE_MS);
+                        boolean hasMore = h.getResponseHeader("C") != null;
+                        Util.sleep(hasMore ? RECEIVE_INTERVAL_MS : POLLING_RATE_MS);
                     }
                 }
                 return receiveBuffer[receiveBufferPos++];
