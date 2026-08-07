@@ -6,6 +6,7 @@ import javax.microedition.rms.*;
 import javax.microedition.io.file.*;
 import java.util.*;
 import cc.nnproject.json.*;
+import fi.gtrxac.bluewap.http.HTTP;
 
 public class App extends MIDlet implements Strings {
 	public static final int VERSION_CODE = 38;
@@ -166,7 +167,12 @@ public class App extends MIDlet implements Strings {
 
 	public static void startGateway() {
 //#ifdef PROXYLESS_SUPPORT
-		if (Settings.proxyless && !hasSeenGatewayWarningTemp && !Settings.hasSeenGatewayWarning) {
+		if (
+			Settings.proxyless && !hasSeenGatewayWarningTemp && !Settings.hasSeenGatewayWarning
+//#ifndef NO_BLUETOOTH
+			&& HTTP.CONNECTION_TYPE != HTTP.CONNECTION_TYPE_BLUETOOTH
+//#endif
+		) {
 			new Thread(new GatewayWarningDialog()).start();
 		} else
 //#endif
