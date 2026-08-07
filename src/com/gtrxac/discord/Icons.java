@@ -103,10 +103,19 @@ public class Icons {
 //#ifdef TOUCH_SUPPORT
     Image msgBar;
 //#endif
+//#ifndef NO_BLUETOOTH
+    Image connectionCell;
+    Image connectionBt;
+    Image connectionDevice;
+    Image help;
+//#endif
 
     public static int TYPE_MAIN_MENU = 0;  // subset of icons to be loaded in the main menu and rest of the app
     public static int TYPE_SETTINGS = 1;  // settings and data manager
     public static int TYPE_LANGUAGE = 2;  // language selector
+//#ifndef NO_BLUETOOTH
+    public static int TYPE_CONNECTION_SCREEN = 3;  // connection selection screen (cell/BT)
+//#endif
 
     Icons(int type) {
         if (Settings.menuIconSize == 0) return;
@@ -233,10 +242,21 @@ public class Icons {
 //#else
             sh.skip();
 //#endif
+        } else {
+            sh.skip(11);
         }
 
+//#ifndef NO_BLUETOOTH
+        if (type == TYPE_CONNECTION_SCREEN) {
+            connectionCell = sh.next();
+            connectionBt = sh.next();
+            connectionDevice = sh.next();
+            help = sh.next();
+        }
+//#endif
+
         if (type == TYPE_LANGUAGE) {
-            sh.skip(11);
+            sh.skip(4);
             flagGB = sh.next();
             flagUS = sh.next();
             flagES = sh.next();

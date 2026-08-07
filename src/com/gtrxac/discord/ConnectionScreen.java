@@ -16,6 +16,9 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
         super("Connection", false, false, false);
         setCommandListener(this);
 
+        App.ic = null;
+        App.ic = new Icons(Icons.TYPE_CONNECTION_SCREEN);
+
         initClient();
         clearAndRefresh();
     }
@@ -30,9 +33,9 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
 
         devices.removeAllElements();
         deleteAll();
-        append("Cellular/Wi-Fi", null);
-        append(client.isSearching() ? "Searching..." : "Bluetooth search", null);
-        append("Help", null);
+        append("Cellular/Wi-Fi", App.ic.connectionCell);
+        append(client.isSearching() ? "Searching..." : "Bluetooth search", App.ic.connectionBt);
+        append("Help", App.ic.help);
 
         int maxItem = 3 + devices.size() - 1;
         setSelectedIndex(Math.min(lastSel, maxItem), true);
@@ -47,7 +50,7 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
 
     private void addDeviceItem(String name, RemoteDevice device) {
         devices.addElement(device);
-        append(name, null);
+        append(name, App.ic.connectionDevice);
     }
 
     public void bluetoothDeviceFound(String name, RemoteDevice device, DeviceClass cod) {
@@ -65,7 +68,7 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
         } else {
             append("Search completed", null);
         }
-        set(1, "Bluetooth search", null);
+        set(1, "Bluetooth search", App.ic.connectionBt);
     }
 
     public void bluetoothSearchError(Exception e) {
@@ -118,7 +121,7 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
                     break;
                 }
 
-                set(getSelectedIndex(), "Connecting...", null);
+                set(getSelectedIndex(), "Connecting...", App.ic.connectionDevice);
                 
                 RemoteDevice dev = (RemoteDevice) devices.elementAt(devIndex);
                 initClient();
