@@ -129,21 +129,23 @@ public class App extends MIDlet implements Strings {
 			IconCache.init();
 
 //#ifndef NO_BLUETOOTH
-			// Theme and fonts need to be loaded so Dialog screens can be shown as part of the LoginForm
-			Theme.load();
-			loadFonts();
-			disp.setCurrent(new ConnectionScreen());
-//#else
-            // If token was not found in save file, go to login screen, else login and go to main menu
-            if (Settings.token.trim().length() == 0) {
-                // Theme and fonts need to be loaded so Dialog screens can be shown as part of the LoginForm
-                Theme.load();
-                loadFonts();
-                disp.setCurrent(new LoginForm());
-            } else {
-                login();
-            }
+			if (Util.supportsBluetooth) {
+				Theme.load();
+				loadFonts();
+				disp.setCurrent(new ConnectionScreen());
+			} else
 //#endif
+			{
+				// If token was not found in save file, go to login screen, else login and go to main menu
+				if (Settings.token.trim().length() == 0) {
+					// Theme and fonts need to be loaded so Dialog screens can be shown as part of the LoginForm
+					Theme.load();
+					loadFonts();
+					disp.setCurrent(new LoginForm());
+				} else {
+					login();
+				}
+			}
             started = true;
         }
     }

@@ -564,6 +564,10 @@ public class Util {
 
 	public static final boolean supportsFileConn;
 
+//#ifndef NO_BLUETOOTH
+	public static final boolean supportsBluetooth;
+//#endif
+
 	public static final boolean isS40;
 
 //#ifdef S40V2
@@ -673,6 +677,9 @@ public class Util {
 //#endif
 
 		supportsFileConn = System.getProperty("microedition.io.file.FileConnection.version") != null;
+//#ifndef NO_BLUETOOTH
+		supportsBluetooth = checkClass("javax.bluetooth.RemoteDevice");
+//#endif
 
 		isS40 =
 //#ifdef S40
