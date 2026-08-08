@@ -11,6 +11,7 @@ import javax.microedition.lcdui.*;
 public class ConnectionScreen extends ListScreen implements BluetoothClientListener, CommandListener, Strings {
     private Vector devices = new Vector();
     private BluetoothClient client;
+    private Command quitCommand;
 
     public ConnectionScreen() {
         super(Locale.get(CONNECTION_SCREEN_TITLE), false, false, false);
@@ -21,6 +22,9 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
 
         initClient();
         clearAndRefresh();
+
+        quitCommand = Locale.createCommand(QUIT, Command.EXIT, 0);
+        addCommand(quitCommand);
     }
 
     private void initClient() {
@@ -93,6 +97,11 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
     }
 
     public void commandAction(Command c, Displayable d) {
+        if (c == quitCommand) {
+            App.instance.notifyDestroyed();
+            return;
+        }
+
         switch (getSelectedIndex()) {
             case 0: {
                 // cell/wifi
