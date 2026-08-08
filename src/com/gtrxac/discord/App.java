@@ -9,8 +9,8 @@ import cc.nnproject.json.*;
 import fi.gtrxac.bluewap.http.HTTP;
 
 public class App extends MIDlet implements Strings {
-	public static final int VERSION_CODE = 38;
-	public static final String VERSION_NAME = "5.4.0 beta2";
+	public static final int VERSION_CODE = 39;
+	public static final String VERSION_NAME = "5.4.0 beta3";
 
 	// Should match the app's jar file name (used by auto update system)
 	public static final String VERSION_VARIANT =
