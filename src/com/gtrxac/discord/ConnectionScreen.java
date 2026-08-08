@@ -8,12 +8,12 @@ import fi.gtrxac.bluewap.bt.*;
 import fi.gtrxac.bluewap.http.*;
 import javax.microedition.lcdui.*;
 
-public class ConnectionScreen extends ListScreen implements BluetoothClientListener, CommandListener {
+public class ConnectionScreen extends ListScreen implements BluetoothClientListener, CommandListener, Strings {
     private Vector devices = new Vector();
     private BluetoothClient client;
 
     public ConnectionScreen() {
-        super("Connection", false, false, false);
+        super(Locale.get(CONNECTION_SCREEN_TITLE), false, false, false);
         setCommandListener(this);
 
         App.ic = null;
@@ -33,9 +33,12 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
 
         devices.removeAllElements();
         deleteAll();
-        append("Cellular/Wi-Fi", App.ic.connectionCell);
-        append(client.isSearching() ? "Searching..." : "Bluetooth search", App.ic.connectionBt);
-        append("Help", App.ic.help);
+        append(Locale.get(CONNECTION_CELL_WIFI), App.ic.connectionCell);
+
+        int searchText = client.isSearching() ? CONNECTION_SEARCHING : CONNECTION_BT_SEARCH;
+
+        append(Locale.get(searchText), App.ic.connectionBt);
+        append(Locale.get(CONNECTION_HELP), App.ic.help);
 
         int maxItem = 3 + devices.size() - 1;
         setSelectedIndex(Math.min(lastSel, maxItem), true);
@@ -63,12 +66,12 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
     public void bluetoothSearchCompleted() {
         if (devices.size() == 0) {
             clearAndRefresh();
-            append("No devices found", null);
-            App.error("No devices found. Make sure the server device is set to visible, then try again.");
+            append(Locale.get(NO_DEVICES_FOUND), null);
+            App.error(Locale.get(NO_DEVICES_FOUND_DESCRIPTION));
         } else {
-            append("Search completed", null);
+            append(Locale.get(SEARCH_COMPLETED), null);
         }
-        set(1, "Bluetooth search", App.ic.connectionBt);
+        set(1, Locale.get(CONNECTION_BT_SEARCH), App.ic.connectionBt);
     }
 
     public void bluetoothSearchError(Exception e) {
@@ -103,14 +106,13 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
             }
             case 2: {
                 // help
-                String help = "- Select 'Bluetooth search' to tether to a device running BlueWAP Server.";
-
+                String help = "- " + Locale.get(CONNECTION_HELP_BT_SEARCH)
 //#ifdef PROXYLESS_SUPPORT
-                help += "\n- Use Direct connection if your server device supports TLS 1.2 (e.g. Android 5+).";
+                + "\n- " + Locale.get(CONNECTION_HELP_PROXYLESS)
 //#endif
-                help += "\n- Get BlueWAP Server: github.com/gtrxAC/BlueWAP";
+                + "\n- " + Locale.get(CONNECTION_HELP_BW_SERVER);
 
-                App.disp.setCurrent(new Dialog("Help", help));
+                App.disp.setCurrent(new Dialog(Locale.get(CONNECTION_HELP_TITLE), help));
                 break;
             }
             default: {
@@ -121,7 +123,7 @@ public class ConnectionScreen extends ListScreen implements BluetoothClientListe
                     break;
                 }
 
-                set(getSelectedIndex(), "Connecting...", App.ic.connectionDevice);
+                set(getSelectedIndex(), Locale.get(CONNECTION_CONNECTING), App.ic.connectionDevice);
                 
                 RemoteDevice dev = (RemoteDevice) devices.elementAt(devIndex);
                 initClient();

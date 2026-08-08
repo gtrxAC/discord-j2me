@@ -500,4 +500,17 @@ public interface Strings {
     static final int NOTIFICATION_ATTACHMENT_SUFFIX_FILES = 471;
     static final int NOTIFICATION_ATTACHMENT_SUFFIX_IMAGE = 472;
     static final int NOTIFICATION_ATTACHMENT_SUFFIX_IMAGES = 473;
+    static final int CONNECTION_SCREEN_TITLE = 474;
+    static final int CONNECTION_CELL_WIFI = 475;
+    static final int CONNECTION_BT_SEARCH = 476;
+    static final int CONNECTION_HELP = 477;
+    static final int NO_DEVICES_FOUND = 478;
+    static final int NO_DEVICES_FOUND_DESCRIPTION = 479;
+    static final int SEARCH_COMPLETED = 480;
+    static final int CONNECTION_HELP_TITLE = 481;
+    static final int CONNECTION_HELP_BT_SEARCH = 482;
+    static final int CONNECTION_HELP_PROXYLESS = 483;
+    static final int CONNECTION_HELP_BW_SERVER = 484;
+    static final int CONNECTION_SEARCHING = 485;
+    static final int CONNECTION_CONNECTING = 486;
 }

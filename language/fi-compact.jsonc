@@ -1160,5 +1160,38 @@
     " tiedosto)",
     " tiedostoa)",
     " kuva)",
-    " kuvaa)"
+    " kuvaa)",
+
+    // Title for connection selection screen.
+    "Yhteys",
+
+    // Option in the connection selection screen to use the device's standard connectivity to go online.
+    "Mobiilidata",
+
+    // Option in the connection selection screen to search for devices to use Bluetooth tethering via BlueWAP Server app.
+    "Bluetooth-haku",
+
+    // Option in the connection selection screen to show an explanation of BT tethering.
+    "Ohje",
+
+    // Line shown in the connection screen when a device search ended with no results.
+    "Laitteita ei löytynyt",
+
+    // Text shown in a separate dialog screen when a device search ended with no results.
+    "Laitteita ei löytynyt. Varmista, että palvelinlaite on asetettu näkyväksi.",
+
+    // Line shown in the connection screen when a device search ended with at least one result.
+    "Haku valmis",
+
+    // Title for connection help dialog.
+    "Ohje",
+
+    // Lines shown in the connection help screen (separate dialog). These are formatted using bullet points.
+    "Voit jakaa yhteyden tähän laitteeseen BlueWAP Server -sovelluksella.",
+    "Käytä Suora yhteys -tilaa jos palvelinlaite on TLS 1.2 -yhteensopiva (esim. Android 5+).",
+    "Lataa BlueWAP Server: github.com/gtrxAC/BlueWAP",
+
+    // Lines shown in the connection screen when searching for devices or when connecting to a found device.
+    "Haetaan...",
+    "Yhdistetään..."
 ]
