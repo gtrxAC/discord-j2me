@@ -636,7 +636,7 @@
     // The name of the person in question is shown above each line.
     "Główny twórca",
     "Wczytywanie załączników, integracja Pigler API, parser JSON",
-    "Animacja wczytywania, ikony menu oraz emotikon, włoskie tłumaczenie",
+    "Animacja wczytywania, ikony menu oraz emotikonów, włoskie tłumaczenie",
 
     // Lines shown in the about screen for which language(s) each person wrote translations for.
     // Note: These are ordered alphabetically based on the person's name, not the language's name
@@ -750,14 +750,14 @@
     "Formatowanie tekstu",
 
     // Softkey labels for inserting an emoji in the "send message" screen.
-    "Emotikona",
-    "Wpr. emotikonę",
+    "Emotikon",
+    "Wpr. emotikon",
 
     // Title for emoji picker screen.
-    "Wybierz emotikonę",
+    "Wybierz emotikon",
 
     // Prompt shown when opening the emoji picker and the emoji images have not been downloaded onto the device.
-    "Pobrać dane emotikon?",
+    "Pobrać dane emotikonów?",
 
     // Indicator shown at the end of messages which have been edited. If possible, this should be translated the same way that it's translated in the official Discord clients.
     "(edytowane)",
@@ -805,13 +805,13 @@
     // Types of data shown in the data manager:
 
     // Downloaded image data of default emojis (not custom server emojis)
-    "Obrazki emotikon",
+    "Obrazki emotikonów",
     // Timestamps of last read messages for each channel, used for handling unread message indicators.
     "Ostatnio przecz. wiad.",
     // Custom sound file applied as the notification sound via a message attachment.
     "Dźwięk powiadomienia",
     // Translated string data for a downloaded language translation.
-    "Dane języków",
+    "Dane językowe",
 
     // Title shown in the prompt when deleting a type of app data.
     "Usuń",
@@ -933,7 +933,7 @@
     "Węgierski",
 
     // Softkey commands for moving an item up or down by one position in a sortable list. Currently used for the favorite servers list.
-    "W gorę",
+    "W górę",
     "Przenieś w górę",
     "Na dół",
     "Przenieś na dół",
