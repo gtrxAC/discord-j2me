@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> Discord J2ME is no longer actively developed. While it will still continue to function, we suggest trying out [Discofi](https://github.com/gtrxAC/Discofi) on supported devices for a safer experience.
+> 
+> Note that Discofi is not yet a fully featured replacement for Discord J2ME and lacks certain features.
+
 # Discord for J2ME
 Discord client for Java ME (MIDP 1.0 and 2.0) devices, inspired by [Discord for Symbian](https://web.archive.org/web/20240402175051/https://github.com/uwmpr/discord-symbian-fixed). Uses proxy servers for the [HTTP](/proxy/) and [gateway](https://github.com/gtrxAC/discord-j2me-server) connection.
 
